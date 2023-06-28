@@ -1,24 +1,37 @@
 table {
   width: 100%;
 }
-h3{
+
+h3 {
   color: rgb(87, 97, 192);
   font-size: large;
   font-weight: 500;
 }
 
-.matcard{
+.matcard {
   box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
 }
 
-.dash_std{
+.dash_std {
   color: orangered;
   cursor: pointer;
 }
-.dash_std:hover{
+
+.dash_std:hover {
   color: blue;
 }
 
-.tdoption{
+.tdoption {
   width: 100px;
+}
+
+.labeldiv {
+  float: left;
+  width: 150px;
+  text-align: left;
+}
+
+.inputdiv{
+float: left;
+width: 250px;
 }

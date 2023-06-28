@@ -2,12 +2,9 @@
     <mat-tab label="Vehicle Type">
         <div class="container-fluid mt-4">
             <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">directions_bus</mat-icon>
-                    </div>
+                <div class="col-12" style="display: flex;">                    
                     <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Vehicle Master / Vehicle Type </h3>
+                        <h3 class="ml-1">Vehicle Type </h3>
                     </div>
                 </div>
             </div>
@@ -16,20 +13,20 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">SI.NO</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Vehicle Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
                                 </div>
                             </div>
@@ -37,7 +34,9 @@
 
                         <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -54,7 +53,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>0001290</td>
+                                    <td>1</td>
                                     <td>Van</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
@@ -74,12 +73,9 @@
     <mat-tab label="Vehicle No & Root">
         <div class="container-fluid mt-4">
             <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">directions_bus</mat-icon>
-                    </div>
+                <div class="col-12" style="display: flex;">                   
                     <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Vehicle Master / Vehicle No & Vechicle Root </h3>
+                        <h3 class="ml-1">Vehicle No & Vechicle Root </h3>
                     </div>
                 </div>
             </div>
@@ -88,20 +84,20 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">SI.NO</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Vehicle Type</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>Bus</option>
                                         <option>Van</option>
@@ -113,20 +109,20 @@
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Vehicle No</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Vehicle Root No</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
                                 </div>
                             </div>
@@ -134,7 +130,9 @@
 
                         <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -152,7 +150,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>0001290</td>
+                                    <td>1</td>
                                     <td>Van</td>
                                     <td>TN-03-CH-8712</td>
                                     <td>006</td>
@@ -173,10 +171,7 @@
     <mat-tab label="Vehicle Place">
         <div class="container-fluid mt-4">
             <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">directions_bus</mat-icon>
-                    </div>
+                <div class="col-12" style="display: flex;">                   
                     <div style="float: left;width: 400px;">
                         <h3 class="ml-1">Vehicle Master / Vehicle Place </h3>
                     </div>
@@ -187,20 +182,20 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">SI.NO</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Vehicle Root No</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>002</option>
                                         <option>003</option>
@@ -212,10 +207,10 @@
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Place</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
                                 </div>
                             </div>
@@ -223,7 +218,9 @@
 
                         <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -239,10 +236,12 @@
                                     <input class="form-control ml-5" id="ex2" type="file" required>
                                 </div>
                             </div>
-                            <div class="col-sm-1 mt-3">
+                            <div class="col-sm-3 mt-3">
                                 <div style="text-align: center;">
-                                    <input matTooltip="Click to Add" type="submit" class="btn btn-primary"
+                                    <input matTooltip="Click to Save" type="submit" class="btn btn-primary"
                                         value="Save" />
+                                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -260,7 +259,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>0001290</td>
+                                    <td>1</td>
                                     <td>003</td>
                                     <td>Chennai Guindy</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"

@@ -1,9 +1,6 @@
 <div class="container-fluid mt-2">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;"></mat-icon>
-            </div>
             <div style="float: left;width: 300px;">
                 <h3 class="ml-1">Supplier Master</h3>
             </div>
@@ -14,37 +11,37 @@
             <form>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">SupplierCode</label>
+                        <div class="labeldiv">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Supplier Code</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="0011788" class="form-control" type="text" disabled required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Supplier Name</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="Vinayaga Hostel" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="99008-87766" maxlength="10" minlength="10" class="form-control"
                                 type="tel" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">GST NO</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="5" class="form-control" type="number" required>
                         </div>
                     </div>
@@ -52,19 +49,19 @@
 
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Balance</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="" maxlength="10" minlength="10" class="form-control" type="tel"
                                 required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-5" style="margin: auto;">Address</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <textarea class="form-control" id="textAreaExample1 ml-2" rows="4" required></textarea>
                         </div>
                     </div>
@@ -72,7 +69,8 @@
 
                 <div class="col-sm-12 mt-5">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3" value="Cancel" />
                     </div>
                 </div>
             </form>

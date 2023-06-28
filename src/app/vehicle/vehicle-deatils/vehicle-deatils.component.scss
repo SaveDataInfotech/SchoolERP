@@ -1,0 +1,27 @@
+h3{
+    color: rgb(87, 97, 192);
+    font-size: large;
+    font-weight: 500;
+  }
+
+  .matcard{
+    box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
+  }
+
+  .dash_std{
+    color: orangered;
+    cursor: pointer;
+  }
+  .dash_std:hover{
+    color: blue;
+  }
+
+
+  select:focus{
+    border:2px solid blue ;
+  }
+
+
+.tdoption{
+    width: 100px;
+}

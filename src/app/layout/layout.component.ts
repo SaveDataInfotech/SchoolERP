@@ -54,7 +54,7 @@ export class LayoutComponent implements OnInit {
                 link:"student/student_mark_entry",
               },
               {
-                link_name:"Student Tc Applie",
+                link_name:"Student Tc Apply",
                 link:"student/student_tc_applie",
               },
               {
@@ -127,11 +127,11 @@ export class LayoutComponent implements OnInit {
         icon: "customer",
         sub_menu: [
           {
-            link_name: "Student Fees",
+            link_name: "Fees Collection",
             link: "fees_collection/student_fees",
           }, 
           {
-            link_name: "Student Hostel Fees",
+            link_name: "Hostel Fees Collection",
             link: "fees_collection/student_hostel_fees",
           },
           {

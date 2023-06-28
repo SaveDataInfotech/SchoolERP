@@ -3,9 +3,6 @@
         <div class="container-fluid mt-4">
             <div class="row">
                 <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">local_atm</mat-icon>
-                    </div>
                     <div style="float: left;width: 300px;">
                         <h3 class="ml-1">Fees Type</h3>
                     </div>
@@ -16,20 +13,20 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Type</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="tel" required>
                                 </div>
                             </div>
@@ -37,7 +34,9 @@
 
                         <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="submit" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -73,9 +72,6 @@
         <div class="container-fluid mt-4">
             <div class="row">
                 <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">local_atm</mat-icon>
-                    </div>
                     <div style="float: left;width: 300px;">
                         <h3 class="ml-1">Fees Less</h3>
                     </div>
@@ -86,20 +82,20 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Less Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Less Category</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="tel" required>
                                 </div>
                             </div>
@@ -107,7 +103,9 @@
 
                         <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="submit" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -142,10 +140,7 @@
     <mat-tab label="Fees Assign">
         <div class="container-fluid mt-4">
             <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;text-align: left;">
-                        <mat-icon class="" style="color: blue;">monetization_on</mat-icon>
-                    </div>
+                <div class="col-12" style="display: flex;">                    
                     <div style="float: left;width: 400px;">
                         <h3 class="ml-1">Fees Assign</h3>
                     </div>
@@ -156,19 +151,19 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Assign Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>2</option>
                                         <option>3</option>
@@ -179,10 +174,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>Computer Science</option>
                                         <option>Bio-Maths</option>
@@ -192,10 +187,10 @@
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>A</option>
                                         <option>B</option>
@@ -207,19 +202,19 @@
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Batch Year</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <input placeholder="2023-2024" class="form-control" type="text" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Type</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>School Fees</option>
                                         <option>Hostel Fees</option>
@@ -231,10 +226,10 @@
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Fees Less</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>Staff Son/Doughter</option>
                                         <option>Above 95% Mark</option>
@@ -244,10 +239,10 @@
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Gender</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
+                                <div class="inputdiv">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>Male</option>
                                         <option>Female</option>
@@ -259,18 +254,20 @@
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
+                                <div class="labeldiv">
                                     <label for="ex2" class="pt-2" style="margin: auto;">Amount</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input placeholder="2023-2024" class="form-control" type="text" required>
+                                <div class="inputdiv">
+                                    <input placeholder="30,000" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -286,10 +283,12 @@
                                     <input class="form-control ml-5" id="ex2" type="file" required>
                                 </div>
                             </div>
-                            <div class="col-sm-1 mt-3">
+                            <div class="col-sm-3 mt-3">
                                 <div style="text-align: center;">
-                                    <input matTooltip="Click to Add" type="submit" class="btn btn-primary"
+                                    <input matTooltip="Click to Save" type="submit" class="btn btn-primary"
                                         value="Save" />
+                                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                                 </div>
                             </div>
                         </div>

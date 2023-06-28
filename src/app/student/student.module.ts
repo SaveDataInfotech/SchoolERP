@@ -17,6 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
+import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -28,11 +30,12 @@ import {MatTabsModule} from '@angular/material/tabs';
     StudentMarkEntryComponent,
     StudentTcApplieComponent,
     StudentPromoteComponent,
-    ReportsComponent
+    ReportsComponent,
+    EnquiryDashbordComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule
   ]
 })
 export class StudentModule { }

@@ -1,0 +1,150 @@
+<mat-tab-group mat-align-tabs="start" #tabGroup>
+    <mat-tab label="Enquiry">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div class="col-2">
+                        <h3 class="">Enquiry</h3>
+                    </div>
+
+                    <div class="col-10" style="text-align: right;">
+                        <div class="inputdiv">
+                            <button routerLink="../student_enquiry"
+                                matTooltip="Click to Back" type="button"
+                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
+                                Enquiry</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="table-responsive mt-1">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm ">
+                                <thead>
+                                    <tr>
+                                        <th>SI.NO</th>
+                                        <th>Staff No</th>
+                                        <th>Staff Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>Duration(No Of Months)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0034</td>
+                                        <td>John</td>
+                                        <td>60,000</td>
+                                        <td>8</td>
+                                        <td>
+                                            <span class="movebutton">Remove</span>
+                                            <span (click)="tabGroup.selectedIndex=1" class="movebutton">Move to
+                                                Entrance</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Entrance">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div class="">
+                        <h3 class="ml-1">Entrance</h3>
+                    </div>
+
+                    <!-- <div class="col-6" style="float: left;">
+                        <div class="inputdiv">
+                            <button routerLink="../student_enquiry"
+                                matTooltip="Click to Back" type="button"
+                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
+                                Enquiry</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="table-responsive mt-1">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm ">
+                                <thead>
+                                    <tr>
+                                        <th>SI.NO</th>
+                                        <th>Staff No</th>
+                                        <th>Staff Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>Duration(No Of Months)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0034</td>
+                                        <td>John</td>
+                                        <td>60,000</td>
+                                        <td>8 </td>
+                                        <td><span (click)="tabGroup.selectedIndex=2" class="movebutton">Move to
+                                                Seclection</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Selected">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Selected</h3>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="table-responsive mt-1">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm ">
+                                <thead>
+                                    <tr>
+                                        <th>SI.NO</th>
+                                        <th>Staff No</th>
+                                        <th>Staff Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>Duration(No Of Months)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0034</td>
+                                        <td>John</td>
+                                        <td>60,000</td>
+                                        <td>8</td>
+                                        <td><span routerLink="../student_profile" class="movebutton">Move to
+                                                Admission</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

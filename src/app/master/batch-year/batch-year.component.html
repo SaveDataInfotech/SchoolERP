@@ -1,9 +1,6 @@
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-2">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">event</mat-icon>
-            </div>
             <div style="float: left;width: 300px;">
                 <h3 class="ml-1">Batch Year</h3>
             </div>
@@ -14,20 +11,20 @@
             <form>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Batch Code</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="0011788" class="form-control" type="text" disabled required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Batch Year</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input pattern="[0-9]{4}-[0-9]{4}" placeholder="EX:2023-2024" class="form-control"
                                 type="tel" required>
                         </div>
@@ -36,7 +33,8 @@
 
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancel" type="submit" class="btn btn-primary ml-3" value="Cancel" />
                     </div>
                 </div>
             </form>
@@ -53,14 +51,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>0001290</td>
+                            <td>1</td>
                             <td>2023-2024</td>
                             <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                 <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
                                     class="pl-2">delete</mat-icon>
                             </td>
-                            <td style="text-align: center;"><input class="mt-2" type="checkbox"></td>
+                            <td style="text-align: center;"><input style="width: 20px;height: 20px;" class="mt-1"
+                                    type="checkbox"></td>
                         </tr>
                     </tbody>
                 </table>

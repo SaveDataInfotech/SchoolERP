@@ -1,1 +1,135 @@
-<p>vehicle-deatils works!</p>
+<mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Process Type">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Process Type</h3>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label for="ex2" class="pt-2" style="margin: auto;">Process Code</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input placeholder="#2437678" class="form-control" type="Text" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label for="ex2" class="pt-2" style="margin: auto;">Process Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input placeholder="" class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mt-4">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive mt-5">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm mt-5 ">
+                            <thead>
+                                <tr>
+                                    <th>SI.NO</th>
+                                    <th>Process Name</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>0034</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            class="pl-2">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Vehicle Details">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Vehicle Details</h3>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="margin: auto;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label for="ex2" class="pt-2" style="margin: auto;">Vehicle No</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                        <option>TN-03-AU-3478</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-5">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm ">
+                                <thead>
+                                    <tr>
+                                        <th>SI.NO</th>
+                                        <th>Type of process</th>
+                                        <th>From</th>
+                                        <th>Date</th>
+                                        <th>To the Renewal/Pay</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td style="width: 240px;"> <select class="form-control " name="selectAction">
+                                                <option>TN-03-AU-3478</option>
+                                            </select></td>
+                                        <td style="width: 240px;"><input class="form-control" type="text"></td>
+                                        <td style="width: 160px;"><input class="form-control" type="date"></td>
+                                        <td style="width: 240px;"><input class="form-control" type="text"></td>
+                                        <td style="width: 160px;"><input class="form-control" type="date"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="col-sm-12 mt-4">
+                                <div style="text-align: center;">
+                                    <input matTooltip="Click to Save" type="submit" class="btn btn-primary"
+                                        value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
+                                        value="Cancel" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

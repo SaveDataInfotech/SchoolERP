@@ -7,11 +7,16 @@ import { StudentMarkEntryComponent } from './student-mark-entry/student-mark-ent
 import { StudentTcApplieComponent } from './student-tc-applie/student-tc-applie.component';
 import { StudentPromoteComponent } from './student-promote/student-promote.component';
 import { ReportsComponent } from './reports/reports.component';
+import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
 
 export const studentRoutes: Routes = [
   {
     path: 'student_enquiry',
     component: StudentEnquiryComponent,
+  },
+  {
+    path: 'enquiry_dashboard',
+    component: EnquiryDashbordComponent,
   },
   {
     path: 'student_profile',

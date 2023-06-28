@@ -1,10 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">assignment_ind</mat-icon>
-            </div>
-            <div style="float: left;width: 250px;">
+            <div class="inputdiv">
                 <h3 class="ml-1">Student Attendance</h3>
             </div>
         </div>
@@ -14,10 +11,10 @@
             <form>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <select style="width: 100%;" class="form-control " name="selectAction">
                                 <option>1-St</option>
                                 <option>2-Nd</option>
@@ -29,10 +26,10 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <select style="width: 100%;" class="form-control " name="selectAction">
                                 <option>Maths-Biology</option>
                                 <option>ComputerScience</option>
@@ -42,10 +39,10 @@
                 </div>
                 <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <select style="width: 100%;" class="form-control " name="selectAction">
                                 <option>A</option>
                                 <option>B</option>
@@ -56,10 +53,10 @@
 
                 <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <select style="width: 100%;" class="form-control " name="selectAction">
                                 <option>A</option>
                                 <option>B</option>
@@ -70,10 +67,10 @@
 
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="Enter 10-th Mark" class="form-control" type="date" required>
                         </div>
                     </div>
@@ -81,7 +78,7 @@
 
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Add" />
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Add" />
                     </div>
                 </div>
             </form>
@@ -90,6 +87,7 @@
                 <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
                     <thead>
                         <tr>
+                            <th>Si.No</th>
                             <th>A.NO</th>
                             <th>Student Name</th>
                             <th>FN <input style="height: 15px;width: 15px;" type="checkbox"
@@ -100,6 +98,7 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>1</td>
                             <td>000101</td>
                             <td>John</td>
                             <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
@@ -109,6 +108,7 @@
                         </tr>
 
                         <tr>
+                            <td>2</td>
                             <td>000102</td>
                             <td>Kumar</td>
                             <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
@@ -118,6 +118,7 @@
                         </tr>
 
                         <tr>
+                            <td>3</td>
                             <td>000103</td>
                             <td>Priya</td>
                             <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
@@ -131,8 +132,8 @@
                 <div class="col-sm-8 mt-4">
                     <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                        <input matTooltip="Click to Cancle" type="reset" class="btn btn-secondary ml-3"
-                            value="Cancle" />
+                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancel" />
                     </div>
                 </div>
             </form>

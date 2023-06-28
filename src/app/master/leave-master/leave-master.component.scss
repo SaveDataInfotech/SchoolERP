@@ -22,3 +22,18 @@ h3{
 .tdoption{
   width: 100px;
 }
+
+.labeldiv{
+float: left;
+width: 150px;
+text-align: left;
+}
+
+.inputdiv{
+  float: left;
+  width: 250px;
+}
+
+select:focus{
+  border:2px solid blue ;
+}

@@ -17,6 +17,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 
@@ -40,6 +41,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatCheckboxModule,
     CommonModule,
     MatMenuModule,
+    MatChipsModule
     
   ],
   exports: [NgxDropzoneModule],

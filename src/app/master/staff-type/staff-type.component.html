@@ -14,29 +14,29 @@
             <form>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Staff Code</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="0011788" class="form-control" type="text" disabled required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="Teacher" class="form-control"
-                                type="text" required>
+                        <div class="inputdiv">
+                            <input placeholder="Teacher" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3" value="Cancel" />
                     </div>
                 </div>
             </form>
@@ -52,8 +52,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>0001290</td>
-                            <td>Tamil</td>
+                            <td>1</td>
+                            <td>Teacher</td>
                             <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                 <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"

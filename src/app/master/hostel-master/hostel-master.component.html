@@ -1,9 +1,6 @@
 <div class="container-fluid mt-2">
     <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">local_hotel</mat-icon>
-            </div>
+        <div class="col-12" style="display: flex;">            
             <div style="float: left;width: 300px;">
                 <h3 class="ml-1">Hostel Master</h3>
             </div>
@@ -14,44 +11,46 @@
             <form>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Hostel Code</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="0011788" class="form-control" type="text" disabled required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Hostel Name</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="Vinayaga Hostel" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">No Of Rooms</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="34" class="form-control" type="number" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-0" style="margin: auto;">No of Person allowed in Room</label>
                         </div>
-                        <div style="float: left;width: 250px;">
+                        <div class="inputdiv">
                             <input placeholder="5" class="form-control" type="number" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 mt-5">
+                <div class="col-sm-11 mt-5">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-primary ml-3"
+                                    value="Cancel" />
                     </div>
                 </div>
             </form>

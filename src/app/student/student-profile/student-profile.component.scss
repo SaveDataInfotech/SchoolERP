@@ -20,42 +20,6 @@ h3{
   color: blue;
 }
 
-input[type = "text"]:hover{
-  border:2px solid green ;
-}
-
-input[type = "tel"]:hover{
-  border:2px solid green ;
-}
-
-input[type = "number"]:hover{
-  border:2px solid green ;
-}
-
-input[type = "date"]:hover{
-  border:2px solid green ;
-}
-
-input[type = "text"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "tel"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "number"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "date"]:focus{
-  border:2px solid blue ;
-}
-
-select:hover{
-  border:2px solid green ;
-}
-
 select:focus{
   border:2px solid blue ;
 }
@@ -68,7 +32,13 @@ textarea:focus{
   border:2px solid blue ;
 }
 
+.labeldiv{
+  float: left;
+  width: 150px;
+  text-align: left;
+}
 
-// .matcard:hover{
-//   box-shadow: 0px 0px 5px 5px blue;
-// }
+.inputdiv{
+  float: left;
+  width: 250px;
+}
