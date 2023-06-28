@@ -1,0 +1,198 @@
+<div class="pt-3" style="height: 50px">
+  <div style="font-size: 27px; color: red">Customer Master</div>
+</div>
+
+<form [formGroup]="customerForm">
+  <div class="card">
+    <div class="card-body">
+      <div class="main_layout">
+        <div fxLayout="column" class="first_row">
+          <mat-form-field appearance="outline">
+            <mat-label class="disableFont">Customer ID</mat-label>
+            <input
+              matInput
+              class="disableFont"
+              placeholder="Customer ID"
+              formControlName="customerId"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile Number</mat-label>
+            <input
+              matInput
+              placeholder="Mobile Number"
+              formControlName="mobileNumber"
+              (keypress)="numberOnly($event)" 
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Alternate Mobile Number</mat-label>
+            <input
+              matInput
+              placeholder="Alternate Mobile Number"
+              formControlName="alternativeMobileNumber"
+              (keypress)="numberOnly($event)"
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Customer Name</mat-label>
+            <input
+              matInput
+              placeholder="Customer Name"
+              formControlName="customerName"
+              numbersOnly
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Guardian Type</mat-label>
+            <input
+              matInput
+              placeholder="Guardian Type"
+              formControlName="guardianType"
+              numbersOnly
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Guardian Name</mat-label>
+            <input
+              matInput
+              placeholder="Guardian Name"
+              formControlName="guardianName"
+              numbersOnly
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Door No.</mat-label>
+            <input
+              matInput
+              placeholder="Door No."
+              formControlName="doorNo"
+              (keypress)="numberOnly($event)"
+              [maxLength]="10"
+              [minLength]="10"
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>House Name</mat-label>
+            <input
+              matInput
+              placeholder="House Name"
+              formControlName="houseName"
+              numbersOnly
+              [maxLength]="10"
+              [minLength]="10"
+            />
+          </mat-form-field>
+        </div>
+        <div fxLayout="column" class="second_row">
+          <mat-form-field appearance="outline">
+            <mat-label>Street Name</mat-label>
+            <input
+              matInput
+              placeholder="Street Name"
+              formControlName="streetName"
+            
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Street Name 1</mat-label>
+            <input
+              matInput
+              placeholder="Street Name 1"
+              formControlName="streetName1"
+             
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Location</mat-label>
+            <input
+              matInput
+              placeholder="Location"
+              formControlName="location"
+              numbersOnly
+              
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Pin Code</mat-label>
+            <input
+              matInput
+              placeholder="Pin Code"
+              formControlName="pinCode"
+              (keypress)="numberOnly($event)"
+              [maxLength]="6"
+              [minLength]="6"
+              
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Post</mat-label>
+            <input
+              matInput
+              placeholder="Post"
+              formControlName="post"
+              numbersOnly
+              
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Taluk</mat-label>
+            <input
+              matInput
+              placeholder="Taluk"
+              formControlName="taluk"
+              numbersOnly
+              
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>District</mat-label>
+            <input
+              matInput
+              placeholder="District"
+              formControlName="district"
+              numbersOnly
+              
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <input
+              matInput
+              placeholder="Country"
+              formControlName="country"
+              numbersOnly
+              
+            />
+          </mat-form-field>
+          <div class="flex-container" style="margin-left: 30%;">
+            <button
+            class="btn mat-success"
+            style="width:150px;"
+            (click)="
+              Save()"
+          >
+           Save
+          </button>
+          <button class="btn mat-btn" style="width:150px;background-color:rgb(255, 119, 0);color: white;" (click)="Clear()"> Clear </button>
+          <button class="btn mat-warn-btn" style="width:150px;" routerLink="/app/dashboard" >
+           Close
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

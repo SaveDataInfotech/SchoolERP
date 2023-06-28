@@ -1,0 +1,112 @@
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;"></mat-icon>
+            </div>
+            <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Supplier Master</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">SupplierCode</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="0011788" class="form-control" type="text" disabled required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Supplier Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Vinayaga Hostel" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="99008-87766" maxlength="10" minlength="10" class="form-control"
+                                type="tel" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">GST NO</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="5" class="form-control" type="number" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Balance</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" maxlength="10" minlength="10" class="form-control" type="tel"
+                                required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-5" style="margin: auto;">Address</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <textarea class="form-control" id="textAreaExample1 ml-2" rows="4" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mt-5">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive mt-5">
+                <table class="col-sm-10 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>SI.NO</th>
+                            <th>Supplier Name</th>
+                            <th>Mobile NO</th>
+                            <th>GST NO</th>
+                            <th>Balance</th>
+                            <th>Address</th>
+                            <th>Option's</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0001290</td>
+                            <td>Vinayaga</td>
+                            <td>9988006677</td>
+                            <td>34</td>
+                            <td>5</td>
+                            <td>Bk Pudur, Kuniamuthur, Coimbatore - 641008</td>
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    class="pl-2">delete</mat-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

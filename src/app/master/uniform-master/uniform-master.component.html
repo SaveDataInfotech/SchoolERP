@@ -1,0 +1,273 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Option-1">
+        <div class="container-fluid mt-3">
+            <div class="col-sm-6" style="display: flex;">
+                <h3>Uniform Master</h3><mat-icon class="ml-3" style="color: rgb(235, 91, 7);"> subject </mat-icon>
+            </div>
+            <form>
+                <div class="row">
+
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Uniform Code</label>
+                        </div>
+                        <div style="float: left;width: 200px;">
+                            <input placeholder="#00110" class="form-control ml-2" id="ex2" type="tel" disabled required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
+                        </div>
+                        <div style="float: left;width: 200px;">
+                            <select class="form-control ml-2" name="selectAction">
+                                <option>1-st</option>
+                                <option>2-nd</option>
+                                <option>3-rd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                   
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Gender</label>
+                        </div>
+                        <div style="float: left;width: 200px;">
+                            <select class="form-control ml-2" name="selectAction">
+                                <option>MALE</option>
+                                <option>FEMALE</option>
+                                <option>OTHER's</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Uniform Type</label>
+                        </div>
+                        <div style="float: left;width: 200px;">
+                            <select class="form-control ml-2" name="selectAction">
+                                <option>Type-1</option>
+                                <option>Type-2</option>
+                                <option>Type-3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Amount</label>
+                        </div>
+                        <div style="float: left;width: 200px;">
+                            <input placeholder="600" class="form-control ml-2" id="ex2" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 p-3" style="margin: auto;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div>
+            </form>
+            <hr>
+
+            <div class="row mt-5">
+                <div class="col-sm-7 ml-3">
+
+
+                    <table class="table" mat-table [dataSource]="dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <th *matHeaderCellDef> SI.No: </th>
+                            <td *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th *matHeaderCellDef> Class</th>
+                            <td *matCellDef="let element"> 1-St </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="gender">
+                            <th *matHeaderCellDef> Gender </th>
+                            <td *matCellDef="let element" style="text-align: center;"> MALE </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="uniform_type">
+                            <th *matHeaderCellDef> Uniform Type </th>
+                            <td *matCellDef="let element" style="text-align: center;"> Type-1 </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <th *matHeaderCellDef> Amount </th>
+                            <td *matCellDef="let element" style="text-align: center;"> 600 </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="option">
+                            <th *matHeaderCellDef> Option </th>
+                            <td *matCellDef="let element">
+                                <mat-icon matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
+                                    class="pr-2">edit</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    class="pl-2">delete</mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+
+                    <mat-paginator style="width: 100%;" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+
+
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Option-2">
+        <div class="container-fluid col-12 mt-3">
+            <div class="col-sm-6" style="display: flex;">
+                <h3>Uniform Master</h3><mat-icon class="ml-3" style="color: rgb(235, 91, 7);"> subject </mat-icon>
+            </div>
+            <form>
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="col-xs-3 p-3" style="display: flex;">
+                            <label for="ex2" class="" style="margin: auto; width: 150px;text-align: right;">SI.No
+                            </label>
+                            <input class="form-control ml-2" id="ex2" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="col-xs-3 p-3" style="display: flex;">
+                            <label for="ex2" class="" style="margin: auto; width: 150px;text-align: right;">Class
+                            </label>
+                            <input class="form-control ml-2" id="ex2" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="col-xs-3 p-3" style="display: flex;">
+                            <label for="ex2" style="margin: auto;width: 150px;text-align: right;">Gender</label>
+                            <select class="form-control ml-2" name="selectAction">
+                                <option>MALE</option>
+                                <option>FEMALE</option>
+                                <option>OTHER's</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="col-xs-3 p-3 " style="display: block;">
+                            <label for="ex2" style="margin: auto;width: 150px;text-align:center;">Uniform Type</label>
+                            <div style="float:right;" class="pt-2">                        
+                                <div class="form-check mt-3" >
+                                    <input style="height: 20px;width: 20px;" type="checkbox" class="form-check-input" id="check1" name="option1"
+                                        value="something" checked>
+                                    <label style="font-size: 20px;" class="form-check-label p-1" for="check1">Option_1</label>
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input style="height: 20px;width: 20px;"  type="checkbox" class="form-check-input" id="check2" name="option2"
+                                        value="something">
+                                    <label style="font-size: 20px;"  class="form-check-label  p-1" for="check2">Option-2</label>
+                                </div>
+                                <div class="form-check mt-3 mb-3">
+                                    <input style="height: 20px;width: 20px;" type="checkbox" class="form-check-input" >
+                                    <label style="font-size: 20px;"  class="form-check-label p-1">Option-3</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="col-xs-3 p-3" style="display: flex;">
+                            <label for="ex2" class="" style="margin: auto; width: 150px;text-align: right;">Amount
+                            </label>
+                            <input class="form-control ml-2" id="ex2" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 p-3" style="margin: auto;" >
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div>
+            </form>
+            <hr>
+
+            <div class="row mt-5">
+                <div class="col-sm-7 ml-3">
+
+
+                    <table class="table" mat-table [dataSource]="dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <th *matHeaderCellDef> SI.No: </th>
+                            <td *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th *matHeaderCellDef> Class</th>
+                            <td *matCellDef="let element"> 1-St </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="gender">
+                            <th *matHeaderCellDef> Gender </th>
+                            <td *matCellDef="let element" style="text-align: center;"> MALE </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="uniform_type">
+                            <th *matHeaderCellDef> Uniform Type </th>
+                            <td *matCellDef="let element" style="text-align: center;"> Type-1 </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <th *matHeaderCellDef> Amount </th>
+                            <td *matCellDef="let element" style="text-align: center;"> 600 </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="option">
+                            <th *matHeaderCellDef> Option </th>
+                            <td *matCellDef="let element">
+                                <mat-icon matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
+                                    class="pr-2">edit</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    class="pl-2">delete</mat-icon>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+
+                    <mat-paginator style="width: 100%;" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                    </mat-paginator>
+
+
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>

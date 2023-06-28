@@ -1,0 +1,359 @@
+// /* You can add global styles to this file, and also import other style files */
+
+// :root {
+//   --blue: rgb(25 103 210);
+//   --white: #ffffff;
+// }
+
+// html,
+// body {
+//   height: 100%;
+// }
+// body {
+//   margin: 0;
+//   font-family: Roboto, "Helvetica Neue", sans-serif;
+// }
+
+// .mat-form-field {
+//   padding: 6px;
+// }
+
+// .required::after {
+//   content: "*";
+//   color: red;
+// }
+
+// .mat-form-field-flex:hover .mat-form-field-outline {
+//   opacity: 0;
+//   transition: none !important;
+// }
+
+// .mat-input-invalid .mat-input-placeholder {
+//   color: red !important;
+// }
+
+// .mat-input-invalid .mat-input-ripple {
+//   background-color: red !important;
+// }
+
+// .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+//   color: blue !important;
+// }
+
+// .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+//   color: black;
+// }
+
+// .mat-form-field-appearance-outline .mat-form-field-wrapper {
+//     margin: 0 !important;
+// }
+
+// .mat-form-field-wrapper {
+//     padding-bottom: 0 !important;
+// }
+
+// .pointer {
+//   cursor: pointer;
+// }
+
+
+
+
+// .ap-container {
+//   @import "app/styles/form-styles.scss";
+//   overflow-y: hidden;
+//   overflow-x: hidden;
+// }
+
+// .mat-label {
+//   font-weight: 500;
+// }
+
+
+// .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+//   color: blue !important;
+// }
+
+// .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+//   color: green;
+// }
+
+
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// .mat-form-field {
+//   padding: 6px;
+// }
+
+.required::after {
+  content: "*";
+  color: red;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  //  overflow: hidden;
+}
+
+body {
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  // overflow-y: hidden
+}
+
+.ap-container {
+  @import "app/styles/form-styles.scss";
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+textarea {
+  resize: none !important;
+  height: 80px;
+}
+.main-label {
+  font-weight: 500;
+}
+
+.check-box {
+  margin: 0 10px !important;
+}
+
+// .mat-tab-label {
+//   padding: 2px 180px !important ;
+// }
+
+.mat-form-field-flex:hover .mat-form-field-outline {
+  opacity: 0;
+  transition: none !important;
+}
+
+.mat-input-invalid .mat-input-placeholder {
+  color: red !important;
+}
+
+.mat-input-invalid .mat-input-ripple {
+  background-color: red !important;
+}
+
+.three-row-form {
+  width: inherit;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: blue !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: green;
+}
+
+.mat-form-field-appearance-outline.mat-input-element:disabled .mat-form-field-outline {
+  color: red !important;
+}
+
+.mat-snack-bar-container.error-snacbar-panel {
+  background: red !important;
+  color: white !important;
+}
+
+.mat-snack-bar-container.success-snacbar-panel {
+  background: green !important;
+  color: white !important;
+}
+
+.mat-snack-bar-container.warning-snacbar-panel {
+  background: rgb(247, 247, 116) !important;
+  color: white !important;
+}
+
+thead {
+  background-color: aliceblue;
+}
+
+.mat-success {
+  background-color: green !important;
+  color: white !important;
+}
+
+.mat-warn-btn {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+a {
+  color: #f8f9fa;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: red;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+._pop_up_container {
+  border: 2px solid rgb(25, 103, 210);
+  border-radius: 6px;
+
+  .mat-dialog-container {
+    padding: 0 !important;
+  }
+  ._header_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+  }
+  ._pop_up_header {
+    background-color: rgb(25, 103, 210);
+  }
+}
+
+.simple-notification-wrapper{
+  z-index: 9999 !important;
+}
+._pop_up_container_normal {
+  // border: 2px solid rgb(25, 103, 210);
+  border-radius: 6px;
+
+  .mat-dialog-container {
+    padding: 0 !important;
+  }
+  ._header_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+  }
+  ._pop_up_header {
+    background-color: rgb(25, 103, 210);
+  }
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+  color: black !important;
+}
+
+.disableFont{
+  color: black;
+}
+
+
+.mat-header-cell {
+  background-color: #dee2e6;
+  color: black;
+}
+
+
+// .mat-row:nth-child(2n) {
+//   // background-color: paleturquoise;
+// }
+
+td.mat-cell, td.mat-footer-cell{
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(29, 2, 2);
+  border-bottom-style: solid;
+}
+// .mat-column-position {
+//   // width: 32px;
+//   border-right: 1px solid currentColor;
+//   // padding-right: 24px;
+//   text-align: center;
+// }
+
+.body {
+  min-height: auto;
+  z-index: 0;
+  position: relative;
+  transition: all 0.5s ease;
+   background: white; 
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: 94%;
+  height: 100%;
+  padding-top: 0px;
+}
+
+//School Project Global css
+
+table th {
+  width: auto !important;
+  color: green;
+}
+td{
+font-size: 15px;
+  color: rgb(2, 2, 56);
+  font-family: sans-serif;
+}
+
+td{
+  text-align: center;
+}
+th{
+  text-align: center;
+}
+
+
+input[type = "text"]:hover{
+  border:2px solid green ;
+}
+
+input[type = "tel"]:hover{
+  border:2px solid green ;
+}
+
+input[type = "number"]:hover{
+  border:2px solid green ;
+}
+
+input[type = "date"]:hover{
+  border:2px solid green ;
+}
+
+input[type = "text"]:focus{
+  border:2px solid blue ;
+}
+
+input[type = "tel"]:focus{
+  border:2px solid blue ;
+}
+
+input[type = "number"]:focus{
+  border:2px solid blue ;
+}
+
+input[type = "date"]:focus{
+  border:2px solid blue ;
+}
+
+select:hover{
+  border:2px solid green ;
+}
+
+select:focus{
+  border:2px solid blue ;
+}
+
+textarea:hover{
+  border:2px solid green ;
+}
+
+textarea:focus{
+  border:2px solid blue ;
+}

@@ -1,0 +1,617 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;">account_circle</mat-icon>
+            </div>
+            <div style="float: left;width: 250px;">
+                <h3 class="ml-1">Student Profile</h3>
+            </div>
+
+            <div class="col-6" style="display: flex;">
+                <div style="float: left;width: 250px;">
+                    <button matTooltip="Click to go to the Student List" type="button"
+                        class="btn btn-primary btn-sm ">Student List<i class="fa fa-arrow-right ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Enrollment Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="#00110" class="form-control" disabled type="number" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Admission Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="00110" class="form-control" type="number" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Roll Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="00110" class="form-control" type="number" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Student Class</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>1-St</option>
+                                <option>2-Nd</option>
+                                <option>10-Th</option>
+                                <option>11-Th</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">10-th Mark</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Enter 10-th Mark" class="form-control" type="number" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>Maths-Biology</option>
+                                <option>ComputerScience</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Section</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>A-Section</option>
+                                <option>B-Section</option>
+                                <option>C-Section</option>
+                                <option>D-Section</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">EMIS Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="800085678" class="form-control" type="number" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Aadhar Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="800085678" class="form-control" type="number" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Gender</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>Male</option>
+                                <option>FEMALE</option>
+                                <option>OTHER's</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Student Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="In English" class="form-control" id="ex2" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">மாணவர் பெயர்</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="தமிழில்" class="form-control" id="ex2" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">DOB</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" id="ex2" type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Physically Challanged</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Nationality</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Indian" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Religion</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>Hindu</option>
+                                <option>Muslim</option>
+                                <option>Christian</option>
+                                <option>Other's</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Community</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Enter Community" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Caste</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Enter Caste" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Father Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Student Father Name" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Father Occupation" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="12Th" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="9900887766" class="form-control" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Mother Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Student Mother Name" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Occupation" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="12Th" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="9900887766" class="form-control" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Blood Group</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="o+" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Place</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-5" style="margin: auto;">Address</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <textarea class="form-control" id="textAreaExample1" rows="4" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Fees Less</label>
+                        </div>
+                        <select style="width: 250px;" class="form-control" name="selectAction">
+                            <option>Hindu</option>
+                            <option>Muslim</option>
+                            <option>Christian</option>
+                            <option>Other's</option>
+                        </select>
+
+                        <div class="" style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-4" style="margin: auto;">RT Student</label>
+                        </div>
+                        <select style="width: 250px;" class="form-control mt-3" name="selectAction">
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 1</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 2</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Last Studied Std</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Last Studied School</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Last Studied Stream</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Last Studied Medium</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Arrear Fees</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Sibling</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Class</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Student Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Bus</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Root No</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Place of Boading</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Dayscholar</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Hostel</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control" name="selectAction">
+                                <option>YES</option>
+                                <option>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3">
+                        <div style="float: left;text-align: left;">
+                            <label class="pt-2" style="font-weight: 700;color: red;">Certificate Submit</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3" style="color: green;">
+                    <div class="col-sm-2">
+                        <b> Cirtificate's</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <b> Xerox</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <b> Original</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <b> Date of submission</b>
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <div class="col-sm-2">
+                        <b style="color: blue;">Birth</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <div style="float: left;">
+                            <input placeholder="" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <div class="col-sm-2">
+                        <b style="color: blue;">Community</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <div style="float: left;">
+                            <input placeholder="" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <div class="col-sm-2">
+                        <b style="color: blue;">10-th TC</b>
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <input id="check1" style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            class="form-check-input ml-2" name="option1" value="something">
+                    </div>
+                    <div class="col-sm-3">
+                        <div style="float: left;">
+                            <input placeholder="" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancle" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancle" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,144 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;">how_to_reg</mat-icon>
+            </div>
+            <div style="float: left;width: 250px;">
+                <h3 class="ml-1">Student Promote</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>1-St</option>
+                                <option>2-Nd</option>
+                                <option>10-Th</option>
+                                <option>11-Th</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>Maths-Biology</option>
+                                <option>ComputerScience</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Enter 10-th Mark" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Add" />
+                    </div>
+                </div>
+            </form>
+
+            <form>
+                <div class="row mt-5">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;text-align: left;">
+                            <input style="height: 20px;width: 20px;" type="checkbox" class="ml-4" value="something">
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <label class="ml-2"><b>Select All</b></label>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="col-sm-8 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>A.NO</th>
+                            <th>Student Name</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
+                            </td>
+                            <td>000101</td>
+                            <td>John</td>
+                        </tr>
+
+                        <tr>
+                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
+                            </td>
+                            <td>000102</td>
+                            <td>Kumar</td>
+                        </tr>
+
+                        <tr>
+                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
+                            </td>
+                            <td>000103</td>
+                            <td>Priya</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-sm-8 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancle" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancle" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

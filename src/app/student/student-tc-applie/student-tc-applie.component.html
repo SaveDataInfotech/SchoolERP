@@ -1,0 +1,155 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;"> transfer_within_a_station</mat-icon>
+            </div>
+            <div style="float: left;width: 250px;">
+                <h3 class="ml-1">Student TC/Left/Long Absent</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>1-St</option>
+                                <option>2-Nd</option>
+                                <option>10-Th</option>
+                                <option>11-Th</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>Maths-Biology</option>
+                                <option>ComputerScience</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Enter 10-th Mark" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Add" />
+                    </div>
+                </div>
+            </form>
+
+            <form>
+                <div class="table-responsive mt-5">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>A.NO</th>                                                    
+                            <th>Student Name</th>
+                            <th>TC.NO</th> 
+                            <th>Date</th>
+                            <th>Left</th>
+                            <th>Date</th>
+                            <th>Long Absent</th>
+                            <th>Date</th>
+                            <th>Remarks</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                           <td>0001290</td>
+                           <td>Rajesh V</td>
+                           <td>4975</td>
+                           <td>12-09-2023</td>
+                           <td>Yes</td>
+                           <td>16-09-2023</td>
+                           <td>Yes</td>
+                           <td>5-6-2023</td>
+                           <td>Write your remarks here</td>
+                        </tr>
+
+                        <tr>
+                            <td>0001290</td>
+                           <td>Rajesh V</td>
+                           <td>4975</td>
+                           <td>12-09-2023</td>
+                           <td>Yes</td>
+                           <td>16-09-2023</td>
+                           <td>Yes</td>
+                           <td>5-6-2023</td>
+                           <td>Write your remarks here</td>
+                        </tr>
+
+                        <tr>
+                            <td>0001290</td>
+                            <td>Rajesh V</td>
+                            <td>4975</td>
+                            <td>12-09-2023</td>
+                            <td>Yes</td>
+                            <td>16-09-2023</td>
+                            <td>Yes</td>
+                            <td>5-6-2023</td>
+                            <td>Write your remarks here</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancle" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancle" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

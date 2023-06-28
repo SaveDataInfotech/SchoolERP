@@ -1,0 +1,68 @@
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;">group</mat-icon>
+            </div>
+            <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Staff Type</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Code</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="0011788" class="form-control" type="text" disabled required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="Teacher" class="form-control"
+                                type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive mt-5">
+                <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>SI.NO</th>
+                            <th>Staff Type</th>
+                            <th>Option's</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0001290</td>
+                            <td>Tamil</td>
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    class="pl-2">delete</mat-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

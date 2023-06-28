@@ -1,0 +1,88 @@
+<div class="pt-3" style="height: 50px">
+    <div class="title">User Group</div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+        <form [formGroup]="userGroupForm" autocomplete="off">
+            <div class="main_layout">
+              <div fxLayout="column" class="first_row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Model</mat-label>
+                  <input
+                  matInput
+                  placeholder="Model"
+                  formControlName="model"
+                  #model
+                  required
+                />
+                </mat-form-field>
+              </div>
+              <div fxLayout="column" class="second_row">
+                <div class="pt-3">
+                    <button
+                    class="btn mat-success"
+                    style="margin-right: 16px; width:150px;"
+                    (click)="
+                      Save()"
+                  >
+                   Save
+                  </button>
+                  
+                  <button class="btn mat-warn-btn" style="width:150px;" routerLink="/app/dashboard">
+                   Close
+                  </button>
+                  
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <table mat-table [dataSource] = "dataSource" class = "mat-elevation-z8"> 
+          <ng-container matColumnDef = "no">
+            <th mat-header-cell *matHeaderCellDef> S.no </th>
+            <td mat-cell *matCellDef = "let element"> {{element.no}} </td>
+         </ng-container>
+         <ng-container matColumnDef = "model">
+          <th mat-header-cell *matHeaderCellDef> Model </th>
+          <td mat-cell *matCellDef = "let element"> {{element.model}} </td>
+       </ng-container>
+       <ng-container matColumnDef = "status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef = "let column"> 
+          <mat-checkbox> Active </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef = "let column">
+              <span style="cursor: pointer">
+                <mat-icon
+                  class="icons"
+                  svgIcon="roundEdit"
+                  matTooltip="Edit"
+                  (click)="edit()"   
+                ></mat-icon>
+              </span>
+              <span style="cursor: pointer">
+                <mat-icon
+                  class="icons"
+                  style="padding-left: 2px"
+                  svgIcon="roundDelete"
+                  matTooltip="Delete"
+                  (click)="delete()"
+                ></mat-icon>
+              </span>
+            </td>
+        </ng-container>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef = "displayedColumns"></tr>
+      <tr mat-row *matRowDef = "let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    

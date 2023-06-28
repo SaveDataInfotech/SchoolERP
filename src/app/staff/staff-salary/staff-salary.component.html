@@ -1,0 +1,120 @@
+<div class="container-fluid mt-1">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;">supervised_user_circle</mat-icon>
+            </div>
+            <div style="float: left;width: 400px;">
+                <h3 class="ml-1">Staff Salary</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>Teacher</option>
+                                <option>Helper</option>
+                                <option>Driver</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Month Of Salary</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="number" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">No Of Working days</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="number" required>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div> -->
+
+
+                <div class="table-responsive text-nowrap mt-5">
+                    <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
+                        <thead>
+                            <tr>                              
+                                <th>SI.NO</th>
+                                <th>Staff No</th>
+                                <th>Staff Name</th>
+                                <th>Working day</th>
+                                <th>days present</th>
+                                <th>A</th>
+                                <th>Leave</th>
+                                <th>payable Days</th>                               
+                                <th>Basic</th>
+                                <th>DA</th>
+                                <th>HRA</th>                                                             
+                                <th>ALL</th>
+                                <th>Total Amount</th>
+                                <th>Loan</th>
+                                <th>Ab Amt</th>
+                                <th>EPF</th>
+                                <th>Deduction</th>
+                                <th>Net Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                               
+                                <td>1</td>
+                                <td>0034</td>
+                                <td>John</td>  
+                                <td>26</td>
+                                <td><input class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
+                            </tr>                           
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancle" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancle" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

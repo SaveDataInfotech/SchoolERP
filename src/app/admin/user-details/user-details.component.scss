@@ -1,0 +1,128 @@
+
+@media screen and (min-width: 320px) and (max-width: 1024px) {
+    .first_row {
+      width: 100%;
+    }
+  
+    .second_row {
+      width: 100%;
+    }
+  
+    .third_row {
+      width: 100%;
+    }
+  
+    .title {
+      font-size: 21px;
+      color: red;
+    }
+  
+    .main_layout {
+      flex-direction: column !important;
+    }
+  
+    .button_size{
+        display: flex;
+      }
+
+  }
+  
+  @media screen and (min-width: 1025px) {
+    .first_row {
+      width: 30%;
+    }
+  
+    .second_row {
+      width: 30%;
+    }
+  
+    .third_row {
+      width: 30%;
+    }
+  
+    .main_layout {
+      display: flex !important;
+      flex-direction: row !important;
+    }
+  
+    .title {
+      font-size: 27px;
+      color: red;
+    }
+  
+    .button_size{
+        display: flex;
+        // margin-left: 16rem;
+        padding-left: 7px;
+        padding-top: 15px;
+      }
+  
+  }
+  .second_row{
+    margin-left: 3%;
+  }
+  .third_row{
+    margin-left: 3%;
+  }
+  .cell{
+    padding-left: 24px;
+    padding-right: 24px;
+    margin: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    column-width: auto;
+  }
+  
+  table td, table th {
+    border: none;
+  }
+  .mat-slide-toggle {
+    transform: scale(0.6) translateX(-10px); //adjust the pixels to your scale size i
+}
+
+.mat-table {
+  width: 70% !important;
+  // border: 2px solid black;
+}
+
+
+.mat-column-position {
+  // border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+.mat-column-product_type {
+  // border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+
+.mat-column-product {
+  // border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+
+.mat-column-status {
+  // border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+.mat-column-action {
+  // border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+
+.icons{
+  overflow: hidden !important;
+  vertical-align: middle !important;
+  height: 26px !important;
+  width: 40px !important;
+  user-select: none !important;
+  background-repeat: no-repeat !important;
+  display: inline-block !important;
+  fill: currentColor !important;
+  }
