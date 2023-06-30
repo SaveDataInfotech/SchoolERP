@@ -13,13 +13,15 @@ import { ReportsComponent } from './reports/reports.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
 import {MatChipsModule} from '@angular/material/chips';
 
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import {MatChipsModule} from '@angular/material/chips';
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
     MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule
-  ]
+  ],
+  providers:[DatePipe],
+  bootstrap:[StudentEnquiryComponent]
 })
 export class StudentModule { }

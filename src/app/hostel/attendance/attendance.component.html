@@ -1,0 +1,91 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div class="inputdiv">
+                <h3 class="ml-1">Hostel Attendance</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard">
+        <mat-card-content>
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Hostel Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>Vinayaga Boys Hostel</option>
+                                <option>Queen Girls Hostel</option>                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Room No</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>11</option>
+                                <option>12</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Add" />
+                    </div>
+                </div>
+            </form>
+
+            <form>
+                <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>Ad.No</th>
+                            <th>Class</th>
+                            <th>Student Name</th>
+                            <th>Gender</th>
+                            <th>Pr/Ab</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>000101</td>
+                            <td>Xll</td>
+                            <td>John</td>
+                            <td>Male</td>
+                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-2" value="something">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-sm-8 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
+                            value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

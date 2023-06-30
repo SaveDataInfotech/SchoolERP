@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-staff-loan',
-  templateUrl: './staff-loan.component.html',
-  styleUrls: ['./staff-loan.component.scss']
+  selector: 'app-attendance',
+  templateUrl: './attendance.component.html',
+  styleUrls: ['./attendance.component.scss']
 })
-export class StaffLoanComponent implements OnInit {
+export class AttendanceComponent implements OnInit {
 
   constructor() { }
-
   date1=new Date();
 
   currentYear=this.date1.getUTCFullYear();
@@ -42,4 +41,5 @@ export class StaffLoanComponent implements OnInit {
     this.today=this.currentYear+"-"+this.finalMonth+"-"+this.finalDay;
 
   }
+
 }

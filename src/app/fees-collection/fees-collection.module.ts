@@ -15,6 +15,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
+import { DatePipe } from '@angular/common';
 
 
 
@@ -28,6 +29,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
     MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule
-  ]
+  ],
+  providers:[DatePipe]
 })
 export class FeesCollectionModule { }

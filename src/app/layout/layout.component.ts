@@ -113,6 +113,10 @@ export class LayoutComponent implements OnInit {
             link_name: "Room Assign",
             link: "hostel/room_assign",
           },
+          {
+            link_name: "Hostel Attendance",
+            link: "hostel/hostel_attendance",
+          },
            {
             link_name: "Hostel Reports",
             link: "hostel/reports",

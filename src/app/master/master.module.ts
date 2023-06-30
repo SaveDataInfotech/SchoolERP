@@ -21,6 +21,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
+import {  ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -39,7 +41,7 @@ import {MatCardModule} from '@angular/material/card';
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
-    RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule
+    RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule
   ]
 })
 export class MasterModule { }
