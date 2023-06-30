@@ -335,7 +335,7 @@
                 </div>
 
                 <div class="col-sm-12 mt-4">
-                    <div class="pl-5">
+                    <div class="pl-5" style="margin-left: 110px;">                        
                         <input style="height: 20px;width: 20px;" type="checkbox" class="form-check-input  mt-1 "
                             name="option1" value="something" checked>
                         <label class="p-2" style="margin: auto;font-weight: 700;">I declare that the
@@ -347,11 +347,19 @@
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
+                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
+                            value="Cancel" />
+                    </div>
+                </div>
+
+                <!-- <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
                         <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
                             value="Cancel" />
                     </div>
-                </div>
+                </div> -->
             </form>
         </mat-card-content>
     </mat-card>

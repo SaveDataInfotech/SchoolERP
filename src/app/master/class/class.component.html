@@ -10,42 +10,43 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form [formGroup]="classForm" (ngSubmit)="onClassSubmit()">
+                    <form [formGroup]="classForm" #f="ngForm" name="classForm" (ngSubmit)="onClassSubmit()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class Code</label>
+                                    <label class="pt-2" style="margin: auto;">Class Code</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled>
+                                    <input [value]="classcodeauto" [placeholder]="classcodeauto" class="form-control"
+                                        type="text" disabled>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="classname" [ngClass]="{'is-invalid':submitted}"
+                                    <input formControlName="classname" [(ngModel)]="classdata.classname"
+                                        [ngClass]="{'is-invalid':submitted && classForm.hasError('required','classname')}"
                                         class="form-control" type="text">
+                                    <span *ngIf="submitted && classForm.hasError('required','classname')"
+                                        class="text-danger">Class Name required *</span>
                                 </div>
-
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">                                    
+                                <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mt-4 mr-3 " value="Cancel" />
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm " value="Save" />
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
-
                             </div>
                         </div>
 
@@ -59,29 +60,35 @@
                         </div> -->
                     </form>
 
-                    <div class="table-responsive mt-5">
-                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                            <thead>
-                                <tr>
-                                    <th>S.No.</th>
-                                    <th>Class Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    
                 </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+            <mat-card-content>
+                <div class="table-responsive">
+                    <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Class Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2</td>
+                                <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                        style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                    <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        class="pl-2">delete</mat-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </mat-card-content>
             </mat-card>
         </div>
     </mat-tab>
@@ -97,11 +104,11 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="sectionForm" #f="ngForm" name="sectionForm" (ngSubmit)="onSectionSubmit()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Section Code</label>
+                                    <label class="pt-2" style="margin: auto;">Section Code</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
@@ -111,21 +118,25 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
+                                    <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>2</option>
-                                        <option>3</option>
+                                    <select name="classname"   formControlName="classname" [(ngModel)]="sectiondata.classname" style="width: 100%;" class="form-control">                                        
+                                        <option [selected]="true" value="" selected disabled>Please select</option>
+                                        <option >l</option>
+                                        <option>ll</option>
                                         <option>4</option>
+                                        <option value="X">10</option>
+                                        <option value=11>11</option>
+                                        <option value=12>Xll</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div  *ngIf="sectiondata.classname > 10" class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Group Name</label>
+                                    <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
@@ -139,22 +150,35 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Section Name</label>
+                                    <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input placeholder="" class="form-control" type="tel" required>
+                                    <input  class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm-6 mt-4">
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mr-3 btn-sm" value="Save" />
                                 <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
                                     class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
-                        </div>
+                        </div> -->
                     </form>
 
                     <div class="table-responsive mt-5">
@@ -203,7 +227,7 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Group Code</label>
+                                    <label class="pt-2" style="margin: auto;">Group Code</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
@@ -213,10 +237,11 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
+                                    <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
                                         <option>2</option>
                                         <option>3</option>
                                         <option>4</option>
@@ -227,7 +252,7 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Group Name</label>
+                                    <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input placeholder="" class="form-control" type="tel" required>
@@ -235,14 +260,27 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 mt-4">
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mr-3 btn-sm" value="Save" />
                                 <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
                                     class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
-                        </div>
+                        </div> -->
                     </form>
 
                     <div class="table-responsive mt-5">

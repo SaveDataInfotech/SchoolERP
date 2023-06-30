@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit {
       {
           link_name:"Student Details",
           link:null,
-          icon:"customer",
+          icon:"studentdetails",
           sub_menu:[
               {
                 link_name:"Student Enquiry",
@@ -71,7 +71,7 @@ export class LayoutComponent implements OnInit {
       {
         link_name: "Staff Details",
         link: null,
-        icon: "customer",
+        icon: "staffdetails",
         sub_menu: [
           {
             link_name: "Staff Profile",
@@ -103,7 +103,7 @@ export class LayoutComponent implements OnInit {
       {
         link_name: "Hostel Details",
         link: null,
-        icon: "customer",
+        icon: "hostel",
         sub_menu: [
           {
             link_name: "Room Allotment",
@@ -128,7 +128,7 @@ export class LayoutComponent implements OnInit {
       {
         link_name: "Finance",
         link: null,
-        icon: "customer",
+        icon: "schoolfinance",
         sub_menu: [
           {
             link_name: "Fees Collection",
@@ -170,7 +170,7 @@ export class LayoutComponent implements OnInit {
       {
         link_name: "Vehicle Entry",
         link: null,
-        icon: "customer",
+        icon: "schoolvehicle",
         sub_menu: [
           {
             link_name: "Vehicle Details",
@@ -207,7 +207,7 @@ export class LayoutComponent implements OnInit {
        {
         link_name: "Master",
         link: null,
-        icon: "masters",
+        icon: "schoolmaster",
         sub_menu: [
           {
             link_name: "Class Master",
