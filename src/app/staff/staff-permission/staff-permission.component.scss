@@ -16,38 +16,7 @@ h3{
     color: blue;
   }
 
-  input[type = "text"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "tel"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "number"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "date"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "text"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "tel"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "number"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "date"]:focus{
-    border:2px solid blue ;
-  }
-
+ 
   select:hover{
     border:2px solid green ;
   }
@@ -64,10 +33,6 @@ h3{
     border:2px solid blue ;
   }
 
-  table th {
-    width: auto !important;
-    color: green;
-}
 td{
   font-size: 15px;
     color: rgb(2, 2, 56);
@@ -81,77 +46,3 @@ td{
     font-size: large;
     font-weight: 500;
   }
-
-  .matcard{
-    box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
-  }
-
-  .dash_std{
-    color: orangered;
-    cursor: pointer;
-  }
-  .dash_std:hover{
-    color: blue;
-  }
-
-  input[type = "text"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "tel"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "number"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "date"]:hover{
-    border:2px solid green ;
-  }
-
-  input[type = "text"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "tel"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "number"]:focus{
-    border:2px solid blue ;
-  }
-
-  input[type = "date"]:focus{
-    border:2px solid blue ;
-  }
-
-  select:hover{
-    border:2px solid green ;
-  }
-
-  select:focus{
-    border:2px solid blue ;
-  }
-
-  textarea:hover{
-    border:2px solid green ;
-  }
-
-  textarea:focus{
-    border:2px solid blue ;
-  }
-
-  table th {
-    width: auto !important;
-    color: green;
-}
-td{
-  font-size: 15px;
-    color: rgb(2, 2, 56);
-    font-family: sans-serif;
-}
-
-.tdoption{
-    width: 100px;
-}

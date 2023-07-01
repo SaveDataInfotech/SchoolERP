@@ -67,7 +67,16 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                            class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                    </div>
+                </div>
+
+                <!-- <div class="row">
                     <div class="col-sm-6" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                         </div>
@@ -78,14 +87,18 @@
                                 class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                         </div>
                     </div>
-                </div>
-            </form>
+                </div> -->
+            </form>            
+        </mat-card-content>
+    </mat-card>
 
-            <div class="table-responsive mt-5">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
                 <table class="col-sm-10 table table-hover table-bordered table-sm  ">
                     <thead>
                         <tr>
-                            <th>SI.NO</th>
+                            <th>Si.No</th>
                             <th>Supplier Name</th>
                             <th>Mobile NO</th>
                             <th>GST NO</th>

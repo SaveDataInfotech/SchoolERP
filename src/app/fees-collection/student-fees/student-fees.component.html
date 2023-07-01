@@ -1,9 +1,6 @@
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">supervised_user_circle</mat-icon>
-            </div>
             <div style="float: left;width: 400px;">
                 <h3 class="ml-1">School Fees</h3>
             </div>
@@ -85,7 +82,7 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input class="form-control"  [value]="today" type="Date" >
+                            <input class="form-control" [value]="today" type="Date">
                         </div>
                     </div>
                 </div>
@@ -93,7 +90,7 @@
                 <div class="row mb-5">
                     <div class="col-sm-3 mt-5" style="display: flex;">
                         <div style="float: left;">
-                            <input  style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
                                 class="form-check-input ml-2" name="option1" value="something">
                         </div>
                         <div style="float: left;width: 150px;text-align: left;">
@@ -102,7 +99,7 @@
                     </div>
                     <div class="col-sm-3 mt-5" style="display: flex;">
                         <div style="float: left;">
-                            <input  style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
                                 class="form-check-input ml-2" name="option1" value="something">
                         </div>
                         <div style="float: left;width: 150px;text-align: left;">
@@ -111,7 +108,7 @@
                     </div>
                     <div class="col-sm-3 mt-5" style="display: flex;">
                         <div style="float: left;">
-                            <input  style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
                                 class="form-check-input ml-2" name="option1" value="something">
                         </div>
                         <div style="float: left;width: 150px;text-align: left;">
@@ -120,7 +117,7 @@
                     </div>
                     <div class="col-sm-3 mt-5" style="display: flex;">
                         <div style="float: left;">
-                            <input  style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
                                 class="form-check-input ml-2" name="option1" value="something">
                         </div>
                         <div style="float: left;width: 150px;text-align: left;">
@@ -164,18 +161,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary m-3" value="Save" />
-                        <input matTooltip="Click to Print" (click)="printbill()" type="button"
-                            class="btn btn-primary m-3" value="Print" />
-                    </div>
 
+                <div class="col-sm-12 mt-5">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <!-- <input matTooltip="Click to Print" (click)="printbill()" type="button"
+                            class="btn btn-primary m-3 btn-sm ml-5" value="Print" /> -->
+                    </div>
                 </div>
             </form>
-            <div class="table-responsive mt-5">
-                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+        </mat-card-content>
+    </mat-card>
 
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
                     <thead>
                         <tr>
                             <th>AD NO</th>

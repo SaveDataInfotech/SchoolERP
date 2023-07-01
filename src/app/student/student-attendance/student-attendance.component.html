@@ -12,6 +12,17 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
                         </div>
                         <div class="inputdiv">
@@ -51,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="row ">
+                <!-- <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
@@ -63,22 +74,13 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Add" />
+                        <button matTooltip="Click to Search" type="button"
+                        class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                     </div>
                 </div>
             </form>

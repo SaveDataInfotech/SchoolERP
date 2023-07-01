@@ -1,10 +1,6 @@
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div style="float: left;text-align: left;">
-                <!-- <mat-icon class="" style="color: blue;">account_balance_wallet</mat-icon>  -->
-                <span style="color: blue;" class="material-icons">attach_money</span>
-            </div>
             <div style="float: left;width: 400px;">
                 <h3 class="ml-1">Hostel Fees</h3>
             </div>
@@ -165,15 +161,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 mt-4">
+                <div class="col-sm-12 mt-5">
+                    <div style="text-align: center;">
+                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
+                            value="Cancel" />
+                            <!-- <input matTooltip="Click to Print" (click)="printbill()" type="button"
+                            class="btn btn-primary m-3 btn-sm ml-5" value="Print" /> -->
+                    </div>
+                </div>
+                <!-- <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" class="btn btn-primary m-3" value="Save" />
                         <button matTooltip="Click to Print" class="btn btn-primary m-3" type="button">Print<i
                                 class="fa fa-print ml-1"></i></button>
                     </div>
-                </div>
+                </div> -->
             </form>
-            <div class="table-responsive mt-5">
+            
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
                 <table class="col-sm-12 table table-hover table-bordered table-sm  ">
                     <thead>
                         <tr>
