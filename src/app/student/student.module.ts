@@ -23,6 +23,9 @@ import {MatChipsModule} from '@angular/material/chips';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import {NgFor} from '@angular/common';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @NgModule({
   declarations: [
     StudentEnquiryComponent,
@@ -37,7 +40,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule
   ],
   providers:[DatePipe],
   bootstrap:[StudentEnquiryComponent]

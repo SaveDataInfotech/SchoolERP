@@ -10,13 +10,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class LayoutComponent implements OnInit {
   condition:boolean=true;
   over(){
-    this.condition=false;
+    // this.condition=false;
+    // this.openSidebar=false;
   }
-  bodyover(){
-    this.condition=true;
-  }
-  over1(){
-    this.condition=true;
+  sideover(){
+    // this.condition=true;
+    // this.openSidebar=true;
   }
 
     openSidebar: boolean = true;
@@ -272,9 +271,12 @@ export class LayoutComponent implements OnInit {
           }, {
             link_name: "Guardian Master",
             link: "master/create_guardian", 
-          }
+          },
+          
         ]
       },
+
+      
       // {
       //   link_name: "Admin",
       //   link: null,
