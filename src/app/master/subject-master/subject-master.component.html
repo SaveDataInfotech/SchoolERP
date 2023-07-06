@@ -1,74 +1,328 @@
-<div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Subject Master</h3>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Subject">
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Subject Master</h3>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <form>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label  class="pt-2" style="margin: auto;">Subject Code</label>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Subject Code</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
+                                </div>
+                            </div>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="0011788" class="form-control" type="text" disabled required>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Subject Name</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="English" class="form-control" type="tel" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label  class="pt-2" style="margin: auto;">Subject Name</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="English" class="form-control" type="tel" required>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-6" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Subject Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Tamil</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            class="pl-2">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+
+    <mat-tab label="Subject Assign">
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Subject Assign</h3>
                     </div>
                 </div>
-            </form>            
-        </mat-card-content>
-    </mat-card>
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <div class="table-responsive">
-                <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                    <thead>
-                        <tr>
-                            <th>Si.No</th>
-                            <th>Subject Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Tamil</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    class="pl-2">delete</mat-icon>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Subject Assign Code</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Class</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="English" class="form-control" type="tel" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="Bio" class="form-control" type="tel" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Section</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="A" class="form-control" type="tel" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3" style="display: flex;">
+                            <div style="" class="col-sm-3 mt-2">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    Tamil
+                                </div>
+                            </div>
+                            <div style="float: left;text-align: left; width:200px;" class="col-sm-3 mt-2 ">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    English
+                                </div>
+                            </div>
+                            <div style="float: left;text-align: left;" class="mt-2 col-sm-3 ">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    Maths
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="display: flex;">
+                            <div style="" class="col-sm-3 mt-2">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    Tamil
+                                </div>
+                            </div>
+                            <div style="float: left;text-align: left; width:200px;" class="col-sm-3 mt-2 ">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    English
+                                </div>
+                            </div>
+                            <div style="float: left;text-align: left;" class="mt-2 col-sm-3 ">
+                                <div style="float: left;text-align: left;">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
+                                        value="something">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    Maths
+                                </div>
+                            </div>
+                        </div>
+
+                        
+        
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>            
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Subject Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Tamil</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            class="pl-2">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+
+    <mat-tab label="Subject Branches">
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Subject Branches</h3>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Subject Code</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Subject Name</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="Science" class="form-control" type="tel" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label  class="pt-2" style="margin: auto;">Branch Name</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input placeholder="Chemistry" class="form-control" type="tel" required>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>            
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Subject Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Tamil</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            class="pl-2">delete</mat-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

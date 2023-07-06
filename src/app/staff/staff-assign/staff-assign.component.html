@@ -27,16 +27,13 @@
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Maths-Bio</option>
-                                <option>Science</option>
-                                <option>Computer-Science</option>
-                            </select>
+                            <input placeholder="" class="form-control" type="text" required>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -51,17 +48,23 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>Maths-Bio</option>
+                                <option>Science</option>
+                                <option>Computer-Science</option>
+                            </select>
                         </div>
                     </div>
+                    
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label for="ex2" class="pt-2" style="margin: auto;">No.Of.Subject</label>
@@ -78,7 +81,7 @@
                             <input placeholder="" class="form-control" type="number" required>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
@@ -102,7 +105,7 @@
                 <table class="col-sm-8 table table-hover table-bordered table-sm  ">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th colspan="2"></th>                        
                             <th colspan="2" style="text-align: center;color: blue;">Primary Staff</th>
                             <th colspan="2" style="text-align: center;color: blue;">Additional Staff</th>
                             <!-- <th></th> -->
@@ -110,7 +113,7 @@
                     </thead>
                     <thead>
                         <tr>
-                            <th>Subject Name</th>
+                            <th colspan="2">Subject Name</th>
                             <th>Staff No</th>
                             <th>Staff Name</th>
                             <th>Staff No</th>
@@ -120,16 +123,48 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Tamil</td>
+                            <td colspan="2">Tamil</td>
                             <td>1</td>
                             <td>Jaya</td>
                             <td>006</td>
                             <td>Ram</td>
-                            <!-- <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    class="pl-2">delete</mat-icon>
-                            </td> -->
+                        </tr>
+                        <tr>
+                            <td rowspan="4" style="vertical-align : middle;text-align:center;">Science</td>
+                            <td>che</td>
+                            <td>1</td>
+                            <td>Jaya</td>
+                            <td>006</td>
+                            <td>Ram</td>
+                        </tr>
+                        <tr>                            
+                            <td>phy</td>
+                            <td>1</td>
+                            <td>Jaya</td>
+                            <td>006</td>
+                            <td>Ram</td>
+                        </tr>
+                        <tr>
+                            <td>Bo</td>
+                            <td>1</td>
+                            <td>Jaya</td>
+                            <td>006</td>
+                            <td>Ram</td>
+                        </tr>
+                        <tr>
+                            <td>Zo</td>
+                            <td>1</td>
+                            <td>Jaya</td>
+                            <td>006</td>
+                            <td>Ram</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">ENGLISH</td>
+                            
+                            <td>1</td>
+                            <td>Jaya</td>
+                            <td>006</td>
+                            <td>Ram</td>
                         </tr>
                     </tbody>
                 </table>
