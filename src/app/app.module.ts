@@ -23,7 +23,7 @@ import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
-  declarations: [AppComponent, ...pageComponents, ],
+  declarations: [AppComponent, ...pageComponents,],
   imports: [
     BrowserModule,
     AppRoutingModule,

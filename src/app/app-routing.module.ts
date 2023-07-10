@@ -55,15 +55,7 @@ const routes: Routes = [
         path: 'vehicle',
         loadChildren: () =>
           import('./vehicle/vehicle.module').then((m) => m.VehicleModule),
-      },
-
-
-
-
-
-
-
-      
+      },      
       // {
       //   path: 'admin',
       //   loadChildren: () =>

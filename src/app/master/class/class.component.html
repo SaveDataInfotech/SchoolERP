@@ -17,7 +17,7 @@
                                     <label class="pt-2" style="margin: auto;">Class Code</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input [value]="classcodeauto" [placeholder]="classcodeauto" class="form-control"
+                                    <input [value]="classidauto" [placeholder]="classidauto" class="form-control"
                                         type="text" disabled>
                                 </div>
                             </div>
@@ -28,10 +28,10 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="classname" [(ngModel)]="classdata.classname"
-                                        [ngClass]="{'is-invalid':submitted && classForm.hasError('required','classname')}"
+                                    <input formControlName="class_name" [(ngModel)]="classdata.class_name"
+                                        [ngClass]="{'is-invalid':submitted && classForm.hasError('required','class_name')}"
                                         class="form-control" type="text">
-                                    <span *ngIf="submitted && classForm.hasError('required','classname')"
+                                    <span *ngIf="submitted && classForm.hasError('required','class_name')"
                                         class="text-danger">Class Name required *</span>
                                 </div>
                             </div>
@@ -63,6 +63,27 @@
             </mat-card>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <!-- <table
+                    mat-table
+                    [dataSource]="DataSource"
+                    matSort
+                    class="mat-elevation-z8"
+                    style="width: 100%"
+                  >
+                  <ng-container matColumnDef="class_name">
+                    <th mat-header-cell *matHeaderCellDef>
+                       Class Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.class_name }}
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                    </table> -->
+
+
                     <div class="table-responsive">
                         <table class="col-sm-6 table table-hover table-bordered table-sm  ">
                             <thead>
@@ -118,8 +139,8 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="classname" formControlName="classname"
-                                        [(ngModel)]="sectiondata.classname" style="width: 100%;" class="form-control">
+                                    <select name="class_name" formControlName="class_name"
+                                        [(ngModel)]="sectiondata.class_name" style="width: 100%;" class="form-control">
                                         <option [selected]="true" value="" selected disabled>Please select</option>
                                         <option>l</option>
                                         <option>ll</option>
@@ -131,7 +152,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="sectiondata.classname > 10" class="row">
+                        <div *ngIf="sectiondata.class_name > 10" class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
