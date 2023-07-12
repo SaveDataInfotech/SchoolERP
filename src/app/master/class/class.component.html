@@ -63,28 +63,8 @@
             </mat-card>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <!-- <table
-                    mat-table
-                    [dataSource]="DataSource"
-                    matSort
-                    class="mat-elevation-z8"
-                    style="width: 100%"
-                  >
-                  <ng-container matColumnDef="class_name">
-                    <th mat-header-cell *matHeaderCellDef>
-                       Class Name
-                    </th>
-                    <td mat-cell *matCellDef="let element">
-                      {{ element.class_name }}
-                    </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
-                    </table> -->
-
-
                     <div class="table-responsive">
+                        <p *ngIf="classDetailList.length < 0 " class="text-danger">No Class Here!</p>
                         <table class="col-sm-6 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
@@ -94,9 +74,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
+                                <tr *ngFor="let class of classDetailList;let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{class.class_name || '-'}}</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
@@ -122,7 +102,7 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form [formGroup]="sectionForm" #f="ngForm" name="sectionForm" (ngSubmit)="onSectionSubmit()">
+                    <form [formGroup]="sectionForm" #f="ngForm" name="sectionForm">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
@@ -141,18 +121,14 @@
                                 <div style="float: left;width: 250px;">
                                     <select name="class_name" formControlName="class_name"
                                         [(ngModel)]="sectiondata.class_name" style="width: 100%;" class="form-control">
-                                        <option [selected]="true" value="" selected disabled>Please select</option>
-                                        <option>l</option>
-                                        <option>ll</option>
-                                        <option>lV</option>
-                                        <option value="10">X</option>
-                                        <option value=11>Xl</option>
-                                        <option value=12>Xll</option>
+                                        <option>Please select</option>
+                                        <option *ngFor="let class of classDetailList">{{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="sectiondata.class_name > 10" class="row">
+                        <div class="row">
+                            <!-- *ngIf="sectiondata.class_name > 10" -->
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
@@ -160,8 +136,7 @@
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option>Computer Science</option>
-                                        <option>Bio-Maths</option>
-                                        <option>Science</option>
+                                        <option *ngFor="let group of groupDetailList">{{group.group_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -264,9 +239,7 @@
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option value="" selected disabled>Please select</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
+                                        <option *ngFor="let class of classDetailList">{{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -319,10 +292,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>Computer Science</td>
+                                <tr *ngFor="let group of groupDetailList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{group.class_name || '-'}}</td>
+                                    <td>{{group.group_name}}</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"

@@ -18,7 +18,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
-
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -41,7 +41,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatCheckboxModule,
     CommonModule,
     MatMenuModule,
-    MatChipsModule
+    MatChipsModule,
+    HttpClientModule
     
   ],
   exports: [NgxDropzoneModule],

@@ -59,9 +59,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tamil</td>
+                                <tr *ngFor="let subject of subjectDetailList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{subject.subject_name}}</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
@@ -132,67 +132,19 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3" style="display: flex;">
-                            <div style="" class="col-sm-3 mt-2">
+                        <div  class="row col-sm-8 mt-3" style="display: flex;">
+                            <div *ngFor="let subject of subjectDetailList" style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
                                 <div style="float: left;text-align: left;">
                                     <input style="height: 15px;width: 15px;" type="checkbox" class=""
                                         value="something">
                                 </div>
                                 <div style="float: left;text-align: left;" class="ml-2">
-                                    Tamil
+                                    {{subject.subject_name}}
                                 </div>
-                            </div>
-                            <div style="float: left;text-align: left; width:200px;" class="col-sm-3 mt-2 ">
-                                <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    English
-                                </div>
-                            </div>
-                            <div style="float: left;text-align: left;" class="mt-2 col-sm-3 ">
-                                <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    Maths
-                                </div>
-                            </div>
+                            </div>                            
                         </div>
-                        <div class="row mt-3" style="display: flex;">
-                            <div style="" class="col-sm-3 mt-2">
-                                <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    Tamil
-                                </div>
-                            </div>
-                            <div style="float: left;text-align: left; width:200px;" class="col-sm-3 mt-2 ">
-                                <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    English
-                                </div>
-                            </div>
-                            <div style="float: left;text-align: left;" class="mt-2 col-sm-3 ">
-                                <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    Maths
-                                </div>
-                            </div>
-                        </div>
-
                         
-        
+
                         <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">

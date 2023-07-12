@@ -56,8 +56,8 @@
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
             <div class="table-responsive">
-                <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                    <thead>
+                <table class="col-sm-7 table table-hover table-sm  ">
+                    <thead style="background-color:rgb(194, 116, 230);">
                         <tr>
                             <th>Si.No</th>
                             <th>Batch Year</th>
@@ -66,9 +66,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2023-2024</td>
+                        <tr *ngFor="let batch of batchList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{batch.batch_year || "-"}}</td>
                             <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                 <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"

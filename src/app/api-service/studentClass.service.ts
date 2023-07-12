@@ -14,8 +14,8 @@ export class studentClassService{
         this.apiUrl = this.baseUrl+'StudentClass';
     }
     
-    addNewStudentClass(StudentClassDetail: StudentClassDto){
-        debugger;
+    addNewStudentClass(StudentClassDetail: StudentClassDto){ 
+        console.log("insert front end called");   
         return  this.http.post<ApiResult<string>>(this.apiUrl+'/addNewStudentClass' ,StudentClassDetail);
     }
 

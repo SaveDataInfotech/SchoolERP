@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-
+import { BatechYearService } from 'src/app/api-service/batchYear.service';
 
 @Component({
   selector: 'app-batch-year',
@@ -10,38 +8,38 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
   styleUrls: ['./batch-year.component.scss']
 })
 export class BatchYearComponent implements OnInit {
+  notificationSvc: any;
 
-  constructor() { }
+  batchList:any[]=[];
+
+  constructor(private batchyearSvc: BatechYearService) {}
 
   ngOnInit(): void {
+    this.getbatchYear()
   }
+  getbatchYear() {  
+    // this.ngxSpinner.show();
+    this.batchyearSvc.getBatchYearDetails().subscribe(
+      (res) => {
+        // this.ngxSpinner.hide();
+        // this.dataSource?.data = [];
+        console.log(res.Result,'test');
+        
+        if (res.Result?.length) {
+          this.batchList = res.Result;
+        }
 
-  displayedColumns: string[] = ['position', 'name','option','active'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+        if (res?.ErrorMessage) {
+          this.notificationSvc.error(`Error!, ${res.ErrorMessage}`);
+        }
+        // this.ngxSpinner.hide();
+      },
+      (err) => {
+        this.notificationSvc.error('Error!', err);
+        // this.ngxSpinner.hide();
+      }
+    );
   }
 
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: '2011-2012', },
-  {position: 2, name: '2012-2013', },
-  {position: 3, name: '2013-2014', },
-  {position: 4, name: '2014-2015'},
-  {position: 5, name: '2015-2016', },
-  {position: 6, name: '2016-2017 ', },
-  {position: 7, name: '2017-2018 ',},
-  {position: 8, name: '2018-2019', },
-  {position: 9, name: '2019-2020', },
-  {position: 10, name: '2020-2021', },
-  {position: 11, name: '2021-2022',  },
-];

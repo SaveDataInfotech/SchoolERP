@@ -1,11 +1,9 @@
 import { OnInit } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { StudentClassDto } from 'src/app/model';
-
+import{studentGroupService} from 'src/app/api-service/studentGroup.service';
 @Component({
   selector: 'app-class',
   templateUrl: './class.component.html',
@@ -16,32 +14,26 @@ export class ClassComponent implements OnInit {
   classForm!: FormGroup;
   sectionForm!:FormGroup;
   submitted = false;
-  //companySvc: studentClassService;
   ngxSpinner: any;
-  dataSource: any;
-  DataSource = [
-    {class_name: 1},
-    {class_name: 2}
-  ]
-  displayedColumns: string[] =[
-    'class_name'
-  ]
+  classDetailList: any[] = [];
+  groupDetailList: any[] = [];
   notificationSvc: any;
   constructor(private fb: FormBuilder,
-    private studentSvc: studentClassService
+    private studentSvc: studentClassService,
+    private groupSvc:studentGroupService
     ) { }
   ngOnInit(): void {
     this.classForm = this.fb.group({
       class_name: ['', Validators.required],
     })
     this.getStudentClass()
-    this.sectionForm=this.fb.group({
-      class_name: ['', Validators.required],
-    })
+    this.getStudentGroup()
+
   }
 
-  classdata = { class_name: "", classid:1,isactive:true,UpdatedOn:""};
+  classdata = { class_name: ""};
   onClassSubmit() {
+    debugger;
     // this.companySvc.addNewStudentClass(this.classdata);
     // if (this.classForm.invalid) {
     //   this.submitted = true;
@@ -57,38 +49,74 @@ export class ClassComponent implements OnInit {
          
     //window.location.reload();
     //this.classForm.hide();
+
+    this.studentSvc.addNewStudentClass(this.classdata).subscribe(
+      (res) => {
+debugger;
+        if (res.IsSuccess) {
+          this.notificationSvc.success('Success!', res.IsSuccess);
+          setTimeout(() => {
+            //this.FormGroupDirective.resetForm();
+            // this.isEdit = false;
+            // this.files = [];
+            // this.getCompanyDetail();
+            // this.getCompanyId();
+            window.location.reload();
+            this.ngxSpinner.hide();
+          
+          }, 0);
+        }})
+    
   }
 
-  sectiondata = { class_name:0,};
+  sectiondata = {class_name:0,};
   class_namee=this.sectiondata.class_name;
-  
-  onSectionSubmit(){
-    alert(this.sectiondata.class_name)
-  }
 
-
-
-
-  getStudentClass() {    
-    this.ngxSpinner.show();
+  getStudentClass() {
+    console.log("getStudentClassCalled");
+    // this.ngxSpinner.show();
     this.studentSvc.getStudentClassDetails().subscribe(
-      (res: { Result: string | any[]; ErrorMessage: any; }) => {
-        this.ngxSpinner.hide();
-        this.dataSource.data = [];
-
+      (res) => {
+        // this.ngxSpinner.hide();
+        // this.dataSource?.data = [];
+        console.log(res.Result,'test');
+        
         if (res.Result?.length) {
-          console.log(res.Result);
-          this.dataSource.data = res.Result;
+          this.classDetailList = res.Result;
         }
 
         if (res?.ErrorMessage) {
           this.notificationSvc.error(`Error!, ${res.ErrorMessage}`);
         }
-        this.ngxSpinner.hide();
+        // this.ngxSpinner.hide();
       },
-      (err: { error: { message: any; }; }) => {
-        this.notificationSvc.error('Error!', err?.error.message);
-        this.ngxSpinner.hide();
+      (err) => {
+        this.notificationSvc.error('Error!', err);
+        // this.ngxSpinner.hide();
+      }
+    );
+  }
+
+
+  getStudentGroup() {
+    console.log("getStudentGroupCalled");
+    // this.ngxSpinner.show();
+    this.groupSvc.getStudentGroupDetails().subscribe(
+      (res) => {
+        // this.ngxSpinner.hide();
+        // this.dataSource?.data = [];
+        if (res.Result?.length) {
+          this.groupDetailList = res.Result;
+        }
+
+        if (res?.ErrorMessage) {
+          this.notificationSvc.error(`Error!, ${res.ErrorMessage}`);
+        }
+        // this.ngxSpinner.hide();
+      },
+      (err) => {
+        this.notificationSvc.error('Error!', err);
+        // this.ngxSpinner.hide();
       }
     );
   }

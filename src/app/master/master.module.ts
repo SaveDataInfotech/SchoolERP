@@ -22,6 +22,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {  ReactiveFormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 
 
 
@@ -41,7 +44,8 @@ import {  ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
-    RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule
+    RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule,HttpClientTestingModule,
+
   ]
 })
 export class MasterModule { }
