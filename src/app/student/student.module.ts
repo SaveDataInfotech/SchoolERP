@@ -25,6 +25,8 @@ import { FormsModule } from '@angular/forms';
 
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { StudentPermissionComponent } from './student-permission/student-permission.component';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     StudentTcApplieComponent,
     StudentPromoteComponent,
     ReportsComponent,
-    EnquiryDashbordComponent
+    EnquiryDashbordComponent,
+    StudentPermissionComponent,
+   
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,

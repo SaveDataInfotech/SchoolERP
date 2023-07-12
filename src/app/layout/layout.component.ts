@@ -27,6 +27,13 @@ export class LayoutComponent implements OnInit {
         icon: "bx bx-grid-alt",
         sub_menu: []
       },
+      
+      {
+        link_name: "schedule",
+        link:"schedule/schedule_date",
+        icon: "schedule",
+        sub_menu:[]
+      },
       {
           link_name:"Student Details",
           link:null,
@@ -48,6 +55,10 @@ export class LayoutComponent implements OnInit {
                 link_name:"Student Attendance",
                 link:"student/student_attendance",
               },
+            {
+              link_name:"Student Leave/Permission",
+              link:"student/student_permission"
+            },
               {
                 link_name:"Student Mark Entry",
                 link:"student/student_mark_entry",
@@ -119,11 +130,48 @@ export class LayoutComponent implements OnInit {
            {
             link_name: "Hostel Reports",
             link: "hostel/reports",
-          }
-
-          
+          }       
         ]
       }, 
+      {
+        link_name:"Library",
+        link:null,
+        icon:"library",
+        sub_menu:[
+          {
+            link_name:"Add Books",
+            link:"library/add_data"
+          },
+          {
+            link_name:"Book Purchase",
+            link:"library/book_purchase"
+          },
+          {
+            link_name:"NewStock IN",
+            link:"library/newstock_in"
+          },
+          {
+            link_name:"Student Enrollment",
+            link:"library/student_enrollment"
+          },
+          {
+            link_name:"Staff Enrollment",
+            link:"library/staff_enrollment"
+          },
+          {
+            link_name:"Book Issue",
+            link:"library/book_issue"
+          },
+          {
+            link_name:"Return Books",
+            link:"library/return_books"
+          },
+          {
+            link_name:"Stock Details",
+            link:"library/stocks"
+          }
+        ]
+      },
       {
         link_name: "Finance",
         link: null,

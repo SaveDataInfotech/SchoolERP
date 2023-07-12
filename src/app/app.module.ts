@@ -18,12 +18,15 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
+import { ScheduleComponent } from './schedule/schedule/schedule.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
 
 
 
 
 @NgModule({
-  declarations: [AppComponent, ...pageComponents, ],
+  declarations: [AppComponent, ...pageComponents, ScheduleComponent, ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -41,7 +44,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatCheckboxModule,
     CommonModule,
     MatMenuModule,
-    MatChipsModule
+    MatChipsModule,
+    FullCalendarModule
     
   ],
   exports: [NgxDropzoneModule],

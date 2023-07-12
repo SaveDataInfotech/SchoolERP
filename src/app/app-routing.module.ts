@@ -22,6 +22,11 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path:'schedule',
+        loadChildren: () =>
+        import('./schedule/schedule.module').then((m) => m.ScheduleModule),
+      },
+      {
         path: 'master',
         loadChildren: () =>
           import('./master/master.module').then((m) => m.MasterModule),
@@ -40,6 +45,11 @@ const routes: Routes = [
       {
         path:"hostel",
         loadChildren:()=>import('./hostel/hostel.module').then((m)=>m.HostelModule),
+      },
+      {
+        path:"library",
+        loadChildren :() =>
+        import('./library-management/library-management.module').then((m) => m.LibraryManagementModule),  
       },
       {
         path:"fees_collection",

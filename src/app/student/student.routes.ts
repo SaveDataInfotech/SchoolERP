@@ -8,6 +8,8 @@ import { StudentTcApplieComponent } from './student-tc-applie/student-tc-applie.
 import { StudentPromoteComponent } from './student-promote/student-promote.component';
 import { ReportsComponent } from './reports/reports.component';
 import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
+import { StudentPermissionComponent } from './student-permission/student-permission.component';
+
 
 export const studentRoutes: Routes = [
   {
@@ -29,6 +31,10 @@ export const studentRoutes: Routes = [
   {
     path:"student_attendance",
     component:StudentAttendanceComponent,
+  },
+  {
+    path:"student_permission",
+    component:StudentPermissionComponent,
   },
   {
     path:"student_mark_entry",
