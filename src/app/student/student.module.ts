@@ -19,6 +19,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +45,7 @@ import { StudentPermissionComponent } from './student-permission/student-permiss
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,NgxDropzoneModule
   ],
   providers:[DatePipe],
   bootstrap:[StudentEnquiryComponent]

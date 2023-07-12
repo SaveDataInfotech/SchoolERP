@@ -18,6 +18,10 @@
         <mat-card-content>
             <form>
                 <div class="row">
+
+                    <label style="color: blue;" class="col-sm-6 mt-3 mr-3"><h3>Student Details</h3></label>
+
+
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Enrollment Number</label>
@@ -222,85 +226,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Father Name</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Student Father Name" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Occupation</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Father Occupation" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Qualification</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="12Th" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="9900887766" class="form-control" type="tel" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Mother Name</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Student Mother Name" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Occupation</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Occupation" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Qualification</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="12Th" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="9900887766" class="form-control" type="tel" required>
-                        </div>
-                    </div>
-                </div>
+            
 
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -471,6 +397,16 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Place of Boading</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row">
@@ -483,14 +419,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Place of Boading</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
+                 
                 </div>
 
                 <div class="row">
@@ -519,12 +448,109 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-sm-6 mb-3" style="display: flex;justify-content: center;">
+                        <div style="height: 150px;width: 150px;" class="custom-dropzone " ngx-dropzone
+                            [accept]="'image/*'" (change)="onSelect($event)"> <ngx-dropzone-label>
+                                <div> <span>Click to upload or Drag & Drop Your Photo!</span> </div>
+                            </ngx-dropzone-label> <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f"
+                                [removable]="true"> <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            </ngx-dropzone-image-preview> </div>
+                    </div>
                 </div>
+
+                <hr>
+
+
+                <div class="row mt-3">
+
+                    <label style="color: blue;" class="col-sm-6 mt-3 mr-3"><h3>Parents / Guardian Details</h3></label>
+
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Father/Guardian Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Student Father Name" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Father Occupation" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="12Th" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="9900887766" class="form-control" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Mother Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Student Mother Name" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="Occupation" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="12Th" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input placeholder="9900887766" class="form-control" type="tel" required>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
 
                 <div class="row">
                     <div class="col-sm-6 mt-3">
                         <div style="float: left;text-align: left;">
-                            <label class="pt-2" style="font-weight: 700;color: red;">Certificate Submit</label>
+                            <label class="pt-2" style="font-weight: 700;color: red;"><h2>Submitted Certificates</h2></label>
                         </div>
                     </div>
                 </div>
