@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import { ScheduleComponent } from './schedule/schedule/schedule.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
+
 
 
 
@@ -45,7 +45,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CommonModule,
     MatMenuModule,
     MatChipsModule,
-    FullCalendarModule
+   
     
   ],
   exports: [NgxDropzoneModule],
