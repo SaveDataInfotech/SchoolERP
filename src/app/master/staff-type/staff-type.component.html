@@ -1,9 +1,6 @@
 <div class="container-fluid mt-2">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <!-- <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">group</mat-icon>
-            </div> -->
             <div style="float: left;width: 300px;">
                 <h3 class="ml-1">Staff Type</h3>
             </div>
@@ -11,24 +8,39 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <p *ngIf="buttonId == true " class="addup" style="background-color: blue;">Add New Staff Type <i
+                    class="fa fa-plus ml-1"></i></p>
+            <p *ngIf="buttonId != true" class="addup" style="background-color: black;width: 165px;">Update Staff type <i
+                    class="fa fa-refresh ml-1"></i></p>
+            <form [formGroup]="stafftypeForm" (ngSubmit)="StaffType()">
+
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Code</label>
+                            <label class="pt-2" style="margin: auto;">Staff Code</label>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="0011788" class="form-control" type="text" disabled required>
-                        </div>
+                        <span *ngIf="buttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxId">
+                                <input placeholder={{code.staffTypeid+1}} class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span *ngIf="buttonId != true">
+                            <div class="inputdiv">
+                                <input formControlName="staffTypeid" class="form-control" type="text" readonly required>
+                            </div>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Staff Type</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Teacher" class="form-control" type="text" required>
+                            <input formControlName="stafftype" class="form-control" type="text" required>
+                            <p class="text-danger m-1" *ngIf="stafftype && stafftype.invalid && stafftype.touched">
+                                Please enter Staff type !</p>
                         </div>
                     </div>
                 </div>
@@ -38,20 +50,14 @@
                         <div style="float: left;width: 150px;text-align: left;">
                         </div>
                         <div style="float: left;width: 250px;">
+                            <!-- [disabled]="stafftypeForm.invalid" -->
                             <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                            <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                class="btn btn-danger btn-sm mt-4  " (click)="cancelClick()" value="Cancel" />
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="col-sm-6 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3" value="Cancel" />
-                    </div>
-                </div> -->
             </form>
         </mat-card-content>
     </mat-card>
@@ -68,13 +74,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Teacher</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                        <tr *ngFor="let sty of DepartmentList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{sty.staffType}}</td>
+                            <td class="tdoption"> <mat-icon (click)="udateGetClick(sty)" matTooltip="Click to Edit"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    class="pl-2">delete</mat-icon>
+                                <!-- <mat-icon (click)="deleteClick(sty.staffTypeid)" matTooltip="Click to Delete"
+                                    style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon> -->
+
+                                    <mat-icon style="color: red;cursor: pointer;" class="ml-3">delete_outline</mat-icon>
                             </td>
                         </tr>
                     </tbody>

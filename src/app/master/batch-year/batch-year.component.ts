@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild} from '@angular/core';
+import { ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 
 @Component({
@@ -8,38 +9,78 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
   styleUrls: ['./batch-year.component.scss']
 })
 export class BatchYearComponent implements OnInit {
-  notificationSvc: any;
 
-  batchList:any[]=[];
-
-  constructor(private batchyearSvc: BatechYearService) {}
-
+  constructor(private batchyearSvc: BatechYearService) { }
+  BatchList: any = [];
+  buttonId: boolean = true;
+  MaxId: any = [];
   ngOnInit(): void {
-    this.getbatchYear()
+    this.refreshBatchYearList();
+    this.getMaxId();
+    this.cancelClick();
   }
-  getbatchYear() {  
-    // this.ngxSpinner.show();
-    this.batchyearSvc.getBatchYearDetails().subscribe(
-      (res) => {
-        // this.ngxSpinner.hide();
-        // this.dataSource?.data = [];
-        console.log(res.Result,'test');
-        
-        if (res.Result?.length) {
-          this.batchList = res.Result;
-        }
 
-        if (res?.ErrorMessage) {
-          this.notificationSvc.error(`Error!, ${res.ErrorMessage}`);
-        }
-        // this.ngxSpinner.hide();
-      },
-      (err) => {
-        this.notificationSvc.error('Error!', err);
-        // this.ngxSpinner.hide();
+  BatchYearForm = new FormGroup({
+    batchid: new FormControl(0),
+    batch_year: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
+
+  refreshBatchYearList() {
+    this.batchyearSvc.getBatchYearList().subscribe(data => {
+      this.BatchList = data;
+    });
+  }
+
+  getMaxId() {
+    this.batchyearSvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
+  }
+
+  NewBatchYear() {
+    var Batchinsert = (this.BatchYearForm.value);
+    this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshBatchYearList();
+        this.getMaxId();
+        this.cancelClick();
       }
-    );
+    });
   }
 
+  udateGetClick(batch: any) {
+    this.BatchYearForm.get('batchid')?.setValue(batch.batchid);
+    this.BatchYearForm.get('batch_year')?.setValue(batch.batch_year);
+    this.BatchYearForm.get('cuid')?.setValue(batch.cuid);
+    this.buttonId = false;
+  }
+  ActiveStatusClick(batchid: number) {
+    this.batchyearSvc.ActiveStatusBatch(batchid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshBatchYearList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  deleteClick(batchid: number) {
+    this.batchyearSvc.deleteBatch(batchid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshBatchYearList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  cancelClick() {
+    this.BatchYearForm.reset();
+    this.BatchYearForm.get('batchid')?.setValue(0);
+    this.BatchYearForm.get('batch_year')?.setValue('');
+    this.BatchYearForm.get('cuid')?.setValue(1);
+    this.buttonId = true;
+  }
 }
 

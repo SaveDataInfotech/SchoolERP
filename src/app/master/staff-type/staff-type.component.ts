@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {HttpClient,HttpClientModule,HttpHeaders,} from '@angular/common/http';
-
+import { HttpClient, HttpClientModule, HttpHeaders, } from '@angular/common/http';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { staffTypeService } from 'src/app/api-service/staffType.service';
 
 @Component({
   selector: 'app-staff-type',
@@ -11,48 +9,88 @@ import {HttpClient,HttpClientModule,HttpHeaders,} from '@angular/common/http';
   styleUrls: ['./staff-type.component.scss']
 })
 export class StaffTypeComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  DepartmentList: any = [];
+  MaxId: any = [];
+  //StaffTypeListById:any=[];
+  //myBooleanVar:boolean =true;
+  //addEditrecords :any= 0;
+  buttonId: boolean = true;
+
+  constructor(private http: HttpClient,
+    private stySvc: staffTypeService) {
+  }
   ngOnInit(): void {
+    this.refreshstaffTypeList(),
+      this.getMaxId(),
+      this.cancelClick()
   }
 
-  formdata={staff:""};
+  stafftypeForm = new FormGroup({
+    staffTypeid: new FormControl(0),
+    stafftype: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
 
-  onsubmit(){
-    
-   var stafftypeinsert=JSON.stringify(this.formdata);
-    debugger;
-    alert(this.formdata.staff);
-    alert(stafftypeinsert);
-    var headers =new Headers({'Content-Type':'appliction/json'});
-    let options = {
-      headers: headers 
-   }
-
-    return this.http.post("https://localhost:44326/api/StaffType",stafftypeinsert);
-
+  get stafftype() {
+    return this.stafftypeForm.get('stafftype');
   }
-   
 
-  displayedColumns: string[] = ['position', 'name','option'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  refreshstaffTypeList() {
+    this.stySvc.getstaffTypeList().subscribe(data => {
+      this.DepartmentList = data;
+    });
+  }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  StaffType() {
+    var stafftypeinsert = (this.stafftypeForm.value);
+    this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+      console.log(res, 'resss')
+      if (res?.recordid) {
+        this.refreshstaffTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  getMaxId() {
+    this.stySvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
+  }
+
+  deleteClick(staffTypeid: number) {
+    this.stySvc.deletestaffType(staffTypeid).subscribe(res => {
+      //alert(data.toString());  
+      //alert((JSON.stringify(res.status))); 
+      if (res?.recordid) {
+        debugger;
+        this.refreshstaffTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  udateGetClick(staffType: any) {
+    // 
+    // this.stySvc.udateGetClick(staffTypeid).subscribe(data => {
+    //   this.StaffTypeListById = data;
+    // });
+    //console.log(staffTypeid,'yy'); // bharath
+    // this.stafftypeForm.patchValue(staffTypeid);
+    this.stafftypeForm.get('staffTypeid')?.setValue(staffType.staffTypeid);
+    this.stafftypeForm.get('stafftype')?.setValue(staffType.staffType);
+    this.stafftypeForm.get('cuid')?.setValue(staffType.cuid);
+    this.buttonId = false;
+  }
+
+  cancelClick() {
+    this.stafftypeForm.reset();
+    this.stafftypeForm.get('staffTypeid')?.setValue(0);
+    this.stafftypeForm.get('stafftype')?.setValue('');
+    this.stafftypeForm.get('cuid')?.setValue(1);
+    this.buttonId = true;
   }
 
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Teaching Staff', },
-  {position: 2, name: 'Driver', },
-  {position: 3, name: 'Attender', },
-  {position: 3, name: 'Watch Man', },
-];
-

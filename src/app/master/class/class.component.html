@@ -10,16 +10,24 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form [formGroup]="classForm" #f="ngForm" name="classForm" (ngSubmit)="onClassSubmit()">
+                    <form [formGroup]="Student_classForm" (ngSubmit)="New_Class()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input [value]="classidauto" [placeholder]="classidauto" class="form-control"
-                                        type="text" disabled>
-                                </div>
+                                <span *ngIf="buttonId == true ">
+                                    <div style="float: left;width: 250px;" *ngFor="let code of MaxId">
+                                        <input placeholder={{code.classid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="buttonId != true">
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="classid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -28,11 +36,7 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="class_name" [(ngModel)]="classdata.class_name"
-                                        [ngClass]="{'is-invalid':submitted && classForm.hasError('required','class_name')}"
-                                        class="form-control" type="text">
-                                    <span *ngIf="submitted && classForm.hasError('required','class_name')"
-                                        class="text-danger">Class Name required *</span>
+                                    <input formControlName="class_name" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -44,27 +48,19 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
 
-                        <!-- <div class="row">
-                            <div class="col-sm-5 " style="padding-left: 165px;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 mt-4 btn-sm " value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mt-4" value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <p *ngIf="classDetailList.length < 0 " class="text-danger">No Class Here!</p>
+                        <!-- <p *ngIf="classDetailList.length < 0 " class="text-danger">No Class Here!</p> -->
                         <table class="col-sm-6 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
@@ -74,13 +70,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let class of classDetailList;let i = index">
+                                <tr *ngFor="let class of ClassList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{class.class_name || '-'}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                    <td>{{class.class_name}}</td>
+                                    <td class="tdoption"> <mat-icon (click)="updateGetClick(class)"
+                                            matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
+                                        <mat-icon (click)="deleteClick(class.classid)" matTooltip="Click to Delete"
+                                            style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>
@@ -102,7 +99,7 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form [formGroup]="sectionForm" #f="ngForm" name="sectionForm">
+                    <form>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
@@ -119,10 +116,9 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="class_name" formControlName="class_name"
-                                        [(ngModel)]="sectiondata.class_name" style="width: 100%;" class="form-control">
+                                    <select name="class_name" style="width: 100%;" class="form-control">
                                         <option>Please select</option>
-                                        <option *ngFor="let class of classDetailList">{{class.class_name}}</option>
+                                        <option></option>
                                     </select>
                                 </div>
                             </div>
@@ -135,8 +131,8 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Computer Science</option>
-                                        <option *ngFor="let group of groupDetailList">{{group.group_name}}</option>
+                                        <option value="" selected disabled>Computer Science</option>
+                                        <option value="0">Null</option>
                                     </select>
                                 </div>
                             </div>
@@ -164,15 +160,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="col-sm-6 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -239,7 +226,8 @@
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control " name="selectAction">
                                         <option value="" selected disabled>Please select</option>
-                                        <option *ngFor="let class of classDetailList">{{class.class_name}}</option>
+                                        <option *ngFor="let class of ClassList" value={{class.classid}}>
+                                            {{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -267,15 +255,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="col-sm-6 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -292,10 +271,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let group of groupDetailList;let i=index;">
-                                    <td>{{i+1}}</td>
-                                    <td>{{group.class_name || '-'}}</td>
-                                    <td>{{group.group_name}}</td>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"

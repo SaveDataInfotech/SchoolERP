@@ -1,26 +1,34 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs';
-import {  ApiResult, StudentClassDto } from "src/app/model";
-import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class studentClassService{
-    apiUrl : string;
-    baseUrl = environment.API_URL;
-    constructor(private http: HttpClient){
-        this.apiUrl = this.baseUrl+'StudentClass';
-    }
-    
-    addNewStudentClass(StudentClassDetail: StudentClassDto){ 
-        console.log("insert front end called");   
-        return  this.http.post<ApiResult<string>>(this.apiUrl+'/addNewStudentClass' ,StudentClassDetail);
-    }
+export class studentClassService {
+  readonly apiUrl = 'https://localhost:44314/api/';
+  constructor(private http: HttpClient) {
 
-    getStudentClassDetails(){
-        console.log("Service Fille Exe")
-        return this.http.get<ApiResult<StudentClassDto[]>>(this.apiUrl+'/getStudentClass')
-    }
+  }
+
+  getClassList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentClass/Get');
+  }
+
+  getMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentClass/get_MaxId_student_class');
+  }
+
+
+  addNewstaffType(Classinsert: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'StudentClass/insert_student_class', Classinsert, httpOptions);
+  }
+
+  deletestaffType(classid:any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'StudentClass/delete_student_class?classid=' + classid, httpOptions);
+  }
+
 }

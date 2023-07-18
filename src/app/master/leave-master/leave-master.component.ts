@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LeaveAssignService } from 'src/app/api-service/LeaveAssign.service';
+import { LeaveTypeService } from 'src/app/api-service/LeaveType.service';
+import { staffTypeService } from 'src/app/api-service/staffType.service';
 
 @Component({
   selector: 'app-leave-master',
@@ -9,40 +10,159 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
   styleUrls: ['./leave-master.component.scss']
 })
 export class LeaveMasterComponent implements OnInit {
+  StaffTypeList:any=[];
+  LaveTyList: any = [];
+  LaveAsList:any=[];
+  MaxId: any = [];
+  AssignMaxId:any=[];
+  buttonId: boolean = true;
+  AssignbuttonId:boolean=true;
 
-  constructor() { }
+  constructor(private LvtySvc: LeaveTypeService,private SttySvc: staffTypeService,private LvAsSvc: LeaveAssignService) { }
 
   ngOnInit(): void {
+    this.refreshLeaveTypeList(),
+    this.refreshstaffTypeList(),
+    this.refreshLeaveAssignList(),
+    this.getAssignMaxId(),
+      this.getMaxId(),
+      this.cancelClick(),
+      this.AssigncancelClick()
   }
 
-  displayedColumns: string[] = ['position', 'name','Group','section','eligible','option'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  leavetypeForm = new FormGroup({
+    typeid: new FormControl(0),
+    type_name: new FormControl('',[Validators.required]),
+    cuid: new FormControl(1),
+  })
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  refreshLeaveTypeList() {
+    this.LvtySvc.getLeaveTypeList().subscribe(data => {
+      this.LaveTyList = data;
+    });
+  }
+
+  NewLeaveType() {
+    var leavetypeinsert = (this.leavetypeForm.value);
+    this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
+      console.log(res, 'resss')
+      if (res?.recordid) {
+        this.refreshLeaveTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  getMaxId() {
+    this.LvtySvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
+  }
+
+  deleteClick(typeid: number) {
+    this.LvtySvc.deleteLeaveType(typeid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshLeaveTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  udateGetClick(Leave: any) {
+    this.leavetypeForm.get('typeid')?.setValue(Leave.typeid);
+    this.leavetypeForm.get('type_name')?.setValue(Leave.type_name);
+    this.leavetypeForm.get('cuid')?.setValue(Leave.cuid);
+    this.buttonId = false;
+  }
+
+  cancelClick() {
+    this.leavetypeForm.reset();
+    this.leavetypeForm.get('typeid')?.setValue(0);
+    this.leavetypeForm.get('type_name')?.setValue('');
+    this.leavetypeForm.get('cuid')?.setValue(1);
+    this.buttonId = true;
+  }
+
+
+  //Leave Assign
+
+  leaveAssignForm = new FormGroup({
+    assignid: new FormControl(0),
+    staff_type: new FormControl('',[Validators.required]),
+    staff_name: new FormControl('',[Validators.required]),
+    no_of_leave: new FormControl(),
+    e_per_mon: new FormControl(),
+    cuid: new FormControl(1),
+  })
+
+  //get staff type Method
+  refreshstaffTypeList() {
+    this.SttySvc.getstaffTypeList().subscribe(data => {
+      this.StaffTypeList = data;
+    });
+  }
+
+
+  refreshLeaveAssignList() {
+    this.LvAsSvc.getLeaveAssignList().subscribe(data => {
+      this.LaveAsList = data;
+    });
+  }
+
+  NewLeaveAssign() {
+    debugger;
+    var leaveAssigninsert = (this.leaveAssignForm.value);
+    this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
+      console.log(res, 'resss')
+      if (res?.recordid) {
+        this.refreshLeaveAssignList();
+       this.refreshstaffTypeList();
+        this.getAssignMaxId();
+        this.AssigncancelClick();
+      }
+    });
+  }
+
+  getAssignMaxId() {
+    this.LvAsSvc.getAssignMaxId().subscribe(data => {
+      this.AssignMaxId = data;
+    });
+  }
+
+  AssigndeleteClick(assignid: number) {
+    this.LvAsSvc.deleteLeaveAssign(assignid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshLeaveAssignList();
+        this.refreshstaffTypeList();
+         this.getAssignMaxId();
+         this.AssigncancelClick();
+      }
+    });
+  }
+
+  AssignUpdateGetClick(assign: any) {
+    this.leaveAssignForm.get('assignid')?.setValue(assign.assignid);
+    this.leaveAssignForm.get('staff_type')?.setValue(assign.staff_type);
+    this.leaveAssignForm.get('staff_name')?.setValue(assign.staff_name);
+    this.leaveAssignForm.get('no_of_leave')?.setValue(assign.no_of_leave);
+    this.leaveAssignForm.get('e_per_mon')?.setValue(assign.e_per_mon);
+    this.leaveAssignForm.get('cuid')?.setValue(assign.cuid);
+    this.AssignbuttonId = false;
+  }
+
+  AssigncancelClick() {
+    this.leavetypeForm.reset();   
+    this.leaveAssignForm.get('assignid')?.setValue(0);
+    this.leaveAssignForm.get('staff_type')?.setValue('');
+    this.leaveAssignForm.get('staff_name')?.setValue('');
+    this.leaveAssignForm.get('no_of_leave')?.setValue(null);
+    this.leaveAssignForm.get('e_per_mon')?.setValue(null);
+    this.leaveAssignForm.get('cuid')?.setValue(1);
+    this.AssignbuttonId = true;
   }
 
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: '1-St', },
-  {position: 2, name: '1-ND', },
-  {position: 3, name: '3-Rd', },
-  {position: 4, name: '4-Th'},
-  {position: 5, name: '5-Th', },
-  {position: 6, name: '6-Th ', },
-  {position: 7, name: '7-Th ',},
-  {position: 8, name: '8-Th', },
-  {position: 9, name: '9-Th', },
-  {position: 10, name: '10-Th', },
-  {position: 11, name: '11-Th',  },
-  {position: 12, name: '12-Th', }
-];
 

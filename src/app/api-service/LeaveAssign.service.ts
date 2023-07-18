@@ -1,0 +1,33 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LeaveAssignService {
+  readonly apiUrl = 'https://localhost:44314/api/';
+  constructor(private http: HttpClient) {
+  }
+
+  getLeaveAssignList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'LeaveAssign/Get');
+  }
+
+  getAssignMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'LeaveAssign/get_MaxId_staff_type');
+  }
+
+
+  addNewleaveAssign(leaveAssigninsert: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'LeaveAssign/insert_leave_assign', leaveAssigninsert, httpOptions);
+  }
+
+
+  deleteLeaveAssign(assignid: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'LeaveAssign/delete_leave_assign?assignid=' + assignid, httpOptions);
+  }
+}

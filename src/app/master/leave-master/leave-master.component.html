@@ -10,24 +10,32 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="leavetypeForm" (ngSubmit)=" NewLeaveType()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Leave Code</label>
+                                    <label  class="pt-2" style="margin: auto;">Leave Code</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="buttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxId">
+                                        <input placeholder={{code.typeid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="buttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="typeid" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Leave Type</label>
+                                    <label  class="pt-2" style="margin: auto;">Leave Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="tel" required>
+                                    <input formControlName="type_name" class="form-control" type="tel" required>
                                 </div>
                             </div>
                         </div>
@@ -39,18 +47,11 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-6 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                               <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
-                            value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -66,12 +67,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Medical</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let Leave of LaveTyList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{Leave.type_name}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(Leave)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" (click)="deleteClick(Leave.typeid)" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
@@ -94,26 +95,33 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="leaveAssignForm" (ngSubmit)="NewLeaveAssign()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Assign Code</label>
+                                    <label  class="pt-2" style="margin: auto;">Assign Code</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="AssignbuttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of AssignMaxId">
+                                        <input placeholder={{code.assignid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="AssignbuttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="assignid" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
+                                    <label  class="pt-2" style="margin: auto;">Staff Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Teacher</option>
-                                        <option>Driver</option>
-                                        <option>Helper</option>
+                                    <select formControlName="staff_type"  style="width: 100%;" class="form-control " name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">{{StaffType.staffType}}</option>                                        
                                     </select>
                                 </div>
                             </div>
@@ -121,55 +129,38 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Staff Name</label>
+                                    <label  class="pt-2" style="margin: auto;">Staff Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Ram</option>
-                                        <option>Priya</option>
-                                        <option>Kumar</option>
-                                    </select>
+                                    <input formControlName="staff_name"  class="form-control" type="text" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">No of Leave</label>
+                                    <label  class="pt-2" style="margin: auto;">No of Leave</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="tel" required>
+                                    <input formControlName="no_of_leave" class="form-control" type="number" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Eligible Per Month</label>
+                                    <label  class="pt-2" style="margin: auto;">Eligible Per Month</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="tel" required>
+                                    <input formControlName="e_per_mon" class="form-control" type="number" required>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button" style="width: 80px;"
                                     class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                             </div>
                         </div>
@@ -191,15 +182,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Teacher</td>
-                                    <td>Priya</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let assign of LaveAsList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{assign.staff_type}}</td>
+                                    <td>{{assign.staff_name}}</td>
+                                    <td>{{assign.no_of_leave}}</td>
+                                    <td>{{assign.e_per_mon}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="AssignUpdateGetClick(assign)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" (click)="AssigndeleteClick(assign.assignid)" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>

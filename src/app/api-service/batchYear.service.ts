@@ -1,22 +1,39 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "src/environments/environment";
-import { ApiResult, BatchYearDto } from "../model";
+import { Observable } from "rxjs";
 
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class BatechYearService{
-    apiUrl : string;
-    baseUrl = environment.API_URL;
-    constructor(private http: HttpClient){
-        this.apiUrl = this.baseUrl+'batchyear';
-    }
-    
+export class BatechYearService {
+  constructor(private http: HttpClient) {
+  }
 
-    getBatchYearDetails(){
-        console.log("Service Fille Exe")
-        return this.http.get<ApiResult<BatchYearDto[]>>(this.apiUrl+'/getBatchYear')
-    }
+  readonly apiUrl = 'https://localhost:44314/api/';
+
+  getBatchYearList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'BatchYear/Get');
+  }
+
+  getMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'BatchYear/get_MaxId_batch_year');
+  }
+
+  addNewBatch(Batchinsert: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post(this.apiUrl + 'BatchYear/Insert_Batch_year', Batchinsert, httpOptions);
+  }
+
+  ActiveStatusBatch(batchid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'BatchYear/Update_batch_year_activeStataus?batchid=' + batchid, httpOptions);
+  }
+
+  deleteBatch(batchid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'BatchYear/delete_batch_year?batchid=' + batchid, httpOptions);
+  }
 }

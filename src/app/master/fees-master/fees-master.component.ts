@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FeesLessService } from 'src/app/api-service/FeesLess.service';
+import { FeesTypeService } from 'src/app/api-service/FeesType.service';
 
 @Component({
   selector: 'app-fees-master',
@@ -9,47 +9,136 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
   styleUrls: ['./fees-master.component.scss']
 })
 export class FeesMasterComponent implements OnInit {
+  FeesList: any = [];
+  FeesLessList: any = [];
+  MaxId: any = [];
+  MaxIdLess: any = [];
+  buttonIdLess: boolean = true;
+  buttonId: boolean = true;
 
-  constructor() { }
+  constructor(
+    private FtySvc: FeesTypeService,
+    private FlSvc: FeesLessService,
+  ) { }
 
   ngOnInit(): void {
+    this.refreshFeesTypeList(),
+      this.getMaxId(),
+      this.cancelClick(),
+      this.refreshFeesLessList(),
+      this.getMaxIdLess(),
+      this.cancelClickLess()
   }
 
-  displayedColumns: string[] = ['position','name','option'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  feestypeForm = new FormGroup({
+    typeid: new FormControl(0),
+    type_name: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  refreshFeesTypeList() {
+    this.FtySvc.getfeesTypeList().subscribe(data => {
+      this.FeesList = data;
+    });
   }
 
-}
+  NewFeesType() {
+    var feestypeinsert = (this.feestypeForm.value);
+    this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshFeesTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
+  getMaxId() {
+    this.FtySvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
+  }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Ram', },
-  {position: 2, name: 'Oliviya', },
-  {position: 3, name: 'Priya', },
-  {position: 4, name: 'Raju'},
-  {position: 5, name: 'Vijay', },
-  {position: 6, name: 'Adam ', },
-  {position: 7, name: 'James ',},
-  {position: 8, name: 'Stevie Smith', },
-  {position: 9, name: 'Aristotle', },
-  {position: 10, name: 'Roy', },
-  {position: 11, name: 'Robert',  },
-  {position: 12, name: 'Simon', },
-  {position: 13, name: 'Sam',  },
-  {position: 14, name: 'Kumar',  },
-  {position: 15, name: 'Arun',},
-  {position: 16, name: 'Aravindh',  },
-  {position: 17, name: 'Aakash',  },
-  {position: 18, name: 'Divya', },
-  {position: 19, name: 'Mohan', },
-  {position: 20, name: 'Krish',},
-];
+  deleteClick(typeid: number) {
+    this.FtySvc.deletefeesType(typeid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshFeesTypeList();
+        this.getMaxId();
+        this.cancelClick();
+      }
+    });
+  }
+
+  udateGetClick(fees: any) {
+    this.feestypeForm.get('typeid')?.setValue(fees.typeid);
+    this.feestypeForm.get('type_name')?.setValue(fees.type_name);
+    this.feestypeForm.get('cuid')?.setValue(fees.cuid);
+    this.buttonId = false;
+  }
+
+  cancelClick() {
+    this.feestypeForm.reset();
+    this.feestypeForm.get('typeid')?.setValue(0);
+    this.feestypeForm.get('type_name')?.setValue('');
+    this.feestypeForm.get('cuid')?.setValue(1);
+    this.buttonId = true;
+  }
+
+
+  //fess less Back end Code
+
+  feesLessForm = new FormGroup({
+    fess_lessid: new FormControl(0),
+    less_type: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
+
+  refreshFeesLessList() {
+    this.FlSvc.getfeesLessList().subscribe(data => {
+      this.FeesLessList = data;
+    });
+  }
+
+  getMaxIdLess() {
+    debugger;
+    this.FlSvc.getMaxId().subscribe(data => {
+      this.MaxIdLess = data;
+    });
+  }
+
+  NewFeesLess() {
+    var feeslessinsert = (this.feesLessForm.value);
+    this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshFeesLessList();
+        this.getMaxIdLess();
+        this.cancelClickLess();
+      }
+    });
+  }
+
+  udateGetClickLess(less: any) {
+    this.feesLessForm.get('fess_lessid')?.setValue(less.fess_lessid);
+    this.feesLessForm.get('less_type')?.setValue(less.less_type);
+    this.feesLessForm.get('cuid')?.setValue(less.cuid);
+    this.buttonIdLess = false;
+  }
+
+  deleteClickLess(fess_lessid: number) {
+    this.FlSvc.deletefeesLessType(fess_lessid).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshFeesLessList();
+        this.getMaxIdLess();
+        this.cancelClickLess();
+      }
+    });
+  }
+
+  cancelClickLess() {
+    this.feesLessForm.reset();
+    this.feesLessForm.get('fess_lessid')?.setValue(0);
+    this.feesLessForm.get('less_type')?.setValue('');
+    this.feesLessForm.get('cuid')?.setValue(1);
+    this.buttonIdLess = true;
+  }
+}
