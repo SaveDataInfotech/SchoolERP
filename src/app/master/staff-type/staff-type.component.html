@@ -78,11 +78,9 @@
                             <td>{{i+1}}</td>
                             <td>{{sty.staffType}}</td>
                             <td class="tdoption"> <mat-icon (click)="udateGetClick(sty)" matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <!-- <mat-icon (click)="deleteClick(sty.staffTypeid)" matTooltip="Click to Delete"
-                                    style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon> -->
-
-                                    <mat-icon style="color: red;cursor: pointer;" class="ml-3">delete_outline</mat-icon>
+                                    style="color: blue;cursor: pointer;" class="pr-2">edit_outline</mat-icon>
+                                <mat-icon (click)="deleteClick(sty.staffTypeid)" matTooltip="Click to Delete"
+                                    style="color: red;cursor: pointer;" class="ml-4">delete_outline</mat-icon>                                   
                             </td>
                         </tr>
                     </tbody>

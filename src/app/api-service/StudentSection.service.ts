@@ -5,24 +5,24 @@ import { Observable } from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
-export class studentGroupService{
+export class studentSectionService{
     readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
 
   }
 
-  getGroupList(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StudentGroup/Get');
+  getSectionList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentSection/Get');
   }
 
   getMaxId(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StudentGroup/get_MaxId_student_group');
+    return this.http.get<any[]>(this.apiUrl + 'StudentSection/get_MaxId_student_section');
   }
 
 
-  addNewGroup(Groupinsert: any): Observable<any> {
+  addNewSection(Sectioninsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'StudentGroup/insert_student_group', Groupinsert, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'StudentSection/insert_student_section', Sectioninsert, httpOptions);
   }
 
 

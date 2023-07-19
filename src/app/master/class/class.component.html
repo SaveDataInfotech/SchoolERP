@@ -99,15 +99,24 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="Student_SectionForm" (ngSubmit)="NewSection()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Section Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="SectionbuttonId == true ">
+                                    <div style="float: left;width: 250px;" *ngFor="let code of MaxSectionId">
+                                        <input placeholder={{code.sectionid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="SectionbuttonId != true">
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="sectionid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -115,24 +124,26 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <select name="class_name" style="width: 100%;" class="form-control">
-                                        <option>Please select</option>
-                                        <option></option>
+                                <div  style="float: left;width: 250px;">
+                                    <select style="width: 100%;" class="form-control" formControlName="classid"  #t (change)="changefun(t.value)" name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option *ngFor="let class of ClassList" value={{class.classid}}>
+                                            {{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <!-- *ngIf="sectiondata.class_name > 10" -->
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div *ngIf="newlist.length !=0" class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option value="" selected disabled>Computer Science</option>
-                                        <option value="0">Null</option>
+                                    <select style="width: 100%;" class="form-control" formControlName="groupid" name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option *ngFor="let group of newlist;" [ngValue]="group.groupid">
+                                            {{group.group_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -143,7 +154,7 @@
                                     <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input class="form-control" type="text" required>
+                                    <input formControlName="section_name" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +166,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)=" SectioncancelClick()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
@@ -177,12 +188,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>Computer Science</td>
-                                    <td>D</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let section of SectionList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{section.class_name}}</td>
+                                    <td>{{section.group_name}}</td>
+                                    <td>{{section.section_name}}</td>                                   
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateSectionClick(section)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
@@ -207,26 +218,36 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="Student_GroupForm" (ngSubmit)="NewGroup()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Group Code</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="GroupbuttonId == true ">
+                                    <div style="float: left;width: 250px;" *ngFor="let code of MaxGroupId">
+                                        <input placeholder={{code.groupid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="GroupbuttonId != true">
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="groupid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
+                            
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option value="" selected disabled>Please select</option>
-                                        <option *ngFor="let class of ClassList" value={{class.classid}}>
+                                <div style="float: left;width: 250px;">                                   
+                                    <select style="width: 100%;" class="form-control" formControlName="classid" name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option *ngFor="let class of ClassList;" [ngValue]="class.classid">
                                             {{class.class_name}}</option>
                                     </select>
                                 </div>
@@ -238,7 +259,7 @@
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input placeholder="" class="form-control" type="tel" required>
+                                    <input formControlName="group_name" class="form-control" type="tel" required>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +271,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input matTooltip="Click to Cancel" (click)=GroupcancelClick() type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
@@ -271,13 +292,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let group of GroupList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{group.class_name}}</td>
+                                    <td>{{group.group_name}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGroupClick(group)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" (click)="GroupdeleteClick(group.groupid)" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
