@@ -24,7 +24,10 @@ import {MatCardModule} from '@angular/material/card';
 import {  ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -40,11 +43,13 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
     HostelMasterComponent,
     VehicleMasterComponent,
     SupplierMasterComponent,
-    ReportsComponent
+    ReportsComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
     RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule,HttpClientTestingModule,
+  MatDialogModule,MatButtonModule
 
   ]
 })

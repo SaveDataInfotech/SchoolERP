@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpHeaders, } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 
 @Component({
   selector: 'app-staff-type',
@@ -17,7 +18,7 @@ export class StaffTypeComponent implements OnInit {
   buttonId: boolean = true;
 
   constructor(private http: HttpClient,
-    private stySvc: staffTypeService) {
+    private stySvc: staffTypeService, private DialogSvc: DialogService) {
   }
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -42,15 +43,43 @@ export class StaffTypeComponent implements OnInit {
   }
 
   StaffType() {
-    var stafftypeinsert = (this.stafftypeForm.value);
-    this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshstaffTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    if(this.stafftypeForm.value.staffTypeid == 0){
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          var stafftypeinsert = (this.stafftypeForm.value);
+          this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {              
+              this.refreshstaffTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
+    }
+    else if(this.stafftypeForm.value.staffTypeid != 0){
+      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          var stafftypeinsert = (this.stafftypeForm.value);
+          this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {
+              this.refreshstaffTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
+    }
+    else{
+      alert("something error;")
+    }
+
+    
   }
 
   getMaxId() {
@@ -59,17 +88,22 @@ export class StaffTypeComponent implements OnInit {
     });
   }
 
+
+  //sample  for Dialog working
   deleteClick(staffTypeid: number) {
-    this.stySvc.deletestaffType(staffTypeid).subscribe(res => {
-      //alert(data.toString());  
-      //alert((JSON.stringify(res.status))); 
-      if (res?.recordid) {
-        debugger;
-        this.refreshstaffTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.stySvc.deletestaffType(staffTypeid).subscribe(res => {
+            if (res?.recordid) {
+              debugger;
+              this.refreshstaffTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
   }
 
   udateGetClick(staffType: any) {
