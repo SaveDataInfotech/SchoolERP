@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Staff Type <span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
                             <input formControlName="stafftype" class="form-control" type="text" required>
@@ -51,9 +51,9 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <!-- [disabled]="stafftypeForm.invalid" -->
-                            <input *ngIf="buttonId == true " matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            <input *ngIf="buttonId == true " [disabled]="stafftypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                <input *ngIf="buttonId != true" [disabled]="stafftypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                             <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
                                 class="btn btn-danger btn-sm mt-4  " (click)="cancelClick()" value="Cancel" />
