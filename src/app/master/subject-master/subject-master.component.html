@@ -10,15 +10,23 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="subjectForm" (ngSubmit)="newSubject()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Subject Code</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="buttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxId">
+                                        <input placeholder={{code.subjectid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="buttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="subjectid" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -27,7 +35,7 @@
                                     <label class="pt-2" style="margin: auto;">Subject Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="English" class="form-control" type="tel" required>
+                                    <input formControlName="subject_name" class="form-control" type="tel" required>
                                 </div>
                             </div>
                         </div>
@@ -37,9 +45,13 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                        <input *ngIf="buttonId == true " [disabled]="subjectForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        <input *ngIf="buttonId != true" [disabled]="subjectForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClick()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
@@ -61,10 +73,10 @@
                             <tbody>
                                 <tr *ngFor="let subject of subjectDetailList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{subject.subject_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                    <td>{{subject.subject_name}}</td> 
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(subject)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(subject.subjectid)"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>

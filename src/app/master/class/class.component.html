@@ -46,8 +46,14 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                    <input *ngIf="buttonId == true " [disabled]="Student_classForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" [disabled]="Student_classForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
@@ -107,8 +113,8 @@
                                 </div>
                                 <span *ngIf="SectionbuttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxSectionId">
-                                        <input placeholder={{code.sectionid+1}} class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder={{code.sectionid+1}} class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="SectionbuttonId != true">
@@ -124,8 +130,9 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
-                                <div  style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control" formControlName="classid"  #t (change)="changefun(t.value)" name="selectAction">
+                                <div style="float: left;width: 250px;">
+                                    <select style="width: 100%;" class="form-control" formControlName="classid" #t
+                                        (change)="changefun(t.value)" name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option *ngFor="let class of ClassList" value={{class.classid}}>
                                             {{class.class_name}}</option>
@@ -140,7 +147,8 @@
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control" formControlName="groupid" name="selectAction">
+                                    <select style="width: 100%;" class="form-control" formControlName="groupid"
+                                        name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option *ngFor="let group of newlist;" [ngValue]="group.groupid">
                                             {{group.group_name}}</option>
@@ -166,8 +174,9 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)=" SectioncancelClick()"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        (click)=" SectioncancelClick()" class="btn btn-danger btn-sm mt-4  "
+                                        value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -192,9 +201,10 @@
                                     <td>{{i+1}}</td>
                                     <td>{{section.class_name}}</td>
                                     <td>{{section.group_name}}</td>
-                                    <td>{{section.section_name}}</td>                                   
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateSectionClick(section)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                    <td>{{section.section_name}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            (click)="updateSectionClick(section)" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
                                     </td>
@@ -239,13 +249,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            
+
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
-                                <div style="float: left;width: 250px;">                                   
-                                    <select style="width: 100%;" class="form-control" formControlName="classid" name="selectAction">
+                                <div style="float: left;width: 250px;">
+                                    <select style="width: 100%;" class="form-control" formControlName="classid"
+                                        name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option *ngFor="let class of ClassList;" [ngValue]="class.classid">
                                             {{class.class_name}}</option>
@@ -269,10 +280,16 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                        <input *ngIf="GroupbuttonId == true " [disabled]="Student_GroupForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" (click)=GroupcancelClick() type="button" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input *ngIf="GroupbuttonId != true" [disabled]="Student_GroupForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" (click)=GroupcancelClick() type="button"
+                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -296,10 +313,11 @@
                                     <td>{{i+1}}</td>
                                     <td>{{group.class_name}}</td>
                                     <td>{{group.group_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGroupClick(group)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" (click)="GroupdeleteClick(group.groupid)" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            (click)="updateGroupClick(group)" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" (click)="GroupdeleteClick(group.groupid)"
+                                            style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>

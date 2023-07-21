@@ -22,6 +22,11 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
+        path: 'schedule',
+        loadChildren: () =>
+          import('./schedule/schedule.module').then((m) => m.ScheduleModule),
+      },
+      {
         path: 'master',
         loadChildren: () =>
           import('./master/master.module').then((m) => m.MasterModule),

@@ -8,22 +8,30 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="suppliertypeForm" (ngSubmit)="newSupplierType()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Supplier Code</label>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="0011788" class="form-control" type="text" disabled required>
-                        </div>
+                        <span *ngIf="buttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxId">
+                                <input placeholder="00{{code.supplierid+1}}" class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span *ngIf="buttonId != true">
+                            <div class="inputdiv">
+                                <input formControlName="supplierid" class="form-control" type="text" readonly required>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Supplier Name</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="supplier_name" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -33,8 +41,8 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="99008-87766" maxlength="10" minlength="10" class="form-control"
-                                type="tel" required>
+                            <input formControlName="mobile_number" maxlength="10" minlength="10" class="form-control"
+                                type="text" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -42,7 +50,7 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">GST NO</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="5" class="form-control" type="number" required>
+                            <input formControlName="gst_no" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -53,7 +61,7 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Balance</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" maxlength="10" minlength="10" class="form-control" type="tel"
+                            <input formControlName="balance" class="form-control" type="text"
                                 required>
                         </div>
                     </div>
@@ -62,32 +70,23 @@
                             <label for="ex2" class="pt-5" style="margin: auto;">Address</label>
                         </div>
                         <div class="inputdiv">
-                            <textarea class="form-control" id="textAreaExample1 ml-2" rows="4" required></textarea>
+                            <textarea class="form-control" formControlName="address" id="textAreaExample1 ml-2" rows="4" required></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                        <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                            <input *ngIf="buttonId == true " [disabled]="suppliertypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                <input *ngIf="buttonId != true" [disabled]="suppliertypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                        <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)=" cancelClick()"
                             class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                     </div>
                 </div>
-
-                <!-- <div class="row">
-                    <div class="col-sm-6" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                        </div>
-                    </div>
-                </div> -->
             </form>            
         </mat-card-content>
     </mat-card>
@@ -108,16 +107,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>0001290</td>
-                            <td>Vinayaga</td>
-                            <td>9988006677</td>
-                            <td>34</td>
-                            <td>5</td>
-                            <td>Bk Pudur, Kuniamuthur, Coimbatore - 641008</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                        <tr *ngFor="let supplier of SupplierList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{supplier.supplier_name}}</td>
+                            <td>{{supplier.mobile_number}}</td>
+                            <td>{{supplier.gst_no}}</td>
+                            <td>{{supplier.balance}}</td>
+                            <td>{{supplier.address}}</td>
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(supplier)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(supplier.supplierid)"
                                     class="pl-2">delete</mat-icon>
                             </td>
                         </tr>

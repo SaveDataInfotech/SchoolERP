@@ -19,11 +19,12 @@ import { CommonModule } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import {HttpClientModule} from '@angular/common/http';
+import { ScheduleComponent } from './schedule/schedule.component';
 
 
 
 @NgModule({
-  declarations: [AppComponent, ...pageComponents,],
+  declarations: [AppComponent, ...pageComponents, ScheduleComponent,],
   imports: [
     BrowserModule,
     AppRoutingModule,

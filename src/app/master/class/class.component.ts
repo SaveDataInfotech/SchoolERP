@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
@@ -11,22 +12,23 @@ import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 })
 export class ClassComponent implements OnInit {
   ClassList: any = [];
-  GroupList:any = [];
-  SectionList:any=[];
-
   MaxId: any = [];
-  MaxGroupId:any=[];
-  MaxSectionId:any=[];
-
   buttonId: boolean = true;
+
+  GroupList: any = [];
+  MaxGroupId: any = [];
   GroupbuttonId: boolean = true;
+
+  SectionList: any = [];
+  MaxSectionId: any = [];
   SectionbuttonId: boolean = true;
 
-  newlist:any =[];
+  //Fillter new list array
+  newlist: any = [];
 
   constructor(
-    private ClassSvc: studentClassService,private GroupSvc:studentGroupService,private ScSvc:studentSectionService)
-     {
+    private ClassSvc: studentClassService, private GroupSvc: studentGroupService, private ScSvc: studentSectionService,
+    private DialogSvc: DialogService) {
   }
 
   ngOnInit(): void {
@@ -41,8 +43,8 @@ export class ClassComponent implements OnInit {
 
       //Student Section
       this.refreshSectionList();
-      this. getSectionMaxId();
-      this.SectioncancelClick()
+    this.getSectionMaxId();
+    this.SectioncancelClick()
   }
 
   Student_classForm = new FormGroup({
@@ -75,13 +77,18 @@ export class ClassComponent implements OnInit {
   }
 
   deleteClick(classid: number) {
-    this.ClassSvc.deletestaffType(classid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshClassList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.ClassSvc.deletestaffType(classid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshClassList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
   }
 
   updateGetClick(StClass: any) {
@@ -112,7 +119,7 @@ export class ClassComponent implements OnInit {
   //   const classid=Number(classsid);
   //   this.Student_GroupForm.get('classid')?.setValue(classid);
   // }
-  
+
 
   refreshGroupList() {
     this.GroupSvc.getGroupList().subscribe(data => {
@@ -133,11 +140,11 @@ export class ClassComponent implements OnInit {
       if (res?.recordid) {
         this.SectioncancelClick();
         this.refreshGroupList();
-        this. getGroupMaxId();
+        this.getGroupMaxId();
         this.GroupcancelClick();
         //this.cancelClick();        
       }
-    });    
+    });
   }
 
   updateGroupClick(group: any) {
@@ -160,21 +167,26 @@ export class ClassComponent implements OnInit {
   }
 
   GroupdeleteClick(groupid: number) {
-    this.GroupSvc.deleteGroup(groupid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshGroupList();
-        this. getGroupMaxId();
-        this.GroupcancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.GroupSvc.deleteGroup(groupid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshGroupList();
+              this.getGroupMaxId();
+              this.GroupcancelClick();
+            }
+          });
+        }
+      });
   }
 
   //Student Section
-  changefun(classsid:any){
+  changefun(classsid: any) {
     debugger;
-    const classid=Number(classsid);
+    const classid = Number(classsid);
     this.Student_SectionForm.get('classid')?.setValue(classid);
-    this.newlist= this.GroupList.filter((e:any)=> { return e.classid == classid});
+    this.newlist = this.GroupList.filter((e: any) => { return e.classid == classid });
   }
 
   Student_SectionForm = new FormGroup({
@@ -203,10 +215,10 @@ export class ClassComponent implements OnInit {
     this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
       if (res?.recordid) {
         this.refreshSectionList();
-        this. getSectionMaxId();
+        this.getSectionMaxId();
         this.SectioncancelClick();
       }
-    });    
+    });
   }
 
   updateSectionClick(section: any) {
@@ -219,7 +231,7 @@ export class ClassComponent implements OnInit {
     this.SectionbuttonId = false;
 
     this.Student_SectionForm.get('classid')?.setValue(section.classid);
-    this.newlist= this.GroupList.filter((e:any)=> { return e.classid == section.classid});
+    this.newlist = this.GroupList.filter((e: any) => { return e.classid == section.classid });
   }
 
   SectioncancelClick() {

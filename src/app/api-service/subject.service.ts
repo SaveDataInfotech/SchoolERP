@@ -1,21 +1,32 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs';
-import {  ApiResult, SubjectDto } from "src/app/model";
-import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class subjectService{
-    apiUrl : string;
-    baseUrl = environment.API_URL;
-    constructor(private http: HttpClient){
-        this.apiUrl = this.baseUrl+'sub';
-    }
+    readonly apiUrl = 'https://localhost:44314/api/';
+  constructor(private http: HttpClient) {
+  }
 
-    getSubjectDetails(){
-        console.log("Service Fille Exe")
-        return this.http.get<ApiResult<SubjectDto[]>>(this.apiUrl+'/getSubject')
-    }
+  getsubjectList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'Subject/Get');
+  }
+
+  getMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'Subject/get_MaxId_subject');
+  }
+
+
+  addNewsubject(subjectinsert: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'Subject/insert_subject', subjectinsert, httpOptions);
+  }
+
+
+  deletesubject(subjectid: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'Subject/delete_subject?subjectid=' + subjectid, httpOptions);
+  }
 }

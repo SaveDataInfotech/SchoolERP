@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 })
 export class BatchYearComponent implements OnInit {
 
-  constructor(private batchyearSvc: BatechYearService) { }
+  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService) { }
   BatchList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
@@ -66,13 +67,18 @@ export class BatchYearComponent implements OnInit {
   }
 
   deleteClick(batchid: number) {
-    this.batchyearSvc.deleteBatch(batchid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshBatchYearList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.batchyearSvc.deleteBatch(batchid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshBatchYearList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
   }
 
   cancelClick() {

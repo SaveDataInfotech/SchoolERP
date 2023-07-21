@@ -45,8 +45,12 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                        <input *ngIf="buttonId == true " [disabled]="vehicletypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                        <input *ngIf="buttonId != true" [disabled]="vehicletypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
@@ -96,15 +100,23 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="vehicleNoRootForm" (ngSubmit)="NewVehicleNoRoot()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Si.No</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="NoRootbuttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of NoRootMaxId">
+                                        <input placeholder="00{{code.vehicle_no_id+1}}" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="NoRootbuttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="vehicle_no_id" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -113,10 +125,9 @@
                                     <label class="pt-2" style="margin: auto;">Vehicle Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Bus</option>
-                                        <option>Van</option>
-                                        <option>Car</option>
+                                    <select formControlName="vehicle_type"  style="width: 100%;" class="form-control " name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{VehickeType.vehicle_name}} *ngFor="let VehickeType of DepartmentList;">{{VehickeType.vehicle_name}}</option>                                        
                                     </select>
                                 </div>
                             </div>
@@ -128,7 +139,7 @@
                                     <label class="pt-2" style="margin: auto;">Vehicle No</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="vehicle_no" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +149,7 @@
                                     <label class="pt-2" style="margin: auto;">Vehicle Root No</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="vehicle_root_no" class="form-control" type="number" required>
                                 </div>
                             </div>
                         </div>
@@ -148,21 +159,17 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;" 
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                        <input *ngIf="NoRootbuttonId == true " [disabled]="vehicleNoRootForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                        <input *ngIf="NoRootbuttonId != true" [disabled]="vehicleNoRootForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickVehicleNoRoot()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="col-sm-6 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
-                                value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -181,14 +188,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Van</td>
-                                    <td>TN-03-CH-8712</td>
-                                    <td>006</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let vhnort of vehicleNoRootList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{vhnort.vehicle_type}}</td>
+                                    <td>{{vhnort.vehicle_no}}</td>
+                                    <td>{{vhnort.vehicle_root_no}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClickVehicleNoRoot(vhnort)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClickVehicleNoRoot(vhnort.vehicle_no_id)"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
@@ -211,15 +218,23 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="vehicleplaceForm" (ngSubmit)="NewVehiclePlace()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Si.No</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="buttonIdPlace == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxIdPlace">
+                                        <input placeholder={{code.placeid+1}} class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="buttonIdPlace != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="placeid" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -228,10 +243,9 @@
                                     <label class="pt-2" style="margin: auto;">Vehicle Root No</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>002</option>
-                                        <option>003</option>
-                                        <option>004</option>
+                                    <select formControlName="root_no"  style="width: 100%;" class="form-control " name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option [ngValue]="VehicleRoot.vehicle_root_no" *ngFor="let VehicleRoot of vehicleNoRootList;">{{VehicleRoot.vehicle_root_no}}</option>                                        
                                     </select>
                                 </div>
                             </div>
@@ -240,10 +254,10 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Place</label>
+                                    <label class="pt-2" style="margin: auto;">Place of Boarding</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="place" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -253,21 +267,16 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input *ngIf="buttonIdPlace == true " [disabled]="vehicleplaceForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonIdPlace != true" [disabled]="vehicleplaceForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickPlace()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
 
-                        <!-- <div class="col-sm-6 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
-                                value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
 
                     <hr />
@@ -285,7 +294,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
@@ -307,13 +316,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>003</td>
-                                    <td>Chennai Guindy</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let place of PlaceList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{place.root_no}}</td>
+                                    <td>{{place.place}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClickPlace(place)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClickPlace(place.placeid)"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>

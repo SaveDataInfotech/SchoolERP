@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { FeesTypeService } from 'src/app/api-service/FeesType.service';
 
@@ -10,21 +11,25 @@ import { FeesTypeService } from 'src/app/api-service/FeesType.service';
 })
 export class FeesMasterComponent implements OnInit {
   FeesList: any = [];
-  FeesLessList: any = [];
+  buttonId: boolean = true;
   MaxId: any = [];
+
+  FeesLessList: any = [];
   MaxIdLess: any = [];
   buttonIdLess: boolean = true;
-  buttonId: boolean = true;
+
 
   constructor(
     private FtySvc: FeesTypeService,
     private FlSvc: FeesLessService,
+    private DialogSvc: DialogService
   ) { }
 
   ngOnInit(): void {
     this.refreshFeesTypeList(),
       this.getMaxId(),
       this.cancelClick(),
+
       this.refreshFeesLessList(),
       this.getMaxIdLess(),
       this.cancelClickLess()
@@ -60,13 +65,18 @@ export class FeesMasterComponent implements OnInit {
   }
 
   deleteClick(typeid: number) {
-    this.FtySvc.deletefeesType(typeid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshFeesTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.FtySvc.deletefeesType(typeid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshFeesTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
   }
 
   udateGetClick(fees: any) {
@@ -125,13 +135,18 @@ export class FeesMasterComponent implements OnInit {
   }
 
   deleteClickLess(fess_lessid: number) {
-    this.FlSvc.deletefeesLessType(fess_lessid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshFeesLessList();
-        this.getMaxIdLess();
-        this.cancelClickLess();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.FlSvc.deletefeesLessType(fess_lessid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshFeesLessList();
+              this.getMaxIdLess();
+              this.cancelClickLess();
+            }
+          });
+        }
+      });
   }
 
   cancelClickLess() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { LeaveAssignService } from 'src/app/api-service/LeaveAssign.service';
 import { LeaveTypeService } from 'src/app/api-service/LeaveType.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
@@ -10,29 +11,34 @@ import { staffTypeService } from 'src/app/api-service/staffType.service';
   styleUrls: ['./leave-master.component.scss']
 })
 export class LeaveMasterComponent implements OnInit {
-  StaffTypeList:any=[];
-  LaveTyList: any = [];
-  LaveAsList:any=[];
-  MaxId: any = [];
-  AssignMaxId:any=[];
-  buttonId: boolean = true;
-  AssignbuttonId:boolean=true;
+  StaffTypeList: any = [];
 
-  constructor(private LvtySvc: LeaveTypeService,private SttySvc: staffTypeService,private LvAsSvc: LeaveAssignService) { }
+  LaveTyList: any = [];
+  buttonId: boolean = true;
+  MaxId: any = [];
+
+  LaveAsList: any = [];
+  AssignMaxId: any = [];
+  AssignbuttonId: boolean = true;
+
+  constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
+    private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService) { }
 
   ngOnInit(): void {
-    this.refreshLeaveTypeList(),
     this.refreshstaffTypeList(),
-    this.refreshLeaveAssignList(),
-    this.getAssignMaxId(),
+
+      this.refreshLeaveTypeList(),
       this.getMaxId(),
+      this.getAssignMaxId(),
+
+      this.refreshLeaveAssignList(),
       this.cancelClick(),
       this.AssigncancelClick()
   }
 
   leavetypeForm = new FormGroup({
     typeid: new FormControl(0),
-    type_name: new FormControl('',[Validators.required]),
+    type_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -62,13 +68,18 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   deleteClick(typeid: number) {
-    this.LvtySvc.deleteLeaveType(typeid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshLeaveTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.LvtySvc.deleteLeaveType(typeid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshLeaveTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
   }
 
   udateGetClick(Leave: any) {
@@ -91,12 +102,26 @@ export class LeaveMasterComponent implements OnInit {
 
   leaveAssignForm = new FormGroup({
     assignid: new FormControl(0),
-    staff_type: new FormControl('',[Validators.required]),
-    staff_name: new FormControl('',[Validators.required]),
-    no_of_leave: new FormControl(),
-    e_per_mon: new FormControl(),
+    staff_type: new FormControl('', [Validators.required]),
+    staff_name: new FormControl('', [Validators.required]),
+    no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
+    e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
     cuid: new FormControl(1),
   })
+
+  get staff_type() {
+    return this.leaveAssignForm.get('staff_type');
+  }
+
+  get staff_name() {
+    return this.leaveAssignForm.get('staff_name');
+  }
+  get no_of_leave() {
+    return this.leaveAssignForm.get('no_of_leave');
+  }
+  get e_per_mon() {
+    return this.leaveAssignForm.get('e_per_mon');
+  }
 
   //get staff type Method
   refreshstaffTypeList() {
@@ -119,7 +144,7 @@ export class LeaveMasterComponent implements OnInit {
       console.log(res, 'resss')
       if (res?.recordid) {
         this.refreshLeaveAssignList();
-       this.refreshstaffTypeList();
+        this.refreshstaffTypeList();
         this.getAssignMaxId();
         this.AssigncancelClick();
       }
@@ -133,14 +158,19 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   AssigndeleteClick(assignid: number) {
-    this.LvAsSvc.deleteLeaveAssign(assignid).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshLeaveAssignList();
-        this.refreshstaffTypeList();
-         this.getAssignMaxId();
-         this.AssigncancelClick();
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.LvAsSvc.deleteLeaveAssign(assignid).subscribe(res => {
+            if (res?.recordid) {
+              this.refreshLeaveAssignList();
+              this.refreshstaffTypeList();
+              this.getAssignMaxId();
+              this.AssigncancelClick();
+            }
+          });
+        }
+      });
   }
 
   AssignUpdateGetClick(assign: any) {
@@ -154,7 +184,7 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   AssigncancelClick() {
-    this.leavetypeForm.reset();   
+    this.leavetypeForm.reset();
     this.leaveAssignForm.get('assignid')?.setValue(0);
     this.leaveAssignForm.get('staff_type')?.setValue('');
     this.leaveAssignForm.get('staff_name')?.setValue('');

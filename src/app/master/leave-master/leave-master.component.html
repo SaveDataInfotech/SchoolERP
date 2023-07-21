@@ -45,8 +45,12 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                        <input *ngIf="buttonId == true " [disabled]="leavetypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                        <input *ngIf="buttonId != true" [disabled]="leavetypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
@@ -123,6 +127,8 @@
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">{{StaffType.staffType}}</option>                                        
                                     </select>
+                                    <p class="text-danger m-1" *ngIf="staff_type && staff_type.invalid && staff_type.touched">
+                                        Please select Staff type !</p>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +139,8 @@
                                 </div>
                                 <div class="inputdiv">
                                     <input formControlName="staff_name"  class="form-control" type="text" required>
+                                    <p class="text-danger m-1" *ngIf="staff_name && staff_name.invalid && staff_name.touched">
+                                        Please enter Staff name !</p>
                                 </div>
                             </div>
 
@@ -142,7 +150,10 @@
                                 </div>
                                 <div class="inputdiv">
                                     <input formControlName="no_of_leave" class="form-control" type="number" required>
+                                    <p class="text-danger m-1" *ngIf="no_of_leave && no_of_leave.invalid && no_of_leave.touched">
+                                        Please enter No of leave!</p>                                       
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -152,14 +163,21 @@
                                 </div>
                                 <div class="inputdiv">
                                     <input formControlName="e_per_mon" class="form-control" type="number" required>
+                                    <p class="text-danger m-1" *ngIf="e_per_mon && e_per_mon.invalid && e_per_mon.touched">
+                                        Please enter Eligible Per Month !</p>
                                 </div>
+                                
                             </div>
                         </div>
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                <!-- <input matTooltip="Click to Save" [disabled]="leaveAssignForm.invalid" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
+                                    <input *ngIf="AssignbuttonId == true " [disabled]="leaveAssignForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                        <input *ngIf="AssignbuttonId != true" [disabled]="leaveAssignForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                 <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button" style="width: 80px;"
                                     class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                             </div>

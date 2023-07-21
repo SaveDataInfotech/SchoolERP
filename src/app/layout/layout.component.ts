@@ -28,6 +28,17 @@ export class LayoutComponent implements OnInit {
         sub_menu: []
       },
       {
+        link_name:"schedule",
+          link:"schedule/schedule",
+          icon:"studentdetails",
+          sub_menu:[
+            // {
+            //   link_name:"schedule",
+            //   link:"schedule/schedule",
+            // },
+          ]
+      },
+      {
           link_name:"Student Details",
           link:null,
           icon:"studentdetails",

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'src/app/api-service/Dialog.service';
+import { SupplierTypeService } from 'src/app/api-service/SupplierType.service';
 
 @Component({
   selector: 'app-supplier-master',
@@ -10,32 +10,121 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 })
 export class SupplierMasterComponent implements OnInit {
 
-  constructor() { }
+  SupplierList: any = [];
+  MaxId: any = [];
+  buttonId: boolean = true;
 
+  constructor(
+    private stySvc: SupplierTypeService, private DialogSvc: DialogService) {
+  }
   ngOnInit(): void {
+    this.refresupplierTypeList(),
+      this.getMaxId(),
+      this.cancelClick()
   }
 
-  displayedColumns: string[] = ['position', 'name','room','person','balance','address','option'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  suppliertypeForm = new FormGroup({
+    supplierid: new FormControl(0),
+    supplier_name: new FormControl('', [Validators.required]),
+    mobile_number: new FormControl('', [Validators.required]),
+    gst_no: new FormControl('', [Validators.required]),
+    balance: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  refresupplierTypeList() {
+    this.stySvc.getsupplierTypeList().subscribe(data => {
+      this.SupplierList = data;
+    });
+  }
+
+  newSupplierType() {
+    if(this.suppliertypeForm.value.supplierid == 0){
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          var suppliertypeinsert = (this.suppliertypeForm.value);
+          this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {              
+              this.refresupplierTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
+    }
+    else if(this.suppliertypeForm.value.supplierid != 0){
+      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          var suppliertypeinsert = (this.suppliertypeForm.value);
+          this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {
+              this.refresupplierTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
+    }
+    else{
+      alert("something error;")
+    }
+
+    
+  }
+
+  getMaxId() {
+    this.stySvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
   }
 
 
-}
+  //sample  for Dialog working
+  deleteClick(supplierid: number) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.stySvc.deletesupplierType(supplierid).subscribe(res => {
+            if (res?.recordid) {
+              debugger;
+              this.refresupplierTypeList();
+              this.getMaxId();
+              this.cancelClick();
+            }
+          });
+        }
+      });
+  }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-}
+  udateGetClick(supplier: any) {
+    this.suppliertypeForm.get('supplierid')?.setValue(supplier.supplierid);
+    this.suppliertypeForm.get('supplier_name')?.setValue(supplier.supplier_name);
+    this.suppliertypeForm.get('mobile_number')?.setValue(supplier.mobile_number);
+    this.suppliertypeForm.get('gst_no')?.setValue(supplier.gst_no);
+    this.suppliertypeForm.get('balance')?.setValue(supplier.balance);
+    this.suppliertypeForm.get('address')?.setValue(supplier.address);
+    this.suppliertypeForm.get('cuid')?.setValue(supplier.cuid);
+    this.buttonId = false;
+  }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Teaching Staff', },
-  {position: 2, name: 'Driver', },
-  {position: 3, name: 'Attender', },
-  {position: 3, name: 'Watch Man', },
-];
+  cancelClick() {
+    this.suppliertypeForm.reset();
+    this.suppliertypeForm.get('supplierid')?.setValue(0);
+    this.suppliertypeForm.get('supplier_name')?.setValue('');
+    this.suppliertypeForm.get('mobile_number')?.setValue('');
+    this.suppliertypeForm.get('gst_no')?.setValue('');
+    this.suppliertypeForm.get('balance')?.setValue('');
+    this.suppliertypeForm.get('address')?.setValue('');
+    this.suppliertypeForm.get('cuid')?.setValue(1);
+    this.buttonId = true;
+  }
+}
 
