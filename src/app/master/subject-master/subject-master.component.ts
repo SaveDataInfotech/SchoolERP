@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { SubjectBranchService } from 'src/app/api-service/SubjectBranch.service';
 import { subjectService } from 'src/app/api-service/subject.service';
@@ -19,7 +20,8 @@ export class SubjectMasterComponent implements OnInit {
   MaxIdBranch:any=[];
   BranchbuttonId:boolean=true;
   
-  constructor(private subjectSvc: subjectService,private BranchSvc: SubjectBranchService,private DialogSvc: DialogService) { }
+  constructor(private subjectSvc: subjectService,private BranchSvc: SubjectBranchService,
+    private DialogSvc: DialogService,private notificationSvc:NotificationsService) { }
 
   ngOnInit(): void {
     this.refreshsubjectList(),
@@ -93,6 +95,7 @@ export class SubjectMasterComponent implements OnInit {
         if (res == true) {
           this.subjectSvc.deletesubject(subjectid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               debugger;
               this.refreshsubjectList();
               this.getMaxId();
@@ -185,6 +188,7 @@ export class SubjectMasterComponent implements OnInit {
         if (res == true) {
           this.BranchSvc.deletesubBranch(branchid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               debugger;
               this.refreshsubjectBranchList();
               this.getMaxIdSubBranch();

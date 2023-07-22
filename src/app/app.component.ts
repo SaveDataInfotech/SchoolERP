@@ -11,6 +11,14 @@ import { icons} from '../app/shared/icons/icon-list'
 export class AppComponent {
   title = 'School ERP Software';
 
+  notificationOptions = {
+    timeOut: 1500,
+    showProgressBar: false,
+    pauseOnHover: true,
+    clickToClose: true,
+    // animate: 'fromRight',
+  };
+
   constructor( private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer ){
     for (const key in icons) {
       iconRegistry.addSvgIconLiteral(

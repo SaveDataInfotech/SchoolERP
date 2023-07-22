@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
@@ -25,7 +26,8 @@ export class VehicleMasterComponent implements OnInit {
 
   constructor(
     private VhtySvc: VehicleTypeService, private vhNoRtSvc: VehicleNoRootService,
-    private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService) {
+    private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService,
+    private notificationSvc:NotificationsService) {
   }
 
 
@@ -80,6 +82,7 @@ export class VehicleMasterComponent implements OnInit {
         if (res == true) {
           this.VhtySvc.deletevehicleType(Typeid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshvehicleTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -147,6 +150,7 @@ export class VehicleMasterComponent implements OnInit {
         if (res == true) {
           this.vhNoRtSvc.deleteVeNoRt(vehicle_no_id).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshvehicleNoRootList();
               this.getMaxIdVehicleNoRoot();
               this.cancelClickVehicleNoRoot();
@@ -217,6 +221,7 @@ export class VehicleMasterComponent implements OnInit {
         if (res == true) {
           this.PlaceSvc.deletePlace(placeid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshvehiclePlaceList();
               this.getMaxIdPlace();
               this.cancelClickPlace();

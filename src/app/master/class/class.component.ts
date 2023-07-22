@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -29,7 +30,7 @@ export class ClassComponent implements OnInit {
 
   constructor(
     private ClassSvc: studentClassService, private GroupSvc: studentGroupService, private ScSvc: studentSectionService,
-    private DialogSvc: DialogService) {
+    private DialogSvc: DialogService,private notificationSvc:NotificationsService) {
   }
 
   ngOnInit(): void {
@@ -83,6 +84,7 @@ export class ClassComponent implements OnInit {
         if (res == true) {
           this.ClassSvc.deletestaffType(classid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshClassList();
               this.getMaxId();
               this.cancelClick();
@@ -173,6 +175,7 @@ export class ClassComponent implements OnInit {
         if (res == true) {
           this.GroupSvc.deleteGroup(groupid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshGroupList();
               this.getGroupMaxId();
               this.GroupcancelClick();

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 
@@ -11,7 +12,7 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 })
 export class BatchYearComponent implements OnInit {
 
-  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService) { }
+  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService,private notificationSvc:NotificationsService) { }
   BatchList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
@@ -71,6 +72,7 @@ export class BatchYearComponent implements OnInit {
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.batchyearSvc.deleteBatch(batchid).subscribe(res => {
+            this.notificationSvc.error("Deleted Success")
             if (res?.recordid) {
               this.refreshBatchYearList();
               this.getMaxId();

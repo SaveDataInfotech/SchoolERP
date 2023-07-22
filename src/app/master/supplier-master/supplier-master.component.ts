@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { SupplierTypeService } from 'src/app/api-service/SupplierType.service';
 
@@ -15,7 +16,8 @@ export class SupplierMasterComponent implements OnInit {
   buttonId: boolean = true;
 
   constructor(
-    private stySvc: SupplierTypeService, private DialogSvc: DialogService) {
+    private stySvc: SupplierTypeService, private DialogSvc: DialogService,
+    private notificationSvc:NotificationsService) {
   }
   ngOnInit(): void {
     this.refresupplierTypeList(),
@@ -94,7 +96,7 @@ export class SupplierMasterComponent implements OnInit {
         if (res == true) {
           this.stySvc.deletesupplierType(supplierid).subscribe(res => {
             if (res?.recordid) {
-              debugger;
+              this.notificationSvc.error("Deleted Success")
               this.refresupplierTypeList();
               this.getMaxId();
               this.cancelClick();

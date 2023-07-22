@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { FeesTypeService } from 'src/app/api-service/FeesType.service';
@@ -22,7 +23,8 @@ export class FeesMasterComponent implements OnInit {
   constructor(
     private FtySvc: FeesTypeService,
     private FlSvc: FeesLessService,
-    private DialogSvc: DialogService
+    private DialogSvc: DialogService,
+    private notificationSvc:NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +72,7 @@ export class FeesMasterComponent implements OnInit {
         if (res == true) {
           this.FtySvc.deletefeesType(typeid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshFeesTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -140,6 +143,7 @@ export class FeesMasterComponent implements OnInit {
         if (res == true) {
           this.FlSvc.deletefeesLessType(fess_lessid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshFeesLessList();
               this.getMaxIdLess();
               this.cancelClickLess();

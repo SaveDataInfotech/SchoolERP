@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule, HttpHeaders, } from '@angular/common/http
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-staff-type',
@@ -18,12 +19,15 @@ export class StaffTypeComponent implements OnInit {
   buttonId: boolean = true;
 
   constructor(private http: HttpClient,
-    private stySvc: staffTypeService, private DialogSvc: DialogService) {
+    private stySvc: staffTypeService, private DialogSvc: DialogService,
+    private notificationSvc:NotificationsService) {
   }
   ngOnInit(): void {
     this.refreshstaffTypeList(),
       this.getMaxId(),
       this.cancelClick()
+
+      //this.notificationSvc.success("Heloo")
   }
 
   stafftypeForm = new FormGroup({
@@ -45,8 +49,9 @@ export class StaffTypeComponent implements OnInit {
         if (res == true) {
           var stafftypeinsert = (this.stafftypeForm.value);
           this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {              
+            console.log(res, 'resss')           
+            if (res?.recordid) { 
+              this.notificationSvc.success("Insert Success")
               this.refreshstaffTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -92,7 +97,7 @@ export class StaffTypeComponent implements OnInit {
         if (res == true) {
           this.stySvc.deletestaffType(staffTypeid).subscribe(res => {
             if (res?.recordid) {
-              debugger;
+              this.notificationSvc.error("Deleted Success")
               this.refreshstaffTypeList();
               this.getMaxId();
               this.cancelClick();

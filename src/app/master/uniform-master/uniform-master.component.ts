@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { UniformMasterService } from 'src/app/api-service/UniformMaster.service';
 
@@ -15,7 +16,7 @@ export class UniformMasterComponent implements OnInit {
   overcoatif: boolean;
   submitted: boolean = false;
   constructor(
-    private uniformSvc: UniformMasterService, private DialogSvc: DialogService) {
+    private uniformSvc: UniformMasterService, private DialogSvc: DialogService,private notificationSvc:NotificationsService) {
   }
   ngOnInit(): void {
     this.refreshUniformSizeList(),
@@ -112,7 +113,7 @@ export class UniformMasterComponent implements OnInit {
         if (res == true) {
           this.uniformSvc.deleteuniform(uniformid).subscribe(res => {
             if (res?.recordid) {
-              debugger;
+              this.notificationSvc.error("Deleted Success")
               this.refreshUniformSizeList();
               this.getMaxId();
               this.cancelClick();

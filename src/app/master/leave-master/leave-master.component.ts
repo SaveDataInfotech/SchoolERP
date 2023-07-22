@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { LeaveAssignService } from 'src/app/api-service/LeaveAssign.service';
 import { LeaveTypeService } from 'src/app/api-service/LeaveType.service';
@@ -22,7 +23,8 @@ export class LeaveMasterComponent implements OnInit {
   AssignbuttonId: boolean = true;
 
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
-    private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService) { }
+    private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
+    private notificationSvc:NotificationsService) { }
 
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -73,6 +75,7 @@ export class LeaveMasterComponent implements OnInit {
         if (res == true) {
           this.LvtySvc.deleteLeaveType(typeid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshLeaveTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -163,6 +166,7 @@ export class LeaveMasterComponent implements OnInit {
         if (res == true) {
           this.LvAsSvc.deleteLeaveAssign(assignid).subscribe(res => {
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshLeaveAssignList();
               this.refreshstaffTypeList();
               this.getAssignMaxId();

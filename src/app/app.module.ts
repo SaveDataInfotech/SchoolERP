@@ -20,7 +20,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import {HttpClientModule} from '@angular/common/http';
 import { ScheduleComponent } from './schedule/schedule.component';
-
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 
 @NgModule({
@@ -43,7 +43,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
     CommonModule,
     MatMenuModule,
     MatChipsModule,
-    HttpClientModule
+    HttpClientModule,
+    SimpleNotificationsModule.forRoot()
     
   ],
   exports: [NgxDropzoneModule],
