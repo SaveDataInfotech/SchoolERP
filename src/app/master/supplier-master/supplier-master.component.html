@@ -28,49 +28,81 @@
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Supplier Name</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">Supplier Name<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="supplier_name" class="form-control" type="text" required>
+                            <input [ngClass]="{'is-invalid':suppliertypeForm.controls.supplier_name.touched && suppliertypeForm.controls.supplier_name.errors}" formControlName="supplier_name" class="form-control" type="text" required>
+                            <span class="text-danger" *ngIf="suppliertypeForm.controls.supplier_name.touched && suppliertypeForm.controls.supplier_name.errors">
+                                <div *ngIf="suppliertypeForm.controls.supplier_name.touched && suppliertypeForm.controls.supplier_name.errors.required">
+                                    Supplier Name is required
+                                </div>
+                                <div *ngIf="suppliertypeForm.controls.supplier_name.touched && suppliertypeForm.controls.supplier_name.errors.pattern">
+                                 Use only letters(A-Z)
+                                 </div>
+                             </span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="mobile_number" maxlength="10" minlength="10" class="form-control"
+                            <input [ngClass]="{'is-invalid':suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors}" formControlName="mobile_number" maxlength="10" minlength="10" class="form-control"
                                 type="text" required>
+                                <span class="text-danger" *ngIf="suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors">
+                                    <div *ngIf="suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors.required">
+                                        Mobile number is required
+                                    </div>
+                                    <div *ngIf="suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors.pattern">
+                                     Use only numbers
+                                     </div>
+                                 </span>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">GST NO</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">GST NO<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="gst_no" class="form-control" type="text" required>
+                            <input [ngClass]="{'is-invalid':suppliertypeForm.controls.gst_no.touched && suppliertypeForm.controls.gst_no.errors}" formControlName="gst_no" class="form-control" type="text" required>
+                            <span class="text-danger" *ngIf="suppliertypeForm.controls.gst_no.touched && suppliertypeForm.controls.gst_no.errors">
+                                <div *ngIf="suppliertypeForm.controls.gst_no.touched && suppliertypeForm.controls.gst_no.errors.required">
+                                    GST NO is required
+                                </div>
+                             </span>
                         </div>
+                        
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Balance</label>
+                            <label for="ex2" class="pt-2" style="margin: auto;">Balance<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="balance" class="form-control" type="text"
+                            <input [ngClass]="{'is-invalid':suppliertypeForm.controls.balance.touched && suppliertypeForm.controls.balance.errors}"  formControlName="balance" class="form-control" type="text"
                                 required>
+                                <span class="text-danger" *ngIf="suppliertypeForm.controls.balance.touched && suppliertypeForm.controls.balance.errors">
+                                    <div *ngIf="suppliertypeForm.controls.balance.touched && suppliertypeForm.controls.balance.errors.required">
+                                        Balance NO is required
+                                    </div>
+                                 </span>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-5" style="margin: auto;">Address</label>
+                            <label for="ex2" class="pt-5" style="margin: auto;">Address<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <textarea class="form-control" formControlName="address" id="textAreaExample1 ml-2" rows="4" required></textarea>
+                            <textarea [ngClass]="{'is-invalid':suppliertypeForm.controls.address.touched && suppliertypeForm.controls.address.errors}" class="form-control" formControlName="address" id="textAreaExample1 ml-2" rows="4" required></textarea>
+                            <span class="text-danger" *ngIf="suppliertypeForm.controls.address.touched && suppliertypeForm.controls.address.errors">
+                                <div *ngIf="suppliertypeForm.controls.address.touched && suppliertypeForm.controls.address.errors.required">
+                                      Address is required
+                                </div>                                
+                             </span>
                         </div>
                     </div>
                 </div>

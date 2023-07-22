@@ -19,14 +19,14 @@
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Staff Code</label>
                         </div>
-                        <span *ngIf="buttonId == true ">
-                            <div class="inputdiv" *ngFor="let code of MaxId">
+                        <span class="inputdiv" *ngIf="buttonId == true ">
+                            <div  *ngFor="let code of MaxId">
                                 <input placeholder="00{{code.staffTypeid+1}}" class="form-control" type="text" readonly
                                     required>
                             </div>
                         </span>
-                        <span *ngIf="buttonId != true">
-                            <div class="inputdiv">
+                        <span class="inputdiv" *ngIf="buttonId != true">
+                            <div >
                                 <input formControlName="staffTypeid" class="form-control" type="text" readonly required>
                             </div>
                         </span>
@@ -38,9 +38,15 @@
                             <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="stafftype" class="form-control" type="text" required>
-                            <p class="text-danger m-1" *ngIf="stafftype && stafftype.invalid && stafftype.touched">
-                                Please enter Staff type !</p>
+                            <input [ngClass]="{'is-invalid':stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors}" formControlName="stafftype" class="form-control" type="text" required>
+                            <span class="text-danger" *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors">
+                                <div *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.required">
+                                      stafftype is required
+                                </div>
+                                <div *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.pattern">
+                                    Use letters only
+                                 </div>
+                             </span>
                         </div>
                     </div>
                 </div>

@@ -35,8 +35,16 @@
                             <label class="pt-2" style="margin: auto;">Batch Year</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="batch_year" pattern="[0-9]{4}-[0-9]{4}" placeholder="2023-2024"
+                            <input [ngClass]="{'is-invalid':BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors}" formControlName="batch_year" pattern="[0-9]{4}-[0-9]{4}" placeholder="2023-2024"
                                 class="form-control" type="tel" required>
+                                <span class="text-danger" *ngIf="BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors">
+                                    <div *ngIf="BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors.required">
+                                          batch year is required
+                                    </div>
+                                    <div *ngIf="BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors.pattern">
+                                        Invalid input ,Example(2012-2013)
+                                     </div>
+                                 </span>
                         </div>
                     </div>
                 </div>

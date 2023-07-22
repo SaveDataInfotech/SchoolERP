@@ -36,7 +36,15 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="class_name" class="form-control" type="text">
+                                    <input [ngClass]="{'is-invalid':Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}" formControlName="class_name" class="form-control" type="text">
+                                    <span class="text-danger" *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors">
+                                        <div *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.required">
+                                              Class name is required
+                                        </div>
+                                        <div *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.pattern">
+                                         Use only letters or numbers
+                                         </div>
+                                     </span>
                                 </div>
                             </div>
                         </div>

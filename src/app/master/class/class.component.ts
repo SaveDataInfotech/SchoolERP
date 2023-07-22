@@ -50,7 +50,7 @@ export class ClassComponent implements OnInit {
 
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
-    class_name: new FormControl('', [Validators.required]),
+    class_name: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z0-9]+$')]),
     cuid: new FormControl(1),
   })
 

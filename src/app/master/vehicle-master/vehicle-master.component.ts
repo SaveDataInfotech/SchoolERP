@@ -180,7 +180,7 @@ export class VehicleMasterComponent implements OnInit {
 
   vehicleplaceForm = new FormGroup({
     placeid: new FormControl(0),
-    root_no: new FormControl(),
+    root_no: new FormControl(0),
     place: new FormControl('', [Validators.required]),
     cuid: new FormControl(1)
   })
@@ -237,7 +237,7 @@ export class VehicleMasterComponent implements OnInit {
   cancelClickPlace() {
     this.vehicleplaceForm.reset();
     this.vehicleplaceForm.get('placeid')?.setValue(0);
-    this.vehicleplaceForm.get('root_no')?.setValue(null);
+    this.vehicleplaceForm.get('root_no')?.setValue(0);
     this.vehicleplaceForm.get('place')?.setValue('');
     this.vehicleplaceForm.get('cuid')?.setValue(1);
     this.buttonIdPlace = true;

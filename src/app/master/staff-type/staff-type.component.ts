@@ -28,13 +28,9 @@ export class StaffTypeComponent implements OnInit {
 
   stafftypeForm = new FormGroup({
     staffTypeid: new FormControl(0),
-    stafftype: new FormControl('', [Validators.required]),
+    stafftype: new FormControl('', [Validators.required,Validators.pattern(/^([a-zA-Z]+)$/)]),
     cuid: new FormControl(1),
   })
-
-  get stafftype() {
-    return this.stafftypeForm.get('stafftype');
-  }
 
   refreshstaffTypeList() {
     this.stySvc.getstaffTypeList().subscribe(data => {

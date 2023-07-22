@@ -25,8 +25,8 @@ export class SupplierMasterComponent implements OnInit {
 
   suppliertypeForm = new FormGroup({
     supplierid: new FormControl(0),
-    supplier_name: new FormControl('', [Validators.required]),
-    mobile_number: new FormControl('', [Validators.required]),
+    supplier_name: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]),
+    mobile_number: new FormControl('', [Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(10),Validators.maxLength(10)]),
     gst_no: new FormControl('', [Validators.required]),
     balance: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),

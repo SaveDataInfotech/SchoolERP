@@ -12,7 +12,8 @@ export class UniformMasterComponent implements OnInit {
   UniformSizeList: any = [];
   MaxId: any = [];
   buttonId: boolean = true;
-  overcoatif:boolean;
+  overcoatif: boolean;
+  submitted: boolean = false;
   constructor(
     private uniformSvc: UniformMasterService, private DialogSvc: DialogService) {
   }
@@ -25,19 +26,19 @@ export class UniformMasterComponent implements OnInit {
   uniformSizeForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
-    size: new FormControl('', [Validators.required]),
-    shirting: new FormControl('', [Validators.required]),
-    suiting: new FormControl('', [Validators.required]),
-    over_coat: new FormControl(''),
+    size: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
+    shirting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
+    suiting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
+    over_coat: new FormControl('--',[Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
     cuid: new FormControl(1),
   })
 
-  ifovercoatfun(value:any){
-    if(value != "Male"){
-      this.overcoatif=true;
+  ifovercoatfun(value: any) {
+    if (value != "Male") {
+      this.overcoatif = true;
     }
-    else{
-      this.overcoatif=false;
+    else {
+      this.overcoatif = false;
     }
   }
 
@@ -47,43 +48,55 @@ export class UniformMasterComponent implements OnInit {
       this.UniformSizeList = data;
     });
   }
+  ngsubmit(){
+    debugger;
+    this.submitted = true
+    if (this.uniformSizeForm.invalid) {
+       this.submitted = true
+    }
+  }
 
   NewUniformSize() {
-    if(this.uniformSizeForm.value.uniformid == 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var uniformsizeinsert = (this.uniformSizeForm.value);
-          this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {              
-              this.refreshUniformSizeList();
-              this.getMaxId();
-              this.cancelClick();
+    if (this.uniformSizeForm.valid) {
+      if (this.uniformSizeForm.value.uniformid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var uniformsizeinsert = (this.uniformSizeForm.value);
+              this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.refreshUniformSizeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
-    }
-    else if(this.uniformSizeForm.value.uniformid != 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var uniformsizeinsert = (this.uniformSizeForm.value);
-          this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.refreshUniformSizeList();
-              this.getMaxId();
-              this.cancelClick();
+      }
+      else if (this.uniformSizeForm.value.uniformid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var uniformsizeinsert = (this.uniformSizeForm.value);
+              this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.refreshUniformSizeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
+      }
+      else {
+        alert("something error;")
+      }
     }
-    else{
-      alert("something error;")
-    }    
+    else if(this.uniformSizeForm.valid){
+      alert("invalid")
+    }
   }
 
   getMaxId() {
@@ -110,11 +123,11 @@ export class UniformMasterComponent implements OnInit {
   }
 
   udateGetClick(size: any) {
-    if(size.gender == "Male"){
-      this.overcoatif=false;
+    if (size.gender == "Male") {
+      this.overcoatif = false;
     }
-    else{
-      this.overcoatif=true;
+    else {
+      this.overcoatif = true;
     }
     this.uniformSizeForm.get('uniformid')?.setValue(size.uniformid);
     this.uniformSizeForm.get('gender')?.setValue(size.gender);
@@ -136,7 +149,7 @@ export class UniformMasterComponent implements OnInit {
     this.uniformSizeForm.get('over_coat')?.setValue('');
     this.uniformSizeForm.get('cuid')?.setValue(1);
     this.buttonId = true;
-    this.overcoatif=false;
+    this.overcoatif = false;
   }
 
 }

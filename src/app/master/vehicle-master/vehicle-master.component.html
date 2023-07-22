@@ -24,7 +24,7 @@
                                 </span>
                                 <span *ngIf="buttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="typeid" class="form-control" type="text" readonly required>
+                                        <input formControlName="typeid"  class="form-control" type="text" readonly required>                                        
                                     </div>
                                 </span>
                             </div>
@@ -32,10 +32,15 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle Name</label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle Name<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="vehicle_name" class="form-control" type="text" required>
+                                    <input [ngClass]="{'is-invalid':vehicletypeForm.controls.vehicle_name.touched && vehicletypeForm.controls.vehicle_name.errors}" formControlName="vehicle_name" class="form-control" type="text" required>
+                                    <span class="text-danger" *ngIf="vehicletypeForm.controls.vehicle_name.touched && vehicletypeForm.controls.vehicle_name.errors">
+                                        <div *ngIf="vehicletypeForm.controls.vehicle_name.touched && vehicletypeForm.controls.vehicle_name.errors.required">
+                                            Vehicle Name is required
+                                        </div>                                
+                                     </span>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +249,7 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select formControlName="root_no"  style="width: 100%;" class="form-control " name="selectAction">
-                                        <option value="" selected disabled>Please select</option>
+                                        <option value=0 selected disabled>Please select</option>
                                         <option [ngValue]="VehicleRoot.vehicle_root_no" *ngFor="let VehicleRoot of vehicleNoRootList;">{{VehicleRoot.vehicle_root_no}}</option>                                        
                                     </select>
                                 </div>
