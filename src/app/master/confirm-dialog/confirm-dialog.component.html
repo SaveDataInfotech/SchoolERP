@@ -8,11 +8,11 @@
        
         <div class="col-sm-12 mt-2" >
             <div style="width: 50%;float: left;">
-                <button class="btn btn-danger mt-4 btn-sm" style="width: 70%;border-radius: 5px;font-size: medium;" (click)="closedialog()" >NO</button>
+                <button class="btn btn-success mt-4 btn-sm" style="width: 70%;border-radius: 5px;font-size: medium;" [mat-dialog-close]="true">Yes</button>
             </div>
 
             <div style="width: 50%;float: left;">
-                <button class="btn btn-success mt-4 btn-sm" style="width: 70%;border-radius: 5px;font-size: medium;" [mat-dialog-close]="true">Yes</button>
+                <button class="btn btn-danger mt-4 btn-sm" style="width: 70%;border-radius: 5px;font-size: medium;" (click)="closedialog()" >NO</button>
             </div>
         </div>
     </div>

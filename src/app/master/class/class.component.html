@@ -18,7 +18,7 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxId">
-                                        <input placeholder={{code.classid+1}} class="form-control" type="text" readonly
+                                        <input placeholder="0{{code.classid+1}}" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>
@@ -113,7 +113,7 @@
                                 </div>
                                 <span *ngIf="SectionbuttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxSectionId">
-                                        <input placeholder={{code.sectionid+1}} class="form-control" type="text"
+                                        <input placeholder="0{{code.sectionid+1}}" class="form-control" type="text"
                                             readonly required>
                                     </div>
                                 </span>
@@ -236,7 +236,7 @@
                                 </div>
                                 <span *ngIf="GroupbuttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxGroupId">
-                                        <input placeholder={{code.groupid+1}} class="form-control" type="text" readonly
+                                        <input placeholder="0{{code.groupid+1}}" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>

@@ -26,6 +26,7 @@ export class ClassComponent implements OnInit {
   //Fillter new list array
   newlist: any = [];
 
+
   constructor(
     private ClassSvc: studentClassService, private GroupSvc: studentGroupService, private ScSvc: studentSectionService,
     private DialogSvc: DialogService) {

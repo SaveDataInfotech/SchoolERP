@@ -18,7 +18,7 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder={{code.typeid+1}} class="form-control" type="text" readonly
+                                        <input placeholder="0{{code.typeid+1}}" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>
@@ -226,7 +226,7 @@
                                 </div>
                                 <span *ngIf="buttonIdPlace == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxIdPlace">
-                                        <input placeholder={{code.placeid+1}} class="form-control" type="text" readonly
+                                        <input placeholder="0{{code.placeid+1}}" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>

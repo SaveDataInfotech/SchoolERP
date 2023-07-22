@@ -8,15 +8,23 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="uniformSizeForm" (ngSubmit)="NewUniformSize()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label  class="pt-2" style="margin: auto;">Uniform Code</label>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="0011788" class="form-control" type="text" disabled required>
-                        </div>
+                        <span *ngIf="buttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxId">
+                                <input placeholder="00{{code.uniformid+1}}" class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span *ngIf="buttonId != true">
+                            <div class="inputdiv">
+                                <input formControlName="uniformid" class="form-control" type="text" readonly required>
+                            </div>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -25,10 +33,11 @@
                             <label  class="pt-2" style="margin: auto;">Gender</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">                                
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Others</option>
+                            <select #t (change)="ifovercoatfun(t.value)" style="width: 100%;" class="form-control" formControlName="gender" name="selectAction">
+                                <option value="" selected disabled>Please select</option>
+                                <option value="Male">Male</option>
+                                <option value="FeMale">Female</option>
+                                <option value="Others">Others</option>
                             </select>
                         </div>
                     </div>
@@ -39,7 +48,7 @@
                             <label  class="pt-2" style="margin: auto;">Size</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text"  required>
+                            <input formControlName="size" class="form-control" type="text"  required>
                         </div>
                     </div>
                 </div>
@@ -49,7 +58,7 @@
                             <label  class="pt-2" style="margin: auto;">Shirting</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="shirting" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -60,18 +69,18 @@
                             <label  class="pt-2" style="margin: auto;">Suiting</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="suiting" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div *ngIf="overcoatif == true" class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label  class="pt-2" style="margin: auto;">Over Coat</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="over_coat" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -81,9 +90,11 @@
                         <div style="float: left;width: 150px;text-align: left;">
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            <input *ngIf="buttonId == true " [disabled]="uniformSizeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                <input *ngIf="buttonId != true" [disabled]="uniformSizeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                            <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClick()"
                                 class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                         </div>
                     </div>
@@ -107,16 +118,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Female</td>
-                            <td>Small</td>
-                            <td>1.5m</td>
-                            <td>1.5m</td>
-                            <td>1.5m</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                        <tr *ngFor="let size of UniformSizeList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{size.gender}}</td>
+                            <td>{{size.size}}</td>
+                            <td>{{size.shirting}}</td>
+                            <td>{{size.suiting}}</td>
+                            <td>{{size.over_coat}}</td>
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(size)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteuniformSize(size.uniformid)"
                                     class="pl-2">delete</mat-icon>
                             </td>
                         </tr>

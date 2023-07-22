@@ -18,7 +18,7 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder={{code.subjectid+1}} class="form-control" type="text" readonly
+                                        <input placeholder="0{{code.subjectid+1}}" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>
@@ -213,15 +213,23 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="subjectBranchForm" (ngSubmit)="newSubjectBranch()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label  class="pt-2" style="margin: auto;">Subject Code</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="BranchbuttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxIdBranch">
+                                        <input placeholder="0{{code.branchid+1}}" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                                <span *ngIf="BranchbuttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="branchid" class="form-control" type="text" readonly required>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div class="row">
@@ -230,8 +238,11 @@
                                     <label  class="pt-2" style="margin: auto;">Subject Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="Science" class="form-control" type="tel" required>
-                                </div>
+                                <select formControlName="subjectid"  style="width: 100%;" class="form-control " name="selectAction">
+                                    <option value=0 selected disabled>Please select</option>
+                                    <option [ngValue]="subject.subjectid" *ngFor="let subject of subjectDetailList;">{{subject.subject_name}}</option>                                        
+                                </select>
+                            </div>
                             </div>
                         </div>
 
@@ -241,7 +252,7 @@
                                     <label  class="pt-2" style="margin: auto;">Branch Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="Chemistry" class="form-control" type="tel" required>
+                                    <input formControlName="branch_name" class="form-control" type="tel" required>
                                 </div>
                             </div>
                         </div>
@@ -251,9 +262,11 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    <input *ngIf="BranchbuttonId == true " [disabled]="subjectBranchForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="BranchbuttonId != true" [disabled]="subjectBranchForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickSubBranch()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
@@ -269,16 +282,18 @@
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Subject Name</th>
+                                    <th>Branch Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Tamil</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                <tr *ngFor="let branch of subjectBranchList;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{branch.subject_name}}</td>
+                                    <td>{{branch.branch_name}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClickSubBranch(branch)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClickSubBranch(branch.branchid)"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
