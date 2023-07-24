@@ -20,6 +20,10 @@ export class BatechYearService {
     return this.http.get<any[]>(this.apiUrl + 'BatchYear/get_MaxId_batch_year');
   }
 
+  GetActiveBatchYear(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'BatchYear/ActiveBatchGet');
+  }
+
   addNewBatch(Batchinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post(this.apiUrl + 'BatchYear/Insert_Batch_year', Batchinsert, httpOptions);

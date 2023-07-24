@@ -32,10 +32,16 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Leave Type</label>
+                                    <label  class="pt-2" style="margin: auto;">Leave Type <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="type_name" class="form-control" type="tel" required>
+                                    <input [ngClass]="{'is-invalid':leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors}"
+                                     formControlName="type_name" class="form-control" type="tel" required>
+                                     <span class="text-danger" *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors">
+                                        <div *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors.required">
+                                              Leave type is required
+                                        </div>                                       
+                                     </span>
                                 </div>
                             </div>
                         </div>
@@ -44,12 +50,10 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="buttonId == true " [disabled]="leavetypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                <div style="float: left;width: 250px;">                                   
+                                        <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="buttonId != true" [disabled]="leavetypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
@@ -171,12 +175,10 @@
                         </div>
 
                         <div class="col-sm-12 mt-4">
-                            <div style="text-align: center;">
-                                <!-- <input matTooltip="Click to Save" [disabled]="leaveAssignForm.invalid" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                    <input *ngIf="AssignbuttonId == true " [disabled]="leaveAssignForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            <div style="text-align: center;">                            
+                                    <input *ngIf="AssignbuttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="AssignbuttonId != true" [disabled]="leaveAssignForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        <input *ngIf="AssignbuttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                 <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button" style="width: 80px;"
                                     class="btn btn-danger btn-sm mt-4  " value="Cancel" />

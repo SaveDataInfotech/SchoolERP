@@ -18,8 +18,8 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxId">
-                                        <input placeholder="0{{code.classid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.classid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonId != true">
@@ -33,18 +33,24 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Class Name</label>
+                                    <label class="pt-2" style="margin: auto;">Class Name <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input [ngClass]="{'is-invalid':Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}" formControlName="class_name" class="form-control" type="text">
-                                    <span class="text-danger" *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors">
-                                        <div *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.required">
-                                              Class name is required
+                                    <input
+                                        [ngClass]="{'is-invalid': Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}"
+                                        formControlName="class_name" class="form-control" type="text">
+                                    <span class="text-danger"
+                                        *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors">
+                                        <div
+                                            *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.required">
+                                            Class name is required
                                         </div>
-                                        <div *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.pattern">
-                                         Use only letters or numbers
-                                         </div>
-                                     </span>
+                                        <div
+                                            *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.pattern">
+                                            Use only letters or numbers
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -54,14 +60,10 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                    <input *ngIf="buttonId == true " [disabled]="Student_classForm.invalid"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonId != true" [disabled]="Student_classForm.invalid"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
@@ -214,7 +216,7 @@
                                             (click)="updateSectionClick(section)" style="color: blue;cursor: pointer;"
                                             class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                         (click)="sectionDeleteClick(section.sectionid)"   class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>
@@ -244,8 +246,8 @@
                                 </div>
                                 <span *ngIf="GroupbuttonId == true ">
                                     <div style="float: left;width: 250px;" *ngFor="let code of MaxGroupId">
-                                        <input placeholder="0{{code.groupid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.groupid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="GroupbuttonId != true">
@@ -257,28 +259,46 @@
                             </div>
                         </div>
                         <div class="row">
-
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Class Name</label>
+                                    <label class="pt-2" style="margin: auto;">Class Name <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control" formControlName="classid"
+                                        [ngClass]="{'is-invalid': Student_GroupForm.get('classid')?.touched && Student_GroupForm.get('classid')?.errors}"
                                         name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
+                                        <option value="null" selected disabled>Please select</option>
                                         <option *ngFor="let class of ClassList;" [ngValue]="class.classid">
                                             {{class.class_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="Student_GroupForm.get('classid')?.touched && Student_GroupForm.get('classid')?.errors">Class
+                                        name is required</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Group Name</label>
+                                    <label class="pt-2" style="margin: auto;">Group Name <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="group_name" class="form-control" type="tel" required>
+                                    <input
+                                        [ngClass]="{'is-invalid': Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors}"
+                                        formControlName="group_name" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors">
+                                        <div
+                                            *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors.required">
+                                            Group name is required
+                                        </div>
+                                        <div
+                                            *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors.pattern">
+                                            Use only letters or numbers
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -288,14 +308,10 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="GroupbuttonId == true " [disabled]="Student_GroupForm.invalid"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="GroupbuttonId != true" [disabled]="Student_GroupForm.invalid"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input *ngIf="GroupbuttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="GroupbuttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)=GroupcancelClick() type="button"
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>

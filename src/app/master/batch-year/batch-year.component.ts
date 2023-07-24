@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -12,7 +11,7 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 })
 export class BatchYearComponent implements OnInit {
 
-  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService,private notificationSvc:NotificationsService) { }
+  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService, private notificationSvc: NotificationsService) { }
   BatchList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
@@ -41,14 +40,21 @@ export class BatchYearComponent implements OnInit {
   }
 
   NewBatchYear() {
-    var Batchinsert = (this.BatchYearForm.value);
-    this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshBatchYearList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    if (this.BatchYearForm.valid) {
+      var Batchinsert = (this.BatchYearForm.value);
+      this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.refreshBatchYearList();
+          this.getMaxId();
+          this.cancelClick();
+        }
+      });
+    }
+    else {
+      this.BatchYearForm.markAllAsTouched();
+    }
+
   }
 
   udateGetClick(batch: any) {
@@ -72,8 +78,8 @@ export class BatchYearComponent implements OnInit {
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.batchyearSvc.deleteBatch(batchid).subscribe(res => {
-            this.notificationSvc.error("Deleted Success")
             if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
               this.refreshBatchYearList();
               this.getMaxId();
               this.cancelClick();

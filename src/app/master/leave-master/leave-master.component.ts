@@ -24,7 +24,7 @@ export class LeaveMasterComponent implements OnInit {
 
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
-    private notificationSvc:NotificationsService) { }
+    private notificationSvc: NotificationsService) { }
 
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -52,15 +52,21 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   NewLeaveType() {
-    var leavetypeinsert = (this.leavetypeForm.value);
-    this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshLeaveTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    if (this.leavetypeForm.valid) {
+      var leavetypeinsert = (this.leavetypeForm.value);
+      this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
+        console.log(res, 'resss')
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.refreshLeaveTypeList();
+          this.getMaxId();
+          this.cancelClick();
+        }
+      });
+    }
+    else {
+      this.leavetypeForm.markAllAsTouched();
+    }
   }
 
   getMaxId() {

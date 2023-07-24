@@ -26,9 +26,9 @@ export class studentSectionService{
   }
 
 
-  deleteGroup(groupid: any): Observable<any> {
+  deleteSection(sectionid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete<any>(this.apiUrl + 'StudentGroup/delete_staff_type?groupid=' + groupid, httpOptions);
+    return this.http.delete<any>(this.apiUrl + 'StudentSection/delete_student_section?sectionid=' + sectionid, httpOptions);
   }
 
 }

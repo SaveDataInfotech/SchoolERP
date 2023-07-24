@@ -16,7 +16,7 @@ export class UniformMasterComponent implements OnInit {
   overcoatif: boolean;
   submitted: boolean = false;
   constructor(
-    private uniformSvc: UniformMasterService, private DialogSvc: DialogService,private notificationSvc:NotificationsService) {
+    private uniformSvc: UniformMasterService, private DialogSvc: DialogService, private notificationSvc: NotificationsService) {
   }
   ngOnInit(): void {
     this.refreshUniformSizeList(),
@@ -30,7 +30,7 @@ export class UniformMasterComponent implements OnInit {
     size: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
     shirting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
     suiting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
-    over_coat: new FormControl('--',[Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
+    over_coat: new FormControl('--', [Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
     cuid: new FormControl(1),
   })
 
@@ -49,11 +49,11 @@ export class UniformMasterComponent implements OnInit {
       this.UniformSizeList = data;
     });
   }
-  ngsubmit(){
+  ngsubmit() {
     debugger;
     this.submitted = true
     if (this.uniformSizeForm.invalid) {
-       this.submitted = true
+      this.submitted = true
     }
   }
 
@@ -67,6 +67,7 @@ export class UniformMasterComponent implements OnInit {
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
+                  this.notificationSvc.success("Save Success")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();
@@ -83,6 +84,7 @@ export class UniformMasterComponent implements OnInit {
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
+                  this.notificationSvc.success("Update Success")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();
@@ -95,8 +97,8 @@ export class UniformMasterComponent implements OnInit {
         alert("something error;")
       }
     }
-    else if(this.uniformSizeForm.valid){
-      alert("invalid")
+    else {
+      this.uniformSizeForm.markAllAsTouched();
     }
   }
 

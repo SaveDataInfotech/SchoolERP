@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { SubjectBranchService } from 'src/app/api-service/SubjectBranch.service';
+import { studentClassService } from 'src/app/api-service/studentClass.service';
+import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { subjectService } from 'src/app/api-service/subject.service';
 
 @Component({
@@ -13,15 +16,26 @@ import { subjectService } from 'src/app/api-service/subject.service';
 export class SubjectMasterComponent implements OnInit {
   MaxId: any = [];
   buttonId: boolean = true;
-  subjectDetailList: any[] = [];
+  subjectDetailList: any = [];
 
 
-  subjectBranchList:any=[];
-  MaxIdBranch:any=[];
-  BranchbuttonId:boolean=true;
-  
-  constructor(private subjectSvc: subjectService,private BranchSvc: SubjectBranchService,
-    private DialogSvc: DialogService,private notificationSvc:NotificationsService) { }
+  subjectBranchList: any = [];
+  MaxIdBranch: any = [];
+  BranchbuttonId: boolean = true;
+
+
+  //Subject Assign
+  groupDisplay: boolean = true;
+  ClassList: any = [];
+  GroupList: any = [];
+  SectionList: any = [];
+  groupFilterlist: any = [];
+  sectionFilterlist: any = [];
+
+  constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
+    private DialogSvc: DialogService, private notificationSvc: NotificationsService,
+    private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
+    private ScSvc: studentSectionService) { }
 
   ngOnInit(): void {
     this.refreshsubjectList(),
@@ -30,7 +44,14 @@ export class SubjectMasterComponent implements OnInit {
 
       this.refreshsubjectBranchList(),
       this.getMaxIdSubBranch(),
-      this.cancelClickSubBranch()
+      this.cancelClickSubBranch(),
+
+
+      //Subject Assign
+
+      this.refreshClassList()
+    this.refreshGroupList()
+    this.refreshSectionList()
   }
 
   subjectForm = new FormGroup({
@@ -46,41 +67,47 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   newSubject() {
-    if(this.subjectForm.value.subjectid == 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var subjectinsert = (this.subjectForm.value);
-          this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {              
-              this.refreshsubjectList();
-              this.getMaxId();
-              this.cancelClick();
+    if (this.subjectForm.valid) {
+      if (this.subjectForm.value.subjectid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var subjectinsert = (this.subjectForm.value);
+              this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Save Success")
+                  this.refreshsubjectList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
-    }
-    else if(this.subjectForm.value.subjectid != 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var subjectinsert = (this.subjectForm.value);
-          this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.refreshsubjectList();
-              this.getMaxId();
-              this.cancelClick();
+      }
+      else if (this.subjectForm.value.subjectid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var subjectinsert = (this.subjectForm.value);
+              this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.refreshsubjectList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
+      }
+      else {
+        alert("Something error;")
+      }
     }
-    else{
-      alert("Something error;")
-    }    
+    else {
+      this.subjectForm.markAllAsTouched();
+    }
   }
 
   getMaxId() {
@@ -139,41 +166,41 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   newSubjectBranch() {
-    if(this.subjectBranchForm.value.branchid == 0){
+    if (this.subjectBranchForm.value.branchid == 0) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var subBranchinsert = (this.subjectBranchForm.value);
-          this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {              
-              this.refreshsubjectBranchList();
-              this.getMaxIdSubBranch();
-              this.cancelClickSubBranch();
-            }
-          });
-        }
-      });
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            var subBranchinsert = (this.subjectBranchForm.value);
+            this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
+              console.log(res, 'resss')
+              if (res?.recordid) {
+                this.refreshsubjectBranchList();
+                this.getMaxIdSubBranch();
+                this.cancelClickSubBranch();
+              }
+            });
+          }
+        });
     }
-    else if(this.subjectBranchForm.value.branchid != 0){
+    else if (this.subjectBranchForm.value.branchid != 0) {
       this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var subBranchinsert = (this.subjectBranchForm.value);
-          this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.refreshsubjectBranchList();
-              this.getMaxIdSubBranch();
-              this.cancelClickSubBranch();
-            }
-          });
-        }
-      });
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            var subBranchinsert = (this.subjectBranchForm.value);
+            this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
+              console.log(res, 'resss')
+              if (res?.recordid) {
+                this.refreshsubjectBranchList();
+                this.getMaxIdSubBranch();
+                this.cancelClickSubBranch();
+              }
+            });
+          }
+        });
     }
-    else{
+    else {
       alert("Something error;")
-    }    
+    }
   }
 
   getMaxIdSubBranch() {
@@ -214,6 +241,62 @@ export class SubjectMasterComponent implements OnInit {
     this.subjectBranchForm.get('branch_name')?.setValue('');
     this.subjectBranchForm.get('cuid')?.setValue(1);
     this.BranchbuttonId = true;
+  }
+
+  //Subject Assign
+
+  subjectAssignForm = new FormGroup({
+    subjectAssignid: new FormControl(0),
+    classid: new FormControl(0, [Validators.required]),
+    groupid: new FormControl(0, [Validators.required]),
+    sectionid: new FormControl(0, [Validators.required]),
+    cuid: new FormControl(1),
+  })
+
+
+  refreshClassList() {
+    this.ClassSvc.getClassList().subscribe(data => {
+      this.ClassList = data;
+    });
+  }
+
+  refreshGroupList() {
+    this.GroupSvc.getGroupList().subscribe(data => {
+      this.GroupList = data;
+    });
+  }
+
+  refreshSectionList() {
+    this.ScSvc.getSectionList().subscribe(data => {
+      this.SectionList = data;
+    });
+  }
+
+
+  FilterGroupfun(classsid: any) {
+    debugger;
+    const classid = Number(classsid);
+    this.subjectAssignForm.get('classid')?.setValue(classid);
+    this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+    this.subjectAssignForm.get('groupid')?.setValue(0);
+    this.subjectAssignForm.get('sectionid')?.setValue(0);
+    if (this.groupFilterlist.length == 0) {
+      this.groupDisplay = false;
+      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+      this.subjectAssignForm.get('sectionid')?.setValue(0);
+    }
+    else {
+      this.groupDisplay = true;
+      this.subjectAssignForm.get('sectionid')?.setValue(0);
+    }
+  }
+
+  FilterSectionfun(groupID: any) {
+    debugger;
+    const groupid = Number(groupID);
+    this.subjectAssignForm.get('groupid')?.setValue(groupid);
+    this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+    this.subjectAssignForm.get('sectionid')?.setValue(0);
   }
 
 

@@ -24,16 +24,20 @@ export class ClassComponent implements OnInit {
   MaxSectionId: any = [];
   SectionbuttonId: boolean = true;
 
-  //Fillter new list array
+  //Fillter new list array for student Group
   newlist: any = [];
 
 
   constructor(
-    private ClassSvc: studentClassService, private GroupSvc: studentGroupService, private ScSvc: studentSectionService,
-    private DialogSvc: DialogService,private notificationSvc:NotificationsService) {
+    private ClassSvc: studentClassService,
+    private GroupSvc: studentGroupService,
+    private ScSvc: studentSectionService,
+    private DialogSvc: DialogService,
+    private notificationSvc: NotificationsService) {
   }
 
   ngOnInit(): void {
+    //Student Class
     this.refreshClassList(),
       this.getMaxId(),
       this.cancelClick(),
@@ -49,9 +53,11 @@ export class ClassComponent implements OnInit {
     this.SectioncancelClick()
   }
 
+  //Student Class
+
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
-    class_name: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z0-9]+$')]),
+    class_name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]),
     cuid: new FormControl(1),
   })
 
@@ -62,14 +68,21 @@ export class ClassComponent implements OnInit {
   }
 
   New_Class() {
-    var Classinsert = (this.Student_classForm.value);
-    this.ClassSvc.addNewstaffType(Classinsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshClassList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    if (this.Student_classForm.valid) {
+      var Classinsert = (this.Student_classForm.value);
+      this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.refreshClassList();
+          this.getMaxId();
+          this.cancelClick();
+        }
+      });
+    }
+    else {
+      this.Student_classForm.markAllAsTouched();
+    }
+
   }
 
   getMaxId() {
@@ -82,7 +95,7 @@ export class ClassComponent implements OnInit {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
-          this.ClassSvc.deletestaffType(classid).subscribe(res => {
+          this.ClassSvc.deleteClass(classid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
               this.refreshClassList();
@@ -112,17 +125,10 @@ export class ClassComponent implements OnInit {
   //Student Group
   Student_GroupForm = new FormGroup({
     groupid: new FormControl(0),
-    classid: new FormControl(0),
+    classid: new FormControl(null, [Validators.required]),
     group_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
-
-  // changeGroupClassfun(classsid:any){
-  //   debugger;
-  //   const classid=Number(classsid);
-  //   this.Student_GroupForm.get('classid')?.setValue(classid);
-  // }
-
 
   refreshGroupList() {
     this.GroupSvc.getGroupList().subscribe(data => {
@@ -138,20 +144,24 @@ export class ClassComponent implements OnInit {
 
   NewGroup() {
     debugger;
-    var Groupinsert = (this.Student_GroupForm.value);
-    this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
-      if (res?.recordid) {
-        this.SectioncancelClick();
-        this.refreshGroupList();
-        this.getGroupMaxId();
-        this.GroupcancelClick();
-        //this.cancelClick();        
-      }
-    });
+    if (this.Student_GroupForm.valid) {
+      var Groupinsert = (this.Student_GroupForm.value);
+      this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.SectioncancelClick();
+          this.refreshGroupList();
+          this.getGroupMaxId();
+          this.GroupcancelClick();
+        }
+      });
+    }
+    else {
+      this.Student_GroupForm.markAllAsTouched();
+    }
   }
 
   updateGroupClick(group: any) {
-    debugger;
     this.Student_GroupForm.get('groupid')?.setValue(group.groupid);
     this.Student_GroupForm.get('classid')?.setValue(group.classid);
     this.Student_GroupForm.get('group_name')?.setValue(group.group_name);
@@ -160,10 +170,9 @@ export class ClassComponent implements OnInit {
   }
 
   GroupcancelClick() {
-    debugger;
     this.Student_GroupForm.reset();
     this.Student_GroupForm.get('groupid')?.setValue(0);
-    this.Student_GroupForm.get('classid')?.setValue(0);
+    this.Student_GroupForm.get('classid')?.setValue(null);
     this.Student_GroupForm.get('group_name')?.setValue('');
     this.Student_GroupForm.get('cuid')?.setValue(1);
     this.GroupbuttonId = true;
@@ -176,6 +185,7 @@ export class ClassComponent implements OnInit {
           this.GroupSvc.deleteGroup(groupid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
+              this.SectioncancelClick();
               this.refreshGroupList();
               this.getGroupMaxId();
               this.GroupcancelClick();
@@ -247,6 +257,22 @@ export class ClassComponent implements OnInit {
     this.Student_SectionForm.get('section_name')?.setValue('');
     this.Student_SectionForm.get('cuid')?.setValue(1);
     this.SectionbuttonId = true;
+  }
+
+  sectionDeleteClick(sectionid: number) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.ScSvc.deleteSection(sectionid).subscribe(res => {
+            if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
+              this.SectioncancelClick();
+              this.refreshSectionList();
+              this.getSectionMaxId();
+            }
+          });
+        }
+      });
   }
 
 }

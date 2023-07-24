@@ -18,8 +18,8 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder="000{{code.typeid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="000{{code.typeid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonId != true">
@@ -33,10 +33,21 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Type</label>
+                                    <label class="pt-2" style="margin: auto;">Fees Type <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="type_name" class="form-control" type="tel" required>
+                                    <input
+                                        [ngClass]="{'is-invalid':feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors}"
+                                        formControlName="type_name" class="form-control" type="tel" required>
+
+                                    <span class="text-danger"
+                                        *ngIf="feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors">
+                                        <div
+                                            *ngIf="feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors.required">
+                                            Fees Type is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -46,12 +57,10 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="buttonId == true " [disabled]="feestypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input *ngIf="buttonId != true" [disabled]="feestypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)=" cancelClick()" type="button"
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
@@ -109,8 +118,8 @@
                                 </div>
                                 <span *ngIf="buttonIdLess == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxIdLess">
-                                        <input placeholder="000{{code.fess_lessid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="000{{code.fess_lessid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonIdLess != true">
@@ -124,11 +133,19 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Less Category</label>
+                                    <label class="pt-2" style="margin: auto;">Fees Less Category <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" formControlName="less_type" class="form-control" type="tel"
-                                        required>
+                                    <input
+                                        [ngClass]="{'is-invalid':feesLessForm.controls.less_type.touched && feesLessForm.controls.less_type.errors}"
+                                        formControlName="less_type" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="feesLessForm.controls.less_type.touched && feesLessForm.controls.less_type.errors">
+                                        <div
+                                            *ngIf="feesLessForm.controls.less_type.touched && feesLessForm.controls.less_type.errors.required">
+                                            Fees Less Category is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -138,12 +155,12 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonIdLess == true " [disabled]="feesLessForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonIdLess != true" [disabled]="feesLessForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)="cancelClickLess()" type="button" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input *ngIf="buttonIdLess == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonIdLess != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" (click)="cancelClickLess()" type="button"
+                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -167,9 +184,11 @@
                                 <tr *ngFor="let less of FeesLessList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{less.less_type}}</td>
-                                    <td class="tdoption"> <mat-icon (click)="udateGetClickLess(less)" matTooltip="Click to Edit"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon (click)="deleteClickLess(less.fess_lessid)" matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    <td class="tdoption"> <mat-icon (click)="udateGetClickLess(less)"
+                                            matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
+                                        <mat-icon (click)="deleteClickLess(less.fess_lessid)"
+                                            matTooltip="Click to Delete" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
@@ -192,15 +211,24 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="feesAssignForm" (ngSubmit)="newFeesAssign()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Assign Code</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
+                                <span *ngIf="assignbuttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxIdAssign">
+                                        <input placeholder="0{{code.assignid+1}}" class="form-control" type="text"
+                                            readonly required>
+                                    </div>
+                                </span>
+                                <span *ngIf="assignbuttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="assignid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
                             </div>
 
 
@@ -209,7 +237,8 @@
                                     <label class="pt-2" style="margin: auto;">Batch Year</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="2023-2024" class="form-control" type="text" required>
+                                    <input formControlName="batch_year" class="form-control" type="text" readonly
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -219,10 +248,11 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
+                                    <select formControlName="classid" style="width: 100%;" #t
+                                        (change)="FilterGroupfun(t.value)" class="form-control " name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -232,25 +262,26 @@
                                     <label class="pt-2" style="margin: auto;">Fees Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>School Fees</option>
-                                        <option>Hostel Fees</option>
-                                        <option>Bus Fees</option>
+                                    <select style="width: 100%;" formControlName="feestype" class="form-control "
+                                        name="selectAction">
+                                        <option value="" selected disabled>Please select </option>
+                                        <option *ngFor="let type of FeesList">{{type.type_name}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6 mt-3" style="display: flex;" *ngIf="groupDisplay == true">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Computer Science</option>
-                                        <option>Bio-Maths</option>
-                                        <option>Science</option>
+                                    <select formControlName="groupid" style="width: 100%;" #s
+                                        (change)="FilterSectionfun(s.value)" class="form-control " name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -260,10 +291,10 @@
                                     <label class="pt-2" style="margin: auto;">Fees Less</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Staff Son/Doughter</option>
-                                        <option>Above 95% Mark</option>
-                                        <option>Other's</option>
+                                    <select style="width: 100%;" formControlName="fees_less" class="form-control "
+                                        name="selectAction">
+                                        <option value="" selected disabled>Please select </option>
+                                        <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -275,10 +306,12 @@
                                     <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>A</option>
-                                        <option>B</option>
-                                        <option>B</option>
+                                    <select formControlName="sectionid" style="width: 100%;" class="form-control "
+                                        name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="section.sectionid"
+                                            *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -287,7 +320,7 @@
                                     <label class="pt-2" style="margin: auto;">Amount</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="30,000" class="form-control" type="text" required>
+                                    <input class="form-control" formControlName="amount" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -298,7 +331,9 @@
                                     <label class="pt-2" style="margin: auto;">Gender</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" formControlName="gender" class="form-control "
+                                        name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                         <option>Other's</option>
@@ -308,25 +343,15 @@
 
                         </div>
 
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                <input *ngIf="assignbuttonId == true" matTooltip="Click to Save" type="submit"
+                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                <input *ngIf="assignbuttonId != true" matTooltip="Click to Save" type="submit"
+                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                    (click)="cancelClickAssign()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -351,14 +376,6 @@
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-3 mt-3">
-                                <div style="text-align: center;">
-                                    <input matTooltip="Click to Save" type="submit" class="btn btn-primary"
-                                        value="Save" />
-                                       <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
-                            value="Cancel" />
-                                </div>
-                            </div> -->
                         </div>
                     </form>
                 </mat-card-content>
@@ -367,26 +384,37 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <table class="col-sm-8 table table-hover table-bordered table-sm  ">
+                        <table class="col-sm-10 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Class Name</th>
+                                    <th>Group Name</th>
+                                    <th>Section Name</th>
+                                    <th>Gender</th>
+                                    <th>Batch Year</th>
                                     <th>Fees Type</th>
+                                    <th>Fees Less</th>
                                     <th>Amount</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>3</td>
-                                    <td>Staff Son/Doughter</td>
-                                    <td>30,000</td>
+                                <tr *ngFor="let Assign of FeesAssignList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{Assign.class_name}}</td>
+                                    <td>{{Assign.group_name}}</td>
+                                    <td>{{Assign.section_name}}</td>
+                                    <td>{{Assign.gender}}</td>
+                                    <td>{{Assign.batch_year}}</td>
+                                    <td>{{Assign.feestype}}</td>
+                                    <td>{{Assign.fees_less}}</td>
+                                    <td>{{Assign.amount}}</td>
                                     <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                            (click)="updateGetClickAssign(Assign)" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                            (click)="assigndeleteClick(Assign.assignid)" class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>

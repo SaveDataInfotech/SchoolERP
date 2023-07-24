@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { FeesTypeService } from 'src/app/api-service/FeesType.service';
+import { studentSectionService } from 'src/app/api-service/StudentSection.service';
+import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { studentClassService } from 'src/app/api-service/studentClass.service';
+import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 
 @Component({
   selector: 'app-fees-master',
@@ -20,11 +25,29 @@ export class FeesMasterComponent implements OnInit {
   buttonIdLess: boolean = true;
 
 
+  ClassList: any = [];
+  GroupList: any = [];
+  SectionList: any = [];
+  groupFilterlist: any = [];
+  sectionFilterlist: any = [];
+  activeBatchYear: any = [];
+  groupDisplay: boolean = true;
+  newgetbatch: string;
+
+  FeesAssignList: any = [];
+  MaxIdAssign: any = [];
+  assignbuttonId: boolean = true;
+
   constructor(
     private FtySvc: FeesTypeService,
     private FlSvc: FeesLessService,
     private DialogSvc: DialogService,
-    private notificationSvc:NotificationsService
+    private notificationSvc: NotificationsService,
+    private feeAsSvc: FeesAssignService,
+    private ClassSvc: studentClassService,
+    private GroupSvc: studentGroupService,
+    private ScSvc: studentSectionService,
+    private batchSvc: BatechYearService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +57,17 @@ export class FeesMasterComponent implements OnInit {
 
       this.refreshFeesLessList(),
       this.getMaxIdLess(),
-      this.cancelClickLess()
+      this.cancelClickLess(),
+
+      this.refreshClassList()
+    this.refreshGroupList()
+    this.refreshSectionList()
+    this.GetActiveBatchYear()
+
+    this.refreshFeesAssignList();
+    this.getMaxIdAssign();
+    this.cancelClickAssign();
+
   }
 
   feestypeForm = new FormGroup({
@@ -50,14 +83,21 @@ export class FeesMasterComponent implements OnInit {
   }
 
   NewFeesType() {
-    var feestypeinsert = (this.feestypeForm.value);
-    this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshFeesTypeList();
-        this.getMaxId();
-        this.cancelClick();
-      }
-    });
+    if (this.feestypeForm.valid) {
+      var feestypeinsert = (this.feestypeForm.value);
+      this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.refreshFeesTypeList();
+          this.getMaxId();
+          this.cancelClick();
+        }
+      });
+    }
+    else {
+      this.feestypeForm.markAllAsTouched();
+    }
+
   }
 
   getMaxId() {
@@ -120,14 +160,20 @@ export class FeesMasterComponent implements OnInit {
   }
 
   NewFeesLess() {
-    var feeslessinsert = (this.feesLessForm.value);
-    this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshFeesLessList();
-        this.getMaxIdLess();
-        this.cancelClickLess();
-      }
-    });
+    if (this.feesLessForm.valid) {
+      var feeslessinsert = (this.feesLessForm.value);
+      this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
+        if (res?.recordid) {
+          this.notificationSvc.success("Save Success")
+          this.refreshFeesLessList();
+          this.getMaxIdLess();
+          this.cancelClickLess();
+        }
+      });
+    }
+    else {     
+      this.feesLessForm.markAllAsTouched();
+    }
   }
 
   udateGetClickLess(less: any) {
@@ -159,5 +205,145 @@ export class FeesMasterComponent implements OnInit {
     this.feesLessForm.get('less_type')?.setValue('');
     this.feesLessForm.get('cuid')?.setValue(1);
     this.buttonIdLess = true;
+  }
+
+
+  //FeesAssign Backend Code
+
+  refreshClassList() {
+    this.ClassSvc.getClassList().subscribe(data => {
+      this.ClassList = data;
+    });
+  }
+
+  refreshGroupList() {
+    this.GroupSvc.getGroupList().subscribe(data => {
+      this.GroupList = data;
+    });
+  }
+
+  refreshSectionList() {
+    this.ScSvc.getSectionList().subscribe(data => {
+      this.SectionList = data;
+    });
+  }
+
+  GetActiveBatchYear() {
+    this.batchSvc.GetActiveBatchYear().subscribe(data => {
+      this.activeBatchYear = data;
+      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
+      this.newgetbatch = (getbatch.replace(/['"]+/g, ''));
+      this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
+    });
+  }
+
+
+  FilterGroupfun(classsid: any) {
+    debugger;
+    const classid = Number(classsid);
+    this.feesAssignForm.get('classid')?.setValue(classid);
+    this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+    this.feesAssignForm.get('groupid')?.setValue(0);
+    this.feesAssignForm.get('sectionid')?.setValue(0);
+    if (this.groupFilterlist.length == 0) {
+      this.groupDisplay = false;
+      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+      this.feesAssignForm.get('sectionid')?.setValue(0);
+    }
+    else {
+      this.groupDisplay = true;
+      this.feesAssignForm.get('sectionid')?.setValue(0);
+    }
+  }
+
+  FilterSectionfun(groupID: any) {
+    debugger;
+    const groupid = Number(groupID);
+    this.feesAssignForm.get('groupid')?.setValue(groupid);
+    this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+    this.feesAssignForm.get('sectionid')?.setValue(0);
+  }
+
+
+  feesAssignForm = new FormGroup({
+    assignid: new FormControl(0),
+    classid: new FormControl(0, [Validators.required]),
+    groupid: new FormControl(0, [Validators.required]),
+    sectionid: new FormControl(0, [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    batch_year: new FormControl('', [Validators.required]),
+    feestype: new FormControl('', [Validators.required]),
+    fees_less: new FormControl('', [Validators.required]),
+    amount: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
+
+  refreshFeesAssignList() {
+    this.feeAsSvc.getFeesAssignList().subscribe(data => {
+      this.FeesAssignList = data;
+    });
+  }
+
+  newFeesAssign() {
+    debugger;
+    var feesAssignInsert = (this.feesAssignForm.value);
+    this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
+      if (res?.recordid) {
+        this.refreshFeesAssignList();
+        this.getMaxIdAssign();
+        this.cancelClickAssign();
+      }
+    });
+  }
+
+  getMaxIdAssign() {
+    this.feeAsSvc.getMaxId().subscribe(data => {
+      this.MaxIdAssign = data;
+    });
+  }
+
+  assigndeleteClick(assignid: number) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.feeAsSvc.deleteFeesAssign(assignid).subscribe(res => {
+            if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
+              this.refreshFeesAssignList();
+              this.getMaxIdAssign();
+              this.cancelClickAssign();
+            }
+          });
+        }
+      });
+  }
+
+  updateGetClickAssign(Assign: any) {
+    this.feesAssignForm.get('assignid')?.setValue(Assign.assignid);
+    this.feesAssignForm.get('classid')?.setValue(Assign.classid);
+    this.feesAssignForm.get('groupid')?.setValue(Assign.groupid);
+    this.feesAssignForm.get('sectionid')?.setValue(Assign.sectionid);
+    this.feesAssignForm.get('gender')?.setValue(Assign.gender);
+    this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);
+    this.feesAssignForm.get('feestype')?.setValue(Assign.feestype);
+    this.feesAssignForm.get('fees_less')?.setValue(Assign.fees_less);
+    this.feesAssignForm.get('amount')?.setValue(Assign.amount);
+    this.feesAssignForm.get('cuid')?.setValue(Assign.cuid);
+    this.assignbuttonId = false;
+  }
+
+  cancelClickAssign() {
+    this.feesAssignForm.reset();
+    this.feesAssignForm.get('assignid')?.setValue(0);
+    this.feesAssignForm.get('classid')?.setValue(0);
+    this.feesAssignForm.get('groupid')?.setValue(0);
+    this.feesAssignForm.get('sectionid')?.setValue(0);
+    this.feesAssignForm.get('gender')?.setValue('');
+    this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
+    this.feesAssignForm.get('feestype')?.setValue('');
+    this.feesAssignForm.get('fees_less')?.setValue('');
+    this.feesAssignForm.get('amount')?.setValue('');
+    this.feesAssignForm.get('cuid')?.setValue(1);
+    this.assignbuttonId = true;
   }
 }

@@ -19,14 +19,12 @@ export class studentClassService {
     return this.http.get<any[]>(this.apiUrl + 'StudentClass/get_MaxId_student_class');
   }
 
-
-  addNewstaffType(Classinsert: any): Observable<any> {
+  addNewClass(Classinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentClass/insert_student_class', Classinsert, httpOptions);
   }
 
-  deletestaffType(classid:any): Observable<any> {
-    debugger;
+  deleteClass(classid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'StudentClass/delete_student_class?classid=' + classid, httpOptions);
   }

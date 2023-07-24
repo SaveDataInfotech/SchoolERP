@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import {
+  Router,
+  NavigationExtras
+} from '@angular/router';
 @Component({
   selector: 'app-enquiry-dashbord',
   templateUrl: './enquiry-dashbord.component.html',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnquiryDashbordComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
-
+fub(){
+  debugger;
+  this.router.navigate(['../student_profile"'], { state: { example: 'bar' } });
+}
 }

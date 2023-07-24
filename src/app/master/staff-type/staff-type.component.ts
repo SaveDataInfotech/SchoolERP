@@ -20,19 +20,19 @@ export class StaffTypeComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private stySvc: staffTypeService, private DialogSvc: DialogService,
-    private notificationSvc:NotificationsService) {
+    private notificationSvc: NotificationsService) {
   }
   ngOnInit(): void {
     this.refreshstaffTypeList(),
       this.getMaxId(),
       this.cancelClick()
 
-      //this.notificationSvc.success("Heloo")
+    //this.notificationSvc.success("Heloo")
   }
 
   stafftypeForm = new FormGroup({
     staffTypeid: new FormControl(0),
-    stafftype: new FormControl('', [Validators.required,Validators.pattern(/^([a-zA-Z]+)$/)]),
+    stafftype: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     cuid: new FormControl(1),
   })
 
@@ -43,44 +43,50 @@ export class StaffTypeComponent implements OnInit {
   }
 
   StaffType() {
-    if(this.stafftypeForm.value.staffTypeid == 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var stafftypeinsert = (this.stafftypeForm.value);
-          this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-            console.log(res, 'resss')           
-            if (res?.recordid) { 
-              this.notificationSvc.success("Insert Success")
-              this.refreshstaffTypeList();
-              this.getMaxId();
-              this.cancelClick();
+    if (this.stafftypeForm.valid) {
+      if (this.stafftypeForm.value.staffTypeid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var stafftypeinsert = (this.stafftypeForm.value);
+              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Save Success")
+                  this.notificationSvc.success("Insert Success")
+                  this.refreshstaffTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
-    }
-    else if(this.stafftypeForm.value.staffTypeid != 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var stafftypeinsert = (this.stafftypeForm.value);
-          this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.refreshstaffTypeList();
-              this.getMaxId();
-              this.cancelClick();
+      }
+      else if (this.stafftypeForm.value.staffTypeid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var stafftypeinsert = (this.stafftypeForm.value);
+              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Update Success")
+                  this.refreshstaffTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
+      }
+      else {
+        alert("something error;")
+      }
     }
-    else{
-      alert("something error;")
+    else {
+      this.stafftypeForm.markAllAsTouched();
     }
 
-    
   }
 
   getMaxId() {

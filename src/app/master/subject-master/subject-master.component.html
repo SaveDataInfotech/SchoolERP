@@ -18,13 +18,14 @@
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder="0{{code.subjectid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.subjectid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="subjectid" class="form-control" type="text" readonly required>
+                                        <input formControlName="subjectid" class="form-control" type="text" readonly
+                                            required>
                                     </div>
                                 </span>
                             </div>
@@ -32,10 +33,20 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Name</label>
+                                    <label class="pt-2" style="margin: auto;">Subject Name <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="subject_name" class="form-control" type="tel" required>
+                                    <input
+                                        [ngClass]="{'is-invalid':subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors}"
+                                        formControlName="subject_name" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors">
+                                        <div
+                                            *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors.required">
+                                            Subject Name is required
+                                        </div>                                        
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -45,14 +56,12 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="buttonId == true " [disabled]="subjectForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="buttonId != true" [disabled]="subjectForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClick()"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -73,11 +82,12 @@
                             <tbody>
                                 <tr *ngFor="let subject of subjectDetailList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{subject.subject_name}}</td> 
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(subject)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(subject.subjectid)"
-                                            class="pl-2">delete</mat-icon>
+                                    <td>{{subject.subject_name}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            (click)="udateGetClick(subject)" style="color: blue;cursor: pointer;"
+                                            class="pr-2">edit</mat-icon>
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            (click)="deleteClick(subject.subjectid)" class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>
@@ -100,11 +110,11 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="subjectAssignForm">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Subject Assign Code</label>
+                                    <label class="pt-2" style="margin: auto;">Subject Assign Code</label>
                                 </div>
                                 <div class="inputdiv">
                                     <input placeholder="0011788" class="form-control" type="text" disabled required>
@@ -114,10 +124,31 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Class</label>
+                                    <label class="pt-2" style="margin: auto;">Class</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="English" class="form-control" type="tel" required>
+                                    <select formControlName="classid" style="width: 100%;" #t
+                                        (change)="FilterGroupfun(t.value)" class="form-control " name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="groupDisplay == true">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select formControlName="groupid" style="width: 100%;" #s
+                                        (change)="FilterSectionfun(s.value)" class="form-control " name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -125,37 +156,31 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Group</label>
+                                    <label class="pt-2" style="margin: auto;">Section</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="Bio" class="form-control" type="tel" required>
+                                    <select formControlName="sectionid" style="width: 100%;" class="form-control "
+                                        name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{section.sectionid}} *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Section</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input placeholder="A" class="form-control" type="tel" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div  class="row col-sm-8 mt-3" style="display: flex;">
-                            <div *ngFor="let subject of subjectDetailList" style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
+                        <div class="row col-sm-8 mt-3" style="display: flex;">
+                            <div *ngFor="let subject of subjectDetailList"
+                                style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
                                 <div style="float: left;text-align: left;">
-                                    <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                        value="something">
+                                    <input style="height: 15px;width: 15px;" type="checkbox" class="" value="something">
                                 </div>
                                 <div style="float: left;text-align: left;" class="ml-2">
                                     {{subject.subject_name}}
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
-                        
+
 
                         <div class="row">
                             <div class="col-sm-6" style="display: flex;">
@@ -169,7 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>            
+                    </form>
                 </mat-card-content>
             </mat-card>
             <mat-card class="mt-2 matcard mb-5">
@@ -217,17 +242,18 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Subject Code</label>
+                                    <label class="pt-2" style="margin: auto;">Subject Code</label>
                                 </div>
                                 <span *ngIf="BranchbuttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxIdBranch">
-                                        <input placeholder="0{{code.branchid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.branchid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="BranchbuttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="branchid" class="form-control" type="text" readonly required>
+                                        <input formControlName="branchid" class="form-control" type="text" readonly
+                                            required>
                                     </div>
                                 </span>
                             </div>
@@ -235,43 +261,48 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Subject Name</label>
+                                    <label class="pt-2" style="margin: auto;">Subject Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                <select formControlName="subjectid"  style="width: 100%;" class="form-control " name="selectAction">
-                                    <option value=0 selected disabled>Please select</option>
-                                    <option [ngValue]="subject.subjectid" *ngFor="let subject of subjectDetailList;">{{subject.subject_name}}</option>                                        
-                                </select>
-                            </div>
+                                    <select formControlName="subjectid" style="width: 100%;" class="form-control "
+                                        name="selectAction">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="subject.subjectid"
+                                            *ngFor="let subject of subjectDetailList;">{{subject.subject_name}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Branch Name</label>
+                                    <label class="pt-2" style="margin: auto;">Branch Name</label>
                                 </div>
                                 <div class="inputdiv">
                                     <input formControlName="branch_name" class="form-control" type="tel" required>
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input *ngIf="BranchbuttonId == true " [disabled]="subjectBranchForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="BranchbuttonId != true" [disabled]="subjectBranchForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickSubBranch()"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <input *ngIf="BranchbuttonId == true " [disabled]="subjectBranchForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="BranchbuttonId != true" [disabled]="subjectBranchForm.invalid"
+                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        (click)="cancelClickSubBranch()" class="btn btn-danger btn-sm mt-4  "
+                                        value="Cancel" />
                                 </div>
                             </div>
                         </div>
-                    </form>            
+                    </form>
                 </mat-card-content>
             </mat-card>
             <mat-card class="mt-2 matcard mb-5">
@@ -291,9 +322,11 @@
                                     <td>{{i+1}}</td>
                                     <td>{{branch.subject_name}}</td>
                                     <td>{{branch.branch_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClickSubBranch(branch)"
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                            (click)="updateGetClickSubBranch(branch)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClickSubBranch(branch.branchid)"
+                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                            (click)="deleteClickSubBranch(branch.branchid)"
                                             class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
