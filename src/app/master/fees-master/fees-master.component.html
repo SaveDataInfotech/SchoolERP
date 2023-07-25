@@ -133,7 +133,8 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Less Category <span class="text-danger">*</span></label>
+                                    <label class="pt-2" style="margin: auto;">Fees Less Category <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
                                     <input
@@ -249,7 +250,7 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select formControlName="classid" style="width: 100%;" #t
-                                        (change)="FilterGroupfun(t.value)" class="form-control " name="selectAction">
+                                        (change)="filterGroupfun(t.value)" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option value={{class.classid}} *ngFor="let class of ClassList;">
                                             {{class.class_name}}</option>
@@ -257,44 +258,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Type</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="feestype" class="form-control "
-                                        name="selectAction">
-                                        <option value="" selected disabled>Please select </option>
-                                        <option *ngFor="let type of FeesList">{{type.type_name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;" *ngIf="groupDisplay == true">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div class="inputdiv">
                                     <select formControlName="groupid" style="width: 100%;" #s
-                                        (change)="FilterSectionfun(s.value)" class="form-control " name="selectAction">
+                                        (change)="filterSectionfun(s.value)" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
                                             {{group.group_name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Less</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="fees_less" class="form-control "
-                                        name="selectAction">
-                                        <option value="" selected disabled>Please select </option>
-                                        <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -317,15 +290,31 @@
                             </div>
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Amount</label>
+                                    <label class="pt-2" style="margin: auto;">Fees Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input class="form-control" formControlName="amount" type="text" required>
+                                    <select style="width: 100%;" formControlName="feestype" class="form-control "
+                                        name="selectAction">
+                                        <option value="" selected disabled>Please select </option>
+                                        <option *ngFor="let type of FeesList">{{type.type_name}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Fees Less</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select style="width: 100%;" formControlName="fees_less" class="form-control "
+                                        name="selectAction">
+                                        <option value="" selected disabled>Please select </option>
+                                        <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Gender</label>
@@ -340,9 +329,18 @@
                                     </select>
                                 </div>
                             </div>
-
                         </div>
+                        <div class="row">
 
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Amount</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input class="form-control" formControlName="amount" type="text" required>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">

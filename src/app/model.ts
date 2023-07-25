@@ -1,7 +1,5 @@
-export interface StudentClassDto {
-    
+export interface StudentClassDto {    
     class_name: string;
-  
 }
 
 export interface StudentGroupDto {

@@ -144,7 +144,8 @@
                                     <select style="width: 100%;" class="form-control" formControlName="classid" #t
                                         (change)="changefun(t.value)" name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option *ngFor="let class of ClassList" value={{class.classid}}>
+                                        <option [disabled]="SectionbuttonId != true" *ngFor="let class of ClassList"
+                                            value={{class.classid}}>
                                             {{class.class_name}}</option>
                                     </select>
                                 </div>
@@ -160,7 +161,8 @@
                                     <select style="width: 100%;" class="form-control" formControlName="groupid"
                                         name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option *ngFor="let group of newlist;" [ngValue]="group.groupid">
+                                        <option [disabled]="SectionbuttonId != true" *ngFor="let group of newlist;"
+                                            [ngValue]="group.groupid">
                                             {{group.group_name}}</option>
                                     </select>
                                 </div>
@@ -172,7 +174,15 @@
                                     <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="section_name" class="form-control" type="text" required>
+                                    <input [ngClass]="{'is-invalid': Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors}"
+                                     formControlName="section_name" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors">
+                                        <div
+                                            *ngIf="Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors.required">
+                                            Section name is required
+                                        </div>                                        
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -182,11 +192,17 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <input *ngIf="SectionbuttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="SectionbuttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" (click)="SectioncancelClick()" type="button"
+                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
                                     <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
                                         (click)=" SectioncancelClick()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" />
+                                        value="Cancel" /> -->
                                 </div>
                             </div>
                         </div>
@@ -216,7 +232,8 @@
                                             (click)="updateSectionClick(section)" style="color: blue;cursor: pointer;"
                                             class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                         (click)="sectionDeleteClick(section.sectionid)"   class="pl-2">delete</mat-icon>
+                                            (click)="sectionDeleteClick(section.sectionid)"
+                                            class="pl-2">delete</mat-icon>
                                     </td>
                                 </tr>
                             </tbody>

@@ -49,12 +49,10 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="buttonId == true " [disabled]="vehicletypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                <div style="float: left;width: 250px;">                                   
+                                        <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="buttonId != true" [disabled]="vehicletypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
@@ -127,13 +125,16 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle Type</label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle Type<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="vehicle_type"  style="width: 100%;" class="form-control " name="selectAction">
+                                    <select [ngClass]="{'is-invalid':vehicle_type && vehicle_type.invalid && vehicle_type.touched}"
+                                     formControlName="vehicle_type"  style="width: 100%;" class="form-control " name="selectAction">
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{VehickeType.vehicle_name}} *ngFor="let VehickeType of DepartmentList;">{{VehickeType.vehicle_name}}</option>                                        
                                     </select>
+                                    <p class="text-danger m-1" *ngIf="vehicle_type && vehicle_type.invalid && vehicle_type.touched">
+                                        Vehicle Type is required</p>
                                 </div>
                             </div>
                         </div>
@@ -141,20 +142,32 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle No</label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle No<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="vehicle_no" class="form-control" type="text" required>
+                                    <input [ngClass]="{'is-invalid':vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors}"
+                                     formControlName="vehicle_no" class="form-control" type="text" required>
+                                    <span class="text-danger" *ngIf="vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors">
+                                        <div *ngIf="vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors.required">
+                                            Vehicle No is required
+                                        </div>
+                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle Root No</label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle Root No<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="vehicle_root_no" class="form-control" type="number" required>
+                                    <input [ngClass]="{'is-invalid':vehicleNoRootForm.controls.vehicle_root_no.touched && vehicleNoRootForm.controls.vehicle_root_no.errors}"
+                                     formControlName="vehicle_root_no" class="form-control" type="number" required>
+                                    <span class="text-danger" *ngIf="vehicleNoRootForm.controls.vehicle_root_no.touched && vehicleNoRootForm.controls.vehicle_root_no.errors">
+                                        <div *ngIf="vehicleNoRootForm.controls.vehicle_root_no.touched && vehicleNoRootForm.controls.vehicle_root_no.errors.required">
+                                            Vehicle Root No is required
+                                        </div>
+                                     </span>
                                 </div>
                             </div>
                         </div>
@@ -163,12 +176,10 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;" 
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                                        <input *ngIf="NoRootbuttonId == true " [disabled]="vehicleNoRootForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                <div style="float: left;width: 250px;">                                   
+                                        <input *ngIf="NoRootbuttonId == true"  matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="NoRootbuttonId != true" [disabled]="vehicleNoRootForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                        <input *ngIf="NoRootbuttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickVehicleNoRoot()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />
@@ -248,10 +259,13 @@
                                     <label class="pt-2" style="margin: auto;">Vehicle Root No</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="root_no"  style="width: 100%;" class="form-control " name="selectAction">
+                                    <select [ngClass]="{'is-invalid':root_no && root_no.invalid && root_no.touched}" 
+                                    formControlName="root_no"  style="width: 100%;" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [ngValue]="VehicleRoot.vehicle_root_no" *ngFor="let VehicleRoot of vehicleNoRootList;">{{VehicleRoot.vehicle_root_no}}</option>                                        
                                     </select>
+                                    <p class="text-danger m-1" *ngIf="root_no && root_no.invalid && root_no.touched">
+                                        Vehicle Type is required</p>
                                 </div>
                             </div>
                         </div>
@@ -259,10 +273,16 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Place of Boarding</label>
+                                    <label class="pt-2" style="margin: auto;">Place of Boarding<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="place" class="form-control" type="text" required>
+                                    <input [ngClass]="{'is-invalid':vehicleplaceForm.controls.place.touched && vehicleplaceForm.controls.place.errors}"
+                                     formControlName="place" class="form-control" type="text" required>
+                                    <span class="text-danger" *ngIf="vehicleplaceForm.controls.place.touched && vehicleplaceForm.controls.place.errors">
+                                        <div *ngIf="vehicleplaceForm.controls.place.touched && vehicleplaceForm.controls.place.errors.required">
+                                            Place of Boarding is required
+                                        </div>
+                                     </span>
                                 </div>
                             </div>
                         </div>
@@ -272,9 +292,9 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonIdPlace == true " [disabled]="vehicleplaceForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <input *ngIf="buttonIdPlace == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonIdPlace != true" [disabled]="vehicleplaceForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    <input *ngIf="buttonIdPlace != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClickPlace()"
                                         class="btn btn-danger btn-sm mt-4  " value="Cancel" />

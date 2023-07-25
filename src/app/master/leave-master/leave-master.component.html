@@ -40,7 +40,7 @@
                                      <span class="text-danger" *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors">
                                         <div *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors.required">
                                               Leave type is required
-                                        </div>                                       
+                                        </div>
                                      </span>
                                 </div>
                             </div>
@@ -124,38 +124,48 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Staff Type</label>
+                                    <label  class="pt-2" style="margin: auto;">Staff Type<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="staff_type"  style="width: 100%;" class="form-control " name="selectAction">
+                                    <select [ngClass]="{'is-invalid':staff_type && staff_type.invalid && staff_type.touched}"
+                                     formControlName="staff_type"  style="width: 100%;" class="form-control " name="selectAction">
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">{{StaffType.staffType}}</option>                                        
                                     </select>
                                     <p class="text-danger m-1" *ngIf="staff_type && staff_type.invalid && staff_type.touched">
-                                        Please select Staff type !</p>
+                                        Staff Type is required</p>
+                                    
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Staff Name</label>
+                                    <label  class="pt-2" style="margin: auto;">Staff Name<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="staff_name"  class="form-control" type="text" required>
-                                    <p class="text-danger m-1" *ngIf="staff_name && staff_name.invalid && staff_name.touched">
-                                        Please enter Staff name !</p>
+                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors}"
+                                     formControlName="staff_name"  class="form-control" type="text" required>
+                                     <span class="text-danger" *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors">
+                                        <div *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors.required">
+                                            Staff Name is required
+                                        </div>
+                                     </span>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">No of Leave</label>
+                                    <label  class="pt-2" style="margin: auto;">No of Leave<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="no_of_leave" class="form-control" type="number" required>
-                                    <p class="text-danger m-1" *ngIf="no_of_leave && no_of_leave.invalid && no_of_leave.touched">
-                                        Please enter No of leave!</p>                                       
+                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors}"
+                                     formControlName="no_of_leave" class="form-control" type="number" required>
+                                    <span class="text-danger" *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors">
+                                        <div *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors.required">
+                                            No of Leave is required
+                                        </div>
+                                     </span>
                                 </div>
                                 
                             </div>
@@ -163,12 +173,16 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Eligible Per Month</label>
+                                    <label  class="pt-2" style="margin: auto;">Eligible Per Month<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="e_per_mon" class="form-control" type="number" required>
-                                    <p class="text-danger m-1" *ngIf="e_per_mon && e_per_mon.invalid && e_per_mon.touched">
-                                        Please enter Eligible Per Month !</p>
+                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors}"
+                                     formControlName="e_per_mon" class="form-control" type="number" required>
+                                    <span class="text-danger" *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors">
+                                        <div *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors.required">
+                                            Eligible Per Month is required
+                                        </div>
+                                     </span>
                                 </div>
                                 
                             </div>

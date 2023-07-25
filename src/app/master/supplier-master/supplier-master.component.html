@@ -49,8 +49,8 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Mobile Number<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input [ngClass]="{'is-invalid':suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors}" formControlName="mobile_number" maxlength="10" minlength="10" class="form-control"
-                                type="text" required>
+                            <input (keypress)="numberOnly($event)" [ngClass]="{'is-invalid':suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors}" formControlName="mobile_number" maxlength="10" minlength="10" class="form-control"
+                                type="tel" required>
                                 <span class="text-danger" *ngIf="suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors">
                                     <div *ngIf="suppliertypeForm.controls.mobile_number.touched && suppliertypeForm.controls.mobile_number.errors.required">
                                         Mobile number is required
@@ -108,12 +108,10 @@
                 </div>
 
                 <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" /> -->
-                            <input *ngIf="buttonId == true " [disabled]="suppliertypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                    <div style="text-align: center;">                        
+                            <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input *ngIf="buttonId != true" [disabled]="suppliertypeForm.invalid" matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                         <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)=" cancelClick()"
                             class="btn btn-danger btn-sm mt-4  " value="Cancel" />
@@ -146,10 +144,16 @@
                             <td>{{supplier.gst_no}}</td>
                             <td>{{supplier.balance}}</td>
                             <td>{{supplier.address}}</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(supplier)"
+                            <td class="tdoption"> 
+                                <!-- <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(supplier)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                 <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(supplier.supplierid)"
-                                    class="pl-2">delete</mat-icon>
+                                    class="pl-2">delete</mat-icon> -->
+
+                                    <span class="m-2" style="color:blue;padding:1px 5px 2px 5px;border-radius: 5px;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;letter-spacing:0.5px;cursor: pointer;font-size:medium;"><b>edit</b></span>
+                                    <span>||</span>
+                                    <span class="m-2" style="color:red;padding:1px 5px 2px 5px;border-radius: 5px;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;letter-spacing:0.5px;cursor: pointer;font-size:medium;"><b>delete</b></span>
+                                    <!-- <span class="m-2" style="background-color:red;color: white;padding:1px 5px 2px 5px;border-radius: 5px;cursor: pointer;">Delete</span> -->
                             </td>
                         </tr>
                     </tbody>

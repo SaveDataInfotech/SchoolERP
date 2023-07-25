@@ -122,15 +122,6 @@ export class LeaveMasterComponent implements OnInit {
     return this.leaveAssignForm.get('staff_type');
   }
 
-  get staff_name() {
-    return this.leaveAssignForm.get('staff_name');
-  }
-  get no_of_leave() {
-    return this.leaveAssignForm.get('no_of_leave');
-  }
-  get e_per_mon() {
-    return this.leaveAssignForm.get('e_per_mon');
-  }
 
   //get staff type Method
   refreshstaffTypeList() {
@@ -147,8 +138,8 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   NewLeaveAssign() {
-    debugger;
-    var leaveAssigninsert = (this.leaveAssignForm.value);
+    if(this.leaveAssignForm.valid){
+      var leaveAssigninsert = (this.leaveAssignForm.value);
     this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
       console.log(res, 'resss')
       if (res?.recordid) {
@@ -158,6 +149,11 @@ export class LeaveMasterComponent implements OnInit {
         this.AssigncancelClick();
       }
     });
+    }
+    else{
+      this.leaveAssignForm.markAllAsTouched();
+    }
+    
   }
 
   getAssignMaxId() {
@@ -194,7 +190,7 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   AssigncancelClick() {
-    this.leavetypeForm.reset();
+    this.leaveAssignForm.reset();
     this.leaveAssignForm.get('assignid')?.setValue(0);
     this.leaveAssignForm.get('staff_type')?.setValue('');
     this.leaveAssignForm.get('staff_name')?.setValue('');

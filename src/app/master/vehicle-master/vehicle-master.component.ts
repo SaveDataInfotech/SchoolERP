@@ -59,15 +59,22 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehicleType() {
+    if(this.vehicletypeForm.valid)
+    {
     var vehicletypeinsert = (this.vehicletypeForm.value);
     this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
       console.log(res, 'resss')
       if (res?.recordid) {
+        this.notificationSvc.success("Save Success")
         this.refreshvehicleTypeList();
         this.getMaxId();
         this.cancelClick();
       }
     });
+  }
+  else{
+    this.vehicletypeForm.markAllAsTouched();
+  }
   }
 
   getMaxId() {
@@ -118,6 +125,9 @@ export class VehicleMasterComponent implements OnInit {
     cuid: new FormControl(1),
   })
 
+  get vehicle_type() {
+    return this.vehicleNoRootForm.get('vehicle_type');
+  }
 
   refreshvehicleNoRootList() {
     this.vhNoRtSvc.getVeNoRtList().subscribe(data => {
@@ -126,7 +136,7 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehicleNoRoot() {
-    debugger;
+   if(this.vehicleNoRootForm.valid){
     var venortinsert = (this.vehicleNoRootForm.value);
     this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
       console.log(res, 'resss')
@@ -136,6 +146,11 @@ export class VehicleMasterComponent implements OnInit {
         this.cancelClickVehicleNoRoot();
       }
     });
+   }
+   else{
+    this.vehicleNoRootForm.markAllAsTouched();
+   }
+    
   }
 
   getMaxIdVehicleNoRoot() {
@@ -189,6 +204,9 @@ export class VehicleMasterComponent implements OnInit {
     cuid: new FormControl(1)
   })
 
+  get root_no() {
+    return this.vehicleplaceForm.get('root_no');
+  }
 
   refreshvehiclePlaceList() {
     this.PlaceSvc.getPlaceList().subscribe(data => {
@@ -197,7 +215,7 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehiclePlace() {
-    debugger;
+  if(this.vehicleplaceForm.valid){
     var placeinsert = (this.vehicleplaceForm.value);
     this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
       console.log(res, 'resss')
@@ -207,6 +225,10 @@ export class VehicleMasterComponent implements OnInit {
         this.cancelClickPlace();
       }
     });
+  }
+  else{
+    this.vehicleplaceForm.markAllAsTouched();
+  } 
   }
 
   getMaxIdPlace() {

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
+import { subjectAssignService } from 'src/app/api-service/SubjectAssign.service';
 import { SubjectBranchService } from 'src/app/api-service/SubjectBranch.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
@@ -35,7 +36,7 @@ export class SubjectMasterComponent implements OnInit {
   constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
     private DialogSvc: DialogService, private notificationSvc: NotificationsService,
     private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
-    private ScSvc: studentSectionService) { }
+    private ScSvc: studentSectionService,private subAsSvc:subjectAssignService) { }
 
   ngOnInit(): void {
     this.refreshsubjectList(),
@@ -245,14 +246,39 @@ export class SubjectMasterComponent implements OnInit {
 
   //Subject Assign
 
+  subjectArray: any = [];
+
+  selectedSub(subjectid: any) {
+    debugger;
+    const subjectidty = Number(subjectid);
+    this.subjectArray.push(subjectidty)
+    this.subjectAssignForm.get('subjectid')?.setValue(this.subjectArray);
+    console.log(this.subjectArray)
+  }
+
+  selectedData:any[]=[];
+
   subjectAssignForm = new FormGroup({
     subjectAssignid: new FormControl(0),
     classid: new FormControl(0, [Validators.required]),
     groupid: new FormControl(0, [Validators.required]),
-    sectionid: new FormControl(0, [Validators.required]),
+    sectionid: new FormControl(8, [Validators.required]),
+    subjectid: new FormControl([], [Validators.required]),
     cuid: new FormControl(1),
   })
-
+  
+  newSubjectAssign() {     
+    debugger;      
+          var subBranchinsert = (this.subjectAssignForm.value);
+          this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {
+              this.refreshsubjectBranchList();
+              this.getMaxIdSubBranch();
+              this.cancelClickSubBranch();
+            }
+          });        
+  }
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {

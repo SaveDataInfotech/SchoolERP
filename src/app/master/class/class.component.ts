@@ -206,7 +206,7 @@ export class ClassComponent implements OnInit {
   Student_SectionForm = new FormGroup({
     sectionid: new FormControl(0),
     groupid: new FormControl(0),
-    classid: new FormControl(0),
+    classid: new FormControl(0,[Validators.required]),
     section_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -224,7 +224,7 @@ export class ClassComponent implements OnInit {
   }
 
   NewSection() {
-    debugger;
+    if(this.Student_SectionForm.valid){
     var Sectioninsert = (this.Student_SectionForm.value);
     this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
       if (res?.recordid) {
@@ -233,6 +233,10 @@ export class ClassComponent implements OnInit {
         this.SectioncancelClick();
       }
     });
+  }
+  else{
+    this.Student_SectionForm.markAllAsTouched();
+  }
   }
 
   updateSectionClick(section: any) {

@@ -34,6 +34,15 @@ export class SupplierMasterComponent implements OnInit {
     address: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
+  
+  numberOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
 
 
   refresupplierTypeList() {
@@ -43,6 +52,8 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   newSupplierType() {
+    if(this.suppliertypeForm.valid)
+    {
     if(this.suppliertypeForm.value.supplierid == 0){
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
       .afterClosed().subscribe(res => {
@@ -50,7 +61,8 @@ export class SupplierMasterComponent implements OnInit {
           var suppliertypeinsert = (this.suppliertypeForm.value);
           this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
             console.log(res, 'resss')
-            if (res?.recordid) {              
+            if (res?.recordid) {
+              this.notificationSvc.success("Save Success")
               this.refresupplierTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -67,6 +79,7 @@ export class SupplierMasterComponent implements OnInit {
           this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
             console.log(res, 'resss')
             if (res?.recordid) {
+              this.notificationSvc.success("Update Success")
               this.refresupplierTypeList();
               this.getMaxId();
               this.cancelClick();
@@ -78,6 +91,10 @@ export class SupplierMasterComponent implements OnInit {
     else{
       alert("something error;")
     }
+  }
+  else{
+    this.suppliertypeForm.markAllAsTouched();
+  }
 
     
   }

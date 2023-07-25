@@ -238,7 +238,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
 
-  FilterGroupfun(classsid: any) {
+  filterGroupfun(classsid: any) {
     debugger;
     const classid = Number(classsid);
     this.feesAssignForm.get('classid')?.setValue(classid);
@@ -256,7 +256,7 @@ export class FeesMasterComponent implements OnInit {
     }
   }
 
-  FilterSectionfun(groupID: any) {
+  filterSectionfun(groupID: any) {
     debugger;
     const groupid = Number(groupID);
     this.feesAssignForm.get('groupid')?.setValue(groupid);
