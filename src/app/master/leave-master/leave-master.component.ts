@@ -53,16 +53,40 @@ export class LeaveMasterComponent implements OnInit {
 
   NewLeaveType() {
     if (this.leavetypeForm.valid) {
-      var leavetypeinsert = (this.leavetypeForm.value);
-      this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-        console.log(res, 'resss')
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.refreshLeaveTypeList();
-          this.getMaxId();
-          this.cancelClick();
-        }
-      });
+      if (this.leavetypeForm.value.typeid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var leavetypeinsert = (this.leavetypeForm.value);
+              this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshLeaveTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+      else if (this.leavetypeForm.value.typeid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var leavetypeinsert = (this.leavetypeForm.value);
+              this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshLeaveTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
     }
     else {
       this.leavetypeForm.markAllAsTouched();
@@ -122,14 +146,12 @@ export class LeaveMasterComponent implements OnInit {
     return this.leaveAssignForm.get('staff_type');
   }
 
-
   //get staff type Method
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
       this.StaffTypeList = data;
     });
   }
-
 
   refreshLeaveAssignList() {
     this.LvAsSvc.getLeaveAssignList().subscribe(data => {
@@ -138,22 +160,48 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   NewLeaveAssign() {
-    if(this.leaveAssignForm.valid){
-      var leaveAssigninsert = (this.leaveAssignForm.value);
-    this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshLeaveAssignList();
-        this.refreshstaffTypeList();
-        this.getAssignMaxId();
-        this.AssigncancelClick();
+    if (this.leaveAssignForm.valid) {
+      if (this.leaveAssignForm.value.assignid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var leaveAssigninsert = (this.leaveAssignForm.value);
+              this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshLeaveAssignList();
+                  this.refreshstaffTypeList();
+                  this.getAssignMaxId();
+                  this.AssigncancelClick();
+                }
+              });
+            }
+          });
       }
-    });
+      else if (this.leaveAssignForm.value.assignid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var leaveAssigninsert = (this.leaveAssignForm.value);
+              this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshLeaveAssignList();
+                  this.refreshstaffTypeList();
+                  this.getAssignMaxId();
+                  this.AssigncancelClick();
+                }
+              });
+            }
+          });
+      }
+
     }
-    else{
+    else {
       this.leaveAssignForm.markAllAsTouched();
     }
-    
   }
 
   getAssignMaxId() {
@@ -199,6 +247,4 @@ export class LeaveMasterComponent implements OnInit {
     this.leaveAssignForm.get('cuid')?.setValue(1);
     this.AssignbuttonId = true;
   }
-
 }
-

@@ -70,6 +70,8 @@ export class FeesMasterComponent implements OnInit {
 
   }
 
+  //Fees type
+
   feestypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl('', [Validators.required]),
@@ -84,20 +86,42 @@ export class FeesMasterComponent implements OnInit {
 
   NewFeesType() {
     if (this.feestypeForm.valid) {
-      var feestypeinsert = (this.feestypeForm.value);
-      this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.refreshFeesTypeList();
-          this.getMaxId();
-          this.cancelClick();
-        }
-      });
+      if (this.feestypeForm.value.typeid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feestypeinsert = (this.feestypeForm.value);
+              this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshFeesTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+      else if (this.feestypeForm.value.typeid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feestypeinsert = (this.feestypeForm.value);
+              this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshFeesTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
     }
     else {
       this.feestypeForm.markAllAsTouched();
     }
-
   }
 
   getMaxId() {
@@ -161,17 +185,40 @@ export class FeesMasterComponent implements OnInit {
 
   NewFeesLess() {
     if (this.feesLessForm.valid) {
-      var feeslessinsert = (this.feesLessForm.value);
-      this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.refreshFeesLessList();
-          this.getMaxIdLess();
-          this.cancelClickLess();
-        }
-      });
+      if (this.feesLessForm.value.fess_lessid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feeslessinsert = (this.feesLessForm.value);
+              this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshFeesLessList();
+                  this.getMaxIdLess();
+                  this.cancelClickLess();
+                }
+              });
+            }
+          });
+      }
+      else if (this.feesLessForm.value.fess_lessid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feeslessinsert = (this.feesLessForm.value);
+              this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshFeesLessList();
+                  this.getMaxIdLess();
+                  this.cancelClickLess();
+                }
+              });
+            }
+          });
+      }
     }
-    else {     
+    else {
       this.feesLessForm.markAllAsTouched();
     }
   }
@@ -285,15 +332,38 @@ export class FeesMasterComponent implements OnInit {
   }
 
   newFeesAssign() {
-    debugger;
-    var feesAssignInsert = (this.feesAssignForm.value);
-    this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshFeesAssignList();
-        this.getMaxIdAssign();
-        this.cancelClickAssign();
-      }
-    });
+    if (this.feesAssignForm.value.assignid == 0) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            var feesAssignInsert = (this.feesAssignForm.value);
+            this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
+              if (res?.recordid) {
+                this.notificationSvc.success("Saved Success")
+                this.refreshFeesAssignList();
+                this.getMaxIdAssign();
+                this.cancelClickAssign();
+              }
+            });
+          }
+        });
+    }
+    else if (this.feesAssignForm.value.assignid != 0) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            var feesAssignInsert = (this.feesAssignForm.value);
+            this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
+              if (res?.recordid) {
+                this.notificationSvc.success("Updated Success")
+                this.refreshFeesAssignList();
+                this.getMaxIdAssign();
+                this.cancelClickAssign();
+              }
+            });
+          }
+        });
+    }
   }
 
   getMaxIdAssign() {
@@ -319,9 +389,12 @@ export class FeesMasterComponent implements OnInit {
   }
 
   updateGetClickAssign(Assign: any) {
+    debugger;
     this.feesAssignForm.get('assignid')?.setValue(Assign.assignid);
     this.feesAssignForm.get('classid')?.setValue(Assign.classid);
+    this.filterGroupfun(Assign.classid);
     this.feesAssignForm.get('groupid')?.setValue(Assign.groupid);
+    this.filterSectionfun(Assign.groupid)
     this.feesAssignForm.get('sectionid')?.setValue(Assign.sectionid);
     this.feesAssignForm.get('gender')?.setValue(Assign.gender);
     this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
@@ -19,7 +19,7 @@ export class SubjectMasterComponent implements OnInit {
   buttonId: boolean = true;
   subjectDetailList: any = [];
 
-
+  subjectAssignForm : FormGroup;
   subjectBranchList: any = [];
   MaxIdBranch: any = [];
   BranchbuttonId: boolean = true;
@@ -36,7 +36,18 @@ export class SubjectMasterComponent implements OnInit {
   constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
     private DialogSvc: DialogService, private notificationSvc: NotificationsService,
     private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
-    private ScSvc: studentSectionService,private subAsSvc:subjectAssignService) { }
+    private fb : FormBuilder,
+    private ScSvc: studentSectionService,private subAsSvc:subjectAssignService) { 
+      
+  this.subjectAssignForm = fb.group({
+    subjectAssignid: new FormControl(0),
+    classid: ['', Validators.required],
+    groupid: new FormControl(0, [Validators.required]),
+    sectionid: new FormControl(8, [Validators.required]),
+    subjectid: new FormControl([], [Validators.required]),
+    cuid: new FormControl(1),
+  })
+    }
 
   ngOnInit(): void {
     this.refreshsubjectList(),
@@ -77,7 +88,7 @@ export class SubjectMasterComponent implements OnInit {
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Save Success")
+                  this.notificationSvc.success("Saved Success")
                   this.refreshsubjectList();
                   this.getMaxId();
                   this.cancelClick();
@@ -87,13 +98,14 @@ export class SubjectMasterComponent implements OnInit {
           });
       }
       else if (this.subjectForm.value.subjectid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var subjectinsert = (this.subjectForm.value);
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
                   this.refreshsubjectList();
                   this.getMaxId();
                   this.cancelClick();
@@ -175,6 +187,7 @@ export class SubjectMasterComponent implements OnInit {
             this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
               console.log(res, 'resss')
               if (res?.recordid) {
+                this.notificationSvc.success("Saved Success")
                 this.refreshsubjectBranchList();
                 this.getMaxIdSubBranch();
                 this.cancelClickSubBranch();
@@ -184,13 +197,14 @@ export class SubjectMasterComponent implements OnInit {
         });
     }
     else if (this.subjectBranchForm.value.branchid != 0) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+      this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             var subBranchinsert = (this.subjectBranchForm.value);
             this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
               console.log(res, 'resss')
               if (res?.recordid) {
+                this.notificationSvc.success("Updated Success")
                 this.refreshsubjectBranchList();
                 this.getMaxIdSubBranch();
                 this.cancelClickSubBranch();
@@ -246,26 +260,26 @@ export class SubjectMasterComponent implements OnInit {
 
   //Subject Assign
 
-  subjectArray: any = [];
+  
 
   selectedSub(subjectid: any) {
     debugger;
+    let subjectArray: any[] = [];
     const subjectidty = Number(subjectid);
-    this.subjectArray.push(subjectidty)
-    this.subjectAssignForm.get('subjectid')?.setValue(this.subjectArray);
-    console.log(this.subjectArray)
+    subjectArray.push(subjectidty)
+    
+  //   subjectArray.forEach((x) => {
+  //     x['classid'] = this.subjectAssignForm.get('classid').value ,
+  //     x['groupid'] = groupid,
+  //     x['sectionid'] = sectionid
+  // })
+    //this.subjectAssignForm.get('subjectid')?.setValue(this.subjectArray);
+    // console.log(this.subjectArray)
   }
 
-  selectedData:any[]=[];
 
-  subjectAssignForm = new FormGroup({
-    subjectAssignid: new FormControl(0),
-    classid: new FormControl(0, [Validators.required]),
-    groupid: new FormControl(0, [Validators.required]),
-    sectionid: new FormControl(8, [Validators.required]),
-    subjectid: new FormControl([], [Validators.required]),
-    cuid: new FormControl(1),
-  })
+
+
   
   newSubjectAssign() {     
     debugger;      

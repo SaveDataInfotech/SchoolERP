@@ -52,8 +52,7 @@ export class StaffTypeComponent implements OnInit {
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Save Success")
-                  this.notificationSvc.success("Insert Success")
+                  this.notificationSvc.success("Saved Success")                  
                   this.refreshstaffTypeList();
                   this.getMaxId();
                   this.cancelClick();
@@ -63,14 +62,14 @@ export class StaffTypeComponent implements OnInit {
           });
       }
       else if (this.stafftypeForm.value.staffTypeid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Update Success")
+                  this.notificationSvc.success("Updated Success")
                   this.refreshstaffTypeList();
                   this.getMaxId();
                   this.cancelClick();

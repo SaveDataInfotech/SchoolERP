@@ -45,7 +45,7 @@
                                         <div
                                             *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors.required">
                                             Subject Name is required
-                                        </div>                                        
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -83,11 +83,11 @@
                                 <tr *ngFor="let subject of subjectDetailList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{subject.subject_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            (click)="udateGetClick(subject)" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            (click)="deleteClick(subject.subjectid)" class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(subject)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(subject.subjectid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -173,7 +173,9 @@
                             <div *ngFor="let subject of subjectDetailList"
                                 style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
                                 <div style="float: left;text-align: left;">
-                                    <input (change)="selectedSub(s.value)" #s style="height: 15px;width: 15px;" formControlName="subjectid" [checked]=(subject.subjectid) type="checkbox" value={{subject.subjectid}}>
+                                    <input (change)="selectedSub(s.value)" #s style="height: 15px;width: 15px;"
+                                        formControlName="subjectid" [checked]=(subject.subjectid) type="checkbox"
+                                        value={{subject.subjectid}}>
                                 </div>
                                 <div style="float: left;text-align: left;" class="ml-2">
                                     {{subject.subject_name}}
@@ -322,12 +324,12 @@
                                     <td>{{i+1}}</td>
                                     <td>{{branch.subject_name}}</td>
                                     <td>{{branch.branch_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            (click)="updateGetClickSubBranch(branch)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            (click)="deleteClickSubBranch(branch.branchid)"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="updateGetClickSubBranch(branch)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClickSubBranch(branch.branchid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>

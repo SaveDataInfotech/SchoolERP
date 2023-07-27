@@ -89,11 +89,11 @@
                                 <tr *ngFor="let class of ClassList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{class.class_name}}</td>
-                                    <td class="tdoption"> <mat-icon (click)="updateGetClick(class)"
-                                            matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon (click)="deleteClick(class.classid)" matTooltip="Click to Delete"
-                                            style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="updateGetClick(class)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(class.classid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -174,14 +174,15 @@
                                     <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input [ngClass]="{'is-invalid': Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors}"
-                                     formControlName="section_name" class="form-control" type="text" required>
+                                    <input
+                                        [ngClass]="{'is-invalid': Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors}"
+                                        formControlName="section_name" class="form-control" type="text" required>
                                     <span class="text-danger"
                                         *ngIf="Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors">
                                         <div
                                             *ngIf="Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors.required">
                                             Section name is required
-                                        </div>                                        
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -198,11 +199,6 @@
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" (click)="SectioncancelClick()" type="button"
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                    <!-- <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)=" SectioncancelClick()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" /> -->
                                 </div>
                             </div>
                         </div>
@@ -228,12 +224,12 @@
                                     <td>{{section.class_name}}</td>
                                     <td>{{section.group_name}}</td>
                                     <td>{{section.section_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            (click)="updateSectionClick(section)" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            (click)="sectionDeleteClick(section.sectionid)"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="updateSectionClick(section)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="sectionDeleteClick(section.sectionid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -354,11 +350,13 @@
                                     <td>{{i+1}}</td>
                                     <td>{{group.class_name}}</td>
                                     <td>{{group.group_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            (click)="updateGroupClick(group)" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" (click)="GroupdeleteClick(group.groupid)"
-                                            style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="updateGroupClick(group)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="GroupdeleteClick(group.groupid)"><b>delete</b>
+                                        </span>
                                     </td>
                                 </tr>
                             </tbody>

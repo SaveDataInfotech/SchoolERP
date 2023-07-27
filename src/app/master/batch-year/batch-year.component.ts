@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
-
+import { resonDialogService } from 'src/app/api-service/resonDialog.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-batch-year',
   templateUrl: './batch-year.component.html',
@@ -11,7 +12,11 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 })
 export class BatchYearComponent implements OnInit {
 
-  constructor(private batchyearSvc: BatechYearService, private DialogSvc: DialogService, private notificationSvc: NotificationsService) { }
+  constructor(private batchyearSvc: BatechYearService,
+    private DialogSvc: DialogService,
+    private resonDialogSvc: resonDialogService,
+    private notificationSvc: NotificationsService,
+    private router: Router) { }
   BatchList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
@@ -24,8 +29,13 @@ export class BatchYearComponent implements OnInit {
   BatchYearForm = new FormGroup({
     batchid: new FormControl(0),
     batch_year: new FormControl('', [Validators.required]),
+    updateReson: new FormControl(''),
     cuid: new FormControl(1),
   })
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
+  }
 
   refreshBatchYearList() {
     this.batchyearSvc.getBatchYearList().subscribe(data => {
@@ -41,20 +51,51 @@ export class BatchYearComponent implements OnInit {
 
   NewBatchYear() {
     if (this.BatchYearForm.valid) {
-      var Batchinsert = (this.BatchYearForm.value);
-      this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.refreshBatchYearList();
-          this.getMaxId();
-          this.cancelClick();
-        }
-      });
+      if (this.BatchYearForm.value.batchid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Batchinsert = (this.BatchYearForm.value);
+              this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshBatchYearList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+      else {
+        this.resonDialogSvc.openConfirmDialog('')
+          .afterClosed().subscribe(res => {
+            if (res != null && res != false) {
+              this.BatchYearForm.get('updateReson')?.setValue(res);
+              this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+                .afterClosed().subscribe(res => {
+                  if (res == true) {
+                    var Batchinsert = (this.BatchYearForm.value);
+                    this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
+                      if (res?.recordid) {
+                        this.notificationSvc.success("Updated Success")
+                        this.refreshBatchYearList();
+                        this.getMaxId();
+                        this.cancelClick();
+                      }
+                    });
+                  }
+                });
+            }
+            else {
+              alert("Invalid reson");
+            }
+          });
+      }
     }
     else {
       this.BatchYearForm.markAllAsTouched();
     }
-
   }
 
   udateGetClick(batch: any) {
@@ -97,4 +138,3 @@ export class BatchYearComponent implements OnInit {
     this.buttonId = true;
   }
 }
-

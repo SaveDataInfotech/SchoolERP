@@ -45,12 +45,18 @@ float: left;
 width: 250px;
 }
 
-.addup{
-  color:white;
-  font-size: 17px;
-  font-family: sans-serif;
- 
-  width:185px;
-  padding: 5px;
-  border-radius: 6px;
+.editbutton{
+  color:blue;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;    
+}
+
+.deletebutton{
+  color:red;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;
 }

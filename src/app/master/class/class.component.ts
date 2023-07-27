@@ -69,15 +69,39 @@ export class ClassComponent implements OnInit {
 
   New_Class() {
     if (this.Student_classForm.valid) {
-      var Classinsert = (this.Student_classForm.value);
-      this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.refreshClassList();
-          this.getMaxId();
-          this.cancelClick();
-        }
-      });
+      if (this.Student_classForm.value.classid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Classinsert = (this.Student_classForm.value);
+              this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshClassList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+      else if (this.Student_classForm.value.classid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Classinsert = (this.Student_classForm.value);
+              this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshClassList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+
     }
     else {
       this.Student_classForm.markAllAsTouched();
@@ -143,18 +167,41 @@ export class ClassComponent implements OnInit {
   }
 
   NewGroup() {
-    debugger;
     if (this.Student_GroupForm.valid) {
-      var Groupinsert = (this.Student_GroupForm.value);
-      this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
-        if (res?.recordid) {
-          this.notificationSvc.success("Save Success")
-          this.SectioncancelClick();
-          this.refreshGroupList();
-          this.getGroupMaxId();
-          this.GroupcancelClick();
-        }
-      });
+      if (this.Student_GroupForm.value.groupid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Groupinsert = (this.Student_GroupForm.value);
+              this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.SectioncancelClick();
+                  this.refreshGroupList();
+                  this.getGroupMaxId();
+                  this.GroupcancelClick();
+                }
+              });
+            }
+          });
+      }
+      else if (this.Student_GroupForm.value.groupid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Groupinsert = (this.Student_GroupForm.value);
+              this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.SectioncancelClick();
+                  this.refreshGroupList();
+                  this.getGroupMaxId();
+                  this.GroupcancelClick();
+                }
+              });
+            }
+          });
+      }
     }
     else {
       this.Student_GroupForm.markAllAsTouched();
@@ -206,7 +253,7 @@ export class ClassComponent implements OnInit {
   Student_SectionForm = new FormGroup({
     sectionid: new FormControl(0),
     groupid: new FormControl(0),
-    classid: new FormControl(0,[Validators.required]),
+    classid: new FormControl(0, [Validators.required]),
     section_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -224,19 +271,43 @@ export class ClassComponent implements OnInit {
   }
 
   NewSection() {
-    if(this.Student_SectionForm.valid){
-    var Sectioninsert = (this.Student_SectionForm.value);
-    this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
-      if (res?.recordid) {
-        this.refreshSectionList();
-        this.getSectionMaxId();
-        this.SectioncancelClick();
+    if (this.Student_SectionForm.valid) {
+      if (this.Student_SectionForm.value.sectionid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Sectioninsert = (this.Student_SectionForm.value);
+              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success");
+                  this.refreshSectionList();
+                  this.getSectionMaxId();
+                  this.SectioncancelClick();
+                }
+              });
+            }
+          });
       }
-    });
-  }
-  else{
-    this.Student_SectionForm.markAllAsTouched();
-  }
+      else if (this.Student_SectionForm.value.sectionid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var Sectioninsert = (this.Student_SectionForm.value);
+              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshSectionList();
+                  this.getSectionMaxId();
+                  this.SectioncancelClick();
+                }
+              });
+            }
+          });
+      }
+    }
+    else {
+      this.Student_SectionForm.markAllAsTouched();
+    }
   }
 
   updateSectionClick(section: any) {
@@ -278,6 +349,4 @@ export class ClassComponent implements OnInit {
         }
       });
   }
-
 }
-

@@ -35,3 +35,19 @@ h3 {
 float: left;
 width: 250px;
 }
+
+.editbutton{
+  color:blue;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;    
+}
+
+.deletebutton{
+  color:red;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;
+}

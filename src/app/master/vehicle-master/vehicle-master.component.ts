@@ -27,7 +27,7 @@ export class VehicleMasterComponent implements OnInit {
   constructor(
     private VhtySvc: VehicleTypeService, private vhNoRtSvc: VehicleNoRootService,
     private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService,
-    private notificationSvc:NotificationsService) {
+    private notificationSvc: NotificationsService) {
   }
 
 
@@ -59,22 +59,45 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehicleType() {
-    if(this.vehicletypeForm.valid)
-    {
-    var vehicletypeinsert = (this.vehicletypeForm.value);
-    this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.notificationSvc.success("Save Success")
-        this.refreshvehicleTypeList();
-        this.getMaxId();
-        this.cancelClick();
+    if (this.vehicletypeForm.valid) {
+      if (this.vehicletypeForm.value.typeid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var vehicletypeinsert = (this.vehicletypeForm.value);
+              this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshvehicleTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
       }
-    });
-  }
-  else{
-    this.vehicletypeForm.markAllAsTouched();
-  }
+      else if (this.vehicletypeForm.value.typeid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var vehicletypeinsert = (this.vehicletypeForm.value);
+              this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshvehicleTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
+            }
+          });
+      }
+    }
+    else {
+      this.vehicletypeForm.markAllAsTouched();
+    }
   }
 
   getMaxId() {
@@ -136,21 +159,45 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehicleNoRoot() {
-   if(this.vehicleNoRootForm.valid){
-    var venortinsert = (this.vehicleNoRootForm.value);
-    this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshvehicleNoRootList();
-        this.getMaxIdVehicleNoRoot();
-        this.cancelClickVehicleNoRoot();
+    if (this.vehicleNoRootForm.valid) {
+      if (this.vehicleNoRootForm.value.vehicle_no_id == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var venortinsert = (this.vehicleNoRootForm.value);
+              this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshvehicleNoRootList();
+                  this.getMaxIdVehicleNoRoot();
+                  this.cancelClickVehicleNoRoot();
+                }
+              });
+            }
+          });
       }
-    });
-   }
-   else{
-    this.vehicleNoRootForm.markAllAsTouched();
-   }
-    
+      else if (this.vehicleNoRootForm.value.vehicle_no_id != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var venortinsert = (this.vehicleNoRootForm.value);
+              this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshvehicleNoRootList();
+                  this.getMaxIdVehicleNoRoot();
+                  this.cancelClickVehicleNoRoot();
+                }
+              });
+            }
+          });
+      }
+    }
+    else {
+      this.vehicleNoRootForm.markAllAsTouched();
+    }
   }
 
   getMaxIdVehicleNoRoot() {
@@ -215,20 +262,46 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   NewVehiclePlace() {
-  if(this.vehicleplaceForm.valid){
-    var placeinsert = (this.vehicleplaceForm.value);
-    this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshvehiclePlaceList();
-        this.getMaxIdPlace();
-        this.cancelClickPlace();
+    if (this.vehicleplaceForm.valid) {
+      if (this.vehicleplaceForm.value.placeid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var placeinsert = (this.vehicleplaceForm.value);
+              this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshvehiclePlaceList();
+                  this.getMaxIdPlace();
+                  this.cancelClickPlace();
+                }
+              });
+            }
+          });
       }
-    });
-  }
-  else{
-    this.vehicleplaceForm.markAllAsTouched();
-  } 
+      else if (this.vehicleplaceForm.value.placeid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var placeinsert = (this.vehicleplaceForm.value);
+              this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshvehiclePlaceList();
+                  this.getMaxIdPlace();
+                  this.cancelClickPlace();
+                }
+              });
+            }
+          });
+      }
+
+    }
+    else {
+      this.vehicleplaceForm.markAllAsTouched();
+    }
   }
 
   getMaxIdPlace() {
@@ -269,5 +342,4 @@ export class VehicleMasterComponent implements OnInit {
     this.vehicleplaceForm.get('cuid')?.setValue(1);
     this.buttonIdPlace = true;
   }
-
 }

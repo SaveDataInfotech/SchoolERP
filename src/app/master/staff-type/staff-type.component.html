@@ -8,25 +8,20 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <p *ngIf="buttonId == true " class="addup" style="background-color: blue;">Add New Staff Type <i
-                    class="fa fa-plus ml-1"></i></p>
-            <p *ngIf="buttonId != true" class="addup" style="background-color: black;width: 165px;">Update Staff type <i
-                    class="fa fa-refresh ml-1"></i></p>
             <form [formGroup]="stafftypeForm" (ngSubmit)="StaffType()">
-
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Staff Code</label>
                         </div>
                         <span class="inputdiv" *ngIf="buttonId == true ">
-                            <div  *ngFor="let code of MaxId">
+                            <div *ngFor="let code of MaxId">
                                 <input placeholder="00{{code.staffTypeid+1}}" class="form-control" type="text" readonly
                                     required>
                             </div>
                         </span>
                         <span class="inputdiv" *ngIf="buttonId != true">
-                            <div >
+                            <div>
                                 <input formControlName="staffTypeid" class="form-control" type="text" readonly required>
                             </div>
                         </span>
@@ -35,18 +30,24 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Staff Type <span class="text-danger">*</span></label>
+                            <label class="pt-2" style="margin: auto;">Staff Type <span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input [ngClass]="{'is-invalid':stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors}" formControlName="stafftype" class="form-control" type="text" required>
-                            <span class="text-danger" *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors">
-                                <div *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.required">
-                                      stafftype is required
+                            <input
+                                [ngClass]="{'is-invalid':stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors}"
+                                formControlName="stafftype" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors">
+                                <div
+                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.required">
+                                    stafftype is required
                                 </div>
-                                <div *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.pattern">
+                                <div
+                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.pattern">
                                     Use letters only
-                                 </div>
-                             </span>
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -57,10 +58,10 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <!-- [disabled]="stafftypeForm.invalid" -->
-                            <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                            <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                            <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                             <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
                                 class="btn btn-danger btn-sm mt-4  " (click)="cancelClick()" value="Cancel" />
                         </div>
@@ -85,10 +86,11 @@
                         <tr *ngFor="let sty of DepartmentList;let i=index;">
                             <td>{{i+1}}</td>
                             <td>{{sty.staffType}}</td>
-                            <td class="tdoption"> <mat-icon (click)="udateGetClick(sty)" matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit_outline</mat-icon>
-                                <mat-icon (click)="deleteClick(sty.staffTypeid)" matTooltip="Click to Delete"
-                                    style="color: red;cursor: pointer;" class="ml-4">delete_outline</mat-icon>                                   
+                            <td class="tdoption">
+                                <span class="m-2 editbutton" (click)="udateGetClick(sty)"><b>edit</b></span>
+                                <span>||</span>
+                                <span class="m-2 deletebutton"
+                                    (click)="deleteClick(sty.staffTypeid)"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>

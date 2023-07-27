@@ -67,7 +67,7 @@ export class UniformMasterComponent implements OnInit {
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Save Success")
+                  this.notificationSvc.success("Saved Success")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();
@@ -77,14 +77,14 @@ export class UniformMasterComponent implements OnInit {
           });
       }
       else if (this.uniformSizeForm.value.uniformid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var uniformsizeinsert = (this.uniformSizeForm.value);
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Update Success")
+                  this.notificationSvc.success("Updated Success")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();

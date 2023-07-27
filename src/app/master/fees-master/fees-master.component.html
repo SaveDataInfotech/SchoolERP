@@ -84,11 +84,11 @@
                                 <tr *ngFor="let fees of FeesList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{fees.type_name}}</td>
-                                    <td class="tdoption"> <mat-icon (click)="udateGetClick(fees)"
-                                            matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" (click)="deleteClick(fees.typeid)"
-                                            style="color: red;cursor: pointer;" class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(fees)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(fees.typeid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -185,12 +185,12 @@
                                 <tr *ngFor="let less of FeesLessList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{less.less_type}}</td>
-                                    <td class="tdoption"> <mat-icon (click)="udateGetClickLess(less)"
-                                            matTooltip="Click to Edit" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon (click)="deleteClickLess(less.fess_lessid)"
-                                            matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="udateGetClickLess(less)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClickLess(less.fess_lessid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -252,7 +252,8 @@
                                     <select formControlName="classid" style="width: 100%;" #t
                                         (change)="filterGroupfun(t.value)" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                        <option [disabled]="assignbuttonId != true" value={{class.classid}}
+                                            *ngFor="let class of ClassList;">
                                             {{class.class_name}}</option>
                                     </select>
                                 </div>
@@ -266,7 +267,8 @@
                                     <select formControlName="groupid" style="width: 100%;" #s
                                         (change)="filterSectionfun(s.value)" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                        <option [disabled]="assignbuttonId != true" value={{group.groupid}}
+                                            *ngFor="let group of groupFilterlist;">
                                             {{group.group_name}}</option>
                                     </select>
                                 </div>
@@ -282,7 +284,7 @@
                                     <select formControlName="sectionid" style="width: 100%;" class="form-control "
                                         name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option [ngValue]="section.sectionid"
+                                        <option [disabled]="assignbuttonId != true" [ngValue]="section.sectionid"
                                             *ngFor="let section of sectionFilterlist;">
                                             {{section.section_name}}</option>
                                     </select>
@@ -382,7 +384,7 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <table class="col-sm-10 table table-hover table-bordered table-sm  ">
+                        <table class="col-sm-12 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
@@ -408,11 +410,12 @@
                                     <td>{{Assign.feestype}}</td>
                                     <td>{{Assign.fees_less}}</td>
                                     <td>{{Assign.amount}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                            (click)="updateGetClickAssign(Assign)" style="color: blue;cursor: pointer;"
-                                            class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            (click)="assigndeleteClick(Assign.assignid)" class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="updateGetClickAssign(Assign)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="assigndeleteClick(Assign.assignid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>

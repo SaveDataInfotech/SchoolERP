@@ -14,17 +14,18 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Leave Code</label>
+                                    <label class="pt-2" style="margin: auto;">Leave Code</label>
                                 </div>
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder="0{{code.typeid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.typeid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="typeid" class="form-control" type="text" readonly required>
+                                        <input formControlName="typeid" class="form-control" type="text" readonly
+                                            required>
                                     </div>
                                 </span>
                             </div>
@@ -32,16 +33,20 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Leave Type <span class="text-danger">*</span></label>
+                                    <label class="pt-2" style="margin: auto;">Leave Type <span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [ngClass]="{'is-invalid':leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors}"
-                                     formControlName="type_name" class="form-control" type="tel" required>
-                                     <span class="text-danger" *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors">
-                                        <div *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors.required">
-                                              Leave type is required
+                                    <input
+                                        [ngClass]="{'is-invalid':leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors}"
+                                        formControlName="type_name" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors">
+                                        <div
+                                            *ngIf="leavetypeForm.controls.type_name.touched && leavetypeForm.controls.type_name.errors.required">
+                                            Leave type is required
                                         </div>
-                                     </span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -50,13 +55,13 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
-                                <div style="float: left;width: 250px;">                                   
-                                        <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -78,10 +83,11 @@
                                 <tr *ngFor="let Leave of LaveTyList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{Leave.type_name}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="udateGetClick(Leave)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" (click)="deleteClick(Leave.typeid)" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(Leave)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(Leave.typeid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -107,95 +113,113 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Assign Code</label>
+                                    <label class="pt-2" style="margin: auto;">Assign Code</label>
                                 </div>
                                 <span *ngIf="AssignbuttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of AssignMaxId">
-                                        <input placeholder="0{{code.assignid+1}}" class="form-control" type="text" readonly
-                                            required>
+                                        <input placeholder="0{{code.assignid+1}}" class="form-control" type="text"
+                                            readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="AssignbuttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="assignid" class="form-control" type="text" readonly required>
+                                        <input formControlName="assignid" class="form-control" type="text" readonly
+                                            required>
                                     </div>
                                 </span>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Staff Type<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select [ngClass]="{'is-invalid':staff_type && staff_type.invalid && staff_type.touched}"
-                                     formControlName="staff_type"  style="width: 100%;" class="form-control " name="selectAction">
+                                    <select
+                                        [ngClass]="{'is-invalid':staff_type && staff_type.invalid && staff_type.touched}"
+                                        formControlName="staff_type" style="width: 100%;" class="form-control "
+                                        name="selectAction">
                                         <option value="" selected disabled>Please select</option>
-                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">{{StaffType.staffType}}</option>                                        
+                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
+                                            {{StaffType.staffType}}</option>
                                     </select>
-                                    <p class="text-danger m-1" *ngIf="staff_type && staff_type.invalid && staff_type.touched">
+                                    <p class="text-danger m-1"
+                                        *ngIf="staff_type && staff_type.invalid && staff_type.touched">
                                         Staff Type is required</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Staff Name<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Staff Name<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors}"
-                                     formControlName="staff_name"  class="form-control" type="text" required>
-                                     <span class="text-danger" *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors">
-                                        <div *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors.required">
+                                    <input
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors}"
+                                        formControlName="staff_name" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors">
+                                        <div
+                                            *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors.required">
                                             Staff Name is required
                                         </div>
-                                     </span>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">No of Leave<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">No of Leave<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors}"
-                                     formControlName="no_of_leave" class="form-control" type="number" required>
-                                    <span class="text-danger" *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors">
-                                        <div *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors.required">
+                                    <input
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors}"
+                                        formControlName="no_of_leave" class="form-control" type="number" required>
+                                    <span class="text-danger"
+                                        *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors">
+                                        <div
+                                            *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors.required">
                                             No of Leave is required
                                         </div>
-                                     </span>
+                                    </span>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Eligible Per Month<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Eligible Per Month<span
+                                            class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [ngClass]="{'is-invalid':leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors}"
-                                     formControlName="e_per_mon" class="form-control" type="number" required>
-                                    <span class="text-danger" *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors">
-                                        <div *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors.required">
+                                    <input
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors}"
+                                        formControlName="e_per_mon" class="form-control" type="number" required>
+                                    <span class="text-danger"
+                                        *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors">
+                                        <div
+                                            *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors.required">
                                             Eligible Per Month is required
                                         </div>
-                                     </span>
+                                    </span>
                                 </div>
-                                
+
                             </div>
                         </div>
 
                         <div class="col-sm-12 mt-4">
-                            <div style="text-align: center;">                            
-                                    <input *ngIf="AssignbuttonId == true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                        <input *ngIf="AssignbuttonId != true" matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                            <div style="text-align: center;">
+                                <input *ngIf="AssignbuttonId == true" matTooltip="Click to Save" type="submit"
+                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                <input *ngIf="AssignbuttonId != true" matTooltip="Click to Save" type="submit"
+                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -222,10 +246,12 @@
                                     <td>{{assign.staff_name}}</td>
                                     <td>{{assign.no_of_leave}}</td>
                                     <td>{{assign.e_per_mon}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="AssignUpdateGetClick(assign)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" (click)="AssigndeleteClick(assign.assignid)" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="AssignUpdateGetClick(assign)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="AssigndeleteClick(assign.assignid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>

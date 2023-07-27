@@ -17,7 +17,7 @@ export class SupplierMasterComponent implements OnInit {
 
   constructor(
     private stySvc: SupplierTypeService, private DialogSvc: DialogService,
-    private notificationSvc:NotificationsService) {
+    private notificationSvc: NotificationsService) {
   }
   ngOnInit(): void {
     this.refresupplierTypeList(),
@@ -27,15 +27,15 @@ export class SupplierMasterComponent implements OnInit {
 
   suppliertypeForm = new FormGroup({
     supplierid: new FormControl(0),
-    supplier_name: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z ]*$')]),
-    mobile_number: new FormControl('', [Validators.required,Validators.pattern('^[0-9]*$'),Validators.minLength(10),Validators.maxLength(10)]),
+    supplier_name: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
+    mobile_number: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(10), Validators.maxLength(10)]),
     gst_no: new FormControl('', [Validators.required]),
     balance: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
-  
-  numberOnly(event:any): boolean {
+
+  numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
@@ -52,51 +52,45 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   newSupplierType() {
-    if(this.suppliertypeForm.valid)
-    {
-    if(this.suppliertypeForm.value.supplierid == 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var suppliertypeinsert = (this.suppliertypeForm.value);
-          this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.notificationSvc.success("Save Success")
-              this.refresupplierTypeList();
-              this.getMaxId();
-              this.cancelClick();
+    if (this.suppliertypeForm.valid) {
+      if (this.suppliertypeForm.value.supplierid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var suppliertypeinsert = (this.suppliertypeForm.value);
+              this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refresupplierTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
-    }
-    else if(this.suppliertypeForm.value.supplierid != 0){
-      this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          var suppliertypeinsert = (this.suppliertypeForm.value);
-          this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
-            console.log(res, 'resss')
-            if (res?.recordid) {
-              this.notificationSvc.success("Update Success")
-              this.refresupplierTypeList();
-              this.getMaxId();
-              this.cancelClick();
+      }
+      else if (this.suppliertypeForm.value.supplierid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to update this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var suppliertypeinsert = (this.suppliertypeForm.value);
+              this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
+                console.log(res, 'resss')
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refresupplierTypeList();
+                  this.getMaxId();
+                  this.cancelClick();
+                }
+              });
             }
           });
-        }
-      });
+      }
     }
-    else{
-      alert("something error;")
+    else {
+      this.suppliertypeForm.markAllAsTouched();
     }
-  }
-  else{
-    this.suppliertypeForm.markAllAsTouched();
-  }
-
-    
   }
 
   getMaxId() {
@@ -146,4 +140,3 @@ export class SupplierMasterComponent implements OnInit {
     this.buttonId = true;
   }
 }
-
