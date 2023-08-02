@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
@@ -47,7 +48,8 @@ export class FeesMasterComponent implements OnInit {
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
-    private batchSvc: BatechYearService
+    private batchSvc: BatechYearService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +70,10 @@ export class FeesMasterComponent implements OnInit {
     this.getMaxIdAssign();
     this.cancelClickAssign();
 
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
   }
 
   //Fees type

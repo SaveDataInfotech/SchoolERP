@@ -10,6 +10,7 @@ import { HostelMasterComponent } from './hostel-master/hostel-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
 import { ReportsComponent } from './reports/reports.component';
+import { RoleComponent } from './role/role.component';
 
 
 export const masterRoutes: Routes = [
@@ -52,6 +53,10 @@ export const masterRoutes: Routes = [
   {
     path:"supplier_master",
     component:SupplierMasterComponent
+  },
+  {
+    path:"role",
+    component:RoleComponent
   },
   {
     path:"reports",

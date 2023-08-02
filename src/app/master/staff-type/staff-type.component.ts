@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { NotificationsService } from 'angular2-notifications';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-staff-type',
@@ -20,7 +21,7 @@ export class StaffTypeComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private stySvc: staffTypeService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService) {
+    private notificationSvc: NotificationsService,private router: Router) {
   }
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -28,6 +29,10 @@ export class StaffTypeComponent implements OnInit {
       this.cancelClick()
 
     //this.notificationSvc.success("Heloo")
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
   }
 
   stafftypeForm = new FormGroup({

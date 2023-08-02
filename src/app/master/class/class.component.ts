@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
@@ -33,7 +34,8 @@ export class ClassComponent implements OnInit {
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService) {
+    private notificationSvc: NotificationsService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -58,6 +60,7 @@ export class ClassComponent implements OnInit {
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
     class_name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]),
+    medium: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -67,12 +70,19 @@ export class ClassComponent implements OnInit {
     });
   }
 
+  backButton() {
+    debugger;
+    this.router.navigateByUrl('/app/dashboard');
+  }
+
   New_Class() {
+    debugger;
     if (this.Student_classForm.valid) {
       if (this.Student_classForm.value.classid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
+              debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
                 if (res?.recordid) {
@@ -89,6 +99,7 @@ export class ClassComponent implements OnInit {
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
+              debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
                 if (res?.recordid) {
@@ -132,8 +143,11 @@ export class ClassComponent implements OnInit {
   }
 
   updateGetClick(StClass: any) {
-    this.Student_classForm.get('classid')?.setValue(StClass.classid);
-    this.Student_classForm.get('class_name')?.setValue(StClass.class_name);
+    debugger;
+    this.Student_classForm.get('classid')?.setValue(StClass.classid);    
+    let toArray =  StClass.class_name.split("-");
+    this.Student_classForm.get('class_name')?.setValue(toArray[0]);
+    this.Student_classForm.get('medium')?.setValue(toArray[1]);
     this.Student_classForm.get('cuid')?.setValue(StClass.cuid);
     this.buttonId = false;
   }
@@ -142,6 +156,7 @@ export class ClassComponent implements OnInit {
     this.Student_classForm.reset();
     this.Student_classForm.get('classid')?.setValue(0);
     this.Student_classForm.get('class_name')?.setValue('');
+    this.Student_classForm.get('medium')?.setValue('');
     this.Student_classForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
@@ -151,6 +166,7 @@ export class ClassComponent implements OnInit {
     groupid: new FormControl(0),
     classid: new FormControl(null, [Validators.required]),
     group_name: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -212,6 +228,7 @@ export class ClassComponent implements OnInit {
     this.Student_GroupForm.get('groupid')?.setValue(group.groupid);
     this.Student_GroupForm.get('classid')?.setValue(group.classid);
     this.Student_GroupForm.get('group_name')?.setValue(group.group_name);
+    this.Student_GroupForm.get('description')?.setValue(group.description);
     this.Student_GroupForm.get('cuid')?.setValue(group.cuid);
     this.GroupbuttonId = false;
   }
@@ -221,6 +238,7 @@ export class ClassComponent implements OnInit {
     this.Student_GroupForm.get('groupid')?.setValue(0);
     this.Student_GroupForm.get('classid')?.setValue(null);
     this.Student_GroupForm.get('group_name')?.setValue('');
+    this.Student_GroupForm.get('description')?.setValue('');
     this.Student_GroupForm.get('cuid')?.setValue(1);
     this.GroupbuttonId = true;
   }
@@ -253,7 +271,7 @@ export class ClassComponent implements OnInit {
   Student_SectionForm = new FormGroup({
     sectionid: new FormControl(0),
     groupid: new FormControl(0),
-    classid: new FormControl(0, [Validators.required]),
+    classid: new FormControl(0,[Validators.required]),
     section_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })

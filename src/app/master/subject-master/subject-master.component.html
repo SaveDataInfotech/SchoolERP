@@ -1,15 +1,18 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Subject">
-        <div class="container-fluid mt-2">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Subject Master</h3>
-                    </div>
-                </div>
-            </div>
-            <mat-card class="mt-2 matcard mb-5">
+        <div class="container-fluid mt-2">            
+            <mat-card class="mt-4 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Subject Master</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="subjectForm" (ngSubmit)="newSubject()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -263,15 +266,19 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Name</label>
+                                    <label class="pt-2" style="margin: auto;">Subject Name<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="subjectid" style="width: 100%;" class="form-control "
+                                    <select [ngClass]="{'is-invalid': subjectBranchForm.get('subjectid')?.touched && subjectBranchForm.get('subjectid')?.errors}"
+                                     formControlName="subjectid" style="width: 100%;" class="form-control "
                                         name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
+                                        <option value=null selected disabled>Please select</option>
                                         <option [ngValue]="subject.subjectid"
                                             *ngFor="let subject of subjectDetailList;">{{subject.subject_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                    *ngIf="subjectBranchForm.get('subjectid')?.touched && subjectBranchForm.get('subjectid')?.errors">Subject
+                                    name is required</span>
                                 </div>
                             </div>
                         </div>
@@ -279,10 +286,18 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Branch Name</label>
+                                    <label class="pt-2" style="margin: auto;">Branch Name <span class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="branch_name" class="form-control" type="tel" required>
+                                    <input [ngClass]="{'is-invalid':subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors}"
+                                     formControlName="branch_name" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors">
+                                        <div
+                                            *ngIf="subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors.required">
+                                            Subject Name is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -292,10 +307,10 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input *ngIf="BranchbuttonId == true " [disabled]="subjectBranchForm.invalid"
+                                    <input *ngIf="BranchbuttonId == true"
                                         matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="BranchbuttonId != true" [disabled]="subjectBranchForm.invalid"
+                                    <input *ngIf="BranchbuttonId != true"
                                         matTooltip="Click to Save" type="submit" style="width: 80px;"
                                         class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" type="button" style="width: 80px;"

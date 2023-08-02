@@ -26,6 +26,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./schedule/schedule.module').then((m) => m.ScheduleModule),
       },
+      
       {
         path: 'master',
         loadChildren: () =>
@@ -61,6 +62,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./vehicle/vehicle.module').then((m) => m.VehicleModule),
       },      
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./user/user.module').then((m) => m.UserModule),
+      },
       // {
       //   path: 'admin',
       //   loadChildren: () =>

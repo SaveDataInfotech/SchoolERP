@@ -29,6 +29,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
+import { RoleComponent } from './role/role.component';
 
 
 
@@ -46,7 +47,8 @@ import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
     SupplierMasterComponent,
     ReportsComponent,
     ConfirmDialogComponent,
-    ResonDialogComponent
+    ResonDialogComponent,
+    RoleComponent
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

@@ -7,8 +7,8 @@
                         <h3 class="ml-1">Batch Year</h3>
                     </div>
                 </div>
-                <div class="col-sm-6" style="text-align: right;"><button (click)="backButton()"
-                        class="button"><span>Back</span></button>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                 </div>
             </div>
             <form [formGroup]="BatchYearForm" (ngSubmit)="NewBatchYear()">

@@ -87,8 +87,11 @@ export class BatchYearComponent implements OnInit {
                   }
                 });
             }
+            else if(res == false){
+              this.notificationSvc.warn("If you want to edit this,Enter your reson!")
+            }
             else {
-              alert("Invalid reson");
+              this.notificationSvc.error("Invalid reson")
             }
           });
       }

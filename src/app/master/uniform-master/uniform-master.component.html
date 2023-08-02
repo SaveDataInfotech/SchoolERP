@@ -1,201 +1,473 @@
-<div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Uniform Master</h3>
-            </div>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Class">
+        <div class="container-fluid mt-2">
+            <mat-card class="mt-4 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Uniform Master</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="uniformSizeForm" (ngSubmit)="NewUniformSize()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Uniform Code</label>
+                                </div>
+                                <span *ngIf="buttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MaxId">
+                                        <input placeholder="00{{code.uniformid+1}}" class="form-control" type="text"
+                                            readonly required>
+                                    </div>
+                                </span>
+                                <span *ngIf="buttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="uniformid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Gender<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors}"
+                                        #t (change)="ifovercoatfun(t.value)" style="width: 100%;" class="form-control"
+                                        formControlName="gender" name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option [disabled]="buttonId != true" value="Male">Male</option>
+                                        <option [disabled]="buttonId != true" value="FeMale">Female</option>
+                                        <option [disabled]="buttonId != true" value="Others">Others</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors.required">
+                                            Gender is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors}"
+                                        formControlName="size" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.required">
+                                            Size is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.pattern">
+                                            Use only letters(A-Z)
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Shirting<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors}"
+                                        formControlName="shirting" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors.required">
+                                            Shirting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Suiting<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors}"
+                                        formControlName="suiting" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors.required">
+                                            Suiting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div *ngIf="overcoatif == true" class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Over Coat</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.over_coat.touched  && uniformSizeForm.controls.over_coat.errors  && uniformSizeForm.controls.over_coat.errors.pattern}"
+                                        formControlName="over_coat" class="form-control" type="text">
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors">
+                                        <div *ngIf="uniformSizeForm.controls.over_coat.touched">
+                                            Suiting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Amount<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors}"
+                                        formControlName="amount" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors.required">
+                                            amount is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-7 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Gender</th>
+                                    <th>Class</th>
+                                    <th>Shirting</th>
+                                    <th>Suiting</th>
+                                    <th>Over Coat</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let size of UniformSizeList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{size.gender}}</td>
+                                    <td>{{size.size}}</td>
+                                    <td>{{size.shirting}}</td>
+                                    <td>{{size.suiting}}</td>
+                                    <td>{{size.over_coat}}</td>
+                                    <td>{{size.amount}}</td>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(size)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteuniformSize(size.uniformid)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
         </div>
-    </div>
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <form [formGroup]="uniformSizeForm" (ngSubmit)="NewUniformSize()">
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Uniform Code</label>
-                        </div>
-                        <span *ngIf="buttonId == true ">
-                            <div class="inputdiv" *ngFor="let code of MaxId">
-                                <input placeholder="00{{code.uniformid+1}}" class="form-control" type="text" readonly
-                                    required>
+    </mat-tab>
+
+    <mat-tab label="Meter">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Uniform Master</h3>
                             </div>
-                        </span>
-                        <span *ngIf="buttonId != true">
-                            <div class="inputdiv">
-                                <input formControlName="uniformid" class="form-control" type="text" readonly required>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="uniformMeterForm" (ngSubmit)="newUniformMeter()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Uniform Code</label>
+                                </div>
+                                <span *ngIf="meterbuttonId == true ">
+                                    <div class="inputdiv" *ngFor="let code of MeterMaxId">
+                                        <input placeholder="00{{code.uniformid+1}}" class="form-control" type="text"
+                                            readonly required>
+                                    </div>
+                                </span>
+                                <span *ngIf="meterbuttonId != true">
+                                    <div class="inputdiv">
+                                        <input formControlName="uniformid" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
                             </div>
-                        </span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Gender<span class="text-danger">*</span></label>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <select
-                                [ngClass]="{'is-invalid':uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors}"
-                                #t (change)="ifovercoatfun(t.value)" style="width: 100%;" class="form-control"
-                                formControlName="gender" name="selectAction">
-                                <option value="" selected disabled>Please select</option>
-                                <option value="Male">Male</option>
-                                <option value="FeMale">Female</option>
-                                <option value="Others">Others</option>
-                            </select>
-                            <span class="text-danger"
-                                *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors">
-                                <div
-                                    *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors.required">
-                                    Gender is required
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Gender<span
+                                            class="text-danger">*</span></label>
                                 </div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Size<span class="text-danger">*</span></label>
-                        </div>
-                        <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors}"
-                                formControlName="size" class="form-control" type="text" required>
-                            <span class="text-danger"
-                                *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors">
-                                <div
-                                    *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.required">
-                                    Size is required
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors}"
+                                        #m (change)="ifovercoatfunMeter(m.value)" style="width: 100%;" class="form-control"
+                                        formControlName="gender" name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option [disabled]="meterbuttonId != true" value="Male">Male</option>
+                                        <option [disabled]="meterbuttonId != true" value="FeMale">Female</option>
+                                        <option [disabled]="meterbuttonId != true" value="Others">Others</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors.required">
+                                            Gender is required
+                                        </div>
+                                    </span>
                                 </div>
-                                <div
-                                    *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.pattern">
-                                    Use only letters(A-Z)
+                            </div>
+                        </div>                        
+                        <div class="row">
+                            <div class="col-sm-7 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Shirting<span
+                                            class="text-danger">*</span></label>
                                 </div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Shirting<span class="text-danger">*</span></label>
-                        </div>
-                        <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors}"
-                                formControlName="shirting" class="form-control" type="text" required>
-                            <span class="text-danger"
-                                *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors">
-                                <div
-                                    *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors.required">
-                                    Shirting is required
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors}"
+                                        formControlName="shirting" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors.required">
+                                            Shirting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
                                 </div>
-                                <div
-                                    *ngIf="uniformSizeForm.controls.shirting.touched && uniformSizeForm.controls.shirting.errors.pattern">
-                                    Invalid pattern (Enter like 2m 0r 1.5m)
-                                </div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Suiting<span class="text-danger">*</span></label>
-                        </div>
-                        <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors}"
-                                formControlName="suiting" class="form-control" type="text" required>
-                            <span class="text-danger"
-                                *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors">
-                                <div
-                                    *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors.required">
-                                    Suiting is required
+                                <div style="width: 100px;" class="ml-2">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.sh_am.touched && uniformMeterForm.controls.sh_am.errors}"
+                                        formControlName="sh_am" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.sh_am.touched && uniformMeterForm.controls.sh_am.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.sh_am.touched && uniformMeterForm.controls.sh_am.errors.required">
+                                            Amount is required
+                                        </div>
+                                    </span>
                                 </div>
-                                <div
-                                    *ngIf="uniformSizeForm.controls.suiting.touched && uniformSizeForm.controls.suiting.errors.pattern">
-                                    Invalid pattern (Enter like 2m 0r 1.5m)
-                                </div>
-                            </span>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div *ngIf="overcoatif == true" class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Over Coat</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':uniformSizeForm.controls.over_coat.touched  && uniformSizeForm.controls.over_coat.errors  && uniformSizeForm.controls.over_coat.errors.pattern}"
-                                formControlName="over_coat" class="form-control" type="text">
-                            <span class="text-danger"
-                                *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors">
-                                <div *ngIf="uniformSizeForm.controls.over_coat.touched">
-                                    Suiting is required
+                        <div class="row">
+                            <div class="col-sm-7 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Suiting<span
+                                            class="text-danger">*</span></label>
                                 </div>
-                                <div
-                                    *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors.pattern">
-                                    Invalid pattern (Enter like 2m 0r 1.5m)
-                                </div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors}"
+                                        formControlName="suiting" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors.required">
+                                            Suiting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
 
-                <div class="row">
-                    <div class="col-sm-6" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
+                                </div>                               
+
+                                <div style="width: 100px;" class="ml-2">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.su_am.touched && uniformMeterForm.controls.su_am.errors}"
+                                        formControlName="su_am" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.su_am.touched && uniformMeterForm.controls.su_am.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.su_am.touched && uniformMeterForm.controls.su_am.errors.required">
+                                            Amount is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
-                                style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
-                                style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                            <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+
+
+
+                        <div class="row">
+                            <div *ngIf="overcoatifMetr == true" class="col-sm-7 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Over Coat</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.overcoat.touched  && uniformMeterForm.controls.overcoat.errors  && uniformMeterForm.controls.overcoat.errors.pattern}"
+                                        formControlName="overcoat" class="form-control" type="text">
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.overcoat.touched && uniformMeterForm.controls.overcoat.errors">
+                                        <div *ngIf="uniformMeterForm.controls.overcoat.touched">
+                                            Suiting is required
+                                        </div>
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.overcoat.touched && uniformMeterForm.controls.overcoat.errors.pattern">
+                                            Invalid pattern (Enter like 2m 0r 1.5m)
+                                        </div>
+                                    </span>
+                                </div>
+
+                                
+                                <div style="width: 100px;" class="ml-2">
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors}"
+                                        formControlName="oc_am" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors">
+                                        <div
+                                            *ngIf="uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors.required">
+                                            Amount is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="meterbuttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="meterbuttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        (click)="MetercancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-7 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Gender</th>                                    
+                                    <th>Shirting</th>
+                                    <th>Amount</th>
+                                    <th>Suiting</th>
+                                    <th>Amount</th>
+                                    <th>Over Coat</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let meter of UniformMeterList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{meter.gender}}</td>                                   
+                                    <td>{{meter.shirting}}</td>
+                                    <td>{{meter.sh_am}}</td>
+                                    <td>{{meter.suiting}}</td>
+                                    <td>{{meter.su_am}}</td>
+                                    <td>{{meter.overcoat}}</td>
+                                    <td>{{meter.oc_am}}</td>                                  
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="updateMeterGetClick(meter)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteMeterClick(meter.uniformid)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <div class="table-responsive">
-                <table class="col-sm-7 table table-hover table-bordered table-sm  ">
-                    <thead>
-                        <tr>
-                            <th>Si.No</th>
-                            <th>Gender</th>
-                            <th>Size</th>
-                            <th>Shirting</th>
-                            <th>Suiting</th>
-                            <th>Over Coat</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let size of UniformSizeList;let i=index;">
-                            <td>{{i+1}}</td>
-                            <td>{{size.gender}}</td>
-                            <td>{{size.size}}</td>
-                            <td>{{size.shirting}}</td>
-                            <td>{{size.suiting}}</td>
-                            <td>{{size.over_coat}}</td>
-                            <td class="tdoption">
-                                <span class="m-2 editbutton" (click)="udateGetClick(size)"><b>edit</b></span>
-                                <span>||</span>
-                                <span class="m-2 deletebutton"
-                                    (click)="deleteuniformSize(size.uniformid)"><b>delete</b></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

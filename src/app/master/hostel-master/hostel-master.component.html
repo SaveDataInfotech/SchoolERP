@@ -8,22 +8,30 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="hostelForm" (ngSubmit)="newHostel()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Hostel Code</label>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="0011788" class="form-control" type="text" disabled required>
-                        </div>
+                        <span class="inputdiv" *ngIf="buttonId == true ">
+                            <div *ngFor="let code of MaxId">
+                                <input placeholder="00{{code.hostelid+1}}" class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span class="inputdiv" *ngIf="buttonId != true">
+                            <div>
+                                <input formControlName="hostelid" class="form-control" type="text" readonly required>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Hostel Name</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Vinayaga Hostel" class="form-control" type="text" required>
+                            <input formControlName="hostel_name" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -33,7 +41,7 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">No Of Rooms</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="34" class="form-control" type="number" required>
+                            <input formControlName="no_of_rooms" class="form-control" type="number" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -41,29 +49,16 @@
                             <label for="ex2" class="pt-0" style="margin: auto;">No of Person allowed in Room</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="5" class="form-control" type="number" required>
+                            <input formControlName="pa_room" class="form-control" type="number" required>
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="row">
-                    <div class="col-sm-6" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                        </div>
-                    </div>
-                </div> -->
 
                 <div class="col-sm-11 mt-5">
                     <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                             class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                        <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClick()"
                             class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                     </div>
                 </div>
@@ -85,14 +80,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>0001290</td>
-                            <td>Vinayaga</td>
-                            <td>34</td>
-                            <td>5</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                        <tr *ngFor="let hostel of DepartmentList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{hostel.hostel_name}}</td>
+                            <td>{{hostel.no_of_rooms}}</td>
+                            <td>{{hostel.pa_room}}</td> 
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClick(hostel)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(hostel.hostelid)"
                                     class="pl-2">delete</mat-icon>
                             </td>
                         </tr>

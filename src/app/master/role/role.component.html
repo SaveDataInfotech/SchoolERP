@@ -1,31 +1,28 @@
 <div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Role</h3>
+            </div>
+        </div>
+    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <div class="row">
-                <div class="col-sm-6" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Staff Type</h3>
-                    </div>
-                </div>
-                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                </div>
-            </div>
-            <form [formGroup]="stafftypeForm" (ngSubmit)="StaffType()">
+            <form [formGroup]="roleForm" (ngSubmit)="roleSubmit()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Staff Code</label>
+                            <label class="pt-2" style="margin: auto;">Role Code</label>
                         </div>
                         <span class="inputdiv" *ngIf="buttonId == true ">
                             <div *ngFor="let code of MaxId">
-                                <input placeholder="00{{code.staffTypeid+1}}" class="form-control" type="text" readonly
+                                <input placeholder="00{{code.roleid+1}}" class="form-control" type="text" readonly
                                     required>
                             </div>
                         </span>
                         <span class="inputdiv" *ngIf="buttonId != true">
                             <div>
-                                <input formControlName="staffTypeid" class="form-control" type="text" readonly required>
+                                <input formControlName="roleid" class="form-control" type="text" readonly required>
                             </div>
                         </span>
                     </div>
@@ -33,21 +30,21 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Staff Type <span
+                            <label class="pt-2" style="margin: auto;">Role Name<span
                                     class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
                             <input
-                                [ngClass]="{'is-invalid':stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors}"
-                                formControlName="stafftype" class="form-control" type="text" required>
+                                [ngClass]="{'is-invalid':roleForm.controls.role_name.touched && roleForm.controls.role_name.errors}"
+                                formControlName="role_name" class="form-control" type="text" required>
                             <span class="text-danger"
-                                *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors">
+                                *ngIf="roleForm.controls.role_name.touched && roleForm.controls.role_name.errors">
                                 <div
-                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.required">
-                                    stafftype is required
+                                    *ngIf="roleForm.controls.role_name.touched && roleForm.controls.role_name.errors.required">
+                                    Role Name is required
                                 </div>
                                 <div
-                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.pattern">
+                                    *ngIf="roleForm.controls.role_name.touched && roleForm.controls.role_name.errors.pattern">
                                     Use letters only
                                 </div>
                             </span>
@@ -60,7 +57,6 @@
                         <div style="float: left;width: 150px;text-align: left;">
                         </div>
                         <div style="float: left;width: 250px;">
-                            <!-- [disabled]="stafftypeForm.invalid" -->
                             <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
                                 style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
                             <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
@@ -81,19 +77,19 @@
                     <thead>
                         <tr>
                             <th>Si.No</th>
-                            <th>Staff Type</th>
+                            <th>Role Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let sty of DepartmentList;let i=index;">
+                        <tr *ngFor="let role of RoleList;let i=index;">
                             <td>{{i+1}}</td>
-                            <td>{{sty.staffType}}</td>
+                            <td>{{role.role_name}}</td>
                             <td class="tdoption">
-                                <span class="m-2 editbutton" (click)="udateGetClick(sty)"><b>edit</b></span>
+                                <span class="m-2 editbutton" (click)="updateGetClick(role)"><b>edit</b></span>
                                 <span>||</span>
                                 <span class="m-2 deletebutton"
-                                    (click)="deleteClick(sty.staffTypeid)"><b>delete</b></span>
+                                    (click)="deleteClick(role.roleid)"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>

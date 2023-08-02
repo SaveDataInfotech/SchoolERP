@@ -1,0 +1,84 @@
+<div class="container-fluid mt-1">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <!-- <div style="float: left;text-align: left;">
+                <mat-icon class="" style="color: blue;">supervised_user_circle</mat-icon>
+            </div> -->
+            <div style="float: left;width: 400px;">
+                <h3 class="ml-1">New User</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form [formGroup]="userForm">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">UserID</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">User Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required readonly>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Role Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select style="width: 100%;" class="form-control " name="selectAction">
+                                <option>SuperAdmin</option>
+                                <option>Admin</option>                        
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Staff No</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input class="form-control" formControlName="no"  #t (change)="filterStaffName(t.value)" type="text" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Email</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label for="ex2" class="pt-2" style="margin: auto;">Password</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input placeholder="" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                    </div>
+                </div>
+        </form>
+        </mat-card-content>
+    </mat-card>
+</div>

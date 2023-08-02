@@ -52,6 +52,27 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Full Name<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':leavetypeForm.controls.fullName.touched && leavetypeForm.controls.fullName.errors}"
+                                        formControlName="fullName" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="leavetypeForm.controls.fullName.touched && leavetypeForm.controls.fullName.errors">
+                                        <div
+                                            *ngIf="leavetypeForm.controls.fullName.touched && leavetypeForm.controls.fullName.errors.required">
+                                            fullName is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
@@ -76,6 +97,7 @@
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Leave Type</th>
+                                    <th>fullName</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -83,6 +105,7 @@
                                 <tr *ngFor="let Leave of LaveTyList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{Leave.type_name}}</td>
+                                    <td>{{Leave.fullName}}</td>
                                     <td class="tdoption">
                                         <span class="m-2 editbutton" (click)="udateGetClick(Leave)"><b>edit</b></span>
                                         <span>||</span>

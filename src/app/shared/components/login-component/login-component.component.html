@@ -12,10 +12,10 @@
           </div>
         </header>
         <section class="section sign-in">
-          <form autocomplete="off" novalidate>
-            <input type="text" name="email" placeholder="Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <button (click)="login()">Sign In</button>
+          <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off" novalidate>
+            <input formControlName="email" type="text" name="email" placeholder="Email" />
+            <input formControlName="password" type="password" name="password" placeholder="Password" />
+            <button>Sign In</button>
           </form>
         </section>
       </div>

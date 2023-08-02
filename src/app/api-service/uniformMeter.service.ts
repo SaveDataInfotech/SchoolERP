@@ -1,0 +1,34 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class uniformMeterService {
+  readonly apiUrl = 'https://localhost:44314/api/';
+  constructor(private http: HttpClient) {
+  }
+
+  getUniformList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'UniformMeter/Get');
+  }
+
+  getMaxId(): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'UniformMeter/get_MaxId_Uniform_meter');
+  }
+
+
+  addNewUniform(uniforminsert: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'UniformMeter/insert_Uniform_meter', uniforminsert, httpOptions);
+  }
+
+
+  deleteUniform(uniformid: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'UniformMeter/delete_Uniform_meter?uniformid=' + uniformid, httpOptions);
+  }
+
+}

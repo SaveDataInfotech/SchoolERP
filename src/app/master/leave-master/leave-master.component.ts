@@ -41,6 +41,7 @@ export class LeaveMasterComponent implements OnInit {
   leavetypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl('', [Validators.required]),
+    fullName: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -118,6 +119,7 @@ export class LeaveMasterComponent implements OnInit {
   udateGetClick(Leave: any) {
     this.leavetypeForm.get('typeid')?.setValue(Leave.typeid);
     this.leavetypeForm.get('type_name')?.setValue(Leave.type_name);
+    this.leavetypeForm.get('fullName')?.setValue(Leave.fullName);
     this.leavetypeForm.get('cuid')?.setValue(Leave.cuid);
     this.buttonId = false;
   }
@@ -126,6 +128,7 @@ export class LeaveMasterComponent implements OnInit {
     this.leavetypeForm.reset();
     this.leavetypeForm.get('typeid')?.setValue(0);
     this.leavetypeForm.get('type_name')?.setValue('');
+    this.leavetypeForm.get('fullName')?.setValue('');
     this.leavetypeForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }

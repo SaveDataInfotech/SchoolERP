@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'layout',
@@ -9,6 +10,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 export class LayoutComponent implements OnInit {
   condition:boolean=true;
+  username:any=localStorage.getItem("userid")
+
   over(){
     // this.condition=false;
     // this.openSidebar=false;
@@ -17,10 +20,20 @@ export class LayoutComponent implements OnInit {
     // this.condition=true;
     // this.openSidebar=true;
   }
+  constructor(private router: Router) { }
+
+    ngOnInit() {console.log('current Application Login Role:::' + this.currentLoginRole) }
+  
+  currentLoginRole:any=localStorage.getItem("rolename")
 
     openSidebar: boolean = true;
+    routerLink="/login"
+    logout(){
+      localStorage.clear();
+      this.router.navigateByUrl('/login');
+    }
 
-    menuSidebar = [
+    superAdminmenuSidebar = [
       {
         link_name: "Dashboard",
         link: "dashboard",
@@ -38,6 +51,68 @@ export class LayoutComponent implements OnInit {
             // },
           ]
       },
+      {
+        link_name:"Student Details",
+        link:null,
+        icon:"studentdetails",
+        sub_menu:[
+            {
+              link_name:"Student Enquiry",
+              link:"student/student_enquiry",
+            },
+            {
+              link_name:"Student Profile",
+              link:"student/student_profile",
+            },
+            {
+              link_name:"Student Assign",
+              link:"student/student_assign",
+            },
+            {
+              link_name:"Student Attendance",
+              link:"student/student_attendance",
+            },
+            {
+              link_name:"Student Mark Entry",
+              link:"student/student_mark_entry",
+            },
+            {
+              link_name:"Student Tc Apply",
+              link:"student/student_tc_applie",
+            },
+            {
+              link_name:"Student Promote",
+              link:"student/student_promote",
+            },
+            {
+              link_name:"Student Reports",
+              link:"student/reports",
+            }
+            
+        ]
+    },]
+    
+
+    AdminmenuSidebar = [
+      {
+        link_name: "Dashboard",
+        link: "dashboard",
+        icon: "bx bx-grid-alt",
+        sub_menu: []
+      },
+      {
+        link_name:"schedule",
+          link:"schedule/schedule",
+          icon:"studentdetails",
+          sub_menu:[
+            // {
+            //   link_name:"schedule",
+            //   link:"schedule/schedule",
+            // },
+
+          ]
+      },
+      
       {
           link_name:"Student Details",
           link:null,
@@ -260,10 +335,25 @@ export class LayoutComponent implements OnInit {
             link:"master/supplier_master"
           },
           {
+            link_name:"Role",
+            link:"master/role"
+          },
+          {
             link_name:"Reports",
             link:"master/reports"
           }
         ]
+      },
+      {
+        link_name:"User",
+          link:"user/user",
+          icon:"studentdetails",
+          sub_menu:[
+            // {
+            //   link_name:"schedule",
+            //   link:"schedule/schedule",
+            // },
+          ]
       },
       {
         link_name: "Customer",
@@ -312,9 +402,7 @@ export class LayoutComponent implements OnInit {
       
     ]
 
-    constructor() { }
-
-    ngOnInit() { }
+   
 
     showSubmenu(itemEl: HTMLElement) {
         itemEl.classList.toggle("showMenu");

@@ -1,15 +1,29 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Class">
         <div class="container-fluid mt-4">
-            <div class="row">
+            
+            <!-- <div class="row">
                 <div class="col-12" style="display: flex;">
                     <div style="float: left;width: 300px;">
                         <h3 class="ml-1">Student Class</h3>
                     </div>
+                    <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                            (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                    </div>
                 </div>
-            </div>
+            </div> -->
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Student Class</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="Student_classForm" (ngSubmit)="New_Class()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -49,6 +63,30 @@
                                         <div
                                             *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.pattern">
                                             Use only letters or numbers
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Medium<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select style="width:100%;"
+                                        [ngClass]="{'is-invalid':Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors}"
+                                        class="form-control" formControlName="medium" name="selectAction">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option selected value="English">English</option>
+                                        <option value="Tamil">Tamil</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors">
+                                        <div
+                                            *ngIf="Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors.required">
+                                            Medium is required
                                         </div>
                                     </span>
                                 </div>
@@ -106,15 +144,18 @@
 
     <mat-tab label="Section">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Student Section</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Student Section</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="Student_SectionForm" (ngSubmit)="NewSection()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -141,16 +182,22 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control" formControlName="classid" #t
+                                    <select
+                                        [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors}"
+                                        style="width: 100%;" class="form-control" formControlName="classid" #t
                                         (change)="changefun(t.value)" name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [disabled]="SectionbuttonId != true" *ngFor="let class of ClassList"
                                             value={{class.classid}}>
                                             {{class.class_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors">Class
+                                        name is required</span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <!-- *ngIf="sectiondata.class_name > 10" -->
                             <div *ngIf="newlist.length !=0" class="col-sm-6 mt-3" style="display: flex;">
@@ -171,7 +218,8 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Section Name</label>
+                                    <label class="pt-2" style="margin: auto;">Section Name<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input
@@ -242,15 +290,18 @@
 
     <mat-tab label="Group">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Student Group</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Student Group</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="Student_GroupForm" (ngSubmit)="NewGroup()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -317,6 +368,31 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Group Description<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid': Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors}"
+                                        formControlName="description" class="form-control" type="tel" required>
+                                    <span class="text-danger"
+                                        *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors">
+                                        <div
+                                            *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.required">
+                                            Group name is required
+                                        </div>
+                                        <div
+                                            *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.pattern">
+                                            Use only letters or numbers
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
@@ -342,6 +418,7 @@
                                     <th>Si.No</th>
                                     <th>Class Name</th>
                                     <th>Group Name</th>
+                                    <th>Group Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -350,6 +427,7 @@
                                     <td>{{i+1}}</td>
                                     <td>{{group.class_name}}</td>
                                     <td>{{group.group_name}}</td>
+                                    <td>{{group.description}}</td>
                                     <td class="tdoption">
                                         <span class="m-2 editbutton"
                                             (click)="updateGroupClick(group)"><b>edit</b></span>

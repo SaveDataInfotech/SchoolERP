@@ -357,3 +357,18 @@ select:focus{
 textarea:focus{
   border:2px solid blue ;
 }
+
+
+.homeicon{
+  width: 50px;
+  height: 50px;
+  background-color:#ac2bac;
+  padding-top: 5px;
+  border: 2px solid #ac2bac;
+  border-radius: 100px;
+  color: white;
+}
+
+.homeicon:hover{
+  box-shadow: 0px 0px 7px 4px rgb(241, 208, 236);
+}

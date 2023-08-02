@@ -21,11 +21,12 @@ import {MatChipsModule} from '@angular/material/chips';
 import {HttpClientModule} from '@angular/common/http';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-
-
+import {  ReactiveFormsModule } from '@angular/forms';
+import { UserComponent } from './user/user.component';
 @NgModule({
-  declarations: [AppComponent, ...pageComponents, ScheduleComponent,],
+  declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

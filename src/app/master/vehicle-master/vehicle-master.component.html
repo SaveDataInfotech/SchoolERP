@@ -282,19 +282,20 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle Root No</label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle Root No<span class="text-danger"> *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select [ngClass]="{'is-invalid':root_no && root_no.invalid && root_no.touched}"
+                                    <select [ngClass]="{'is-invalid': vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors}"
                                         formControlName="root_no" style="width: 100%;" class="form-control "
                                         name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
+                                        <option value=null selected disabled>Please select</option>
                                         <option [ngValue]="VehicleRoot.vehicle_root_no"
                                             *ngFor="let VehicleRoot of vehicleNoRootList;">
                                             {{VehicleRoot.vehicle_root_no}}</option>
                                     </select>
-                                    <p class="text-danger m-1" *ngIf="root_no && root_no.invalid && root_no.touched">
-                                        Vehicle Type is required</p>
+                                    <span class="text-danger"
+                                    *ngIf="vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors">Vehicle Root No
+                                    is required</span>
                                 </div>
                             </div>
                         </div>
