@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { SupplierTypeService } from 'src/app/api-service/SupplierType.service';
@@ -17,7 +18,7 @@ export class SupplierMasterComponent implements OnInit {
 
   constructor(
     private stySvc: SupplierTypeService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService) {
+    private notificationSvc: NotificationsService,private router: Router) {
   }
   ngOnInit(): void {
     this.refresupplierTypeList(),
@@ -34,6 +35,11 @@ export class SupplierMasterComponent implements OnInit {
     address: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
+  }
+
+  
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;

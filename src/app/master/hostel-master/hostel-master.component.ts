@@ -3,6 +3,7 @@ import { DialogService } from 'src/app/api-service/Dialog.service';
 import { hostelMasterService } from 'src/app/api-service/hostelMaster.service';
 import { NotificationsService } from 'angular2-notifications';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-hostel-master',
   templateUrl: './hostel-master.component.html',
@@ -16,7 +17,7 @@ export class HostelMasterComponent implements OnInit {
 
   constructor(
     private hosSvc: hostelMasterService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService) {
+    private notificationSvc: NotificationsService,private router: Router) {
   }
   ngOnInit(): void {
     this.refreshHostelList(),
@@ -33,6 +34,10 @@ export class HostelMasterComponent implements OnInit {
     pa_room: new FormControl(null, [Validators.required]),
     cuid: new FormControl(1),
   })
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
+  }
 
   refreshHostelList() {
     this.hosSvc.getHostelList().subscribe(data => {

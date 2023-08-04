@@ -317,6 +317,14 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('sectionid')?.setValue(0);
   }
 
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
 
   feesAssignForm = new FormGroup({
     assignid: new FormControl(0),
@@ -326,7 +334,7 @@ export class FeesMasterComponent implements OnInit {
     gender: new FormControl('', [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
     feestype: new FormControl('', [Validators.required]),
-    fees_less: new FormControl('', [Validators.required]),
+    fees_less: new FormControl('Not Specified', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -338,37 +346,43 @@ export class FeesMasterComponent implements OnInit {
   }
 
   newFeesAssign() {
-    if (this.feesAssignForm.value.assignid == 0) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            var feesAssignInsert = (this.feesAssignForm.value);
-            this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
-              if (res?.recordid) {
-                this.notificationSvc.success("Saved Success")
-                this.refreshFeesAssignList();
-                this.getMaxIdAssign();
-                this.cancelClickAssign();
-              }
-            });
-          }
-        });
+    debugger;
+    if (this.feesAssignForm.valid) {
+      if (this.feesAssignForm.value.assignid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feesAssignInsert = (this.feesAssignForm.value);
+              this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshFeesAssignList();
+                  this.getMaxIdAssign();
+                  this.cancelClickAssign();
+                }
+              });
+            }
+          });
+      }
+      else if (this.feesAssignForm.value.assignid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feesAssignInsert = (this.feesAssignForm.value);
+              this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshFeesAssignList();
+                  this.getMaxIdAssign();
+                  this.cancelClickAssign();
+                }
+              });
+            }
+          });
+      }
     }
-    else if (this.feesAssignForm.value.assignid != 0) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            var feesAssignInsert = (this.feesAssignForm.value);
-            this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
-              if (res?.recordid) {
-                this.notificationSvc.success("Updated Success")
-                this.refreshFeesAssignList();
-                this.getMaxIdAssign();
-                this.cancelClickAssign();
-              }
-            });
-          }
-        });
+    else{
+      this.feesAssignForm.markAllAsTouched()
     }
   }
 
@@ -420,7 +434,7 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('gender')?.setValue('');
     this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
     this.feesAssignForm.get('feestype')?.setValue('');
-    this.feesAssignForm.get('fees_less')?.setValue('');
+    this.feesAssignForm.get('fees_less')?.setValue('Not Specified');
     this.feesAssignForm.get('amount')?.setValue('');
     this.feesAssignForm.get('cuid')?.setValue(1);
     this.assignbuttonId = true;

@@ -1,6 +1,6 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Fees Type">
-        <div class="container-fluid mt-4">            
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
@@ -42,7 +42,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors}"
-                                        formControlName="type_name" class="form-control" type="tel" required>
+                                        formControlName="type_name"  class="form-control" type="tel" required>
 
                                     <span class="text-danger"
                                         *ngIf="feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors">
@@ -103,7 +103,7 @@
     </mat-tab>
 
     <mat-tab label="Fees Less">
-        <div class="container-fluid mt-4">            
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
@@ -208,7 +208,7 @@
     </mat-tab>
 
     <mat-tab label="Fees Assign">
-        <div class="container-fluid mt-4">            
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
@@ -258,13 +258,18 @@
                                     <label class="pt-2" style="margin: auto;">Class Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="classid" style="width: 100%;" #t
+                                    <select
+                                        [ngClass]="{'is-invalid': feesAssignForm.get('classid')?.touched && feesAssignForm.value.classid == 0}"
+                                        formControlName="classid" style="width: 100%;" #t
                                         (change)="filterGroupfun(t.value)" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [disabled]="assignbuttonId != true" value={{class.classid}}
                                             *ngFor="let class of ClassList;">
                                             {{class.class_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="feesAssignForm.get('classid')?.touched && feesAssignForm.value.classid == 0">Class
+                                        name is required</span>
                                 </div>
                             </div>
 
@@ -290,13 +295,18 @@
                                     <label class="pt-2" style="margin: auto;">Section Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="sectionid" style="width: 100%;" class="form-control "
+                                    <select
+                                        [ngClass]="{'is-invalid': feesAssignForm.get('sectionid')?.touched && feesAssignForm.value.sectionid == 0}"
+                                        formControlName="sectionid" style="width: 100%;" class="form-control "
                                         name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [disabled]="assignbuttonId != true" [ngValue]="section.sectionid"
                                             *ngFor="let section of sectionFilterlist;">
                                             {{section.section_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="feesAssignForm.get('sectionid')?.touched && feesAssignForm.value.sectionid == 0">Section
+                                        name is required</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -304,11 +314,20 @@
                                     <label class="pt-2" style="margin: auto;">Fees Type</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="feestype" class="form-control "
+                                    <select
+                                        [ngClass]="{'is-invalid':feesAssignForm.controls.feestype.touched && feesAssignForm.controls.feestype.errors}"
+                                        style="width: 100%;" formControlName="feestype" class="form-control "
                                         name="selectAction">
                                         <option value="" selected disabled>Please select </option>
                                         <option *ngFor="let type of FeesList">{{type.type_name}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="feesAssignForm.controls.feestype.touched && feesAssignForm.controls.feestype.errors">
+                                        <div
+                                            *ngIf="feesAssignForm.controls.feestype.touched && feesAssignForm.controls.feestype.errors.required">
+                                            Fees Type required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -320,7 +339,7 @@
                                 <div class="inputdiv">
                                     <select style="width: 100%;" formControlName="fees_less" class="form-control "
                                         name="selectAction">
-                                        <option value="" selected>Not Specified</option>
+                                        <option value='Not Specified' selected>Not Specified</option>
                                         <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
                                     </select>
                                 </div>
@@ -331,13 +350,22 @@
                                     <label class="pt-2" style="margin: auto;">Gender</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="gender" class="form-control "
+                                    <select
+                                        [ngClass]="{'is-invalid':feesAssignForm.controls.gender.touched && feesAssignForm.controls.gender.errors}"
+                                        style="width: 100%;" formControlName="gender" class="form-control "
                                         name="selectAction">
                                         <option value="" selected disabled>Please select</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                         <option>Other's</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="feesAssignForm.controls.gender.touched && feesAssignForm.controls.gender.errors">
+                                        <div
+                                            *ngIf="feesAssignForm.controls.gender.touched && feesAssignForm.controls.gender.errors.required">
+                                            Gender is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -348,8 +376,18 @@
                                     <label class="pt-2" style="margin: auto;">Amount</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input class="form-control" formControlName="amount" type="text" required>
+                                    <input (keypress)="numberOnly($event)"
+                                        [ngClass]="{'is-invalid':feesAssignForm.controls.amount.touched && feesAssignForm.controls.amount.errors}"
+                                        class="form-control" formControlName="amount" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="feesAssignForm.controls.amount.touched && feesAssignForm.controls.amount.errors">
+                                        <div
+                                            *ngIf="feesAssignForm.controls.amount.touched && feesAssignForm.controls.amount.errors.required">
+                                            Amount is required
+                                        </div>
+                                    </span>
                                 </div>
+
                             </div>
                         </div>
 
@@ -432,6 +470,6 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-        </div>
+        </div>        
     </mat-tab>
 </mat-tab-group>

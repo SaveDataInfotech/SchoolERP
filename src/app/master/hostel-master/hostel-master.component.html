@@ -1,13 +1,16 @@
 <div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Hostel Master</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Hostel Master</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="hostelForm" (ngSubmit)="newHostel()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -31,7 +34,21 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Hostel Name</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="hostel_name" class="form-control" type="text" required>
+                            <input
+                                [ngClass]="{'is-invalid':hostelForm.controls.hostel_name.touched && hostelForm.controls.hostel_name.errors}"
+                                formControlName="hostel_name" class="form-control" type="text" required>
+
+                            <span class="text-danger"
+                                *ngIf="hostelForm.controls.hostel_name.touched && hostelForm.controls.hostel_name.errors">
+                                <div
+                                    *ngIf="hostelForm.controls.hostel_name.touched && hostelForm.controls.hostel_name.errors.required">
+                                    Hostel Name is required
+                                </div>
+                                <div
+                                    *ngIf="hostelForm.controls.hostel_name.touched && hostelForm.controls.hostel_name.errors.pattern">
+                                    Use only letters(A-Z)
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -41,7 +58,16 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">No Of Rooms</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="no_of_rooms" class="form-control" type="number" required>
+                            <input
+                                [ngClass]="{'is-invalid':hostelForm.controls.no_of_rooms.touched && hostelForm.controls.no_of_rooms.errors}"
+                                formControlName="no_of_rooms" class="form-control" type="number" required>
+                            <span class="text-danger"
+                                *ngIf="hostelForm.controls.no_of_rooms.touched && hostelForm.controls.no_of_rooms.errors">
+                                <div
+                                    *ngIf="hostelForm.controls.no_of_rooms.touched && hostelForm.controls.no_of_rooms.errors.required">
+                                    No Of Rooms is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -49,7 +75,16 @@
                             <label for="ex2" class="pt-0" style="margin: auto;">No of Person allowed in Room</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="pa_room" class="form-control" type="number" required>
+                            <input
+                                [ngClass]="{'is-invalid':hostelForm.controls.pa_room.touched && hostelForm.controls.pa_room.errors}"
+                                formControlName="pa_room" class="form-control" type="number" required>
+                            <span class="text-danger"
+                                *ngIf="hostelForm.controls.pa_room.touched && hostelForm.controls.pa_room.errors">
+                                <div
+                                    *ngIf="hostelForm.controls.pa_room.touched && hostelForm.controls.pa_room.errors.required">
+                                    No of Person allowed in Room is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -84,11 +119,11 @@
                             <td>{{i+1}}</td>
                             <td>{{hostel.hostel_name}}</td>
                             <td>{{hostel.no_of_rooms}}</td>
-                            <td>{{hostel.pa_room}}</td> 
+                            <td>{{hostel.pa_room}}</td>
                             <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClick(hostel)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;" (click)="deleteClick(hostel.hostelid)"
-                                    class="pl-2">delete</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    (click)="deleteClick(hostel.hostelid)" class="pl-2">delete</mat-icon>
                             </td>
                         </tr>
                     </tbody>

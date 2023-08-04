@@ -1,4 +1,54 @@
 <mat-tab-group mat-align-tabs="start" #tabGroup>
+    <mat-tab label="Dashboard">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div class="col-10" style="text-align: right;">
+                        <div class="inputdiv">
+                            <button routerLink="../student_enquiry"
+                                matTooltip="Click to Back" type="button"
+                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
+                                Enquiry</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form>
+                        <div class="table-responsive mt-1">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm ">
+                                <thead>
+                                    <tr>
+                                        <th>Si.No</th>
+                                        <th>Staff No</th>
+                                        <th>Staff Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>Duration(No Of Months)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0034</td>
+                                        <td>John</td>
+                                        <td>60,000</td>
+                                        <td>8</td>
+                                        <td >
+                                            <span class="movebutton mr-1">Remove</span>
+                                            <span (click)="tabGroup.selectedIndex=1" class="movebutton ml-1">Move to
+                                                Enquiry</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
     <mat-tab label="Enquiry">
         <div class="container-fluid mt-1">
             <div class="row">

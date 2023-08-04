@@ -10,6 +10,11 @@ export class subjectAssignService{
   constructor(private http: HttpClient) {
   }
 
+
+  getSubjectAssign(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'SubjectAssign/Get');
+  }
+
   addNewsubjectAssign(subjectinsert: any): Observable<any> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

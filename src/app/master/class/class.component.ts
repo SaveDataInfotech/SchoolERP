@@ -60,7 +60,7 @@ export class ClassComponent implements OnInit {
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
     class_name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]),
-    medium: new FormControl('', [Validators.required]),
+    medium: new FormControl('English', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -156,7 +156,7 @@ export class ClassComponent implements OnInit {
     this.Student_classForm.reset();
     this.Student_classForm.get('classid')?.setValue(0);
     this.Student_classForm.get('class_name')?.setValue('');
-    this.Student_classForm.get('medium')?.setValue('');
+    this.Student_classForm.get('medium')?.setValue('English');
     this.Student_classForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }

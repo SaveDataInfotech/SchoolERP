@@ -13,8 +13,26 @@
         </header>
         <section class="section sign-in">
           <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off" novalidate>
-            <input formControlName="email" type="text" name="email" placeholder="Email" />
-            <input formControlName="password" type="password" name="password" placeholder="Password" />
+            <input formControlName="email" type="text" name="email" placeholder="Email" required/>
+            <span class="text-danger"
+              *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors">
+              <div class="pl-3"
+                *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors.required">
+                Email is required
+              </div>
+              <div class="pl-3"
+                *ngIf="loginForm.controls.email.touched && loginForm.controls.email.errors.pattern">
+                Invalid input
+              </div>
+            </span>
+            <input formControlName="password" type="password" name="password" placeholder="Password" required/>
+            <span class="text-danger"
+              *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors">
+              <div class="pl-3"
+                *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors.required">
+                Password is required
+              </div>              
+            </span>
             <button>Sign In</button>
           </form>
         </section>

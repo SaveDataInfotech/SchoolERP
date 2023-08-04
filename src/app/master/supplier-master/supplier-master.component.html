@@ -1,13 +1,16 @@
-<div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Supplier Master</h3>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid mt-2">    
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Supplier Master</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="suppliertypeForm" (ngSubmit)="newSupplierType()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">

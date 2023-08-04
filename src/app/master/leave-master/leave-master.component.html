@@ -1,15 +1,18 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Leave Type">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Leave Type</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Leave Type</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="leavetypeForm" (ngSubmit)=" NewLeaveType()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -123,15 +126,18 @@
 
     <mat-tab label="Leave Assign">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Leave Assign</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Leave Assign</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="leaveAssignForm" (ngSubmit)="NewLeaveAssign()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">

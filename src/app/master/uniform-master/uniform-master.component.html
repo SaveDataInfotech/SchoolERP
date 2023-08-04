@@ -141,19 +141,8 @@
                                     <label class="pt-2" style="margin: auto;">Over Coat</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.over_coat.touched  && uniformSizeForm.controls.over_coat.errors  && uniformSizeForm.controls.over_coat.errors.pattern}"
-                                        formControlName="over_coat" class="form-control" type="text">
-                                    <span class="text-danger"
-                                        *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors">
-                                        <div *ngIf="uniformSizeForm.controls.over_coat.touched">
-                                            Suiting is required
-                                        </div>
-                                        <div
-                                            *ngIf="uniformSizeForm.controls.over_coat.touched && uniformSizeForm.controls.over_coat.errors.pattern">
-                                            Invalid pattern (Enter like 2m 0r 1.5m)
-                                        </div>
-                                    </span>
+                                    <input                                        
+                                        formControlName="over_coat" class="form-control" type="text">                                    
                                 </div>
                             </div>
                         </div>
@@ -165,16 +154,8 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors}"
-                                        formControlName="amount" class="form-control" type="text" required>
-                                    <span class="text-danger"
-                                        *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors">
-                                        <div
-                                            *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors.required">
-                                            amount is required
-                                        </div>
-                                    </span>
+                                    <input                                        
+                                        formControlName="oc_am" class="form-control" type="text" required>                                    
                                 </div>
                             </div>
                         </div>
@@ -320,7 +301,7 @@
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
-                                    <input
+                                    <input placeholder="Amount" currencyInput
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.sh_am.touched && uniformMeterForm.controls.sh_am.errors}"
                                         formControlName="sh_am" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -332,6 +313,7 @@
                                     </span>
                                 </div>
                             </div>
+                            
                         </div>
 
                         <div class="row">
@@ -359,7 +341,7 @@
                                 </div>                               
 
                                 <div style="width: 100px;" class="ml-2">
-                                    <input
+                                    <input placeholder="Amount"
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.su_am.touched && uniformMeterForm.controls.su_am.errors}"
                                         formControlName="su_am" class="form-control" type="text" required>
                                     <span class="text-danger"

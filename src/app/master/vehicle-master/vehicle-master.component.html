@@ -1,15 +1,18 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Vehicle Type">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Vehicle Type </h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Vehicle Type</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="vehicletypeForm" (ngSubmit)="NewVehicleType()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -101,15 +104,18 @@
 
     <mat-tab label="Vehicle No & Root">
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Vehicle No & Vechicle Root </h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Vehicle No & Vechicle Root</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="vehicleNoRootForm" (ngSubmit)="NewVehicleNoRoot()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -249,16 +255,19 @@
     </mat-tab>
 
     <mat-tab label="Vehicle Place">
-        <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Vehicle Place </h3>
-                    </div>
-                </div>
-            </div>
+        <div class="container-fluid mt-4">            
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Vehicle Place</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="vehicleplaceForm" (ngSubmit)="NewVehiclePlace()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -282,10 +291,12 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Vehicle Root No<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Vehicle Root No<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select [ngClass]="{'is-invalid': vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors}"
+                                    <select
+                                        [ngClass]="{'is-invalid': vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors}"
                                         formControlName="root_no" style="width: 100%;" class="form-control "
                                         name="selectAction">
                                         <option value=null selected disabled>Please select</option>
@@ -294,8 +305,9 @@
                                             {{VehicleRoot.vehicle_root_no}}</option>
                                     </select>
                                     <span class="text-danger"
-                                    *ngIf="vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors">Vehicle Root No
-                                    is required</span>
+                                        *ngIf="vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors">Vehicle
+                                        Root No
+                                        is required</span>
                                 </div>
                             </div>
                         </div>

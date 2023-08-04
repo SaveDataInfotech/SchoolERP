@@ -19,10 +19,11 @@ export class LoginComponent implements OnInit {
   ): void {}
 
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
+    email: new FormControl('',[Validators.required,Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
+    password: new FormControl('',[Validators.required])
   })
   login() {
+    if(this.loginForm.valid){    
     var email = String(this.loginForm.value.email);
     var password = String(this.loginForm.value.password);
     this.loginSvc.loginGetClick(email,password).subscribe(data => {
@@ -35,11 +36,14 @@ export class LoginComponent implements OnInit {
           this.notificationSvc.success("LOGIN SUCCESSFUL")
         }
         else{          
-          this.notificationSvc.error("Invalid Email or Password")
-          //this.router.navigateByUrl('/app/dashboard');
+          this.notificationSvc.error("Invalid Email or Password")         
          this.router.navigateByUrl('/login');
         }
       });
+    }
+    else{
+      this.loginForm.markAllAsTouched()
+    }
   }
 }
 

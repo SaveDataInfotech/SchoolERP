@@ -15,14 +15,21 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form>
+            <form [formGroup]="StudentEnquiryForm" (ngSubmit)="newEnquiry()">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv" >
+                            <h3 class="ml-1" style="color: orangered;">Student Information</h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Enrollment Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="#00110" class="form-control" disabled type="number" required>
+                            <input placeholder="#00110" class="form-control" disabled type="number">
                         </div>
                     </div>
 
@@ -31,7 +38,7 @@
                             <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div class="inputdiv">
-                            <input   class="form-control" [value]="today" type="date" required>
+                            <input  formControlName="date" class="form-control" [value]="today" type="date" required>
                         </div>
                     </div>
                 </div>
@@ -41,7 +48,7 @@
                             <label class="pt-2" style="margin: auto;">Student Name</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Enter Student Name" class="form-control" type="text" required>
+                            <input formControlName="student_name" class="form-control" type="text" required>
                         </div>
                     </div>
 
@@ -50,34 +57,32 @@
                             <label class="pt-2" style="margin: auto;">Seeking admission for</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>1-St</option>
-                                <option>2-Nd</option>
-                                <option>10-Th</option>
-                                <option>11-Th</option>
+                            <select formControlName="s_admission" style="width: 100%;" class="form-control" #t (change)="changefun(t.value)" name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option  value={{class.classid}} *ngFor="let class of ClassList">{{class.class_name}}</option>                                
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="Groupnewlist.length !=0">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">10-th Mark</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" class="form-control" type="number" required>
+                            <input formControlName="mark_10" class="form-control" type="number">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Group</label>
+                            <label class="pt-2" style="margin: auto;">Seeking Group for</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Maths-Biology</option>
-                                <option>ComputerScience</option>
+                            <select formControlName="s_group" style="width: 100%;" class="form-control" name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="group.groupid" *ngFor="let group of Groupnewlist">{{group.group_name}}</option>                                
                             </select>
                         </div>
                     </div>
@@ -89,7 +94,7 @@
                             <label class="pt-2" style="margin: auto;">DOB</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="dd-mm-yyyy" class="form-control" type="date" required>
+                            <input formControlName="dob" class="form-control" type="date" required>
                         </div>
                     </div>
 
@@ -98,10 +103,11 @@
                             <label class="pt-2" style="margin: auto;">Gender</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Male</option>
-                                <option>FeMale</option>
-                                <option>Other's</option>
+                            <select formControlName="gender" style="width: 100%;" class="form-control" name="selectAction">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Male">Male</option>
+                                <option value="FeMale">FeMale</option>
+                                <option value="others">Others</option>
                             </select>
                         </div>
                     </div>
@@ -113,7 +119,7 @@
                             <label class="pt-2" style="margin: auto;">Nationality</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Indian" class="form-control" type="text" required>
+                            <input formControlName="nationality" class="form-control" type="text" required>
                         </div>
                     </div>
 
@@ -122,11 +128,12 @@
                             <label class="pt-2" style="margin: auto;">Religion</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Hindu</option>
-                                <option>Muslim</option>
-                                <option>Christian</option>
-                                <option>Other's</option>
+                            <select style="width: 100%;" formControlName="religion" class="form-control" name="selectAction">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Muslim">Muslim</option>
+                                <option value="Christian">Christian</option>
+                                <option value="others">Others</option>
                             </select>
                         </div>
                     </div>
@@ -138,7 +145,7 @@
                             <label class="pt-2" style="margin: auto;">Community</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Enter Community" class="form-control" type="text" required>
+                            <input formControlName="community" class="form-control" type="text" required>
                         </div>
                     </div>
 
@@ -147,87 +154,7 @@
                             <label class="pt-2" style="margin: auto;">Caste</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Enter Caste" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Father Name</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Student Father Name" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Occupation</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Father Occupation" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Qualification</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="12Th" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="9900887766" class="form-control" type="tel" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Mother Name</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Student Mother Name" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Occupation</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Occupation" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Qualification</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="12Th" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="9900887766" class="form-control" type="tel" required>
+                            <input formControlName="caste" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -238,17 +165,138 @@
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="o+" class="form-control" type="text" required>
+                            <input  formControlName="bloodgroup" class="form-control" type="text" required>
                         </div>
                     </div>
 
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2"  style="margin: auto;">Aadhar Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberOnly($event)" formControlName="aadhar" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
 
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv" >
+                            <h3 class="ml-1" style="color: orangered;">Parent Information</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-sm-6 mt-2" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Father Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="father_name" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2"  style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="f_occupation" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2"  style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="f_qualification" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2"  style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberOnly($event)" minlength="10" maxlength="10" formControlName="f_ph" class="form-control" type="tel">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Email</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="f_email" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Mother Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="mother_name" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="m_occupation" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="m_qualification" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10" minlength="10" class="form-control" type="tel">
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv" >
+                            <h3 class="ml-1" style="color: orangered;">Student Other Information</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Place</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="place" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -259,19 +307,9 @@
                             <label class="pt-5" style="margin: auto;">Address</label>
                         </div>
                         <div class="inputdiv">
-                            <textarea class="form-control" rows="4" required></textarea>
+                            <textarea formControlName="address" class="form-control" rows="4"></textarea>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Aadhar Number</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="row mt-3">
@@ -280,7 +318,7 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 1</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="i_m_1" class="form-control" type="text">
                         </div>
                     </div>
 
@@ -289,7 +327,7 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 2</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="i_m_2" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -297,19 +335,19 @@
                 <div class="row mt-3">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Last Studied Std</label>
+                            <label class="pt-2" style="margin: auto;">Class Last Studied</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="l_class" class="form-control" type="text">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Last Studied School</label>
+                            <label class="pt-2" style="margin: auto;">School Last Studied & Place</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="l_school" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -317,27 +355,27 @@
                 <div class="row mt-3">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Last Studied Stream</label>
+                            <label class="pt-2" style="margin: auto;">Stream Last Studied</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="l_stream" class="form-control" type="text">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Last Studied Medium</label>
+                            <label class="pt-2" style="margin: auto;">Medium Last Studied</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="l_medium" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-12 mt-4">
-                    <div class="pl-5" style="margin-left: 110px;">                        
-                        <input style="height: 20px;width: 20px;" type="checkbox" class="form-check-input  mt-1 "
-                            name="option1" value="something" checked>
+                    <div class="pl-2" style="margin-left: 50px;">                        
+                        <input formArrayName="s_declare" (change)="selectedSub($event)" style="height: 20px;width: 20px;" type="checkbox" class="form-check-input  mt-1 "
+                            name="option1" value="something">
                         <label class="p-2" style="margin: auto;font-weight: 700;">I declare that the
                             particulars given
                             above are correct and best my knowledge and will strictly follow the rules and

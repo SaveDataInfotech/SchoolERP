@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
@@ -27,7 +28,7 @@ export class VehicleMasterComponent implements OnInit {
   constructor(
     private VhtySvc: VehicleTypeService, private vhNoRtSvc: VehicleNoRootService,
     private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService) {
+    private notificationSvc: NotificationsService,private router: Router) {
   }
 
 
@@ -50,6 +51,12 @@ export class VehicleMasterComponent implements OnInit {
     vehicle_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
+  }
+
+  
 
 
   refreshvehicleTypeList() {

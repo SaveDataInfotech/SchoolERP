@@ -77,9 +77,8 @@
                                 <div style="float: left;width: 250px;">
                                     <select style="width:100%;"
                                         [ngClass]="{'is-invalid':Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors}"
-                                        class="form-control" formControlName="medium" name="selectAction">
-                                        <option value="" selected disabled>Please select</option>
-                                        <option selected value="English">English</option>
+                                        class="form-control" formControlName="medium" name="selectAction">                                        
+                                        <option selected value='English'>English</option>
                                         <option value="Tamil">Tamil</option>
                                     </select>
                                     <span class="text-danger"
@@ -183,7 +182,7 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select
-                                        [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors}"
+                                        [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.value.classid == 0}"
                                         style="width: 100%;" class="form-control" formControlName="classid" #t
                                         (change)="changefun(t.value)" name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
@@ -192,7 +191,7 @@
                                             {{class.class_name}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors">Class
+                                        *ngIf="Student_SectionForm.get('classid')?.touched && Student_SectionForm.value.classid == 0">Class
                                         name is required</span>
                                 </div>
                             </div>
@@ -381,7 +380,7 @@
                                         *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors">
                                         <div
                                             *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.required">
-                                            Group name is required
+                                            Group Description is required
                                         </div>
                                         <div
                                             *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.pattern">
