@@ -1,44 +1,65 @@
-<mat-tab-group mat-align-tabs="start" #tabGroup>
+<mat-tab-group animationDuration="0ms">
     <mat-tab label="Dashboard">
-        <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div class="col-10" style="text-align: right;">
-                        <div class="inputdiv">
-                            <button routerLink="../student_enquiry"
-                                matTooltip="Click to Back" type="button"
-                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
-                                Enquiry</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+
+                        <div class="col-sm-8 pt-2">
+                            <h3 class="">Dashboard</h3>
+                        </div>
+
+                        <div class="col-4 row" style="text-align: right;">
+                            <div class="col-sm-9 pt-2">
+                                <button routerLink="../student_enquiry" type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-arrow-left mr-1"></i>New
+                                    Registration</button>
+                            </div>
+
+                            <div class="col-sm-2 mr-2">
+                                <div class="col-sm-12" style="text-align:right;cursor: pointer;" >
+                                    <button (click)="backButton()"
+                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <form>
                         <div class="table-responsive mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
-                                        <th>Staff No</th>
-                                        <th>Staff Name</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration(No Of Months)</th>
+                                        <th>Student Name</th>
+                                        <th>Admission for</th>
+                                        <th>Gender</th>
+                                        <th>DOB</th>
+                                        <th>Aadhar</th>
+                                        <th>Place</th>
+                                        <th>Parent Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0034</td>
-                                        <td>John</td>
-                                        <td>60,000</td>
-                                        <td>8</td>
-                                        <td >
-                                            <span class="movebutton mr-1">Remove</span>
-                                            <span (click)="tabGroup.selectedIndex=1" class="movebutton ml-1">Move to
-                                                Enquiry</span></td>
+                                    <tr *ngFor="let dashbord of DashBordList;let i=index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{dashbord.student_name}}</td>
+                                        <td>{{dashbord.class_name}}</td>
+                                        <td>{{dashbord.gender}}</td>
+                                        <td>{{dashbord.dob}}</td>
+                                        <td>{{dashbord.aadhar}}</td>
+                                        <td>{{dashbord.place}}</td>
+                                        <td>{{dashbord.f_ph}}</td>
+                                        <td>
+                                            <span class="movebutton mr-1" style="background-color: red;">Remove</span>
+                                            <button
+                                                [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'green'}"
+                                                [disabled]="dashbord.enquiry_status == 1"
+                                                type="button" style="background-color: #00A36C;border: 2px sloid green;"
+                                                (click)="ActiveEnquiryStatusClick(dashbord.enquiryid)"
+                                                class="movebutton ml-1">Move to Enquiry</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -50,49 +71,71 @@
     </mat-tab>
 
     <mat-tab label="Enquiry">
-        <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div class="col-2">
-                        <h3 class="">Enquiry</h3>
-                    </div>
+        <div class="container-fluid mt-4">
 
-                    <div class="col-10" style="text-align: right;">
-                        <div class="inputdiv">
-                            <button routerLink="../student_enquiry"
-                                matTooltip="Click to Back" type="button"
-                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
-                                Enquiry</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+
+                        <div class="col-sm-8 pt-2">
+                            <h3 class="">Enquiry</h3>
+                        </div>
+
+                        <div class="col-4 row" style="text-align: right;">
+                            <div class="col-sm-9 pt-2">
+                                <button routerLink="../student_enquiry" type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-arrow-left mr-1"></i>New
+                                    Registration</button>
+                            </div>
+
+                            <div class="col-sm-2 mr-2">
+                                <div class="col-sm-12" style="text-align:right;cursor: pointer;" >
+                                    <button (click)="backButton()"
+                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form>
                         <div class="table-responsive mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
-                                        <th>Staff No</th>
-                                        <th>Staff Name</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration(No Of Months)</th>
+                                        <th>Student Name</th>
+                                        <th>Admission for</th>
+                                        <th>Gender</th>
+                                        <th>DOB</th>
+                                        <th>Aadhar</th>
+                                        <th>Place</th>
+                                        <th>Parent Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0034</td>
-                                        <td>John</td>
-                                        <td>60,000</td>
-                                        <td>8</td>
-                                        <td >
-                                            <span class="movebutton mr-1">Remove</span>
-                                            <span (click)="tabGroup.selectedIndex=1" class="movebutton ml-1">Move to
-                                                Entrance</span></td>
+                                    <tr *ngFor="let enquiry of EnquiryList;let i=index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{enquiry.student_name}}</td>
+                                        <td>{{enquiry.class_name}}</td>
+                                        <td>{{enquiry.gender}}</td>
+                                        <td>{{enquiry.dob}}</td>
+                                        <td>{{enquiry.aadhar}}</td>
+                                        <td>{{enquiry.place}}</td>
+                                        <td>{{enquiry.f_ph}}</td>
+                                        <td>
+                                            <button   
+                                            [ngStyle]="{'background-color': (enquiry.entrance_status == 1) ? 'gray':'red'}"
+                                            [disabled]="enquiry.entrance_status == 1"
+                                            type="button" style="background-color:red;border: 2px sloid green;"
+                                            (click)="inActiveEnquiryStatusClick(enquiry.enquiryid)"
+                                            class="movebutton ml-1">Move to Dashboard</button>
+                                            <button
+                                                [ngStyle]="{'background-color': (enquiry.entrance_status == 1) ? 'gray':'green'}"
+                                                [disabled]="enquiry.entrance_status == 1"
+                                                type="button" style="background-color: #00A36C;border: 2px sloid green;"
+                                                (click)="ActiveEntranceStatusClick(enquiry.enquiryid)"
+                                                class="movebutton ml-1">Move to Entrance</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -104,48 +147,69 @@
     </mat-tab>
 
     <mat-tab label="Entrance">
-        <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div class="">
-                        <h3 class="ml-1">Entrance</h3>
-                    </div>
-
-                    <!-- <div class="col-6" style="float: left;">
-                        <div class="inputdiv">
-                            <button routerLink="../student_enquiry"
-                                matTooltip="Click to Back" type="button"
-                                class="btn btn-primary btn-sm "><i class="fa fa-arrow-left mr-1"></i>Student
-                                Enquiry</button>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+
+                        <div class="col-sm-8 pt-2">
+                            <h3 class="">Entrance</h3>
+                        </div>
+
+                        <div class="col-4 row" style="text-align: right;">
+                            <div class="col-sm-9 pt-2">
+                                <button routerLink="../student_enquiry" type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-arrow-left mr-1"></i>New
+                                    Registration</button>
+                            </div>
+
+                            <div class="col-sm-2 mr-2">
+                                <div class="col-sm-12" style="text-align:right;cursor: pointer;" >
+                                    <button (click)="backButton()"
+                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form>
                         <div class="table-responsive mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
-                                        <th>Staff No</th>
-                                        <th>Staff Name</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration(No Of Months)</th>
+                                        <th>Student Name</th>
+                                        <th>Admission for</th>
+                                        <th>Gender</th>
+                                        <th>DOB</th>
+                                        <th>Aadhar</th>
+                                        <th>Place</th>
+                                        <th>Parent Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0034</td>
-                                        <td>John</td>
-                                        <td>60,000</td>
-                                        <td>8 </td>
-                                        <td><span class="movebutton mr-1">Move to Enquiry</span>
-                                            <span (click)="tabGroup.selectedIndex=2" class="movebutton ml-1">Move to
-                                                Seclection</span></td>
+                                    <tr *ngFor="let entrance of EntranceList;let i=index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{entrance.student_name}}</td>
+                                        <td>{{entrance.class_name}}</td>
+                                        <td>{{entrance.gender}}</td>
+                                        <td>{{entrance.dob}}</td>
+                                        <td>{{entrance.aadhar}}</td>
+                                        <td>{{entrance.place}}</td>
+                                        <td>{{entrance.f_ph}}</td>
+                                        <td>
+                                            <button     [ngStyle]="{'background-color': (entrance.selected_status == 1) ? 'gray':'red'}"
+                                            [disabled]="entrance.selected_status == 1"                                                                                    
+                                            type="button" style="background-color:red;border: 2px sloid green;"
+                                            (click)="inActiveEntranceStatusClick(entrance.enquiryid)"
+                                            class="movebutton ml-1">Move to Enquiry</button>
+                                            <button
+                                                [ngStyle]="{'background-color': (entrance.selected_status == 1) ? 'gray':'green'}"
+                                                [disabled]="entrance.selected_status == 1"
+                                                type="button" style="background-color: #00A36C;border: 2px sloid green;"
+                                                (click)="ActiveSelectedStatusClick(entrance.enquiryid)"
+                                                class="movebutton ml-1">Move to Selected</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -157,40 +221,68 @@
     </mat-tab>
 
     <mat-tab label="Selected">
-        <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Selected</h3>
-                    </div>
-                </div>
-            </div>
+        <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+
+                        <div class="col-sm-8 pt-2">
+                            <h3 class="">selected</h3>
+                        </div>
+
+                        <div class="col-4 row" style="text-align: right;">
+                            <div class="col-sm-9 pt-2">
+                                <button routerLink="../student_enquiry" type="button"
+                                    class="btn btn-primary btn-sm"><i class="fa fa-arrow-left mr-1"></i>New
+                                    Registration</button>
+                            </div>
+
+                            <div class="col-sm-2 mr-2">
+                                <div class="col-sm-12" style="text-align:right;cursor: pointer;" >
+                                    <button (click)="backButton()"
+                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form>
                         <div class="table-responsive mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
-                                        <th>Staff No</th>
-                                        <th>Staff Name</th>
-                                        <th>Loan Amount</th>
-                                        <th>Duration(No Of Months)</th>
+                                        <th>Student Name</th>
+                                        <th>Admission for</th>
+                                        <th>Gender</th>
+                                        <th>DOB</th>
+                                        <th>Aadhar</th>
+                                        <th>Place</th>
+                                        <th>Parent Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0034</td>
-                                        <td>John</td>
-                                        <td>60,000</td>
-                                        <td>8</td>
-                                        <td class=""><span class="movebutton mr-1">Move to Entrance</span>
-                                            <!-- routerLink="../student_profile" -->
-                                            <span (click)="fub()"  class="movebutton">Move to
-                                                Admission</span></td>
+                                    <tr *ngFor="let selected of SelectedList;let i=index;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{selected.student_name}}</td>
+                                        <td>{{selected.class_name}}</td>
+                                        <td>{{selected.gender}}</td>
+                                        <td>{{selected.dob}}</td>
+                                        <td>{{selected.aadhar}}</td>
+                                        <td>{{selected.place}}</td>
+                                        <td>{{selected.f_ph}}</td>
+                                        <td>
+                                            <button                                                                                        
+                                            type="button" style="background-color:red;border: 2px sloid green;"
+                                            (click)="inActiveSelectedStatusClick(selected.enquiryid)"
+                                            class="movebutton ml-1">Move to Entrance</button>
+                                            <button
+                                                [ngStyle]="{'background-color': (selected.ad_status == 1) ? 'gray':'green'}"
+                                                [disabled]="selected.ad_status == 1"
+                                                type="button" style="background-color: #00A36C;border: 2px sloid green;"
+                                                (click)="ActiveAdmissionClick(selected)"
+                                                class="movebutton ml-1">Move to Admission</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

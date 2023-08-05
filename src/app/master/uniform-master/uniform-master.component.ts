@@ -78,6 +78,7 @@ export class UniformMasterComponent implements OnInit {
   // }
 
   NewUniformSize() {
+    debugger;
     if (this.uniformSizeForm.valid) {
       if (this.uniformSizeForm.value.uniformid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -301,7 +302,6 @@ export class UniformMasterComponent implements OnInit {
   }
 
   MetercancelClick() {
-    debugger;
     this.uniformMeterForm.reset();
     this.uniformMeterForm.get('uniformid')?.setValue(0);
     this.uniformMeterForm.get('gender')?.setValue('');

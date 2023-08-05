@@ -141,8 +141,8 @@
                                     <label class="pt-2" style="margin: auto;">Over Coat</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input                                        
-                                        formControlName="over_coat" class="form-control" type="text">                                    
+                                    <input formControlName="over_coat" class="form-control" type="text">
+
                                 </div>
                             </div>
                         </div>
@@ -154,8 +154,16 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input                                        
-                                        formControlName="oc_am" class="form-control" type="text" required>                                    
+                                    <input
+                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors}"
+                                        formControlName="amount" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors">
+                                        <div
+                                            *ngIf="uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors.required">
+                                            Amount is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -260,8 +268,8 @@
                                 <div style="float: left;width: 250px;">
                                     <select
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors}"
-                                        #m (change)="ifovercoatfunMeter(m.value)" style="width: 100%;" class="form-control"
-                                        formControlName="gender" name="selectAction">
+                                        #m (change)="ifovercoatfunMeter(m.value)" style="width: 100%;"
+                                        class="form-control" formControlName="gender" name="selectAction">
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="meterbuttonId != true" value="Male">Male</option>
                                         <option [disabled]="meterbuttonId != true" value="FeMale">Female</option>
@@ -276,7 +284,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                         <div class="row">
                             <div class="col-sm-7 mt-3" style="display: flex;">
                                 <div class="labeldiv">
@@ -313,7 +321,7 @@
                                     </span>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="row">
@@ -338,7 +346,7 @@
                                         </div>
                                     </span>
 
-                                </div>                               
+                                </div>
 
                                 <div style="width: 100px;" class="ml-2">
                                     <input placeholder="Amount"
@@ -378,7 +386,7 @@
                                     </span>
                                 </div>
 
-                                
+
                                 <div style="width: 100px;" class="ml-2">
                                     <input
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors}"
@@ -404,7 +412,8 @@
                                     <input *ngIf="meterbuttonId != true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
                                     <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="MetercancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                        (click)="MetercancelClick()" class="btn btn-danger btn-sm mt-4  "
+                                        value="Cancel" />
                                 </div>
                             </div>
                         </div>
@@ -418,7 +427,7 @@
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
-                                    <th>Gender</th>                                    
+                                    <th>Gender</th>
                                     <th>Shirting</th>
                                     <th>Amount</th>
                                     <th>Suiting</th>
@@ -431,15 +440,16 @@
                             <tbody>
                                 <tr *ngFor="let meter of UniformMeterList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{meter.gender}}</td>                                   
+                                    <td>{{meter.gender}}</td>
                                     <td>{{meter.shirting}}</td>
                                     <td>{{meter.sh_am}}</td>
                                     <td>{{meter.suiting}}</td>
                                     <td>{{meter.su_am}}</td>
                                     <td>{{meter.overcoat}}</td>
-                                    <td>{{meter.oc_am}}</td>                                  
+                                    <td>{{meter.oc_am}}</td>
                                     <td class="tdoption">
-                                        <span class="m-2 editbutton" (click)="updateMeterGetClick(meter)"><b>edit</b></span>
+                                        <span class="m-2 editbutton"
+                                            (click)="updateMeterGetClick(meter)"><b>edit</b></span>
                                         <span>||</span>
                                         <span class="m-2 deletebutton"
                                             (click)="deleteMeterClick(meter.uniformid)"><b>delete</b></span>

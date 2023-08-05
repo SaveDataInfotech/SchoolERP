@@ -119,7 +119,7 @@ export class LayoutComponent implements OnInit {
           icon:"studentdetails",
           sub_menu:[
               {
-                link_name:"Student Enquiry",
+                link_name:"Student Registration",
                 link:"student/student_enquiry",
               },
               {

@@ -16,7 +16,7 @@ export class StudentEnquiryComponent implements OnInit {
   Groupnewlist:any=[]
 
   buttonId:boolean=true;
-  
+  MaxId:any=[];
   constructor(private ClassSvc: studentClassService,private GroupSvc: studentGroupService,
     private DialogSvc: DialogService,private enquirySvc:studentEnquiryService,
     private notificationSvc: NotificationsService,) { }
@@ -58,7 +58,8 @@ export class StudentEnquiryComponent implements OnInit {
     ///////////////////////////////////////////////////////////////////////////////
     this.refreshClassList();
     this.refreshGroupList();
-
+    this.getMaxId();
+    this.cancelClick();
   }
 
 
@@ -97,29 +98,29 @@ export class StudentEnquiryComponent implements OnInit {
   StudentEnquiryForm = new FormGroup({
     enquiryid: new FormControl(0),
     date: new FormControl(this.today),
-    student_name: new FormControl(''),
-    s_admission: new FormControl(0),
+    student_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    s_admission: new FormControl(0,[Validators.required]),
     mark_10: new FormControl(''),
     s_group: new FormControl(0),
     dob: new FormControl(),
-    gender: new FormControl(''),
-    nationality: new FormControl(''),
-    religion: new FormControl(''),
-    community: new FormControl(''),
-    caste: new FormControl(''),
+    gender: new FormControl('',[Validators.required]),
+    nationality: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    religion: new FormControl('',[Validators.required]),
+    community: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    caste: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     bloodgroup: new FormControl(''),
-    aadhar: new FormControl(),
-    father_name: new FormControl(''),
+    aadhar: new FormControl('',[Validators.required]),
+    father_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl(''),
+    f_ph: new FormControl('',[Validators.required]),
     f_email: new FormControl(''),
-    mother_name: new FormControl(''),
+    mother_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     m_occupation: new FormControl(''),
     m_qualification: new FormControl(''),
     m_ph: new FormControl(''),
-    place: new FormControl(''),
-    address: new FormControl(''),
+    place: new FormControl('',[Validators.required]),
+    address: new FormControl('',[Validators.required]),
     i_m_1: new FormControl(''),
     i_m_2: new FormControl(''),
     l_class: new FormControl(''),
@@ -150,8 +151,8 @@ export class StudentEnquiryComponent implements OnInit {
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   // this.refreshClassList();
-                  // this.getMaxId();
-                  // this.cancelClick();
+                  this.getMaxId();
+                  this.cancelClick();
                   this.StudentEnquiryForm.reset()
                 }
               });
@@ -168,8 +169,8 @@ export class StudentEnquiryComponent implements OnInit {
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   // this.refreshClassList();
-                  // this.getMaxId();
-                  // this.cancelClick();
+                  this.getMaxId();
+                  this.cancelClick();
                   this.StudentEnquiryForm.reset()
                 }
               });
@@ -188,11 +189,46 @@ export class StudentEnquiryComponent implements OnInit {
 
   }
 
+  getMaxId() {
+    this.enquirySvc.getMaxId().subscribe(data => {
+      this.MaxId = data;
+    });
+  }
+
+
   cancelClick() {
     this.StudentEnquiryForm.reset();
     this.StudentEnquiryForm.get('enquiryid')?.setValue(0);
     this.StudentEnquiryForm.get('date')?.setValue(this.today);
-    //this.StudentEnquiryForm.get('no_of_rooms')?.setValue('');
+    this.StudentEnquiryForm.get('student_name')?.setValue('');
+    this.StudentEnquiryForm.get('s_admission')?.setValue(0);
+    this.StudentEnquiryForm.get('mark_10')?.setValue('');
+    this.StudentEnquiryForm.get('s_group')?.setValue(0);
+    //this.StudentEnquiryForm.get('dob')?.setValue();
+    this.StudentEnquiryForm.get('gender')?.setValue('');
+    this.StudentEnquiryForm.get('nationality')?.setValue('');
+    this.StudentEnquiryForm.get('religion')?.setValue('');
+    this.StudentEnquiryForm.get('community')?.setValue('');
+    this.StudentEnquiryForm.get('caste')?.setValue('');
+    this.StudentEnquiryForm.get('bloodgroup')?.setValue('');
+    this.StudentEnquiryForm.get('aadhar')?.setValue('');
+    this.StudentEnquiryForm.get('father_name')?.setValue('');
+    this.StudentEnquiryForm.get('f_occupation')?.setValue('');
+    this.StudentEnquiryForm.get('f_qualification')?.setValue('');
+    this.StudentEnquiryForm.get('f_ph')?.setValue('');
+    this.StudentEnquiryForm.get('f_email')?.setValue('');
+    this.StudentEnquiryForm.get('mother_name')?.setValue('');
+    this.StudentEnquiryForm.get('m_occupation')?.setValue('');
+    this.StudentEnquiryForm.get('m_qualification')?.setValue('');
+    this.StudentEnquiryForm.get('m_ph')?.setValue('');
+    this.StudentEnquiryForm.get('place')?.setValue('');
+    this.StudentEnquiryForm.get('address')?.setValue('');
+    this.StudentEnquiryForm.get('i_m_1')?.setValue('');
+    this.StudentEnquiryForm.get('i_m_2')?.setValue('');
+    this.StudentEnquiryForm.get('l_class')?.setValue('');
+    this.StudentEnquiryForm.get('l_school')?.setValue('');
+    this.StudentEnquiryForm.get('l_stream')?.setValue('');
+    this.StudentEnquiryForm.get('l_medium')?.setValue('');
     this.StudentEnquiryForm.get('s_declare')?.setValue(false);
     this.StudentEnquiryForm.get('cuid')?.setValue(1);
     this.buttonId = true;
