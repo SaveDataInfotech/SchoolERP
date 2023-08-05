@@ -10,12 +10,12 @@ export class studentEnquiryService {
   constructor(private http: HttpClient) {
   }
 
-  getstaffTypeList(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StaffType/Get');
+  getDashBoardList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/Get');
   }
 
   getMaxId(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StaffType/get_MaxId_staff_type');
+    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/get_MaxId_student_enquiry');
   }
 
 
@@ -26,8 +26,54 @@ export class studentEnquiryService {
   }
 
 
-  deletestaffType(staffTypeid: any): Observable<any> {
+  ActiveEnquiry(enquiryid: any): Observable<any> {
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete<any>(this.apiUrl + 'StaffType/delete_staff_type?staffTypeid=' + staffTypeid, httpOptions);
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_toenquiry?enquiryid=' + enquiryid, httpOptions);
+  }
+
+  getEnquiryList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/GetEnquiry');
+  }
+
+  ActiveEntrance(enquiryid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_toentrance?enquiryid=' + enquiryid, httpOptions);
+  }
+
+  getEntranceList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/GetEntrance');
+  }
+
+  ActiveSelected(enquiryid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_toselected?enquiryid=' + enquiryid, httpOptions);
+  }
+
+  getSelectedList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/GetSelected');
+  }
+
+
+
+  inActiveEnquiry(enquiryid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_inactiveenquiry?enquiryid=' + enquiryid, httpOptions);
+  }
+
+
+  inActiveEntrance(enquiryid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_inactiveentrance?enquiryid=' + enquiryid, httpOptions);
+  }
+
+  inActiveSelected(enquiryid: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_inactiveselected?enquiryid=' + enquiryid, httpOptions);
   }
 }
