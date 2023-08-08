@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
 
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 @NgModule({
   declarations: [
     StudentEnquiryComponent,
@@ -40,7 +40,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,NgxDropzoneModule
   ],
   providers:[DatePipe],
   bootstrap:[StudentEnquiryComponent]

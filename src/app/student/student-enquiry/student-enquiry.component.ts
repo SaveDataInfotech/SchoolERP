@@ -98,7 +98,7 @@ export class StudentEnquiryComponent implements OnInit {
   StudentEnquiryForm = new FormGroup({
     enquiryid: new FormControl(0),
     date: new FormControl(this.today),
-    student_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    student_name: new FormControl('',[Validators.required]),
     s_admission: new FormControl(0,[Validators.required]),
     mark_10: new FormControl(''),
     s_group: new FormControl(0),
@@ -106,16 +106,16 @@ export class StudentEnquiryComponent implements OnInit {
     gender: new FormControl('',[Validators.required]),
     nationality: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     religion: new FormControl('',[Validators.required]),
-    community: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    community: new FormControl('',[Validators.required]),
     caste: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     bloodgroup: new FormControl(''),
     aadhar: new FormControl('',[Validators.required]),
-    father_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    father_name: new FormControl('',[Validators.required]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
     f_ph: new FormControl('',[Validators.required]),
     f_email: new FormControl(''),
-    mother_name: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    mother_name: new FormControl('',[Validators.required]),
     m_occupation: new FormControl(''),
     m_qualification: new FormControl(''),
     m_ph: new FormControl(''),
@@ -160,22 +160,7 @@ export class StudentEnquiryComponent implements OnInit {
           });
       }
       else if (this.StudentEnquiryForm.value.enquiryid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var Classinsert = (this.StudentEnquiryForm.value);
-              this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
-                  // this.refreshClassList();
-                  this.getMaxId();
-                  this.cancelClick();
-                  this.StudentEnquiryForm.reset()
-                }
-              });
-            }
-          });
+    
       }
 
     }

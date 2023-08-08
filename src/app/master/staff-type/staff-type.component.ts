@@ -55,12 +55,19 @@ export class StaffTypeComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+                debugger;
                 console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                  
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")                  
                   this.refreshstaffTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

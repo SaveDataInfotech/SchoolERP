@@ -3,6 +3,7 @@ import {
   Router,
   NavigationExtras
 } from '@angular/router';
+import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.service';
 @Component({
   selector: 'app-enquiry-dashbord',
@@ -10,17 +11,26 @@ import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.servic
   styleUrls: ['./enquiry-dashbord.component.scss']
 })
 export class EnquiryDashbordComponent implements OnInit {
-  DashBordList:any=[];
-  EnquiryList:any=[];
-  EntranceList:any=[];
-  SelectedList:any=[];
-  constructor(private router: Router,private enquirySvc:studentEnquiryService,) { }
+  DashBordList: any = [];
+  EnquiryList: any = [];
+  EntranceList: any = [];
+  SelectedList: any = [];
+
+  serachList: any = [];
+  staffTypeid: number = 0;
+  ClassList:any=[];
+  constructor(private router: Router, private enquirySvc: studentEnquiryService,private ClassSvc: studentClassService) { }
 
   ngOnInit(): void {
-    this.refreshDashBoardList();
-    this.refreshEnquiryList();
-    this.refreshEntranceList();
-    this.refreshSelectedList();
+    this.refreshClassList();
+
+
+    // this.refreshDashBoardList();
+    // this.refreshEnquiryList();
+    // this.refreshEntranceList();
+    // this.refreshSelectedList();
+
+    this.serchList(this.staffTypeid);
   }
 
   backButton() {
@@ -31,7 +41,33 @@ export class EnquiryDashbordComponent implements OnInit {
     this.router.navigate(['../student_profile"'], { state: { example: 'bar' } });
   }
 
+  onchange(id:any){
+    debugger;
+   var idd=Number(id)
+    this.staffTypeid=idd;
+    this.serchList(this.staffTypeid);
+  }
+
+  serchList(staffTypeid: any) {
+    this.enquirySvc.serchList(staffTypeid).subscribe(data => {
+      this.serachList = data;
+      this.DashBordList = this.serachList.filter((e: any) => { return e.isactive == 1 });
+      this.EnquiryList = this.serachList.filter((e: any) => { return e.enquiry_status == 1 });
+      this.EntranceList = this.serachList.filter((e: any) => { return e.entrance_status == 1 });
+      this.SelectedList = this.serachList.filter((e: any) => { return e.selected_status == 1 });
+    });
+    console.log(staffTypeid, 'yy'); // bharath
+    //this.stafftypeForm.patchValue(staffTypeid);
+  }
+
+  refreshClassList() {
+    this.ClassSvc.getClassList().subscribe(data => {
+      this.ClassList = data;
+    });
+  }
+
   refreshDashBoardList() {
+    debugger;
     this.enquirySvc.getDashBoardList().subscribe(data => {
       this.DashBordList = data;
     });
@@ -40,10 +76,12 @@ export class EnquiryDashbordComponent implements OnInit {
   ActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEnquiry(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
@@ -57,10 +95,12 @@ export class EnquiryDashbordComponent implements OnInit {
   ActiveEntranceStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEntrance(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
@@ -73,11 +113,13 @@ export class EnquiryDashbordComponent implements OnInit {
 
   ActiveSelectedStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveSelected(enquiryid).subscribe(res => {
-      if (res?.recordid) {        
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+      if (res?.recordid) {
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
@@ -91,10 +133,12 @@ export class EnquiryDashbordComponent implements OnInit {
   inActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveEnquiry(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
@@ -103,10 +147,12 @@ export class EnquiryDashbordComponent implements OnInit {
   inActiveEntranceStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveEntrance(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
@@ -114,18 +160,29 @@ export class EnquiryDashbordComponent implements OnInit {
   inActiveSelectedStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveSelected(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        this.refreshDashBoardList();
-        this.refreshEnquiryList();  
-        this.refreshEntranceList();  
-        this.refreshSelectedList();     
+        // this.refreshDashBoardList();
+        // this.refreshEnquiryList();
+        // this.refreshEntranceList();
+        // this.refreshSelectedList();
+
+        this.serchList(this.staffTypeid);
       }
     });
   }
 
 
-  ActiveAdmissionClick(selected:any){
-    this.router.navigate(
-      ['../student_profile', selected]);
+  ActiveAdmissionClick(selected: any) {
+    debugger;
+   var myStr = JSON.stringify(selected);
+    sessionStorage.setItem("selectd",myStr);
+    //this.router.navigateByUrl('student/student_profile');
+   //this.router.navigate([ '/student_profile']);
   }
+
+  // ngOnInuit(){
+  //   const storedValue = sessionStorage.getItem("selectd");
+
+  //   form.patchValue(storedValue)
+  // }
 
 }
