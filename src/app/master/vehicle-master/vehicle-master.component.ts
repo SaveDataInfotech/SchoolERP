@@ -74,11 +74,17 @@ export class VehicleMasterComponent implements OnInit {
               var vehicletypeinsert = (this.vehicletypeForm.value);
               this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
                 console.log(res, 'resss')
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshvehicleTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -91,11 +97,17 @@ export class VehicleMasterComponent implements OnInit {
               var vehicletypeinsert = (this.vehicletypeForm.value);
               this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
                 console.log(res, 'resss')
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshvehicleTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

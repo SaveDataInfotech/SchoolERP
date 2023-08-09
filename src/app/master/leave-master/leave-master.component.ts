@@ -65,11 +65,17 @@ export class LeaveMasterComponent implements OnInit {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
                 console.log(res, 'resss')
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshLeaveTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -82,11 +88,17 @@ export class LeaveMasterComponent implements OnInit {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
                 console.log(res, 'resss')
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshLeaveTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

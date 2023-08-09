@@ -549,7 +549,7 @@
 
                 <div class="col-sm-12 mt-4">
                     <div class="pl-2" style="margin-left: 50px;">
-                        <input
+                        <input [checked]="StudentEnquiryForm.value.s_declare == true"
                          formArrayName="s_declare" (change)="selectedSub($event)"
                             style="height: 20px;width: 20px;" type="checkbox" class="form-check-input  mt-1 "
                             name="option1" value="something" required>

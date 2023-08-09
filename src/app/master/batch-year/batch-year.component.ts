@@ -57,11 +57,17 @@ export class BatchYearComponent implements OnInit {
             if (res == true) {
               var Batchinsert = (this.BatchYearForm.value);
               this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshBatchYearList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -77,11 +83,17 @@ export class BatchYearComponent implements OnInit {
                   if (res == true) {
                     var Batchinsert = (this.BatchYearForm.value);
                     this.batchyearSvc.addNewBatch(Batchinsert).subscribe(res => {
-                      if (res?.recordid) {
+                      if (res.status == 'Saved successfully') {
                         this.notificationSvc.success("Updated Success")
                         this.refreshBatchYearList();
                         this.getMaxId();
                         this.cancelClick();
+                      }
+                      else if(res.status == 'Already exists'){
+                        this.notificationSvc.warn("Already exists")
+                      }
+                      else{
+                        this.notificationSvc.error("Something error")
                       }
                     });
                   }

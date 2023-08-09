@@ -98,11 +98,17 @@ export class FeesMasterComponent implements OnInit {
             if (res == true) {
               var feestypeinsert = (this.feestypeForm.value);
               this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshFeesTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -114,11 +120,17 @@ export class FeesMasterComponent implements OnInit {
             if (res == true) {
               var feestypeinsert = (this.feestypeForm.value);
               this.FtySvc.addNewFeesType(feestypeinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshFeesTypeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -197,11 +209,17 @@ export class FeesMasterComponent implements OnInit {
             if (res == true) {
               var feeslessinsert = (this.feesLessForm.value);
               this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshFeesLessList();
                   this.getMaxIdLess();
                   this.cancelClickLess();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -213,11 +231,17 @@ export class FeesMasterComponent implements OnInit {
             if (res == true) {
               var feeslessinsert = (this.feesLessForm.value);
               this.FlSvc.addNewFeesLess(feeslessinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshFeesLessList();
                   this.getMaxIdLess();
                   this.cancelClickLess();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

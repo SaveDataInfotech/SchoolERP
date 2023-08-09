@@ -54,7 +54,7 @@
                             <input
                                 [ngClass]="{'is-invalid':studentProfileForm.controls.admission_no.touched && studentProfileForm.controls.admission_no.errors}"
                                 (keypress)="numberOnly($event)" formControlName="admission_no" class="form-control"
-                                type="tel" required>
+                                type="text" required>
                             <span class="text-danger"
                                 *ngIf="studentProfileForm.controls.admission_no.touched && studentProfileForm.controls.admission_no.errors">
                                 <div
@@ -622,6 +622,11 @@
                         </div>
                     </div>
                 </div>
+               
+                
+                    <!-- The add() function is called -->
+                    <input type="button"  value="Add"/>
+                 
 
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -691,12 +696,15 @@
                         </div>
                     </div>
                     <div class="col-sm-6 mb-3" style="display: flex;justify-content: center;">
-                        <div style="height: 150px;width: 150px;" class="custom-dropzone " ngx-dropzone
-                            [accept]="'image/*'" (change)="onSelect($event)"> <ngx-dropzone-label>
+                        <!-- <div style="height: 150px;width: 150px;" class="custom-dropzone " ngx-dropzone
+                            [accept]="'image/*'" formControlName="img" (change)="onSelect($event)"> <ngx-dropzone-label>
                                 <div> <span>Click to upload or Drag & Drop Your Photo!</span> </div>
                             </ngx-dropzone-label> <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f"
                                 [removable]="true"> <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                            </ngx-dropzone-image-preview> </div>
+                            </ngx-dropzone-image-preview> </div> -->
+
+
+                            <input type="file" formControlName="img" (onchange)="onFileChange($event, 'img')"/>
                     </div>
                 </div>
 

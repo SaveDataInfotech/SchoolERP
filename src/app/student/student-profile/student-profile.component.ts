@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -8,7 +8,7 @@ import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-student-profile',
   templateUrl: './student-profile.component.html',
@@ -21,7 +21,7 @@ export class StudentProfileComponent implements OnInit {
   placefilterList : any[]=[];
 
 
-  ClassList: any = [];
+  ClassList: any[] = [];
   GroupList: any = [];
   SectionList: any = [];
   groupFilterlist: any = [];
@@ -31,7 +31,7 @@ export class StudentProfileComponent implements OnInit {
   assignbuttonId: boolean = true;
   storedValue: any;
 
-  admissionNo:any = "000"+1;
+  //admissionNo:any = "000"+1;
   
 
 
@@ -42,7 +42,9 @@ export class StudentProfileComponent implements OnInit {
     private ScSvc: studentSectionService,
     private FlSvc: FeesLessService,
     private studProSvc: studentProfileService,
-    private PlaceSvc: VehiclePlaceService,) { }
+    private PlaceSvc: VehiclePlaceService,
+    private datePipe: DatePipe,
+    private cd: ChangeDetectorRef) { }
 
 
     date1=new Date();
@@ -86,13 +88,25 @@ export class StudentProfileComponent implements OnInit {
        
     //this.cancelclick();
     this.setvalueform();
+
+    //this.admissionNo();
   }
 
-  // admissionNo(admission:any) {
-  //   let admisionNo="000"
-  //   if(admission.length == 0){
+  // admissionNo() {
+  //   this.refreshvehiclePlaceList();
+  //   debugger;
+  //   let admisionNo;
+  //   //let adNo=this.ClassList[0].classid as any;
 
-  //   }
+  //   console.log("clas"+this.PlaceList)
+  //   // if(this.ClassList[0].classid.length < 10){
+  //   //   admisionNo ="0000"+this.ClassList[0].classid
+
+  //   //   this.studentProfileForm.get('admission_no')?.setValue(admisionNo)
+  //   // }
+  //   // else if(this.ClassList[0].classid.length < 100){
+  //   //   admisionNo ="000"+this.ClassList[0].classid
+  //   // }
   // }
 
   ngxSpinner: any;
@@ -118,8 +132,11 @@ export class StudentProfileComponent implements OnInit {
     var storedValues: any = sessionStorage.getItem("selectd");
     var myObj = JSON.parse(storedValues);
     this.studentProfileForm.patchValue(myObj)
-
-
+    var split = myObj.dob.split('T');
+    this.studentProfileForm.get('dob')?.setValue(split[0]);
+    this.studentProfileForm.get('classid')?.setValue(myObj.s_admission);
+    //this.studentProfileForm.get('groupid')?.setValue(myObj.s_group);
+    
     this.refershcancelclick();
   }
 
@@ -195,6 +212,31 @@ export class StudentProfileComponent implements OnInit {
     });
   }
 
+
+
+
+  onFileChange(event:any, field:any) {
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      // just checking if it is an image, ignore if you want
+      if (!file.type.startsWith('img')) {
+        this.studentProfileForm.get(field)?.setErrors({
+          required: true
+        });
+        this.cd.markForCheck();
+      } else {
+        // unlike most tutorials, i am using the actual Blob/file object instead of the data-url
+        this.studentProfileForm.patchValue({
+          [field]: file
+        });
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      }
+    }};
+
+
+   
+
   studentProfileForm = new FormGroup({
     profileid: new FormControl(0),
     enquiryid: new FormControl(null,[Validators.required]),
@@ -252,7 +294,7 @@ export class StudentProfileComponent implements OnInit {
     tc_xerox: new FormControl(false),
     tc_original: new FormControl(false),
     tc_date_submission: new FormControl(this.today),
-    img: new FormControl('img'),
+    img: new FormControl(''),
     cuid: new FormControl(1)
   })
 

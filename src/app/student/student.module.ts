@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+
 @NgModule({
   declarations: [
     StudentEnquiryComponent,

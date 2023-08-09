@@ -148,12 +148,17 @@ export class StudentEnquiryComponent implements OnInit {
               debugger;
               var Classinsert = (this.StudentEnquiryForm.value);
               this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
-                  // this.refreshClassList();
+                  this.refreshClassList();
                   this.getMaxId();
-                  this.cancelClick();
-                  this.StudentEnquiryForm.reset()
+                  this.cancelClick();                  
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Aadhar Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -169,7 +174,7 @@ export class StudentEnquiryComponent implements OnInit {
     }
     else {
       this.StudentEnquiryForm.markAllAsTouched();
-      alert();
+      this.notificationSvc.error("Invalid Input")
     }
 
   }

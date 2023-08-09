@@ -85,11 +85,17 @@ export class ClassComponent implements OnInit {
               debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshClassList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -102,11 +108,17 @@ export class ClassComponent implements OnInit {
               debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshClassList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -144,8 +156,8 @@ export class ClassComponent implements OnInit {
 
   updateGetClick(StClass: any) {
     debugger;
-    this.Student_classForm.get('classid')?.setValue(StClass.classid);    
-    let toArray =  StClass.class_name.split("-");
+    this.Student_classForm.get('classid')?.setValue(StClass.classid);
+    let toArray = StClass.class_name.split("-");
     this.Student_classForm.get('class_name')?.setValue(toArray[0]);
     this.Student_classForm.get('medium')?.setValue(toArray[1]);
     this.Student_classForm.get('cuid')?.setValue(StClass.cuid);
@@ -190,12 +202,18 @@ export class ClassComponent implements OnInit {
             if (res == true) {
               var Groupinsert = (this.Student_GroupForm.value);
               this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.SectioncancelClick();
                   this.refreshGroupList();
                   this.getGroupMaxId();
                   this.GroupcancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -207,12 +225,18 @@ export class ClassComponent implements OnInit {
             if (res == true) {
               var Groupinsert = (this.Student_GroupForm.value);
               this.GroupSvc.addNewGroup(Groupinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.SectioncancelClick();
                   this.refreshGroupList();
                   this.getGroupMaxId();
                   this.GroupcancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -271,7 +295,7 @@ export class ClassComponent implements OnInit {
   Student_SectionForm = new FormGroup({
     sectionid: new FormControl(0),
     groupid: new FormControl(0),
-    classid: new FormControl(0,[Validators.required]),
+    classid: new FormControl(0, [Validators.required]),
     section_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -296,11 +320,17 @@ export class ClassComponent implements OnInit {
             if (res == true) {
               var Sectioninsert = (this.Student_SectionForm.value);
               this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success");
                   this.refreshSectionList();
                   this.getSectionMaxId();
                   this.SectioncancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -312,11 +342,17 @@ export class ClassComponent implements OnInit {
             if (res == true) {
               var Sectioninsert = (this.Student_SectionForm.value);
               this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshSectionList();
                   this.getSectionMaxId();
                   this.SectioncancelClick();
+                }
+                else if(res.status == 'Already exists'){
+                  this.notificationSvc.warn("Already exists")
+                }
+                else{
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

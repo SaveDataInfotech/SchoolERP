@@ -32,7 +32,6 @@ export class EnquiryDashbordComponent implements OnInit {
 
     this.serchList(this.staffTypeid);
   }
-
   backButton() {
     this.router.navigateByUrl('/app/dashboard');
   }
