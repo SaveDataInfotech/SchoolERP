@@ -54,6 +54,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
@@ -240,6 +242,41 @@
 
                             </div>
                         </div>
+
+                        <div  formArrayName="leave">
+                            <div *ngFor="let chid of leaveAssignForm.get('leave')['controls']; let i = index"
+                                formGroupName="{{i}}">
+                                <div class="row">
+                                    <div class="col-sm-6 mt-3" style="display: flex;">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Leave Type <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="l_type" class="form-control" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 mt-3" style="display: flex;">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Eligble <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="elgible" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="button" (click)="removeLeave(i)" value="remove" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="button" (click)="addleave()" value="Add" />
+                            </div>
+
+                        </div>
+
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">

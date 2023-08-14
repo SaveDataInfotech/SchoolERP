@@ -8,18 +8,18 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form>
+            <form [formGroup]="studentTcApplyForm">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>1-St</option>
-                                <option>2-Nd</option>
-                                <option>10-Th</option>
-                                <option>11-Th</option>
+                            <select formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
+                                class="form-control " name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -30,9 +30,11 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Maths-Biology</option>
-                                <option>ComputerScience</option>
+                            <select formControlName="groupid" style="width: 100%;" #s
+                                (change)="filterSectionfun(s.value)" class="form-control " name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                    {{group.group_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -43,9 +45,11 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>A</option>
-                                <option>B</option>
+                            <select formControlName="sectionid" style="width: 100%;" class="form-control "
+                                name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                    {{section.section_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -57,91 +61,87 @@
                             <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date" required>
+                            <select formControlName="batch_year" style="width: 100%;" class="form-control "
+                                name="selectAction">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="batch.batch_year" *ngFor="let batch of BatchList;">
+                                    {{batch.batch_year}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <button matTooltip="Click to Search" type="button"
-                        class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
+                        <button matTooltip="Click to Search" type="button" (click)="searchStudentByClass()"
+                            class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                     </div>
                 </div>
             </form>
+            <form [formGroup]="studentTcApplyForm">
 
-            <form>
-                <div class="table-responsive mt-5">
+                <div class="table-responsive text-nowrap mt-5">
                     <table class="col-sm-12 table table-hover table-bordered table-sm  ">
                         <thead>
                             <tr>
+                                <th>Action</th>
                                 <th>A.NO</th>
                                 <th>Student Name</th>
-                                <th>TC.NO</th>
-                                <th>Date</th>
                                 <th>Left</th>
                                 <th>Date</th>
                                 <th>Long Absent</th>
                                 <th>Date</th>
+                                <th>TC</th>
+                                <th>TC.NO</th>
+                                <th>Date</th>
                                 <th>Remarks</th>
-
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>0001290</td>
-                                <td>Rajesh V</td>
-                                <td>4975</td>
-                                <td>12-09-2023</td>
-                                <td>Yes</td>
-                                <td>16-09-2023</td>
-                                <td>Yes</td>
-                                <td>5-6-2023</td>
-                                <td>Write your remarks here</td>
-                            </tr>
-
-                            <tr>
-                                <td>0001290</td>
-                                <td>Rajesh V</td>
-                                <td>4975</td>
-                                <td>12-09-2023</td>
-                                <td>Yes</td>
-                                <td>16-09-2023</td>
-                                <td>Yes</td>
-                                <td>5-6-2023</td>
-                                <td>Write your remarks here</td>
-                            </tr>
-
-                            <tr>
-                                <td>0001290</td>
-                                <td>Rajesh V</td>
-                                <td>4975</td>
-                                <td>12-09-2023</td>
-                                <td>Yes</td>
-                                <td>16-09-2023</td>
-                                <td>Yes</td>
-                                <td>5-6-2023</td>
-                                <td>Write your remarks here</td>
+                            <tr *ngFor="let student of studentList;">
+                                <td><input style="width: 20px;height:20px;" type="checkbox" class="form-control m-2" /></td>
+                                <!-- <td><select #a (change)="filterNamefun(a.value)" class="form-control"
+                                        style="width: 180px;">
+                                        <option value=0>Please select</option>
+                                        <option value="{{student.admission_no}}" >
+                                            {{student.admission_no}}</option>
+                                    </select></td> -->
+                                <td>{{student.admission_no}}</td>
+                                <!-- <td><input type="text"  class="form-control" /></td> -->
+                                <td>{{student.student_name}}</td>
+                                <td>
+                                    <select class="form-control" style="width: 80px;">
+                                        <option value="NO">NO</option>
+                                        <option value="NO">Yes</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control" /></td>
+                                <td>
+                                    <select class="form-control" style="width: 80px;">
+                                        <option value="NO">NO</option>
+                                        <option value="NO">Yes</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control" /></td>
+                                <td>
+                                    <select class="form-control" style="width: 80px;">
+                                        <option value="NO">NO</option>
+                                        <option value="NO">Yes</option>
+                                    </select>
+                                </td>
+                                <td><input style="width: 110px;" class="form-control" /></td>
+                                <td><input type="date" class="form-control" /></td>
+                                <td><input type="text" style="width: 200px;" class="form-control" /></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                            value="Cancel" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </form>

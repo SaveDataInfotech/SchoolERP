@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -25,7 +25,7 @@ export class LeaveMasterComponent implements OnInit {
 
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,private router: Router) { }
+    private notificationSvc: NotificationsService,private router: Router) { this.createForm();}
 
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -151,19 +151,49 @@ export class LeaveMasterComponent implements OnInit {
 
 
   //Leave Assign
-
-  leaveAssignForm = new FormGroup({
+  leaveAssignForm:FormGroup;
+  createForm(){
+ this.leaveAssignForm = new FormGroup({
     assignid: new FormControl(0),
     staff_type: new FormControl('', [Validators.required]),
     staff_name: new FormControl('', [Validators.required]),
     no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
     e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
+    leave:new FormArray([
+      new FormGroup({
+        l_type:new FormControl(''),
+        elgible:new FormControl('')
+      })
+    ]),
     cuid: new FormControl(1),
   })
+}
 
-  get staff_type() {
-    return this.leaveAssignForm.get('staff_type');
+get staff_type() {
+  return this.leaveAssignForm.get('staff_type');
+}
+
+getControls() {
+  return (this.leaveAssignForm.get('leave') as FormArray).controls;
+}
+
+  addleave(){
+    debugger;
+    const control=<FormArray>this.leaveAssignForm.controls['leave'];
+    control.push(
+      new FormGroup({
+        l_type:new FormControl(''),
+        elgible:new FormControl('')
+      })
+    )
   }
+
+  removeLeave(index:any){
+    const control=<FormArray>this.leaveAssignForm.controls['leave'];
+    control.removeAt(index);
+  }
+
+  
 
   //get staff type Method
   refreshstaffTypeList() {
@@ -179,6 +209,7 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   NewLeaveAssign() {
+    debugger;
     if (this.leaveAssignForm.valid) {
       if (this.leaveAssignForm.value.assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -247,12 +278,16 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   AssignUpdateGetClick(assign: any) {
+    debugger;
     this.leaveAssignForm.get('assignid')?.setValue(assign.assignid);
     this.leaveAssignForm.get('staff_type')?.setValue(assign.staff_type);
     this.leaveAssignForm.get('staff_name')?.setValue(assign.staff_name);
     this.leaveAssignForm.get('no_of_leave')?.setValue(assign.no_of_leave);
     this.leaveAssignForm.get('e_per_mon')?.setValue(assign.e_per_mon);
     this.leaveAssignForm.get('cuid')?.setValue(assign.cuid);
+
+    this.leaveAssignForm.get(['leave','l_type']).setValue(assign.l_type);
+    this.leaveAssignForm.get(['leave','elgible']).setValue(assign.elgible);    
     this.AssignbuttonId = false;
   }
 

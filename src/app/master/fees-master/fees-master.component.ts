@@ -8,6 +8,7 @@ import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { FeesTypeService } from 'src/app/api-service/FeesType.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 
@@ -31,13 +32,19 @@ export class FeesMasterComponent implements OnInit {
   SectionList: any = [];
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
+  FeesTypeAssignFilterlist:any=[];
   activeBatchYear: any = [];
   groupDisplay: boolean = true;
+  feestypeDisplay: boolean = true;
   newgetbatch: string;
 
   FeesAssignList: any = [];
   MaxIdAssign: any = [];
   assignbuttonId: boolean = true;
+
+  FeesTypeAssignList: any = [];
+  assignTypebuttonId: boolean = true;
+  MaxIdAssignType: any = [];
 
   constructor(
     private FtySvc: FeesTypeService,
@@ -49,7 +56,8 @@ export class FeesMasterComponent implements OnInit {
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private batchSvc: BatechYearService,
-    private router: Router
+    private router: Router,
+    private feeTyAsSvc: FeesTypeAssignService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +78,10 @@ export class FeesMasterComponent implements OnInit {
     this.getMaxIdAssign();
     this.cancelClickAssign();
 
+
+    this.cancelClickAssignType();
+    this.refreshFeesTypeAssignList();
+    this.getMaxIdTypeAssign();
   }
 
   backButton() {
@@ -104,10 +116,10 @@ export class FeesMasterComponent implements OnInit {
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -126,10 +138,10 @@ export class FeesMasterComponent implements OnInit {
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -215,10 +227,10 @@ export class FeesMasterComponent implements OnInit {
                   this.getMaxIdLess();
                   this.cancelClickLess();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -237,10 +249,10 @@ export class FeesMasterComponent implements OnInit {
                   this.getMaxIdLess();
                   this.cancelClickLess();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -349,6 +361,21 @@ export class FeesMasterComponent implements OnInit {
     return true;
   }
 
+  TypelistFilterfun(value:any){
+    const valuesid = Number(value);
+    this.feesAssignForm.get('typeid')?.setValue(valuesid);
+    this.FeesTypeAssignFilterlist = this.FeesTypeAssignList.filter((e: any) => { return e.typeid == valuesid });
+    this.feesAssignForm.get('type_assignid')?.setValue(0);
+    if (this.FeesTypeAssignFilterlist.length == 0) {
+      this.feestypeDisplay = false;
+      this.feesAssignForm.get('type_assignid')?.setValue(0);
+    }
+    else {
+      this.feestypeDisplay = true;
+      this.feesAssignForm.get('type_assignid')?.setValue(0);
+    }
+  }
+
 
   feesAssignForm = new FormGroup({
     assignid: new FormControl(0),
@@ -357,8 +384,9 @@ export class FeesMasterComponent implements OnInit {
     sectionid: new FormControl(0, [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
-    feestype: new FormControl('', [Validators.required]),
-    fees_less: new FormControl('Not Specified', [Validators.required]),
+    typeid: new FormControl(0,[Validators.required]),
+    type_assignid: new FormControl(0),
+    fess_lessid: new FormControl(0),
     amount: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -405,7 +433,7 @@ export class FeesMasterComponent implements OnInit {
           });
       }
     }
-    else{
+    else {
       this.feesAssignForm.markAllAsTouched()
     }
   }
@@ -442,8 +470,10 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('sectionid')?.setValue(Assign.sectionid);
     this.feesAssignForm.get('gender')?.setValue(Assign.gender);
     this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);
-    this.feesAssignForm.get('feestype')?.setValue(Assign.feestype);
-    this.feesAssignForm.get('fees_less')?.setValue(Assign.fees_less);
+    this.feesAssignForm.get('typeid')?.setValue(Assign.typeid);
+    this.TypelistFilterfun(Assign.typeid)
+    this.feesAssignForm.get('type_assignid')?.setValue(Assign.type_assignid);
+    this.feesAssignForm.get('fess_lessid')?.setValue(Assign.fess_lessid);
     this.feesAssignForm.get('amount')?.setValue(Assign.amount);
     this.feesAssignForm.get('cuid')?.setValue(Assign.cuid);
     this.assignbuttonId = false;
@@ -457,10 +487,118 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('sectionid')?.setValue(0);
     this.feesAssignForm.get('gender')?.setValue('');
     this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
-    this.feesAssignForm.get('feestype')?.setValue('');
-    this.feesAssignForm.get('fees_less')?.setValue('Not Specified');
+    this.feesAssignForm.get('typeid')?.setValue(0);
+    this.feesAssignForm.get('type_assignid')?.setValue(0);
+    this.feesAssignForm.get('fess_lessid')?.setValue(0);
     this.feesAssignForm.get('amount')?.setValue('');
     this.feesAssignForm.get('cuid')?.setValue(1);
     this.assignbuttonId = true;
+  }
+
+  //fees_type_assign
+
+  feesTypeAssignForm = new FormGroup({
+    type_assignid: new FormControl(0),
+    typeid: new FormControl(0, [Validators.required]),
+    type_assign_name: new FormControl('', [Validators.required]),
+    cuid: new FormControl(1),
+  })
+
+  refreshFeesTypeAssignList() {
+    this.feeTyAsSvc.getfeesTypeAssignList().subscribe(data => {
+      this.FeesTypeAssignList = data;
+    });
+  }
+
+  getMaxIdTypeAssign() {
+    this.feeTyAsSvc.getMaxId().subscribe(data => {
+      this.MaxIdAssignType = data;
+    });
+  }
+
+  newFeesTypeAssign() {
+    debugger;
+    if (this.feesTypeAssignForm.valid) {
+      if (this.feesTypeAssignForm.value.type_assignid == 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feesAssignInsert = (this.feesTypeAssignForm.value);
+              this.feeTyAsSvc.addNewFeesTypeAssign(feesAssignInsert).subscribe(res => {
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshFeesTypeAssignList();
+                  this.getMaxIdTypeAssign();
+                  this.cancelClickAssignType();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }
+              });
+            }
+          });
+      }
+      else if (this.feesTypeAssignForm.value.type_assignid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var feesAssignInsert = (this.feesTypeAssignForm.value);
+              this.feeTyAsSvc.addNewFeesTypeAssign(feesAssignInsert).subscribe(res => {
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Updated Success")
+                  this.refreshFeesTypeAssignList();
+                  this.getMaxIdTypeAssign();
+                  this.cancelClickAssignType();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }
+              });
+            }
+          });
+      }
+    }
+    else {
+      this.feesTypeAssignForm.markAllAsTouched()
+    }
+  }
+
+  updateGetClicTypekAssign(Assign: any) {
+    debugger;
+    this.feesTypeAssignForm.get('type_assignid')?.setValue(Assign.type_assignid);
+    this.feesTypeAssignForm.get('typeid')?.setValue(Assign.typeid);
+    this.feesTypeAssignForm.get('type_assign_name')?.setValue(Assign.type_assign_name);
+    this.assignTypebuttonId = false;
+  }
+
+  assignTypedeleteClick(type_assignid: number) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.feeTyAsSvc.deletefeesAssignType(type_assignid).subscribe(res => {
+            if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
+              this.refreshFeesTypeAssignList();
+              this.getMaxIdTypeAssign();
+              this.cancelClickAssignType();
+            }
+          });
+        }
+      });
+  }
+
+  cancelClickAssignType() {
+    this.feesTypeAssignForm.reset();
+    this.feesTypeAssignForm.get('type_assignid')?.setValue(0);
+    this.feesTypeAssignForm.get('typeid')?.setValue(0);
+    this.feesTypeAssignForm.get('type_assign_name')?.setValue('');
+    this.feesTypeAssignForm.get('cuid')?.setValue(1);
+    this.assignTypebuttonId = true;
   }
 }

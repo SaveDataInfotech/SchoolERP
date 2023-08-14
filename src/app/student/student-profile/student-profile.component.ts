@@ -9,6 +9,7 @@ import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
 import { DatePipe } from '@angular/common';
+import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 @Component({
   selector: 'app-student-profile',
   templateUrl: './student-profile.component.html',
@@ -16,9 +17,12 @@ import { DatePipe } from '@angular/common';
 })
 export class StudentProfileComponent implements OnInit {
   files: File[] = []; //used to bring the photo as a o/p in front design
+  base64textString: any[] = [];
+  file: any;
 
-  PlaceList:any=[];
-  placefilterList : any[]=[];
+
+  PlaceList: any = [];
+  placefilterList: any[] = [];
 
 
   ClassList: any[] = [];
@@ -27,12 +31,13 @@ export class StudentProfileComponent implements OnInit {
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
   FeesLessList: any = [];
+  FeesTypeAssignList:any=[];
   groupDisplay: boolean = true;
   assignbuttonId: boolean = true;
   storedValue: any;
 
   //admissionNo:any = "000"+1;
-  
+
 
 
   constructor(private DialogSvc: DialogService,
@@ -44,39 +49,40 @@ export class StudentProfileComponent implements OnInit {
     private studProSvc: studentProfileService,
     private PlaceSvc: VehiclePlaceService,
     private datePipe: DatePipe,
-    private cd: ChangeDetectorRef) { }
+    private cd: ChangeDetectorRef,
+    private feeTyAsSvc: FeesTypeAssignService) { }
 
 
-    date1=new Date();
+  date1 = new Date();
 
-  currentYear=this.date1.getUTCFullYear();
+  currentYear = this.date1.getUTCFullYear();
 
-  currentMonth=this.date1.getUTCMonth()+1;
+  currentMonth = this.date1.getUTCMonth() + 1;
 
-  currentDate=this.date1.getUTCDate();
+  currentDate = this.date1.getUTCDate();
 
-  today="2023-12-12";
+  today = "2023-12-12";
 
-  finalMonth:any;
-  finalDay:any;
+  finalMonth: any;
+  finalDay: any;
 
   ngOnInit(): void {
-    if(this.currentMonth < 10){
-      this.finalMonth="0"+this.currentMonth;
+    if (this.currentMonth < 10) {
+      this.finalMonth = "0" + this.currentMonth;
     }
-    else{
-      this.finalMonth=this.currentMonth;
-    }
-
-
-    if(this.currentDate < 10){
-      this.finalDay="0"+this.currentDate;
-    }
-    else{
-      this.finalDay=this.currentDate;
+    else {
+      this.finalMonth = this.currentMonth;
     }
 
-    this.today=this.currentYear+"-"+this.finalMonth+"-"+this.finalDay;
+
+    if (this.currentDate < 10) {
+      this.finalDay = "0" + this.currentDate;
+    }
+    else {
+      this.finalDay = this.currentDate;
+    }
+
+    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
 
 
     ////////////
@@ -85,11 +91,13 @@ export class StudentProfileComponent implements OnInit {
     this.refreshSectionList();
     this.refreshFeesLessList();
     this.refreshvehiclePlaceList();
-       
+    this.refreshFeesTypeAssignList();
     //this.cancelclick();
     this.setvalueform();
 
     //this.admissionNo();
+
+   
   }
 
   // admissionNo() {
@@ -109,26 +117,7 @@ export class StudentProfileComponent implements OnInit {
   //   // }
   // }
 
-  ngxSpinner: any;
-
-  onSelect(event: any) {
-
-    this.files.push(...event.addedFiles);
-    if (this.files.length > 1) { // checking if files array has more than one content
-      this.replaceFile(); // replace file
-    }
-    const formData = new FormData();
-
-    for (var i = 0; i < this.files.length; i++) {
-      formData.append("file[]", this.files[0]);
-    }
-
-  }
-  replaceFile() {
-    this.files.splice(0, 1); // index =0 , remove_count = 1
-  }
-/////////
-  setvalueform(){
+  setvalueform() {
     var storedValues: any = sessionStorage.getItem("selectd");
     var myObj = JSON.parse(storedValues);
     this.studentProfileForm.patchValue(myObj)
@@ -136,7 +125,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentProfileForm.get('dob')?.setValue(split[0]);
     this.studentProfileForm.get('classid')?.setValue(myObj.s_admission);
     //this.studentProfileForm.get('groupid')?.setValue(myObj.s_group);
-    
+
     this.refershcancelclick();
   }
 
@@ -146,9 +135,9 @@ export class StudentProfileComponent implements OnInit {
     });
   }
 
-  filterPlaceNo(no:any){
-      this.placefilterList = this.PlaceList.filter((e: any) =>  e.place == no);
-      let root=this.placefilterList[0].root_no as any;
+  filterPlaceNo(no: any) {
+    this.placefilterList = this.PlaceList.filter((e: any) => e.place == no);
+    let root = this.placefilterList[0].root_no as any;
     this.studentProfileForm.get('root_no')?.setValue(root)
   }
 
@@ -206,64 +195,45 @@ export class StudentProfileComponent implements OnInit {
     return true;
   }
 
+  refreshFeesTypeAssignList() {
+    this.feeTyAsSvc.getfeesTypeAssignList().subscribe(data => {
+      this.FeesTypeAssignList = data;
+    });
+  }
+
   refreshFeesLessList() {
     this.FlSvc.getfeesLessList().subscribe(data => {
       this.FeesLessList = data;
     });
   }
 
-
-
-
-  onFileChange(event:any, field:any) {
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      // just checking if it is an image, ignore if you want
-      if (!file.type.startsWith('img')) {
-        this.studentProfileForm.get(field)?.setErrors({
-          required: true
-        });
-        this.cd.markForCheck();
-      } else {
-        // unlike most tutorials, i am using the actual Blob/file object instead of the data-url
-        this.studentProfileForm.patchValue({
-          [field]: file
-        });
-        // need to run CD since file load runs outside of zone
-        this.cd.markForCheck();
-      }
-    }};
-
-
-   
-
   studentProfileForm = new FormGroup({
     profileid: new FormControl(0),
-    enquiryid: new FormControl(null,[Validators.required]),
-    admission_no: new FormControl('',[Validators.required]),
-    roll_no: new FormControl('',[Validators.required]),
+    enquiryid: new FormControl(null, [Validators.required]),
+    admission_no: new FormControl('', [Validators.required]),
+    roll_no: new FormControl('', [Validators.required]),
     classid: new FormControl(0),
     groupid: new FormControl(0),
     sectionid: new FormControl(0),
     mark_10: new FormControl(''),
-    emis_no: new FormControl('',[Validators.required]),
-    aadhar: new FormControl('',[Validators.required]),
-    gender: new FormControl('',[Validators.required]),
-    student_name: new FormControl('',[Validators.required]),
-    student_name_t: new FormControl('',[Validators.required]),
+    emis_no: new FormControl('', [Validators.required]),
+    aadhar: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    student_name: new FormControl('', [Validators.required]),
+    student_name_t: new FormControl('', [Validators.required]),
     dob: new FormControl(''),
     phy_challanged: new FormControl(''),
-    nationality: new FormControl('',[Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
-    religion: new FormControl('',[Validators.required]),
-    community: new FormControl('',[Validators.required,Validators.pattern(/^([a-zA-Z]+)$/)]),
-    caste: new FormControl('',[Validators.required,Validators.pattern(/^([a-zA-Z]+)$/)]),
-    bloodgroup: new FormControl('',[Validators.required]),
-    place: new FormControl('',[Validators.required]),
-    address: new FormControl('',[Validators.required]),
+    nationality: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    religion: new FormControl('', [Validators.required]),
+    community: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    caste: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    bloodgroup: new FormControl('', [Validators.required]),
+    place: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
     feesless: new FormControl(''),
     rt_student: new FormControl(''),
-    i_m_1: new FormControl('',[Validators.required]),
-    i_m_2: new FormControl('',[Validators.required]),
+    i_m_1: new FormControl('', [Validators.required]),
+    i_m_2: new FormControl('', [Validators.required]),
     l_class: new FormControl(''),
     l_school: new FormControl(''),
     l_stream: new FormControl(''),
@@ -276,12 +246,12 @@ export class StudentProfileComponent implements OnInit {
     root_no: new FormControl(''),
     dayscholar: new FormControl(''),
     hostel: new FormControl(''),
-    father_name: new FormControl('',[Validators.required]),
+    father_name: new FormControl('', [Validators.required]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl('',[Validators.required]),
+    f_ph: new FormControl('', [Validators.required]),
     f_email: new FormControl(''),
-    mother_name: new FormControl('',[Validators.required]),
+    mother_name: new FormControl('', [Validators.required]),
     m_occupation: new FormControl(''),
     m_qualification: new FormControl(''),
     m_ph: new FormControl(''),
@@ -398,7 +368,53 @@ export class StudentProfileComponent implements OnInit {
     this.studentProfileForm.get('tc_original')?.setValue(false);
     this.studentProfileForm.get('tc_date_submission')?.setValue(this.today);
     this.studentProfileForm.get('img')?.setValue('');
-    this.studentProfileForm.get('cuid')?.setValue(1);    
+    this.studentProfileForm.get('cuid')?.setValue(1);
+  }
+
+
+  onSelect(event: any) {
+    this.files.push(...event.addedFiles);
+
+    // this.files.push(...event.addedFiles);
+    if (this.files.length > 1) {
+      // checking if files array has more than one content
+      this.replaceFile(); // replace file
+    }
+    this.convertFileToBase64AndSet(event.addedFiles[0]);
+    const formData = new FormData();
+
+    for (var i = 0; i < this.files.length; i++) {
+      formData.append('file[]', this.files[0]);
+      this.file = this.files[0];
+    }
+  }
+
+  replaceFile() {
+    this.files.splice(0, 1); // index =0 , remove_count = 1
+  }
+
+  onRemove(event: any) {
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  convertFileToBase64AndSet(fileList: any) {
+    this.base64textString = [];
+    if (fileList) {
+      var reader = new FileReader();
+      reader.onload = this.handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(fileList);
+    }
+  }
+
+  handleReaderLoaded(e: any) {
+    this.base64textString.push(
+      'data:image/png;base64,' + btoa(e.target.result)
+    );
+    this.studentProfileForm.get('img')?.setValue(this.base64textString[0]);
+  }
+
+  getFile(event: any) {
+    this.file = event.target.file[0];
   }
 
 }
