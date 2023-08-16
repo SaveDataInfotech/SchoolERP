@@ -408,10 +408,11 @@
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div class="inputdiv">
+                                    <!-- (change)="filterSectionfun(s.value)" -->
                                     <select formControlName="groupid" style="width: 100%;" #s
-                                        (change)="filterSectionfun(s.value)" class="form-control " name="selectAction">
+                                         class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option [disabled]="assignbuttonId != true" value={{group.groupid}}
+                                        <option [disabled]="assignbuttonId != true" [ngValue]="group.groupid"
                                             *ngFor="let group of groupFilterlist;">
                                             {{group.group_name}}</option>
                                     </select>
@@ -419,7 +420,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Section Name<span class="text-danger">
@@ -440,7 +441,7 @@
                                         name is required</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <div class="row">
@@ -511,7 +512,7 @@
                                         <option value="" selected disabled>Please select</option>
                                         <option>Male</option>
                                         <option>Female</option>
-                                        <option>Other's</option>
+                                        <option>All</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="feesAssignForm.controls.gender.touched && feesAssignForm.controls.gender.errors">
@@ -591,8 +592,7 @@
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Class Name</th>
-                                    <th>Group Name</th>
-                                    <th>Section Name</th>
+                                    <th>Group Name</th>        
                                     <th>Gender</th>
                                     <th>Batch Year</th>
                                     <th>Fees Type</th>
@@ -606,8 +606,7 @@
                                 <tr *ngFor="let Assign of FeesAssignList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{Assign.class_name}}</td>
-                                    <td>{{Assign.group_name}}</td>
-                                    <td>{{Assign.section_name}}</td>
+                                    <td>{{Assign.group_name}}</td>                                    
                                     <td>{{Assign.gender}}</td>
                                     <td>{{Assign.batch_year}}</td>
                                     <td>{{Assign.type_name}}</td>

@@ -90,6 +90,17 @@ export class LayoutComponent implements OnInit {
             }
             
         ]
+    },
+    {
+      link_name:"User",
+        link:"user/user",
+        icon:"studentdetails",
+        sub_menu:[
+          // {
+          //   link_name:"schedule",
+          //   link:"schedule/schedule",
+          // },
+        ]
     },]
     
 
@@ -125,10 +136,6 @@ export class LayoutComponent implements OnInit {
               {
                 link_name:"Student Profile",
                 link:"student/student_profile",
-              },
-              {
-                link_name:"Student Assign",
-                link:"student/student_assign",
               },
               {
                 link_name:"Student Attendance",
@@ -284,11 +291,6 @@ export class LayoutComponent implements OnInit {
         ]
       },
 
-
-
-
-
-
        {
         link_name: "Master",
         link: null,
@@ -343,18 +345,7 @@ export class LayoutComponent implements OnInit {
             link:"master/reports"
           }
         ]
-      },
-      {
-        link_name:"User",
-          link:"user/user",
-          icon:"studentdetails",
-          sub_menu:[
-            // {
-            //   link_name:"schedule",
-            //   link:"schedule/schedule",
-            // },
-          ]
-      },
+      },      
       {
         link_name: "Customer",
         link: null,
@@ -375,6 +366,17 @@ export class LayoutComponent implements OnInit {
           },
           
         ]
+      },
+      {
+        link_name:"User",
+          link:"user/user",
+          icon:"studentdetails",
+          sub_menu:[
+            // {
+            //   link_name:"schedule",
+            //   link:"schedule/schedule",
+            // },
+          ]
       },
 
       

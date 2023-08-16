@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
         if(this.userDetails[0] != null && this.userDetails[0].user_name != null && this.userDetails[0].role_name != null && this.userDetails[0] != undefined){
           this.loginForm.reset();
           localStorage.setItem('rolename',this.userDetails[0].role_name);
+          localStorage.setItem('staffid',this.userDetails[0].staff_no);
           this.router.navigateByUrl('/app/dashboard');
           this.notificationSvc.success("LOGIN SUCCESSFUL")
         }

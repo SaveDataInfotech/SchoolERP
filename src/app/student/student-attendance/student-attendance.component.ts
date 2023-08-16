@@ -140,8 +140,6 @@ export class StudentAttendanceComponent implements OnInit {
     return (this.studentAttendanceForm.get('leaveselectStudent') as FormArray).controls;
   }
 
-
-
   searchStudentByClass() {
     let classid: number = (this.studentAttendanceForm.value.classid);
     let groupid: number = (this.studentAttendanceForm.value.groupid);

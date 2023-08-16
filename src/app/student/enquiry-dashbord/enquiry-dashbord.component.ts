@@ -3,6 +3,8 @@ import {
   Router,
   NavigationExtras
 } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.service';
 @Component({
@@ -19,7 +21,11 @@ export class EnquiryDashbordComponent implements OnInit {
   serachList: any = [];
   staffTypeid: number = 0;
   ClassList:any=[];
-  constructor(private router: Router, private enquirySvc: studentEnquiryService,private ClassSvc: studentClassService) { }
+  constructor(private router: Router,
+     private enquirySvc: studentEnquiryService,
+    private ClassSvc: studentClassService,
+    private DialogSvc: DialogService,
+    private notificationSvc: NotificationsService,) { }
 
   ngOnInit(): void {
     this.refreshClassList();
@@ -178,10 +184,21 @@ export class EnquiryDashbordComponent implements OnInit {
    //this.router.navigate([ '/student_profile']);
   }
 
-  // ngOnInuit(){
-  //   const storedValue = sessionStorage.getItem("selectd");
-
-  //   form.patchValue(storedValue)
-  // }
+  removeAllRegister(){
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete all Registeration ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.enquirySvc.removeAllRegister().subscribe(res => {
+            if (res.status == 'Saved successfully') {
+              this.notificationSvc.error("Deleted Success")
+              this.serchList(this.staffTypeid);
+            }
+            else{
+              this.notificationSvc.error("Something Error")
+            }
+          });
+        }
+      });
+  }
 
 }

@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'School ERP Software';
 
   notificationOptions = {
-    timeOut: 1500,
+    timeOut: 2800,
     showProgressBar: false,
     pauseOnHover: true,
     clickToClose: true,

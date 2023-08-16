@@ -333,25 +333,25 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.feesAssignForm.get('groupid')?.setValue(0);
-    this.feesAssignForm.get('sectionid')?.setValue(0);
+    //this.feesAssignForm.get('sectionid')?.setValue(0);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.feesAssignForm.get('sectionid')?.setValue(0);
+      //this.feesAssignForm.get('sectionid')?.setValue(0);
     }
     else {
       this.groupDisplay = true;
-      this.feesAssignForm.get('sectionid')?.setValue(0);
+      //this.feesAssignForm.get('sectionid')?.setValue(0);
     }
   }
 
-  filterSectionfun(groupID: any) {
-    debugger;
-    const groupid = Number(groupID);
-    this.feesAssignForm.get('groupid')?.setValue(groupid);
-    this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.feesAssignForm.get('sectionid')?.setValue(0);
-  }
+  // filterSectionfun(groupID: any) {
+  //   debugger;
+  //   const groupid = Number(groupID);
+  //   this.feesAssignForm.get('groupid')?.setValue(groupid);
+  //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+  //   this.feesAssignForm.get('sectionid')?.setValue(0);
+  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -374,6 +374,8 @@ export class FeesMasterComponent implements OnInit {
       this.feestypeDisplay = true;
       this.feesAssignForm.get('type_assignid')?.setValue(0);
     }
+
+    
   }
 
 
@@ -381,7 +383,7 @@ export class FeesMasterComponent implements OnInit {
     assignid: new FormControl(0),
     classid: new FormControl(0, [Validators.required]),
     groupid: new FormControl(0, [Validators.required]),
-    sectionid: new FormControl(0, [Validators.required]),
+    //sectionid: new FormControl(0, [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
     typeid: new FormControl(0,[Validators.required]),
@@ -466,8 +468,8 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('classid')?.setValue(Assign.classid);
     this.filterGroupfun(Assign.classid);
     this.feesAssignForm.get('groupid')?.setValue(Assign.groupid);
-    this.filterSectionfun(Assign.groupid)
-    this.feesAssignForm.get('sectionid')?.setValue(Assign.sectionid);
+   // this.filterSectionfun(Assign.groupid)
+   // this.feesAssignForm.get('sectionid')?.setValue(Assign.sectionid);
     this.feesAssignForm.get('gender')?.setValue(Assign.gender);
     this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);
     this.feesAssignForm.get('typeid')?.setValue(Assign.typeid);
@@ -484,7 +486,7 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('assignid')?.setValue(0);
     this.feesAssignForm.get('classid')?.setValue(0);
     this.feesAssignForm.get('groupid')?.setValue(0);
-    this.feesAssignForm.get('sectionid')?.setValue(0);
+    //this.feesAssignForm.get('sectionid')?.setValue(0);
     this.feesAssignForm.get('gender')?.setValue('');
     this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
     this.feesAssignForm.get('typeid')?.setValue(0);

@@ -23,8 +23,17 @@
                             <h3 class="ml-1" style="color: orangered;">Student Information</h3>
                         </div>
                     </div>
-                </div>
+                </div>        
                 <div class="row">
+                    <!-- <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Batch Year</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="batch_year" class="form-control" type="text" readonly>
+                        </div>
+                    </div> -->
+
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Enrollment Number</label>
@@ -39,7 +48,7 @@
                             <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="date" class="form-control" [value]="today" type="date">
+                            <input formControlName="date" readonly class="form-control" [value]="today" type="date">
                         </div>
                     </div>
                 </div>
@@ -145,7 +154,7 @@
                                 <option value='' selected disabled>Please select</option>
                                 <option value="Male">Male</option>
                                 <option value="FeMale">FeMale</option>
-                                <option value="others">Others</option>
+                                <option value="others">Other</option>
                             </select>
                             <span class="text-danger"
                                 *ngIf="StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors">
@@ -549,14 +558,13 @@
 
                 <div class="col-sm-12 mt-4">
                     <div class="pl-2" style="margin-left: 50px;">
-                        <input [checked]="StudentEnquiryForm.value.s_declare == true"
-                         formArrayName="s_declare" (change)="selectedSub($event)"
-                            style="height: 20px;width: 20px;" type="checkbox" class="form-check-input  mt-1 "
-                            name="option1" value="something" required>
+                        <input [checked]="StudentEnquiryForm.value.s_declare == true" formArrayName="s_declare"
+                            (change)="selectedSub($event)" style="height: 20px;width: 20px;" type="checkbox"
+                            class="form-check-input  mt-1 " name="option1" value="something" required>
                         <label class="p-2" style="margin: auto;font-weight: 700;">I declare that the
                             particulars given
                             above are correct and best my knowledge and will strictly follow the rules and
-                            regulations of the school</label>                           
+                            regulations of the school</label>
                     </div>
                 </div>
 

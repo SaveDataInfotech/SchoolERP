@@ -10,17 +10,31 @@ export class studentProfileService {
   constructor(private http: HttpClient) {
   }
 
-
-
-  getMaxId(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StaffType/get_MaxId_staff_type');
+  searchstudentDetails(searchAdmissionNo:any): Observable<any[]> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_Student_details_ByAd?admission_no='+searchAdmissionNo,httpOptions);
   }
 
 
-  addNewStudent(studentinsert: any): Observable<any> {
+  studentDetails(studentinsert: any): Observable<any> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'StudentProfile/insert_student_profile', studentinsert, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'StudentProfile/insert_student_profile_details', studentinsert, httpOptions);
+  }
+
+
+  PersonalDetails(studentinsert: any,searchAdmissionNo:any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'StudentProfile/Update_student_profile_personal_details?admission_no='+searchAdmissionNo,studentinsert, httpOptions);
+  }
+
+
+  studentOtherDetails(studentinsert: any,searchAdmissionNo:any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'StudentProfile/Update_student_profile_personal_details?admission_no='+searchAdmissionNo,studentinsert, httpOptions);
   }
 
 

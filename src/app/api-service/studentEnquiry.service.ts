@@ -83,4 +83,10 @@ export class studentEnquiryService {
       const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
       return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/get_student_enquiry_search?s_admission='+s_admission,httpOptions);
     }
+
+    removeAllRegister(): Observable<any> {
+      debugger;
+      const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+      return this.http.put<any>(this.apiUrl + 'StudentEnquiry/Update_student_enquiry_remove_all', httpOptions);
+    }
 }

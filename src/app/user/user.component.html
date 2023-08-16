@@ -1,84 +1,186 @@
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <!-- <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">supervised_user_circle</mat-icon>
-            </div> -->
             <div style="float: left;width: 400px;">
-                <h3 class="ml-1">New User</h3>
+                <h3 class="ml-1">User Profile</h3>
             </div>
         </div>
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form [formGroup]="userForm">
+            <form [formGroup]="userProfileForm" (ngSubmit)="newUserProfile()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">UserID</label>
+                            <label class="pt-2" style="margin: auto;">UserID</label>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required readonly>
-                        </div>
+                        <span  style="float: left;width: 250px;" *ngIf="buttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxId">
+                                <input placeholder="00{{code.userid+1}}" class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span style="float: left;width: 250px;" *ngIf="buttonId != true">
+                            <div class="inputdiv">
+                                <input formControlName="userid" class="form-control" type="text" readonly required>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">User Name</label>
+                            <label class="pt-2" style="margin: auto;">Role Type<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required readonly>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Role Type</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>SuperAdmin</option>
-                                <option>Admin</option>                        
+                            <select required
+                                [ngClass]="{'is-invalid':userProfileForm.controls.role_name.touched && userProfileForm.controls.role_name.errors}"
+                                formControlName="role_name" style="width: 100%;" class="form-control "
+                                name="selectAction">
+                                <option value="" selected disabled>Please Select</option>
+                                <option value="SuperAdmin">SuperAdmin</option>
+                                <option value="Admin">Admin</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Staff No</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input class="form-control" formControlName="no"  #t (change)="filterStaffName(t.value)" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="userProfileForm.controls.role_name.touched && userProfileForm.controls.role_name.errors">
+                                <div
+                                    *ngIf="userProfileForm.controls.role_name.touched && userProfileForm.controls.role_name.errors.required">
+                                    Role Type is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Email</label>
+                            <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input class="form-control" formControlName="staff_no" type="number">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Password</label>
+                            <label class="pt-2" style="margin: auto;">User Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="user_name" class="form-control" type="text">
                         </div>
                     </div>
-                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Phone <span class="text-danger"> *</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input (keypress)="numberOnly($event)" minlength="10" maxlength="10"
+                                [ngClass]="{'is-invalid':userProfileForm.controls.phone.touched && userProfileForm.controls.phone.errors}"
+                                formControlName="phone" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="userProfileForm.controls.phone.touched && userProfileForm.controls.phone.errors">
+                                <div
+                                    *ngIf="userProfileForm.controls.phone.touched && userProfileForm.controls.phone.errors.required">
+                                    Phone number is required
+                                </div>
+                                <div *ngIf="userProfileForm.controls.phone.errors.minlength">
+                                    Phone number must be 10 numbers
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Email<span class="text-danger"> *</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':userProfileForm.controls.email.touched && userProfileForm.controls.email.errors}"
+                                formControlName="email" class="form-control" type="text">
+                            <span class="text-danger"
+                                *ngIf="userProfileForm.controls.email.touched && userProfileForm.controls.email.errors">
+                                <div
+                                    *ngIf="userProfileForm.controls.email.touched && userProfileForm.controls.email.errors.required">
+                                    Email is required
+                                </div>
+                                <div
+                                    *ngIf="userProfileForm.controls.email.touched && userProfileForm.controls.email.errors.pattern">
+                                    Invalid input
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Password<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="input-group" style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':userProfileForm.controls.password.touched && userProfileForm.controls.password.errors}"
+                                formControlName="password" [type]="showPassword ? 'text' : 'password'" minlength="5"
+                                class="form-control" type="password" required>
+
+                            <span style="color: blue;font-size: large;max-height: 38px;" alt="show"
+                                class="fa fa-eye fa-eye-show pt-2 input-group-text"
+                                (click)="showPassword = !showPassword" [class.hide]="showPassword"></span>
+                            <span style="color: red;font-size: large;" alt="hide"
+                                class="fa fa-eye fa-eye-slash pt-2 input-group-text"
+                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></span>
+
+                            <span class="text-danger" style="float: left;min-width: 240px;max-height: 38px;"
+                                *ngIf="userProfileForm.controls.password.touched && userProfileForm.controls.password.errors">
+                                <div
+                                    *ngIf="userProfileForm.controls.password.touched && userProfileForm.controls.password.errors.required">
+                                    Password is required
+                                </div>
+                                <div *ngIf="userProfileForm.controls.password.errors.minlength">
+                                    Password must be at least 5 characters long.
+                                </div>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Confirm Password<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input minlength="5"
+                                [ngClass]="{'is-invalid':userProfileForm.controls.c_password.touched && userProfileForm.controls.c_password.errors}"
+                                formControlName="c_password" class="form-control" type="password" required>
+                            <span class="text-danger"
+                                *ngIf="userProfileForm.controls.c_password.touched && userProfileForm.controls.c_password.errors">
+                                <div
+                                    *ngIf="userProfileForm.controls.c_password.touched && userProfileForm.controls.c_password.errors.required">
+                                    Confirm Password is required
+                                </div>
+                                <div *ngIf="userProfileForm.controls.c_password.errors.minlength">
+                                    Password must be at least 5 characters long.
+                                </div>
+                            </span>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="button" style="width: 80px;" (click)="cancelClick()"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
-        </form>
+            </form>
         </mat-card-content>
     </mat-card>
 </div>
