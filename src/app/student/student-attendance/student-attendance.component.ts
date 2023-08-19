@@ -120,54 +120,120 @@ export class StudentAttendanceComponent implements OnInit {
 
   studentAttendanceForm = new FormGroup({
     attendanceid: new FormControl(0),
-    date: new FormControl(),
+    date: new FormControl(this.today),
     classid: new FormControl(0),
     groupid: new FormControl(0),
     sectionid: new FormControl(0),
-    leaveselectStudent: new FormArray([
+    cuid: new FormControl(1),
+    fn:new FormArray([
       new FormGroup({
-        profileid: new FormControl(),
-        admission_no: new FormControl(),
-        student_name: new FormControl(),
-        fn: new FormControl(),
-        an: new FormControl(),
+        admission_no:new FormControl(''),
+        fnisselected:new FormControl(false)
       })
     ]),
-    cuid: new FormControl(1),
+    an:new FormArray([
+      new FormGroup({
+        admission_no:new FormControl(''),
+        anisselected:new FormControl(false)
+      })
+    ])
   })
 
   getControls() {
-    return (this.studentAttendanceForm.get('leaveselectStudent') as FormArray).controls;
+    //return (this.studentAttendanceForm.get('leaveselectStudent') as FormArray).controls;
   }
+
+  arrayform = new FormGroup({
+    student: new FormArray([
+      new FormGroup({
+        attendanceid: new FormControl(0),
+        classid: new FormControl(0),
+        groupid: new FormControl(0),
+        sectionid: new FormControl(0),
+        admission_no: new FormControl(''),
+        profileid: new FormControl(0),
+        student_name: new FormControl(''),
+        date: new FormControl(this.studentAttendanceForm.value.date),
+        cuid: new FormControl(1)
+      })
+    ])
+  })
 
   searchStudentByClass() {
     let classid: number = (this.studentAttendanceForm.value.classid);
     let groupid: number = (this.studentAttendanceForm.value.groupid);
     let sectionid: number = (this.studentAttendanceForm.value.sectionid);
-    //let date: any = (this.studentAttendanceForm.value.date);
-    this.sAdSvc.searchStudentByClass(classid, groupid, sectionid, this.today).subscribe(data => {
+    let date: any = (this.studentAttendanceForm.value.date);
+    this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
+      debugger;
       this.studentList = data;
+      console.log(this.studentList);
+      if (this.studentList.length == 0) {
+        this.sAdSvc.searchStudentByClass(classid, groupid, sectionid).subscribe(data => {
+          debugger;
+        const newstudentList = data;
 
-      const control = <FormArray>this.studentAttendanceForm.controls['leaveselectStudent'];
-      control.removeAt(0);
+          const control = <FormArray>this.arrayform.controls['student'];
+          control.removeAt(0);
+          newstudentList.forEach(element => {
+            control.push(
+              new FormGroup({
+                attendanceid: new FormControl(element.attendanceid),
+                classid: new FormControl(element.classid),
+                groupid: new FormControl(element.groupid),
+                sectionid: new FormControl(element.sectionid),
+                admission_no: new FormControl(element.admission_no),
+                profileid: new FormControl(element.profileid),
+                student_name: new FormControl(element.student_name),
+                date: new FormControl(this.studentAttendanceForm.value.date),
+                cuid: new FormControl(1)
+              })
+            )
+          });
 
-      this.studentList.forEach(element => {
-        const control = <FormArray>this.studentAttendanceForm.controls['leaveselectStudent'];
-        control.push(
-          new FormGroup({
-            profileid: new FormControl(element.profileid),
-            admission_no: new FormControl(element.admission_no),
-            student_name: new FormControl(element.student_name),
-            fn: new FormControl(false),
-            an: new FormControl(false)
-          })
-        )
+          let Form = JSON.stringify(this.arrayform.value);
+          this.sAdSvc.newAttendance(Form).subscribe(res => {
+            console.log(res, 'resss')
+            if (res?.recordid) {
+              this.arrayform.reset();
+              this.notificationSvc.success("Saved Success")
+              this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
+                debugger;
+                this.studentList = data;
+                console.log(this.studentList);
+              });
+            }
+          });
+        });
       }
-      )
     });
-    //console.log(staffTypeid,'yy'); // bharath
-    //this.stafftypeForm.patchValue(staffTypeid);
+
   }
+
+
+  allComplete: boolean = false;
+
+  updateAllComplete() {
+    this.allComplete = this.studentAttendanceForm.value.fn != null && this.studentAttendanceForm.value.fn.every(t => t.fnisselected);
+  }
+
+  someComplete(): boolean {
+    if (this.studentAttendanceForm.value.fn == null) {
+      return false;
+    }
+    return this.studentAttendanceForm.value.fn.filter(t => t.fnisselected).length > 0 && !this.allComplete;
+  }
+
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+    if (this.studentAttendanceForm.value.fn == null) {
+      return;
+    }
+    this.studentAttendanceForm.value.fn.forEach(t => (t.fnisselected = completed));
+  }
+
+
+
 
   profileidarray: any[] = [];
   admission_no: any[] = [];
@@ -202,40 +268,40 @@ export class StudentAttendanceComponent implements OnInit {
   };
 
   markAttendance() {
-    debugger;
-      if (this.studentAttendanceForm.value.attendanceid == 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              var leaveAssigninsert = (this.studentAttendanceForm.value);
-              this.sAdSvc.newAttendance(leaveAssigninsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
-          
-                }
-              });
-            }
-          });
-      }
-      else {
-        alert()
-      }
+    // debugger;
+    //   if (this.studentAttendanceForm.value.attendanceid == 0) {
+    //     this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+    //       .afterClosed().subscribe(res => {
+    //         if (res == true) {
+    //           var leaveAssigninsert = (this.studentAttendanceForm.value);
+    //           this.sAdSvc.newAttendance(leaveAssigninsert).subscribe(res => {
+    //             console.log(res, 'resss')
+    //             if (res?.recordid) {
+    //               this.notificationSvc.success("Saved Success")
+
+    //             }
+    //           });
+    //         }
+    //       });
+    //   }
+    //   else {
+    //     alert()
+    //   }
   }
 
 
   cancelClickAssign() {
     this.studentAttendanceForm.reset();
-    this.studentAttendanceForm.get('attendanceid')?.setValue(0);
-    this.studentAttendanceForm.get('date')?.setValue(this.today);
-    this.studentAttendanceForm.get('classid')?.setValue(0);
-    this.studentAttendanceForm.get('groupid')?.setValue(0);
-    this.studentAttendanceForm.get('sectionid')?.setValue(0);
-    this.studentAttendanceForm.get(['profileid'])?.setValue(0);
-    this.studentAttendanceForm.get(['admission_no'])?.setValue('');
-    this.studentAttendanceForm.get(['student_name'])?.setValue('');
-    this.studentAttendanceForm.get(['fn'])?.setValue(false);
-    this.studentAttendanceForm.get(['an'])?.setValue(false);
-    this.studentAttendanceForm.get('cuid')?.setValue(1);
+    // this.studentAttendanceForm.get('attendanceid')?.setValue(0);
+    // this.studentAttendanceForm.get('date')?.setValue(this.today);
+    // this.studentAttendanceForm.get('classid')?.setValue(0);
+    // this.studentAttendanceForm.get('groupid')?.setValue(0);
+    // this.studentAttendanceForm.get('sectionid')?.setValue(0);
+    // this.studentAttendanceForm.get(['profileid'])?.setValue(0);
+    // this.studentAttendanceForm.get(['admission_no'])?.setValue('');
+    // this.studentAttendanceForm.get(['student_name'])?.setValue('');
+    // this.studentAttendanceForm.get(['fn'])?.setValue(false);
+    // this.studentAttendanceForm.get(['an'])?.setValue(false);
+    // this.studentAttendanceForm.get('cuid')?.setValue(1);
   }
 }

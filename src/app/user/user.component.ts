@@ -10,8 +10,8 @@ import { userProfileService } from '../api-service/userProfile.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
-  MaxId:any=[];
+  UsersList: any = [];
+  MaxId: any = [];
   buttonId: boolean = true;
 
   public showPassword: boolean;
@@ -25,7 +25,8 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.cancelClick();
-    this. getMaxId();
+    this.getMaxId();
+    this.refreshsUsersList();
   }
 
 
@@ -43,16 +44,22 @@ export class UserComponent implements OnInit {
     role_name: new FormControl(''),
     staff_no: new FormControl(),
     phone: new FormControl(''),
-    email: new FormControl('', [Validators.required,Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
     password: new FormControl(''),
     c_password: new FormControl(''),
     cuid: new FormControl(1),
   })
 
+  refreshsUsersList() {
+    this.userSvc.getUsersList().subscribe(data => {
+      this.UsersList = data;
+      console.log(this.UsersList)
+    });
+  }
+
   getMaxId() {
     this.userSvc.getMaxId().subscribe(data => {
       this.MaxId = data;
-      console.log(this.MaxId)
     });
   }
 
@@ -69,8 +76,8 @@ export class UserComponent implements OnInit {
                   debugger;
                   if (res.status == 'Saved successfully') {
                     this.notificationSvc.success("Saved Success")
-                    // this.refresupplierTypeList();
-                    this. getMaxId();
+                    this.refreshsUsersList();
+                    this.getMaxId();
                     this.cancelClick();
                   }
                   else if (res.status == 'User exists') {
@@ -94,9 +101,9 @@ export class UserComponent implements OnInit {
                 this.userSvc.newUserProfile(userInsert).subscribe(res => {
                   if (res.status == 'Saved successfully') {
                     this.notificationSvc.success("Updated Success")
-                    // this.refresupplierTypeList();
-                    this. getMaxId();
-                     this.cancelClick();
+                    this.refreshsUsersList();
+                    this.getMaxId();
+                    this.cancelClick();
                   }
                   else if (res.status == 'User exists') {
                     this.notificationSvc.error("User alredy exists")
@@ -122,7 +129,37 @@ export class UserComponent implements OnInit {
   }
 
 
-  cancelClick(){
+  deleteClick(userid: number) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.userSvc.deleteuser(userid).subscribe(res => {
+            if (res?.recordid) {
+              this.notificationSvc.error("Deleted Success")
+              this.cancelClick();
+              this.getMaxId();
+              this.refreshsUsersList();
+            }
+          });
+        }
+      });
+  }
+
+  updateGetClick(user: any) {
+    this.userProfileForm.get('userid')?.setValue(user.userid);
+    this.userProfileForm.get('user_name')?.setValue(user.user_name);
+    this.userProfileForm.get('role_name')?.setValue(user.role_name);
+    this.userProfileForm.get('staff_no')?.setValue(user.staff_no);
+    this.userProfileForm.get('phone')?.setValue(user.phone);
+    this.userProfileForm.get('email')?.setValue(user.email);
+    this.userProfileForm.get('password')?.setValue(user.password);
+    this.userProfileForm.get('c_password')?.setValue(user.password);
+    this.userProfileForm.get('cuid')?.setValue(user.cuid);
+    this.buttonId = false;
+  }
+
+
+  cancelClick() {
     this.userProfileForm.reset();
     this.userProfileForm.get('role_name')?.setValue('');
     this.buttonId = true;

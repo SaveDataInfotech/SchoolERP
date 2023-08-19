@@ -8,15 +8,15 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form [formGroup]="studentAttendanceForm" >
+            <form [formGroup]="studentAttendanceForm">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date"
-                                required>
+                            <input placeholder="Enter 10-th Mark" formControlName="date" [value]="today"
+                                class="form-control" type="date" required>
                         </div>
                     </div>
                 </div>
@@ -75,26 +75,28 @@
                 </div>
             </form>
             <form [formGroup]="studentAttendanceForm" (ngSubmit)="markAttendance()">
-                <table  class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
+                <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
                     <thead>
                         <tr>
                             <th>Si.No</th>
                             <th>A.NO</th>
                             <th>Student Name</th>
-                            <th>FN <input style="height: 15px;width: 15px;" type="checkbox"
-                                    class="form-check-input ml-2" value="something"></th>
+                            <th>FN<mat-checkbox [checked]="allComplete" [indeterminate]="someComplete()"
+                                    (change)="setAll($event.checked)" style="height: 15px;width: 15px;" type="checkbox"
+                                    class="form-check-input ml-2" value="something">
+                                </mat-checkbox></th>
                             <th>AN <input style="height: 15px;width: 15px;" type="checkbox"
                                     class="form-check-input ml-1" value="something"></th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         <tr *ngFor="let student of studentList;let i=index;">
                             <td>{{i+1}}</td>
                             <td>{{student.admission_no}}</td>
                             <td>{{student.student_name}}</td>
                             <!-- (change)="selectedStudent($event,student)" -->
-                            <td><input value=true
-                                    style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
+                            <td> <mat-checkbox [checked]  (ngModelChange)="updateAllComplete()">
+                                </mat-checkbox>
                             </td>
                             <td><input value=true style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
                                     value="something">

@@ -22,7 +22,7 @@ import {MatChipsModule} from '@angular/material/chips';
 
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -41,7 +41,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,NgxDropzoneModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,
+    NgxDropzoneModule,MatProgressSpinnerModule
   ],
   providers:[DatePipe],
   bootstrap:[StudentEnquiryComponent]

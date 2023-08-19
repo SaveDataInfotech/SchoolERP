@@ -39,7 +39,7 @@ export class StudentProfileComponent implements OnInit {
 
   FeesTypeAssignFillterList: any = [];
   vehicleNoRootList: any = [];
-  searchStudentData:any=[];
+  searchStudentData: any = [];
 
   constructor(private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
@@ -210,25 +210,25 @@ export class StudentProfileComponent implements OnInit {
     admission_no: new FormControl('')
   })
 
-  
+
   searchByAdmissionNo() {
     debugger;
-   let searchAdmissionNo = (this.searchForm.value.admission_no);
+    let searchAdmissionNo = (this.searchForm.value.admission_no);
     this.studProSvc.searchstudentDetails(searchAdmissionNo).subscribe(data => {
-      this.searchStudentData=data;
+      this.searchStudentData = data;
       this.searchStudentData.forEach(element => {
         this.studentDetailsForm.patchValue(element)
 
         this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == element.classid });
-        if (this.groupFilterlist.length == 0) {         
-          this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == element.classid });    
+        if (this.groupFilterlist.length == 0) {
+          this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == element.classid });
         }
-        else{
+        else {
           this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == element.groupid });
         }
-       
+
       });
-    });    
+    });
   }
 
   studentDetailsForm = new FormGroup({
@@ -284,12 +284,6 @@ export class StudentProfileComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
   studentPersonalDetailsForm = new FormGroup({
     bloodgroup: new FormControl(''),
     phy_challanged: new FormControl(''),
@@ -313,18 +307,18 @@ export class StudentProfileComponent implements OnInit {
     debugger;
     let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
     if (this.studentPersonalDetailsForm.valid) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var studentinsert = (this.studentPersonalDetailsForm.value);
-              this.studProSvc.PersonalDetails(studentinsert,searchAdmissionNo).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                 
-                }
-              });
-            }
-          });
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            debugger;
+            var studentinsert = (this.studentPersonalDetailsForm.value);
+            this.studProSvc.PersonalDetails(studentinsert, searchAdmissionNo).subscribe(res => {
+              if (res?.recordid) {
+                this.notificationSvc.success("Saved Success")
+              }
+            });
+          }
+        });
     }
     else {
       this.studentPersonalDetailsForm.markAllAsTouched();
@@ -362,6 +356,7 @@ export class StudentProfileComponent implements OnInit {
   placeOfBo(id: any) {
     debugger;
     let idn = Number(id);
+    this.studentOtherDetailsForm.get('root_no')?.setValue(idn);
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.placeid == idn });
   }
 
@@ -398,9 +393,9 @@ export class StudentProfileComponent implements OnInit {
     hostel: new FormControl(''),
     bus_status: new FormControl(''),
     root_no: new FormControl(),
-    boading_place: new FormControl(),
+    boading_place: new FormControl(''),
     busdistance: new FormControl(),
-    amount: new FormControl(),
+    amount: new FormControl(678),
     sibling_status: new FormControl(''),
     sibling: new FormArray([
       new FormGroup({
@@ -415,18 +410,18 @@ export class StudentProfileComponent implements OnInit {
     debugger;
     let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
     if (this.studentOtherDetailsForm.valid) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var studentinsert = (this.studentOtherDetailsForm.value);
-              this.studProSvc.studentOtherDetails(studentinsert,searchAdmissionNo).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                 
-                }
-              });
-            }
-          });
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            debugger;
+            var studentinsert = (this.studentOtherDetailsForm.value);
+            this.studProSvc.studentOtherDetails(studentinsert, searchAdmissionNo).subscribe(res => {
+              if (res?.recordid) {
+                this.notificationSvc.success("Saved Success")
+              }
+            });
+          }
+        });
     }
     else {
       this.studentOtherDetailsForm.markAllAsTouched();
@@ -434,15 +429,7 @@ export class StudentProfileComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
-
+  ////////////
   studentCertificateForm = new FormGroup({
     birth_xerox: new FormControl(),
     birth_original: new FormControl(),
@@ -454,169 +441,4 @@ export class StudentProfileComponent implements OnInit {
     tc_original: new FormControl(),
     tc_date_submission: new FormControl()
   })
-
-
-
-  // studentProfileForm = new FormGroup({
-  //   profileid: new FormControl(0),
-  //   enquiryid: new FormControl(null, [Validators.required]),
-  //   admission_no: new FormControl('', [Validators.required]),
-  //   roll_no: new FormControl('', [Validators.required]),
-  //   classid: new FormControl(0),
-  //   groupid: new FormControl(0),
-  //   sectionid: new FormControl(0),
-  //   mark_10: new FormControl(''),
-  //   emis_no: new FormControl('', [Validators.required]),
-  //   aadhar: new FormControl('', [Validators.required]),
-  //   gender: new FormControl('', [Validators.required]),
-  //   student_name: new FormControl('', [Validators.required]),
-  //   student_name_t: new FormControl('', [Validators.required]),
-  //   dob: new FormControl(''),
-  //   phy_challanged: new FormControl(''),
-  //   nationality: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
-  //   religion: new FormControl('', [Validators.required]),
-  //   community: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
-  //   caste: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
-  //   bloodgroup: new FormControl('', [Validators.required]),
-  //   place: new FormControl('', [Validators.required]),
-  //   address: new FormControl('', [Validators.required]),
-  //   feesless: new FormControl(''),
-  //   rt_student: new FormControl(''),
-  //   i_m_1: new FormControl('', [Validators.required]),
-  //   i_m_2: new FormControl('', [Validators.required]),
-  //   l_class: new FormControl(''),
-  //   l_school: new FormControl(''),
-  //   l_stream: new FormControl(''),
-  //   l_medium: new FormControl(''),
-  //   sibling_status: new FormControl(''),
-  //   sibling_name: new FormControl(''),
-  //   sibling_classid: new FormControl(0),
-  //   bus_status: new FormControl(''),
-  //   boading_place: new FormControl(''),
-  //   root_no: new FormControl(''),
-  //   dayscholar: new FormControl(''),
-  //   hostel: new FormControl(''),
-  //   father_name: new FormControl('', [Validators.required]),
-  //   f_occupation: new FormControl(''),
-  //   f_qualification: new FormControl(''),
-  //   f_ph: new FormControl('', [Validators.required]),
-  //   f_email: new FormControl(''),
-  //   mother_name: new FormControl('', [Validators.required]),
-  //   m_occupation: new FormControl(''),
-  //   m_qualification: new FormControl(''),
-  //   m_ph: new FormControl(''),
-  //   birth_xerox: new FormControl(false),
-  //   birth_original: new FormControl(false),
-  //   birth_date_submission: new FormControl(this.today),
-  //   community_xerox: new FormControl(false),
-  //   community_original: new FormControl(false),
-  //   community_date_submission: new FormControl(this.today),
-  //   tc_xerox: new FormControl(false),
-  //   tc_original: new FormControl(false),
-  //   tc_date_submission: new FormControl(this.today),
-  //   img: new FormControl(''),
-  //   cuid: new FormControl(1)
-  // })
-
-
-  // newEnquiry() {
-  //   debugger;
-  //   if (this.studentProfileForm.valid) {
-  //     if (this.studentProfileForm.value.profileid == 0) {
-  //       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-  //         .afterClosed().subscribe(res => {
-  //           if (res == true) {
-  //             debugger;
-  //             var studentinsert = (this.studentProfileForm.value);
-  //             this.studProSvc.addNewStudent(studentinsert).subscribe(res => {
-  //               if (res?.recordid) {
-  //                 this.notificationSvc.success("Saved Success")
-  //                 //this.getMaxId();
-  //                 this.cancelclick();
-  //               }
-  //             });
-  //           }
-  //         });
-  //     }
-  //     else if (this.studentProfileForm.value.profileid != 0) {
-  //     }
-  //   }
-  //   else {
-  //     this.studentProfileForm.markAllAsTouched();
-  //     alert();
-  //   }
-  // }
-
-  // refershcancelclick() {
-  //   sessionStorage.removeItem("selectd");
-  //   this.studentProfileForm.get('birth_date_submission')?.setValue(this.today);
-  //   this.studentProfileForm.get('community_xerox')?.setValue(false);
-  //   this.studentProfileForm.get('community_original')?.setValue(false);
-  //   this.studentProfileForm.get('community_date_submission')?.setValue(this.today);
-  //   this.studentProfileForm.get('tc_xerox')?.setValue(false);
-  //   this.studentProfileForm.get('tc_original')?.setValue(false);
-  //   this.studentProfileForm.get('tc_date_submission')?.setValue(this.today);
-  // }
-  // cancelclick() {
-  //   sessionStorage.removeItem("selectd");
-  //   this.studentProfileForm.reset();
-  //   this.studentProfileForm.get('profileid')?.setValue(0);
-  //   this.studentProfileForm.get('enquiryid')?.setValue(null);
-  //   this.studentProfileForm.get('admission_no')?.setValue('');
-  //   this.studentProfileForm.get('roll_no')?.setValue('');
-  //   this.studentProfileForm.get('classid')?.setValue(0);
-  //   this.studentProfileForm.get('groupid')?.setValue(0);
-  //   this.studentProfileForm.get('sectionid')?.setValue(0);
-  //   this.studentProfileForm.get('mark_10')?.setValue('');
-  //   this.studentProfileForm.get('emis_no')?.setValue('');
-  //   this.studentProfileForm.get('aadhar')?.setValue('');
-  //   this.studentProfileForm.get('gender')?.setValue('');
-  //   this.studentProfileForm.get('student_name')?.setValue('');
-  //   this.studentProfileForm.get('student_name_t')?.setValue('');
-  //   this.studentProfileForm.get('dob')?.setValue('');
-  //   this.studentProfileForm.get('phy_challanged')?.setValue('');
-  //   this.studentProfileForm.get('nationality')?.setValue('');
-  //   this.studentProfileForm.get('religion')?.setValue('');
-  //   this.studentProfileForm.get('community')?.setValue('');
-  //   this.studentProfileForm.get('caste')?.setValue('');
-  //   this.studentProfileForm.get('bloodgroup')?.setValue('');
-  //   this.studentProfileForm.get('place')?.setValue('');
-  //   this.studentProfileForm.get('address')?.setValue('');
-  //   this.studentProfileForm.get('feesless')?.setValue('');
-  //   this.studentProfileForm.get('rt_student')?.setValue('');
-  //   this.studentProfileForm.get('i_m_1')?.setValue('');
-  //   this.studentProfileForm.get('i_m_2')?.setValue('');
-  //   this.studentProfileForm.get('l_class')?.setValue('');
-  //   this.studentProfileForm.get('l_school')?.setValue('');
-  //   this.studentProfileForm.get('l_stream')?.setValue('');
-  //   this.studentProfileForm.get('l_medium')?.setValue('');
-  //   this.studentProfileForm.get('sibling_status')?.setValue('');
-  //   this.studentProfileForm.get('sibling_name')?.setValue('');
-  //   this.studentProfileForm.get('sibling_classid')?.setValue(0);
-  //   this.studentProfileForm.get('bus_status')?.setValue('');
-  //   this.studentProfileForm.get('boading_place')?.setValue('');
-  //   this.studentProfileForm.get('root_no')?.setValue('');
-  //   this.studentProfileForm.get('dayscholar')?.setValue('');
-  //   this.studentProfileForm.get('hostel')?.setValue('');
-  //   this.studentProfileForm.get('father_name')?.setValue('');
-  //   this.studentProfileForm.get('f_occupation')?.setValue('');
-  //   this.studentProfileForm.get('f_qualification')?.setValue('');
-  //   this.studentProfileForm.get('f_ph')?.setValue('');
-  //   this.studentProfileForm.get('f_email')?.setValue('');
-  //   this.studentProfileForm.get('mother_name')?.setValue('');
-  //   this.studentProfileForm.get('m_occupation')?.setValue('');
-  //   this.studentProfileForm.get('m_qualification')?.setValue('');
-  //   this.studentProfileForm.get('m_ph')?.setValue('');
-  //   this.studentProfileForm.get('birth_xerox')?.setValue(false);
-  //   this.studentProfileForm.get('birth_original')?.setValue(false);
-  //   this.studentProfileForm.get('birth_date_submission')?.setValue(this.today);
-  //   this.studentProfileForm.get('community_xerox')?.setValue(false);
-  //   this.studentProfileForm.get('community_original')?.setValue(false);
-  //   this.studentProfileForm.get('community_date_submission')?.setValue(this.today);
-  //   this.studentProfileForm.get('tc_xerox')?.setValue(false);
-  //   this.studentProfileForm.get('tc_original')?.setValue(false);
-  //   this.studentProfileForm.get('tc_date_submission')?.setValue(this.today);
-  //   this.studentProfileForm.get('img')?.setValue('');
-  //   this.studentProfileForm.get('cuid')?.setValue(1);
-  // }
 }

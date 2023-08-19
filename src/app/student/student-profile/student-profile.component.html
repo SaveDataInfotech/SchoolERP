@@ -719,8 +719,8 @@
                 </form>
             </mat-tab>
             <mat-tab label="Other Details">
-                <form [formGroup]="studentOtherDetailsForm">
-                    <div class="container mt-4">
+                <form [formGroup]="studentOtherDetailsForm" (ngSubmit)="newstudentOtherDetailss()">
+                    <div class="container mt-4 mb-3">
                         <div class="row mt-1">
                             <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
@@ -818,7 +818,7 @@
                                             <label class="pt-2" style="margin: auto;">Sibling Name</label>
                                         </div>
                                         <div class="inputdiv">
-                                            <input formControlName="sibling_name" class="form-control" type="text">
+                                            <input formControlName="Sibling_name" class="form-control" type="text">
                                         </div>
                                     </div>
 
@@ -901,7 +901,7 @@
                                     <label class="pt-2" style="margin: auto;">Bus Distance</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select formControlName="busdistance" style="width: 100%;" class="form-control " name="selectAction">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [ngValue]="fees.type_assignid"
                                             *ngFor="let fees of FeesTypeAssignFillterList;">
@@ -920,7 +920,7 @@
                                     <select #b (change)="placeOfBo(b.value)" style="width: 100%;" class="form-control "
                                         name="selectAction">
                                         <option value=null selected disabled>Please select</option>
-                                        <option value={{VehicleRoot.vehicle_no_id}}
+                                        <option [ngValue]="VehicleRoot.vehicle_no_id"
                                             *ngFor="let VehicleRoot of vehicleNoRootList;">
                                             {{VehicleRoot.vehicle_root_no}}</option>
                                     </select>
@@ -932,12 +932,21 @@
                                     <label class="pt-2" style="margin: auto;">Place of Boading</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" formControlName="boading_place" class="form-control " name="selectAction">
                                         <option value=null selected disabled>Please select</option>
-                                        <option *ngFor="let place of placefilterList;">
+                                        <option value={{place.place}} *ngFor="let place of placefilterList;">
                                             {{place.place}}</option>
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mt-4">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" style="width: 130px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save & Continue" />
+                                <input matTooltip="Click to Cancel" 
+                                 type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </div>

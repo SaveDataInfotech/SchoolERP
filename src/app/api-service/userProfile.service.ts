@@ -10,9 +10,9 @@ export class userProfileService {
   constructor(private http: HttpClient) {
   }
 
-//   getstaffTypeList(): Observable<any[]> {
-//     return this.http.get<any[]>(this.apiUrl + 'StaffType/Get');
-//   }
+  getUsersList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'UserProfile/Get');
+  }
 
   getMaxId(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_MaxId_user_profile');
@@ -25,9 +25,9 @@ export class userProfileService {
   }
 
 
-//   deletestaffType(staffTypeid: any): Observable<any> {
-//     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-//     return this.http.delete<any>(this.apiUrl + 'StaffType/delete_staff_type?staffTypeid=' + staffTypeid, httpOptions);
-//   }
+  deleteuser(userid: any): Observable<any> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.delete<any>(this.apiUrl + 'UserProfile/delete_user_profile?userid=' + userid, httpOptions);
+  }
 
 }

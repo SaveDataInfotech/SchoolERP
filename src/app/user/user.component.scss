@@ -55,3 +55,19 @@ td{
 
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+.editbutton{
+  color:blue;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;    
+}
+
+.deletebutton{
+  color:red;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing:0.5px;
+  cursor: pointer;
+  font-size:medium;
+}

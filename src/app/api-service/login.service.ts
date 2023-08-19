@@ -3,36 +3,28 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class loginService{
-    readonly apiUrl = 'https://localhost:44314/api/';
+export class loginService {
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
-  loginGetClick(email:any,password:any): Observable<any[]> {
+  loginGetClick(email: any, password: any): Observable<any[]> {
     debugger;
-      const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-      return this.http.get<any[]>(this.apiUrl + 'Login?email='+email+'&password='+password,httpOptions);
-    }
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'Login?email=' + email + '&password=' + password, httpOptions);
+  }
 
-//   getsubjectList(): Observable<any[]> {
-//     return this.http.get<any[]>(this.apiUrl + 'Subject/Get');
-//   }
+  storeToken(tokenValue:string) {
+    localStorage.setItem('token',tokenValue)
+  }
 
-//   getMaxId(): Observable<any[]> {
-//     return this.http.get<any[]>(this.apiUrl + 'Subject/get_MaxId_subject');
-//   }
+  getToken(){
+    localStorage.getItem('token')
+  }
 
-
-//   addNewsubject(subjectinsert: any): Observable<any> {
-//     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-//     return this.http.post<any>(this.apiUrl + 'Subject/insert_subject', subjectinsert, httpOptions);
-//   }
-
-
-//   deletesubject(subjectid: any): Observable<any> {
-//     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-//     return this.http.delete<any>(this.apiUrl + 'Subject/delete_subject?subjectid=' + subjectid, httpOptions);
-//   }
+  isLoggedIn():boolean{
+    return !! localStorage.getItem('token')
+  }
 }

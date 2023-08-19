@@ -209,10 +209,10 @@ export class ClassComponent implements OnInit {
                   this.getGroupMaxId();
                   this.GroupcancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -232,10 +232,10 @@ export class ClassComponent implements OnInit {
                   this.getGroupMaxId();
                   this.GroupcancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -326,10 +326,10 @@ export class ClassComponent implements OnInit {
                   this.getSectionMaxId();
                   this.SectioncancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -348,10 +348,10 @@ export class ClassComponent implements OnInit {
                   this.getSectionMaxId();
                   this.SectioncancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });

@@ -183,4 +183,39 @@
             </form>
         </mat-card-content>
     </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>User Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of UsersList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{user.user_name}}</td>
+                            <td>{{user.role_name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phone}}</td>                           
+                            <td class="tdoption">
+                                <span class="m-2 editbutton"  (click)="updateGetClick(user)"
+                                ><b>edit</b></span>
+                                <span>||</span>
+                                <span class="m-2 deletebutton" (click)="deleteClick(user.userid)"
+                                    ><b>delete</b></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>
