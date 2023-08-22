@@ -1,116 +1,134 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div class="inputdiv">
-                <h3 class="ml-1">Student Attendance</h3>
+        <div class="col-sm-5">
+            <div style="float: left;width: 300px;display: flex;">
+                <h3 class="ml-1 mt-3">Student Attendance</h3>
             </div>
+        </div>
+        <div class="col-sm-6" style="text-align:right;cursor: pointer;float: right;" title="Click to Back"><button
+                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
         </div>
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form [formGroup]="studentAttendanceForm">
+            <form #AttendanceForm="ngForm" (ngSubmit)="save(studentList)">
                 <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                    <div class="col-sm-5">
+                        <div class="row">
+                            <div class="col-sm-12 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input [disabled]="serachDisabled == true" placeholder="Enter 10-th Mark"
+                                        name="date" [value]="today" [(ngModel)]="studentAttendanceForm.date"
+                                        class="form-control" type="date" required>
+                                </div>
+                            </div>
                         </div>
-                        <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" formControlName="date" [value]="today"
-                                class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                        <div class="row">
+                            <div class="col-sm-12 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select [(ngModel)]="studentAttendanceForm.classid" style="width: 100%;" #t
+                                        (change)="filterGroupfun(t.value)" class="form-control " name="classid">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [disabled]="serachDisabled == true" value={{class.classid}}
+                                            *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="inputdiv">
-                            <select formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
-                                class="form-control " name="selectAction">
-                                <option value=0 selected disabled>Please select</option>
-                                <option value={{class.classid}} *ngFor="let class of ClassList;">
-                                    {{class.class_name}}</option>
-                            </select>
+                        <div *ngIf="groupFilterlist.length != 0" class="row">
+                            <div class="col-sm-12 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select [(ngModel)]="studentAttendanceForm.groupid" style="width: 100%;" #s
+                                        (change)="filterSectionfun(s.value)" class="form-control" name="groupid">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [disabled]="serachDisabled == true" value={{group.groupid}}
+                                            *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-12 mt-3" style="display: flex;float: left;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Section</label>
+                                </div>
+                                <div style="display: flex;" class="inputdiv">
+                                    <select [(ngModel)]="studentAttendanceForm.sectionid" style="width: 100%;"
+                                        class="form-control " name="sectionid">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [disabled]="serachDisabled == true" [ngValue]="section.sectionid"
+                                            *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
+                                    </select>
+                                </div>
+                                <div class="mt-1">
+                                    <button style="float: left;" matTooltip="Click to Search"
+                                        (click)="searchStudentByClass()" type="button"
+                                        class="btn btn-primary btn-sm ml-2">Search<i
+                                            class="fa fa-search ml-2"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
-                        </div>
-                        <div class="inputdiv">
-                            <select formControlName="groupid" style="width: 100%;" #s
-                                (change)="filterSectionfun(s.value)" class="form-control " name="selectAction">
-                                <option value=0 selected disabled>Please select</option>
-                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
-                                    {{group.group_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
-                        </div>
-                        <div class="inputdiv">
-                            <select formControlName="sectionid" style="width: 100%;" class="form-control "
-                                name="selectAction">
-                                <option value=0 selected disabled>Please select</option>
-                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
-                                    {{section.section_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-sm-6 mt-4">
-                    <div style="text-align: center;">
-                        <button matTooltip="Click to Search" (click)="searchStudentByClass()" type="button"
-                            class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
-                    </div>
-                </div>
-            </form>
-            <form [formGroup]="studentAttendanceForm" (ngSubmit)="markAttendance()">
-                <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
-                    <thead>
-                        <tr>
-                            <th>Si.No</th>
-                            <th>A.NO</th>
-                            <th>Student Name</th>
-                            <th>FN<mat-checkbox [checked]="allComplete" [indeterminate]="someComplete()"
-                                    (change)="setAll($event.checked)" style="height: 15px;width: 15px;" type="checkbox"
-                                    class="form-check-input ml-2" value="something">
-                                </mat-checkbox></th>
-                            <th>AN <input style="height: 15px;width: 15px;" type="checkbox"
-                                    class="form-check-input ml-1" value="something"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let student of studentList;let i=index;">
-                            <td>{{i+1}}</td>
-                            <td>{{student.admission_no}}</td>
-                            <td>{{student.student_name}}</td>
-                            <!-- (change)="selectedStudent($event,student)" -->
-                            <td> <mat-checkbox [checked]  (ngModelChange)="updateAllComplete()">
-                                </mat-checkbox>
-                            </td>
-                            <td><input value=true style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                    value="something">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="col-sm-7">
+                        <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>A.NO</th>
+                                    <th>Student Name</th>
+                                    <th><mat-checkbox [disabled]="fni == true" class="example-margin matlabel"
+                                            [checked]="allComplete" [indeterminate]="fnsomeComplete()"
+                                            (change)="fnsetAll($event.checked)">FN
+                                        </mat-checkbox></th>
+                                    <th><mat-checkbox [disabled]="ani == true" class="example-margin matlabel"
+                                            [checked]="anAllComplete" [indeterminate]="ansomeComplete()"
+                                            (change)="ansetAll($event.checked)">AN
+                                        </mat-checkbox></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let student of studentList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{student.admission_no}}</td>
+                                    <td>{{student.student_name}}</td>
+                                    <td>
+                                        <input type="checkbox" name="fns{{i}}" #fns="ngModel" [disabled]="fni == true"
+                                            [(ngModel)]="student.fn" (ngModelChange)="fnupdateAllComplete()">
+                                        <span class="pl-2 text-success" *ngIf="student.fn == true"><b>P</b></span><span
+                                            class="pl-2 text-danger" *ngIf="student.fn == false"><b>A</b></span>
 
-                <div class="col-sm-8 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="button" (click)="cancelClickAssign()"
-                            style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                    </td>
+                                    <td><input [(ngModel)]="student.an" name="ans{{i}}" #ans="ngModel"
+                                            [disabled]="ani == true" (ngModelChange)="anupdateAllComplete()"
+                                            type="checkbox">
+                                        <span class="pl-2 text-success" *ngIf="student.an == true"><b>P</b></span><span
+                                            class="pl-2 text-danger" *ngIf="student.an == false"><b>A</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-sm-12 mt-4">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

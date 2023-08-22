@@ -243,8 +243,8 @@
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" (click)="CancelClickInAll()" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                <input matTooltip="Click to Cancel" (click)="CancelClickInAll()" type="reset"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -254,90 +254,99 @@
     </mat-tab>
 
     <mat-tab label="Individual Student">
-        <div class="container-fluid mb-2">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div class="inputdiv">
-                        <h3 class="ml-1">Student TC/Left/Long Absent</h3>
-                    </div>
-                </div>
-            </div>
+        <div class="container-fluid mt-4 mb-2">           
             <mat-card class="mt-2 matcard">
                 <mat-card-content>
                     <div class="row">
-                        <div class="col-sm-6 row mt-3">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Student TC/Left/Long Absent</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 mt-3">
                             <form [formGroup]="oneStudentTcLeftForm" (ngSubmit)="newTcApply()">
-                                <div class="col-sm-12" style="display: flex;">
-                                    <div class="labeldiv">
-                                        <label class="pt-2" style="margin: auto;">Admission No</label>
+                                <div class="row">
+                                    <div class="col-sm-12" style="display: flex;">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Admission No</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input [readonly]="serachDisabledone == true"  formControlName="admission_no" class="form-control" type="text"
+                                                >
+                                        </div>
                                     </div>
-                                    <div class="inputdiv">
-                                        <input formControlName="admission_no" class="form-control" type="text" required>
-                                    </div>
-                                </div>
 
-                                <div class="col-sm-12 ml-5">
-                                    <div style="text-align: center;">
-                                        <button matTooltip="Click to Search" type="button"
-                                            (click)="searchStudentByAdNo()" class="btn btn-primary btn-sm mt-3">Search<i
-                                                class="fa fa-search ml-2"></i></button>
+                                    <div class="col-sm-12 ml-5">
+                                        <div style="text-align: center;">
+                                            <button matTooltip="Click to Search" type="button"
+                                                (click)="searchStudentByAdNo()"
+                                                class="btn btn-primary btn-sm mt-3">Search<i
+                                                    class="fa fa-search ml-2"></i></button>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                                <div class="col-sm-12 mt-3" style="display: flex;">
-                                    <div class="labeldiv">
-                                        <label class="pt-2">Type</label>
+                                    <div class="col-sm-12 mt-3" style="display: flex;">
+                                        <div class="labeldiv">
+                                            <label class="pt-2">Type</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <select style="width: 100%;" formControlName="type" class="form-control "
+                                                name="selectAction">
+                                                <option value="" selected disabled>Please select</option>
+                                                <option value="Left">Left</option>
+                                                <option value="Long Absent">Long Absent</option>
+                                                <option value="TC">TC</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="inputdiv">
-                                        <select style="width: 100%;" formControlName="type" class="form-control "
-                                            name="selectAction">
-                                            <option value="" selected disabled>Please select</option>
-                                            <option value="Left">Left</option>
-                                            <option value="Long Absent">Long Absent</option>
-                                            <option value="TC">TC</option>
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div *ngIf="oneStudentTcLeftForm.value.type == 'TC'" style="display: flex;"
-                                    class="col-sm-12 mt-4">
-                                    <div class="labeldiv">
-                                        <label class="pt-2" style="margin: auto;">Tc No</label>
+                                    <div *ngIf="oneStudentTcLeftForm.value.type == 'TC'" style="display: flex;"
+                                        class="col-sm-12 mt-4">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Tc No</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="tcno" class="form-control" type="text" required>
+                                        </div>
                                     </div>
-                                    <div class="inputdiv">
-                                        <input formControlName="tcno" class="form-control" type="text" required>
-                                    </div>
-                                </div>
 
-                                <div style="display: flex;" class="col-sm-12 mt-4">
-                                    <div class="labeldiv">
-                                        <label class="pt-2" style="margin: auto;">Date</label>
+                                    <div style="display: flex;" class="col-sm-12 mt-4">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Date</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="date" [value]="today" class="form-control"
+                                                type="date" required>
+                                        </div>
                                     </div>
-                                    <div class="inputdiv">
-                                        <input formControlName="date" [value]="today" class="form-control" type="date" required>
-                                    </div>
-                                </div>
 
-                                <div style="display: flex;" class="col-sm-12 mt-4">
-                                    <div class="labeldiv">
-                                        <label class="pt-2" style="margin: auto;">Remarks</label>
+                                    <div style="display: flex;" class="col-sm-12 mt-4">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Remarks</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="remarks" class="form-control" type="text" required>
+                                        </div>
                                     </div>
-                                    <div class="inputdiv">
-                                        <input formControlName="remarks" class="form-control" type="text" required>
-                                    </div>
-                                </div>
 
-                                <div class="ml-5 col-sm-12" style="text-align: center;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mr-3 btn-sm mt-3" value="Save" />
-                                    <input matTooltip="Click to Cancel" type="button" (click)="CancelClickInTc()"
-                                        style="width: 80px;" class="btn btn-danger btn-sm mr-2 mt-3" value="Cancel" />
+                                    <div class="ml-5 col-sm-12" style="text-align: center;">
+                                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                            class="btn btn-primary mr-3 btn-sm mt-3" value="Save" />
+                                        <input matTooltip="Click to Cancel" type="button" (click)="CancelClickInTc()"
+                                            style="width: 80px;" class="btn btn-danger btn-sm mr-2 mt-3"
+                                            value="Cancel" />
+                                    </div>
                                 </div>
                             </form>
                         </div>
 
-                        <div *ngFor="let student of studentListByAd" class="col-sm-6  mt-3">
+                        <div *ngFor="let student of studentListByAd" class="col-sm-7  mt-3">
                             <mat-card style="background-color: rgb(195, 155, 233);" class="mt-2">
                                 <mat-card-content style="display: flex;width: 100%;">
                                     <div class="col-sm-12 row " style="font-size: 15px;">

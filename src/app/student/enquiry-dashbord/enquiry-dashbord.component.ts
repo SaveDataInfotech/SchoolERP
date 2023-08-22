@@ -71,12 +71,12 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
-  refreshDashBoardList() {
-    debugger;
-    this.enquirySvc.getDashBoardList().subscribe(data => {
-      this.DashBordList = data;
-    });
-  }
+  // refreshDashBoardList() {
+  //   debugger;
+  //   this.enquirySvc.getDashBoardList().subscribe(data => {
+  //     this.DashBordList = data;
+  //   });
+  // }
 
   ActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEnquiry(enquiryid).subscribe(res => {
@@ -91,11 +91,11 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
-  refreshEnquiryList() {
-    this.enquirySvc.getEnquiryList().subscribe(data => {
-      this.EnquiryList = data;
-    });
-  }
+  // refreshEnquiryList() {
+  //   this.enquirySvc.getEnquiryList().subscribe(data => {
+  //     this.EnquiryList = data;
+  //   });
+  // }
 
   ActiveEntranceStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEntrance(enquiryid).subscribe(res => {
@@ -110,11 +110,11 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
-  refreshEntranceList() {
-    this.enquirySvc.getEntranceList().subscribe(data => {
-      this.EntranceList = data;
-    });
-  }
+  // refreshEntranceList() {
+  //   this.enquirySvc.getEntranceList().subscribe(data => {
+  //     this.EntranceList = data;
+  //   });
+  // }
 
   ActiveSelectedStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveSelected(enquiryid).subscribe(res => {
@@ -129,11 +129,11 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
-  refreshSelectedList() {
-    this.enquirySvc.getSelectedList().subscribe(data => {
-      this.SelectedList = data;
-    });
-  }
+  // refreshSelectedList() {
+  //   this.enquirySvc.getSelectedList().subscribe(data => {
+  //     this.SelectedList = data;
+  //   });
+  // }
 
   inActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveEnquiry(enquiryid).subscribe(res => {

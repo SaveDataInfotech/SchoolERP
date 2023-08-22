@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpHeaders, } from '@angular/common/http';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { HttpClient} from '@angular/common/http';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-staff-type',
@@ -19,7 +21,7 @@ export class StaffTypeComponent implements OnInit {
   //addEditrecords :any= 0;
   buttonId: boolean = true;
 
-  constructor(private http: HttpClient,
+  constructor(private http: HttpClient,private spinner: NgxSpinnerService,
     private stySvc: staffTypeService, private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,private router: Router) {
   }
@@ -29,6 +31,7 @@ export class StaffTypeComponent implements OnInit {
       this.cancelClick()
 
     //this.notificationSvc.success("Heloo")
+        
   }
 
   backButton() {
@@ -47,14 +50,14 @@ export class StaffTypeComponent implements OnInit {
     });
   }
 
-  StaffType() {
+  StaffType() {    
     if (this.stafftypeForm.valid) {
       if (this.stafftypeForm.value.staffTypeid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
-              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
+              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {               
                 debugger;
                 console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {

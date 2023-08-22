@@ -107,7 +107,7 @@ export class LayoutComponent implements OnInit {
     AdminmenuSidebar = [
       {
         link_name: "Dashboard",
-        link: "dashboard",
+        link: "dashboard/dashboard",
         icon: "bx bx-grid-alt",
         sub_menu: []
       },

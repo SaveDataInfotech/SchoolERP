@@ -23,10 +23,13 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import {  ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './user/user.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
   imports: [
     ReactiveFormsModule,
+    NgxSpinnerModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

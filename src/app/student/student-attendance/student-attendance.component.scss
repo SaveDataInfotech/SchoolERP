@@ -30,16 +30,14 @@ h3{
   
   .labeldiv{
     float: left;
-    width: 150px;
+    width: 90px;
     text-align: left;
   }
   
   .inputdiv{
     float: left;
-    width: 250px;
+    width: 220px;
   }
-
-
 
   .switch {
     position: relative;
@@ -100,3 +98,8 @@ h3{
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .matlabel {
+    display: inline-block;
+     margin-bottom: -0.5rem;
+}
