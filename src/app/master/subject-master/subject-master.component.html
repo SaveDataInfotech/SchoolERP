@@ -176,7 +176,7 @@
                             <div *ngFor="let subject of subjectDetailList"
                                 style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
                                 <div style="float: left;text-align: left;">
-                                    <input (change)="selectedSub($event, subject.subjectid)" style="height: 15px;width: 15px;"
+                                    <input (change)="selectedSub($event, subject.subject_name)" style="height: 15px;width: 15px;"
                                     formArrayName="selectedSubjects" type="checkbox"
                                         [value]="subject.value">
                                 </div>
@@ -222,8 +222,8 @@
                                     <td>{{assign.class_name}}</td>
                                     <td>{{assign.section_name}}</td>
                                     <td>{{assign.group_name}}</td>
-                                    <td>{{assign.subject_name}}</td>                                    
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
+                                    <td>{{assign.subject}}</td>
+                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClickSubAssign(assign)"
                                             style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
                                         <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
                                             class="pl-2">delete</mat-icon>

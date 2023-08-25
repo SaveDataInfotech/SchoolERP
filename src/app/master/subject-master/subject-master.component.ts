@@ -310,6 +310,19 @@ export class SubjectMasterComponent implements OnInit {
       }
     });
   }
+  sub:any=[];
+  updateGetClickSubAssign(assign: any) {
+    debugger;  
+    this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
+    this.subjectAssignForm.get('classid')?.setValue(assign.classid);
+    this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
+    this.subjectAssignForm.get('sectionid')?.setValue(assign.sectionid);
+    this.subjectAssignForm.get('cuid')?.setValue(assign.cuid);
+
+    this.sub = assign.subject.split(";");
+    this.subjectAssignForm.get('selectedSubjects')?.setValue(this.sub);
+    console.log(this.subjectAssignForm.value.selectedSubjects);
+  }
 
   
 

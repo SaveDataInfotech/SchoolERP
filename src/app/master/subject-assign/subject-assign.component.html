@@ -1,0 +1,140 @@
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Subject Assign</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form #AssignForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Assign Code</label>
+                        </div>
+                        <span *ngIf="assignbuttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxIdAssign">
+                                <input placeholder="0{{code.assignid+1}}" class="form-control" type="text" readonly
+                                    required>
+                            </div>
+                        </span>
+                        <span *ngIf="assignbuttonId != true">
+                            <div class="inputdiv">
+                                <input name="assignid" [(ngModel)]="subjectAssignForm.assignid" class="form-control"
+                                    type="text" readonly required>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Class</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select name="classid" [(ngModel)]="subjectAssignForm.classid" style="width: 100%;" #t
+                                (change)="FilterGroupfun(t.value)" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="groupDisplay == true">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select name="groupid" [(ngModel)]="subjectAssignForm.groupid" style="width: 100%;" #s
+                                (change)="FilterSectionfun(s.value)" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                    {{group.group_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Section</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select name="sectionid" [(ngModel)]="subjectAssignForm.sectionid" style="width: 100%;"
+                                class="form-control ">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                    {{section.section_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-sm-8 mt-3" style="display: flex;">
+                    <div *ngFor="let subject of subjectDetailList" style="float: left;text-align: left; width:200px;"
+                        class="col-sm-4 mt-4 ">
+                        <div style="float: left;text-align: left;">
+                            <input style="height: 15px;width: 15px;" type="checkbox" name="{{subject.subject_name}}"
+                                [(ngModel)]="subject.isselect">
+                        </div>
+                        <div style="float: left;text-align: left;" class="ml-2">
+                            {{subject.subject_name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                            <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-10 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>Class Name</th>
+                            <th>Group Name</th>
+                            <th>Section Name</th>
+                            <th>Subject Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let assign of subjectSubAssignList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{assign.class_name}}</td>
+                            <td>{{assign.group_name}}</td>
+                            <td>{{assign.section_name}}</td>
+                            <td>{{assign.subjectsname}}</td>
+                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="edit(assign)"
+                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
+                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
+                                    (click)="assigndeleteClick(assign.assignid)" class="pl-2">delete</mat-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

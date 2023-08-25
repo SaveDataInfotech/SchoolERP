@@ -23,7 +23,7 @@
                             <h3 class="ml-1" style="color: orangered;">Student Information</h3>
                         </div>
                     </div>
-                </div>        
+                </div>
                 <div class="row">
                     <!-- <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
@@ -174,20 +174,14 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input
+                            <select
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors}"
-                                formControlName="nationality" class="form-control" type="text" required>
-                            <span class="text-danger"
-                                *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors">
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors.required">
-                                    Nationality is required
-                                </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors.pattern">
-                                    Use letters only
-                                </div>
-                            </span>
+                                style="width: 100%;" formControlName="nationality" class="form-control"
+                                name="selectAction" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Foreigner">Foreigner</option>
+                            </select>
                         </div>
                     </div>
 
@@ -205,6 +199,8 @@
                                 <option value="Hindu">Hindu</option>
                                 <option value="Muslim">Muslim</option>
                                 <option value="Christian">Christian</option>
+                                <option value="Jain">Jain</option>
+                                <option value="Buddhism">Buddhism</option>
                                 <option value="others">Others</option>
                             </select>
                             <span class="text-danger"
@@ -357,7 +353,7 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number<span class="text-danger">
+                            <label class="pt-2" style="margin: auto;">Mobile Number<span class="text-danger">
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
@@ -369,7 +365,7 @@
                                 *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
                                 <div
                                     *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.required">
-                                    Phone Number is required
+                                    Mobile Number is required
                                 </div>
                                 <div
                                     *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
@@ -437,7 +433,7 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Phone Number</label>
+                            <label class="pt-2" style="margin: auto;">Mobile Number</label>
                         </div>
                         <div class="inputdiv">
                             <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10" minlength="10"
@@ -575,15 +571,7 @@
                         <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()" style="width: 80px;"
                             class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
-                </div>
-
-                <!-- <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" class="btn btn-primary" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" class="btn btn-secondary ml-3"
-                            value="Cancel" />
-                    </div>
-                </div> -->
+                </div>              
             </form>
         </mat-card-content>
     </mat-card>

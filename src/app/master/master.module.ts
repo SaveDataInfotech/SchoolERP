@@ -30,6 +30,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';
+import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
 
 
 
@@ -48,7 +49,8 @@ import { RoleComponent } from './role/role.component';
     ReportsComponent,
     ConfirmDialogComponent,
     ResonDialogComponent,
-    RoleComponent
+    RoleComponent,
+    SubjectAssignComponent
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

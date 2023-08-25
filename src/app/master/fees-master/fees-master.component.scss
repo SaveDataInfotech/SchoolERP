@@ -64,3 +64,8 @@ select:focus{
   cursor: pointer;
   font-size:medium;
 }
+
+input[type=radio] {
+  width: 23px;
+  height: 23px;
+}

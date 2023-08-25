@@ -11,6 +11,7 @@ import { VehicleMasterComponent } from './vehicle-master/vehicle-master.componen
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
 import { ReportsComponent } from './reports/reports.component';
 import { RoleComponent } from './role/role.component';
+import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
 
 
 export const masterRoutes: Routes = [
@@ -29,6 +30,10 @@ export const masterRoutes: Routes = [
   {
     path:"subject_master",
     component:SubjectMasterComponent,
+  },
+  {
+    path: 'subject_assign',
+    component: SubjectAssignComponent,
   },
   {
     path:"uniform_master",

@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "angular2-notifications": "^12.0.0",
+    "dateformate": "^1.1.0",
     "moment": "^2.29.4",
     "ngx-dropzone": "^3.1.0",
     "ngx-spinner": "^16.0.2",

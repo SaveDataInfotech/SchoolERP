@@ -18,7 +18,7 @@
                         <div class="col-sm-8 row" style="text-align: right;">
                             <div class="col-sm-5 pt-2">
                                 <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-arrow-left"></i>New
+                                        class="fa fa-plus pr-1"></i>New
                                     Registration</button>
                             </div>
 
@@ -27,7 +27,7 @@
                                     <i class="fa fa-trash"></i> Delete All Registration
                                 </button>
                             </div>
-                            
+
                             <div class="col-sm-2">
                                 <div class="col-sm-12" style="text-align:right;cursor: pointer;">
                                     <button (click)="backButton()"
@@ -38,7 +38,7 @@
 
                     </div>
                     <form>
-                        <div class="table-responsive mt-1">
+                        <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
@@ -50,6 +50,7 @@
                                         <th>Aadhar</th>
                                         <th>Place</th>
                                         <th>Parent Number</th>
+                                        <th>Enquiry Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,8 +64,8 @@
                                         <td>{{dashbord.aadhar}}</td>
                                         <td>{{dashbord.place}}</td>
                                         <td>{{dashbord.f_ph}}</td>
+                                        <td>{{dashbord.date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
-
                                             <button
                                                 [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'green'}"
                                                 [disabled]="dashbord.enquiry_status == 1" type="button"
@@ -96,7 +97,7 @@
                         <div class="col-4 row" style="text-align: right;">
                             <div class="col-sm-9 pt-2">
                                 <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-arrow-left mr-1"></i>New
+                                        class="fa fa-plus pr-1"></i>New
                                     Registration</button>
                             </div>
 
@@ -109,7 +110,7 @@
                         </div>
                     </div>
                     <form>
-                        <div class="table-responsive mt-1">
+                        <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
@@ -121,6 +122,7 @@
                                         <th>Aadhar</th>
                                         <th>Place</th>
                                         <th>Parent Number</th>
+                                        <th>Enquiry Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -134,6 +136,7 @@
                                         <td>{{enquiry.aadhar}}</td>
                                         <td>{{enquiry.place}}</td>
                                         <td>{{enquiry.f_ph}}</td>
+                                        <td>{{enquiry.date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (enquiry.entrance_status == 1) ? 'gray':'red'}"
@@ -171,7 +174,7 @@
                         <div class="col-4 row" style="text-align: right;">
                             <div class="col-sm-9 pt-2">
                                 <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-arrow-left mr-1"></i>New
+                                        class="fa fa-plus pr-1"></i>New
                                     Registration</button>
                             </div>
 
@@ -184,7 +187,7 @@
                         </div>
                     </div>
                     <form>
-                        <div class="table-responsive mt-1">
+                        <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
@@ -196,6 +199,7 @@
                                         <th>Aadhar</th>
                                         <th>Place</th>
                                         <th>Parent Number</th>
+                                        <th>Enquiry Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -209,6 +213,7 @@
                                         <td>{{entrance.aadhar}}</td>
                                         <td>{{entrance.place}}</td>
                                         <td>{{entrance.f_ph}}</td>
+                                        <td>{{entrance.date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (entrance.selected_status == 1) ? 'gray':'red'}"
@@ -246,7 +251,7 @@
                         <div class="col-4 row" style="text-align: right;">
                             <div class="col-sm-9 pt-2">
                                 <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-arrow-left mr-1"></i>New
+                                        class="fa fa-plus pr-1"></i>New
                                     Registration</button>
                             </div>
 
@@ -259,7 +264,7 @@
                         </div>
                     </div>
                     <form>
-                        <div class="table-responsive mt-1">
+                        <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
                                 <thead>
                                     <tr>
@@ -271,6 +276,7 @@
                                         <th>Aadhar</th>
                                         <th>Place</th>
                                         <th>Parent Number</th>
+                                        <th>Enquiry Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -284,6 +290,7 @@
                                         <td>{{selected.aadhar}}</td>
                                         <td>{{selected.place}}</td>
                                         <td>{{selected.f_ph}}</td>
+                                        <td>{{selected.date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (selected.ad_status == 1) ? 'gray':'red'}"

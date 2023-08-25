@@ -24,12 +24,12 @@ export class StudentAttendanceComponent implements OnInit {
   groupDisplay: boolean = true;
   allComplete: boolean = false;
   anAllComplete: boolean = false;
-  ani:boolean=false;
-  fni:boolean=false;
+  ani: boolean = false;
+  fni: boolean = false;
   todayDate: Date = new Date();
 
   date1 = new Date();
-
+  minDate = new Date();
   currentYear = this.date1.getUTCFullYear();
 
   currentMonth = this.date1.getUTCMonth() + 1;
@@ -75,9 +75,9 @@ export class StudentAttendanceComponent implements OnInit {
     private router: Router) { }
 
 
-    backButton() {
-      this.router.navigateByUrl('/app/dashboard');
-    }
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard');
+  }
   //////////////////////// FN CHECKBOX FUNCTION
   fnupdateAllComplete() {
     this.allComplete = this.studentList != null && this.studentList.every(t => t.fn);
@@ -180,12 +180,12 @@ export class StudentAttendanceComponent implements OnInit {
     this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
       debugger;
       this.studentList = data;
-      if( this.studentList[0].ani == true){
-       this.ani=true;
+      if (this.studentList[0].ani == true) {
+        this.ani = true;
       }
-      if( this.studentList[0].fni == true){
-        this.fni=true;
-       }
+      if (this.studentList[0].fni == true) {
+        this.fni = true;
+      }
       if (this.studentList.length != 0) {
         this.serachDisabled = true;
       }
@@ -228,8 +228,8 @@ export class StudentAttendanceComponent implements OnInit {
     this.studentAttendanceForm.date = this.today;
     this.studentList = null;
     this.serachDisabled = false;
-    this.fni=false;
-    this.ani=false;
+    this.fni = false;
+    this.ani = false;
     this.fnupdateAllComplete();
     this.anupdateAllComplete();
   }

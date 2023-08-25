@@ -15,14 +15,15 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="row">
-                            <div class="col-sm-12 mt-3" style="display: flex;">
+                            <div class="col-sm-12 mt-2" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                    <label class="pt-3" style="margin: auto;">Date</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [disabled]="serachDisabled == true" placeholder="Enter 10-th Mark"
-                                        name="date" [value]="today" [(ngModel)]="studentAttendanceForm.date"
-                                        class="form-control" type="date" required>
+                                    <input [disabled]="serachDisabled == true" [min]="minDate" [max]="today"
+                                        placeholder="Enter 10-th Mark" name="date" [value]="today"
+                                        [(ngModel)]="studentAttendanceForm.date" class="form-control" type="date"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-7">
+                    <div *ngIf="serachDisabled == true" class="col-sm-7">
                         <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
                             <thead>
                                 <tr>

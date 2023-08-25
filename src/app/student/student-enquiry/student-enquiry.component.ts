@@ -120,7 +120,7 @@ export class StudentEnquiryComponent implements OnInit {
     s_group: new FormControl(0),
     dob: new FormControl(),
     gender: new FormControl('', [Validators.required]),
-    nationality: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    nationality: new FormControl('', [Validators.required]),
     religion: new FormControl('', [Validators.required]),
     community: new FormControl('', [Validators.required]),
     caste: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
@@ -171,7 +171,7 @@ export class StudentEnquiryComponent implements OnInit {
                   this.cancelClick();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Aadhar Already exists")
+                  this.notificationSvc.warn("Student details already exists")
                 }
                 else {
                   this.notificationSvc.error("Something error")

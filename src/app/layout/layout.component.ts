@@ -313,6 +313,10 @@ export class LayoutComponent implements OnInit {
             link:"master/subject_master"
           },
           {
+            link_name:"Subject Assign",
+            link:"master/subject_assign"
+          },
+          {
             link_name:"Uniform Master",
             link:"master/uniform_master"
           },

@@ -199,7 +199,7 @@ export class StudentProfileComponent implements OnInit {
     this.base64textString.push(
       'data:image/png;base64,' + btoa(e.target.result)
     );
-    this.studentDetailsForm.get('image')?.setValue(this.base64textString[0]);
+    this.studentDetailsForm.get('simage')?.setValue(this.base64textString[0]);
   }
 
   getFile(event: any) {
@@ -218,7 +218,7 @@ export class StudentProfileComponent implements OnInit {
       this.searchStudentData = data;
       this.searchStudentData.forEach(element => {
         this.studentDetailsForm.patchValue(element)
-
+        this.placefilterList = this.PlaceList.filter((e: any) => { return e.placeid == element.root_no });
         this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == element.classid });
         if (this.groupFilterlist.length == 0) {
           this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == element.classid });
@@ -251,9 +251,25 @@ export class StudentProfileComponent implements OnInit {
     religion: new FormControl(''),
     community: new FormControl(''),
     caste: new FormControl(''),
-    image: new FormControl(''),
+    newstudent: new FormControl(''),
+    feesless: new FormControl(),
+    dayscholar: new FormControl(''),
+    hostel: new FormControl(''),
+    vehicle_type: new FormControl(''),
+    root_no: new FormControl(0),
+    boading_place: new FormControl(''),
+    busdistance: new FormControl(0),
+    amount: new FormControl(678),
+    simage: new FormControl(''),
     cuid: new FormControl(1),
   })
+
+  placeOfBo(vehicle_no_id: any) {
+    debugger;
+    let idn = Number(vehicle_no_id);
+    this.studentDetailsForm.get('root_no')?.setValue(idn);
+    this.placefilterList = this.PlaceList.filter((e: any) => { return e.placeid == idn });
+  }
 
 
   newStudentProfileDetails() {
@@ -276,6 +292,20 @@ export class StudentProfileComponent implements OnInit {
           });
       }
       else if (this.studentDetailsForm.value.profileid != 0) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              debugger;
+              var studentinsert = (this.studentDetailsForm.value);
+              this.studProSvc.studentDetails(studentinsert).subscribe(res => {
+                if (res?.recordid) {
+                  this.notificationSvc.success("Saved Success")
+                  //this.getMaxId();
+                  //this.cancelclick();
+                }
+              });
+            }
+          });
       }
     }
     else {
@@ -353,12 +383,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
 
-  placeOfBo(id: any) {
-    debugger;
-    let idn = Number(id);
-    this.studentOtherDetailsForm.get('root_no')?.setValue(idn);
-    this.placefilterList = this.PlaceList.filter((e: any) => { return e.placeid == idn });
-  }
+
 
   //siblings details 
 
@@ -383,19 +408,13 @@ export class StudentProfileComponent implements OnInit {
   }
 
   studentOtherDetailsForm = new FormGroup({
-    feesless: new FormControl(),
+    
     rt_student: new FormControl(''),
     l_class: new FormControl(''),
     l_school: new FormControl(''),
     l_stream: new FormControl(''),
     l_medium: new FormControl(''),
-    dayscholar: new FormControl(''),
-    hostel: new FormControl(''),
-    bus_status: new FormControl(''),
-    root_no: new FormControl(),
-    boading_place: new FormControl(''),
-    busdistance: new FormControl(),
-    amount: new FormControl(678),
+
     sibling_status: new FormControl(''),
     sibling: new FormArray([
       new FormGroup({

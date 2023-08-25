@@ -26,6 +26,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
     MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,
-    NgxDropzoneModule,MatProgressSpinnerModule
+    NgxDropzoneModule,MatProgressSpinnerModule,MatDatepickerModule
   ],
   providers:[DatePipe],
   bootstrap:[StudentEnquiryComponent]
