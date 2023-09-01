@@ -47,7 +47,6 @@ export class SupplierMasterComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
 

@@ -27,6 +27,7 @@ import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     StudentTcApplieComponent,
     StudentPromoteComponent,
     ReportsComponent,
-    EnquiryDashbordComponent
+    EnquiryDashbordComponent,
+    MarkEntryGradeComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,

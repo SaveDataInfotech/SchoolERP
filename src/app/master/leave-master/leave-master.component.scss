@@ -53,3 +53,15 @@ select:focus{
   cursor: pointer;
   font-size:medium;
 }
+
+.removebutton{
+  width: 80px;
+  background-color: rgb(241, 180, 11);
+  color:white;
+}
+
+.addbutton{
+  width: 110px;
+  background-color: rgb(36, 109, 7);
+  color:white;
+}

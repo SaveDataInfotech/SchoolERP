@@ -14,6 +14,10 @@ export class LeaveAssignService {
     return this.http.get<any[]>(this.apiUrl + 'LeaveAssign/Get');
   }
 
+  getLeaveAssignByIDList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'LeaveAssign/get_leave_assign_by_assignid');
+  }
+
   getAssignMaxId(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'LeaveAssign/get_MaxId_staff_type');
   }

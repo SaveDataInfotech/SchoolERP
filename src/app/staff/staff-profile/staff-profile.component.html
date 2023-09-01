@@ -1,435 +1,656 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <!-- <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">account_circle</mat-icon>
-            </div> -->
-            <div style="float: left;width: 250px;">
-                <h3 class="ml-1">Staff Profile</h3>
-            </div>
-
-            <div class="col-6" style="display: flex;">
-                <div style="float: left;width: 250px;">
-                    <button matTooltip="Click to go to the Student List" type="button"
-                        class="btn btn-primary btn-sm ">Staff List<i class="fa fa-arrow-right ml-1"></i></button>
+<mat-tab-group #tabGroup animationDuration="0ms">
+    <mat-tab label="New Staff">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 250px;">
+                        <h3 class="ml-1">Staff Profile</h3>
+                    </div>
                 </div>
             </div>
+            <mat-card class="mt-2 matcard">
+                <mat-card-content>
+                    <form name="form" #f="ngForm" novalidate (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-12" style="display: flex;">
+                                <div style="float: left;width: 250px;">
+                                    <h3 style="color: orangered;" class="ml-1">Staff Details</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff No</label>
+                                </div>
+                                <input type="text" style="width: 250px;" class="form-control" name="staff_no"
+                                    [(ngModel)]="staffProfileForm.staff_no">
+
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-4" style="margin: auto;">Staff Name</label>
+                                </div>
+                                <input [(ngModel)]="staffProfileForm.staff_name" type="text" style="width: 250px;"
+                                    class="form-control mt-3" name="staff_name" required>
+
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-4" style="margin: auto;">Gender</label>
+                                </div>
+                                <select name="gender" [(ngModel)]="staffProfileForm.gender" style="width: 250px;"
+                                    class="form-control mt-3">
+                                    <option value="">Please select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="FEMALE">FEMALE</option>
+                                    <option value="OTHER'S">OTHER'S</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <div *ngIf="editableImage">
+                                    <img [src]="editableImage" alt="No image found" width="200" height="150" />
+                                    <span class="pl-2" style="cursor: pointer">
+                                        <mat-icon class="icons" style="padding-left: 2px" svgIcon="roundDelete"
+                                            matTooltip="Delete" (click)="deleteImage()"></mat-icon>
+                                    </span>
+                                </div>
+                                <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
+                                    (change)="onSelect($event)" style="width: 35%;height: 160px;">
+                                    <ngx-dropzone-label>
+                                        <div>
+                                            <span>Click to upload or Drag & Drop !</span>
+                                        </div>
+                                    </ngx-dropzone-label>
+                                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-image-preview>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">DOB</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="dob" [(ngModel)]="staffProfileForm.dob" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12" style="display: flex;">
+                                <div style="float: left;width: 250px;">
+                                    <h3 style="color: orangered;" class="ml-1">Personal Details</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Contact Number</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="mobile" [(ngModel)]="staffProfileForm.mobile"
+                                        (keypress)="numberOnly($event)" maxlength="10" minlength="10"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Blood Group</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="blood_group" [(ngModel)]="staffProfileForm.blood_group"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Qualification</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="qualification" [(ngModel)]="staffProfileForm.qualification"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Designation</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="designation" [(ngModel)]="staffProfileForm.designation"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Year of Experience</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="experience" class="form-control"
+                                        [(ngModel)]="staffProfileForm.experience" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">P C Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="pc" [(ngModel)]="staffProfileForm.pc" class="form-control" type="text"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff type</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="staff_type" [(ngModel)]="staffProfileForm.staff_type"
+                                        style="width: 100%;" class="form-control">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
+                                            {{StaffType.staffType}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Major Subject</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="major_subject" [(ngModel)]="staffProfileForm.major_subject"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Class Hand</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="class_hand" [(ngModel)]="staffProfileForm.class_hand"
+                                        style="width: 100%;" class="form-control">
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{class.class_name}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date Of Join</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="join_date" [(ngModel)]="staffProfileForm.join_date"
+                                        class="form-control" type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Rejoin</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="rejoin" [(ngModel)]="staffProfileForm.rejoin" style="width: 100%;"
+                                        class="form-control">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Rejoin Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="rejoin_date" [(ngModel)]="staffProfileForm.rejoin_date"
+                                        class="form-control" type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Father Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="f_name" [(ngModel)]="staffProfileForm.f_name" class="form-control"
+                                        type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Mother Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="m_name" [(ngModel)]="staffProfileForm.m_name" class="form-control"
+                                        type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-5" style="margin: auto;">Address</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <textarea name="s_address" [(ngModel)]="staffProfileForm.s_address"
+                                        class="form-control" rows="4" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12" style="display: flex;">
+                                <div style="float: left;width: 250px;">
+                                    <h3 style="color: orangered;" class="ml-1">Certificate Details</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3" style="color: green;">
+                            <div class="col-sm-2">
+                                <b> Cirtificate's</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <b> Xerox</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <b> Original</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <b> Date of submission</b>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">SSLC Mark Sheet</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="sslc_x" [(ngModel)]="staffProfileForm.sslc_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="sslc_o" [(ngModel)]="staffProfileForm.sslc_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="sslc_date" [(ngModel)]="staffProfileForm.sslc_date"
+                                        class="form-control" type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">HSC Mark Sheet</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="hsc_x" [(ngModel)]="staffProfileForm.hsc_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="hsc_o" [(ngModel)]="staffProfileForm.hsc_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="hsc_date" [(ngModel)]="staffProfileForm.hsc_date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">UG Certificate</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="ug_x" [(ngModel)]="staffProfileForm.ug_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="ug_o" [(ngModel)]="staffProfileForm.ug_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="ug_date" [(ngModel)]="staffProfileForm.ug_date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">PG Certificate</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="pg_x" [(ngModel)]="staffProfileForm.pg_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="pg_o" [(ngModel)]="staffProfileForm.pg_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="pg_date" [(ngModel)]="staffProfileForm.pg_date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">B.Ed Certificate</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="bed_x" [(ngModel)]="staffProfileForm.bed_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="bed_o" [(ngModel)]="staffProfileForm.bed_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="bed_date" [(ngModel)]="staffProfileForm.bed_date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-sm-2">
+                                <b style="color: blue;">M.Ed Certificate</b>
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="med_x" [(ngModel)]="staffProfileForm.med_x">
+                            </div>
+                            <div class="col-sm-3">
+                                <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
+                                    class="form-check-input ml-2" name="med_o" [(ngModel)]="staffProfileForm.med_o">
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="float: left;">
+                                    <input name="med_date" [(ngModel)]="staffProfileForm.med_date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12" style="display: flex;">
+                                <div style="float: left;width: 250px;">
+                                    <h3 style="color: orangered;" class="ml-1">Salary Details</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Basic Pay</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="basic_pay" [(ngModel)]="staffProfileForm.basic_pay"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">DA</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="da" [(ngModel)]="staffProfileForm.da" class="form-control" type="text"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">HRA</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="hra" [(ngModel)]="staffProfileForm.hra" class="form-control"
+                                        type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Allowance</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="allowance" [(ngModel)]="staffProfileForm.allowance"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Total Salary</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="total_salary" [(ngModel)]="staffProfileForm.total_salary"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">PF</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="pf" [(ngModel)]="staffProfileForm.pf" style="width: 100%;"
+                                        class="form-control">
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">EPF</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="epf" [(ngModel)]="staffProfileForm.epf" style="width: 100%;"
+                                        class="form-control">
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12" style="display: flex;">
+                                <div style="float: left;width: 250px;">
+                                    <h3 style="color: orangered;" class="ml-1">Bank Details</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Account No</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="account_no" [(ngModel)]="staffProfileForm.account_no"
+                                        (keypress)="numberOnly($event)" class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">IFSC Code</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="ifsc_code" [(ngModel)]="staffProfileForm.ifsc_code"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Bank Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="bank_name" [(ngModel)]="staffProfileForm.bank_name"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Branch Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="branch_name" [(ngModel)]="staffProfileForm.branch_name"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Reliving</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select name="reliving" [(ngModel)]="staffProfileForm.reliving" style="width: 100%;"
+                                        class="form-control">
+                                        <option value="Yes">YES</option>
+                                        <option value="No">NO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input name="reliving_date" [(ngModel)]="staffProfileForm.reliving_date"
+                                        class="form-control" type="date" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mt-4">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
         </div>
-    </div>
-    <mat-card class="mt-2 matcard">
-        <mat-card-content>
-            <form>
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Staff No</label>
-                        </div>
-                        <input type="tel" style="width: 250px;" class="form-control" placeholder="009977" disabled
-                            name="selectAction">
+    </mat-tab>
 
-                        <div class="" style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-4" style="margin: auto;">Staff Name</label>
+    <mat-tab label="Update Staff Details">
+        <mat-card class="m-3 matcard">
+            <mat-card-content>
+                <div class="container">
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-4 mt-2">
+                                <select #t (change)="typeChange(t.value)" class="form-control" style="width: 200px;">
+                                    <option disabled selected>Select Staff type</option>
+                                    <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
+                                        {{StaffType.staffType}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4  mt-2">
+                                <select #n (change)="noChange(n.value)" class="form-control" style="width: 200px;">
+                                    <option disabled selected>Select Staff No</option>
+                                    <option *ngFor="let type of staffList">{{type.staff_no}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4  mt-2">
+                                <select #na (change)="noChange(na.value)" class="form-control" style="width: 200px;">
+                                    <option disabled selected>Select Staff Name</option>
+                                    <option value={{type.staff_no}} *ngFor="let type of staffList">{{type.staff_name}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                        <input type="tel" style="width: 250px;" class="form-control mt-3" placeholder="Jaya"
-                            name="selectAction">
+                    </form>
 
-                        <div class="" style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-4" style="margin: auto;">Gender</label>
+                    <div class="row mt-5">
+                        <div *ngFor="let staff of staffFilterList" class="m-4 row col-sm-3 carddiv">
+                            <div style="margin: auto;">
+                                <div style="margin: auto;text-align: center;"><img [src]="staff.img"
+                                        style="border-radius: 50px;" height="80px" width="80px" /></div>
+                            </div>
+                            <div style="width: 100%;float: left;">
+                                <label class="cardlabel mt-1">Staff No</label><label
+                                    class="cardlabelcon mt-1">{{staff.staff_no}}</label>
+                            </div>
+                            <div style="width: 100%;float: left;">
+                                <label class="cardlabel" style="width: 30%;">Name</label><label
+                                    class="cardlabelcon">{{staff.staff_name}}</label>
+                            </div>
+                            <div style="width: 100%;float: left;">
+                                <label class="cardlabel" style="width: 30%;">Type</label><label
+                                    class="cardlabelcon">{{staff.staff_type}}</label>
+                            </div>
+                            <div style="width: 100%;float: left;">
+                                <label class="cardlabel " style="width: 30%;">DOB</label><label
+                                    class="cardlabelcon">{{staff.dob}}</label>
+                            </div>
+
+                            <div style="position: relative;" class="col-sm-12">
+                                <input (click)="editFun(staff)" (click)="tabGroup.selectedIndex=0" type="button"
+                                    value="Click To Edit" class="form-control btn btn-secondary" />
+                            </div>
                         </div>
-                        <select style="width: 250px;" class="form-control mt-3" name="selectAction">
-                            <option>Male</option>
-                            <option>FEMALE</option>
-                            <option>OTHER's</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-6 mt-2" style="display: flex;justify-content: center;">
-                        <div style="height: 150px;width: 150px;" class="custom-dropzone " ngx-dropzone
-                            [accept]="'image/*'" (change)="onSelect($event)"> <ngx-dropzone-label>
-                                <div> <span>Click to upload or Drag & Drop Your Photo!</span> </div>
-                            </ngx-dropzone-label> <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f"
-                                [removable]="true"> <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                            </ngx-dropzone-image-preview> </div>
+
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">DOB</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Qualification</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Father Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Mother Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Contact Number</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="99887-77890" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Blood Group</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="O+" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-5" style="margin: auto;">Address</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <textarea class="form-control" rows="4" required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Year of Experience</label>
-                        </div>
-                        <input type="tel" style="width: 250px;" class="form-control mt-0" placeholder="4"
-                            name="selectAction">
-
-                        <div class="" style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-4" style="margin: auto;">P C Name</label>
-                        </div>
-                        <input type="tel" style="width: 250px;" class="form-control mt-3" placeholder="4"
-                            name="selectAction">
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Designation</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Staff type</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Teaching</option>
-                                <option>Driver</option>
-                                <option>Helper</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Class Hand</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>1</option>
-                                <option>2</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Major Subject</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Tamil</option>
-                                <option>Science</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3">
-                        <div style="float: left;text-align: left;">
-                            <label class="pt-2" style="font-weight: 700;color: red;">Certificate Submit</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-3" style="color: green;">
-                    <div class="col-sm-2">
-                        <b> Cirtificate's</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <b> Xerox</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <b> Original</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <b> Date of submission</b>
-                    </div>
-                </div>
-
-                <div class="row m-3">
-                    <div class="col-sm-2">
-                        <b style="color: blue;">SSLC Mark Sheet</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <div style="float: left;">
-                            <input placeholder="" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-3">
-                    <div class="col-sm-2">
-                        <b style="color: blue;">PG Certificate</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <div style="float: left;">
-                            <input placeholder="" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-3">
-                    <div class="col-sm-2">
-                        <b style="color: blue;">B.Ed Certificate</b>
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
-                    </div>
-                    <div class="col-sm-3">
-                        <div style="float: left;">
-                            <input placeholder="" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Basic Pay</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">DA</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">HRA</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Allowance</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Total Salary</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="15,000" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Designation</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Staff type</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>Teaching</option>
-                                <option>Driver</option>
-                                <option>Helper</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">PF</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>YES</option>
-                                <option>NO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">EPF</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>YES</option>
-                                <option>NO</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Account No</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Branch Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">B Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Reliving</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control" name="selectAction">
-                                <option>YES</option>
-                                <option>NO</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mt-3">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Date</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="date" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
-                    </div>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</div>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>

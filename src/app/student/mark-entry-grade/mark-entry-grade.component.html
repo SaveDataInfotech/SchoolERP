@@ -1,0 +1,183 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Grade Type">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Grade Type </h3>
+                    </div>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form name="form" #f="ngForm" (ngSubmit)="save()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select style="width: 100%;" name="classid" [(ngModel)]="rankTypeMarkForm.classid"
+                                        #t (change)="filterGroupfun(t.value)" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class Incharge</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input name="classincharge" [(ngModel)]="rankTypeMarkForm.classincharge"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+                                    <select name="groupid" [(ngModel)]="rankTypeMarkForm.groupid" style="width: 100%;"
+                                        #s (change)="filterSectionfun(s.value)" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-1" style="margin: auto;">With practical pass mark</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Section</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select name="sectionid" [(ngModel)]="rankTypeMarkForm.sectionid"
+                                        (change)="searchStudentByClass()" style="width: 100%;" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="section.sectionid"
+                                            *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-1" style="margin: auto;">With out practical pass
+                                        mark</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input name="date" [(ngModel)]="rankTypeMarkForm.date" class="form-control"
+                                        type="date" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Exam Name</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input name="exam_name" [(ngModel)]="rankTypeMarkForm.exam_name"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <span *ngFor="let subject of spiltList">
+                                <div style="float: left;text-align: left;" class="mt-2 ml-4">
+                                    <div style="float: left;text-align: left;">
+                                        <input style="height: 15px;width: 15px;" [(ngModel)]="subject.selected"
+                                            type="checkbox" name="{{subject.name}}" (change)="onchange()">
+                                    </div>
+                                    <div style="float: left;text-align: left;" class="ml-2">
+                                        {{subject.name}}
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 mt-5">
+                        <div style="text-align: center;">
+                            <button matTooltip="Click to Search" type="button" class="btn btn-primary btn-sm ">Search<i
+                                    class="fa fa-search ml-2"></i></button>
+                        </div>
+                    </div>
+
+
+                    <form name="form" #f="ngForm" (ngSubmit)="save()">
+                        <div class="table-responsive mt-5">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                                <thead>
+                                    <tr>
+                                        <th>Si.No</th>
+                                        <th>A.NO</th>
+                                        <th>Student Name</th>
+                                        <th *ngFor="let subject of subjectFilterList">{{subject.name}}</th>
+                                        <th>Total</th>
+                                        <th>Grade</th>
+                                        <th>Status</th>
+                                        <th>Avg</th>
+                                        <th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let student of studentList;let i=index;">
+                                        <td><span class="mt-2">{{i+1}}</span></td>
+                                        <td><input value={{student.admission_no}} class="form-control"
+                                                style="width: 60px;"></td>
+                                        <td><input value={{student.student_name}} class="form-control"
+                                                style="width: 60px;"></td>
+                                        <td *ngFor="let subject of subjectFilterList"><input value={{student.subjectList[0]}} class="form-control"></td>
+                                        <td><input class="form-control" style="width: 160px;"></td>
+                                        <td><input class="form-control" style="width: 60px;"></td>
+                                        <td><input class="form-control" style="width: 60px;"></td>
+                                        <td><input class="form-control" style="width: 60px;"></td>
+                                        <td><input class="form-control" style="width: 60px;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-12 mt-4">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

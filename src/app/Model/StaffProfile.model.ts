@@ -1,0 +1,57 @@
+export class StaffProfile {
+
+    id: number;
+    staff_no: string;
+    staff_name: string;
+    gender: string;
+    img: string;
+    dob: string;
+    mobile: string;
+    blood_group: string;
+    qualification: string;
+    designation: string;
+    experience: string;
+    pc: string;
+    staff_type: string;
+    major_subject: string;
+    class_hand: string;
+    join_date: string;
+    rejoin: string;
+    rejoin_date: string;
+    f_name: string;
+    m_name: string;
+    s_address: string;
+    sslc_x: boolean;
+    sslc_o: boolean;
+    sslc_date: string;
+    hsc_x: boolean;
+    hsc_o: boolean;
+    hsc_date: string;
+    ug_x: boolean;
+    ug_o: boolean;
+    ug_date: string;
+    pg_x: boolean;
+    pg_o: boolean;
+    pg_date: string;
+    bed_x: boolean;
+    bed_o: boolean;
+    bed_date: string;
+    med_x: boolean;
+    med_o: boolean;
+    med_date: string;
+    basic_pay: string;
+    da: string;
+    hra: string;
+    allowance: string;
+    total_salary: string;
+    pf: string;
+    epf: string;
+    account_no: string;
+    ifsc_code: string;
+    bank_name: string;
+    branch_name: string;
+    reliving: string;
+    reliving_date: string;
+    activestatus: boolean;
+    cuid:number
+}
