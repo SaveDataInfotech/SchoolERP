@@ -10,73 +10,78 @@
             </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <form>
+                    <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                                    <label class="pt-2" style="margin: auto;">Class</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>1-St</option>
-                                        <option>2-Nd</option>
-                                        <option>10-Th</option>
-                                        <option>11-Th</option>
+                                    <select formControlName="classid" style="width: 100%;" #t
+                                        (change)="filterGroupfun(t.value)" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class Incharge</label>
+                                    <label class="pt-2" style="margin: auto;">Class Incharge</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="classincharge" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                                <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
                                 </div>
-                                <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>Maths-Biology</option>
-                                        <option>ComputerScience</option>
+                                <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+                                    <select formControlName="groupid" style="width: 100%;" #s
+                                        (change)="filterSectionfun(s.value)" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-1" style="margin: auto;">With practical pass mark</label>
+                                    <label class="pt-1" style="margin: auto;">With practical pass mark</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="with_prac" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row ">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                                    <label class="pt-2" style="margin: auto;">Section</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
-                                        <option>A</option>
-                                        <option>B</option>
+                                    <select formControlName="sectionid" (change)="searchStudentByClass()"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="section.sectionid"
+                                            *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-1" style="margin: auto;">With out practical pass
+                                    <label class="pt-1" style="margin: auto;">With out practical pass
                                         mark</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="with_out_prac" class="form-control" type="text" required>
                                 </div>
                             </div>
                         </div>
@@ -84,10 +89,10 @@
                         <div class="row ">
                             <!-- <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                                    <label  class="pt-2" style="margin: auto;">Batch</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" class="form-control " >
                                         <option>A</option>
                                         <option>B</option>
                                     </select>
@@ -98,131 +103,96 @@
                                     <label class="pt-2" style="margin: auto;">Date</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" [value]="today" class="form-control" type="date" required>
+                                    <input formControlName="date" [value]="today" class="form-control" type="date"
+                                        required>
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;text-align: left;" class="mt-2">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                        SMS
-                                    </div>
-                                </div>
-                                <div style="float: left;text-align: left;" class="mt-2 ml-5">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                        Tamil
-                                    </div>
-                                </div>
-                                <div style="float: left;text-align: left;" class="mt-2 ml-5">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                        English
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Exam Name</label>
+                                    <label class="pt-2" style="margin: auto;">Exam Name</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input placeholder="" class="form-control" type="text" required>
+                                    <input formControlName="exam_name" class="form-control" type="text" required>
                                 </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;text-align: left;" class="mt-2">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                       Maths
-                                    </div>
-                                </div>
-                                <div style="float: left;text-align: left;" class="mt-2 ml-5">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                       Science
-                                    </div>
-                                </div>
-                                <div style="float: left;text-align: left;" class="mt-2 ml-5">
-                                    <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" type="checkbox" class=""
-                                            value="something">
-                                    </div>
-                                    <div style="float: left;text-align: left;" class="ml-2">
-                                        Social Science
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 mt-5">
-                            <div style="text-align: center;">
-                                <button matTooltip="Click to Search" type="button"
-                                    class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                             </div>
                         </div>
                     </form>
+                    <div class="row">
 
-                    <form>
+
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <span *ngFor="let subject of spiltList">
+                                <div style="float: left;text-align: left;" class="mt-2 ml-4">
+                                    <div style="float: left;text-align: left;">
+                                        <input style="height: 15px;width: 15px;" [(ngModel)]="subject.selected"
+                                            type="checkbox" name="{{subject.name}}" (change)="onchange()">
+                                    </div>
+                                    <div style="float: left;text-align: left;" class="ml-2">
+                                        {{subject.name}}
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 mt-5">
+                        <div style="text-align: center;">
+                            <button matTooltip="Click to Search" type="button" class="btn btn-primary btn-sm ">Search<i
+                                    class="fa fa-search ml-2"></i></button>
+                        </div>
+                    </div>
+
+
+                    <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
                         <div class="table-responsive mt-5">
-                            <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                            <table formArrayName="studentList"
+                                class="col-sm-12 table table-hover table-bordered table-sm  ">
                                 <thead>
                                     <tr>
+                                        <th>Si.No</th>
                                         <th>A.NO</th>
                                         <th>Student Name</th>
-                                        <th>Tamil</th>
-                                        <th>Grade</th>
-                                        <th>English</th>
-                                        <th>Grade</th>
-                                        <th>Maths</th>
-                                        <th>Grade</th>
-                                        <th>Science</th>
-                                        <th>Grade</th>
-                                        <th>Social Science</th>
-                                        <th>Grade</th>
+                                        <th *ngFor="let subject of subjectFilterList;">{{subject.name}}</th>
                                         <th>Total</th>
+                                        <th>Grade</th>
                                         <th>Status</th>
                                         <th>Avg</th>
                                         <th>Rank</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>0001290</td>
-                                        <td>Rajesh V</td>
-                                        <td>93</td>
-                                        <td>A+</td>
-                                        <td>93</td>
-                                        <td>A+</td>
-                                        <td>93</td>
-                                        <td>A+</td>
-                                        <td>93</td>
-                                        <td>A+</td>
-                                        <td>93</td>
-                                        <td>A+</td>
-                                        <td>465</td>
-                                        <td>Pass</td>
-                                        <td>93</td>
-                                        <td>13</td>
+                                <tbody *ngFor="let chid of getControls().controls; let i = index">
+                                    <tr [formGroupName]="i">
+                                        <td><span class="mt-2">{{i+1}}</span></td>
+                                        <td><input formControlName="admission_no" class="form-control"
+                                                style="width: 60px;"></td>
+                                        <td><input formControlName="student_name" class="form-control"
+                                                style="width: 160px;"></td>
+                                        <span>
+                                            
+                                            <span formArrayName="subjectArray">
+                                                <span *ngFor="let studentsub of subjectsArray(i).controls;let j=index;">
+                                                    <span [formGroupName]="j">
+                                                        <td><input formControlName="name" class="form-control"
+                                                                style="width: 60px;"></td>
+                                                                <td><input formControlName="mark" class="form-control"
+                                                                    style="width: 60px;"></td>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <button (click)="addNewSubjetc(i)">add</button>
+                                        <td><input formControlName="total" class="form-control" style="width: 60px;">
+                                        </td>
+
+                                        <td><input formControlName="grade" class="form-control" style="width: 60px;">
+                                        </td>
+                                        <td><input formControlName="status" class="form-control" style="width: 60px;">
+                                        </td>
+                                        <td><input formControlName="average" class="form-control" style="width: 60px;">
+                                        </td>
+                                        <td><input formControlName="s_rank" class="form-control" style="width: 60px;">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -256,10 +226,10 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                                    <label class="pt-2" style="margin: auto;">Class</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" class="form-control ">
                                         <option>1-St</option>
                                         <option>2-Nd</option>
                                         <option>10-Th</option>
@@ -270,7 +240,7 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Class Incharge</label>
+                                    <label class="pt-2" style="margin: auto;">Class Incharge</label>
                                 </div>
                                 <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
@@ -280,10 +250,10 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                                    <label class="pt-2" style="margin: auto;">Group</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" class="form-control ">
                                         <option>Maths-Biology</option>
                                         <option>ComputerScience</option>
                                     </select>
@@ -292,7 +262,7 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-1" style="margin: auto;">With practical pass mark</label>
+                                    <label class="pt-1" style="margin: auto;">With practical pass mark</label>
                                 </div>
                                 <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>
@@ -302,10 +272,10 @@
                         <div class="row ">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                                    <label class="pt-2" style="margin: auto;">Section</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" class="form-control ">
                                         <option>A</option>
                                         <option>B</option>
                                     </select>
@@ -314,7 +284,7 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-1" style="margin: auto;">With out practical pass
+                                    <label class="pt-1" style="margin: auto;">With out practical pass
                                         mark</label>
                                 </div>
                                 <div class="inputdiv">
@@ -326,10 +296,10 @@
                         <div class="row ">
                             <!-- <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                                    <label  class="pt-2" style="margin: auto;">Batch</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " name="selectAction">
+                                    <select style="width: 100%;" class="form-control " >
                                         <option>A</option>
                                         <option>B</option>
                                     </select>
@@ -378,7 +348,7 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label for="ex2" class="pt-2" style="margin: auto;">Exam Name</label>
+                                    <label class="pt-2" style="margin: auto;">Exam Name</label>
                                 </div>
                                 <div class="inputdiv">
                                     <input placeholder="" class="form-control" type="text" required>

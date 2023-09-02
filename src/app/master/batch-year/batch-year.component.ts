@@ -34,7 +34,7 @@ export class BatchYearComponent implements OnInit {
   })
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshBatchYearList() {

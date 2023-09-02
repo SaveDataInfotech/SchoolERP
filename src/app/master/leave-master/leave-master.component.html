@@ -168,8 +168,7 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid':staff_type && staff_type.invalid && staff_type.touched}"
-                                        formControlName="staff_type" style="width: 100%;" class="form-control "
-                                        name="selectAction">
+                                        formControlName="staff_type" style="width: 100%;" class="form-control ">
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
                                             {{StaffType.staffType}}</option>
@@ -177,11 +176,19 @@
                                     <p class="text-danger m-1"
                                         *ngIf="staff_type && staff_type.invalid && staff_type.touched">
                                         Staff Type is required</p>
-
                                 </div>
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger"> *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input formControlName="staff_no" class="form-control" type="number" required>                                   
+                                </div>
+                            </div>
+
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Staff Name<span class="text-danger">
@@ -200,7 +207,8 @@
                                     </span>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">No of Leave<span class="text-danger">
@@ -220,8 +228,6 @@
                                 </div>
 
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Eligible Per Month<span
@@ -239,11 +245,10 @@
                                         </div>
                                     </span>
                                 </div>
-
                             </div>
                         </div>
 
-                        <div  formArrayName="leave">
+                        <div formArrayName="leave">
                             <div *ngFor="let chid of leaveAssignForm.get('leave')['controls']; let i = index"
                                 formGroupName="{{i}}">
                                 <div class="row">
@@ -253,7 +258,11 @@
                                                     class="text-danger">*</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <input formControlName="l_type" class="form-control" type="text">
+                                            <select formControlName="l_type" style="width: 100%;" class="form-control ">
+                                                <option value="" selected disabled>Please select</option>
+                                                <option value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
+                                                    {{leave.type_name}}</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -265,14 +274,18 @@
                                         <div class="inputdiv">
                                             <input formControlName="elgible" class="form-control" type="text">
                                         </div>
+
+                                        <div>
+                                            <input class="ml-2 form-control removebutton" type="button"
+                                                (click)="removeLeave(i)" value="remove" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="button" (click)="removeLeave(i)" value="remove" />
-                                    </div>
+
                                 </div>
                             </div>
                             <div>
-                                <input type="button" (click)="addleave()" value="Add" />
+                                <input class="ml-2 form-control addbutton" type="button" (click)="addleave()"
+                                    value="Add Leave +" />
                             </div>
 
                         </div>
