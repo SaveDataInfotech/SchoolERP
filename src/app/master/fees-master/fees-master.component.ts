@@ -93,6 +93,7 @@ export class FeesMasterComponent implements OnInit {
   feestypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl('', [Validators.required]),
+    studentfeestype: new FormControl('CommanFees', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -179,6 +180,7 @@ export class FeesMasterComponent implements OnInit {
   udateGetClick(fees: any) {
     this.feestypeForm.get('typeid')?.setValue(fees.typeid);
     this.feestypeForm.get('type_name')?.setValue(fees.type_name);
+    this.feestypeForm.get('studentfeestype')?.setValue(fees.studentfeestype);
     this.feestypeForm.get('cuid')?.setValue(fees.cuid);
     this.buttonId = false;
   }
@@ -383,7 +385,7 @@ export class FeesMasterComponent implements OnInit {
     assignid: new FormControl(0),
     classid: new FormControl(0, [Validators.required]),
     groupid: new FormControl(0, [Validators.required]),
-    studentfeestype: new FormControl('CommanFees', [Validators.required]),
+    //studentfeestype: new FormControl('CommanFees', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
     typeid: new FormControl(0,[Validators.required]),
@@ -469,7 +471,7 @@ export class FeesMasterComponent implements OnInit {
     this.filterGroupfun(Assign.classid);
     this.feesAssignForm.get('groupid')?.setValue(Assign.groupid);
    // this.filterSectionfun(Assign.groupid)
-    this.feesAssignForm.get('studentfeestype')?.setValue(Assign.studentfeestype);
+    //this.feesAssignForm.get('studentfeestype')?.setValue(Assign.studentfeestype);
     this.feesAssignForm.get('gender')?.setValue(Assign.gender);
     this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);
     this.feesAssignForm.get('typeid')?.setValue(Assign.typeid);
@@ -486,7 +488,7 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('assignid')?.setValue(0);
     this.feesAssignForm.get('classid')?.setValue(0);
     this.feesAssignForm.get('groupid')?.setValue(0);
-    this.feesAssignForm.get('studentfeestype')?.setValue('CommanFees');
+    //this.feesAssignForm.get('studentfeestype')?.setValue('CommanFees');
     this.feesAssignForm.get('gender')?.setValue('');
     this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
     this.feesAssignForm.get('typeid')?.setValue(0);

@@ -32,7 +32,10 @@
                                     </div>
                                 </span>
                             </div>
+                            
                         </div>
+                        
+
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
@@ -54,7 +57,26 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display:block;margin: auto;">
+                                <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"   value="Common Fees" checked>
+                                    <label class="form-check-label p-2">Common Fees (all students must in this fees)</label>
+                                  </div>
+                                  <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="Bus Fees">
+                                    <label class="form-check-label p-2">Bus Fees (only for bus available students)</label>
+                                  </div>
+                                  <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="Admission Fees">
+                                    <label class="form-check-label p-2">Admission Fees (only new students)</label>
+                                  </div>
+                                  <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype" value="Hostel Fees">
+                                    <label class="form-check-label p-2">Hostel Fees (only hostel students)</label>
+                                  </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
@@ -80,6 +102,7 @@
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Fees Type</th>
+                                    <th>Fees Assign Student Type</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -87,6 +110,7 @@
                                 <tr *ngFor="let fees of FeesList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{fees.type_name}}</td>
+                                    <td>{{fees.studentfeestype}}</td>
                                     <td class="tdoption">
                                         <span class="m-2 editbutton" (click)="udateGetClick(fees)"><b>edit</b></span>
                                         <span>||</span>
@@ -524,7 +548,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                     <!-- <div class="row">
                             <div class="col-sm-6 mt-3" style="display:block;margin: auto;">
                                 <div class="form-check mt-3">
                                     <input type="radio" class="form-check-input" formControlName="studentfeestype"   value="CommanFees" checked>
@@ -543,7 +567,7 @@
                                     <label class="form-check-label p-2">Hostel Fees</label>
                                   </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
