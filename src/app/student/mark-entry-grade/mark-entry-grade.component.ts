@@ -129,7 +129,7 @@ export class MarkEntryGradeComponent implements OnInit {
       console.log('subject'+this.subjectList)
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function(item){
         return { name: item,mark:0,grade:'',s_status:'',selected: false };
-      });;
+      });
       console.log('spilt'+this.spiltList[0])
     });
 

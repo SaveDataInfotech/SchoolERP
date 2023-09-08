@@ -12,11 +12,15 @@ export class staffProfileService {
 
     getstaffProfileList(): Observable<any[]> {
         return this.http.get<any[]>(this.apiUrl + 'StaffProfile/GET');
-      }
+    }
 
     addNewstaff(staffProfileinsert: any): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StaffProfile/insert_staff_profile', staffProfileinsert, httpOptions);
+    }
+
+    getMaxId(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_MaxId_staff_profile');
     }
 
 }

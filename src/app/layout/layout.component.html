@@ -5,7 +5,7 @@
   <div class="logo-details">
     <div class="logo"> </div>
   </div>
-  <ul *ngIf="currentLoginRole == 'admin'" class="nav-links" id="nav-links">
+  <ul *ngIf="currentLoginRole == 'Admin'" class="nav-links" id="nav-links">
 
     <li *ngFor="let item of AdminmenuSidebar" #itemEl routerLinkActive="active">
       <div *ngIf="item.sub_menu.length == 0" class="dropdown-title">

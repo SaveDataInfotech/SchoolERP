@@ -32,9 +32,7 @@
                                     </div>
                                 </span>
                             </div>
-                            
                         </div>
-                        
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -60,21 +58,27 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display:block;margin: auto;">
                                 <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"   value="Common Fees" checked>
-                                    <label class="form-check-label p-2">Common Fees (all students must in this fees)</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="Bus Fees">
-                                    <label class="form-check-label p-2">Bus Fees (only for bus available students)</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="Admission Fees">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"
+                                        value="Common Fees" checked>
+                                    <label class="form-check-label p-2">Common Fees (all students must in this
+                                        fees)</label>
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"
+                                        value="Bus Fees">
+                                    <label class="form-check-label p-2">Bus Fees (only for bus available
+                                        students)</label>
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"
+                                        value="Admission Fees">
                                     <label class="form-check-label p-2">Admission Fees (only new students)</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype" value="Hostel Fees">
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"
+                                        value="Hostel Fees">
                                     <label class="form-check-label p-2">Hostel Fees (only hostel students)</label>
-                                  </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -169,8 +173,7 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid': feesTypeAssignForm.get('typeid')?.touched && feesTypeAssignForm.value.typeid == 0}"
-                                        style="width: 100%;" formControlName="typeid" class="form-control "
-                                        name="selectAction" required>
+                                        style="width: 100%;" formControlName="typeid" class="form-control " required>
                                         <option value=0 selected disabled>Please select </option>
                                         <option [ngValue]="type.typeid" *ngFor="let type of FeesList">{{type.type_name}}
                                         </option>
@@ -324,7 +327,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -433,8 +435,7 @@
                                 </div>
                                 <div class="inputdiv">
                                     <!-- (change)="filterSectionfun(s.value)" -->
-                                    <select formControlName="groupid" style="width: 100%;" #s
-                                         class="form-control " name="selectAction">
+                                    <select formControlName="groupid" style="width: 100%;" #s class="form-control ">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [disabled]="assignbuttonId != true" [ngValue]="group.groupid"
                                             *ngFor="let group of groupFilterlist;">
@@ -444,30 +445,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Section Name<span class="text-danger">
-                                            *</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select
-                                        [ngClass]="{'is-invalid': feesAssignForm.get('sectionid')?.touched && feesAssignForm.value.sectionid == 0}"
-                                        formControlName="sectionid" style="width: 100%;" class="form-control "
-                                        name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option [disabled]="assignbuttonId != true" [ngValue]="section.sectionid"
-                                            *ngFor="let section of sectionFilterlist;">
-                                            {{section.section_name}}</option>
-                                    </select>
-                                    <span class="text-danger"
-                                        *ngIf="feesAssignForm.get('sectionid')?.touched && feesAssignForm.value.sectionid == 0">Section
-                                        name is required</span>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
@@ -475,18 +452,13 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select #tyf (change)="TypelistFilterfun(tyf.value)" required
-                                        [ngClass]="{'is-invalid': feesAssignForm.get('typeid')?.touched && feesAssignForm.value.typeid == 0}"
-                                        style="width: 100%;" formControlName="typeid" class="form-control "
-                                        name="selectAction">
-                                        <option value=0 selected disabled>Please select </option>
-                                        <option [disabled]="assignbuttonId != true" [value]="type.typeid" *ngFor="let type of FeesList">{{type.type_name}}
+                                    <select #tyf (change)="TypelistFilterfun(tyf.value)" required style="width: 100%;"
+                                        formControlName="type_name" class="form-control">
+                                        <option value='' selected disabled>Please select </option>
+                                        <option [disabled]="assignbuttonId != true" [value]="type.type_name"
+                                            *ngFor="let type of FeesList">{{type.type_name}}
                                         </option>
                                     </select>
-                                    <span class="text-danger"
-                                        *ngIf="feesAssignForm.get('typeid')?.touched && feesAssignForm.value.typeid == 0">
-                                        Fees Type required
-                                    </span>
                                 </div>
                             </div>
 
@@ -496,16 +468,15 @@
                                     </label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select formControlName="type_assignid" style="width: 100%;" class="form-control "
-                                        name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option [disabled]="assignbuttonId != true" [ngValue]="assign.type_assignid"
+                                    <select formControlName="type_assign_name" style="width: 100%;"
+                                        class="form-control">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option [disabled]="assignbuttonId != true" [ngValue]="assign.type_assign_name"
                                             *ngFor="let assign of FeesTypeAssignFilterlist;">
                                             {{assign.type_assign_name}}</option>
                                     </select>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="row">
@@ -514,10 +485,9 @@
                                     <label class="pt-2" style="margin: auto;">Fees Less</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="fess_lessid" class="form-control "
-                                        name="selectAction">
-                                        <option [ngValue]=0 selected>Not Specified</option>
-                                        <option [ngValue]="less.fess_lessid" *ngFor="let less of FeesLessList;">
+                                    <select style="width: 100%;" formControlName="less_type" class="form-control">
+                                        <option value='Not Specified' selected>Not Specified</option>
+                                        <option value={{less.less_type}} *ngFor="let less of FeesLessList;">
                                             {{less.less_type}}</option>
                                     </select>
                                 </div>
@@ -531,8 +501,7 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid':feesAssignForm.controls.gender.touched && feesAssignForm.controls.gender.errors}"
-                                        style="width: 100%;" formControlName="gender" class="form-control "
-                                        name="selectAction">
+                                        style="width: 100%;" formControlName="gender" class="form-control ">
                                         <option value="" selected disabled>Please select</option>
                                         <option>Male</option>
                                         <option>Female</option>
@@ -548,26 +517,6 @@
                                 </div>
                             </div>
                         </div>
-                     <!-- <div class="row">
-                            <div class="col-sm-6 mt-3" style="display:block;margin: auto;">
-                                <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"   value="CommanFees" checked>
-                                    <label class="form-check-label p-2">Comman Fees</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="BusFees">
-                                    <label class="form-check-label p-2">Bus Fees</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype"  value="TermFees">
-                                    <label class="form-check-label p-2">Term Fees</label>
-                                  </div>
-                                  <div class="form-check mt-3">
-                                    <input type="radio" class="form-check-input" formControlName="studentfeestype" value="HostelFees">
-                                    <label class="form-check-label p-2">Hostel Fees</label>
-                                  </div>
-                            </div>
-                        </div> -->
 
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -635,11 +584,12 @@
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Class Name</th>
-                                    <th>Group Name</th>        
+                                    <th>Group Name</th>
                                     <th>Gender</th>
                                     <th>Batch Year</th>
                                     <th>Fees Type</th>
                                     <th>Fees Type Assign</th>
+                                    <th>student Fees Type</th>
                                     <th>Fees Less</th>
                                     <th>Amount</th>
                                     <th>Action</th>
@@ -649,11 +599,12 @@
                                 <tr *ngFor="let Assign of FeesAssignList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{Assign.class_name}}</td>
-                                    <td>{{Assign.group_name}}</td>                                    
+                                    <td>{{Assign.group_name}}</td>
                                     <td>{{Assign.gender}}</td>
                                     <td>{{Assign.batch_year}}</td>
                                     <td>{{Assign.type_name}}</td>
                                     <td>{{Assign.type_assign_name}}</td>
+                                    <td>{{Assign.studentfeestype}}</td>
                                     <td>{{Assign.less_type}}</td>
                                     <td>{{Assign.amount}}</td>
                                     <td class="tdoption">

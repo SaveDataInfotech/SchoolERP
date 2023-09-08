@@ -14,7 +14,7 @@
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">UserID</label>
                         </div>
-                        <span  style="float: left;width: 250px;" *ngIf="buttonId == true ">
+                        <span style="float: left;width: 250px;" *ngIf="buttonId == true ">
                             <div class="inputdiv" *ngFor="let code of MaxId">
                                 <input placeholder="00{{code.userid+1}}" class="form-control" type="text" readonly
                                     required>
@@ -57,7 +57,11 @@
                                     *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input class="form-control" formControlName="staff_no" type="number">
+                            <select formControlName="staff_no" style="width: 100%;" class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                    {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                            </select>
                         </div>
                     </div>
 
@@ -141,7 +145,7 @@
                                     Password is required
                                 </div>
                                 <div *ngIf="userProfileForm.controls.password.errors.minlength">
-                                    Password must be at least 5 characters long.
+                                    Password must be at least 5 characters
                                 </div>
                             </span>
                         </div>
@@ -164,7 +168,7 @@
                                     Confirm Password is required
                                 </div>
                                 <div *ngIf="userProfileForm.controls.c_password.errors.minlength">
-                                    Password must be at least 5 characters long.
+                                    Password must be at least 5 characters
                                 </div>
                             </span>
                         </div>
@@ -204,13 +208,11 @@
                             <td>{{user.user_name}}</td>
                             <td>{{user.role_name}}</td>
                             <td>{{user.email}}</td>
-                            <td>{{user.phone}}</td>                           
+                            <td>{{user.phone}}</td>
                             <td class="tdoption">
-                                <span class="m-2 editbutton"  (click)="updateGetClick(user)"
-                                ><b>edit</b></span>
+                                <span class="m-2 editbutton" (click)="updateGetClick(user)"><b>edit</b></span>
                                 <span>||</span>
-                                <span class="m-2 deletebutton" (click)="deleteClick(user.userid)"
-                                    ><b>delete</b></span>
+                                <span class="m-2 deletebutton" (click)="deleteClick(user.userid)"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>

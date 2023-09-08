@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from '../api-service/Dialog.service';
 import { NotificationsService } from 'angular2-notifications';
 import { userProfileService } from '../api-service/userProfile.service';
+import { staffProfileService } from '../api-service/staffProfile.service';
 
 @Component({
   selector: 'app-user',
@@ -13,20 +14,23 @@ export class UserComponent implements OnInit {
   UsersList: any = [];
   MaxId: any = [];
   buttonId: boolean = true;
-
+  staffList: any[] = [];
+  staffListAll:any[]=[];
   public showPassword: boolean;
   public showPasswordOnPress: boolean;
 
   constructor(
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
-    private userSvc: userProfileService
+    private userSvc: userProfileService,
+    private staffSvc: staffProfileService,
   ) { }
 
   ngOnInit(): void {
     this.cancelClick();
     this.getMaxId();
     this.refreshsUsersList();
+    this.refreshStaffList();
   }
 
 
@@ -38,11 +42,18 @@ export class UserComponent implements OnInit {
     return true;
   }
 
+  refreshStaffList() {
+    this.staffSvc.getstaffProfileList().subscribe(data => {
+      this.staffListAll = data;
+      this.staffList=this.staffListAll.filter((e)=>{return e.activestatus==1})
+    });
+  }
+
   userProfileForm = new FormGroup({
     userid: new FormControl(0),
     user_name: new FormControl(''),
     role_name: new FormControl(''),
-    staff_no: new FormControl(),
+    staff_no: new FormControl(''),
     phone: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
     password: new FormControl(''),
@@ -53,9 +64,10 @@ export class UserComponent implements OnInit {
   refreshsUsersList() {
     this.userSvc.getUsersList().subscribe(data => {
       this.UsersList = data;
-      console.log(this.UsersList)
     });
   }
+
+
 
   getMaxId() {
     this.userSvc.getMaxId().subscribe(data => {
@@ -65,6 +77,7 @@ export class UserComponent implements OnInit {
 
 
   newUserProfile() {
+debugger;
     if (this.userProfileForm.value.password == this.userProfileForm.value.c_password) {
       if (this.userProfileForm.valid) {
         if (this.userProfileForm.value.userid == 0) {
@@ -161,7 +174,15 @@ export class UserComponent implements OnInit {
 
   cancelClick() {
     this.userProfileForm.reset();
+    this.userProfileForm.get('userid')?.setValue(0);
+    this.userProfileForm.get('user_name')?.setValue('');
     this.userProfileForm.get('role_name')?.setValue('');
+    this.userProfileForm.get('staff_no')?.setValue('');
+    this.userProfileForm.get('phone')?.setValue('');
+    this.userProfileForm.get('email')?.setValue('');
+    this.userProfileForm.get('password')?.setValue('');
+    this.userProfileForm.get('c_password')?.setValue('');
+    this.userProfileForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
 

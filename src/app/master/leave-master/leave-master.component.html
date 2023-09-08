@@ -184,8 +184,13 @@
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger"> *</span></label>
                                 </div>
-                                <div class="inputdiv">
-                                    <input formControlName="staff_no" class="form-control" type="number" required>                                   
+                                <div class="inputdiv">                                    
+                                    <select #st (change)="staffNameChange(st.value)"                                   
+                                    formControlName="staff_no" style="width: 100%;" class="form-control ">
+                                    <option value='' selected disabled>Please select</option>
+                                    <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                        {{Staff.staff_no}}</option>
+                                </select>                                   
                                 </div>
                             </div>
 
@@ -195,16 +200,7 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors}"
-                                        formControlName="staff_name" class="form-control" type="text" required>
-                                    <span class="text-danger"
-                                        *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors">
-                                        <div
-                                            *ngIf="leaveAssignForm.controls.staff_name.touched && leaveAssignForm.controls.staff_name.errors.required">
-                                            Staff Name is required
-                                        </div>
-                                    </span>
+                                    <input readonly formControlName="staff_name" class="form-control" type="text" required>                                    
                                 </div>
                             </div>
                         </div>

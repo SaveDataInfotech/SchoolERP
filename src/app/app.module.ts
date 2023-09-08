@@ -23,6 +23,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import {  ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './user/user.component';
+import { CurrencyPipe} from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
@@ -52,7 +53,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     
   ],
   exports: [NgxDropzoneModule],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

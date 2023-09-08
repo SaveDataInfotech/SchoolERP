@@ -1,9 +1,6 @@
 <div class="container-fluid mt-1">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <!-- <div style="float: left;text-align: left;">
-                <mat-icon class="" style="color: blue;">supervised_user_circle</mat-icon>
-            </div> -->
             <div style="float: left;width: 400px;">
                 <h3 class="ml-1">Staff Assign</h3>
             </div>
@@ -11,174 +8,141 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="staffAssignForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
+                            <label class="pt-2" style="margin: auto;">Batch</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
+                            <input formControlName="batch_year" readonly class="form-control" type="text" required>
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                    
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                            <label class="pt-2" style="margin: auto;">Class Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
+                            <select formControlName="classid" style="width: 100%;" #t (change)="FilterGroupfun(t.value)"
+                                class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                </div>
+                <div class="row">
+                    <div *ngIf="groupDisplay == true" class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                            <label class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Maths-Bio</option>
-                                <option>Science</option>
-                                <option>Computer-Science</option>
+                            <select formControlName="groupid" style="width: 100%;" #s
+                                (change)="FilterSectionfun(s.value)" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                    {{group.group_name}}</option>
                             </select>
                         </div>
                     </div>
-                    
                 </div>
 
-                <!-- <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">No.Of.Subject</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">No.Of.Staff</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Class incharge</label>
+                            <label class="pt-2" style="margin: auto;">Section</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <select formControlName="sectionid" (change)="searchSubjectByClass()" style="width: 100%;"
+                                class="form-control ">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                    {{section.section_name}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Class incharge</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select #st (change)="staffNameChange(st.value)" formControlName="class_incharge"
+                                style="width: 100%;" class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                    {{Staff.staff_no}}</option>
+                            </select>
+                        </div>
                     </div>
-                </div> -->
-            
 
-            <div class="table-responsive mt-5">
-               
-                <table class="col-sm-8 table table-hover table-bordered table-sm  ">
-                    <thead>
-                        <tr>
-                            <th colspan="2"></th>                        
-                            <th colspan="2" style="text-align: center;color: blue;">Primary Staff</th>
-                            <th colspan="2" style="text-align: center;color: blue;">Additional Staff</th>
-                            <!-- <th></th> -->
-                        </tr>
-                    </thead>
-                    <thead>
-                        <tr>
-                            <th colspan="2">Subject Name</th>
-                            <th>Staff No</th>
-                            <th>Staff Name</th>
-                            <th>Staff No</th>
-                            <th>Staff Name</th>
-                            <!-- <th>Options</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">Tamil</td>
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="4" style="vertical-align : middle;text-align:center;">Science</td>
-                            <td>che</td>
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                        <tr>                            
-                            <td>phy</td>
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                        <tr>
-                            <td>Bo</td>
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                        <tr>
-                            <td>Zo</td>
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">ENGLISH</td>
-                            
-                            <td>1</td>
-                            <td>Jaya</td>
-                            <td>006</td>
-                            <td>Ram</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div class="col-sm-8 mt-4">
-                    <div style="text-align: center;">
-                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                            value="Cancel" />
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input  readonly formControlName="staff_name" class="form-control" type="text" required>
+                        </div>
                     </div>
                 </div>
-            
-            </div>
-        </form>
+
+                <div class="table-responsive mt-5">
+
+                    <table class="col-sm-10 table table-hover table-bordered table-sm  ">
+                        <thead>
+                            <!-- <tr>
+                                 <th colspan="3"></th>
+                                <th  style="text-align: center;color: blue;">Primary Staff</th>
+                                <th style="text-align: center;color: blue;">Additional Staff</th>
+                            </tr> -->
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th>Si.No</th>
+                                <th colspan="2">Subject Name</th>
+
+                                <th  style="text-align: center;color: blue;">Primary Staff</th>
+                                <th style="text-align: center;color: blue;">Additional Staff</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="subjects">
+                            <tr *ngFor="let chid of staffAssignForm.get('subjects')['controls']; let i = index"
+                                formGroupName="{{i}}">
+                                <td>{{i+1}}</td>
+                                <td colspan="2"><input formControlName="subjectsname" class="form-control shadow-none" style="border: 0px;" readonly type="text">
+                                </td>
+                                <td> <select formControlName="pm_staff_no" style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                            {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                    </select></td>
+                                <!-- <td>Jaya</td> -->
+                                <td> <select formControlName="ad_staff_no" style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                            {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                    </select></td>
+                                <!-- <td>Ram</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="col-sm-8 mt-4 mb-1">
+                        <div style="text-align: center;">
+                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()"
+                                style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        </div>
+                    </div>
+
+                </div>
+            </form>
         </mat-card-content>
     </mat-card>
 </div>

@@ -5,6 +5,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { LeaveAssignService } from 'src/app/api-service/LeaveAssign.service';
 import { LeaveTypeService } from 'src/app/api-service/LeaveType.service';
+import { staffProfileService } from 'src/app/api-service/staffProfile.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 
 @Component({
@@ -25,9 +26,12 @@ export class LeaveMasterComponent implements OnInit {
   LaveAsByIDList: any = [];
   leaveAssignLeaveTypeFilterList: any = [];
 
+  staffList :any[]=[];
+
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService, private router: Router) { this.createForm(); }
+    private notificationSvc: NotificationsService, private router: Router,
+    private staffSvc: staffProfileService,) { this.createForm(); }
 
   ngOnInit(): void {
     this.refreshstaffTypeList(),
@@ -40,6 +44,7 @@ export class LeaveMasterComponent implements OnInit {
       this.cancelClick(),
       this.AssigncancelClick();
     this.refreshLeaveAssignByIDList();
+    this.refreshStaffList();
   }
 
   leavetypeForm = new FormGroup({
@@ -159,7 +164,7 @@ export class LeaveMasterComponent implements OnInit {
     this.leaveAssignForm = new FormGroup({
       assignid: new FormControl(0),
       staff_type: new FormControl('', [Validators.required]),
-      staff_no: new FormControl(0),
+      staff_no: new FormControl(''),
       staff_name: new FormControl('', [Validators.required]),
       no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
       e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
@@ -218,6 +223,19 @@ export class LeaveMasterComponent implements OnInit {
     });
   }
 
+  refreshStaffList() {
+    this.staffSvc.getstaffProfileList().subscribe(data => {
+      this.staffList = data;
+      console.log('staff profile list'+this.staffList)
+    });
+  }
+
+  staffNameChange(value){
+  debugger 
+   const newarray =this.staffList.filter((e)=>{return e.staff_no == value})
+    this.leaveAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
+  }
+
 
   NewLeaveAssign() {
     debugger;
@@ -236,6 +254,7 @@ export class LeaveMasterComponent implements OnInit {
                   this.refreshstaffTypeList();
                   this.getAssignMaxId();
                   this.AssigncancelClick();
+                  this.refreshStaffList();
                 }
               });
             }
@@ -285,6 +304,7 @@ export class LeaveMasterComponent implements OnInit {
               this.refreshstaffTypeList();
               this.getAssignMaxId();
               this.AssigncancelClick();
+              this.refreshStaffList();
             }
           });
         }
@@ -313,10 +333,11 @@ export class LeaveMasterComponent implements OnInit {
 
   AssigncancelClick() {
     this.leaveAssignForm.reset();
+    this.refreshStaffList();
     this.leaveAssignForm.get('assignid')?.setValue(0);
     this.leaveAssignForm.get('staff_type')?.setValue('');
     this.leaveAssignForm.get('staff_name')?.setValue('');
-    this.leaveAssignForm.get('staff_no')?.setValue(0);
+    this.leaveAssignForm.get('staff_no')?.setValue('');
     this.leaveAssignForm.get('no_of_leave')?.setValue(null);
     this.leaveAssignForm.get('e_per_mon')?.setValue(null);
     this.leaveAssignForm.get('cuid')?.setValue(1);

@@ -23,7 +23,7 @@
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Staff No</label>
                                 </div>
-                                <input type="text" style="width: 250px;" class="form-control" name="staff_no"
+                                <input type="text" style="width: 250px;" readonly class="form-control" name="staff_no"
                                     [(ngModel)]="staffProfileForm.staff_no">
 
                                 <div style="float: left;width: 150px;text-align: left;">
@@ -188,8 +188,13 @@
                                     <select name="class_hand" [(ngModel)]="staffProfileForm.class_hand"
                                         style="width: 100%;" class="form-control">
                                         <option value="" selected disabled>Please select</option>
-                                        <option value={{class.class_name}} *ngFor="let class of ClassList;">
-                                            {{class.class_name}}</option>
+                                        <option>LKG - UKG</option>
+                                        <option>I - V</option>
+                                        <option>VI - VIII</option>
+                                        <option>IX - X</option>
+                                        <option>XI - XII</option>
+                                        <!-- <option value={{class.class_name}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option> -->
                                     </select>
                                 </div>
                             </div>
@@ -580,7 +585,7 @@
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                                <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
                                     class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
@@ -623,7 +628,7 @@
                         <div *ngFor="let staff of staffFilterList" class="m-4 row col-sm-3 carddiv">
                             <div style="margin: auto;">
                                 <div style="margin: auto;text-align: center;"><img [src]="staff.img"
-                                        style="border-radius: 50px;" height="80px" width="80px" /></div>
+                                        style="border-radius: 50px;object-fit: cover;" height="80px" width="80px" /></div>
                             </div>
                             <div style="width: 100%;float: left;">
                                 <label class="cardlabel mt-1">Staff No</label><label
@@ -634,6 +639,10 @@
                                     class="cardlabelcon">{{staff.staff_name}}</label>
                             </div>
                             <div style="width: 100%;float: left;">
+                                <label class="cardlabel" style="width: 30%;">Gender</label><label
+                                    class="cardlabelcon">{{staff.gender}}</label>
+                            </div>
+                            <div style="width: 100%;float: left;">
                                 <label class="cardlabel" style="width: 30%;">Type</label><label
                                     class="cardlabelcon">{{staff.staff_type}}</label>
                             </div>
@@ -642,7 +651,7 @@
                                     class="cardlabelcon">{{staff.dob}}</label>
                             </div>
 
-                            <div style="position: relative;" class="col-sm-12">
+                            <div style="" class="col-sm-12">
                                 <input (click)="editFun(staff)" (click)="tabGroup.selectedIndex=0" type="button"
                                     value="Click To Edit" class="form-control btn btn-secondary" />
                             </div>

@@ -8,116 +8,85 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form #AttendanceForm="ngForm" (ngSubmit)="save(staffList)">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Teacher</option>
-                                <option>Helper</option>
-                                <option>Driver</option>
+                            <input [disabled]="serachDisabled == true" [max]="today" placeholder="Enter 10-th Mark"
+                                name="date" [value]="today" [(ngModel)]="staffAttendanceForm.date" class="form-control"
+                                type="date">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select name="staff_type" [(ngModel)]="staffAttendanceForm.staff_type" style="width: 100%;"
+                                class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option [disabled]="serachDisabled == true" *ngFor="let Staff of StaffTypeList;">
+                                    {{Staff.staffType}}</option>
                             </select>
                         </div>
                     </div>
-
-                </div>
-                <div class="row">
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2"  style="margin: auto;">Date</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" [value]="today" class="form-control" type="Date" required>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="col-sm-6 mt-5">
+                <div class="col-sm-6 mt-3">
                     <div style="text-align: center;">
-                        <button matTooltip="Click to Search" type="button"
-                        class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
+                        <button (click)="searchStaff()" matTooltip="Click to Search" type="button"
+                            class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                     </div>
                 </div>
-
-
-                <!-- <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
-                    </div>
-                </div> -->
-
 
                 <div class="table-responsive mt-5">
-
-
-                    <table class="col-sm-8 table table-hover table-bordered table-sm ">
+                    <table class="col-sm-12 table table-hover table-bordered table-sm ">
                         <thead>
                             <tr>
                                 <th>Si.No</th>
                                 <th>Staff No</th>
                                 <th>Staff Name</th>
-                                
-                                <th>FN <input style="height: 15px;width: 15px;" type="checkbox"
-                                        class="form-check-input ml-2" value="something"></th>
-                                <th>AN <input style="height: 15px;width: 15px;" type="checkbox"
-                                        class="form-check-input ml-1" value="something"></th>
+                                <th>FN</th>
+                                <th>AN</th>
                                 <th>Leave</th>
+                                <th>Leave Type</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>000101</td>
-                                <td>0034</td>
-                                <td>John</td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
+                            <tr *ngFor="let staff of staffList;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{staff.staff_no}}</td>
+                                <td>{{staff.staff_name}}</td>
+                                <td><input [(ngModel)]="staff.fn" name="fn{{i}}" #fn="ngModel" type="checkbox">
+                                    <span class="pl-2 text-success" *ngIf="staff.fn == true"><b>P</b></span><span
+                                        class="pl-2 text-danger" *ngIf="staff.fn == false"><b>A</b></span>
                                 </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
+                                <td><input [(ngModel)]="staff.an" name="an{{i}}" #an="ngModel" type="checkbox">
+                                    <span class="pl-2 text-success" *ngIf="staff.an == true"><b>P</b></span><span
+                                        class="pl-2 text-danger" *ngIf="staff.an == false"><b>A</b></span>
                                 </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                    value="something"></td>
-                            </tr>
-
-                            <tr>
-                                <td>000102</td>
-                                <td>0034</td>
-                                <td>Kumar</td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
-                                </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
-                                </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                    value="something"></td>
-                            </tr>
-
-                            <tr>
-                                <td>000103</td>
-                                <td>0034</td>
-                                <td>Priya</td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
-                                </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                        value="something">
-                                </td>
-                                <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4"
-                                    value="something"></td>
+                                <td><input [disabled]="staff.an == true || staff.fn== true"  [(ngModel)]="staff.leave" name="l{{i}}" #l="ngModel" type="checkbox"></td>
+                                <td [width]="200"><select [disabled]="staff.leave == false" [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
+                                            {{leave.type_name}}</option>
+                                    </select></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="col-sm-8 mt-4">
                         <div style="text-align: center;">
-                           <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                            <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                                value="Cancel" />
+                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            <input matTooltip="Click to Cancel" (click)="cancelClick();" type="button"
+                                style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                         </div>
                     </div>
 

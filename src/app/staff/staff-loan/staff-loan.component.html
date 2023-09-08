@@ -1,209 +1,451 @@
-<mat-tab-group  mat-align-tabs="start">
-    <mat-tab label="Staff Loan"><div class="container-fluid mt-1">
-        <div class="row">
-            <div class="col-12" style="display: flex;">                
-                <div style="float: left;width: 400px;">
-                    <h3 class="ml-1">Staff Loan</h3>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Staff Loan">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Staff Loan</h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <mat-card class="mt-2 matcard mb-5">
-            <mat-card-content>
-                <form>
-                    <div class="row">
-                        <div class="col-sm-6 mt-3" style="display: flex;">
-                            <div style="float: left;width: 150px;text-align: left;">
-                                <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
-                            </div>
-                            <div style="float: left;width: 250px;">
-                                <select style="width: 100%;" class="form-control " name="selectAction">
-                                    <option>Teacher</option>
-                                    <option>Helper</option>
-                                    <option>Driver</option>
-                                </select>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form [formGroup]="staffLoanForm" (ngSubmit)="saNewLoan()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="date" [value]="today" class="form-control" type="Date"
+                                        required>
+                                </div>
                             </div>
                         </div>
-    
-                    </div>
-                    <div class="row">
-    
-                        <div class="col-sm-6 mt-3" style="display: flex;">
-                            <div style="float: left;width: 150px;text-align: left;">
-                                <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
-                            </div>
-                            <div style="float: left;width: 250px;">
-                                <input placeholder="" [value]="today" class="form-control" type="Date" required>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid': staffLoanForm.get('staff_type')?.touched && staffLoanForm.get('staff_type')?.errors}"
+                                        formControlName="staff_type" #st (change)="staffFilter(st.value)"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option *ngFor="let Staff of StaffTypeList;">
+                                            {{Staff.staffType}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-    
-    
-                    <!-- <div class="col-sm-12 mt-4">
-                        <div style="text-align: center;">
-                            <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid': staffLoanForm.get('staff_no')?.touched && staffLoanForm.get('staff_no')?.errors}"
+                                        #snb (change)="staffNameBind(snb.value)" formControlName="staff_no"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}} *ngFor="let Staff of staffFilterList;">
+                                            {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
-    
-    
-                    <div class="table-responsive mt-5">
-    
-    
-                        <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
-                            <thead>
-                                <tr>
-                                    <th>Si.No</th>
-                                    
-                                    <th>Staff No</th>
-                                    <th>Staff Name</th>
-                                    <th>Loan Amount</th>
-                                    <th>Duration(No Of Months)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                   
-                                    <td>0034</td>
-                                    <td>John</td>
-                                    <td>60,000</td>
-                                    <td>8</td>
-                                </tr>
-    
-                                <tr>
-                                    <td>2</td>
-                                   
-                                    <td>0034</td>
-                                    <td>Kumar</td>
-                                    <td>60,000</td>
-                                    <td>8</td>
-                                </tr>
-    
-                                <tr>
-                                    <td>3</td>
-                                   
-                                    <td>0034</td>
-                                    <td>Priya</td>
-                                    <td>60,000</td>
-                                    <td>8</td>
-                                </tr>
-                            </tbody>
-                        </table>
-    
-                        <div class="col-sm-8 mt-4">
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="staff_name" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Loan Amount<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':staffLoanForm.controls.loan_amount.touched && staffLoanForm.controls.loan_amount.errors}"
+                                        (change)="automatedEmiAmount()" formControlName="loan_amount"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Total No.of Month<span
+                                            class="text-danger"> *</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':staffLoanForm.controls.n_month.touched && staffLoanForm.controls.n_month.errors}"
+                                        (change)="automatedEmiAmount()" #aemi formControlName="n_month"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">EMI Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="emi_amount" readonly class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-6 mt-4">
                             <div style="text-align: center;">
-                               <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                                    value="Cancel" />
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" (click)="newLoanCancelClick()" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
-    
+
+                        <div class="table-responsive mt-5">
+                            <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
+                                <thead>
+                                    <tr>
+                                        <th>Si.No</th>
+                                        <th>Staff No</th>
+                                        <th>Staff Name</th>
+                                        <th>Loan Amount</th>
+                                        <th>EMI Amount</th>
+                                        <th>Duration(No Of Months)</th>
+                                        <th>Balance Amount</th>
+                                        <th>No.of Dues</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let loan of LoanList;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{loan.staff_no}}</td>
+                                        <td>{{loan.staff_name}}</td>
+                                        <td>{{loan.loan_amount}}</td>
+                                        <td>{{loan.emi_amount}}</td>
+                                        <td>{{loan.n_month}}</td>
+                                        <td>{{loan.balance_amount}}</td>
+                                        <td>{{loan.n_dues}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Loan Collection">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Staff Loan Deduction</h3>
                     </div>
-                </form>
-            </mat-card-content>
-        </mat-card>
-    </div></mat-tab>
-    <mat-tab label="Loan Deduction"><div class="container-fluid mt-1">
-        <div class="row">
-            <div class="col-12" style="display: flex;">                
-                <div style="float: left;width: 400px;">
-                    <h3 class="ml-1">Staff Loan Deduction</h3>
                 </div>
             </div>
-        </div>
-        <mat-card class="mt-2 matcard mb-5">
-            <mat-card-content>
-                <form>
-                    <div class="row">
-                        <div class="col-sm-6 mt-3" style="display: flex;">
-                            <div style="float: left;width: 150px;text-align: left;">
-                                <label for="ex2" class="pt-2" style="margin: auto;">Staff Type</label>
-                            </div>
-                            <div style="float: left;width: 250px;">
-                                <select style="width: 100%;" class="form-control " name="selectAction">
-                                    <option>Teacher</option>
-                                    <option>Helper</option>
-                                    <option>Driver</option>
-                                </select>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form [formGroup]="staffLoanDeductionForm" (ngSubmit)="LoanDeduction()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date of payment</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="payment_date" class="form-control" type="Date" required>
+                                </div>
                             </div>
                         </div>
-    
-                    </div>
-                    <div class="row">    
-                        <div class="col-sm-6 mt-3" style="display: flex;">
-                            <div style="float: left;width: 150px;text-align: left;">
-                                <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Type</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="staff_type" #std (change)="staffDeducFilter(std.value)"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staffType}} *ngFor="let Staff of StaffTypeList;">
+                                            {{Staff.staffType}}</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div style="float: left;width: 250px;">
-                                <input placeholder="" [value]="today" class="form-control" type="Date" required>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date of Loan</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="date" [value]="today" class="form-control"
+                                        type="Date" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-    
-    
-                    <!-- <div class="col-sm-12 mt-4">
-                        <div style="text-align: center;">
-                            <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff No</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select #stp (change)="patchvalue(stp.value)" formControlName="staff_no"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}}
+                                            *ngFor="let Staff of staffDeductionFilterList;">
+                                            {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="staff_name" class="form-control" />
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
-    
-    
-                    <div class="table-responsive mt-5">
-    
-    
-                        <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
-                            <thead>
-                                <tr>
-                                    <th>Si.No</th>                                    
-                                    <th>Staff No</th>
-                                    <th>Staff Name</th>
-                                    <th>Balance Amount</th>
-                                    <th>Amount Deduction</th>
-                                    <th>Month</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>                                    
-                                    <td>0034</td>
-                                    <td>John</td>
-                                    <td>5,000</td>
-                                    <td>8</td>
-                                    <td>yes</td>
-                                </tr>
-    
-                                <tr>
-                                    <td>2</td>                                   
-                                    <td>0034</td>
-                                    <td>Kumar</td>
-                                    <td>6,000</td>
-                                    <td>8</td>
-                                    <td>yes</td>
-                                </tr>
-    
-                                <tr>
-                                    <td>3</td>                                    
-                                    <td>0034</td>
-                                    <td>Priya</td>
-                                    <td>6,000</td>
-                                    <td>8</td>
-                                    <td>yes</td>
-                                </tr>
-                            </tbody>
-                        </table>
-    
-                        <div class="col-sm-8 mt-4">
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Loan Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="loan_amount" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">EMI Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="emi_amount" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Balance Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="balance_amount" class="form-control" type="text"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">No.of Dues</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="n_dues" class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Payable Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input #cmpa (change)="comparePayAmount(cmpa.value)" formControlName="d_amount"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 mt-3" style="display: flex;">
+                                <div style="float: left;width: 30px;text-align: left;">
+                                    <input (click)="PNChange($event)" formControlName="pn_month" class="mt-3"
+                                        style="width: 20px;height: 20px;" type="checkbox">
+                                </div>
+                                <div style="float: left;width: 250px;color: blue;">
+                                    <label style="font-family: Oswald;font-size: large;" class="pt-3">Pay next
+                                        month</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 mt-5">
                             <div style="text-align: center;">
-                               <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                                    value="Cancel" />
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
-    
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Bank Loan Collection">
+        <div class="container-fluid mt-1">
+            <div class="row">
+                <div class="col-12" style="display: flex;">
+                    <div style="float: left;width: 400px;">
+                        <h3 class="ml-1">Staff Loan Deduction</h3>
                     </div>
-                </form>
-            </mat-card-content>
-        </mat-card>
-    </div></mat-tab>
-  </mat-tab-group>
+                </div>
+            </div>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form [formGroup]="staffLoanDeductionForm" (ngSubmit)="LoanDeduction()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date of payment</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input  class="form-control" type="Date" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Type</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="staff_type" #std (change)="staffDeducFilter(std.value)"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staffType}} *ngFor="let Staff of StaffTypeList;">
+                                            {{Staff.staffType}}</option>
+                                    </select>
+                                </div>
+                            </div>
 
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date of Loan</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="date" [value]="today" class="form-control"
+                                        type="Date" required>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff No</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select #stp (change)="patchvalue(stp.value)" formControlName="staff_no"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}}
+                                            *ngFor="let Staff of staffDeductionFilterList;">
+                                            {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="staff_name" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Loan Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="loan_amount" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">EMI Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="emi_amount" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Balance Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="balance_amount" class="form-control" type="text"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">No.of Dues</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="n_dues" class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-5 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Payable Amount</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input #cmpa (change)="comparePayAmount(cmpa.value)" formControlName="d_amount"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 mt-5">
+                            <div style="text-align: center;">
+                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

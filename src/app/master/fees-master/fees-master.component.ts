@@ -32,7 +32,7 @@ export class FeesMasterComponent implements OnInit {
   SectionList: any = [];
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
-  FeesTypeAssignFilterlist:any=[];
+  FeesTypeAssignFilterlist: any = [];
   activeBatchYear: any = [];
   groupDisplay: boolean = true;
   feestypeDisplay: boolean = true;
@@ -363,21 +363,19 @@ export class FeesMasterComponent implements OnInit {
     return true;
   }
 
-  TypelistFilterfun(value:any){
-    const valuesid = Number(value);
-    this.feesAssignForm.get('typeid')?.setValue(valuesid);
-    this.FeesTypeAssignFilterlist = this.FeesTypeAssignList.filter((e: any) => { return e.typeid == valuesid });
-    this.feesAssignForm.get('type_assignid')?.setValue(0);
+  TypelistFilterfun(value: any) {
+    // const valuesid = Number(value);
+    this.feesAssignForm.get('type_name')?.setValue(value);
+    this.FeesTypeAssignFilterlist = this.FeesTypeAssignList.filter((e: any) => { return e.type_name == value });
+    this.feesAssignForm.get('type_assign_name')?.setValue('');
     if (this.FeesTypeAssignFilterlist.length == 0) {
       this.feestypeDisplay = false;
-      this.feesAssignForm.get('type_assignid')?.setValue(0);
+      this.feesAssignForm.get('type_assign_name')?.setValue('');
     }
     else {
       this.feestypeDisplay = true;
-      this.feesAssignForm.get('type_assignid')?.setValue(0);
+      this.feesAssignForm.get('type_assign_name')?.setValue('');
     }
-
-    
   }
 
 
@@ -385,12 +383,12 @@ export class FeesMasterComponent implements OnInit {
     assignid: new FormControl(0),
     classid: new FormControl(0, [Validators.required]),
     groupid: new FormControl(0, [Validators.required]),
-    //studentfeestype: new FormControl('CommanFees', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
-    typeid: new FormControl(0,[Validators.required]),
-    type_assignid: new FormControl(0),
-    fess_lessid: new FormControl(0),
+    type_name: new FormControl(''),
+    type_assign_name: new FormControl(''),
+    studentfeestype: new FormControl(''),
+    less_type: new FormControl('Not Specified'),
     amount: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -470,14 +468,14 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('classid')?.setValue(Assign.classid);
     this.filterGroupfun(Assign.classid);
     this.feesAssignForm.get('groupid')?.setValue(Assign.groupid);
-   // this.filterSectionfun(Assign.groupid)
-    //this.feesAssignForm.get('studentfeestype')?.setValue(Assign.studentfeestype);
+
     this.feesAssignForm.get('gender')?.setValue(Assign.gender);
     this.feesAssignForm.get('batch_year')?.setValue(Assign.batch_year);
-    this.feesAssignForm.get('typeid')?.setValue(Assign.typeid);
-    this.TypelistFilterfun(Assign.typeid)
-    this.feesAssignForm.get('type_assignid')?.setValue(Assign.type_assignid);
-    this.feesAssignForm.get('fess_lessid')?.setValue(Assign.fess_lessid);
+    this.feesAssignForm.get('type_name')?.setValue(Assign.type_name);
+    this.TypelistFilterfun(Assign.type_name)
+    this.feesAssignForm.get('type_assign_name')?.setValue(Assign.type_assign_name);
+    this.feesAssignForm.get('less_type')?.setValue(Assign.less_type);
+    this.feesAssignForm.get('studentfeestype')?.setValue(Assign.studentfeestype);
     this.feesAssignForm.get('amount')?.setValue(Assign.amount);
     this.feesAssignForm.get('cuid')?.setValue(Assign.cuid);
     this.assignbuttonId = false;
@@ -488,12 +486,13 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('assignid')?.setValue(0);
     this.feesAssignForm.get('classid')?.setValue(0);
     this.feesAssignForm.get('groupid')?.setValue(0);
-    //this.feesAssignForm.get('studentfeestype')?.setValue('CommanFees');
+
     this.feesAssignForm.get('gender')?.setValue('');
     this.feesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
-    this.feesAssignForm.get('typeid')?.setValue(0);
-    this.feesAssignForm.get('type_assignid')?.setValue(0);
-    this.feesAssignForm.get('fess_lessid')?.setValue(0);
+    this.feesAssignForm.get('type_name')?.setValue('');
+    this.feesAssignForm.get('type_assign_name')?.setValue('');
+    this.feesAssignForm.get('studentfeestype')?.setValue('');
+    this.feesAssignForm.get('less_type')?.setValue('Not Specified');
     this.feesAssignForm.get('amount')?.setValue('');
     this.feesAssignForm.get('cuid')?.setValue(1);
     this.assignbuttonId = true;
