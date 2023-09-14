@@ -64,7 +64,7 @@
                                         <td>{{dashbord.aadhar}}</td>
                                         <td>{{dashbord.place}}</td>
                                         <td>{{dashbord.f_ph}}</td>
-                                        <td>{{dashbord.date | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{dashbord.enquiry_date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'green'}"
@@ -136,7 +136,7 @@
                                         <td>{{enquiry.aadhar}}</td>
                                         <td>{{enquiry.place}}</td>
                                         <td>{{enquiry.f_ph}}</td>
-                                        <td>{{enquiry.date | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{enquiry.enquiry_date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (enquiry.entrance_status == 1) ? 'gray':'red'}"
@@ -213,7 +213,7 @@
                                         <td>{{entrance.aadhar}}</td>
                                         <td>{{entrance.place}}</td>
                                         <td>{{entrance.f_ph}}</td>
-                                        <td>{{entrance.date | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{entrance.enquiry_date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (entrance.selected_status == 1) ? 'gray':'red'}"
@@ -290,7 +290,7 @@
                                         <td>{{selected.aadhar}}</td>
                                         <td>{{selected.place}}</td>
                                         <td>{{selected.f_ph}}</td>
-                                        <td>{{selected.date | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{selected.enquiry_date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
                                             <button
                                                 [ngStyle]="{'background-color': (selected.ad_status == 1) ? 'gray':'red'}"
@@ -302,8 +302,8 @@
                                                 [ngStyle]="{'background-color': (selected.ad_status == 1) ? 'gray':'green'}"
                                                 [disabled]="selected.ad_status == 1" type="button"
                                                 style="background-color: #00A36C;border: 2px sloid green;"
-                                                (click)="ActiveAdmissionClick(selected)" routerLink="../student_profile"
-                                                class="movebutton ml-1">Move to Admission</button>
+                                                (click)="ActiveAdmissionClick(selected)" class="movebutton ml-1">Move to
+                                                Admission</button>
                                         </td>
                                     </tr>
                                 </tbody>

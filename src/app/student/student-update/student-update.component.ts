@@ -1,140 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
+import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
+import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
-import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
-import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
-import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
-import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { studentTcLeftService } from 'src/app/api-service/studentTcLeft.service';
+
 @Component({
-  selector: 'app-student-profile',
-  templateUrl: './student-profile.component.html',
-  styleUrls: ['./student-profile.component.scss']
+  selector: 'app-student-update',
+  templateUrl: './student-update.component.html',
+  styleUrls: ['./student-update.component.scss']
 })
-export class StudentProfileComponent implements OnInit {
+export class StudentUpdateComponent implements OnInit {
   files: File[] = [];
   editableImage: any;
   file: any;
   base64textString: any[] = [];
 
-  PlaceList: any = [];
-  placefilterList: any[] = [];
-  FeesAssignList: any[] = [];
-
-  ClassList: any[] = [];
+  allstudentList:any[]=[];
+  ClassList: any = [];
   GroupList: any = [];
   SectionList: any = [];
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
-  FeesLessList: any = [];
-  FeesTypeAssignList: any = [];
   groupDisplay: boolean = true;
-  assignbuttonId: boolean = true;
-  storedValue: any;
+  studentList:any[]=[];
+
+
+  PlaceList: any = [];
+  placefilterList: any[] = [];
+  FeesAssignList: any[] = [];
+  FeesTypeAssignList: any = [];
+  FeesTypeAssignFillterList: any = [];
+  FeesLessList: any = [];
+  vehicleNoRootList: any = [];
+
   resStatus1: boolean;
   resStatus2: boolean;
   resStatus3: boolean;
   resStatus4: boolean;
-  FeesTypeAssignFillterList: any = [];
-  vehicleNoRootList: any = [];
-  searchStudentData: any = [];
-  maxIDList: any[] = [];
-  maxnumber: number;
-  admissionno: string;
-  activeBatchYear: any = [];
-  newgetbatch: string;
-
-  constructor(private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,
+  
+  constructor(
+    private tcSvc: studentTcLeftService,
+    private spinner: NgxSpinnerService,
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
-    private FlSvc: FeesLessService,
+    private DialogSvc: DialogService,
+    private notificationSvc: NotificationsService,
     private studProSvc: studentProfileService,
+    private feeAsSvc: FeesAssignService,
     private PlaceSvc: VehiclePlaceService,
     private feeTyAsSvc: FeesTypeAssignService,
+    private FlSvc: FeesLessService,
     private vhNoRtSvc: VehicleNoRootService,
-    private feeAsSvc: FeesAssignService,
-    private batchSvc: BatechYearService,) { }
-
-
-  date1 = new Date();
-
-  currentYear = this.date1.getUTCFullYear();
-
-  currentMonth = this.date1.getUTCMonth() + 1;
-
-  currentDate = this.date1.getUTCDate();
-
-  todayDate: Date = new Date();
-  today = String(this.todayDate);
-
-  finalMonth: any;
-  finalDay: any;
+  ) { }
 
   ngOnInit(): void {
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
-    this.studentDetailsForm.get('date').setValue(this.today);
-    ////////////
+    this.getAllStudents();
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
-    this.refreshFeesLessList();
-    this.refreshvehiclePlaceList();
-    this.refreshFeesTypeAssignList();
-    this.refreshvehicleNoRootList();
-    this.refreshFeesAssignList();
-    this.GetActiveBatchYear();
-    this.getMaxId();
-    //this.setvalueform();
   }
-  setvalueform() {
-    debugger;
-    this.refreshGroupList();
-    this.refreshSectionList();
-
-    var storedValues: any = sessionStorage.getItem("selectd");
-    var myObj = JSON.parse(storedValues);
-    this.studentDetailsForm.patchValue(myObj);
-    this.studentPersonalDetailsForm.patchValue(myObj);
-    this.studentDetailsForm.get('newstudent').setValue('YES');
-
-    this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
-    if (this.groupFilterlist.length == 0) {
-      console.log(this.SectionList)
-      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
-    }
-    //this.filterSectionfun(this.studentDetailsForm.value.groupid)
-  }
-
-  //// Number Only Event
-  numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
-  }
-
-  //get class details
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
@@ -149,7 +84,6 @@ export class StudentProfileComponent implements OnInit {
   }
 
   refreshSectionList() {
-    debugger;
     this.ScSvc.getSectionList().subscribe(data => {
       this.SectionList = data;
     });
@@ -158,31 +92,102 @@ export class StudentProfileComponent implements OnInit {
   filterGroupfun(classsid: any) {
     debugger;
     const classid = Number(classsid);
-    this.studentDetailsForm.get('classid')?.setValue(classid);
+    this.searchForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
-    this.studentDetailsForm.get('groupid')?.setValue(0);
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
-    this.studentDetailsForm.get('mark_10')?.setValue('');
+    this.searchForm.get('groupid')?.setValue(0);
+    this.searchForm.get('sectionid')?.setValue(0);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.studentDetailsForm.get('sectionid')?.setValue(0);
-      this.studentDetailsForm.get('mark_10')?.setValue('');
+      this.searchForm.get('sectionid')?.setValue(0);
     }
     else {
       this.groupDisplay = true;
-      this.studentDetailsForm.get('sectionid')?.setValue(0);
-      this.studentDetailsForm.get('mark_10')?.setValue('');
+      this.searchForm.get('sectionid')?.setValue(0);
     }
   }
 
   filterSectionfun(groupID: any) {
-    debugger;
     const groupid = Number(groupID);
-    this.studentDetailsForm.get('groupid')?.setValue(groupid);
+    this.searchForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
+    this.searchForm.get('sectionid')?.setValue(0);
   }
+
+  searchForm=new FormGroup({
+    admission_no:new FormControl(''),
+    classid:new FormControl(0),
+    sectionid:new FormControl(0),
+    groupid:new FormControl(0)
+  })
+
+  getAllStudents() {
+    debugger;
+    this.spinner.show();
+    this.tcSvc.allStudents().subscribe(data => {
+      this.allstudentList = data;
+      this.spinner.hide();
+    });
+  }
+
+
+  searchStudentByClass() {
+    debugger;
+    this.studentList = this.allstudentList.filter((e) => {
+      return e.classid == this.searchForm.value.classid
+        && e.groupid == this.searchForm.value.groupid
+        && e.sectionid == this.searchForm.value.sectionid        
+    })
+  }
+
+  searchStudentByAd(){
+    debugger;
+    this.studentList = this.allstudentList.filter((e) => {
+      return e.admission_no == this.searchForm.value.admission_no            
+    })
+  }
+
+  /////////////////////
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  //get class details
+
+ 
+  // filterGroupfun(classsid: any) {
+  //   debugger;
+  //   const classid = Number(classsid);
+  //   this.studentDetailsForm.get('classid')?.setValue(classid);
+  //   this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+  //   this.studentDetailsForm.get('groupid')?.setValue(0);
+  //   this.studentDetailsForm.get('sectionid')?.setValue(0);
+  //   this.studentDetailsForm.get('mark_10')?.setValue('');
+  //   if (this.groupFilterlist.length == 0) {
+  //     this.groupDisplay = false;
+  //     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+  //     this.studentDetailsForm.get('sectionid')?.setValue(0);
+  //     this.studentDetailsForm.get('mark_10')?.setValue('');
+  //   }
+  //   else {
+  //     this.groupDisplay = true;
+  //     this.studentDetailsForm.get('sectionid')?.setValue(0);
+  //     this.studentDetailsForm.get('mark_10')?.setValue('');
+  //   }
+  // }
+
+  // filterSectionfun(groupID: any) {
+  //   debugger;
+  //   const groupid = Number(groupID);
+  //   this.studentDetailsForm.get('groupid')?.setValue(groupid);
+  //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+  //   this.studentDetailsForm.get('sectionid')?.setValue(0);
+  // }
   //image
   deleteImage() {
     this.files = [];
@@ -238,14 +243,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   ///////
-  GetActiveBatchYear() {
-    this.batchSvc.GetActiveBatchYear().subscribe(data => {
-      this.activeBatchYear = data;
-      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
-      this.newgetbatch = (getbatch.replace(/['"]+/g, ''));
-      this.studentDetailsForm.get('batch_year')?.setValue(this.newgetbatch);
-    });
-  }
+  
 
   studentDetailsForm = new FormGroup({
     profileid: new FormControl(0),
@@ -308,33 +306,6 @@ export class StudentProfileComponent implements OnInit {
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
   }
 
-  getMaxId() {
-    this.studProSvc.getMaxId().subscribe(data => {
-      debugger;
-      this.maxIDList = data;
-      this.maxIDList.forEach(element => {
-        this.maxnumber = element.profileid
-      });
-
-      var maxnum: string = String(this.maxnumber + 1)
-      if (maxnum.length == 1) {
-        this.admissionno = '000' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('000' + maxnum);
-      }
-      else if (maxnum.length == 2) {
-        this.admissionno = '00' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('00' + maxnum);
-      }
-      else if (maxnum.length == 3) {
-        this.admissionno = '0' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('0' + maxnum);
-      }
-      else {
-        this.admissionno = maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue(maxnum);
-      }
-    });
-  }
 
   newStudentProfileDetails() {
     debugger;
@@ -681,7 +652,7 @@ export class StudentProfileComponent implements OnInit {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved Success");
                 this.resStatus4 = true;
-                this.cancelClick();
+                
               }
               else {
                 this.notificationSvc.error("Error");
@@ -696,105 +667,4 @@ export class StudentProfileComponent implements OnInit {
     }
   }
 
-  cancelClick() {
-
-    this.studentDetailsForm.reset();
-    this.studentPersonalDetailsForm.reset();
-    this.studentOtherDetailsForm.reset();
-    this.studentCertificateForm.reset();
-
-    this.studentDetailsForm.get('profileid')?.setValue(0);
-    this.studentDetailsForm.get('simage')?.setValue('');
-    this.editableImage = '';
-    this.files = [];
-    this.studentDetailsForm.get('date')?.setValue(this.today);
-    this.studentDetailsForm.get('enquiry_no')?.setValue('');
-    this.studentDetailsForm.get('admission_no')?.setValue('');
-    this.studentDetailsForm.get('batch_year')?.setValue('');
-    this.studentDetailsForm.get('classid')?.setValue(0);
-    this.studentDetailsForm.get('groupid')?.setValue(0);
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
-    this.studentDetailsForm.get('mark_10')?.setValue('');
-    this.studentDetailsForm.get('roll_no')?.setValue('');
-    this.studentDetailsForm.get('emis_no')?.setValue('');
-    this.studentDetailsForm.get('aadhar')?.setValue('');
-    this.studentDetailsForm.get('student_name')?.setValue('');
-    this.studentDetailsForm.get('student_name_t')?.setValue('');
-    this.studentDetailsForm.get('dob')?.setValue('');
-    this.studentDetailsForm.get('gender')?.setValue('');
-    this.studentDetailsForm.get('nationality')?.setValue('');
-    this.studentDetailsForm.get('religion')?.setValue('');
-    this.studentDetailsForm.get('community')?.setValue('');
-    this.studentDetailsForm.get('caste')?.setValue('');
-    this.studentDetailsForm.get('newstudent')?.setValue('');
-    this.studentDetailsForm.get('feesless')?.setValue('');
-    this.studentDetailsForm.get('stay_type')?.setValue('Day scholar');
-    this.studentDetailsForm.get('vehicle_type')?.setValue('');
-    this.studentDetailsForm.get('root_no')?.setValue(0);
-    this.studentDetailsForm.get('boading_place')?.setValue('');
-    this.studentDetailsForm.get('busdistance')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
-    const control1 = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-    while (control1.length !== 0) {
-      control1.removeAt(0)
-    }
-    const control2 = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
-    while (control2.length !== 0) {
-      control2.removeAt(0)
-    }
-    const control3 = <FormArray>this.studentDetailsForm.controls['commonFeesList'];
-    while (control3.length !== 0) {
-      control3.removeAt(0)
-    }
-
-
-    this.studentPersonalDetailsForm.get('bloodgroup')?.setValue('');
-    this.studentPersonalDetailsForm.get('phy_challanged')?.setValue('');
-    this.studentPersonalDetailsForm.get('i_m_1')?.setValue('');
-    this.studentPersonalDetailsForm.get('i_m_2')?.setValue('');
-    this.studentPersonalDetailsForm.get('father_name')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_occupation')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_qualification')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_ph')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_email')?.setValue('');
-    this.studentPersonalDetailsForm.get('mother_name')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_occupation')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_qualification')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_ph')?.setValue('');
-    this.studentPersonalDetailsForm.get('P_address')?.setValue('');
-    this.studentPersonalDetailsForm.get('c_address')?.setValue('');
-    this.studentPersonalDetailsForm.get('cuid')?.setValue(0);
-
-
-    this.studentOtherDetailsForm.get('l_class')?.setValue('');
-    this.studentOtherDetailsForm.get('l_school')?.setValue('');
-    this.studentOtherDetailsForm.get('l_stream')?.setValue('');
-    this.studentOtherDetailsForm.get('l_medium')?.setValue('');
-    this.studentOtherDetailsForm.get('cuid')?.setValue(0);
-    this.studentOtherDetailsForm.get('sibling_status')?.setValue('');
-    const control4 = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
-    while (control4.length !== 0) {
-      control4.removeAt(0)
-    }
-
-
-    this.studentCertificateForm.get('birth_xerox')?.setValue(false);
-    this.studentCertificateForm.get('birth_original')?.setValue(false);
-    this.studentCertificateForm.get('birth_date_submission')?.setValue('');
-    this.studentCertificateForm.get('community_xerox')?.setValue(false);
-    this.studentCertificateForm.get('community_original')?.setValue(false);
-    this.studentCertificateForm.get('community_date_submission')?.setValue('');
-    this.studentCertificateForm.get('tc_xerox')?.setValue(false);
-    this.studentCertificateForm.get('tc_original')?.setValue(false);
-    this.studentCertificateForm.get('tc_date_submission')?.setValue('');
-    this.studentCertificateForm.get('cuid')?.setValue(0);
-
-    this.resStatus1 = false;
-    this.resStatus2 = false;
-    this.resStatus3 = false;
-    this.resStatus4 = false;
-
-    this.GetActiveBatchYear();
-    this.getMaxId();
-  }
 }

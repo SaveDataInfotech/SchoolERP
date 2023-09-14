@@ -1,1 +1,34 @@
-<p>schedule works!HI</p>
+<div class="d-flex justify-content-center">
+    <form [formGroup]="studentForm" (ngSubmit)="save()">
+        <div formArrayName="studentList">
+            <div *ngFor="let student of studentListArray().controls;let i=index;" class="border border-dark my-2 p-5">
+                <div [formGroupName]="i">
+                    <input type="text" formControlName="student_name" placeholder="Name">
+                    <input type="text" formControlName="student_class" placeholder="Class">
+                    <button type="button" class="btn btn-danger" >Remove</button>
+                    <!-- (click)="removeStudent(i)" -->
+
+                    <div [formGroup]="subjectsFormGroup(i)">
+                        <div formArrayName="studentSubjectArray">
+                            <div *ngFor="let studentSub of subjectsArray(i).controls;let j=index;">
+                                <div [formGroupName]="j">
+                                    <input type="text" formControlName="subject" placeholder="Subject">
+                                    <input type="text" formControlName="mark" placeholder="Mark">
+                                    <button type="button">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button (click)="addNewSubject(i)" type="button">Add Subject</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <button type="button" >Add Student</button>
+        <!-- (click)="addStudent()" -->
+
+        <input type="submit">
+    </form>
+</div>

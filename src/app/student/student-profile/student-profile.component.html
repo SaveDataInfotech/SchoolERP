@@ -1,4 +1,4 @@
-<mat-card class="mt-2 matcard">
+<mat-card class="mt-2  matcard">
     <mat-card-content>
         <div class="container">
             <div class="row">
@@ -8,39 +8,58 @@
                             Registration</button>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <form [formGroup]="searchForm" (ngSubmit)="searchByAdmissionNo()">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Admission Number</label>
-                        </div>
-                        <div class="inputdiv mr-2">
-                            <input formControlName="admission_no" class="form-control" type="text" required>
-                        </div>
-                        <div class="p-1">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                Search</button>
-                        </div>
-                    </form>
-                </div>
-                
             </div>
         </div>
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group #tabGroup animationDuration="0ms">
             <mat-tab label="Student Details">
                 <ng-template mat-tab-label>
-                    Student Details
-                    <mat-icon style="margin-left: 5px;" class="example-tab-icon">done_outline</mat-icon>
-
+                    Student Details                   
+                        <mat-icon *ngIf="resStatus1 == true" style="color: green;">check_circle</mat-icon>
+                        <mat-icon *ngIf="resStatus1 != true" style="color: red;">highlight_off</mat-icon>
                 </ng-template>
                 <form [formGroup]="studentDetailsForm" (ngSubmit)="newStudentProfileDetails()">
                     <div class="container mt-4">
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;justify-content: center;">
+                                <div *ngIf="editableImage">
+                                    <img [src]="editableImage" alt="No image found" width="200" height="150" />
+                                    <span class="pl-2" style="cursor: pointer">
+                                        <mat-icon class="icons" style="padding-left: 2px" svgIcon="roundDelete"
+                                            matTooltip="Delete" (click)="deleteImage()"></mat-icon>
+                                    </span>
+                                </div>
+                                <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
+                                    (change)="onSelect($event)" style="width: 35%;height: 160px;">
+                                    <ngx-dropzone-label>
+                                        <div>
+                                            <span>Click to upload or Drag & Drop !</span>
+                                        </div>
+                                    </ngx-dropzone-label>
+                                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-image-preview>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input formControlName="date" class="form-control" type="date">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Enrollment Number</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="enquiryid" class="form-control" type="number">
+                                    <input formControlName="enquiry_no" class="form-control" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -54,16 +73,16 @@
                         </div>
 
                         <div class="row mt-3">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Batch</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="batch_year" class="form-control" type="tel" required>
+                                    <input readonly formControlName="batch_year" class="form-control" type="text">
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Student Class<span class="text-danger">
                                             *</span></label>
@@ -85,7 +104,7 @@
                             </div>
                         </div>
 
-                        <div class="row" *ngIf="groupDisplay == true">
+                        <div class="row" *ngIf="groupDisplay == true && groupFilterlist.length != 0">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">10-th Mark</label>
@@ -188,8 +207,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors}"
-                                        formControlName="student_name" class="form-control" id="ex2" type="text"
-                                        required>
+                                        formControlName="student_name" class="form-control" type="text" required>
 
                                     <span class="text-danger"
                                         *ngIf="studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors">
@@ -214,7 +232,7 @@
                                     <input
                                         [ngClass]="{'is-invalid':studentDetailsForm.controls.student_name_t.touched && studentDetailsForm.controls.student_name_t.errors}"
                                         placeholder="தமிழில்" formControlName="student_name_t" class="form-control"
-                                        id="ex2" required type="text">
+                                        required type="text">
                                     <span class="text-danger"
                                         *ngIf="studentDetailsForm.controls.student_name_t.touched && studentDetailsForm.controls.student_name_t.errors">
                                         <div
@@ -239,7 +257,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':studentDetailsForm.controls.dob.touched && studentDetailsForm.controls.dob.errors}"
-                                        formControlName="dob" class="form-control" id="ex2" type="date" required>
+                                        formControlName="dob" class="form-control" type="date" required>
                                     <span class="text-danger"
                                         *ngIf="studentDetailsForm.controls.dob.touched && studentDetailsForm.controls.dob.errors">
                                         <div
@@ -278,12 +296,10 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Nationality<span class="text-danger">
-                                            *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Nationality</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="nationality" class="form-control"
-                                        required>
+                                    <select style="width: 100%;" formControlName="nationality" class="form-control">
                                         <option value='' selected disabled>Please select</option>
                                         <option value="Indian">Indian</option>
                                         <option value="Foreigner">Foreigner</option>
@@ -293,12 +309,10 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Religion<span class="text-danger">
-                                            *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Religion</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="religion" class="form-control"
-                                        required>
+                                    <select style="width: 100%;" formControlName="religion" class="form-control">
                                         <option value='' selected disabled>Please select</option>
                                         <option value="Hindu">Hindu</option>
                                         <option value="Muslim">Muslim</option>
@@ -307,13 +321,6 @@
                                         <option value="Buddhism">Buddhism</option>
                                         <option value="others">Others</option>
                                     </select>
-                                    <span class="text-danger"
-                                        *ngIf="studentDetailsForm.controls.religion.touched && studentDetailsForm.controls.religion.errors">
-                                        <div
-                                            *ngIf="studentDetailsForm.controls.religion.touched && studentDetailsForm.controls.religion.errors.required">
-                                            Religion is required
-                                        </div>
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -321,51 +328,47 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Community<span class="text-danger">
-                                            *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Community</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':studentDetailsForm.controls.community.touched && studentDetailsForm.controls.community.errors}"
-                                        formControlName="community" class="form-control" type="text" required>
-                                    <span class="text-danger"
-                                        *ngIf="studentDetailsForm.controls.community.touched && studentDetailsForm.controls.community.errors">
-                                        <div
-                                            *ngIf="studentDetailsForm.controls.community.touched && studentDetailsForm.controls.community.errors.required">
-                                            Community is required
-                                        </div>
-                                        <div
-                                            *ngIf="studentDetailsForm.controls.community.touched && studentDetailsForm.controls.community.errors.pattern">
-                                            Use letters only
-                                        </div>
-                                    </span>
+                                    <input formControlName="community" class="form-control" type="text">
                                 </div>
                             </div>
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Caste<span class="text-danger">
-                                            *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Caste</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':studentDetailsForm.controls.caste.touched && studentDetailsForm.controls.caste.errors}"
-                                        formControlName="caste" class="form-control" type="text" required>
-                                    <span class="text-danger"
-                                        *ngIf="studentDetailsForm.controls.caste.touched && studentDetailsForm.controls.caste.errors">
-                                        <div
-                                            *ngIf="studentDetailsForm.controls.caste.touched && studentDetailsForm.controls.caste.errors.required">
-                                            Caste is required
-                                        </div>
-                                        <div
-                                            *ngIf="studentDetailsForm.controls.caste.touched && studentDetailsForm.controls.caste.errors.pattern">
-                                            Use letters only
-                                        </div>
-                                    </span>
+                                    <input formControlName="caste" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
                         <div class="row  mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Fees Less<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors}"
+                                        style="width: 100%;" formControlName="feesless" class="form-control" required>
+                                        <option selected value="" disabled>Please select </option>
+                                        <option value='Not Specified'>Not Specified</option>
+                                        <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
+                                    </select>
+
+                                    <span class="text-danger"
+                                        *ngIf="studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors">
+                                        <div
+                                            *ngIf="studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors.required">
+                                            Fees Less is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+
                             <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">New Student</label>
@@ -378,52 +381,25 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="col-sm-6" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Dayscholar</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select formControlName="dayscholar" style="width: 100%;" class="form-control">
-                                        <option selected value="" disabled>Please select </option>
-                                        <option>YES</option>
-                                        <option>NO</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Fees Less</label>
+                                    <label class="pt-2" style="margin: auto;">Place of stay</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" formControlName="feesless"
-                                        class="form-control ">
-                                        <option selected value="" disabled>Please select </option>
-                                        <option value='Not Specified'>Not Specified</option>
-                                        <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Hostel</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select formControlName="hostel" style="width: 100%;" class="form-control">
-                                        <option selected value="" disabled>Please select </option>
-                                        <option>YES</option>
-                                        <option>NO</option>
+                                    <select formControlName="stay_type" style="width: 100%;" class="form-control">
+                                        <option>Day scholar</option>
+                                        <option>Hostel</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div *ngIf="studentDetailsForm.value.stay_type == 'Day scholar'" class="col-sm-6 mt-3"
+                                style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Vehicle Type</label>
                                 </div>
@@ -436,14 +412,15 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div *ngIf="studentDetailsForm.value.vehicle_type == 'Bus' && studentDetailsForm.value.stay_type == 'Day scholar'"
+                                class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Bus Distance</label>
                                 </div>
                                 <div class="inputdiv">
                                     <select formControlName="busdistance" style="width: 100%;" class="form-control ">
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option [ngValue]="fees.type_assignid"
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{fees.type_assign_name}}
                                             *ngFor="let fees of FeesTypeAssignFillterList;">
                                             {{fees.type_assign_name}}</option>
                                     </select>
@@ -451,7 +428,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div *ngIf="studentDetailsForm.value.vehicle_type == 'Bus' && studentDetailsForm.value.stay_type == 'Day scholar'"
+                            class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Root No</label>
@@ -480,35 +458,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 m-3" style="display: flex;justify-content: center;">
-                                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
-                                    (change)="onSelect($event)" style="width: 30%;height: 150px;">
-                                    <ngx-dropzone-label>
-                                        <div>
-                                            <span>Click to upload or Drag & Drop !</span>
-                                        </div>
-                                    </ngx-dropzone-label>
-                                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
-                                        (removed)="onRemove(f)">
-                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                                    </ngx-dropzone-image-preview>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
 
-                    <div class="col-sm-12 mt-4">
+                    <div class="col-sm-12 mt-4 mb-4">
                         <div style="text-align: center;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 130px;"
-                                class="btn btn-primary mr-3 btn-sm" value="Save & Continue" />
-                            <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            <input [disabled]="resStatus1 == true" matTooltip="Click to Save" type="submit"
+                                style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            <input (click)="cancelClick()" [disabled]="resStatus1 == true" matTooltip="Click to Cancel" type="button"
+                                style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                         </div>
                     </div>
                 </form>
             </mat-tab>
-            <mat-tab label="Personal Details">
+            <mat-tab  label="Personal Details">
+                <ng-template mat-tab-label>
+                    Personal Details                
+                        <mat-icon *ngIf="resStatus2 == true" style="color: green;">check_circle</mat-icon>
+                        <mat-icon *ngIf="resStatus2 != true" style="color: red;">highlight_off</mat-icon>
+                </ng-template>
                 <form [formGroup]="studentPersonalDetailsForm" (ngSubmit)="newstudentPersonalDetails()">
                     <div class="container mt-4">
                         <div class="row">
@@ -639,7 +607,7 @@
                                 <div class="inputdiv">
                                     <input maxlength="10" minlength="10" (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':studentPersonalDetailsForm.controls.f_ph.touched && studentPersonalDetailsForm.controls.f_ph.errors}"
-                                        formControlName="f_ph" class="form-control" type="tel" required>
+                                        formControlName="f_ph" class="form-control" type="text" required>
                                     <span class="text-danger"
                                         *ngIf="studentPersonalDetailsForm.controls.f_ph.touched && studentPersonalDetailsForm.controls.f_ph.errors">
                                         <div
@@ -661,7 +629,7 @@
                                     <label class="pt-2" style="margin: auto;">Email</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="f_email" class="form-control" type="tel">
+                                    <input formControlName="f_email" class="form-control" type="email">
                                 </div>
                             </div>
                         </div>
@@ -715,8 +683,8 @@
                                     <label class="pt-2" style="margin: auto;">Phone Number</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input formControlName="m_ph" (keypress)="numberOnly($event)" class="form-control"
-                                        type="tel">
+                                    <input formControlName="m_ph" maxlength="10" minlength="10"
+                                        (keypress)="numberOnly($event)" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -765,16 +733,21 @@
                         </div>
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 130px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save & Continue" />
-                                <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                <input [disabled]="resStatus2 == true" matTooltip="Click to Save" type="submit"
+                                    style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input matTooltip="Click to Cancel" (click)="cancelClick()" (click)="tabGroup.selectedIndex=0" [disabled]="resStatus2 == true" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </div>
                 </form>
             </mat-tab>
-            <mat-tab label="Other Details">
+            <mat-tab  label="Other Details">
+                <ng-template mat-tab-label>
+                    Other Details                   
+                        <mat-icon *ngIf="resStatus3 == true" style="color: green;">check_circle</mat-icon>
+                        <mat-icon *ngIf="resStatus3 != true" style="color: red;">highlight_off</mat-icon>
+                </ng-template>
                 <form [formGroup]="studentOtherDetailsForm" (ngSubmit)="newstudentOtherDetailss()">
                     <div class="container mt-4 mb-3">
                         <div class="row mt-3">
@@ -832,8 +805,6 @@
                             </div>
                         </div>
                         <span *ngIf="studentOtherDetailsForm.value.sibling_status == 'YES'">
-
-
                             <div formArrayName="sibling">
                                 <div *ngFor="let chid of studentOtherDetailsForm.get('sibling')['controls']; let i = index"
                                     formGroupName="{{i}}">
@@ -852,12 +823,11 @@
                                                 <label class="pt-2" style="margin: auto;">Class</label>
                                             </div>
                                             <div class="inputdiv">
-                                                <!-- <input formControlName="sibling_classid" class="form-control" type="text"> -->
                                                 <select formControlName="Sibling_class" style="width: 100%;"
                                                     class="form-control ">
                                                     <option value="" selected disabled>Please select</option>
                                                     <option [disabled]="assignbuttonId != true"
-                                                        [ngValue]="class.classid" *ngFor="let class of ClassList;">
+                                                        value={{class.class_name}} *ngFor="let class of ClassList;">
                                                         {{class.class_name}}</option>
                                                 </select>
                                             </div>
@@ -874,20 +844,24 @@
                             </div>
                         </span>
 
-
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 130px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save & Continue" />
-                                <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                <input [disabled]="resStatus3 == true" matTooltip="Click to Save" type="submit"
+                                    style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input (click)="cancelClick()" (click)="tabGroup.selectedIndex=0" [disabled]="resStatus3 == true" matTooltip="Click to Cancel" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </div>
                 </form>
             </mat-tab>
-            <mat-tab label="Certificates">
-                <form [formGroup]="studentCertificateForm">
+            <mat-tab  label="Certificates">
+                <ng-template mat-tab-label>
+                    Student Details                    
+                        <mat-icon *ngIf="resStatus4 == true" style="color: green;">check_circle</mat-icon>
+                        <mat-icon *ngIf="resStatus4 != true" style="color: red;">highlight_off</mat-icon>
+                </ng-template>
+                <form [formGroup]="studentCertificateForm" (ngSubmit)="newstudentCertificateDetailss()">
                     <div>
                         <div class="row m-3" style="color: green;">
                             <div class="col-sm-2">
@@ -969,10 +943,10 @@
 
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                <input [disabled]="resStatus4 == true" matTooltip="Click to Save" type="submit"
+                                    style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                <input (click)="cancelClick()" (click)="tabGroup.selectedIndex=0" [disabled]="resStatus4 == true" matTooltip="Click to Cancel" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </div>

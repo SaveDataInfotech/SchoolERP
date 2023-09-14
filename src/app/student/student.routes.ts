@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { StudentEnquiryComponent } from './student-enquiry/student-enquiry.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
-import { StudentAssignComponent } from './student-assign/student-assign.component';
 import { StudentAttendanceComponent } from './student-attendance/student-attendance.component';
 import { StudentMarkEntryComponent } from './student-mark-entry/student-mark-entry.component';
 import { StudentTcApplieComponent } from './student-tc-applie/student-tc-applie.component';
@@ -9,6 +8,7 @@ import { StudentPromoteComponent } from './student-promote/student-promote.compo
 import { ReportsComponent } from './reports/reports.component';
 import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
 import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
+import { StudentUpdateComponent } from './student-update/student-update.component';
 
 export const studentRoutes: Routes = [
   {
@@ -24,8 +24,8 @@ export const studentRoutes: Routes = [
     component: StudentProfileComponent,
   },
   {
-    path:"student_assign",
-    component:StudentAssignComponent,
+    path:"student_update",
+    component:StudentUpdateComponent,
   },
   {
     path:"student_attendance",

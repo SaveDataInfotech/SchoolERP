@@ -10,16 +10,10 @@ export class studentTcLeftService {
   constructor(private http: HttpClient) {
   }
 
-  searchStudentByAdNo(admission_no:any): Observable<any[]> {
+  allStudents(): Observable<any[]> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'StudentTcLeft/get_student_lefttc_byadno?admission_no='+admission_no,httpOptions);
-  }
-
-
-  searchStudentByClass(classid:number,groupid:number,sectionid:number,batch_year:any): Observable<any[]> {
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'StudentTcLeft/get_student_lefttc_byclass?classid='+classid+'&groupid='+groupid+'&sectionid='+sectionid+'&batch_year='+batch_year,httpOptions);
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_all_Students', httpOptions);
   }
 
   TcApply(studentdetails: any): Observable<any> {

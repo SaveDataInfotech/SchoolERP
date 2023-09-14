@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
-import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
@@ -15,26 +15,22 @@ export class StudentEnquiryComponent implements OnInit {
   ClassList: any = [];
   GroupList: any = [];
   Groupnewlist: any = [];
-  activeBatchYear: any = [];
-  newgetbatch: string;
-
   buttonId: boolean = true;
   MaxId: any = [];
+  maxnumber: number;
+  enquiryno: string;
   constructor(private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
     private DialogSvc: DialogService, private enquirySvc: studentEnquiryService,
     private notificationSvc: NotificationsService,
-    private batchSvc: BatechYearService,) { }
+    private router: Router) { }
+
 
   date1 = new Date();
-
   currentYear = this.date1.getUTCFullYear();
-
   currentMonth = this.date1.getUTCMonth() + 1;
-
   currentDate = this.date1.getUTCDate();
-
-  today = "2023-12-12";
-
+  todayDate: Date = new Date();
+  today = String(this.todayDate);
   finalMonth: any;
   finalDay: any;
 
@@ -46,15 +42,12 @@ export class StudentEnquiryComponent implements OnInit {
     else {
       this.finalMonth = this.currentMonth;
     }
-
-
     if (this.currentDate < 10) {
       this.finalDay = "0" + this.currentDate;
     }
     else {
       this.finalDay = this.currentDate;
     }
-
     this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
 
 
@@ -64,10 +57,11 @@ export class StudentEnquiryComponent implements OnInit {
     this.refreshGroupList();
     this.getMaxId();
     this.cancelClick();
-
-    this.GetActiveBatchYear();
   }
 
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
@@ -84,11 +78,11 @@ export class StudentEnquiryComponent implements OnInit {
   changefun(classsid: any) {
     debugger;
     const classid = Number(classsid);
-    this.StudentEnquiryForm.get('s_admission')?.setValue(classid);
+    this.StudentEnquiryForm.get('classid')?.setValue(classid);
     this.Groupnewlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     if (this.Groupnewlist.length == 0) {
       this.StudentEnquiryForm.get('mark_10')?.setValue('');
-      this.StudentEnquiryForm.get('s_group')?.setValue(0);
+      this.StudentEnquiryForm.get('groupid')?.setValue(0);
     }
   }
 
@@ -101,23 +95,13 @@ export class StudentEnquiryComponent implements OnInit {
     }
   };
 
-  GetActiveBatchYear() {
-    this.batchSvc.GetActiveBatchYear().subscribe(data => {
-      this.activeBatchYear = data;
-      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
-      this.newgetbatch = (getbatch.replace(/['"]+/g, ''));
-      //this.StudentEnquiryForm.get('batch_year')?.setValue(this.newgetbatch);
-    });
-  }
-
   StudentEnquiryForm = new FormGroup({
-    enquiryid: new FormControl(0),
-    date: new FormControl(this.today),
-    //batch_year: new FormControl(''),
+    enquiry_no: new FormControl(''),
+    enquiry_date: new FormControl(this.today),
     student_name: new FormControl('', [Validators.required]),
-    s_admission: new FormControl(0, [Validators.required]),
+    classid: new FormControl(0, [Validators.required]),
     mark_10: new FormControl(''),
-    s_group: new FormControl(0),
+    groupid: new FormControl(0),
     dob: new FormControl(),
     gender: new FormControl('', [Validators.required]),
     nationality: new FormControl('', [Validators.required]),
@@ -152,38 +136,32 @@ export class StudentEnquiryComponent implements OnInit {
       return false;
     }
     return true;
-
   }
+
   newEnquiry() {
     debugger;
     if (this.StudentEnquiryForm.valid) {
-      if (this.StudentEnquiryForm.value.enquiryid == 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var Classinsert = (this.StudentEnquiryForm.value);
-              this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
-                if (res.status == 'Saved successfully') {
-                  this.notificationSvc.success("Saved Success")
-                  this.refreshClassList();
-                  this.getMaxId();
-                  this.cancelClick();
-                }
-                else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Student details already exists")
-                }
-                else {
-                  this.notificationSvc.error("Something error")
-                }
-              });
-            }
-          });
-      }
-      else if (this.StudentEnquiryForm.value.enquiryid != 0) {
-
-      }
-
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            debugger;
+            var Classinsert = (this.StudentEnquiryForm.value);
+            this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success("Saved Success")
+                this.refreshClassList();
+                this.getMaxId();
+                this.cancelClick();
+              }
+              else if (res.status == 'Already exists') {
+                this.notificationSvc.warn("Student details already exists")
+              }
+              else {
+                this.notificationSvc.error("Something error")
+              }
+            });
+          }
+        });
     }
     else if (this.StudentEnquiryForm.value.s_declare == false) {
       this.notificationSvc.warn("Please declare")
@@ -198,20 +176,40 @@ export class StudentEnquiryComponent implements OnInit {
   getMaxId() {
     this.enquirySvc.getMaxId().subscribe(data => {
       this.MaxId = data;
+      this.MaxId.forEach(element => {
+        this.maxnumber = element.enquiryid
+      });
+      debugger;
+      var maxnum: string = String(this.maxnumber + 1)
+      if (maxnum.length == 1) {
+        this.enquiryno = '000' + maxnum
+        this.StudentEnquiryForm.get('enquiry_no')?.setValue('000' + maxnum);
+      }
+      else if (maxnum.length == 2) {
+        this.enquiryno = '00' + maxnum
+        this.StudentEnquiryForm.get('enquiry_no')?.setValue('00' + maxnum);
+      }
+      else if (maxnum.length == 3) {
+        this.enquiryno = '0' + maxnum
+        this.StudentEnquiryForm.get('enquiry_no')?.setValue('0' + maxnum);
+      }
+      else {
+        this.enquiryno = maxnum
+        this.StudentEnquiryForm.get('enquiry_no')?.setValue(maxnum);
+      }
     });
   }
 
 
   cancelClick() {
     this.StudentEnquiryForm.reset();
-    this.StudentEnquiryForm.get('enquiryid')?.setValue(0);
-    this.StudentEnquiryForm.get('date')?.setValue(this.today);
-    //this.StudentEnquiryForm.get('batch_year')?.setValue(this.today);
+    this.StudentEnquiryForm.get('enquiry_no')?.setValue('');
+    this.StudentEnquiryForm.get('enquiry_date')?.setValue(this.today);
     this.StudentEnquiryForm.get('student_name')?.setValue('');
-    this.StudentEnquiryForm.get('s_admission')?.setValue(0);
+    this.StudentEnquiryForm.get('classid')?.setValue(0);
     this.StudentEnquiryForm.get('mark_10')?.setValue('');
-    this.StudentEnquiryForm.get('s_group')?.setValue(0);
-    //this.StudentEnquiryForm.get('dob')?.setValue();
+    this.StudentEnquiryForm.get('groupid')?.setValue(0);
+    this.StudentEnquiryForm.get('dob')?.setValue('');
     this.StudentEnquiryForm.get('gender')?.setValue('');
     this.StudentEnquiryForm.get('nationality')?.setValue('');
     this.StudentEnquiryForm.get('religion')?.setValue('');
@@ -239,5 +237,6 @@ export class StudentEnquiryComponent implements OnInit {
     this.StudentEnquiryForm.get('s_declare')?.setValue(false);
     this.StudentEnquiryForm.get('cuid')?.setValue(1);
     this.buttonId = true;
+    this.getMaxId();
   }
 }

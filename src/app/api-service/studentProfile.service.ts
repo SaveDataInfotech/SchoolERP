@@ -10,6 +10,10 @@ export class studentProfileService {
   constructor(private http: HttpClient) {
   }
 
+  getMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile');
+  }
+
   searchstudentDetails(searchAdmissionNo: any): Observable<any[]> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -35,5 +39,11 @@ export class studentProfileService {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentProfile/Update_student_profile_other_details?admission_no=' + searchAdmissionNo, studentinsert, httpOptions);
+  }
+
+  studentCertificateDetails(studentinsert: any, searchAdmissionNo: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'StudentProfile/Update_student_profile_certificate_details?admission_no=' + searchAdmissionNo, studentinsert, httpOptions);
   }
 }

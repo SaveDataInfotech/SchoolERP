@@ -8,25 +8,26 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="feesCollectionForm" (ngSubmit)="FeesDeduction()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">AD NO</label>
+                            <label class="pt-2" style="margin: auto;">Admission NO</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input (change)="getStudent(adno.value)" #adno formControlName="admission_no"
+                                class="form-control" type="text" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Class Name</label>
+                            <label class="pt-2" style="margin: auto;">Class</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                            <select formControlName="classid" style="width: 100%;" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -34,25 +35,25 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                            <label class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
+                            <select formControlName="groupid" style="width: 100%;" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of GroupList;">
+                                    {{group.group_name}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                            <label class="pt-2" style="margin: auto;">Section</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>A</option>
-                                <option>B</option>
-                                <option>C</option>
+                            <select formControlName="sectionid" style="width: 100%;" class="form-control">
+                                <!-- <option value=0 selected disabled>Please select</option> -->
+                                <option [ngValue]="section.sectionid" *ngFor="let section of SectionList;">
+                                    {{section.section_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -61,106 +62,94 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
+                            <label class="pt-2" style="margin: auto;">Batch</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <input formControlName="batch_year" class="form-control" type="text" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Student Name</label>
+                            <label class="pt-2" style="margin: auto;">Student Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <input formControlName="student_name" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                            <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input class="form-control" [value]="today" type="Date">
+                            <input formControlName="date" class="form-control" [value]="today" type="Date">
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-5">
-                    <div class="col-sm-3 mt-5" style="display: flex;">
-                        <div style="float: left;">
-                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                class="form-check-input ml-2" name="option1" value="something">
-                        </div>
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2 ml-2" style="margin: auto;">School fees</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mt-5" style="display: flex;">
-                        <div style="float: left;">
-                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                class="form-check-input ml-2" name="option1" value="something">
-                        </div>
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2 ml-2" style="margin: auto;">Hostel fees</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mt-5" style="display: flex;">
-                        <div style="float: left;">
-                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                class="form-check-input ml-2" name="option1" value="something">
-                        </div>
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2 ml-2" style="margin: auto;">Bus fees</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 mt-5" style="display: flex;">
-                        <div style="float: left;">
-                            <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                class="form-check-input ml-2" name="option1" value="something">
-                        </div>
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2 ml-2" style="margin: auto;">Sem fees</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Total Amount</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Received Amount</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Balance Amount</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Bill NO</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                </div>
+                <table class="col-sm-12 table table-bordered table-sm  mt-4">
+                    <thead>
+                        <tr>
+                            <th>Fees Name</th>
+                            <th>Fees Type</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                            <th style="width: 150px;">Payable Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="admissionFeesList">
+                        <tr *ngFor="let chid of feesCollectionForm.get('admissionFeesList')['controls']; let i = index"
+                            formGroupName="{{i}}">
+                            <td class="pt-3">{{chid.get('type_name').value}}</td>
+                            <td></td>
+                            <td><input readonly formControlName="amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                        </tr>
+                    </tbody>
+
+                    <tbody formArrayName="busFeesList">
+                        <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
+                            formGroupName="{{j}}">
+                            <td class="pt-3"><span [ngStyle]="{'color':chid.get('balance_amount').value == '0' ? 'green' : 'red'}">{{chid.get('type_name').value}}</span></td>
+                            <td class="pt-3">{{chid.get('type_assign_name').value}}</td>
+                            <td><input readonly formControlName="amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                        </tr>
+                    </tbody>
+
+                    <tbody formArrayName="commonFeesList">
+                        <tr *ngFor="let chid of feesCollectionForm.get('commonFeesList')['controls']; let i = index"
+                            formGroupName="{{i}}">
+                            <td class="pt-3">{{chid.get('type_name').value}}</td>
+                            <td class="pt-3">{{chid.get('type_assign_name').value}}</td>
+                            <td><input readonly formControlName="amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                        </tr>
+                    </tbody>
+
+                    <tbody>
+                        <tr>
+                            <td class="p-2"
+                                style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
+                                colspan="4">Total Amount</td>
+                            <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
+                                    type="text" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <div class="col-sm-12 mt-5">
                     <div style="text-align: center;">
@@ -168,56 +157,11 @@
                             class="btn btn-primary mr-3 btn-sm" value="Save" />
                         <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
                             class="btn btn-danger btn-sm mr-2" value="Cancel" />
-                        <!-- <input matTooltip="Click to Print" (click)="printbill()" type="button"
-                            class="btn btn-primary m-3 btn-sm ml-5" value="Print" /> -->
+                        <input matTooltip="Click to Print" (click)="printbill()" type="button"
+                            class="btn btn-primary m-3 btn-sm ml-5" value="Print" />
                     </div>
                 </div>
             </form>
-        </mat-card-content>
-    </mat-card>
-
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <div class="table-responsive">
-                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
-                    <thead>
-                        <tr>
-                            <th>AD NO</th>
-                            <th>Class</th>
-                            <th>Group</th>
-                            <th>Section</th>
-                            <th>Batch</th>
-                            <th>Student Name</th>
-                            <th>Date</th>
-                            <th>Fees Type</th>
-                            <th>Total Amount</th>
-                            <th>Received Amount</th>
-                            <th>Balance Amount</th>
-                            <!-- <th>Options</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0001</td>
-                            <td>12</td>
-                            <td>Maths</td>
-                            <td>A</td>
-                            <td>2023-2024</td>
-                            <td>Ram</td>
-                            <td>12-12-2023</td>
-                            <td>School fees</td>
-                            <td>60,000</td>
-                            <td>40,000</td>
-                            <td>20,000</td>
-                            <!-- <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    class="pl-2">delete</mat-icon>
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </mat-card-content>
     </mat-card>
 </div>

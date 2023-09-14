@@ -235,7 +235,7 @@ export class StaffProfileComponent implements OnInit {
       this.staffno=maxnum
       this.staffProfileForm.staff_no=maxnum
     }
-    });   
+    });
   }
 
   typeChange(type: any) {

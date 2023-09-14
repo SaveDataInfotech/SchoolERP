@@ -296,71 +296,16 @@ table th {
   width: auto !important;
   
 }
-td{
-font-size: 15px;
-  color: rgb(2, 2, 56);
-  font-family: sans-serif;
-}
 
 td{
   text-align: center;
 }
 th{
   text-align: center;
+  background-color: #ac2bac;
+  color: white;
+font-family:  Roboto Slab;
 }
-
-
-// input[type = "text"]:hover{
-//   border:2px solid red;
-// }
-
-// input[type = "tel"]:hover{
-//   border:2px solid green ;
-// }
-
-// input[type = "number"]:hover{
-//   border:2px solid green ;
-// }
-
-// input[type = "date"]:hover{
-//   border:2px solid green ;
-// }
-
-input[type = "text"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "tel"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "number"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "date"]:focus{
-  border:2px solid blue ;
-}
-
-input[type = "password"]:focus{
-  border:2px solid blue ;
-}
-// select:hover{
-//   border:2px solid green ;
-// }
-
-select:focus{
-  border:2px solid blue ;
-}
-
-// textarea:hover{
-//   border:2px solid green ;
-// }
-
-textarea:focus{
-  border:2px solid blue ;
-}
-
 
 .homeicon{
   width: 50px;

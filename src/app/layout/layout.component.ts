@@ -65,8 +65,8 @@ export class LayoutComponent implements OnInit {
               link:"student/student_profile",
             },
             {
-              link_name:"Student Assign",
-              link:"student/student_assign",
+              link_name:"Edit Student",
+              link:"student/student_update",
             },
             {
               link_name:"Student Attendance",
@@ -136,6 +136,10 @@ export class LayoutComponent implements OnInit {
               {
                 link_name:"Student Profile",
                 link:"student/student_profile",
+              },
+              {
+                link_name:"Edit Student",
+                link:"student/student_update",
               },
               {
                 link_name:"Student Attendance",

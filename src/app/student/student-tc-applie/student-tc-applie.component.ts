@@ -28,7 +28,7 @@ export class StudentTcApplieComponent implements OnInit {
   studentListByAd: any = [];
   filterstudentList: any = [];
   serachDisabledone: boolean = false;
-
+  allstudentList: any[] = [];
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -47,7 +47,8 @@ export class StudentTcApplieComponent implements OnInit {
 
   currentDate = this.date1.getUTCDate();
 
-  today = "2023-12-12";
+  todayDate: Date = new Date();
+  today = String(this.todayDate);
 
   finalMonth: any;
   finalDay: any;
@@ -70,16 +71,14 @@ export class StudentTcApplieComponent implements OnInit {
 
     this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
 
-
-
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
     this.refreshBatchYearList();
-
     this.CancelClickInTc();
-
     this.CancelClickInAll();
+
+    this.getAllStudents();
   }
 
   backButton() {
@@ -147,47 +146,45 @@ export class StudentTcApplieComponent implements OnInit {
       groupid: new FormControl(0),
       sectionid: new FormControl(0),
       batch_year: new FormControl(0),
-      search_ad:new FormControl(0),
+      search_ad: new FormControl(0),
       leftdetails: new FormArray([
         new FormGroup({
-          admission_no: new FormControl(''),
-          type: new FormControl(''),
-          tcno: new FormControl(''),
-          date: new FormControl(''),
-          remarks: new FormControl(''),
         })
       ]),
       cuid: new FormControl(1),
     })
   }
 
-  searchStudentByClass() {
+  getAllStudents() {
     debugger;
     this.spinner.show();
-    let classid: number = (this.studentTcApplyForm.value.classid);
-    let groupid: number = (this.studentTcApplyForm.value.groupid);
-    let sectionid: number = (this.studentTcApplyForm.value.sectionid);
-    let batch_year: any = (this.studentTcApplyForm.value.batch_year);
-
-    this.tcSvc.searchStudentByClass(classid, groupid, sectionid, batch_year).subscribe(data => {
-      debugger;
+    this.tcSvc.allStudents().subscribe(data => {
+      this.allstudentList = data;
       this.spinner.hide();
-      this.studentList = data;
-
     });
-    //this.spinner.hide();
+  }
+
+
+  searchStudentByClass() {
+    this.studentTcApplyForm.get('search_ad')?.setValue(0)
+    this.studentList = this.allstudentList.filter((e) => {
+      return e.classid == this.studentTcApplyForm.value.classid
+        && e.groupid == this.studentTcApplyForm.value.groupid
+        && e.sectionid == this.studentTcApplyForm.value.sectionid
+        && e.batch_year == this.studentTcApplyForm.value.batch_year
+    })
   }
 
   getControls() {
     return (this.studentTcApplyForm.get('leftdetails') as FormArray).controls;
   }
 
-  addleave(admission_no:any) {
-    debugger;    
-    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails'];    
+  addleave(admission_no: any) {
+    debugger;
+    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails'];
     control.push(
       new FormGroup({
-        admission_no: new FormControl(admission_no),        
+        admission_no: new FormControl(admission_no),
         type: new FormControl(''),
         tcno: new FormControl(''),
         date: new FormControl(''),
@@ -217,10 +214,11 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   profileCard(id: any) {
+    debugger
     this.filterstudentList = this.studentList.filter((e: any) => { return e.admission_no == id });
   }
 
-  search(id:string){
+  search(id: string) {
     this.filterstudentList = this.studentList.filter((e: any) => { return e.admission_no == id });
   }
 
@@ -233,14 +231,14 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('sectionid')?.setValue(0);
     this.studentTcApplyForm.get('batch_year')?.setValue(0);
     this.studentTcApplyForm.get('search_ad')?.setValue(0)
-    this.studentTcApplyForm.get('cuid')?.setValue(1); 
-    this.studentList=null;
+    this.studentTcApplyForm.get('cuid')?.setValue(1);
+    this.studentList = null;
     this.filterstudentList = null;
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
-      while (control.length !== 0) {
-        control.removeAt(0)
-      }
-   
+    while (control.length !== 0) {
+      control.removeAt(0)
+    }
+
   }
 
   ////////////////
@@ -256,18 +254,16 @@ export class StudentTcApplieComponent implements OnInit {
   })
 
   searchStudentByAdNo() {
-    this.spinner.show();
-    let admission_no = (this.oneStudentTcLeftForm.value.admission_no);
-    this.tcSvc.searchStudentByAdNo(admission_no).subscribe(data => {
-      this.studentListByAd = data;
-      this.spinner.hide();
-      if (this.studentListByAd.length == 0) {
-        this.notificationSvc.error("Invalid Admission Number");
-      }
-      else {
-        this.serachDisabledone = true;
-      }
-    });
+    debugger;
+    this.studentListByAd = this.allstudentList.filter((e) => {
+      return e.admission_no == this.oneStudentTcLeftForm.value.admission_no
+    })
+    if (this.studentListByAd.length == 0) {
+      this.notificationSvc.error("Invalid Admission Number");
+    }
+    else {
+      this.serachDisabledone = true;
+    }
   }
 
   newTcApply() {

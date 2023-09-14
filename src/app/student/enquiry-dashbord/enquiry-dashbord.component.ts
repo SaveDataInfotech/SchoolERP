@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Router,
-  NavigationExtras
-} from '@angular/router';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.service';
+import { StudentProfileComponent } from '../student-profile/student-profile.component';
 @Component({
   selector: 'app-enquiry-dashbord',
   templateUrl: './enquiry-dashbord.component.html',
@@ -20,36 +18,25 @@ export class EnquiryDashbordComponent implements OnInit {
 
   serachList: any = [];
   staffTypeid: number = 0;
-  ClassList:any=[];
+  ClassList: any = [];
   constructor(private router: Router,
-     private enquirySvc: studentEnquiryService,
+    private enquirySvc: studentEnquiryService,
     private ClassSvc: studentClassService,
     private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,) { }
+    private notificationSvc: NotificationsService) { }
 
   ngOnInit(): void {
     this.refreshClassList();
-
-
-    // this.refreshDashBoardList();
-    // this.refreshEnquiryList();
-    // this.refreshEntranceList();
-    // this.refreshSelectedList();
-
     this.serchList(this.staffTypeid);
   }
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
-  }
-  fub() {
-    debugger;
-    this.router.navigate(['../student_profile"'], { state: { example: 'bar' } });
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
-  onchange(id:any){
+  onchange(id: any) {
     debugger;
-   var idd=Number(id)
-    this.staffTypeid=idd;
+    var idd = Number(id)
+    this.staffTypeid = idd;
     this.serchList(this.staffTypeid);
   }
 
@@ -61,8 +48,6 @@ export class EnquiryDashbordComponent implements OnInit {
       this.EntranceList = this.serachList.filter((e: any) => { return e.entrance_status == 1 });
       this.SelectedList = this.serachList.filter((e: any) => { return e.selected_status == 1 });
     });
-    console.log(staffTypeid, 'yy'); // bharath
-    //this.stafftypeForm.patchValue(staffTypeid);
   }
 
   refreshClassList() {
@@ -71,92 +56,41 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
-  // refreshDashBoardList() {
-  //   debugger;
-  //   this.enquirySvc.getDashBoardList().subscribe(data => {
-  //     this.DashBordList = data;
-  //   });
-  // }
-
   ActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEnquiry(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
   }
-
-  // refreshEnquiryList() {
-  //   this.enquirySvc.getEnquiryList().subscribe(data => {
-  //     this.EnquiryList = data;
-  //   });
-  // }
 
   ActiveEntranceStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveEntrance(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
   }
-
-  // refreshEntranceList() {
-  //   this.enquirySvc.getEntranceList().subscribe(data => {
-  //     this.EntranceList = data;
-  //   });
-  // }
 
   ActiveSelectedStatusClick(enquiryid: number) {
     this.enquirySvc.ActiveSelected(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
   }
-
-  // refreshSelectedList() {
-  //   this.enquirySvc.getSelectedList().subscribe(data => {
-  //     this.SelectedList = data;
-  //   });
-  // }
 
   inActiveEnquiryStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveEnquiry(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
   }
 
-
   inActiveEntranceStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveEntrance(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
@@ -165,11 +99,6 @@ export class EnquiryDashbordComponent implements OnInit {
   inActiveSelectedStatusClick(enquiryid: number) {
     this.enquirySvc.inActiveSelected(enquiryid).subscribe(res => {
       if (res?.recordid) {
-        // this.refreshDashBoardList();
-        // this.refreshEnquiryList();
-        // this.refreshEntranceList();
-        // this.refreshSelectedList();
-
         this.serchList(this.staffTypeid);
       }
     });
@@ -178,13 +107,13 @@ export class EnquiryDashbordComponent implements OnInit {
 
   ActiveAdmissionClick(selected: any) {
     debugger;
-   var myStr = JSON.stringify(selected);
-    sessionStorage.setItem("selectd",myStr);
-    //this.router.navigateByUrl('student/student_profile');
-   //this.router.navigate([ '/student_profile']);
+    var myStr = JSON.stringify(selected);
+    sessionStorage.setItem("selectd", myStr);
+    //this.pro.setvalueform(myStr);
+    this.router.navigateByUrl('/app/student/student_profile');
   }
 
-  removeAllRegister(){
+  removeAllRegister() {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete all Registeration ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
@@ -193,7 +122,7 @@ export class EnquiryDashbordComponent implements OnInit {
               this.notificationSvc.error("Deleted Success")
               this.serchList(this.staffTypeid);
             }
-            else{
+            else {
               this.notificationSvc.error("Something Error")
             }
           });

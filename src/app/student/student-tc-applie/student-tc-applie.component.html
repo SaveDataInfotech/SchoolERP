@@ -69,7 +69,7 @@
                                             <label class="pt-2" style="margin: auto;">Section</label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select (change)="searchStudentByClass()" formControlName="sectionid" style="width: 100%;"
+                                            <select formControlName="sectionid" style="width: 100%;"
                                                 class="form-control " name="selectAction">
                                                 <option value=0 selected disabled>Please select</option>
                                                 <option [ngValue]="section.sectionid"
@@ -77,6 +77,13 @@
                                                     {{section.section_name}}</option>
                                             </select>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 mt-4">
+                                    <div style="text-align: center;">
+                                        <input (click)="searchStudentByClass()"  matTooltip="Click to Save" type="button" style="width: 80px;"
+                                            class="btn btn-primary mr-3 btn-sm" value="Search" />                                       
                                     </div>
                                 </div>
 

@@ -8,31 +8,33 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form>
+            <form #promoteForm="ngForm" (ngSubmit)="save(StudentList)">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Class</label>
+                            <label class="pt-2" style="margin: auto;">Class</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>1-St</option>
-                                <option>2-Nd</option>
-                                <option>10-Th</option>
-                                <option>11-Th</option>
+                            <select [(ngModel)]="studentPromoteForm.classid" style="width: 100%;" #t
+                                (change)="filterGroupfun(t.value)" class="form-control " name="classid">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="col-sm-6 mt-3" *ngIf="groupDisplay == true" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Group</label>
+                            <label class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Maths-Biology</option>
-                                <option>ComputerScience</option>
+                            <select [(ngModel)]="studentPromoteForm.groupid" style="width: 100%;" #s
+                                (change)="filterSectionfun(s.value)" class="form-control" name="groupid">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                    {{group.group_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -40,96 +42,62 @@
                 <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Section</label>
+                            <label class="pt-2" style="margin: auto;">Section</label>
                         </div>
                         <div class="inputdiv">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>A</option>
-                                <option>B</option>
+                            <select [(ngModel)]="studentPromoteForm.sectionid" style="width: 100%;"
+                                class="form-control " name="sectionid">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                    {{section.section_name}}</option>
                             </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="row ">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Batch</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                </div> -->
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input placeholder="Enter 10-th Mark" [value]="today" class="form-control" type="date" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <button matTooltip="Click to Search" type="button"
-                        class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
+                        <button (click)="searchStudent()" type="button" class="btn btn-primary btn-sm ">Search</button>
                     </div>
                 </div>
-            </form>
 
-            <form>
-                <div class="row mt-5">
+                <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;text-align: left;">
-                            <input style="height: 20px;width: 20px;" type="checkbox" class="ml-4" value="something">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div class="inputdiv">
-                            <label class="ml-2"><b>Select All</b></label>
+                            <input class="form-control" type="date" required>
                         </div>
                     </div>
                 </div>
 
-                <table class="col-sm-8 table table-hover table-bordered table-sm  ">
+                <table class="col-sm-8 table table-hover table-bordered table-sm mt-5 ">
                     <thead>
                         <tr>
+                            <th>SI NO</th>
                             <th></th>
                             <th>A.NO</th>
                             <th>Student Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
+                        <tr *ngFor="let student of StudentList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td><input type="checkbox" name="iss{{i}}" #iss="ngModel" [(ngModel)]="student.isselected">
                             </td>
-                            <td>000101</td>
-                            <td>John</td>
-                        </tr>
-
-                        <tr>
-                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
-                            </td>
-                            <td>000102</td>
-                            <td>Kumar</td>
-                        </tr>
-
-                        <tr>
-                            <td><input style="height: 15px;width: 15px;" type="checkbox" class="ml-4" value="something">
-                            </td>
-                            <td>000103</td>
-                            <td>Priya</td>
+                            <td>{{student.admission_no}}</td>
+                            <td>{{student.student_name}}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="col-sm-8 mt-4">
                     <div style="text-align: center;">
-                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                            value="Cancel" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </form>

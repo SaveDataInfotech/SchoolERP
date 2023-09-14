@@ -1,10 +1,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12" style="display: flex;">
-            <div class="inputdiv">
-                <h3 class="ml-1">Student Registration</h3>
-            </div>
-
             <div class="col-6" style="display: flex;">
                 <div class="inputdiv">
                     <button routerLink="../enquiry_dashboard" matTooltip="Click to go to the Student dashboard"
@@ -16,6 +12,16 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Student Registration</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="StudentEnquiryForm" (ngSubmit)="newEnquiry()">
                 <div class="row">
                     <div class="col-sm-12">
@@ -25,21 +31,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Batch Year</label>
-                        </div>
-                        <div class="inputdiv">
-                            <input formControlName="batch_year" class="form-control" type="text" readonly>
-                        </div>
-                    </div> -->
-
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Enrollment Number</label>
                         </div>
-                        <div *ngFor="let maxid of MaxId" class="inputdiv">
-                            <input placeholder="00{{maxid.enquiryid+1}}" class="form-control" disabled type="number">
+                        <div class="inputdiv">
+                            <input formControlName="enquiry_no" class="form-control" readonly type="number">
                         </div>
                     </div>
 
@@ -48,7 +45,8 @@
                             <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="date" readonly class="form-control" [value]="today" type="date">
+                            <input formControlName="enquiry_date" readonly class="form-control" [value]="today"
+                                type="date">
                         </div>
                     </div>
                 </div>
@@ -83,15 +81,15 @@
                         </div>
                         <div class="inputdiv">
                             <select
-                                [ngClass]="{'is-invalid': StudentEnquiryForm.get('s_admission')?.touched && StudentEnquiryForm.value.s_admission == 0}"
-                                required formControlName="s_admission" style="width: 100%;" class="form-control" #t
-                                (change)="changefun(t.value)" name="selectAction">
+                                [ngClass]="{'is-invalid': StudentEnquiryForm.get('classid')?.touched && StudentEnquiryForm.value.classid == 0}"
+                                required formControlName="classid" style="width: 100%;" class="form-control" #t
+                                (change)="changefun(t.value)">
                                 <option value=0 selected disabled>Please select</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList">{{class.class_name}}
                                 </option>
                             </select>
                             <span class="text-danger"
-                                *ngIf="StudentEnquiryForm.get('s_admission')?.touched && StudentEnquiryForm.value.s_admission == 0">Class
+                                *ngIf="StudentEnquiryForm.get('classid')?.touched && StudentEnquiryForm.value.classid == 0">Class
                                 name is required</span>
                         </div>
                     </div>
@@ -112,8 +110,7 @@
                             <label class="pt-2" style="margin: auto;">Seeking Group for</label>
                         </div>
                         <div class="inputdiv">
-                            <select formControlName="s_group" style="width: 100%;" class="form-control"
-                                name="selectAction">
+                            <select formControlName="groupid" style="width: 100%;" class="form-control">
                                 <option value=0 selected disabled>Please select</option>
                                 <option [ngValue]="group.groupid" *ngFor="let group of Groupnewlist">
                                     {{group.group_name}}</option>
@@ -149,8 +146,7 @@
                         <div class="inputdiv">
                             <select
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors}"
-                                formControlName="gender" style="width: 100%;" class="form-control" name="selectAction"
-                                required>
+                                formControlName="gender" style="width: 100%;" class="form-control" required>
                                 <option value='' selected disabled>Please select</option>
                                 <option value="Male">Male</option>
                                 <option value="FeMale">FeMale</option>
@@ -176,8 +172,7 @@
                         <div class="inputdiv">
                             <select
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors}"
-                                style="width: 100%;" formControlName="nationality" class="form-control"
-                                name="selectAction" required>
+                                style="width: 100%;" formControlName="nationality" class="form-control" required>
                                 <option value='' selected disabled>Please select</option>
                                 <option value="Indian">Indian</option>
                                 <option value="Foreigner">Foreigner</option>
@@ -193,8 +188,7 @@
                         <div class="inputdiv">
                             <select
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.religion.touched && StudentEnquiryForm.controls.religion.errors}"
-                                style="width: 100%;" formControlName="religion" class="form-control" name="selectAction"
-                                required>
+                                style="width: 100%;" formControlName="religion" class="form-control" required>
                                 <option value='' selected disabled>Please select</option>
                                 <option value="Hindu">Hindu</option>
                                 <option value="Muslim">Muslim</option>
@@ -554,10 +548,11 @@
 
                 <div class="col-sm-12 mt-4">
                     <div class="pl-2" style="margin-left: 50px;">
-                        <input [checked]="StudentEnquiryForm.value.s_declare == true" formArrayName="s_declare"
+                        <input [checked]="StudentEnquiryForm.value.s_declare == true" formControlName="s_declare"
                             (change)="selectedSub($event)" style="height: 20px;width: 20px;" type="checkbox"
                             class="form-check-input  mt-1 " name="option1" value="something" required>
-                        <label class="p-2" style="margin: auto;font-weight: 700;">I declare that the
+                        <label class="p-2" style="margin: auto;font-weight: 700;font-family: Poppins;">I declare that
+                            the
                             particulars given
                             above are correct and best my knowledge and will strictly follow the rules and
                             regulations of the school</label>
@@ -571,7 +566,7 @@
                         <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()" style="width: 80px;"
                             class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
-                </div>              
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
