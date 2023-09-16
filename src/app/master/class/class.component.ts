@@ -71,8 +71,7 @@ export class ClassComponent implements OnInit {
   }
 
   backButton() {
-    debugger;
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   New_Class() {
@@ -295,7 +294,7 @@ export class ClassComponent implements OnInit {
   Student_SectionForm = new FormGroup({
     sectionid: new FormControl(0),
     groupid: new FormControl(0),
-    classid: new FormControl(0, [Validators.required]),
+    classid: new FormControl(null, [Validators.required]),
     section_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -382,7 +381,7 @@ export class ClassComponent implements OnInit {
     this.Student_SectionForm.reset();
     this.Student_SectionForm.get('sectionid')?.setValue(0);
     this.Student_SectionForm.get('groupid')?.setValue(0);
-    this.Student_SectionForm.get('classid')?.setValue(0);
+    this.Student_SectionForm.get('classid')?.setValue(null);
     this.Student_SectionForm.get('section_name')?.setValue('');
     this.Student_SectionForm.get('cuid')?.setValue(1);
     this.SectionbuttonId = true;

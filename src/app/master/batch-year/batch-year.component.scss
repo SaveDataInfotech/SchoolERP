@@ -1,76 +1,13 @@
 table {
-    width: 100%;
-  }
-  h3{
-    color: rgb(87, 97, 192);
-    font-size: large;
-    font-weight: 500;
-  }
-
-  h3{
-    color: rgb(87, 97, 192);
-    font-size: large;
-    font-weight: 500;
-  }
-
-  .matcard{
-    box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
-  }
-
-  .dash_std{
-    color: orangered;
-    cursor: pointer;
-  }
-  .dash_std:hover{
-    color: blue;
-  }
-
-  .labeldiv{
-    float: left;
-    width: 150px;
-    text-align: left;
-  }
-
-  .inputdiv{
-   float: left;
-   width: 250px;
-  }
-
-  select:focus{
-    border:2px solid blue ;
-  }
-
-
-.tdoption{
-    width: 100px;
+  width: 100%;
 }
 
-.editbutton{
-    color:blue;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    letter-spacing:0.5px;
-    cursor: pointer;
-    font-size:medium;
-  }
+h3 {
+  color: rgb(87, 97, 192);
+  font-size: large;
+  font-weight: 500;
+}
 
-  .deletebutton{
-    color:red;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    letter-spacing:0.5px;
-    cursor: pointer;
-    font-size:medium;
-  }
-
-  .homeicon{
-    width: 50px;
-    height: 50px;
-    background-color:#ac2bac;
-    padding-top: 5px;
-    border: 2px solid #ac2bac;
-    border-radius: 100px;
-    color: white;
-  }
-
-  .homeicon:hover{
-    box-shadow: 0px 0px 7px 4px rgb(241, 208, 236);
-  }
+.matcard {
+  box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
+}

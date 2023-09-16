@@ -14,19 +14,17 @@ import { VehicleMasterComponent } from './vehicle-master/vehicle-master.componen
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
 import { ReportsComponent } from './reports/reports.component';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {  ReactiveFormsModule } from '@angular/forms';
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule} from '@angular/common/http/testing';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -16,26 +16,20 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class StaffTypeComponent implements OnInit {
   DepartmentList: any = [];
   MaxId: any = [];
-  //StaffTypeListById:any=[];
-  //myBooleanVar:boolean =true;
-  //addEditrecords :any= 0;
   buttonId: boolean = true;
 
-  constructor(private http: HttpClient,private spinner: NgxSpinnerService,
+  constructor(
     private stySvc: staffTypeService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,private router: Router) {
+    private notificationSvc: NotificationsService, private router: Router) {
   }
   ngOnInit(): void {
     this.refreshstaffTypeList(),
       this.getMaxId(),
       this.cancelClick()
-
-    //this.notificationSvc.success("Heloo")
-        
   }
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   stafftypeForm = new FormGroup({
@@ -50,26 +44,26 @@ export class StaffTypeComponent implements OnInit {
     });
   }
 
-  StaffType() {    
+  StaffType() {
     if (this.stafftypeForm.valid) {
       if (this.stafftypeForm.value.staffTypeid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
-              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {               
+              this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
                 debugger;
                 console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {
-                  this.notificationSvc.success("Saved successfully")                  
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshstaffTypeList();
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -90,10 +84,10 @@ export class StaffTypeComponent implements OnInit {
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -135,12 +129,6 @@ export class StaffTypeComponent implements OnInit {
   }
 
   udateGetClick(staffType: any) {
-    // 
-    // this.stySvc.udateGetClick(staffTypeid).subscribe(data => {
-    //   this.StaffTypeListById = data;
-    // });
-    //console.log(staffTypeid,'yy'); // bharath
-    // this.stafftypeForm.patchValue(staffTypeid);
     this.stafftypeForm.get('staffTypeid')?.setValue(staffType.staffTypeid);
     this.stafftypeForm.get('stafftype')?.setValue(staffType.staffType);
     this.stafftypeForm.get('cuid')?.setValue(staffType.cuid);

@@ -95,7 +95,7 @@
                                         <div class="inputdiv">
                                             <select formControlName="search_ad" #p (change)="profileCard(p.value)"
                                                 class="form-control" style="width: 100%;">
-                                                <option value=0 selected disabled>Please Select</option>
+                                                <option value='' selected disabled>Please Select</option>
                                                 <option value={{student.admission_no}}
                                                     *ngFor="let student of studentList;">
                                                     {{student.admission_no}}</option>

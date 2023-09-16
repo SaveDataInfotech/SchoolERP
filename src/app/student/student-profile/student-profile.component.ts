@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
@@ -254,9 +254,9 @@ export class StudentProfileComponent implements OnInit {
     enquiry_no: new FormControl(''),
     admission_no: new FormControl(''),
     batch_year: new FormControl(''),
-    classid: new FormControl(0),
+    classid: new FormControl(null, [Validators.required]),
     groupid: new FormControl(0),
-    sectionid: new FormControl(0),
+    sectionid: new FormControl(0, [Validators.required]),
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
@@ -284,6 +284,10 @@ export class StudentProfileComponent implements OnInit {
     ]),
     cuid: new FormControl(1),
   });
+
+  get class() {
+    return this.studentDetailsForm.get('classid');
+  }
 
   getAdFeesControls() {
     return (this.studentDetailsForm.get('admissionFeesList') as FormArray).controls;
@@ -530,7 +534,7 @@ export class StudentProfileComponent implements OnInit {
     m_occupation: new FormControl(''),
     m_qualification: new FormControl(''),
     m_ph: new FormControl(''),
-    P_address: new FormControl(''),
+    p_address: new FormControl(''),
     c_address: new FormControl(''),
     cuid: new FormControl(1)
   })
@@ -550,7 +554,7 @@ export class StudentProfileComponent implements OnInit {
                 this.notificationSvc.success("Saved Success")
                 this.resStatus2 = true;
               }
-              else{
+              else {
                 this.notificationSvc.error("Error")
               }
             });
@@ -641,7 +645,7 @@ export class StudentProfileComponent implements OnInit {
                 this.notificationSvc.success("Saved Success");
                 this.resStatus3 = true;
               }
-              else{
+              else {
                 this.notificationSvc.error("Error");
               }
             });
@@ -711,7 +715,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('enquiry_no')?.setValue('');
     this.studentDetailsForm.get('admission_no')?.setValue('');
     this.studentDetailsForm.get('batch_year')?.setValue('');
-    this.studentDetailsForm.get('classid')?.setValue(0);
+    this.studentDetailsForm.get('classid')?.setValue(null);
     this.studentDetailsForm.get('groupid')?.setValue(0);
     this.studentDetailsForm.get('sectionid')?.setValue(0);
     this.studentDetailsForm.get('mark_10')?.setValue('');
@@ -761,7 +765,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentPersonalDetailsForm.get('m_occupation')?.setValue('');
     this.studentPersonalDetailsForm.get('m_qualification')?.setValue('');
     this.studentPersonalDetailsForm.get('m_ph')?.setValue('');
-    this.studentPersonalDetailsForm.get('P_address')?.setValue('');
+    this.studentPersonalDetailsForm.get('p_address')?.setValue('');
     this.studentPersonalDetailsForm.get('c_address')?.setValue('');
     this.studentPersonalDetailsForm.get('cuid')?.setValue(0);
 

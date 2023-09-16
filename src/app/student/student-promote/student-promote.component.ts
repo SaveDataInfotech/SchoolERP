@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentPromoteService } from 'src/app/api-service/studentPromote.service';
-import { studentTcLeftService } from 'src/app/api-service/studentTcLeft.service';
 
 @Component({
   selector: 'app-student-promote',
@@ -23,10 +21,13 @@ export class StudentPromoteComponent implements OnInit {
   BatchList: any = [];
   groupDisplay: boolean = false;
   StudentList: any[] = [];
+  progroupFilterlist: any = [];
+  prosectionFilterlist: any = [];
+  progroupDisplay: boolean = true;
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
-    private batchSvc: BatechYearService,    
+    private batchSvc: BatechYearService,
     private promoSvc: studentPromoteService,
     private notificationSvc: NotificationsService,) { }
 
@@ -66,54 +67,92 @@ export class StudentPromoteComponent implements OnInit {
   filterGroupfun(classsid: any) {
     debugger;
     const classid = Number(classsid);
-    this.studentPromoteForm.classid = classid;
+    this.searchStudentForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
-    this.studentPromoteForm.groupid = 0;
-    this.studentPromoteForm.sectionid = 0;
+    this.searchStudentForm.groupid = 0;
+    this.searchStudentForm.sectionid = 0;
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.studentPromoteForm.sectionid = 0;
+      this.searchStudentForm.sectionid = 0;
     }
     else {
       this.groupDisplay = true;
-      this.studentPromoteForm.sectionid = 0;
+      this.searchStudentForm.sectionid = 0;
     }
   }
 
   filterSectionfun(groupID: any) {
     const groupid = Number(groupID);
-    this.studentPromoteForm.groupid = groupid;
+    this.searchStudentForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.studentPromoteForm.sectionid = 0;
+    this.searchStudentForm.sectionid = 0;
   }
 
-  studentPromoteForm = {
+  searchStudentForm = {
     classid: 0,
     groupid: 0,
-    sectionid: 0,
-    date: '',
-    cuid: 1
+    sectionid: 0
   };
 
   searchStudent() {
-    const classid = this.studentPromoteForm.classid;
-    const groupid = this.studentPromoteForm.groupid;
-    const sectionid = this.studentPromoteForm.sectionid;
+    const classid = this.searchStudentForm.classid;
+    const groupid = this.searchStudentForm.groupid;
+    const sectionid = this.searchStudentForm.sectionid;
 
     this.promoSvc.searchStudentbypromote(classid, groupid, sectionid).subscribe(data => {
       this.StudentList = data;
     });
+  }
+  //////////////////
+  profilterGroupfun(classsid: any) {
+    debugger;
+    const classid = Number(classsid);
+    this.studentPromoteForm.classid = classid;
+    this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+    this.studentPromoteForm.groupid = 0;
+    this.studentPromoteForm.sectionid = 0;
+    if (this.progroupFilterlist.length == 0) {
+      this.progroupDisplay = false;
+      this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+      this.studentPromoteForm.sectionid = 0;
+    }
+    else {
+      this.progroupDisplay = true;
+      this.studentPromoteForm.sectionid = 0;
+    }
+  }
+
+  profilterSectionfun(groupID: any) {
+    const groupid = Number(groupID);
+    this.studentPromoteForm.groupid = groupid;
+    this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+    this.studentPromoteForm.sectionid = 0;
+  }
+
+  studentPromoteForm = {
+    batch_year: '',
+    classid: 0,
+    groupid: 0,
+    sectionid: 0,
+    date: 'date',
+    cuid: 1
   }
 
   save(data) {
     debugger
     const filterlist = data.filter((e) => { return e.isselected == true });
 
-    this.promoSvc.newStudent(filterlist).subscribe(res => {
-      if (res.status == 'Insert Success') {
-        debugger;
-        this.notificationSvc.success('Saved Successfully');       
+    const batch_year = this.studentPromoteForm.batch_year;
+    const classid = this.studentPromoteForm.classid;
+    const groupid = this.studentPromoteForm.groupid;
+    const setionid = this.studentPromoteForm.sectionid;
+    const date = this.studentPromoteForm.date;
+    const cuid = this.studentPromoteForm.cuid;
+
+    this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
+      if (res.status == 'Saved successfully') {
+        this.notificationSvc.success('Saved Successfully');
       }
       else {
         this.notificationSvc.error('Something Error');

@@ -145,11 +145,10 @@ export class StudentTcApplieComponent implements OnInit {
       classid: new FormControl(0),
       groupid: new FormControl(0),
       sectionid: new FormControl(0),
-      batch_year: new FormControl(0),
-      search_ad: new FormControl(0),
+      batch_year: new FormControl(''),
+      search_ad: new FormControl(''),
       leftdetails: new FormArray([
-        new FormGroup({
-        })
+
       ]),
       cuid: new FormControl(1),
     })
@@ -166,7 +165,7 @@ export class StudentTcApplieComponent implements OnInit {
 
 
   searchStudentByClass() {
-    this.studentTcApplyForm.get('search_ad')?.setValue(0)
+    this.studentTcApplyForm.get('search_ad')?.setValue('')
     this.studentList = this.allstudentList.filter((e) => {
       return e.classid == this.studentTcApplyForm.value.classid
         && e.groupid == this.studentTcApplyForm.value.groupid
@@ -206,8 +205,7 @@ export class StudentTcApplieComponent implements OnInit {
         this.notificationSvc.success("Saved Success")
         this.CancelClickInAll();
       }
-      else {
-        alert()
+      else {       
         this.CancelClickInAll();
       }
     })
@@ -230,7 +228,7 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('groupid')?.setValue(0);
     this.studentTcApplyForm.get('sectionid')?.setValue(0);
     this.studentTcApplyForm.get('batch_year')?.setValue(0);
-    this.studentTcApplyForm.get('search_ad')?.setValue(0)
+    this.studentTcApplyForm.get('search_ad')?.setValue('')
     this.studentTcApplyForm.get('cuid')?.setValue(1);
     this.studentList = null;
     this.filterstudentList = null;

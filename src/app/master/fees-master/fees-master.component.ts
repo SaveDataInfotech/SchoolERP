@@ -85,7 +85,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   //Fees type
@@ -93,7 +93,7 @@ export class FeesMasterComponent implements OnInit {
   feestypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl('', [Validators.required]),
-    studentfeestype: new FormControl('CommanFees', [Validators.required]),
+    studentfeestype: new FormControl('Common Fees', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -189,6 +189,7 @@ export class FeesMasterComponent implements OnInit {
     this.feestypeForm.reset();
     this.feestypeForm.get('typeid')?.setValue(0);
     this.feestypeForm.get('type_name')?.setValue('');
+    this.feestypeForm.get('studentfeestype')?.setValue('Common Fees');
     this.feestypeForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
@@ -335,25 +336,15 @@ export class FeesMasterComponent implements OnInit {
     this.feesAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.feesAssignForm.get('groupid')?.setValue(0);
-    //this.feesAssignForm.get('sectionid')?.setValue(0);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      //this.feesAssignForm.get('sectionid')?.setValue(0);
     }
     else {
       this.groupDisplay = true;
-      //this.feesAssignForm.get('sectionid')?.setValue(0);
     }
   }
 
-  // filterSectionfun(groupID: any) {
-  //   debugger;
-  //   const groupid = Number(groupID);
-  //   this.feesAssignForm.get('groupid')?.setValue(groupid);
-  //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-  //   this.feesAssignForm.get('sectionid')?.setValue(0);
-  // }
 
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -502,7 +493,7 @@ export class FeesMasterComponent implements OnInit {
 
   feesTypeAssignForm = new FormGroup({
     type_assignid: new FormControl(0),
-    typeid: new FormControl(0, [Validators.required]),
+    typeid: new FormControl(null, [Validators.required]),
     type_assign_name: new FormControl('', [Validators.required]),
     cuid: new FormControl(1),
   })
@@ -599,7 +590,7 @@ export class FeesMasterComponent implements OnInit {
   cancelClickAssignType() {
     this.feesTypeAssignForm.reset();
     this.feesTypeAssignForm.get('type_assignid')?.setValue(0);
-    this.feesTypeAssignForm.get('typeid')?.setValue(0);
+    this.feesTypeAssignForm.get('typeid')?.setValue(null);
     this.feesTypeAssignForm.get('type_assign_name')?.setValue('');
     this.feesTypeAssignForm.get('cuid')?.setValue(1);
     this.assignTypebuttonId = true;

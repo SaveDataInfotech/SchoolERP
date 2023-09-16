@@ -1,17 +1,6 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Class">
         <div class="container-fluid mt-4">
-            
-            <!-- <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Student Class</h3>
-                    </div>
-                    <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                            (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                    </div>
-                </div>
-            </div> -->
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
@@ -77,7 +66,7 @@
                                 <div style="float: left;width: 250px;">
                                     <select style="width:100%;"
                                         [ngClass]="{'is-invalid':Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors}"
-                                        class="form-control" formControlName="medium" name="selectAction">                                        
+                                        class="form-control" formControlName="medium" name="selectAction">
                                         <option selected value='English'>English</option>
                                         <option value="Tamil">Tamil</option>
                                     </select>
@@ -178,20 +167,21 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Class Name <span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Class Name <span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select
-                                        [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.value.classid == 0}"
+                                        [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors}"
                                         style="width: 100%;" class="form-control" formControlName="classid" #t
                                         (change)="changefun(t.value)" name="selectAction">
-                                        <option value=0 selected disabled>Please select</option>
+                                        <option value=null selected disabled>Please select</option>
                                         <option [disabled]="SectionbuttonId != true" *ngFor="let class of ClassList"
                                             value={{class.classid}}>
                                             {{class.class_name}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="Student_SectionForm.get('classid')?.touched && Student_SectionForm.value.classid == 0">Class
+                                        *ngIf="Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors">Class
                                         name is required</span>
                                 </div>
                             </div>

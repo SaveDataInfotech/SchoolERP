@@ -13,29 +13,14 @@ h3 {
   cursor: pointer;
 }
 
-.dash_std:hover {
-  color: blue;
-}
-
-select:focus {
-  border: 2px solid blue;
-}
-
-textarea:hover {
-  border: 2px solid green;
-}
-
-textarea:focus {
-  border: 2px solid blue;
-}
 
 .labeldiv {
   float: left;
-  width: 150px;
+  width: 80px;
   text-align: left;
 }
 
 .inputdiv {
   float: left;
-  width: 250px;
+  width: 200px;
 }

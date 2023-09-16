@@ -33,10 +33,12 @@
                     </div>
 
                     <div class="col-sm-3 ml-5 mt-2">
-                        <input placeholder="Enter Admission Number" formControlName="admission_no" class="form-control" />
+                        <input placeholder="Enter Admission Number" formControlName="admission_no"
+                            class="form-control" />
                     </div>
                     <div class="col-sm-1  mt-2">
-                        <button type="button" (click)="searchStudentByAd()" class="btn btn-primary btn-sm mt-1">Search</button>
+                        <button type="button" (click)="searchStudentByAd()"
+                            class="btn btn-primary btn-sm mt-1">Search</button>
                     </div>
                 </div>
 
@@ -45,38 +47,40 @@
             <div class="row mt-5">
                 <div *ngFor="let student of studentList" class="m-4  row col-sm-3 carddiv">
                     <div class="mt-3" style="margin: left;">
-                        <div style="float: left;"><img [src]="student.simage"
-                            style="object-fit: cover;" height="80px" width="80px" />
+                        <div style="float: left;"><img [src]="student.simage" style="object-fit: cover;" height="80px"
+                                width="80px" />
                         </div>
                         <div class="pl-3" style="float: left;">
-                            <label style="font-size: 20px;color: rgb(173, 5, 5);"
+                            <label style="font-size: 20px;color:white;"
                                 class="cardlabel">{{student.student_name}}</label><br>
-                            <label style="color: blue;" class="cardlabel">{{student.f_ph}}</label><br>
-                            <label style="color: blue;" class="cardlabel">{{student.dob}}</label>
+                            <label style="color: white;" class="cardlabel">{{student.f_ph}}</label><br>
+                            <label style="color: white;" class="cardlabel">{{student.dob}}</label>
                         </div>
                     </div>
                     <div style="width: 100%;float: left;">
-                        <label class="cardlabel " style="width: 35%;">Admission Number</label><label
-                            class="cardlabelcon pt-2">{{student.admission_no}}</label>
+                        <label class="cardlabel " style="width: 50%;">Admission NO :</label><label
+                            class="cardlabelcon">{{student.admission_no}}</label>
                     </div>
                     <div style="width: 100%;float: left;">
-                        <label class="cardlabel" style="width: 35%;">Class</label><label
-                            class="cardlabelcon mt-1">{{student.class_name}}</label>
+                        <label class="cardlabel" style="width: 50%;">Class :</label><label
+                            class="cardlabelcon">{{student.class_name}} </label>
                     </div>
                     <div style="width: 100%;float: left;">
-                        <label class="cardlabel" style="width: 35%;">Section</label><label
+                        <label class="cardlabel" style="width: 50%;">Section :</label><label
                             class="cardlabelcon ">{{student.section_name}}</label>
                     </div>
                     <div style="width: 100%;float: left;">
-                        <label class="cardlabel" style="width: 35%;">{{student.gender}}</label><label
-                            class="cardlabelcon">Male</label>
+                        <label class="cardlabel" style="width: 50%;">Male :</label><label
+                            class="cardlabelcon">{{student.gender}}</label>
                     </div>
 
-                    <div>
+                    <div class="col-sm-12">
                         <!-- <input (click)="tabGroup.selectedIndex=0" type="button" value="Click To Edit"
                                     class="form-control btn btn-secondary" /> -->
 
-                        <button type="button" class="btn btn-primary btn-sm mt-1">Click To Edit</button>
+                        <button (click)="editFunction(student)" (click)="tabGroup.selectedIndex=1" type="button"
+                            class="btn  btn-primary btn-sm mt-1 col-sm-6">Click To Edit</button>
+                        <button type="button" class="btn btn-light btn-sm mt-1 col-sm-6">Click To View</button>
                     </div>
                 </div>
             </div>
@@ -85,9 +89,9 @@
 
     <mat-tab label="Student Details">
         <ng-template mat-tab-label>
-            Student Details                   
-                <mat-icon *ngIf="resStatus1 == true" style="color: green;">check_circle</mat-icon>
-                <mat-icon *ngIf="resStatus1 != true" style="color: red;">highlight_off</mat-icon>
+            Student Details
+            <mat-icon *ngIf="resStatus1 == true || step_1 == true" style="color: green;">check_circle</mat-icon>
+            <mat-icon *ngIf="resStatus1 != true && step_1 != true" style="color: red;">highlight_off</mat-icon>
         </ng-template>
         <form [formGroup]="studentDetailsForm" (ngSubmit)="newStudentProfileDetails()">
             <div class="container mt-4">
@@ -162,11 +166,10 @@
                         <div class="inputdiv">
                             <select
                                 [ngClass]="{'is-invalid': studentDetailsForm.get('classid')?.touched && studentDetailsForm.value.classid == 0}"
-                                formControlName="classid" style="width: 100%;" #t
-                                (change)="filterGroupfun(t.value)" class="form-control">
+                                formControlName="classid" style="width: 100%;" #ut
+                                (change)="updatefilterGroupfun(ut.value)" class="form-control">
                                 <option value=0 selected disabled>Please select</option>
-                                <option value={{class.classid}}
-                                    *ngFor="let class of ClassList;">
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
                             <span class="text-danger"
@@ -176,14 +179,14 @@
                     </div>
                 </div>
 
-                <div class="row" *ngIf="groupDisplay == true && groupFilterlist.length != 0">
+                <div class="row" *ngIf="updategroupFilterlist.length != 0">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">10-th Mark</label>
                         </div>
                         <div class="inputdiv">
-                            <input (keypress)="numberOnly($event)" formControlName="mark_10"
-                                class="form-control" type="text">
+                            <input (keypress)="numberOnly($event)" formControlName="mark_10" class="form-control"
+                                type="text">
                         </div>
                     </div>
 
@@ -192,11 +195,10 @@
                             <label class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div class="inputdiv">
-                            <select formControlName="groupid" style="width: 100%;" #s
-                                (change)="filterSectionfun(s.value)" class="form-control">
+                            <select formControlName="groupid" style="width: 100%;" #us
+                                (change)="updatefilterSectionfun(us.value)" class="form-control">
                                 <option value=0 selected disabled>Please select</option>
-                                <option value={{group.groupid}}
-                                    *ngFor="let group of groupFilterlist;">
+                                <option value={{group.groupid}} *ngFor="let group of updategroupFilterlist;">
                                     {{group.group_name}}</option>
                             </select>
                         </div>
@@ -214,8 +216,7 @@
                                 [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.value.sectionid == 0}"
                                 formControlName="sectionid" style="width: 100%;" class="form-control ">
                                 <option value=0 selected disabled>Please select</option>
-                                <option [ngValue]="section.sectionid"
-                                    *ngFor="let section of sectionFilterlist;">
+                                <option [ngValue]="section.sectionid" *ngFor="let section of updatesectionFilterlist;">
                                     {{section.section_name}}</option>
                             </select>
                             <span class="text-danger"
@@ -229,8 +230,8 @@
                             <label class="pt-2" style="margin: auto;">Roll Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input (keypress)="numberOnly($event)" formControlName="roll_no"
-                                class="form-control" type="text">
+                            <input (keypress)="numberOnly($event)" formControlName="roll_no" class="form-control"
+                                type="text">
                         </div>
                     </div>
                 </div>
@@ -253,8 +254,8 @@
                         <div class="inputdiv">
                             <input
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors}"
-                                maxlength="12" minlength="12" (keypress)="numberOnly($event)"
-                                formControlName="aadhar" class="form-control" type="text" required>
+                                maxlength="12" minlength="12" (keypress)="numberOnly($event)" formControlName="aadhar"
+                                class="form-control" type="text" required>
                             <span class="text-danger"
                                 *ngIf="studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors">
                                 <div
@@ -303,8 +304,8 @@
                         <div class="inputdiv">
                             <input
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.student_name_t.touched && studentDetailsForm.controls.student_name_t.errors}"
-                                placeholder="தமிழில்" formControlName="student_name_t" class="form-control"
-                                required type="text">
+                                placeholder="தமிழில்" formControlName="student_name_t" class="form-control" required
+                                type="text">
                             <span class="text-danger"
                                 *ngIf="studentDetailsForm.controls.student_name_t.touched && studentDetailsForm.controls.student_name_t.errors">
                                 <div
@@ -416,7 +417,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row  mt-3">
+                <!-- <div class="row  mt-3">
                     <div class="col-sm-6" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Fees Less<span class="text-danger">
@@ -529,7 +530,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
 
@@ -537,17 +538,18 @@
                 <div style="text-align: center;">
                     <input [disabled]="resStatus1 == true" matTooltip="Click to Save" type="submit"
                         style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
-                    <input  [disabled]="resStatus1 == true" matTooltip="Click to Cancel" type="button"
-                        style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                    <input [disabled]="resStatus1 == true" matTooltip="Click to Cancel" type="button"
+                        style="width: 80px;" class="btn btn-danger btn-sm mr-2" (click)=" cancelClick()"
+                        value="Cancel" />
                 </div>
             </div>
         </form>
     </mat-tab>
-    <mat-tab  label="Personal Details">
+    <mat-tab label="Personal Details">
         <ng-template mat-tab-label>
-            Personal Details                
-                <mat-icon *ngIf="resStatus2 == true" style="color: green;">check_circle</mat-icon>
-                <mat-icon *ngIf="resStatus2 != true" style="color: red;">highlight_off</mat-icon>
+            Personal Details
+            <mat-icon *ngIf="resStatus2 == true || step_2 == true" style="color: green;">check_circle</mat-icon>
+            <mat-icon *ngIf="resStatus2 != true && step_2 != true" style="color: red;">highlight_off</mat-icon>
         </ng-template>
         <form [formGroup]="studentPersonalDetailsForm" (ngSubmit)="newstudentPersonalDetails()">
             <div class="container mt-4">
@@ -588,8 +590,7 @@
                 <div class="row mt-3">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Indentification Mark 1<span
-                                    class="text-danger">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 1<span class="text-danger">
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
@@ -608,8 +609,7 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Indentification Mark 2<span
-                                    class="text-danger">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 2<span class="text-danger">
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
@@ -755,8 +755,8 @@
                             <label class="pt-2" style="margin: auto;">Phone Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_ph" maxlength="10" minlength="10"
-                                (keypress)="numberOnly($event)" class="form-control" type="text">
+                            <input formControlName="m_ph" maxlength="10" minlength="10" (keypress)="numberOnly($event)"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -764,19 +764,17 @@
                 <div class="row mt-4">
                     <div class="col-sm-6" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-5" style="margin: auto;">Permanent Address<span
-                                    class="text-danger">
+                            <label class="pt-5" style="margin: auto;">Permanent Address<span class="text-danger">
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
                             <textarea
-                                [ngClass]="{'is-invalid':studentPersonalDetailsForm.controls.P_address.touched && studentPersonalDetailsForm.controls.P_address.errors}"
-                                required formControlName="P_address" class="form-control" id="textAreaExample1"
-                                rows="4"></textarea>
+                                [ngClass]="{'is-invalid':studentPersonalDetailsForm.controls.p_address.touched && studentPersonalDetailsForm.controls.p_address.errors}"
+                                required formControlName="p_address" class="form-control" rows="4"></textarea>
                             <span class="text-danger"
-                                *ngIf="studentPersonalDetailsForm.controls.P_address.touched && studentPersonalDetailsForm.controls.P_address.errors">
+                                *ngIf="studentPersonalDetailsForm.controls.p_address.touched && studentPersonalDetailsForm.controls.p_address.errors">
                                 <div
-                                    *ngIf="studentPersonalDetailsForm.controls.P_address.touched && studentPersonalDetailsForm.controls.P_address.errors.required">
+                                    *ngIf="studentPersonalDetailsForm.controls.p_address.touched && studentPersonalDetailsForm.controls.p_address.errors.required">
                                     Address is required
                                 </div>
                             </span>
@@ -791,8 +789,7 @@
                         <div class="inputdiv">
                             <textarea
                                 [ngClass]="{'is-invalid':studentPersonalDetailsForm.controls.c_address.touched && studentPersonalDetailsForm.controls.c_address.errors}"
-                                required formControlName="c_address" class="form-control" id="textAreaExample1"
-                                rows="4"></textarea>
+                                required formControlName="c_address" class="form-control" rows="4"></textarea>
                             <span class="text-danger"
                                 *ngIf="studentPersonalDetailsForm.controls.c_address.touched && studentPersonalDetailsForm.controls.c_address.errors">
                                 <div
@@ -807,18 +804,19 @@
                     <div style="text-align: center;">
                         <input [disabled]="resStatus2 == true" matTooltip="Click to Save" type="submit"
                             style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel"  (click)="tabGroup.selectedIndex=0" [disabled]="resStatus2 == true" type="button"
-                            style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input matTooltip="Click to Cancel" (click)="tabGroup.selectedIndex=0"
+                            [disabled]="resStatus2 == true" type="button" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </div>
         </form>
     </mat-tab>
-    <mat-tab  label="Other Details">
+    <mat-tab label="Other Details">
         <ng-template mat-tab-label>
-            Other Details                   
-                <mat-icon *ngIf="resStatus3 == true" style="color: green;">check_circle</mat-icon>
-                <mat-icon *ngIf="resStatus3 != true" style="color: red;">highlight_off</mat-icon>
+            Other Details
+            <mat-icon *ngIf="resStatus3 == true || step_3 == true" style="color: green;">check_circle</mat-icon>
+            <mat-icon *ngIf="resStatus3 != true && step_3 != true" style="color: red;">highlight_off</mat-icon>
         </ng-template>
         <form [formGroup]="studentOtherDetailsForm" (ngSubmit)="newstudentOtherDetailss()">
             <div class="container mt-4 mb-3">
@@ -878,8 +876,8 @@
                 </div>
                 <span *ngIf="studentOtherDetailsForm.value.sibling_status == 'YES'">
                     <div formArrayName="sibling">
-                        <div *ngFor="let chid of studentOtherDetailsForm.get('sibling')['controls']; let i = index"
-                            formGroupName="{{i}}">
+                        <div *ngFor="let chid of studentOtherDetailsForm.get('sibling')['controls']; let s = index"
+                            formGroupName="{{s}}">
                             <div class="row">
                                 <div class="col-sm-5 mt-3" style="display: flex;">
                                     <div class="labeldiv">
@@ -898,14 +896,13 @@
                                         <select formControlName="Sibling_class" style="width: 100%;"
                                             class="form-control ">
                                             <option value="" selected disabled>Please select</option>
-                                            <option 
-                                                value={{class.class_name}} *ngFor="let class of ClassList;">
+                                            <option value={{class.class_name}} *ngFor="let class of ClassList;">
                                                 {{class.class_name}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 mt-3" style="display: flex;">
-                                    <input type="button" class="btn btn-danger" (click)="removesibling(i)"
+                                    <input type="button" class="btn btn-danger" (click)="removesibling(s)"
                                         value="remove" />
                                 </div>
                             </div>
@@ -920,18 +917,19 @@
                     <div style="text-align: center;">
                         <input [disabled]="resStatus3 == true" matTooltip="Click to Save" type="submit"
                             style="width: 130px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input (click)="tabGroup.selectedIndex=0" [disabled]="resStatus3 == true" matTooltip="Click to Cancel" type="button"
-                            style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input (click)="tabGroup.selectedIndex=0" [disabled]="resStatus3 == true"
+                            matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </div>
         </form>
     </mat-tab>
-    <mat-tab  label="Certificates">
+    <mat-tab label="Certificates">
         <ng-template mat-tab-label>
-            Student Details                    
-                <mat-icon *ngIf="resStatus4 == true" style="color: green;">check_circle</mat-icon>
-                <mat-icon *ngIf="resStatus4 != true" style="color: red;">highlight_off</mat-icon>
+            Student Details
+            <mat-icon *ngIf="resStatus4 == true || step_4 == true" style="color: green;">check_circle</mat-icon>
+            <mat-icon *ngIf="resStatus4 != true && step_4 != true" style="color: red;">highlight_off</mat-icon>
         </ng-template>
         <form [formGroup]="studentCertificateForm" (ngSubmit)="newstudentCertificateDetailss()">
             <div>
@@ -955,14 +953,12 @@
                         <b style="color: blue;">Birth</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="birth_xerox" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="birth_xerox" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="birth_original" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="birth_original" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -976,14 +972,12 @@
                         <b style="color: blue;">Community</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="community_xerox" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="community_xerox" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="community_original" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="community_original" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -997,14 +991,12 @@
                         <b style="color: blue;">TC</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="tc_xerox" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="tc_xerox" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="tc_original" id="check1"
-                            style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                            class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="tc_original" style="height: 20px;width: 20px;position: relative;"
+                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -1017,8 +1009,9 @@
                     <div style="text-align: center;">
                         <input [disabled]="resStatus4 == true" matTooltip="Click to Save" type="submit"
                             style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input  (click)="tabGroup.selectedIndex=0" [disabled]="resStatus4 == true" matTooltip="Click to Cancel" type="button"
-                            style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input (click)="tabGroup.selectedIndex=0" [disabled]="resStatus4 == true"
+                            matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </div>

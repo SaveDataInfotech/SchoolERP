@@ -17,14 +17,12 @@ export class HostelMasterComponent implements OnInit {
 
   constructor(
     private hosSvc: hostelMasterService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,private router: Router) {
+    private notificationSvc: NotificationsService, private router: Router) {
   }
   ngOnInit(): void {
     this.refreshHostelList(),
       this.getMaxId(),
       this.cancelClick()
-
-    //this.notificationSvc.success("Heloo")
   }
 
   hostelForm = new FormGroup({
@@ -36,7 +34,7 @@ export class HostelMasterComponent implements OnInit {
   })
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshHostelList() {
@@ -56,7 +54,7 @@ export class HostelMasterComponent implements OnInit {
               this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                  
+                  this.notificationSvc.success("Saved Success")
                   this.refreshHostelList();
                   this.getMaxId();
                   this.cancelClick();

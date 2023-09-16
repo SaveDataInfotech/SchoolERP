@@ -14,6 +14,10 @@ export class studentProfileService {
     return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile');
   }
 
+  getallSibilings(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_all_sibilings');
+  }
+
   searchstudentDetails(searchAdmissionNo: any): Observable<any[]> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

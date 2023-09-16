@@ -63,10 +63,10 @@ export class BatchYearComponent implements OnInit {
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -89,17 +89,17 @@ export class BatchYearComponent implements OnInit {
                         this.getMaxId();
                         this.cancelClick();
                       }
-                      else if(res.status == 'Already exists'){
+                      else if (res.status == 'Already exists') {
                         this.notificationSvc.warn("Already exists")
                       }
-                      else{
+                      else {
                         this.notificationSvc.error("Something error")
                       }
                     });
                   }
                 });
             }
-            else if(res == false){
+            else if (res == false) {
               this.notificationSvc.warn("If you want to edit this,Enter your reson!")
             }
             else {
