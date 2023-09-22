@@ -25,22 +25,20 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <select formControlName="classid" style="width: 100%;" class="form-control">
-                                <option value=0 selected disabled>Please select</option>
-                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                <option disabled value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div *ngIf="feesCollectionForm.value.groupid ==null" class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Group</label>
                         </div>
                         <div style="float: left;width: 250px;">
                             <select formControlName="groupid" style="width: 100%;" class="form-control">
-                                <option value=0 selected disabled>Please select</option>
-                                <option value={{group.groupid}} *ngFor="let group of GroupList;">
+                                <option disabled value={{group.groupid}} *ngFor="let group of GroupList;">
                                     {{group.group_name}}</option>
                             </select>
                         </div>
@@ -51,8 +49,7 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <select formControlName="sectionid" style="width: 100%;" class="form-control">
-                                <!-- <option value=0 selected disabled>Please select</option> -->
-                                <option [ngValue]="section.sectionid" *ngFor="let section of SectionList;">
+                                <option disabled [ngValue]="section.sectionid" *ngFor="let section of SectionList;">
                                     {{section.section_name}}</option>
                             </select>
                         </div>
@@ -65,7 +62,7 @@
                             <label class="pt-2" style="margin: auto;">Batch</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="batch_year" class="form-control" type="text" required>
+                            <input readonly formControlName="batch_year" class="form-control" type="text" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -73,7 +70,7 @@
                             <label class="pt-2" style="margin: auto;">Student Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="student_name" class="form-control" type="text" required>
+                            <input readonly formControlName="student_name" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -83,7 +80,7 @@
                             <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="date" class="form-control" [value]="today" type="Date">
+                            <input formControlName="date" class="form-control" type="Date">
                         </div>
                     </div>
                 </div>
@@ -101,42 +98,53 @@
                     <tbody formArrayName="admissionFeesList">
                         <tr *ngFor="let chid of feesCollectionForm.get('admissionFeesList')['controls']; let i = index"
                             formGroupName="{{i}}">
-                            <td class="pt-3">{{chid.get('type_name').value}}</td>
+                            <td class="pt-3"><span style="color: red;"
+                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                {{chid.get('type_name').value}}</td>
                             <td></td>
                             <td><input readonly formControlName="amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
                             <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
-                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
-                                    class="form-control" /></td>
+                            <td><input (change)="adtotal(i,adamount.value)" #adamount formControlName="d_amount"
+                                    type="text" style="width: 150px;" class="form-control" /></td>
                         </tr>
                     </tbody>
 
                     <tbody formArrayName="busFeesList">
                         <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
                             formGroupName="{{j}}">
-                            <td class="pt-3"><span [ngStyle]="{'color':chid.get('balance_amount').value == '0' ? 'green' : 'red'}">{{chid.get('type_name').value}}</span></td>
+                            <td class="pt-3">
+                                <span style="color: red;" *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                <span>{{chid.get('type_name').value}}</span>
+                            </td>
                             <td class="pt-3">{{chid.get('type_assign_name').value}}</td>
                             <td><input readonly formControlName="amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
                             <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
-                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
-                                    class="form-control" /></td>
+                            <td><input (change)="bustotal(j,busamount.value)" #busamount formControlName="d_amount"
+                                    type="text" style="width: 150px;" class="form-control" /></td>
                         </tr>
                     </tbody>
 
                     <tbody formArrayName="commonFeesList">
                         <tr *ngFor="let chid of feesCollectionForm.get('commonFeesList')['controls']; let i = index"
                             formGroupName="{{i}}">
-                            <td class="pt-3">{{chid.get('type_name').value}}</td>
+                            <td class="pt-3"><span style="color: red;"
+                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                {{chid.get('type_name').value}}</td>
                             <td class="pt-3">{{chid.get('type_assign_name').value}}</td>
                             <td><input readonly formControlName="amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
                             <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
-                            <td><input (change)="adtotal()" formControlName="d_amount" type="text" style="width: 150px;"
-                                    class="form-control" /></td>
+                            <td><input (change)="commontotal(i,commonamount.value)" #commonamount
+                                    formControlName="d_amount" type="text" style="width: 150px;" class="form-control" />
+                            </td>
                         </tr>
                     </tbody>
 
@@ -155,7 +163,7 @@
                     <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                             class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                        <input matTooltip="Click to Cancel" type="button" (click)="cancelclick()" style="width: 80px;"
                             class="btn btn-danger btn-sm mr-2" value="Cancel" />
                         <input matTooltip="Click to Print" (click)="printbill()" type="button"
                             class="btn btn-primary m-3 btn-sm ml-5" value="Print" />

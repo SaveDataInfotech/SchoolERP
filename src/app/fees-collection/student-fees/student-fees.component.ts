@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
@@ -8,6 +7,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { FeescollectionService } from 'src/app/api-service/feesCollection.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BatechYearService } from 'src/app/api-service/batchYear.service';
 
 @Component({
   selector: 'app-student-fees',
@@ -22,46 +22,19 @@ export class StudentFeesComponent implements OnInit {
   AdmissionFeesesList: any[] = [];
   BusFeesesList: any[] = [];
   CommonFeesesList: any[] = [];
-
+  total: number = 0;
+  activeBatchYear: any = [];
+  newgetbatch: string;
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
     private feesCollSvc: FeescollectionService,
-    private spinner: NgxSpinnerService,) { }
-
-  date1 = new Date();
-
-  currentYear = this.date1.getUTCFullYear();
-
-  currentMonth = this.date1.getUTCMonth() + 1;
-
-  currentDate = this.date1.getUTCDate();
-
-  today = "2023-12-12";
-
-  finalMonth: any;
-  finalDay: any;
+    private spinner: NgxSpinnerService,
+    private batchSvc: BatechYearService) { }
 
   ngOnInit(): void {
-
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
-
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
@@ -69,6 +42,15 @@ export class StudentFeesComponent implements OnInit {
     this.refreshAdmissionFeesList();
     this.refreshBusFeesList();
     this.refreshCommonFeesList();
+    this.GetActiveBatchYear();
+  }
+
+  GetActiveBatchYear() {
+    this.batchSvc.GetActiveBatchYear().subscribe(data => {
+      this.activeBatchYear = data;
+      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
+      this.newgetbatch = (getbatch.replace(/['"]+/g, ''));
+    });
   }
 
   refreshClassList() {
@@ -95,7 +77,6 @@ export class StudentFeesComponent implements OnInit {
       this.StudentList = data;
       this.spinner.hide();
     });
-    this.spinner.hide();
   }
 
   refreshAdmissionFeesList() {
@@ -169,7 +150,13 @@ export class StudentFeesComponent implements OnInit {
 
     //////////Student List
     const StudentFillterList = this.StudentList.filter((e) => { return e.admission_no == value })
-    this.feesCollectionForm.patchValue(StudentFillterList[0]);
+    // this.feesCollectionForm.patchValue(StudentFillterList[0]);
+    this.feesCollectionForm.get('classid')?.setValue(StudentFillterList[0].classid);
+    this.feesCollectionForm.get('groupid')?.setValue(StudentFillterList[0].groupid);
+    this.feesCollectionForm.get('sectionid')?.setValue(StudentFillterList[0].sectionid);
+    this.feesCollectionForm.get('student_name')?.setValue(StudentFillterList[0].student_name);
+    this.feesCollectionForm.get('batch_year')?.setValue(StudentFillterList[0].batch_year);
+    this.feesCollectionForm.get('cuid')?.setValue(1);
 
     //////////Admission List
     const StudentAdmissionFeesFillterList = this.AdmissionFeesesList.filter((e) => { return e.admission_no == value })
@@ -255,30 +242,105 @@ export class StudentFeesComponent implements OnInit {
 
 
 
-  adtotal() {
+  adtotal(i, val) {
     debugger;
-    let total: number = 0
-    const admission = this.feesCollectionForm.get('admissionFeesList') as FormArray;
-    admission.controls.forEach((e) => {
+    let total: number = 0;
+    const busControl = this.feesCollectionForm.get('admissionFeesList') as FormArray;
+    const busam = busControl.at(i).get('balance_amount').value;
+    if (Number(busam) < Number(val)) {
+      this.notificationSvc.error('Invalid Payable Amount');
+      const busControl1 = this.feesCollectionForm.get('admissionFeesList') as FormArray;
+      busControl1.at(i).get('d_amount').setValue('0');
+    }
+
+    const admiss = this.feesCollectionForm.get('admissionFeesList') as FormArray;
+    admiss.controls.forEach((e) => {
       debugger;
       const num = Number(e.value.d_amount);
       total = total + num;
     })
 
     const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
-    bus.controls.forEach((e, i) => {
+    bus.controls.forEach((e) => {
       debugger;
       const num = Number(e.value.d_amount);
       total = total + num;
     })
 
     const common = this.feesCollectionForm.get('commonFeesList') as FormArray;
-    common.controls.forEach((e, i) => {
+    common.controls.forEach((e) => {
       debugger;
       const num = Number(e.value.d_amount);
       total = total + num;
     })
-    console.log(total + 'Commontotal');
+
+    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+  }
+
+  bustotal(i, val) {
+    debugger;
+    let total: number = 0;
+    const busControl = this.feesCollectionForm.get('busFeesList') as FormArray;
+    const busam = busControl.at(i).get('balance_amount').value;
+    if (Number(busam) < Number(val)) {
+      this.notificationSvc.error('Invalid Payable Amount');
+      const busControl1 = this.feesCollectionForm.get('busFeesList') as FormArray;
+      busControl1.at(i).get('d_amount').setValue('0');
+    }
+
+    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+    bus.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
+    const admiss = this.feesCollectionForm.get('admissionFeesList') as FormArray;
+    admiss.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
+
+    const common = this.feesCollectionForm.get('commonFeesList') as FormArray;
+    common.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
+
+    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+  }
+
+  commontotal(i, val) {
+    debugger;
+    let total: number = 0;
+    const busControl = this.feesCollectionForm.get('commonFeesList') as FormArray;
+    const busam = busControl.at(i).get('balance_amount').value;
+    if (Number(busam) < Number(val)) {
+      this.notificationSvc.error('Invalid Payable Amount');
+      const busControl1 = this.feesCollectionForm.get('commonFeesList') as FormArray;
+      busControl1.at(i).get('d_amount').setValue('0');
+    }
+
+    const common = this.feesCollectionForm.get('commonFeesList') as FormArray;
+    common.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
+
+    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+    bus.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
+    const admiss = this.feesCollectionForm.get('admissionFeesList') as FormArray;
+    admiss.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.d_amount);
+      total = total + num;
+    })
     this.feesCollectionForm.get('total_amount')?.setValue(String(total))
   }
 
@@ -289,12 +351,36 @@ export class StudentFeesComponent implements OnInit {
     var feesInsert = (this.feesCollectionForm.value);
     this.feesCollSvc.studentFeesDeduction(feesInsert).subscribe(res => {
       if (res.status == 'Insert Success') {
-        this.notificationSvc.success("Saved Success")
+        this.notificationSvc.success("Saved Success");
+        this.cancelclick();
       }
       else {
         this.notificationSvc.error("Something error")
       }
     });
+  }
+
+  cancelclick() {
+    //this.refreshStudentList();
+    this.refreshAdmissionFeesList();
+    this.refreshBusFeesList();
+    this.refreshCommonFeesList();
+    this.feesCollectionForm.reset();
+    this.feesCollectionForm.get('date')?.setValue('');
+    const control1 = <FormArray>this.feesCollectionForm.controls['admissionFeesList'];
+    while (control1.length !== 0) {
+      control1.removeAt(0)
+    }
+
+    const control2 = <FormArray>this.feesCollectionForm.controls['busFeesList'];
+    while (control2.length !== 0) {
+      control2.removeAt(0)
+    }
+
+    const control3 = <FormArray>this.feesCollectionForm.controls['commonFeesList'];
+    while (control3.length !== 0) {
+      control3.removeAt(0)
+    }
   }
 
 }

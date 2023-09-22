@@ -8,17 +8,18 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="staffSalaryForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Staff Type</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Teacher</option>
-                                <option>Helper</option>
-                                <option>Driver</option>
+                            <select formControlName="staff_type" style="width: 100%;"
+                                class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option *ngFor="let Staff of StaffTypeList;">
+                                    {{Staff.staffType}}</option>
                             </select>
                         </div>
                     </div>
@@ -26,10 +27,24 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">Month Of Salary</label>
+                            <label class="pt-2" style="margin: auto;">Month Of Salary</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <select formControlName="sal_month" style="width: 100%;" class="form-control">
+                                <option value='' selected disabled>Please select</option>
+                                <option>January</option>
+                                <option>February</option>
+                                <option>March</option>
+                                <option>April</option>
+                                <option>May</option>
+                                <option>June</option>
+                                <option>July</option>
+                                <option>August</option>
+                                <option>September</option>
+                                <option>October</option>
+                                <option>November</option>
+                                <option>December</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -37,26 +52,25 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">No Of Working days</label>
+                            <label class="pt-2" style="margin: auto;">No Of Working days</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <input formControlName="working_days" class="form-control" type="tex" required>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- <div class="col-sm-12 mt-4">
+                <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Add" type="submit" class="btn btn-primary" value="Save" />
+                        <input (click)="searchStaff()" type="button" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Search" />                        
                     </div>
-                </div> -->
+                </div>
 
-
-                <div class="table-responsive text-nowrap mt-5">
+                <div class="table-responsive text-nowrap mt-3">
                     <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
                         <thead>
-                            <tr>                              
+                            <tr>
                                 <th>Si.No</th>
                                 <th>Staff No</th>
                                 <th>Staff Name</th>
@@ -64,50 +78,50 @@
                                 <th>days present</th>
                                 <th>A</th>
                                 <th>Leave</th>
-                                <th>payable Days</th>                               
+                                <th>payable Days</th>
                                 <th>Basic</th>
                                 <th>DA</th>
-                                <th>HRA</th>                                                             
+                                <th>HRA</th>
                                 <th>ALL</th>
                                 <th>Total Amount</th>
                                 <th>Loan</th>
                                 <th>Ab Amt</th>
                                 <th>EPF</th>
-                                <th>Deduction</th>
-                                <th>Gross Salary</th>
+                                <th>Deduction</th>                                
                                 <th>Net Salary</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>                               
-                                <td>1</td>
-                                <td>0034</td>
-                                <td>John</td>  
-                                <td>26</td>
-                                <td><input class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control input-sm" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                                <td><input style="width: 70px;" class="form-control" type="tel"></td>
-                            </tr>                           
+                        <tbody formArrayName="staffList">
+                            <tr *ngFor="let chid of staffSalaryForm.get('staffList')['controls']; let i = index"
+                            formGroupName="{{i}}">
+                                <td>{{i+1}}</td>
+                                <td>{{chid.get('staff_no').value}}</td>
+                                <td>{{chid.get('staff_name').value}}</td>
+                                <td>{{chid.get('work_days').value}}</td>
+                                <td><input formControlName="present_day" style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input formControlName="absent_day" style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input formControlName="leave" style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input formControlName="payable_days" style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input formControlName="basic_pay" style="width: 70px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="da" style="width: 70px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="hra" style="width: 70px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="allowance" style="width: 70px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="total_salary" style="width: 70px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="d_amount" style="width: 70px;" class="form-control" type="text" readonly><span style="color:blue;" *ngIf="chid.get('d_amount').value != 'No EMI'"><input (click)="PNChange(i,$event)" type="checkbox">Pay Next Month</span></td>
+                                <td><input style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input style="width: 70px;" class="form-control" type="text"></td>
+                                <td><input style="width: 70px;" class="form-control" type="text"></td>                               
+                                <td><input style="width: 70px;" class="form-control" type="text"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                            value="Cancel" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </form>

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MarkEntryGradeTypeModel, Subject, studentListModel, subjectListModel } from 'src/app/Model/MarkEntry.model';
-import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { markEntryService } from 'src/app/api-service/markEntryGrade.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -27,14 +24,13 @@ export class MarkEntryGradeComponent implements OnInit {
   spiltList: Subject[] = [];
   subjectFilterList: subjectListModel[] = [];
 
+  MarkEntryGradeTypeList:MarkEntryGradeTypeModel[]=[];
 
   constructor(
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
-    private DialogSvc: DialogService,
     private spinner: NgxSpinnerService,
-    private notificationSvc: NotificationsService,
     private meSvc: markEntryService
   ) { }
 
@@ -121,6 +117,10 @@ export class MarkEntryGradeComponent implements OnInit {
     this.meSvc.searchStudentByClass(classid, groupid, sectionid).subscribe(data => {
       this.spinner.hide();
       this.studentList = data;
+    });    
+
+    this.MarkEntryGradeTypeList = this.subjectList[0].subjectsname.split(",").map(function (item) {
+      return { subjecstname: item };
     });
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {

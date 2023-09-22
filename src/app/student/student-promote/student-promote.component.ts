@@ -111,15 +111,15 @@ export class StudentPromoteComponent implements OnInit {
     this.studentPromoteForm.classid = classid;
     this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.studentPromoteForm.groupid = 0;
-    this.studentPromoteForm.sectionid = 0;
+    this.studentPromoteForm.sectionid = null;
     if (this.progroupFilterlist.length == 0) {
       this.progroupDisplay = false;
       this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.studentPromoteForm.sectionid = 0;
+      this.studentPromoteForm.sectionid = null;
     }
     else {
       this.progroupDisplay = true;
-      this.studentPromoteForm.sectionid = 0;
+      this.studentPromoteForm.sectionid = null;
     }
   }
 
@@ -131,16 +131,15 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   studentPromoteForm = {
-    batch_year: '',
-    classid: 0,
+    batch_year:null,
+    classid: null,
     groupid: 0,
-    sectionid: 0,
-    date: 'date',
+    sectionid: null,
+    date: '',
     cuid: 1
   }
 
   save(data) {
-    debugger
     const filterlist = data.filter((e) => { return e.isselected == true });
 
     const batch_year = this.studentPromoteForm.batch_year;
@@ -153,11 +152,26 @@ export class StudentPromoteComponent implements OnInit {
     this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
       if (res.status == 'Saved successfully') {
         this.notificationSvc.success('Saved Successfully');
+        this.cancelClick();
       }
       else {
         this.notificationSvc.error('Something Error');
       }
     });
+  }
+
+  cancelClick(){
+    this.searchStudentForm.classid=0;
+    this.searchStudentForm.groupid=0;
+    this.searchStudentForm.sectionid=0;
+    
+    this.studentPromoteForm.batch_year=null;
+    this.studentPromoteForm.classid=null;
+    this.studentPromoteForm.groupid=0;
+    this.studentPromoteForm.sectionid=null;
+    this.studentPromoteForm.date='';
+
+    this.StudentList=null;
   }
 
 }
