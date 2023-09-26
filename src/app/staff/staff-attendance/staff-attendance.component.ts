@@ -84,7 +84,9 @@ export class StaffAttendanceComponent implements OnInit {
     leave_type: '',
     fni: false,
     ani: false,
-    cuid: 0
+    cuid: 0,
+    l_fn: false,
+    l_an: false
   }
 
   searchStaff() {
@@ -117,6 +119,8 @@ export class StaffAttendanceComponent implements OnInit {
     this.staffAttendanceForm.staff_name = '';
     this.staffAttendanceForm.fn = false;
     this.staffAttendanceForm.an = false;
+    this.staffAttendanceForm.l_fn = false;
+    this.staffAttendanceForm.l_an = false;
     this.staffAttendanceForm.leave = false;
     this.staffAttendanceForm.leave_type = '';
     this.staffAttendanceForm.date = this.today;

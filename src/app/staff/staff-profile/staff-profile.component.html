@@ -427,7 +427,7 @@
                                     <label class="pt-2" style="margin: auto;">Basic Pay</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="basic_pay" [(ngModel)]="staffProfileForm.basic_pay"
+                                    <input (change)="totalChange()" name="basic_pay" [(ngModel)]="staffProfileForm.basic_pay"
                                         class="form-control" type="text" required>
                                 </div>
                             </div>
@@ -437,7 +437,7 @@
                                     <label class="pt-2" style="margin: auto;">DA</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="da" [(ngModel)]="staffProfileForm.da" class="form-control" type="text"
+                                    <input (change)="totalChange()" name="da" [(ngModel)]="staffProfileForm.da" class="form-control" type="text"
                                         required>
                                 </div>
                             </div>
@@ -449,7 +449,7 @@
                                     <label class="pt-2" style="margin: auto;">HRA</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="hra" [(ngModel)]="staffProfileForm.hra" class="form-control"
+                                    <input (change)="totalChange()" name="hra" [(ngModel)]="staffProfileForm.hra" class="form-control"
                                         type="text" required>
                                 </div>
                             </div>
@@ -459,7 +459,7 @@
                                     <label class="pt-2" style="margin: auto;">Allowance</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="allowance" [(ngModel)]="staffProfileForm.allowance"
+                                    <input (change)="totalChange()" name="allowance" [(ngModel)]="staffProfileForm.allowance"
                                         class="form-control" type="text" required>
                                 </div>
                             </div>

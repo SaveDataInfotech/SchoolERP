@@ -8,31 +8,6 @@ h3{
     box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
   }
 
-  .dash_std{
-    color: orangered;
-    cursor: pointer;
-  }
-  .dash_std:hover{
-    color: blue;
-  }
-
-
-  select:hover{
-    border:2px solid green ;
-  }
-
-  select:focus{
-    border:2px solid blue ;
-  }
-
-  textarea:hover{
-    border:2px solid green ;
-  }
-
-  textarea:focus{
-    border:2px solid blue ;
-  }
-
 td{
   font-size: 15px;
     color: rgb(2, 2, 56);

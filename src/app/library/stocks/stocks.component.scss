@@ -9,12 +9,13 @@ h3{
   }
 
   
-td{
-  font-size: 15px;
-    color: rgb(2, 2, 56);
-    font-family: sans-serif;
-}
-
-.tdoption{
-    width: 100px;
-}
+  .labeldiv{
+    float: left;
+    width: 150px;
+    text-align: left;
+  }
+  
+  .inputdiv{
+    float: left;
+    width: 250px;
+  }

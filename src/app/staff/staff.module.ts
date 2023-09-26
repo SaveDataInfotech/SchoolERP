@@ -18,6 +18,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CurrencyPipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { CurrencyPipe} from '@angular/common';
     StaffSalaryComponent,
     ReportsComponent
   ],
-  providers: [CurrencyPipe],
+  providers: [CurrencyPipe,DatePipe],
   imports: [
     CommonModule,RouterModule.forChild(staffRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
     MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule

@@ -2,124 +2,105 @@
     <div class="row">
         <div class="col-12" style="display: flex;">
             <div style="float: left;width: 400px;">
-                <h3 class="ml-1">Staff Permission / Leave Assign</h3>
+                <h3 class="ml-1">Staff Permission</h3>
             </div>
         </div>
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form>
+            <form [formGroup]="staffLeavePermissionForm" (ngSubmit)="save()">
                 <div class="row">
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">Date</label>
+                    <div class="col-sm-3 mt-3" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: left;">
+                            <label class="" style="margin: auto;">Leave month</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" [value]="today" type="date" required>
+                            <input
+                                [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.month.touched && staffLeavePermissionForm.controls.month.errors}"
+                                formControlName="month" [min]="minMonth" (change)="dateRangeChange()"
+                                class="form-control" type="month" required>
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">Staff NO</label>
+                    <div class="col-sm-3 mt-3" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff NO</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <input
+                                [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.staff_no.touched && staffLeavePermissionForm.controls.staff_no.errors}"
+                                formControlName="staff_no" class="form-control" type="text" required>
                         </div>
                     </div>
-                </div>
-               
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">A Permission</label>
+                    <div class="col-sm-4 mt-3" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <input readonly formControlName="staff_name" class="form-control" type="text">
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">A CL</label>
-                        </div>
+                    <div class="col-sm-2 mt-3" style="display: flex;">
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">A SL</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label  class="pt-2" style="margin: auto;">A ML</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="number" required>
+                            <button (click)="searchLeave()"
+                                [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.month.errors"
+                                type="button" class="btn btn-primary">Search</button>
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div *ngFor="let leave of StaffLeaveList" class="col-sm-3 mt-3" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">{{leave.l_type}}</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input readonly value={{leave.balance_eligible}} class="form-control" type="number"
+                                required>
+                        </div>
+                    </div>
+                </div>
 
-
-                <div class="table-responsive mt-5">
-                    <table class="col-sm-10 table table-hover table-bordered table-sm mt-5 ">
+                <div  class="table-responsive mt-5">
+                    <table *ngIf="StaffLeaveList.length !=0" class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
                         <thead>
                             <tr>
-                                <th>Si.No</th>
-                                <th>Staff No</th>
-                                <th>Staff Name</th>
                                 <th>Leave type</th>
-                                <th>Date</th>
+                                <th>From Date</th>
                                 <th>To Date</th>
-                                <th>No Of Days</th>                               
+                                <th>No Of Days</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>000101</td>
-                                <td>0034</td>
-                                <td>John</td>
-                               <td>Medical</td>
-                               <td>16-03-2023</td>
-                               <td>25-03-2023</td>
-                               <td>8</td>
-                            </tr>
-
-                            <tr>
-                                <td>000102</td>
-                                <td>0034</td>
-                                <td>Kumar</td>
-                                <td>Medical</td>
-                                <td>16-03-2023</td>
-                                <td>25-03-2023</td>
-                                <td>8</td>
-                            </tr>
-
-                            <tr>
-                                <td>000103</td>
-                                <td>0034</td>
-                                <td>Priya</td>
-                                <td>Medical</td>
-                               <td>16-03-2023</td>
-                               <td>25-03-2023</td>
-                               <td>8</td>
+                                <td style="width: 140px;"><select
+                                        [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.l_type.touched && staffLeavePermissionForm.controls.l_type.errors}"
+                                        formControlName="l_type" (change)="dateChange()" style="width: 100%;"
+                                        class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option *ngFor="let Staff of StaffLeaveList;">
+                                            {{Staff.l_type}}</option>
+                                    </select></td>
+                                <td style="width: 180px;"><input
+                                        [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.fromdate.touched && staffLeavePermissionForm.controls.fromdate.errors}"
+                                        formControlName="fromdate" (change)="dateChange()" class="form-control"
+                                        [min]="minDate" type="date" required></td>
+                                <td style="width: 180px;"><input
+                                        [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.todate.touched && staffLeavePermissionForm.controls.todate.errors}"
+                                        formControlName="todate" (change)="dateChange()" [min]="minDate"
+                                        class="form-control" type="date" required="">
+                                </td>
+                                <td style="width: 140px;"><input readonly formControlName="total_days"
+                                        class="form-control"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-sm-10 mt-4">
                     <div style="text-align: center;">
-                       <input matTooltip="Click to Save" type="submit" style="width: 80px;"  class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"  class="btn btn-danger btn-sm mr-2"
-                            value="Cancel" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </form>

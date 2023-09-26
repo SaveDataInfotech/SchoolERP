@@ -9,14 +9,14 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: 'app',
-    component: LayoutComponent,canActivate:[AuthGuard],
+    component: LayoutComponent, canActivate: [AuthGuard],
     children: [
       {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
       },
-      
+
       {
         path: 'dashboard',
         loadChildren: () =>
@@ -27,7 +27,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./schedule/schedule.module').then((m) => m.ScheduleModule),
       },
-      
+
       {
         path: 'master',
         loadChildren: () =>
@@ -45,12 +45,16 @@ const routes: Routes = [
           import('./staff/staff.module').then((m) => m.StaffModule),
       },
       {
-        path:"hostel",
-        loadChildren:()=>import('./hostel/hostel.module').then((m)=>m.HostelModule),
+        path: "hostel",
+        loadChildren: () => import('./hostel/hostel.module').then((m) => m.HostelModule),
       },
       {
-        path:"fees_collection",
-        loadChildren:()=>import('./fees-collection/fees-collection.module').then((m)=>m.FeesCollectionModule),
+        path: 'library',
+        loadChildren: () => import('./library/library.module').then((m) => m.LibraryModule),
+      },
+      {
+        path: "fees_collection",
+        loadChildren: () => import('./fees-collection/fees-collection.module').then((m) => m.FeesCollectionModule),
       },
 
       {
@@ -62,7 +66,7 @@ const routes: Routes = [
         path: 'vehicle',
         loadChildren: () =>
           import('./vehicle/vehicle.module').then((m) => m.VehicleModule),
-      },      
+      },
       {
         path: 'user',
         loadChildren: () =>
@@ -73,11 +77,11 @@ const routes: Routes = [
       //   loadChildren: () =>
       //     import('./admin/admin.module').then((m) => m.AdminModule),
       // },
-      
+
       {
         path: 'customer',
-        loadChildren: () => 
-        import('./customer/customer.module').then((m) => m.CustomerModule),
+        loadChildren: () =>
+          import('./customer/customer.module').then((m) => m.CustomerModule),
       },
 
     ],
@@ -90,4 +94,4 @@ export const pageComponents = [LoginComponent, LayoutComponent];
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

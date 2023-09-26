@@ -7,6 +7,8 @@ export class StaffAttendanceModel {
     fn: boolean;
     an: boolean;
     leave: boolean;
+    l_fn:boolean;
+    l_an:boolean;
     leave_type: string;
     fni: boolean;
     ani: boolean;

@@ -29,22 +29,8 @@
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Month Of Salary</label>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <select formControlName="sal_month" style="width: 100%;" class="form-control">
-                                <option value='' selected disabled>Please select</option>
-                                <option>January</option>
-                                <option>February</option>
-                                <option>March</option>
-                                <option>April</option>
-                                <option>May</option>
-                                <option>June</option>
-                                <option>July</option>
-                                <option>August</option>
-                                <option>September</option>
-                                <option>October</option>
-                                <option>November</option>
-                                <option>December</option>
-                            </select>
+                        <div style="float: left;width: 250px;">                           
+                            <input formControlName="sal_month" class="form-control" type="month" required>
                         </div>
                     </div>
                 </div>
@@ -52,10 +38,10 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">No Of Working days</label>
+                            <label class="pt-2" style="margin: auto;">No Of days</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="working_days" class="form-control" type="tex" required>
+                            <input formControlName="working_days" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -71,19 +57,20 @@
                     <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
                         <thead>
                             <tr>
-                                <th>Si.No</th>
+                                <!-- <th>Si.No</th> -->
                                 <th>Staff No</th>
                                 <th>Staff Name</th>
-                                <th>Working day</th>
+                                <!-- <th>No Of days</th> -->
                                 <th>days present</th>
                                 <th>A</th>
                                 <th>Leave</th>
                                 <th>payable Days</th>
                                 <th>Basic</th>
-                                <th>DA</th>
+                                <!-- <th>DA</th>
                                 <th>HRA</th>
-                                <th>ALL</th>
-                                <th>Total Amount</th>
+                                <th>ALL</th> -->
+                                <th>Monthly Salary</th>
+                                <!-- <th>Grand Total</th> -->
                                 <th>Loan</th>
                                 <th>Ab Amt</th>
                                 <th>EPF</th>
@@ -94,24 +81,25 @@
                         <tbody formArrayName="staffList">
                             <tr *ngFor="let chid of staffSalaryForm.get('staffList')['controls']; let i = index"
                             formGroupName="{{i}}">
-                                <td>{{i+1}}</td>
+                                <!-- <td>{{i+1}}</td> -->
                                 <td>{{chid.get('staff_no').value}}</td>
                                 <td>{{chid.get('staff_name').value}}</td>
-                                <td>{{chid.get('work_days').value}}</td>
-                                <td><input formControlName="present_day" style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input formControlName="absent_day" style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input formControlName="leave" style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input formControlName="payable_days" style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input formControlName="basic_pay" style="width: 70px;" class="form-control" type="text" readonly></td>
-                                <td><input formControlName="da" style="width: 70px;" class="form-control" type="text" readonly></td>
-                                <td><input formControlName="hra" style="width: 70px;" class="form-control" type="text" readonly></td>
-                                <td><input formControlName="allowance" style="width: 70px;" class="form-control" type="text" readonly></td>
-                                <td><input formControlName="total_salary" style="width: 70px;" class="form-control" type="text" readonly></td>
-                                <td><input formControlName="d_amount" style="width: 70px;" class="form-control" type="text" readonly><span style="color:blue;" *ngIf="chid.get('d_amount').value != 'No EMI'"><input (click)="PNChange(i,$event)" type="checkbox">Pay Next Month</span></td>
-                                <td><input style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input style="width: 70px;" class="form-control" type="text"></td>
-                                <td><input style="width: 70px;" class="form-control" type="text"></td>                               
-                                <td><input style="width: 70px;" class="form-control" type="text"></td>
+                                <!-- <td>{{chid.get('work_days').value}}</td> -->
+                                <td><input formControlName="present_day" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="absent_day" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="leave" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="payable_days" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
+                                 <td><input formControlName="basic_pay" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                               <!-- <td><input formControlName="da" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="hra" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="allowance" style="min-width: 80px;" class="form-control" type="text" readonly></td> -->
+                                <td><input formControlName="total_salary" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                                <!-- <td><input formControlName="grand_total" style="min-width: 80px;" class="form-control" type="text" readonly></td> -->
+                                <td><input formControlName="d_amount" style="min-width: 80px;" class="form-control" type="text" readonly><span style="color:blue;" *ngIf="chid.get('d_amount').value != ''"><input (click)="PNChange(i,$event)" type="checkbox">Pay Next Month</span></td>
+                                <td><input formControlName="absent_amount" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input readonly formControlName="epf" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="deduction" style="min-width: 80px;" class="form-control" type="text"></td>                               
+                                <td><input formControlName="net_salary" style="min-width: 80px;" class="form-control" type="text"></td>
                             </tr>
                         </tbody>
                     </table>

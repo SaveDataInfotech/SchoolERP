@@ -245,6 +245,15 @@ export class StaffProfileComponent implements OnInit {
   noChange(no: any) {
     this.staffFilterList = this.staffList.filter((e) => { return e.staff_no == no })
   }
+
+  totalChange(){
+    let totalAmount=0;
+    totalAmount=Number(this.staffProfileForm.basic_pay)+Number(this.staffProfileForm.da)
+    +Number(this.staffProfileForm.hra)+Number(this.staffProfileForm.allowance);
+
+    this.staffProfileForm.total_salary=String(totalAmount)
+  }
+
   editFun(staff: any) {
     this.staffProfileForm.id = staff.id;
     this.staffProfileForm.staff_no = staff.staff_no;

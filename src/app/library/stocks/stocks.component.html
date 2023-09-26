@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-12" style="display: flex;">
+        <div style="float: left;width: 300px;">
+            <h3>Stock Details</h3>
+           </div></div>
+    </div>
+</div>
+
+<mat-card class="mt3 matcard">
+    <mat-card-content>
+        <form>
+            <div class="row">
+                <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="labeldiv">
+                        <label class="pt-2" style="display: flex;">Book ID</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input type="number" class="form-control">
+
+                        <button matTooltip="Click to Search" type="button" class="btn btn-primary btn-sm">Search<i class="fa fa-search ml-2"></i></button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="labeldiv">
+                        <label class="pt-2" style="display: flex;">Book Name</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="labeldiv">
+                        <label class="pt-2" style="display: flex;"> Department</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="labeldiv">
+                        <label class="pt-2" style="display: flex;">Author Name</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div style="text-align: center;" class="mt-5">
+
+                <button matTooltip="Click to Search" type="button" class="btn btn-primary btn-sm mr-3">Search<i class="fa fa-search ml-2"></i></button>
+                <input matTooltip="click to cancel" type="reset" class="btn btn-danger mr-3 btn-sm" style="width: 80px;" value="cancel"/>
+
+            </div>
+
+               
+    <form>
+        <div class="table-responsive mt-5">
+            <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                <thead>
+                    <tr>
+                        <th>Date of Purchase</th>
+                        <th>Bill Number</th>
+                        <th>Book ID</th>
+                        <th>Book Name</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Department</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>07/08/2023</td>
+                        <td>045</td>
+                        <td>12</td>
+                        <td>StarWars</td>
+                        <td>James</td>
+                        <td>Comics</td>
+                        <td>Entertainment</td>
+                        <td>200</td>
+                        <td>25</td>
+                 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -15,9 +15,9 @@
                             <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input [disabled]="serachDisabled == true" [max]="today" placeholder="Enter 10-th Mark"
-                                name="date" [value]="today" [(ngModel)]="staffAttendanceForm.date" class="form-control"
-                                type="date">
+                            <!-- [max]="today" -->
+                            <input [disabled]="serachDisabled == true" placeholder="Enter 10-th Mark" name="date"
+                                [value]="today" [(ngModel)]="staffAttendanceForm.date" class="form-control" type="date">
                         </div>
                     </div>
                 </div>
@@ -54,6 +54,7 @@
                                 <th>FN</th>
                                 <th>AN</th>
                                 <th>Leave</th>
+                                <th>Permission</th>
                                 <th>Leave Type</th>
                             </tr>
                         </thead>
@@ -70,8 +71,14 @@
                                     <span class="pl-2 text-success" *ngIf="staff.an == true"><b>P</b></span><span
                                         class="pl-2 text-danger" *ngIf="staff.an == false"><b>A</b></span>
                                 </td>
-                                <td><input [disabled]="staff.an == true || staff.fn== true"  [(ngModel)]="staff.leave" name="l{{i}}" #l="ngModel" type="checkbox"></td>
-                                <td [width]="200"><select [disabled]="staff.leave == false" [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
+                                <td><input [disabled]="staff.an == true || staff.fn== true" [(ngModel)]="staff.leave"
+                                        name="l{{i}}" #l="ngModel" type="checkbox">Full Day</td>
+                                <td style="width: 100px;"><input [(ngModel)]="staff.l_fn"  name="lfn{{i}}" #lfn="ngModel" class="mt-1" type="checkbox"><span>FN</span>
+                                    <input style="margin-left: 5px;" [(ngModel)]="staff.l_an"  name="lan{{i}}" #lan="ngModel" type="checkbox"><span>AN</span>
+                                </td>
+                                <!-- [disabled]="staff.leave != true || staff.l_fn != true || staff.l_an != true" -->
+                                <td [width]="200"><select 
+                                        [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
                                         style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
                                         <option value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
