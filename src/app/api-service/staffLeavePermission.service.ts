@@ -30,4 +30,10 @@ export class staffLeavePermissionService {
         return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/insert_staff_leave_permission_history', value, httpOptions);
     }
 
+    addNewHalfDay(value: any): Observable<any> {
+        debugger;
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/insert_staff_leave_halfday_permission_history', value, httpOptions);
+    }
+
 }

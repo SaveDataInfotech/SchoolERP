@@ -8,7 +8,7 @@
     </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <form [formGroup]="staffLeavePermissionForm" (ngSubmit)="save()">
+            <form [formGroup]="staffLeavePermissionForm">
                 <div class="row">
                     <div class="col-sm-3 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
@@ -59,9 +59,13 @@
                         </div>
                     </div>
                 </div>
-
-                <div  class="table-responsive mt-5">
-                    <table *ngIf="StaffLeaveList.length !=0" class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
+            </form>
+            <div *ngIf="StaffLeaveList.length !=0" class="table-responsive mt-5">
+                <div class="col-sm-12">
+                    <h3 style="color: #ac2bac;">More than one day permit</h3>
+                </div>
+                <form [formGroup]="staffLeavePermissionForm" (ngSubmit)="save()">
+                    <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
                         <thead>
                             <tr>
                                 <th>Leave type</th>
@@ -90,20 +94,64 @@
                                         class="form-control" type="date" required="">
                                 </td>
                                 <td style="width: 140px;"><input readonly formControlName="total_days"
-                                        class="form-control"></td>
+                                        class="form-control">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="col-sm-10 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                    <div class="col-sm-12 mt-4">
+                        <div style="text-align: center;">
+                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        </div>
                     </div>
+                </form>
+                <div class="col-sm-12 mt-5">
+                    <h3 style="color: #ac2bac;">Half day permit</h3>
                 </div>
-            </form>
+                <form [formGroup]="staffHalfDayPermissionForm" (ngSubmit)="pSave()">
+                    <table class="col-sm-8 table table-hover table-bordered table-sm mt-3">
+                        <thead>
+                            <tr>
+                                <th>Leave type</th>
+                                <th>Date</th>
+                                <th>Half day permit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width: 140px;"><select
+                                        [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.l_type.touched && staffHalfDayPermissionForm.controls.l_type.errors}"
+                                        formControlName="l_type" (change)="pDayChange()" style="width: 100%;" class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option *ngFor="let Staff of StaffLeaveList;">
+                                            {{Staff.l_type}}</option>
+                                    </select></td>
+                                <td style="width: 180px;"><input (change)="pDayChange()"
+                                        [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.h_leave_days.touched && staffHalfDayPermissionForm.controls.h_leave_days.errors}"
+                                        formControlName="h_leave_days" class="form-control" [min]="minDate" type="date"
+                                        required></td>
+                                <td style="width: 80px;">
+                                    <input class="mt-2" formControlName="p_fn" (change)="pFNChange()"
+                                        type="checkbox"><span>FN</span>
+                                    <input type="checkbox" (change)="pANChange()" formControlName="p_an"
+                                        class="ml-2"><span>AN</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-sm-8 mt-4">
+                        <div style="text-align: center;">
+                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                                class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        </div>
+                    </div>
+                </form>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>

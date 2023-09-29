@@ -54,9 +54,11 @@ export class StaffPermissionComponent implements OnInit {
 
     this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
     this.staffLeavePermissionForm.get('date').setValue(this.today);
+    this.staffHalfDayPermissionForm.get('date').setValue(this.today);
 
     this.minMonth = this.datepipe.transform(this.today, 'yyyy-MM');
     this.staffLeavePermissionForm.get('month').setValue(this.minMonth);
+    this.staffHalfDayPermissionForm.get('month').setValue(this.minMonth);
 
     this.dateRangeChange();
   }
@@ -119,7 +121,7 @@ export class StaffPermissionComponent implements OnInit {
         daysOfYear.push(this.datepipe.transform(d, 'yyyy-MM-dd'));
       }
       else {
-        this.notificationSvc.warn('Use diferent range days');
+        this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
         this.staffLeavePermissionForm.get('fromdate')?.setValue('');
         this.staffLeavePermissionForm.get('todate')?.setValue('');
       }
@@ -132,7 +134,7 @@ export class StaffPermissionComponent implements OnInit {
     if (Number(eligibleday[0].balance_eligible) < this.totaldays) {
       this.staffLeavePermissionForm.get('todate')?.setValue('');
       this.staffLeavePermissionForm.get('total_days')?.setValue('');
-      this.notificationSvc.error('Invalid Date Range');
+      this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
     }
     else {
       this.staffLeavePermissionForm.get('total_days')?.setValue(String(this.totaldays));
@@ -195,6 +197,7 @@ export class StaffPermissionComponent implements OnInit {
   }
 
   save() {
+    debugger;
     if (this.staffLeavePermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
@@ -230,5 +233,124 @@ export class StaffPermissionComponent implements OnInit {
     this.staffLeavePermissionForm.get('leave_days')?.setValue('');
     this.staffLeavePermissionForm.get('total_days')?.setValue('0');
     this.staffLeavePermissionForm.get('cuid')?.setValue(1);
+
+    this.staffHalfDayPermissionForm.reset();
+    this.staffHalfDayPermissionForm.get('month')?.setValue(this.minMonth);
+    this.staffHalfDayPermissionForm.get('staff_no')?.setValue('');
+    this.staffHalfDayPermissionForm.get('date')?.setValue(this.today);
+    this.staffHalfDayPermissionForm.get('l_type')?.setValue(null);
+    this.staffHalfDayPermissionForm.get('p_fn')?.setValue(false);
+    this.staffHalfDayPermissionForm.get('p_an')?.setValue(false);
+    this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+    this.staffHalfDayPermissionForm.get('cuid')?.setValue(1);
   }
+
+
+  staffHalfDayPermissionForm = new FormGroup({
+    staff_no: new FormControl(''),
+    month: new FormControl(''),
+    date: new FormControl(this.today),
+    l_type: new FormControl(null),
+    h_leave_days: new FormControl(''),
+    p_fn: new FormControl(false),
+    p_an: new FormControl(false),
+    cuid: new FormControl(1)
+  });
+
+  pDayChange() {
+    this.pFNChange();
+    this.pANChange();
+  }
+
+  pFNChange() {
+    debugger;
+    let Htotal: number = 0;
+    if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
+    if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
+    const staffNo = this.staffLeavePermissionForm.value.staff_no;
+    const Month = this.staffHalfDayPermissionForm.value.month;
+    const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
+    const FN = this.staffHalfDayPermissionForm.value.p_fn;
+    const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
+      debugger;
+      return (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays && e.p_fn == FN)
+    });
+
+    if (checkArray.length != 0) {
+      this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+      this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+    }
+    else {
+      const eligibleday = this.StaffLeaveList.filter((e) => { return e.l_type == this.staffHalfDayPermissionForm.value.l_type });
+      if (Number(eligibleday[0].balance_eligible) < Htotal) {
+        this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+        this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
+      }
+    }
+  }
+
+  pANChange() {
+    debugger;
+    let Htotal: number = 0;
+    if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
+    if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
+    const staffNo = this.staffLeavePermissionForm.value.staff_no;
+    const Month = this.staffHalfDayPermissionForm.value.month;
+    const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
+    const AN = this.staffHalfDayPermissionForm.value.p_an;
+    const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
+      debugger;
+      return (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays && e.p_an == AN)
+    });
+
+    if (checkArray.length != 0) {
+      this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+      this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+    }
+    else {
+      const eligibleday = this.StaffLeaveList.filter((e) => { return e.l_type == this.staffHalfDayPermissionForm.value.l_type });
+      if (Number(eligibleday[0].balance_eligible) < Htotal) {
+        this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+        this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
+      }
+    }
+  }
+
+  pSave() {
+    debugger;
+    this.staffHalfDayPermissionForm.get('staff_no')?.setValue(this.staffLeavePermissionForm.value.staff_no);
+    if (this.staffHalfDayPermissionForm.valid) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            const formvalue = (this.staffHalfDayPermissionForm.value);
+            console.log(formvalue);
+            this.slpSvc.addNewHalfDay(formvalue).subscribe(res => {
+              debugger;
+              if (res.status == 'Insert Success') {
+                this.notificationSvc.success('Saved Successfully');
+                this.cancelClick();
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.staffHalfDayPermissionForm.markAllAsTouched();
+    }
+  }
+
+  // cancelClickHalfDay() {
+  //   this.getAllStaffLeavePermissionHistory();  
+  //   this.StaffLeaveList = [];
+  //   this.staffHalfDayPermissionForm.reset();
+  //   this.staffHalfDayPermissionForm.get('month')?.setValue(this.minMonth);
+  //   this.staffHalfDayPermissionForm.get('staff_no')?.setValue('');
+  //   this.staffHalfDayPermissionForm.get('date')?.setValue(this.today);
+  //   this.staffHalfDayPermissionForm.get('l_type')?.setValue(null);
+  //   this.staffHalfDayPermissionForm.get('p_fn')?.setValue(false);
+  //   this.staffHalfDayPermissionForm.get('p_an')?.setValue(false);
+  //   this.staffHalfDayPermissionForm.get('leave_days')?.setValue([]);
+  //   this.staffHalfDayPermissionForm.get('cuid')?.setValue(1);
+  // }
 }
