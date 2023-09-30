@@ -26,7 +26,7 @@ export class LeaveMasterComponent implements OnInit {
   LaveAsByIDList: any = [];
   leaveAssignLeaveTypeFilterList: any = [];
 
-  staffList :any[]=[];
+  staffList: any[] = [];
 
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
@@ -225,14 +225,14 @@ export class LeaveMasterComponent implements OnInit {
 
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
-      this.staffList = data;
-      console.log('staff profile list'+this.staffList)
+      const staffArray=data;
+      this.staffList = staffArray.filter((e)=>{return e.activestatus == 1});      
     });
   }
 
-  staffNameChange(value){
-  debugger 
-   const newarray =this.staffList.filter((e)=>{return e.staff_no == value})
+  staffNameChange(value) {
+    debugger
+    const newarray = this.staffList.filter((e) => { return e.staff_no == value })
     this.leaveAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
   }
 
@@ -319,7 +319,7 @@ export class LeaveMasterComponent implements OnInit {
     this.leaveAssignForm.patchValue(assign)
     this.AssignbuttonId = false;
     this.leaveAssignLeaveTypeFilterList = this.LaveAsByIDList.filter((e: any) => { return e.assignid == assign.assignid });
-    console.log(1+this.leaveAssignLeaveTypeFilterList )
+    console.log(1 + this.leaveAssignLeaveTypeFilterList)
     this.leaveAssignLeaveTypeFilterList.forEach(element => {
       const control = <FormArray>this.leaveAssignForm.controls['leave'];
       control.push(

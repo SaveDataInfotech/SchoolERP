@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { StaffAttendanceModel } from 'src/app/Model/StaffAttendance.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -22,7 +23,8 @@ export class StaffAttendanceComponent implements OnInit {
     private SttySvc: staffTypeService,
     private DialogSvc: DialogService,
     private stAtSvc: staffAttendanceService,
-    private LvtySvc: LeaveTypeService,) { }
+    private LvtySvc: LeaveTypeService,
+    private router: Router) { }
 
   date1 = new Date();
 
@@ -60,7 +62,9 @@ export class StaffAttendanceComponent implements OnInit {
     this.refreshLeaveTypeList();
   }
 
-
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
       this.StaffTypeList = data;
@@ -90,26 +94,38 @@ export class StaffAttendanceComponent implements OnInit {
   }
 
   searchStaff() {
+    debugger;
     let staff_type = (this.staffAttendanceForm.staff_type);
-    let date = (this.staffAttendanceForm.date);
-    this.stAtSvc.searchStudentByAttendance(staff_type, date).subscribe(data => {
-      this.staffList = data;
-      if (this.staffList.length != 0) {
-        this.serachDisabled = true;
-      }
-    });
+    if (staff_type != '' && this.staffAttendanceForm.date != '') {
+      let date = (this.staffAttendanceForm.date);
+      this.stAtSvc.searchStudentByAttendance(staff_type, date).subscribe(data => {
+        this.staffList = data;
+        if (this.staffList.length != 0) {
+          this.serachDisabled = true;
+        }
+      });
+    }
+    else {
+      this.notificationSvc.error('Fill in the mandatory fields');
+    }
+
   }
 
   save(value) {
-    this.stAtSvc.newAttendance(value).subscribe(res => {
-      if (res.status == 'Insert Success') {
-        this.notificationSvc.success('Saved Successfully');
-        this.cancelClick();
-      }
-      else {
-        this.notificationSvc.error('Something Error');
-      }
-    });
+    this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.stAtSvc.newAttendance(value).subscribe(res => {
+            if (res.status == 'Insert Success') {
+              this.notificationSvc.success('Saved Successfully');
+              this.cancelClick();
+            }
+            else {
+              this.notificationSvc.error('Something Error');
+            }
+          });
+        }
+      });
   }
 
   cancelClick() {
@@ -124,7 +140,7 @@ export class StaffAttendanceComponent implements OnInit {
     this.staffAttendanceForm.leave = false;
     this.staffAttendanceForm.leave_type = '';
     this.staffAttendanceForm.date = this.today;
-    this.staffList = null;
+    this.staffList = [];
     this.serachDisabled = false;
   }
 

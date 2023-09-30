@@ -1,6 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { StaffLoanService } from 'src/app/api-service/staffLoan.service';
@@ -27,20 +28,16 @@ export class StaffLoanComponent implements OnInit {
     private DialogSvc: DialogService,
     private staffSvc: staffProfileService,
     private LoanSvc: StaffLoanService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private router: Router
   ) { }
 
   date1 = new Date();
-
   currentYear = this.date1.getUTCFullYear();
-
   currentMonth = this.date1.getUTCMonth() + 1;
-
   currentDate = this.date1.getUTCDate();
-
   todayDate: Date = new Date();
   today = String(this.todayDate);
-
   finalMonth: any;
   finalDay: any;
 
@@ -52,7 +49,6 @@ export class StaffLoanComponent implements OnInit {
     else {
       this.finalMonth = this.currentMonth;
     }
-
 
     if (this.currentDate < 10) {
       this.finalDay = "0" + this.currentDate;
@@ -67,6 +63,10 @@ export class StaffLoanComponent implements OnInit {
     this.refreshstaffTypeList();
     this.refreshStaffList();
     this.refreshgetLoanList();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshstaffTypeList() {
@@ -86,10 +86,8 @@ export class StaffLoanComponent implements OnInit {
     debugger;
     this.staffLoanForm.get('staff_no')?.setValue('');
     this.staffLoanForm.get('staff_name')?.setValue('');
-    this.staffFilterList = this.staffListAll.filter((e) => { return e.staff_type == value })
+    this.staffFilterList = this.staffList.filter((e) => { return e.staff_type == value })
   }
-
-  
 
   refreshgetLoanList() {
     this.LoanSvc.getLoanList().subscribe(data => {
@@ -133,19 +131,24 @@ export class StaffLoanComponent implements OnInit {
         this.notificationSvc.error("Invalid Emi Amount")
       }
       else {
-        this.LoanSvc.addNewLoan(loanInsert).subscribe(res => {
-          if (res.status == 'Insert Success') {
-            this.notificationSvc.success("Saved Success")
-            this.refreshgetLoanList();
-            this.newLoanCancelClick();
-          }
-          else if (res.status == 'Already exists') {
-            this.notificationSvc.warn(this.staffLoanForm.value.staff_name + " " + "Already having Loan")
-          }
-          else {
-            this.notificationSvc.error("Something error")
-          }
-        });
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              this.LoanSvc.addNewLoan(loanInsert).subscribe(res => {
+                if (res.status == 'Insert Success') {
+                  this.notificationSvc.success("Saved Success")
+                  this.refreshgetLoanList();
+                  this.newLoanCancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn(this.staffLoanForm.value.staff_name + " " + "Already having Loan")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }
+              });
+            }
+          });
       }
     }
     else {
@@ -182,9 +185,9 @@ export class StaffLoanComponent implements OnInit {
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   staffDeducFilter(value) {
-    debugger;   
+    debugger;
     this.cancelClick1()
     this.staffDeductionFilterList = this.LoanList.filter((e) => { return e.staff_type == value })
   }
@@ -197,9 +200,9 @@ export class StaffLoanComponent implements OnInit {
   }
 
 
-  comparePayAmount(value){
-    const bAmount= Number(this.staffLoanDeductionForm.value.balance_amount);
-    if(bAmount < Number(value)){
+  comparePayAmount(value) {
+    const bAmount = Number(this.staffLoanDeductionForm.value.balance_amount);
+    if (bAmount < Number(value)) {
       this.notificationSvc.error("Invalid Payable Amount")
     }
   };
@@ -217,12 +220,12 @@ export class StaffLoanComponent implements OnInit {
     n_dues: new FormControl(''),
     d_amount: new FormControl(''),
     pn_month: new FormControl(false),
-    payment_date:new FormControl(''),
+    payment_date: new FormControl(''),
     cuid: new FormControl(1)
   })
 
   PNChange(event: any) {
-    debugger;    
+    debugger;
     if (event.target.checked) {
       this.staffLoanDeductionForm.get('d_amount')?.setValue('0');
     } else {
@@ -233,22 +236,27 @@ export class StaffLoanComponent implements OnInit {
   LoanDeduction() {
     debugger;
     console.log(this.staffLoanDeductionForm.value)
-    if(Number(this.staffLoanDeductionForm.value.d_amount) <= Number(this.staffLoanDeductionForm.value.balance_amount)  ){
+    if (Number(this.staffLoanDeductionForm.value.d_amount) <= Number(this.staffLoanDeductionForm.value.balance_amount)) {
       var loanInsert = (this.staffLoanDeductionForm.value);
-      this.LoanSvc.LoanDeduction(loanInsert).subscribe(res => {
-        if (res.status == 'Insert Success') {
-          this.notificationSvc.success("Saved Success")
-          this.refreshgetLoanList();
-          this.cancelClick();
-        }
-        else if (res.status == 'Already exists') {
-          this.notificationSvc.warn("Already exists")
-        }
-        else {
-          this.notificationSvc.error("Something error")
-        }
-      });
-      
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            this.LoanSvc.LoanDeduction(loanInsert).subscribe(res => {
+              if (res.status == 'Insert Success') {
+                this.notificationSvc.success("Saved Success")
+                this.refreshgetLoanList();
+                this.cancelClick();
+              }
+              else if (res.status == 'Already exists') {
+                this.notificationSvc.warn("Already exists")
+              }
+              else {
+                this.notificationSvc.error("Something error")
+              }
+            });
+          }
+        });
+
     }
     else {
       this.notificationSvc.error("The payable amount should be less than or equal to the balance")
@@ -274,7 +282,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   cancelClick1() {
-    this.staffLoanDeductionForm.get('id')?.setValue(0);   
+    this.staffLoanDeductionForm.get('id')?.setValue(0);
     this.staffLoanDeductionForm.get('date')?.setValue('');
     this.staffLoanDeductionForm.get('staff_no')?.setValue('');
     this.staffLoanDeductionForm.get('staff_name')?.setValue('');

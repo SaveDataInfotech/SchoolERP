@@ -1,49 +1,21 @@
 <mat-tab-group #tabGroup animationDuration="0ms">
     <mat-tab label="New Staff">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 250px;">
-                        <h3 class="ml-1">Staff Profile</h3>
-                    </div>
-                </div>
-            </div>
-            <mat-card class="mt-2 matcard">
+            <mat-card class="m-3 matcard">
                 <mat-card-content>
-                    <form name="form" #f="ngForm" novalidate (ngSubmit)="onSubmit()">
-                        <div class="row">
-                            <div class="col-12" style="display: flex;">
-                                <div style="float: left;width: 250px;">
-                                    <h3 style="color: orangered;" class="ml-1">Staff Details</h3>
-                                </div>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Staff Profile</h3>
                             </div>
                         </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="staffProfileForm" novalidate (ngSubmit)="onSubmit()">
                         <div class="row mt-3">
-                            <div class="col-sm-6">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Staff No</label>
-                                </div>
-                                <input type="text" style="width: 250px;" readonly class="form-control" name="staff_no"
-                                    [(ngModel)]="staffProfileForm.staff_no">
-
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-4" style="margin: auto;">Staff Name</label>
-                                </div>
-                                <input [(ngModel)]="staffProfileForm.staff_name" type="text" style="width: 250px;"
-                                    class="form-control mt-3" name="staff_name" required>
-
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-4" style="margin: auto;">Gender</label>
-                                </div>
-                                <select name="gender" [(ngModel)]="staffProfileForm.gender" style="width: 250px;"
-                                    class="form-control mt-3">
-                                    <option value="">Please select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="FEMALE">FEMALE</option>
-                                    <option value="OTHER'S">OTHER'S</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-8" style="margin: auto;">
                                 <div *ngIf="editableImage">
                                     <img [src]="editableImage" alt="No image found" width="200" height="150" />
                                     <span class="pl-2" style="cursor: pointer">
@@ -52,7 +24,7 @@
                                     </span>
                                 </div>
                                 <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
-                                    (change)="onSelect($event)" style="width: 35%;height: 160px;">
+                                    (change)="onSelect($event)" style="width:160px;height: 160px;">
                                     <ngx-dropzone-label>
                                         <div>
                                             <span>Click to upload or Drag & Drop !</span>
@@ -66,14 +38,66 @@
                             </div>
                         </div>
 
-                        <div class="row mt-2">
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff No</label>
+                                </div>
+                                <input type="text" style="width: 250px;" readonly class="form-control"
+                                    formControlName="staff_no">
+                            </div>
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Name <span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.staff_name.touched && staffProfileForm.controls.staff_name.errors}"
+                                        type="text" style="width: 250px;" class="form-control"
+                                        formControlName="staff_name" required>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.staff_name.touched && staffProfileForm.controls.staff_name.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.staff_name.touched && staffProfileForm.controls.staff_name.errors.required">
+                                            Staff Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Gender<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.gender.touched && staffProfileForm.controls.gender.errors}"
+                                        formControlName="gender" style="width: 250px;" class="form-control" required>
+                                        <option value="">Please select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="FEMALE">FEMALE</option>
+                                        <option value="OTHER'S">OTHER'S</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.gender.touched && staffProfileForm.controls.gender.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.gender.touched && staffProfileForm.controls.gender.errors.required">
+                                            Gender is required
+                                        </div>
+                                    </span>
+                                </div>
+
+                            </div>
+
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">DOB</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="dob" [(ngModel)]="staffProfileForm.dob" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="dob" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -92,9 +116,8 @@
                                     <label class="pt-2" style="margin: auto;">Contact Number</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="mobile" [(ngModel)]="staffProfileForm.mobile"
-                                        (keypress)="numberOnly($event)" maxlength="10" minlength="10"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="mobile" class="form-control" type="text"
+                                        (keypress)="numberOnly($event)" maxlength="10" minlength="10">
                                 </div>
                             </div>
 
@@ -103,8 +126,7 @@
                                     <label class="pt-2" style="margin: auto;">Blood Group</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="blood_group" [(ngModel)]="staffProfileForm.blood_group"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="blood_group" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -115,8 +137,7 @@
                                     <label class="pt-2" style="margin: auto;">Qualification</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="qualification" [(ngModel)]="staffProfileForm.qualification"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="qualification" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -125,8 +146,7 @@
                                     <label class="pt-2" style="margin: auto;">Designation</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="designation" [(ngModel)]="staffProfileForm.designation"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="designation" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -137,8 +157,7 @@
                                     <label class="pt-2" style="margin: auto;">Year of Experience</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="experience" class="form-control"
-                                        [(ngModel)]="staffProfileForm.experience" type="text" required>
+                                    <input formControlName="experience" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -147,8 +166,7 @@
                                     <label class="pt-2" style="margin: auto;">P C Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="pc" [(ngModel)]="staffProfileForm.pc" class="form-control" type="text"
-                                        required>
+                                    <input formControlName="pc" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -159,8 +177,7 @@
                                     <label class="pt-2" style="margin: auto;">Staff type</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="staff_type" [(ngModel)]="staffProfileForm.staff_type"
-                                        style="width: 100%;" class="form-control">
+                                    <select formControlName="staff_type" style="width: 100%;" class="form-control">
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
                                             {{StaffType.staffType}}</option>
@@ -173,8 +190,7 @@
                                     <label class="pt-2" style="margin: auto;">Major Subject</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="major_subject" [(ngModel)]="staffProfileForm.major_subject"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="major_subject" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -185,16 +201,13 @@
                                     <label class="pt-2" style="margin: auto;">Class Hand</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="class_hand" [(ngModel)]="staffProfileForm.class_hand"
-                                        style="width: 100%;" class="form-control">
+                                    <select formControlName="class_hand" style="width: 100%;" class="form-control">
                                         <option value="" selected disabled>Please select</option>
                                         <option>LKG - UKG</option>
                                         <option>I - V</option>
                                         <option>VI - VIII</option>
                                         <option>IX - X</option>
                                         <option>XI - XII</option>
-                                        <!-- <option value={{class.class_name}} *ngFor="let class of ClassList;">
-                                            {{class.class_name}}</option> -->
                                     </select>
                                 </div>
                             </div>
@@ -204,8 +217,7 @@
                                     <label class="pt-2" style="margin: auto;">Date Of Join</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="join_date" [(ngModel)]="staffProfileForm.join_date"
-                                        class="form-control" type="date" required>
+                                    <input formControlName="join_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -216,8 +228,7 @@
                                     <label class="pt-2" style="margin: auto;">Rejoin</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="rejoin" [(ngModel)]="staffProfileForm.rejoin" style="width: 100%;"
-                                        class="form-control">
+                                    <select formControlName="rejoin" style="width: 100%;" class="form-control">
                                         <option value="No">No</option>
                                         <option value="Yes">Yes</option>
 
@@ -230,8 +241,7 @@
                                     <label class="pt-2" style="margin: auto;">Rejoin Date</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="rejoin_date" [(ngModel)]="staffProfileForm.rejoin_date"
-                                        class="form-control" type="date" required>
+                                    <input formControlName="rejoin_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -242,8 +252,7 @@
                                     <label class="pt-2" style="margin: auto;">Father Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="f_name" [(ngModel)]="staffProfileForm.f_name" class="form-control"
-                                        type="text" required>
+                                    <input formControlName="f_name" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -252,8 +261,7 @@
                                     <label class="pt-2" style="margin: auto;">Mother Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="m_name" [(ngModel)]="staffProfileForm.m_name" class="form-control"
-                                        type="text" required>
+                                    <input formControlName="m_name" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -264,8 +272,7 @@
                                     <label class="pt-5" style="margin: auto;">Address</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <textarea name="s_address" [(ngModel)]="staffProfileForm.s_address"
-                                        class="form-control" rows="4" required></textarea>
+                                    <textarea formControlName="s_address" class="form-control" rows="4"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -299,16 +306,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="sslc_x" [(ngModel)]="staffProfileForm.sslc_x">
+                                    class="form-check-input ml-2" formControlName="sslc_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="sslc_o" [(ngModel)]="staffProfileForm.sslc_o">
+                                    class="form-check-input ml-2" formControlName="sslc_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="sslc_date" [(ngModel)]="staffProfileForm.sslc_date"
-                                        class="form-control" type="date" required>
+                                    <input formControlName="sslc_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -319,16 +325,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="hsc_x" [(ngModel)]="staffProfileForm.hsc_x">
+                                    class="form-check-input ml-2" formControlName="hsc_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="hsc_o" [(ngModel)]="staffProfileForm.hsc_o">
+                                    class="form-check-input ml-2" formControlName="hsc_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="hsc_date" [(ngModel)]="staffProfileForm.hsc_date" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="hsc_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -339,16 +344,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="ug_x" [(ngModel)]="staffProfileForm.ug_x">
+                                    class="form-check-input ml-2" formControlName="ug_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="ug_o" [(ngModel)]="staffProfileForm.ug_o">
+                                    class="form-check-input ml-2" formControlName="ug_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="ug_date" [(ngModel)]="staffProfileForm.ug_date" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="ug_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -359,16 +363,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="pg_x" [(ngModel)]="staffProfileForm.pg_x">
+                                    class="form-check-input ml-2" formControlName="pg_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="pg_o" [(ngModel)]="staffProfileForm.pg_o">
+                                    class="form-check-input ml-2" formControlName="pg_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="pg_date" [(ngModel)]="staffProfileForm.pg_date" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="pg_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -379,16 +382,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="bed_x" [(ngModel)]="staffProfileForm.bed_x">
+                                    class="form-check-input ml-2" formControlName="bed_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="bed_o" [(ngModel)]="staffProfileForm.bed_o">
+                                    class="form-check-input ml-2" formControlName="bed_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="bed_date" [(ngModel)]="staffProfileForm.bed_date" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="bed_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -399,16 +401,15 @@
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="med_x" [(ngModel)]="staffProfileForm.med_x">
+                                    class="form-check-input ml-2" formControlName="med_x">
                             </div>
                             <div class="col-sm-3">
                                 <input style="height: 20px;width: 20px;position: relative;" type="checkbox"
-                                    class="form-check-input ml-2" name="med_o" [(ngModel)]="staffProfileForm.med_o">
+                                    class="form-check-input ml-2" formControlName="med_o">
                             </div>
                             <div class="col-sm-3">
                                 <div style="float: left;">
-                                    <input name="med_date" [(ngModel)]="staffProfileForm.med_date" class="form-control"
-                                        type="date" required>
+                                    <input formControlName="med_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -424,21 +425,41 @@
                         <div class="row mt-3">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Basic Pay</label>
+                                    <label class="pt-2" style="margin: auto;">Basic Pay<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (change)="totalChange()" name="basic_pay" [(ngModel)]="staffProfileForm.basic_pay"
-                                        class="form-control" type="text" required>
+                                    <input
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors}"
+                                        (change)="totalChange()" formControlName="basic_pay" class="form-control"
+                                        type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors.required">
+                                            Basic Pay is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">DA</label>
+                                    <label class="pt-2" style="margin: auto;">DA<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (change)="totalChange()" name="da" [(ngModel)]="staffProfileForm.da" class="form-control" type="text"
+                                    <input
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors}"
+                                        (change)="totalChange()" formControlName="da" class="form-control" type="text"
                                         required>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors.required">
+                                            DA is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -446,21 +467,41 @@
                         <div class="row mt-3">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">HRA</label>
+                                    <label class="pt-2" style="margin: auto;">HRA<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (change)="totalChange()" name="hra" [(ngModel)]="staffProfileForm.hra" class="form-control"
-                                        type="text" required>
+                                    <input
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors}"
+                                        (change)="totalChange()" formControlName="hra" class="form-control" type="text"
+                                        required>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors.required">
+                                            HRA is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Allowance</label>
+                                    <label class="pt-2" style="margin: auto;">Allowance<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (change)="totalChange()" name="allowance" [(ngModel)]="staffProfileForm.allowance"
-                                        class="form-control" type="text" required>
+                                    <input
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors}"
+                                        (change)="totalChange()" formControlName="allowance" class="form-control"
+                                        type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors.required">
+                                            Allowance is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -471,8 +512,7 @@
                                     <label class="pt-2" style="margin: auto;">Total Salary</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="total_salary" [(ngModel)]="staffProfileForm.total_salary"
-                                        class="form-control" type="text" required>
+                                    <input readonly formControlName="total_salary" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -483,8 +523,7 @@
                                     <label class="pt-2" style="margin: auto;">PF</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="pf" [(ngModel)]="staffProfileForm.pf" style="width: 100%;"
-                                        class="form-control">
+                                    <select formControlName="pf" style="width: 100%;" class="form-control">
                                         <option value="Yes">YES</option>
                                         <option value="No">NO</option>
                                     </select>
@@ -496,8 +535,7 @@
                                     <label class="pt-2" style="margin: auto;">EPF</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="epf" [(ngModel)]="staffProfileForm.epf" style="width: 100%;"
-                                        class="form-control">
+                                    <select formControlName="epf" style="width: 100%;" class="form-control">
                                         <option value="Yes">YES</option>
                                         <option value="No">NO</option>
                                     </select>
@@ -519,8 +557,8 @@
                                     <label class="pt-2" style="margin: auto;">Account No</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="account_no" [(ngModel)]="staffProfileForm.account_no"
-                                        (keypress)="numberOnly($event)" class="form-control" type="text" required>
+                                    <input formControlName="account_no" (keypress)="numberOnly($event)"
+                                        class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -529,8 +567,7 @@
                                     <label class="pt-2" style="margin: auto;">IFSC Code</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="ifsc_code" [(ngModel)]="staffProfileForm.ifsc_code"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="ifsc_code" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -541,8 +578,7 @@
                                     <label class="pt-2" style="margin: auto;">Bank Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="bank_name" [(ngModel)]="staffProfileForm.bank_name"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="bank_name" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -551,8 +587,7 @@
                                     <label class="pt-2" style="margin: auto;">Branch Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="branch_name" [(ngModel)]="staffProfileForm.branch_name"
-                                        class="form-control" type="text" required>
+                                    <input formControlName="branch_name" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -563,8 +598,7 @@
                                     <label class="pt-2" style="margin: auto;">Reliving</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select name="reliving" [(ngModel)]="staffProfileForm.reliving" style="width: 100%;"
-                                        class="form-control">
+                                    <select formControlName="reliving" style="width: 100%;" class="form-control">
                                         <option value="Yes">YES</option>
                                         <option value="No">NO</option>
                                     </select>
@@ -576,8 +610,7 @@
                                     <label class="pt-2" style="margin: auto;">Date</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input name="reliving_date" [(ngModel)]="staffProfileForm.reliving_date"
-                                        class="form-control" type="date" required>
+                                    <input formControlName="reliving_date" class="form-control" type="date">
                                 </div>
                             </div>
                         </div>
@@ -585,8 +618,8 @@
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                     class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
+                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                             </div>
                         </div>
                     </form>
@@ -628,7 +661,8 @@
                         <div *ngFor="let staff of staffFilterList" class="m-4 row col-sm-3 carddiv">
                             <div style="margin: auto;">
                                 <div style="margin: auto;text-align: center;"><img [src]="staff.img"
-                                        style="border-radius: 50px;object-fit: cover;" height="80px" width="80px" /></div>
+                                        style="border-radius: 50px;object-fit: cover;" height="80px" width="80px" />
+                                </div>
                             </div>
                             <div style="width: 100%;float: left;">
                                 <label class="cardlabel mt-1">Staff No</label><label

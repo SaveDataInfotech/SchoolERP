@@ -1,18 +1,21 @@
 <div class="container-fluid mt-1">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 400px;">
-                <h3 class="ml-1">Staff Permission</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Staff Permission</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="staffLeavePermissionForm">
                 <div class="row">
-                    <div class="col-sm-3 mt-3" style="display: flex;">
+                    <div class="col-sm-4 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
-                            <label class="" style="margin: auto;">Leave month</label>
+                            <label class="pt-2" style="margin: auto;">Leave month</label>
                         </div>
                         <div style="float: left;width: 250px;">
                             <input
@@ -21,7 +24,7 @@
                                 class="form-control" type="month" required>
                         </div>
                     </div>
-                    <div class="col-sm-3 mt-3" style="display: flex;">
+                    <div class="col-sm-4 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Staff NO</label>
                         </div>
@@ -39,17 +42,21 @@
                             <input readonly formControlName="staff_name" class="form-control" type="text">
                         </div>
                     </div>
-                    <div class="col-sm-2 mt-3" style="display: flex;">
-                        <div style="float: left;width: 250px;">
-                            <button (click)="searchLeave()"
+
+                    <div class="col-sm-12 mt-3">
+                        <div style="text-align: center;">
+                            <button (click)="searchLeave()" matTooltip="Click to Search"
                                 [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.month.errors"
-                                type="button" class="btn btn-primary">Search</button>
+                                type="button" class="btn btn-primary">Search<i class="fa fa-search ml-2"></i></button>
                         </div>
                     </div>
                 </div>
 
+                <div *ngIf="StaffLeaveList.length !=0" class="col-sm-12 mt-5">
+                    <h3 style="color: #ac2bac;">Types of leave & Eligible days</h3>
+                </div>
                 <div class="row">
-                    <div *ngFor="let leave of StaffLeaveList" class="col-sm-3 mt-3" style="display: flex;">
+                    <div *ngFor="let leave of StaffLeaveList" class="col-sm-4 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">{{leave.l_type}}</label>
                         </div>
@@ -124,7 +131,8 @@
                             <tr>
                                 <td style="width: 140px;"><select
                                         [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.l_type.touched && staffHalfDayPermissionForm.controls.l_type.errors}"
-                                        formControlName="l_type" (change)="pDayChange()" style="width: 100%;" class="form-control" required>
+                                        formControlName="l_type" (change)="pDayChange()" style="width: 100%;"
+                                        class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
                                         <option *ngFor="let Staff of StaffLeaveList;">
                                             {{Staff.l_type}}</option>

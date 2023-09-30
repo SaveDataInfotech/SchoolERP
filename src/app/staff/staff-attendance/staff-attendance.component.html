@@ -1,34 +1,39 @@
 <div class="container-fluid mt-1">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 400px;">
-                <h3 class="ml-1">Staff Attendance</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Staff Attendance</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form #AttendanceForm="ngForm" (ngSubmit)="save(staffList)">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Date</label>
+                            <label class="pt-2" style="margin: auto;">Date<span class="text-danger"> *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
                             <!-- [max]="today" -->
                             <input [disabled]="serachDisabled == true" placeholder="Enter 10-th Mark" name="date"
-                                [value]="today" [(ngModel)]="staffAttendanceForm.date" class="form-control" type="date">
+                                [value]="today" [(ngModel)]="staffAttendanceForm.date" class="form-control" type="date"
+                                required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select name="staff_type" [(ngModel)]="staffAttendanceForm.staff_type" style="width: 100%;"
-                                class="form-control ">
+                            <select required name="staff_type" [(ngModel)]="staffAttendanceForm.staff_type"
+                                style="width: 100%;" class="form-control ">
                                 <option value='' selected disabled>Please select</option>
                                 <option [disabled]="serachDisabled == true" *ngFor="let Staff of StaffTypeList;">
                                     {{Staff.staffType}}</option>
@@ -44,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="table-responsive mt-5">
+                <div *ngIf="staffList.length !=0" class="table-responsive mt-5">
                     <table class="col-sm-12 table table-hover table-bordered table-sm ">
                         <thead>
                             <tr>
@@ -53,8 +58,8 @@
                                 <th>Staff Name</th>
                                 <th>FN</th>
                                 <th>AN</th>
-                                <th>Leave</th>
-                                <th>Permission</th>
+                                <th>Full Day Leave</th>
+                                <th>Half Day Permission</th>
                                 <th>Leave Type</th>
                             </tr>
                         </thead>
@@ -63,32 +68,37 @@
                                 <td>{{i+1}}</td>
                                 <td>{{staff.staff_no}}</td>
                                 <td>{{staff.staff_name}}</td>
-                                <td><input [(ngModel)]="staff.fn" name="fn{{i}}" #fn="ngModel" type="checkbox">
+                                <td><input [disabled]="staff.leave == true || staff.l_fn == true == true"
+                                        [(ngModel)]="staff.fn" name="fn{{i}}" #fn="ngModel" type="checkbox">
                                     <span class="pl-2 text-success" *ngIf="staff.fn == true"><b>P</b></span><span
                                         class="pl-2 text-danger" *ngIf="staff.fn == false"><b>A</b></span>
                                 </td>
-                                <td><input [(ngModel)]="staff.an" name="an{{i}}" #an="ngModel" type="checkbox">
+                                <td><input [disabled]="staff.leave == true || staff.l_an == true" [(ngModel)]="staff.an"
+                                        name="an{{i}}" #an="ngModel" type="checkbox">
                                     <span class="pl-2 text-success" *ngIf="staff.an == true"><b>P</b></span><span
                                         class="pl-2 text-danger" *ngIf="staff.an == false"><b>A</b></span>
                                 </td>
-                                <td><input [disabled]="staff.an == true || staff.fn== true" [(ngModel)]="staff.leave"
-                                        name="l{{i}}" #l="ngModel" type="checkbox">Full Day</td>
-                                <td style="width: 100px;"><input [(ngModel)]="staff.l_fn"  name="lfn{{i}}" #lfn="ngModel" class="mt-1" type="checkbox"><span>FN</span>
-                                    <input style="margin-left: 5px;" [(ngModel)]="staff.l_an"  name="lan{{i}}" #lan="ngModel" type="checkbox"><span>AN</span>
+                                <td style="color: red;"><input *ngIf="staff.leave == true" disabled
+                                        [(ngModel)]="staff.leave" name="l{{i}}" #l="ngModel" type="checkbox"><span
+                                        *ngIf="staff.leave == true">Full Day</span></td>
+                                <td style="width: 100px;color: red;"><input disabled *ngIf="staff.l_fn == true"
+                                        [(ngModel)]="staff.l_fn" name="lfn{{i}}" #lfn="ngModel" class="mt-1"
+                                        type="checkbox"><span *ngIf="staff.l_fn == true">FN</span>
+                                    <input style="margin-left: 5px;" disabled *ngIf="staff.l_an == true"
+                                        [(ngModel)]="staff.l_an" name="lan{{i}}" #lan="ngModel" type="checkbox"><span
+                                        *ngIf="staff.l_an == true">AN</span>
                                 </td>
-                                <!-- [disabled]="staff.leave != true || staff.l_fn != true || staff.l_an != true" -->
-                                <td [width]="200"><select 
-                                        [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
+                                <td [width]="200"><select [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
                                         style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
-                                        <option value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
+                                        <option disabled value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
                                             {{leave.type_name}}</option>
                                     </select></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <div class="col-sm-8 mt-4">
+                    <div class="col-sm-8 m-4">
                         <div style="text-align: center;">
                             <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mr-3 btn-sm" value="Save" />

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
-import { StaffAssignModel } from 'src/app/Model/staffAssign.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -26,7 +26,7 @@ export class StaffAssignComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
   staffList: any[] = [];
-  staffListAll:any[]=[];
+  staffListAll: any[] = [];
   subjectList: any[] = [];
   subjectSpiltList: any[] = [];
   subjectAssignByList: any[] = [];
@@ -40,7 +40,8 @@ export class StaffAssignComponent implements OnInit {
     private DialogSvc: DialogService,
     private batchSvc: BatechYearService,
     private staffSvc: staffProfileService,
-    private staSvc: staffAssignService
+    private staSvc: staffAssignService,
+    private router: Router
   ) { this.createForm(); }
 
   ngOnInit(): void {
@@ -49,6 +50,9 @@ export class StaffAssignComponent implements OnInit {
     this.refreshSectionList();
     this.GetActiveBatchYear();
     this.refreshStaffList();
+  }
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   GetActiveBatchYear() {
@@ -84,15 +88,15 @@ export class StaffAssignComponent implements OnInit {
     this.staffAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.staffAssignForm.get('groupid').setValue(0);
-    this.staffAssignForm.get('sectionid').setValue(0);
+    this.staffAssignForm.get('sectionid').setValue(null);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.staffAssignForm.get('sectionid').setValue(0);
+      this.staffAssignForm.get('sectionid').setValue(null);
     }
     else {
       this.groupDisplay = true;
-      this.staffAssignForm.get('sectionid').setValue(0);
+      this.staffAssignForm.get('sectionid').setValue(null);
     }
   }
 
@@ -101,13 +105,13 @@ export class StaffAssignComponent implements OnInit {
     const groupid = Number(groupID);
     this.staffAssignForm.get('groupid').setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.staffAssignForm.get('sectionid').setValue(0);
+    this.staffAssignForm.get('sectionid').setValue(null);
   }
 
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
       this.staffListAll = data;
-      this.staffList=this.staffListAll.filter((e)=>{return e.activestatus==1})
+      this.staffList = this.staffListAll.filter((e) => { return e.activestatus == 1 })
     });
   }
 
@@ -122,9 +126,9 @@ export class StaffAssignComponent implements OnInit {
   createForm() {
     this.staffAssignForm = new FormGroup({
       staff_assign_id: new FormControl(0),
-      classid: new FormControl(0),
+      classid: new FormControl(null),
       groupid: new FormControl(0),
-      sectionid: new FormControl(0),
+      sectionid: new FormControl(null),
       batch_year: new FormControl(''),
       class_incharge: new FormControl(''),
       staff_name: new FormControl(''),
@@ -150,46 +154,56 @@ export class StaffAssignComponent implements OnInit {
     let groupid: number = (this.staffAssignForm.value.groupid);
     let sectionid: number = (this.staffAssignForm.value.sectionid);
     let batch_year: any = (this.staffAssignForm.value.batch_year);
-    this.staSvc.searchSubjectByClass(classid, groupid, sectionid, batch_year).subscribe(data => {
-      debugger;
-      this.subjectList = data;
-      if (this.subjectList[0].batch_year != null) {
-        this.subjectList.forEach(element => {
-          this.staffAssignForm.patchValue(element)
-        });
-
-        this.staSvc.getSubjectArray(this.staffAssignForm.value.staff_assign_id).subscribe(data => {
-          debugger;
-          this.subjectAssignByList = data;
-          this.subjectAssignByList.forEach(element => {
-            const control = <FormArray>this.staffAssignForm.controls['subjects'];
-            control.push(
-              new FormGroup({
-                subjectsname: new FormControl(element.subjectsname),
-                pm_staff_no: new FormControl(element.pm_staff_no),            
-                ad_staff_no: new FormControl(element.ad_staff_no),                
-              })
-            )
-          });
-        });
-      }
-      if (this.subjectList[0].subjectsname != null) {
-        this.subjectSpiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
-          return { subjecstname: item };
-        });
-        this.subjectSpiltList.forEach(element => {
-          const control = <FormArray>this.staffAssignForm.controls['subjects'];
-          control.push(
-            new FormGroup({
-              subjectsname: new FormControl(element.subjecstname),
-              pm_staff_no: new FormControl(''),              
-              ad_staff_no: new FormControl(''),
-              ad_staff_name: new FormControl('')
-            })
-          )
-        });
-      }
-    });
+    if (classid != null && sectionid != null && batch_year != null) {
+      this.staSvc.searchSubjectByClass(classid, groupid, sectionid, batch_year).subscribe(data => {
+        debugger;
+        this.subjectList = data;
+        if (this.subjectList.length != 0) {
+          if (this.subjectList[0].batch_year != null) {
+            this.subjectList.forEach(element => {
+              this.staffAssignForm.patchValue(element)
+            });
+            this.staSvc.getSubjectArray(this.staffAssignForm.value.staff_assign_id).subscribe(data => {
+              debugger;
+              this.subjectAssignByList = data;
+              this.subjectAssignByList.forEach(element => {
+                const control = <FormArray>this.staffAssignForm.controls['subjects'];
+                control.push(
+                  new FormGroup({
+                    subjectsname: new FormControl(element.subjectsname),
+                    pm_staff_no: new FormControl(element.pm_staff_no),
+                    ad_staff_no: new FormControl(element.ad_staff_no),
+                  })
+                )
+              });
+            });
+          }
+          if (this.subjectList[0].subjectsname != null) {
+            this.subjectSpiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
+              return { subjecstname: item };
+            });
+            this.subjectSpiltList.forEach(element => {
+              const control = <FormArray>this.staffAssignForm.controls['subjects'];
+              control.push(
+                new FormGroup({
+                  subjectsname: new FormControl(element.subjecstname),
+                  pm_staff_no: new FormControl(''),
+                  ad_staff_no: new FormControl(''),
+                  ad_staff_name: new FormControl('')
+                })
+              )
+            });
+          }
+        }
+        else {
+          this.notificationSvc.error('No subject has been assigned to this class');
+        }
+      });
+    }
+    else {
+      this.staffAssignForm.markAllAsTouched();
+      this.notificationSvc.error('Fill in the mandatory fields');
+    }
   }
 
 
@@ -219,9 +233,9 @@ export class StaffAssignComponent implements OnInit {
   cancelClick() {
     this.staffAssignForm.reset();
     this.staffAssignForm.get('staff_assign_id')?.setValue(0);
-    this.staffAssignForm.get('classid')?.setValue(0);
+    this.staffAssignForm.get('classid')?.setValue(null);
     this.staffAssignForm.get('groupid')?.setValue(0);
-    this.staffAssignForm.get('sectionid')?.setValue(0);
+    this.staffAssignForm.get('sectionid')?.setValue(null);
     this.staffAssignForm.get('batch_year')?.setValue(this.newgetbatch);
     this.staffAssignForm.get('class_incharge')?.setValue('');
     this.staffAssignForm.get('staff_name')?.setValue('');

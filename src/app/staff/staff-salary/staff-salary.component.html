@@ -1,22 +1,27 @@
 <div class="container-fluid mt-1">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 400px;">
-                <h3 class="ml-1">Staff Salary</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Staff Salary</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="staffSalaryForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                            <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select formControlName="staff_type" style="width: 100%;"
-                                class="form-control ">
+                            <select
+                                [ngClass]="{'is-invalid':staffSalaryForm.controls.staff_type.touched && staffSalaryForm.controls.staff_type.errors}"
+                                formControlName="staff_type" style="width: 100%;" class="form-control" required>
                                 <option value='' selected disabled>Please select</option>
                                 <option *ngFor="let Staff of StaffTypeList;">
                                     {{Staff.staffType}}</option>
@@ -27,10 +32,13 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Month Of Salary</label>
+                            <label class="pt-2" style="margin: auto;">Month Of Salary<span class="text-danger">
+                                    *</span></label>
                         </div>
-                        <div style="float: left;width: 250px;">                           
-                            <input formControlName="sal_month" class="form-control" type="month" required>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':staffSalaryForm.controls.sal_month.touched && staffSalaryForm.controls.sal_month.errors}"
+                                formControlName="sal_month" class="form-control" type="month" required>
                         </div>
                     </div>
                 </div>
@@ -38,10 +46,13 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">No Of days</label>
+                            <label class="pt-2" style="margin: auto;">No Of days<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="working_days" class="form-control" type="text" required>
+                            <input
+                                [ngClass]="{'is-invalid':staffSalaryForm.controls.working_days.touched && staffSalaryForm.controls.working_days.errors}"
+                                formControlName="working_days" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -49,18 +60,18 @@
                 <div class="col-sm-6 mt-4">
                     <div style="text-align: center;">
                         <input (click)="searchStaff()" type="button" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Search" />                        
+                            class="btn btn-primary mr-3 btn-sm" value="Search" />
                     </div>
                 </div>
 
                 <div class="table-responsive text-nowrap mt-3">
                     <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
                         <thead>
-                            <tr >
-                                <th style="background-color: blue;" colspan="5"></th>
-                                <th style="background-color: blue;" colspan="3">Earnings</th>
-                                <th style="background-color: blue;" colspan="4">Deductions</th>
-                                <th style="background-color: blue;"></th>
+                            <tr>
+                                <th style="background-color: lightslategray;" colspan="5"></th>
+                                <th style="background-color: lightslategray;" colspan="3">Earnings</th>
+                                <th style="background-color: lightslategray;" colspan="4">Deductions</th>
+                                <th style="background-color: lightslategray;"></th>
                             </tr>
                             <tr>
                                 <!-- <th>Si.No</th> -->
@@ -80,32 +91,45 @@
                                 <th>Loan</th>
                                 <th>Ab Amt</th>
                                 <th>EPF</th>
-                                <th>Deduction</th>                                
+                                <th>Deduction</th>
                                 <th>Net Salary</th>
                             </tr>
                         </thead>
                         <tbody formArrayName="staffList">
                             <tr *ngFor="let chid of staffSalaryForm.get('staffList')['controls']; let i = index"
-                            formGroupName="{{i}}">
+                                formGroupName="{{i}}">
                                 <!-- <td>{{i+1}}</td> -->
                                 <td>{{chid.get('staff_no').value}}</td>
                                 <td>{{chid.get('staff_name').value}}</td>
                                 <!-- <td>{{chid.get('work_days').value}}</td> -->
-                                <td><input formControlName="present_day" style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="absent_day" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="leave" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="payable_days" (change)="payableDayChange(i)" style="min-width: 80px;" class="form-control" type="text"></td>
-                                 <td><input formControlName="basic_pay" style="min-width: 80px;" class="form-control" type="text" readonly></td>
-                               <!-- <td><input formControlName="da" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="present_day" style="min-width: 80px;" class="form-control"
+                                        type="text"></td>
+                                <td><input formControlName="absent_day" (change)="payableDayChange(i)"
+                                        style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="leave" (change)="payableDayChange(i)"
+                                        style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="payable_days" (change)="payableDayChange(i)"
+                                        style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="basic_pay" style="min-width: 80px;" class="form-control"
+                                        type="text" readonly></td>
+                                <!-- <td><input formControlName="da" style="min-width: 80px;" class="form-control" type="text" readonly></td>
                                 <td><input formControlName="hra" style="min-width: 80px;" class="form-control" type="text" readonly></td>
                                 <td><input formControlName="allowance" style="min-width: 80px;" class="form-control" type="text" readonly></td> -->
-                                <td><input formControlName="total_salary" style="min-width: 80px;" class="form-control" type="text" readonly></td>
+                                <td><input formControlName="total_salary" style="min-width: 80px;" class="form-control"
+                                        type="text" readonly></td>
                                 <!-- <td><input formControlName="grand_total" style="min-width: 80px;" class="form-control" type="text" readonly></td> -->
-                                <td><input formControlName="d_amount" style="min-width: 80px;" class="form-control" type="text" readonly><span style="color:blue;" *ngIf="chid.get('d_amount').value != ''"><input (click)="PNChange(i,$event)" type="checkbox">Pay Next Month</span></td>
-                                <td><input formControlName="absent_amount" style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input readonly formControlName="epf" style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="deduction" style="min-width: 80px;" class="form-control" type="text"></td>                               
-                                <td><input formControlName="net_salary" style="min-width: 80px;" class="form-control" type="text"></td>
+                                <td><input formControlName="d_amount" style="min-width: 80px;" class="form-control"
+                                        type="text" readonly><span style="color:blue;"
+                                        *ngIf="chid.get('d_amount').value != ''"><input (click)="PNChange(i,$event)"
+                                            type="checkbox">Pay Next Month</span></td>
+                                <td><input formControlName="absent_amount" style="min-width: 80px;" class="form-control"
+                                        type="text"></td>
+                                <td><input readonly formControlName="epf" style="min-width: 80px;" class="form-control"
+                                        type="text"></td>
+                                <td><input formControlName="deduction" style="min-width: 80px;" class="form-control"
+                                        type="text"></td>
+                                <td><input formControlName="net_salary" style="min-width: 80px;" class="form-control"
+                                        type="text"></td>
                             </tr>
                         </tbody>
                     </table>

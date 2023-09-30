@@ -5,6 +5,7 @@ import { staffLeavePermissionService } from 'src/app/api-service/staffLeavePermi
 import { DatePipe } from '@angular/common';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-staff-permission',
@@ -33,6 +34,7 @@ export class StaffPermissionComponent implements OnInit {
     private LvAsSvc: LeaveAssignService,
     private notificationSvc: NotificationsService,
     private DialogSvc: DialogService,
+    private router: Router
   ) { this.createForm(); }
 
   ngOnInit(): void {
@@ -61,6 +63,10 @@ export class StaffPermissionComponent implements OnInit {
     this.staffHalfDayPermissionForm.get('month').setValue(this.minMonth);
 
     this.dateRangeChange();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshLeaveAssignByIDList() {

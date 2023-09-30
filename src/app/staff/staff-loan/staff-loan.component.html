@@ -1,15 +1,18 @@
 <mat-tab-group animationDuration="0ms">
     <mat-tab label="Staff Loan">
         <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Staff Loan</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">New Loan</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="staffLoanForm" (ngSubmit)="saNewLoan()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -17,8 +20,8 @@
                                     <label class="pt-2" style="margin: auto;">Date</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="date" [value]="today" class="form-control" type="Date"
-                                        required>
+                                    <input formControlName="date" readonly [value]="today" class="form-control"
+                                        type="Date" required>
                                 </div>
                             </div>
                         </div>
@@ -158,15 +161,18 @@
 
     <mat-tab label="Loan Collection">
         <div class="container-fluid mt-1">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 400px;">
-                        <h3 class="ml-1">Staff Loan Deduction</h3>
-                    </div>
-                </div>
-            </div>
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Loan Deduction</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
                     <form [formGroup]="staffLoanDeductionForm" (ngSubmit)="LoanDeduction()">
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
@@ -174,7 +180,8 @@
                                     <label class="pt-2" style="margin: auto;">Date of payment</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="payment_date" class="form-control" type="Date" required>
+                                    <input readonly formControlName="payment_date" class="form-control" type="Date"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +243,8 @@
                                     <label class="pt-2" style="margin: auto;">Loan Amount</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input readonly threeZeroInput type="text" formControlName="loan_amount" class="form-control" />
+                                    <input readonly threeZeroInput type="text" formControlName="loan_amount"
+                                        class="form-control" />
                                 </div>
                             </div>
 
@@ -278,7 +286,7 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input #cmpa (change)="comparePayAmount(cmpa.value)" formControlName="d_amount"
-                                        class="form-control" type="text" required>
+                                        class="form-control" type="text">
                                 </div>
                             </div>
                             <div class="col-sm-5 mt-3" style="display: flex;">
@@ -326,7 +334,7 @@
                                     <label class="pt-2" style="margin: auto;">Date of payment</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input  class="form-control" type="Date" required>
+                                    <input class="form-control" type="Date" required>
                                 </div>
                             </div>
                         </div>

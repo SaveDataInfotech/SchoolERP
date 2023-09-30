@@ -1,18 +1,21 @@
 <div class="container-fluid mt-1">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 400px;">
-                <h3 class="ml-1">Staff Assign</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Staff Assign</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form [formGroup]="staffAssignForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Batch</label>
+                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger"> *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
                             <input formControlName="batch_year" readonly class="form-control" type="text" required>
@@ -22,12 +25,14 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Class Name</label>
+                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger"> *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select formControlName="classid" style="width: 100%;" #t (change)="FilterGroupfun(t.value)"
-                                class="form-control">
-                                <option value=0 selected disabled>Please select</option>
+                            <select
+                                [ngClass]="{'is-invalid': staffAssignForm.get('classid')?.touched && staffAssignForm.get('classid')?.errors}"
+                                formControlName="classid" style="width: 100%;" #t (change)="FilterGroupfun(t.value)"
+                                class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
@@ -53,16 +58,24 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Section</label>
+                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger"> *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select formControlName="sectionid" (change)="searchSubjectByClass()" style="width: 100%;"
-                                class="form-control ">
-                                <option value=0 selected disabled>Please select</option>
+                            <select
+                                [ngClass]="{'is-invalid': staffAssignForm.get('sectionid')?.touched && staffAssignForm.get('sectionid')?.errors}"
+                                formControlName="sectionid" style="width: 100%;" class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
                                 <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
                                     {{section.section_name}}</option>
                             </select>
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-3">
+                    <div style="text-align: center;">
+                        <button (click)="searchSubjectByClass()" matTooltip="Click to Search" type="button"
+                            class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                     </div>
                 </div>
 
@@ -86,53 +99,43 @@
                             <label class="pt-2" style="margin: auto;">Staff Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input  readonly formControlName="staff_name" class="form-control" type="text" required>
+                            <input readonly formControlName="staff_name" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="table-responsive mt-5">
-
-                    <table class="col-sm-10 table table-hover table-bordered table-sm  ">
-                        <thead>
-                            <!-- <tr>
-                                 <th colspan="3"></th>
-                                <th  style="text-align: center;color: blue;">Primary Staff</th>
-                                <th style="text-align: center;color: blue;">Additional Staff</th>
-                            </tr> -->
-                        </thead>
+                    <table class="col-sm-12 table table-hover table-bordered table-sm">
                         <thead>
                             <tr>
                                 <th>Si.No</th>
-                                <th colspan="2">Subject Name</th>
-
-                                <th  style="text-align: center;color: blue;">Primary Staff</th>
-                                <th style="text-align: center;color: blue;">Additional Staff</th>
+                                <th>Subject Name</th>
+                                <th>Primary Staff</th>
+                                <th>Additional Staff</th>
                             </tr>
                         </thead>
                         <tbody formArrayName="subjects">
                             <tr *ngFor="let chid of staffAssignForm.get('subjects')['controls']; let i = index"
                                 formGroupName="{{i}}">
                                 <td>{{i+1}}</td>
-                                <td colspan="2"><input formControlName="subjectsname" class="form-control shadow-none" style="border: 0px;" readonly type="text">
+                                <td><input formControlName="subjectsname" class="form-control shadow-none"
+                                        style="border: 0px;" readonly type="text">
                                 </td>
                                 <td> <select formControlName="pm_staff_no" style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
                                         <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
                                             {{Staff.staff_no}} - {{Staff.staff_name}}</option>
                                     </select></td>
-                                <!-- <td>Jaya</td> -->
                                 <td> <select formControlName="ad_staff_no" style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
                                         <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
                                             {{Staff.staff_no}} - {{Staff.staff_name}}</option>
                                     </select></td>
-                                <!-- <td>Ram</td> -->
                             </tr>
                         </tbody>
                     </table>
 
-                    <div class="col-sm-8 mt-4 mb-1">
+                    <div class="col-sm-12 mt-4 mb-1">
                         <div style="text-align: center;">
                             <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                                 class="btn btn-primary mr-3 btn-sm" value="Save" />

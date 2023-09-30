@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { staffSalaryService } from 'src/app/api-service/staffSalary.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 
@@ -17,10 +18,14 @@ export class StaffSalaryComponent implements OnInit {
   constructor(
     private SttySvc: staffTypeService,
     private sttySalSvc: staffSalaryService,
+    private router: Router
   ) { this.createForm(); }
 
   ngOnInit(): void {
     this.refreshstaffTypeList();
+  }
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
@@ -48,45 +53,50 @@ export class StaffSalaryComponent implements OnInit {
 
   searchStaff() {
     debugger;
-    this.sttySalSvc.getstaffProfileListBySalary(this.staffSalaryForm.value.sal_month).subscribe(data => {
-      this.staffListSalaryAll = data;
-      this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 })
+    if (this.staffSalaryForm.valid) {
 
-      const control = <FormArray>this.staffSalaryForm.controls['staffList'];
-      while (control.length !== 0) {
-        control.removeAt(0)
-      }
-      const newStaffList = this.staffList.filter((e) => { return e.staff_type == this.staffSalaryForm.value.staff_type });
-      console.log(newStaffList)
+      this.sttySalSvc.getstaffProfileListBySalary(this.staffSalaryForm.value.sal_month).subscribe(data => {
+        this.staffListSalaryAll = data;
+        this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 })
 
-      newStaffList.forEach(element => {
         const control = <FormArray>this.staffSalaryForm.controls['staffList'];
-        control.push(
-          new FormGroup({
-            staff_no: new FormControl(element.staff_no),
-            staff_name: new FormControl(element.staff_name),
-            work_days: new FormControl(this.staffSalaryForm.value.working_days),
-            present_day: new FormControl((element.an) / 2),
-            absent_day: new FormControl(String(Number(this.staffSalaryForm.value.working_days)-(Number(element.leave)+(element.l_an/2)))),
-            leave: new FormControl(String(Number(element.leave)+(element.l_an/2))),
-            payable_days: new FormControl(''),
-            basic_pay: new FormControl(element.basic_pay),
-            da: new FormControl(element.da),
-            hra: new FormControl(element.hra),
-            allowance: new FormControl(element.allowance),
-            total_salary: new FormControl(element.total_salary),
-            grand_total: new FormControl(''),
-            emi_amount: new FormControl(element.emi_amount),
-            d_amount: new FormControl(element.emi_amount),
-            absent_amount: new FormControl(''),
-            isepf: new FormControl(element.epf),
-            epf: new FormControl(String(Number(element.basic_pay)*12/100)),
-            deduction: new FormControl(''),
-            net_salary: new FormControl('')
-          })
-        )
+        while (control.length !== 0) {
+          control.removeAt(0)
+        }
+        const newStaffList = this.staffList.filter((e) => { return e.staff_type == this.staffSalaryForm.value.staff_type });
+        newStaffList.forEach(element => {
+          const control = <FormArray>this.staffSalaryForm.controls['staffList'];
+          control.push(
+            new FormGroup({
+              staff_no: new FormControl(element.staff_no),
+              staff_name: new FormControl(element.staff_name),
+              work_days: new FormControl(this.staffSalaryForm.value.working_days),
+              present_day: new FormControl((element.an) / 2),
+              absent_day: new FormControl(String(Number(this.staffSalaryForm.value.working_days) - (Number(element.leave) + Number((element.an) / 2) + (element.l_an / 2)))),
+              leave: new FormControl(String(Number(element.leave) + (element.l_an / 2))),
+              payable_days: new FormControl(''),
+              basic_pay: new FormControl(element.basic_pay),
+              da: new FormControl(element.da),
+              hra: new FormControl(element.hra),
+              allowance: new FormControl(element.allowance),
+              total_salary: new FormControl(element.total_salary),
+              grand_total: new FormControl(''),
+              emi_amount: new FormControl(element.emi_amount),
+              d_amount: new FormControl(element.emi_amount),
+              absent_amount: new FormControl(''),
+              isepf: new FormControl(element.epf),
+              epf: new FormControl(String(Number(element.basic_pay) * 12 / 100)),
+              deduction: new FormControl(''),
+              net_salary: new FormControl('')
+            })
+          )
+        });
       });
-    });
+
+    }
+    else {
+      this.staffSalaryForm.markAllAsTouched();
+    }
   }
 
 
