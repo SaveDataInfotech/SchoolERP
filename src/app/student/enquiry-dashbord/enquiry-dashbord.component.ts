@@ -107,6 +107,7 @@ export class EnquiryDashbordComponent implements OnInit {
 
   ActiveAdmissionClick(selected: any) {
     debugger;
+    sessionStorage.removeItem('selectd')
     var myStr = JSON.stringify(selected);
     sessionStorage.setItem("selectd", myStr);
     //this.pro.setvalueform(myStr);

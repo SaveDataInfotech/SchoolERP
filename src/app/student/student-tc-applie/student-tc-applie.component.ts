@@ -84,6 +84,15 @@ export class StudentTcApplieComponent implements OnInit {
   backButton() {
     this.router.navigateByUrl('/app/dashboard');
   }
+  //// Number Only Event
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
 
   refreshBatchYearList() {
     this.batchSvc.getBatchYearList().subscribe(data => {
@@ -205,7 +214,7 @@ export class StudentTcApplieComponent implements OnInit {
         this.notificationSvc.success("Saved Success")
         this.CancelClickInAll();
       }
-      else {       
+      else {
         this.CancelClickInAll();
       }
     })
@@ -230,8 +239,8 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('batch_year')?.setValue(0);
     this.studentTcApplyForm.get('search_ad')?.setValue('')
     this.studentTcApplyForm.get('cuid')?.setValue(1);
-    this.studentList = null;
-    this.filterstudentList = null;
+    this.studentList = [];
+    this.filterstudentList = [];
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
     while (control.length !== 0) {
       control.removeAt(0)
@@ -265,21 +274,32 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   newTcApply() {
-    let studentdetails = this.oneStudentTcLeftForm.value
-    this.tcSvc.TcApply(studentdetails).subscribe(res => {
-      if (res.status == 'Saved successfully') {
-        this.notificationSvc.success("Saved Success")
-        this.CancelClickInTc();
-      }
-      else {
-        alert()
-      }
-    })
+    if (this.oneStudentTcLeftForm.valid) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            let studentdetails = this.oneStudentTcLeftForm.value
+            this.tcSvc.TcApply(studentdetails).subscribe(res => {
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success("Saved Success")
+                this.CancelClickInTc();
+              }
+              else {
+                this.notificationSvc.error("Error")
+              }
+            })
+          }
+        })
+    }
+    else {
+      this.oneStudentTcLeftForm.markAllAsTouched();
+    }
+
   }
 
   CancelClickInTc() {
     this.oneStudentTcLeftForm.reset();
-    this.studentListByAd = null;
+    this.studentListByAd = [];
     this.serachDisabledone = false;
     this.oneStudentTcLeftForm.get('tcleftid')?.setValue(0);
     this.oneStudentTcLeftForm.get('admission_no')?.setValue('');

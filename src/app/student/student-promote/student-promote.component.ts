@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -29,7 +30,8 @@ export class StudentPromoteComponent implements OnInit {
     private ScSvc: studentSectionService,
     private batchSvc: BatechYearService,
     private promoSvc: studentPromoteService,
-    private notificationSvc: NotificationsService,) { }
+    private notificationSvc: NotificationsService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -38,7 +40,9 @@ export class StudentPromoteComponent implements OnInit {
     this.refreshSectionList();
     this.refreshBatchYearList();
   }
-
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
 
   refreshBatchYearList() {
     this.batchSvc.getBatchYearList().subscribe(data => {
@@ -99,10 +103,15 @@ export class StudentPromoteComponent implements OnInit {
     const classid = this.searchStudentForm.classid;
     const groupid = this.searchStudentForm.groupid;
     const sectionid = this.searchStudentForm.sectionid;
+    if (classid != 0 && sectionid != 0) {
+      this.promoSvc.searchStudentbypromote(classid, groupid, sectionid).subscribe(data => {
+        this.StudentList = data;
+      });
+    }
+    else {
+      this.notificationSvc.error('Fill in the mandatory fields');
+    }
 
-    this.promoSvc.searchStudentbypromote(classid, groupid, sectionid).subscribe(data => {
-      this.StudentList = data;
-    });
   }
   //////////////////
   profilterGroupfun(classsid: any) {
@@ -131,7 +140,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   studentPromoteForm = {
-    batch_year:null,
+    batch_year: null,
     classid: null,
     groupid: 0,
     sectionid: null,
@@ -160,18 +169,18 @@ export class StudentPromoteComponent implements OnInit {
     });
   }
 
-  cancelClick(){
-    this.searchStudentForm.classid=0;
-    this.searchStudentForm.groupid=0;
-    this.searchStudentForm.sectionid=0;
-    
-    this.studentPromoteForm.batch_year=null;
-    this.studentPromoteForm.classid=null;
-    this.studentPromoteForm.groupid=0;
-    this.studentPromoteForm.sectionid=null;
-    this.studentPromoteForm.date='';
+  cancelClick() {
+    this.searchStudentForm.classid = 0;
+    this.searchStudentForm.groupid = 0;
+    this.searchStudentForm.sectionid = 0;
 
-    this.StudentList=null;
+    this.studentPromoteForm.batch_year = null;
+    this.studentPromoteForm.classid = null;
+    this.studentPromoteForm.groupid = 0;
+    this.studentPromoteForm.sectionid = null;
+    this.studentPromoteForm.date = '';
+
+    this.StudentList = null;
   }
 
 }

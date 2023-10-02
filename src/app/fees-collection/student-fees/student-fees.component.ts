@@ -8,6 +8,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { FeescollectionService } from 'src/app/api-service/feesCollection.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-fees',
@@ -32,7 +33,8 @@ export class StudentFeesComponent implements OnInit {
     private notificationSvc: NotificationsService,
     private feesCollSvc: FeescollectionService,
     private spinner: NgxSpinnerService,
-    private batchSvc: BatechYearService) { }
+    private batchSvc: BatechYearService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.refreshClassList();
@@ -43,6 +45,10 @@ export class StudentFeesComponent implements OnInit {
     this.refreshBusFeesList();
     this.refreshCommonFeesList();
     this.GetActiveBatchYear();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   GetActiveBatchYear() {

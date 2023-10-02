@@ -1,23 +1,24 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-5">
-            <div style="float: left;width: 300px;display: flex;">
-                <h3 class="ml-1 mt-3">Student Attendance</h3>
-            </div>
-        </div>
-        <div class="col-sm-6" style="text-align:right;cursor: pointer;float: right;" title="Click to Back"><button
-                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard">
-        <mat-card-content>
+        <mat-card-content>            
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Student Attendance</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                </div>
+            </div>
             <form #AttendanceForm="ngForm" (ngSubmit)="save(studentList)">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="row">
                             <div class="col-sm-12 mt-2" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-3" style="margin: auto;">Date</label>
+                                    <label class="pt-3" style="margin: auto;">Date<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
                                     <input [disabled]="serachDisabled == true" [min]="minDate" [max]="today"
@@ -31,7 +32,8 @@
                         <div class="row">
                             <div class="col-sm-12 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Class</label>
+                                    <label class="pt-2" style="margin: auto;">Class<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div class="inputdiv">
                                     <select [(ngModel)]="studentAttendanceForm.classid" style="width: 100%;" #t
@@ -63,7 +65,8 @@
                         <div class="row ">
                             <div class="col-sm-12 mt-3" style="display: flex;float: left;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Section</label>
+                                    <label class="pt-2" style="margin: auto;">Section<span class="text-danger">
+                                            *</span></label>
                                 </div>
                                 <div style="display: flex;" class="inputdiv">
                                     <select [(ngModel)]="studentAttendanceForm.sectionid" style="width: 100%;"

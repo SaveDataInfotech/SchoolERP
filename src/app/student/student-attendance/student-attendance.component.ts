@@ -177,21 +177,32 @@ export class StudentAttendanceComponent implements OnInit {
     let groupid: number = (this.studentAttendanceForm.groupid);
     let sectionid: number = (this.studentAttendanceForm.sectionid);
     let date: any = (this.studentAttendanceForm.date);
-    this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
-      debugger;
-      this.studentList = data;
-      if (this.studentList[0].ani == true) {
-        this.ani = true;
-      }
-      if (this.studentList[0].fni == true) {
-        this.fni = true;
-      }
-      if (this.studentList.length != 0) {
-        this.serachDisabled = true;
-      }
-      this.fnupdateAllComplete();
-      this.anupdateAllComplete();
-    });
+    if (date != '' && classid != 0 && sectionid != 0) {
+      this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
+        debugger;
+        this.studentList = data;
+        if (this.studentList.length != 0) {
+          if (this.studentList[0].ani == true) {
+            this.ani = true;
+          }
+          if (this.studentList[0].fni == true) {
+            this.fni = true;
+          }
+          if (this.studentList.length != 0) {
+            this.serachDisabled = true;
+          }
+          this.fnupdateAllComplete();
+          this.anupdateAllComplete();
+        }
+        else {
+          this.notificationSvc.error('There are no students in this class');
+        }
+
+      });
+    }
+    else {
+      this.notificationSvc.error('Fill in the mandatory fields');
+    }
   }
 
   checkChange(option: any) {
@@ -204,17 +215,30 @@ export class StudentAttendanceComponent implements OnInit {
   };
 
   save(data: any[]) {
+    const date = this.studentAttendanceForm.date;
+    const classg = this.studentAttendanceForm.classid;
+    const section = this.studentAttendanceForm.sectionid;
     debugger;
-    this.sAdSvc.newAttendance(data).subscribe(res => {
-      if (res.status == 'Insert Success') {
-        debugger;
-        this.notificationSvc.success('Saved Successfully');
-        this.cancelClick();
-      }
-      else {
-        this.notificationSvc.error('Something Error');
-      }
-    });
+    if (date != '' && classg != 0 && section != 0) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            this.sAdSvc.newAttendance(data).subscribe(res => {
+              if (res.status == 'Insert Success') {
+                debugger;
+                this.notificationSvc.success('Saved Successfully');
+                this.cancelClick();
+              }
+              else {
+                this.notificationSvc.error('Something Error');
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.notificationSvc.error('Fill in the mandatory fields');
+    }
   }
 
   cancelClick() {

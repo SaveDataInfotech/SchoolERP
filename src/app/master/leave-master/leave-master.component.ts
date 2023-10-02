@@ -225,8 +225,8 @@ export class LeaveMasterComponent implements OnInit {
 
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
-      const staffArray=data;
-      this.staffList = staffArray.filter((e)=>{return e.activestatus == 1});      
+      const staffArray = data;
+      this.staffList = staffArray.filter((e) => { return e.activestatus == 1 });
     });
   }
 
@@ -329,6 +329,23 @@ export class LeaveMasterComponent implements OnInit {
         })
       )
     });
+  }
+
+  eligibleFun(i) {
+    let total: number = 0;
+    const EPerMonth = this.leaveAssignForm.value.e_per_mon
+    const busControl3 = this.leaveAssignForm.get('leave') as FormArray;
+    const eligibleDays = busControl3.at(i).get('elgible').value;
+    const elDays = this.leaveAssignForm.get('leave') as FormArray;
+    elDays.controls.forEach((e) => {
+      debugger;
+      const num = Number(e.value.elgible);
+      total = total + num;
+    })
+    if (Number(EPerMonth) < Number(eligibleDays) || Number(EPerMonth) < total) {
+      this.notificationSvc.error('Invalid Eligible Days');
+      busControl3.at(i).get('elgible').setValue('');
+    }
   }
 
   AssigncancelClick() {

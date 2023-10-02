@@ -12,6 +12,8 @@ import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.servic
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-student-profile',
   templateUrl: './student-profile.component.html',
@@ -35,15 +37,11 @@ export class StudentProfileComponent implements OnInit {
   FeesLessList: any = [];
   FeesTypeAssignList: any = [];
   groupDisplay: boolean = true;
-  assignbuttonId: boolean = true;
+  //assignbuttonId: boolean = true;
   storedValue: any;
-  resStatus1: boolean;
-  resStatus2: boolean;
-  resStatus3: boolean;
-  resStatus4: boolean;
   FeesTypeAssignFillterList: any = [];
   vehicleNoRootList: any = [];
-  searchStudentData: any = [];
+  //searchStudentData: any = [];
   maxIDList: any[] = [];
   maxnumber: number;
   admissionno: string;
@@ -61,7 +59,9 @@ export class StudentProfileComponent implements OnInit {
     private feeTyAsSvc: FeesTypeAssignService,
     private vhNoRtSvc: VehicleNoRootService,
     private feeAsSvc: FeesAssignService,
-    private batchSvc: BatechYearService,) { }
+    private batchSvc: BatechYearService,
+    private spinner: NgxSpinnerService,
+    private router: Router) { }
 
 
   date1 = new Date();
@@ -104,25 +104,24 @@ export class StudentProfileComponent implements OnInit {
     this.refreshFeesAssignList();
     this.GetActiveBatchYear();
     this.getMaxId();
-    //this.setvalueform();
+    setTimeout(() => {
+      this.setvalueform();
+    }, 1000);
   }
   setvalueform() {
     debugger;
-    this.refreshGroupList();
-    this.refreshSectionList();
-
     var storedValues: any = sessionStorage.getItem("selectd");
     var myObj = JSON.parse(storedValues);
     this.studentDetailsForm.patchValue(myObj);
-    this.studentPersonalDetailsForm.patchValue(myObj);
-    this.studentDetailsForm.get('newstudent').setValue('YES');
-
+    this.studentDetailsForm.patchValue(myObj);
+    this.studentDetailsForm.get('newstudent').setValue('Yes');
+    debugger;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
+    this.filterSectionfun(this.studentDetailsForm.value.groupid);
     if (this.groupFilterlist.length == 0) {
-      console.log(this.SectionList)
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
     }
-    //this.filterSectionfun(this.studentDetailsForm.value.groupid)
+    this.spinner.hide();
   }
 
   //// Number Only Event
@@ -138,11 +137,14 @@ export class StudentProfileComponent implements OnInit {
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
+      debugger;
       this.ClassList = data;
     });
   }
 
+
   refreshGroupList() {
+    debugger;
     this.GroupSvc.getGroupList().subscribe(data => {
       this.GroupList = data;
     });
@@ -150,7 +152,9 @@ export class StudentProfileComponent implements OnInit {
 
   refreshSectionList() {
     debugger;
+    this.spinner.show();
     this.ScSvc.getSectionList().subscribe(data => {
+      debugger;
       this.SectionList = data;
     });
   }
@@ -162,17 +166,17 @@ export class StudentProfileComponent implements OnInit {
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.studentDetailsForm.get('groupid')?.setValue(0);
     this.studentDetailsForm.get('sectionid')?.setValue(0);
-    this.studentDetailsForm.get('mark_10')?.setValue('');
+    // this.studentDetailsForm.get('mark_10')?.setValue('');
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.studentDetailsForm.get('sectionid')?.setValue(0);
-      this.studentDetailsForm.get('mark_10')?.setValue('');
+      //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
     else {
       this.groupDisplay = true;
       this.studentDetailsForm.get('sectionid')?.setValue(0);
-      this.studentDetailsForm.get('mark_10')?.setValue('');
+      //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
   }
 
@@ -247,6 +251,10 @@ export class StudentProfileComponent implements OnInit {
     });
   }
 
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
+
   studentDetailsForm = new FormGroup({
     profileid: new FormControl(0),
     simage: new FormControl(''),
@@ -254,9 +262,9 @@ export class StudentProfileComponent implements OnInit {
     enquiry_no: new FormControl(''),
     admission_no: new FormControl(''),
     batch_year: new FormControl(''),
-    classid: new FormControl(null, [Validators.required]),
+    classid: new FormControl(null),
     groupid: new FormControl(0),
-    sectionid: new FormControl(0, [Validators.required]),
+    sectionid: new FormControl(0),
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
@@ -269,11 +277,11 @@ export class StudentProfileComponent implements OnInit {
     religion: new FormControl(''),
     community: new FormControl(''),
     caste: new FormControl(''),
-    newstudent: new FormControl(''),
+    newstudent: new FormControl('Yes'),
     admissionFeesList: new FormArray([
     ]),
     feesless: new FormControl(''),
-    stay_type: new FormControl('Day scholar'),
+    stay_type: new FormControl(''),
     vehicle_type: new FormControl(''),
     root_no: new FormControl(0),
     boading_place: new FormControl(''),
@@ -282,6 +290,37 @@ export class StudentProfileComponent implements OnInit {
     ]),
     commonFeesList: new FormArray([
     ]),
+    bloodgroup: new FormControl(''),
+    phy_challanged: new FormControl(''),
+    i_m_1: new FormControl(''),
+    i_m_2: new FormControl(''),
+    father_name: new FormControl(''),
+    f_occupation: new FormControl(''),
+    f_qualification: new FormControl(''),
+    f_ph: new FormControl(''),
+    f_email: new FormControl(''),
+    mother_name: new FormControl(''),
+    m_occupation: new FormControl(''),
+    m_qualification: new FormControl(''),
+    m_ph: new FormControl(''),
+    p_address: new FormControl(''),
+    c_address: new FormControl(''),
+    l_class: new FormControl(''),
+    l_school: new FormControl(''),
+    l_stream: new FormControl(''),
+    l_medium: new FormControl(''),
+    sibling_status: new FormControl(''),
+    sibling: new FormArray([
+    ]),
+    birth_xerox: new FormControl(false),
+    birth_original: new FormControl(false),
+    birth_date_submission: new FormControl(''),
+    community_xerox: new FormControl(false),
+    community_original: new FormControl(false),
+    community_date_submission: new FormControl(''),
+    tc_xerox: new FormControl(false),
+    tc_original: new FormControl(false),
+    tc_date_submission: new FormControl(''),
     cuid: new FormControl(1),
   });
 
@@ -344,225 +383,160 @@ export class StudentProfileComponent implements OnInit {
     debugger;
     if (this.studentDetailsForm.valid) {
       debugger;
-      if (this.studentDetailsForm.value.profileid == 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              if (this.studentDetailsForm.value.vehicle_type == 'Bus' && this.studentDetailsForm.value.stay_type == 'Day scholar') {
-                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-                const feesList = this.FeesAssignList.filter((e) => {
-                  return e.classid == this.studentDetailsForm.value.classid
-                    && e.groupid == this.studentDetailsForm.value.groupid
-                    && e.gender == this.studentDetailsForm.value.gender
-                    && e.batch_year == this.studentDetailsForm.value.batch_year
-                    && e.type_name == 'Bus Fees'
-                    && e.studentfeestype == 'Bus Fees'
-                    && e.type_assign_name == this.studentDetailsForm.value.busdistance
-                    && e.less_type == this.studentDetailsForm.value.feesless
-                    && e.isactive == true
-                });
 
-                feesList.forEach(element => {
-                  const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                  control.push(
-                    new FormGroup({
-                      admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                      classid: new FormControl(this.studentDetailsForm.value.classid),
-                      groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                      sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                      gender: new FormControl(this.studentDetailsForm.value.gender),
-                      date: new FormControl(this.studentDetailsForm.value.date),
-                      batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                      studentfeestype: new FormControl(element.studentfeestype),
-                      type_name: new FormControl(element.type_name),
-                      type_assign_name: new FormControl(element.type_assign_name),
-                      less_type: new FormControl(element.less_type),
-                      amount: new FormControl(element.amount),
-                      balance_amount: new FormControl(element.amount)
-                    })
-                  )
-                });
-              }
-              else {
-                this.studentDetailsForm.get('vehicle_type')?.setValue('');
-                this.studentDetailsForm.get('root_no')?.setValue(0);
-                this.studentDetailsForm.get('boading_place')?.setValue('');
-                this.studentDetailsForm.get('busdistance')?.setValue('');
-                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-              }
-
-              if (this.studentDetailsForm.value.newstudent == 'YES') {
-                const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-                const feesList = this.FeesAssignList.filter((e) => {
-                  return e.classid == this.studentDetailsForm.value.classid
-                    && e.groupid == this.studentDetailsForm.value.groupid
-                    && e.gender == this.studentDetailsForm.value.gender
-                    && e.batch_year == this.studentDetailsForm.value.batch_year
-                    && e.type_name == 'Admission Fees'
-                    && e.studentfeestype == 'Admission Fees'
-                    && e.less_type == this.studentDetailsForm.value.feesless
-                    && e.isactive == true
-                });
-
-                feesList.forEach(element => {
-                  const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
-                  control.push(
-                    new FormGroup({
-                      admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                      classid: new FormControl(this.studentDetailsForm.value.classid),
-                      groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                      sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                      gender: new FormControl(this.studentDetailsForm.value.gender),
-                      date: new FormControl(this.studentDetailsForm.value.date),
-                      batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                      studentfeestype: new FormControl(element.studentfeestype),
-                      type_name: new FormControl(element.type_name),
-                      type_assign_name: new FormControl(element.type_assign_name),
-                      less_type: new FormControl(element.less_type),
-                      amount: new FormControl(element.amount),
-                      balance_amount: new FormControl(element.amount)
-                    })
-                  )
-                });
-              }
-              else {
-                const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-              }
-
-              {
-                const control = <FormArray>this.studentDetailsForm.controls['commonFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-                const feesList = this.FeesAssignList.filter((e) => {
-                  return e.classid == this.studentDetailsForm.value.classid
-                    && e.groupid == this.studentDetailsForm.value.groupid
-                    && e.gender == this.studentDetailsForm.value.gender
-                    && e.batch_year == this.studentDetailsForm.value.batch_year
-                    && e.studentfeestype == 'Common Fees'
-                    && e.less_type == this.studentDetailsForm.value.feesless
-                    && e.isactive == true
-                });
-                feesList.forEach(element => {
-                  const control = <FormArray>this.studentDetailsForm.controls['commonFeesList'];
-                  control.push(
-                    new FormGroup({
-                      admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                      classid: new FormControl(this.studentDetailsForm.value.classid),
-                      groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                      sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                      gender: new FormControl(this.studentDetailsForm.value.gender),
-                      date: new FormControl(this.studentDetailsForm.value.date),
-                      batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                      studentfeestype: new FormControl(element.studentfeestype),
-                      type_name: new FormControl(element.type_name),
-                      type_assign_name: new FormControl(element.type_assign_name),
-                      less_type: new FormControl(element.less_type),
-                      amount: new FormControl(element.amount),
-                      balance_amount: new FormControl(element.amount)
-                    })
-                  )
-                });
-              }
-
-              var studentinsert = (this.studentDetailsForm.value);
-              console.log(this.studentDetailsForm)
-              this.studProSvc.studentDetails(studentinsert).subscribe(res => {
-                if (res.status == 'Saved successfully') {
-                  this.notificationSvc.success("Saved Success");
-                  this.resStatus1 = true;
-                  //this.getMaxId();
-                  //this.cancelclick();
-
-                }
-                else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists Student Aadhar");
-                }
-                else {
-                  this.notificationSvc.error("Something error");
-                }
-              });
-            }
-          });
-      }
-      else if (this.studentDetailsForm.value.profileid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var studentinsert = (this.studentDetailsForm.value);
-              this.studProSvc.studentDetails(studentinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
-                  //this.getMaxId();
-                  //this.cancelclick();
-                }
-              });
-            }
-          });
-      }
-    }
-    else {
-      this.studentDetailsForm.markAllAsTouched();
-    }
-  }
-
-  studentPersonalDetailsForm = new FormGroup({
-    bloodgroup: new FormControl(''),
-    phy_challanged: new FormControl(''),
-    i_m_1: new FormControl(''),
-    i_m_2: new FormControl(''),
-    father_name: new FormControl(''),
-    f_occupation: new FormControl(''),
-    f_qualification: new FormControl(''),
-    f_ph: new FormControl(''),
-    f_email: new FormControl(''),
-    mother_name: new FormControl(''),
-    m_occupation: new FormControl(''),
-    m_qualification: new FormControl(''),
-    m_ph: new FormControl(''),
-    p_address: new FormControl(''),
-    c_address: new FormControl(''),
-    cuid: new FormControl(1)
-  })
-
-
-  newstudentPersonalDetails() {
-    debugger;
-    let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
-    if (this.studentPersonalDetailsForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             debugger;
-            var studentinsert = (this.studentPersonalDetailsForm.value);
-            this.studProSvc.PersonalDetails(studentinsert, searchAdmissionNo).subscribe(res => {
+            if (this.studentDetailsForm.value.vehicle_type == 'Bus' && this.studentDetailsForm.value.stay_type == 'Day scholar') {
+              const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+              while (control.length !== 0) {
+                control.removeAt(0)
+              }
+              const feesList = this.FeesAssignList.filter((e) => {
+                return e.classid == this.studentDetailsForm.value.classid
+                  && e.groupid == this.studentDetailsForm.value.groupid
+                  && e.gender == this.studentDetailsForm.value.gender
+                  && e.batch_year == this.studentDetailsForm.value.batch_year
+                  && e.type_name == 'Bus Fees'
+                  && e.studentfeestype == 'Bus Fees'
+                  && e.type_assign_name == this.studentDetailsForm.value.busdistance
+                  && e.isactive == true
+              });
+
+              feesList.forEach(element => {
+                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                control.push(
+                  new FormGroup({
+                    admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                    classid: new FormControl(this.studentDetailsForm.value.classid),
+                    groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                    sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                    gender: new FormControl(this.studentDetailsForm.value.gender),
+                    date: new FormControl(this.studentDetailsForm.value.date),
+                    batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                    studentfeestype: new FormControl(element.studentfeestype),
+                    type_name: new FormControl(element.type_name),
+                    type_assign_name: new FormControl(element.type_assign_name),
+                    less_type: new FormControl(element.less_type),
+                    amount: new FormControl(element.amount),
+                    balance_amount: new FormControl(element.amount)
+                  })
+                )
+              });
+            }
+            else {
+              this.studentDetailsForm.get('vehicle_type')?.setValue('');
+              this.studentDetailsForm.get('root_no')?.setValue(0);
+              this.studentDetailsForm.get('boading_place')?.setValue('');
+              this.studentDetailsForm.get('busdistance')?.setValue('');
+              const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+              while (control.length !== 0) {
+                control.removeAt(0)
+              }
+            }
+
+            if (this.studentDetailsForm.value.newstudent == 'Yes') {
+              const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
+              while (control.length !== 0) {
+                control.removeAt(0)
+              }
+              const feesList = this.FeesAssignList.filter((e) => {
+                return e.classid == this.studentDetailsForm.value.classid
+                  && e.groupid == this.studentDetailsForm.value.groupid
+                  && e.gender == this.studentDetailsForm.value.gender
+                  && e.batch_year == this.studentDetailsForm.value.batch_year
+                  && e.type_name == 'Admission Fees'
+                  && e.studentfeestype == 'Admission Fees'
+                  && e.isactive == true
+              });
+
+              feesList.forEach(element => {
+                const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
+                control.push(
+                  new FormGroup({
+                    admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                    classid: new FormControl(this.studentDetailsForm.value.classid),
+                    groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                    sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                    gender: new FormControl(this.studentDetailsForm.value.gender),
+                    date: new FormControl(this.studentDetailsForm.value.date),
+                    batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                    studentfeestype: new FormControl(element.studentfeestype),
+                    type_name: new FormControl(element.type_name),
+                    type_assign_name: new FormControl(element.type_assign_name),
+                    less_type: new FormControl(element.less_type),
+                    amount: new FormControl(element.amount),
+                    balance_amount: new FormControl(element.amount)
+                  })
+                )
+              });
+            }
+            else {
+              const control = <FormArray>this.studentDetailsForm.controls['admissionFeesList'];
+              while (control.length !== 0) {
+                control.removeAt(0)
+              }
+            }
+
+            {
+              const control = <FormArray>this.studentDetailsForm.controls['commonFeesList'];
+              while (control.length !== 0) {
+                control.removeAt(0)
+              }
+              const feesList = this.FeesAssignList.filter((e) => {
+                return e.classid == this.studentDetailsForm.value.classid
+                  && e.groupid == this.studentDetailsForm.value.groupid
+                  && e.gender == this.studentDetailsForm.value.gender
+                  && e.batch_year == this.studentDetailsForm.value.batch_year
+                  && e.studentfeestype == 'Common Fees'
+                  && e.less_type == this.studentDetailsForm.value.feesless
+                  && e.isactive == true
+              });
+              feesList.forEach(element => {
+                const control = <FormArray>this.studentDetailsForm.controls['commonFeesList'];
+                control.push(
+                  new FormGroup({
+                    admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                    classid: new FormControl(this.studentDetailsForm.value.classid),
+                    groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                    sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                    gender: new FormControl(this.studentDetailsForm.value.gender),
+                    date: new FormControl(this.studentDetailsForm.value.date),
+                    batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                    studentfeestype: new FormControl(element.studentfeestype),
+                    type_name: new FormControl(element.type_name),
+                    type_assign_name: new FormControl(element.type_assign_name),
+                    less_type: new FormControl(element.less_type),
+                    amount: new FormControl(element.amount),
+                    balance_amount: new FormControl(element.amount)
+                  })
+                )
+              });
+            }
+
+            var studentinsert = (this.studentDetailsForm.value);
+            console.log(this.studentDetailsForm)
+            this.studProSvc.studentDetails(studentinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
-                this.notificationSvc.success("Saved Success")
-                this.resStatus2 = true;
+                this.notificationSvc.success("Saved Success");
+                this.getMaxId();
+                this.cancelClick();
+                sessionStorage.removeItem('selectd');
+
+              }
+              else if (res.status == 'Already exists') {
+                this.notificationSvc.warn("Already exists Student Aadhar");
               }
               else {
-                this.notificationSvc.error("Error")
+                this.notificationSvc.error("Something error");
               }
             });
           }
         });
     }
     else {
-      this.studentPersonalDetailsForm.markAllAsTouched();
+      this.studentDetailsForm.markAllAsTouched();
     }
   }
 
@@ -595,12 +569,12 @@ export class StudentProfileComponent implements OnInit {
   //siblings details 
 
   getControls() {
-    return (this.studentOtherDetailsForm.get('sibling') as FormArray).controls;
+    return (this.studentDetailsForm.get('sibling') as FormArray).controls;
   }
 
   addsibling() {
     debugger;
-    const control = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
+    const control = <FormArray>this.studentDetailsForm.controls['sibling'];
     control.push(
       new FormGroup({
         Sibling_name: new FormControl(''),
@@ -610,103 +584,13 @@ export class StudentProfileComponent implements OnInit {
   }
 
   removesibling(index: any) {
-    const control = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
+    const control = <FormArray>this.studentDetailsForm.controls['sibling'];
     control.removeAt(index);
   }
 
-  studentOtherDetailsForm = new FormGroup({
-    l_class: new FormControl(''),
-    l_school: new FormControl(''),
-    l_stream: new FormControl(''),
-    l_medium: new FormControl(''),
-    cuid: new FormControl(1),
-    sibling_status: new FormControl(''),
-    sibling: new FormArray([
-      new FormGroup({
-        Sibling_name: new FormControl(''),
-        Sibling_class: new FormControl('')
-      })
-    ]),
-
-  })
-
-  newstudentOtherDetailss() {
-    debugger;
-    let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
-    if (this.studentOtherDetailsForm.valid) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            debugger;
-            var studentinsert = (this.studentOtherDetailsForm.value);
-            this.studProSvc.studentOtherDetails(studentinsert, searchAdmissionNo).subscribe(res => {
-              if (res.status == 'Saved successfully') {
-                debugger;
-                this.notificationSvc.success("Saved Success");
-                this.resStatus3 = true;
-              }
-              else {
-                this.notificationSvc.error("Error");
-              }
-            });
-          }
-        });
-    }
-    else {
-      this.studentOtherDetailsForm.markAllAsTouched();
-
-    }
-  }
-
-  ////////////
-  studentCertificateForm = new FormGroup({
-    birth_xerox: new FormControl(false),
-    birth_original: new FormControl(false),
-    birth_date_submission: new FormControl(''),
-    community_xerox: new FormControl(false),
-    community_original: new FormControl(false),
-    community_date_submission: new FormControl(''),
-    tc_xerox: new FormControl(false),
-    tc_original: new FormControl(false),
-    tc_date_submission: new FormControl(''),
-    cuid: new FormControl(1),
-  })
-
-  newstudentCertificateDetailss() {
-    debugger;
-    let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
-    if (this.studentCertificateForm.valid) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            debugger;
-            var studentinsert = (this.studentCertificateForm.value);
-            this.studProSvc.studentCertificateDetails(studentinsert, searchAdmissionNo).subscribe(res => {
-              if (res.status == 'Saved successfully') {
-                this.notificationSvc.success("Saved Success");
-                this.resStatus4 = true;
-                this.cancelClick();
-              }
-              else {
-                this.notificationSvc.error("Error");
-              }
-            });
-          }
-        });
-    }
-    else {
-      this.studentOtherDetailsForm.markAllAsTouched();
-
-    }
-  }
 
   cancelClick() {
-
     this.studentDetailsForm.reset();
-    this.studentPersonalDetailsForm.reset();
-    this.studentOtherDetailsForm.reset();
-    this.studentCertificateForm.reset();
-
     this.studentDetailsForm.get('profileid')?.setValue(0);
     this.studentDetailsForm.get('simage')?.setValue('');
     this.editableImage = '';
@@ -730,9 +614,9 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('religion')?.setValue('');
     this.studentDetailsForm.get('community')?.setValue('');
     this.studentDetailsForm.get('caste')?.setValue('');
-    this.studentDetailsForm.get('newstudent')?.setValue('');
+    this.studentDetailsForm.get('newstudent')?.setValue('Yes');
     this.studentDetailsForm.get('feesless')?.setValue('');
-    this.studentDetailsForm.get('stay_type')?.setValue('Day scholar');
+    this.studentDetailsForm.get('stay_type')?.setValue('');
     this.studentDetailsForm.get('vehicle_type')?.setValue('');
     this.studentDetailsForm.get('root_no')?.setValue(0);
     this.studentDetailsForm.get('boading_place')?.setValue('');
@@ -751,53 +635,43 @@ export class StudentProfileComponent implements OnInit {
       control3.removeAt(0)
     }
 
-
-    this.studentPersonalDetailsForm.get('bloodgroup')?.setValue('');
-    this.studentPersonalDetailsForm.get('phy_challanged')?.setValue('');
-    this.studentPersonalDetailsForm.get('i_m_1')?.setValue('');
-    this.studentPersonalDetailsForm.get('i_m_2')?.setValue('');
-    this.studentPersonalDetailsForm.get('father_name')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_occupation')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_qualification')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_ph')?.setValue('');
-    this.studentPersonalDetailsForm.get('f_email')?.setValue('');
-    this.studentPersonalDetailsForm.get('mother_name')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_occupation')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_qualification')?.setValue('');
-    this.studentPersonalDetailsForm.get('m_ph')?.setValue('');
-    this.studentPersonalDetailsForm.get('p_address')?.setValue('');
-    this.studentPersonalDetailsForm.get('c_address')?.setValue('');
-    this.studentPersonalDetailsForm.get('cuid')?.setValue(0);
-
-
-    this.studentOtherDetailsForm.get('l_class')?.setValue('');
-    this.studentOtherDetailsForm.get('l_school')?.setValue('');
-    this.studentOtherDetailsForm.get('l_stream')?.setValue('');
-    this.studentOtherDetailsForm.get('l_medium')?.setValue('');
-    this.studentOtherDetailsForm.get('cuid')?.setValue(0);
-    this.studentOtherDetailsForm.get('sibling_status')?.setValue('');
-    const control4 = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
+    this.studentDetailsForm.get('bloodgroup')?.setValue('');
+    this.studentDetailsForm.get('phy_challanged')?.setValue('');
+    this.studentDetailsForm.get('i_m_1')?.setValue('');
+    this.studentDetailsForm.get('i_m_2')?.setValue('');
+    this.studentDetailsForm.get('father_name')?.setValue('');
+    this.studentDetailsForm.get('f_occupation')?.setValue('');
+    this.studentDetailsForm.get('f_qualification')?.setValue('');
+    this.studentDetailsForm.get('f_ph')?.setValue('');
+    this.studentDetailsForm.get('f_email')?.setValue('');
+    this.studentDetailsForm.get('mother_name')?.setValue('');
+    this.studentDetailsForm.get('m_occupation')?.setValue('');
+    this.studentDetailsForm.get('m_qualification')?.setValue('');
+    this.studentDetailsForm.get('m_ph')?.setValue('');
+    this.studentDetailsForm.get('p_address')?.setValue('');
+    this.studentDetailsForm.get('c_address')?.setValue('');
+    this.studentDetailsForm.get('cuid')?.setValue(0);
+    this.studentDetailsForm.get('l_class')?.setValue('');
+    this.studentDetailsForm.get('l_school')?.setValue('');
+    this.studentDetailsForm.get('l_stream')?.setValue('');
+    this.studentDetailsForm.get('l_medium')?.setValue('');
+    this.studentDetailsForm.get('cuid')?.setValue(0);
+    this.studentDetailsForm.get('sibling_status')?.setValue('');
+    const control4 = <FormArray>this.studentDetailsForm.controls['sibling'];
     while (control4.length !== 0) {
       control4.removeAt(0)
     }
 
-
-    this.studentCertificateForm.get('birth_xerox')?.setValue(false);
-    this.studentCertificateForm.get('birth_original')?.setValue(false);
-    this.studentCertificateForm.get('birth_date_submission')?.setValue('');
-    this.studentCertificateForm.get('community_xerox')?.setValue(false);
-    this.studentCertificateForm.get('community_original')?.setValue(false);
-    this.studentCertificateForm.get('community_date_submission')?.setValue('');
-    this.studentCertificateForm.get('tc_xerox')?.setValue(false);
-    this.studentCertificateForm.get('tc_original')?.setValue(false);
-    this.studentCertificateForm.get('tc_date_submission')?.setValue('');
-    this.studentCertificateForm.get('cuid')?.setValue(0);
-
-    this.resStatus1 = false;
-    this.resStatus2 = false;
-    this.resStatus3 = false;
-    this.resStatus4 = false;
-
+    this.studentDetailsForm.get('birth_xerox')?.setValue(false);
+    this.studentDetailsForm.get('birth_original')?.setValue(false);
+    this.studentDetailsForm.get('birth_date_submission')?.setValue('');
+    this.studentDetailsForm.get('community_xerox')?.setValue(false);
+    this.studentDetailsForm.get('community_original')?.setValue(false);
+    this.studentDetailsForm.get('community_date_submission')?.setValue('');
+    this.studentDetailsForm.get('tc_xerox')?.setValue(false);
+    this.studentDetailsForm.get('tc_original')?.setValue(false);
+    this.studentDetailsForm.get('tc_date_submission')?.setValue('');
+    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.GetActiveBatchYear();
     this.getMaxId();
   }

@@ -182,15 +182,16 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger"> *</span></label>
+                                    <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger">
+                                            *</span></label>
                                 </div>
-                                <div class="inputdiv">                                    
-                                    <select #st (change)="staffNameChange(st.value)"                                   
-                                    formControlName="staff_no" style="width: 100%;" class="form-control ">
-                                    <option value='' selected disabled>Please select</option>
-                                    <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
-                                        {{Staff.staff_no}}</option>
-                                </select>                                   
+                                <div class="inputdiv">
+                                    <select #st (change)="staffNameChange(st.value)" formControlName="staff_no"
+                                        style="width: 100%;" class="form-control ">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                            {{Staff.staff_no}}</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -200,7 +201,8 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input readonly formControlName="staff_name" class="form-control" type="text" required>                                    
+                                    <input readonly formControlName="staff_name" class="form-control" type="text"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -264,11 +266,11 @@
 
                                     <div class="col-sm-6 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Eligble <span
+                                            <label class="pt-2" style="margin: auto;">Eligible <span
                                                     class="text-danger">*</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <input formControlName="elgible" class="form-control" type="text">
+                                            <input formControlName="elgible" (change)="eligibleFun(i)" class="form-control" type="text">
                                         </div>
 
                                         <div>

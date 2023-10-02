@@ -1,114 +1,32 @@
-h3{
-    color: rgb(87, 97, 192);
-    font-size: large;
-    font-weight: 500;
-  }
-
-  .matcard{
-    box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
-  }
-
-  .dash_std{
-    color: orangered;
-    cursor: pointer;
-  }
-  .dash_std:hover{
-    color: blue;
-  }
-
-  select:focus{
-    border:2px solid blue ;
-  }
-  
-  textarea:hover{
-    border:2px solid green ;
-  }
-  
-  textarea:focus{
-    border:2px solid blue ;
-  }
-  
-  .labeldiv{
-    float: left;
-    width: 70px;
-    text-align: left;
-  }
-  
-  .inputdiv{
-    float: left;
-    width: 238px;
-  }
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-  }
-  
-  .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: red;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: green;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 20px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-  .matlabel {
-    display: inline-block;
-     margin-bottom: -0.5rem;
+h3 {
+  color: blue;
+  font-size: large;
+  font-weight: 500;
+  font-family: Georgia, serif;
+  font-style: oblique;
 }
 
+.matcard {
+  box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
+}
 
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.6em 0px !important;}
-::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+td {
+  font-size: 15px;
+  color: rgb(2, 2, 56);
+  font-family: sans-serif;
+}
 
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.1em) scale(.75);
-    width: 133.33333%;
+.tdoption {
+  width: 100px;
+}
+
+.labeldiv {
+  float: left;
+  width: 70px;
+  text-align: left;
+}
+
+.inputdiv {
+  float: left;
+  width: 238px;
 }
