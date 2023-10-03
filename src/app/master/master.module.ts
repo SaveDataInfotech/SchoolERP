@@ -29,6 +29,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
+import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 
 
 
@@ -48,7 +49,8 @@ import { SubjectAssignComponent } from './subject-assign/subject-assign.componen
     ConfirmDialogComponent,
     ResonDialogComponent,
     RoleComponent,
-    SubjectAssignComponent
+    SubjectAssignComponent,
+    LibraryBookMasterComponent
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

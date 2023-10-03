@@ -1,1 +1,39 @@
-<p>reports works!</p>
+
+<form [formGroup]="markEntryForm" (ngSubmit)="onSubmit()">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Subjects</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="students">
+        <tr *ngFor="let student of markEntryForm.get('students')['controls']; let i = index"
+          [formGroupName]="i">
+          <td>
+            <input type="text" formControlName="name">
+          </td>
+          <td>
+            <table>
+              <tbody formArrayName="subjects">
+                <tr *ngFor="let subject of student.get('subjects').controls; let j = index"
+                  [formGroupName]="j">
+                  <td>
+                    <input type="text" formControlName="marks">
+                  </td>
+                  <td>
+                    <input type="number" formControlName="grade">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="submit">Submit</button>
+  </form>
+
+
+
+  

@@ -26,22 +26,22 @@ export class SubjectMasterComponent implements OnInit {
 
 
   //Subject Assign
-  subjectArray: any[] = [];
-  groupDisplay: boolean = true;
-  ClassList: any = [];
-  GroupList: any = [];
-  SectionList: any = [];
-  groupFilterlist: any = [];
-  sectionFilterlist: any = [];
-  subjectAssignList:any=[];
+  // subjectArray: any[] = [];
+  // groupDisplay: boolean = true;
+  // ClassList: any = [];
+  // GroupList: any = [];
+  // SectionList: any = [];
+  // groupFilterlist: any = [];
+  // sectionFilterlist: any = [];
+  // subjectAssignList:any=[];
 
   constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
     private DialogSvc: DialogService, private notificationSvc: NotificationsService,
     private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
-    private fb: FormBuilder,private router: Router,
+    private router: Router,
     private ScSvc: studentSectionService, private subAsSvc: subjectAssignService) {
 
-    
+
   }
 
   ngOnInit(): void {
@@ -51,17 +51,17 @@ export class SubjectMasterComponent implements OnInit {
 
       this.refreshsubjectBranchList(),
       this.getMaxIdSubBranch(),
-      this.cancelClickSubBranch(),
+      this.cancelClickSubBranch()
 
 
-      //Subject Assign
+    //Subject Assign
 
-      this.refreshClassList()
-    this.refreshGroupList()
-    this.refreshSectionList()
+    //   this.refreshClassList()
+    // this.refreshGroupList()
+    // this.refreshSectionList()
 
-    this.refreshsubjectAssignList()
-    this.cancelClickSubAssign()
+    // this.refreshsubjectAssignList()
+    // this.cancelClickSubAssign()
   }
 
   backButton() {
@@ -88,7 +88,6 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subjectinsert = (this.subjectForm.value);
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-                console.log(res, 'resss')
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refreshsubjectList();
@@ -105,7 +104,7 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subjectinsert = (this.subjectForm.value);
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshsubjectList();
@@ -188,7 +187,7 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subBranchinsert = (this.subjectBranchForm.value);
               this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refreshsubjectBranchList();
@@ -205,7 +204,7 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subBranchinsert = (this.subjectBranchForm.value);
               this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshsubjectBranchList();
@@ -267,118 +266,118 @@ export class SubjectMasterComponent implements OnInit {
 
   //Subject Assign
 
-  subjectAssignForm = new FormGroup({
-    subjectAssignid: new FormControl(0),
-    classid: new FormControl(0, [Validators.required]),
-    groupid: new FormControl(0, [Validators.required]),
-    sectionid: new FormControl(0, [Validators.required]),
-    selectedSubjects:new FormControl(),
-    cuid: new FormControl(1),
-  })
+  // subjectAssignForm = new FormGroup({
+  //   subjectAssignid: new FormControl(0),
+  //   classid: new FormControl(0, [Validators.required]),
+  //   groupid: new FormControl(0, [Validators.required]),
+  //   sectionid: new FormControl(0, [Validators.required]),
+  //   selectedSubjects:new FormControl(),
+  //   cuid: new FormControl(1),
+  // })
 
-  refreshsubjectAssignList() {
-    this.subAsSvc.getSubjectAssign().subscribe(data => {
-      this.subjectAssignList = data;
-    });
-  }
-
-  
-  selectedSub(event: any, option: any) {
-    debugger;    
-    if (event.target.checked) {
-      this.subjectArray.push(option.toString());
-    } else {
-      this.subjectArray = this.subjectArray.filter((val) => val.toString() !== option.toString());
-    }
-    //this.subjectAssignForm.selectedSubjects new FormControl(this.subjectArray);
-    this.subjectAssignForm.get('selectedSubjects')?.setValue(this.subjectArray);
-    console.log(this.subjectArray);
-  };
-  
+  // refreshsubjectAssignList() {
+  //   this.subAsSvc.getSubjectAssign().subscribe(data => {
+  //     this.subjectAssignList = data;
+  //   });
+  // }
 
 
-  newSubjectAssign() {
-    debugger;
-    var subBranchinsert = (this.subjectAssignForm.value);
-   
-    this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
-      console.log(res, 'resss')
-      if (res?.recordid) {
-        this.refreshsubjectAssignList();
-        //this.getMaxIdSubBranch();
-        this.cancelClickSubAssign();
-      }
-    });
-  }
-  sub:any=[];
-  updateGetClickSubAssign(assign: any) {
-    debugger;  
-    this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
-    this.subjectAssignForm.get('classid')?.setValue(assign.classid);
-    this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
-    this.subjectAssignForm.get('sectionid')?.setValue(assign.sectionid);
-    this.subjectAssignForm.get('cuid')?.setValue(assign.cuid);
-
-    this.sub = assign.subject.split(";");
-    this.subjectAssignForm.get('selectedSubjects')?.setValue(this.sub);
-    console.log(this.subjectAssignForm.value.selectedSubjects);
-  }
-
-  
-
-  cancelClickSubAssign() {
-    this.subjectAssignForm.reset();
-    this.subjectAssignForm.get('subjectAssignid')?.setValue(0);
-    this.subjectAssignForm.get('classid')?.setValue(0);
-    this.subjectAssignForm.get('groupid')?.setValue(0);
-    this.subjectAssignForm.get('sectionid')?.setValue(0);
-    this.subjectAssignForm.get('selectedSubjects')?.setValue(0);
-    this.subjectAssignForm.get('cuid')?.setValue(1);
-    //this.BranchbuttonId = true;
-  }
-
-  refreshClassList() {
-    this.ClassSvc.getClassList().subscribe(data => {
-      this.ClassList = data;
-    });
-  }
-
-  refreshGroupList() {
-    this.GroupSvc.getGroupList().subscribe(data => {
-      this.GroupList = data;
-    });
-  }
-
-  refreshSectionList() {
-    this.ScSvc.getSectionList().subscribe(data => {
-      this.SectionList = data;
-    });
-  }
+  // selectedSub(event: any, option: any) {
+  //   debugger;    
+  //   if (event.target.checked) {
+  //     this.subjectArray.push(option.toString());
+  //   } else {
+  //     this.subjectArray = this.subjectArray.filter((val) => val.toString() !== option.toString());
+  //   }
+  //   //this.subjectAssignForm.selectedSubjects new FormControl(this.subjectArray);
+  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.subjectArray);
+  //   console.log(this.subjectArray);
+  // };
 
 
-  FilterGroupfun(classsid: any) {
-    debugger;
-    const classid = Number(classsid);
-    this.subjectAssignForm.get('classid')?.setValue(classid);
-    this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
-    this.subjectAssignForm.get('groupid')?.setValue(0);
-    this.subjectAssignForm.get('sectionid')?.setValue(0);
-    if (this.groupFilterlist.length == 0) {
-      this.groupDisplay = false;
-      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.subjectAssignForm.get('sectionid')?.setValue(0);
-    }
-    else {
-      this.groupDisplay = true;
-      this.subjectAssignForm.get('sectionid')?.setValue(0);
-    }
-  }
 
-  FilterSectionfun(groupID: any) {
-    debugger;
-    const groupid = Number(groupID);
-    this.subjectAssignForm.get('groupid')?.setValue(groupid);
-    this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.subjectAssignForm.get('sectionid')?.setValue(0);
-  }
+  // newSubjectAssign() {
+  //   debugger;
+  //   var subBranchinsert = (this.subjectAssignForm.value);
+
+  //   this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
+  //    
+  //     if (res?.recordid) {
+  //       this.refreshsubjectAssignList();
+  //       //this.getMaxIdSubBranch();
+  //       this.cancelClickSubAssign();
+  //     }
+  //   });
+  // }
+  // sub:any=[];
+  // updateGetClickSubAssign(assign: any) {
+  //   debugger;  
+  //   this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
+  //   this.subjectAssignForm.get('classid')?.setValue(assign.classid);
+  //   this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
+  //   this.subjectAssignForm.get('sectionid')?.setValue(assign.sectionid);
+  //   this.subjectAssignForm.get('cuid')?.setValue(assign.cuid);
+
+  //   this.sub = assign.subject.split(";");
+  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.sub);
+  //   console.log(this.subjectAssignForm.value.selectedSubjects);
+  // }
+
+
+
+  // cancelClickSubAssign() {
+  //   this.subjectAssignForm.reset();
+  //   this.subjectAssignForm.get('subjectAssignid')?.setValue(0);
+  //   this.subjectAssignForm.get('classid')?.setValue(0);
+  //   this.subjectAssignForm.get('groupid')?.setValue(0);
+  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
+  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(0);
+  //   this.subjectAssignForm.get('cuid')?.setValue(1);
+  //   //this.BranchbuttonId = true;
+  // }
+
+  // refreshClassList() {
+  //   this.ClassSvc.getClassList().subscribe(data => {
+  //     this.ClassList = data;
+  //   });
+  // }
+
+  // refreshGroupList() {
+  //   this.GroupSvc.getGroupList().subscribe(data => {
+  //     this.GroupList = data;
+  //   });
+  // }
+
+  // refreshSectionList() {
+  //   this.ScSvc.getSectionList().subscribe(data => {
+  //     this.SectionList = data;
+  //   });
+  // }
+
+
+  // FilterGroupfun(classsid: any) {
+  //   debugger;
+  //   const classid = Number(classsid);
+  //   this.subjectAssignForm.get('classid')?.setValue(classid);
+  //   this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+  //   this.subjectAssignForm.get('groupid')?.setValue(0);
+  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
+  //   if (this.groupFilterlist.length == 0) {
+  //     this.groupDisplay = false;
+  //     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+  //     this.subjectAssignForm.get('sectionid')?.setValue(0);
+  //   }
+  //   else {
+  //     this.groupDisplay = true;
+  //     this.subjectAssignForm.get('sectionid')?.setValue(0);
+  //   }
+  // }
+
+  // FilterSectionfun(groupID: any) {
+  //   debugger;
+  //   const groupid = Number(groupID);
+  //   this.subjectAssignForm.get('groupid')?.setValue(groupid);
+  //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
+  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
+  // }
 }

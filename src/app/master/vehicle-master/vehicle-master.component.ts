@@ -28,7 +28,7 @@ export class VehicleMasterComponent implements OnInit {
   constructor(
     private VhtySvc: VehicleTypeService, private vhNoRtSvc: VehicleNoRootService,
     private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,private router: Router) {
+    private notificationSvc: NotificationsService, private router: Router) {
   }
 
 
@@ -56,9 +56,6 @@ export class VehicleMasterComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard');
   }
 
-  
-
-
   refreshvehicleTypeList() {
     this.VhtySvc.getvehicleTypeList().subscribe(data => {
       this.DepartmentList = data;
@@ -73,17 +70,17 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var vehicletypeinsert = (this.vehicletypeForm.value);
               this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshvehicleTypeList();
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -96,17 +93,17 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var vehicletypeinsert = (this.vehicletypeForm.value);
               this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshvehicleTypeList();
                   this.getMaxId();
                   this.cancelClick();
                 }
-                else if(res.status == 'Already exists'){
+                else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
-                else{
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -185,7 +182,6 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var venortinsert = (this.vehicleNoRootForm.value);
               this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
-                console.log(res, 'resss')
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refreshvehicleNoRootList();
@@ -202,7 +198,6 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var venortinsert = (this.vehicleNoRootForm.value);
               this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
-                console.log(res, 'resss')
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshvehicleNoRootList();
@@ -265,8 +260,8 @@ export class VehicleMasterComponent implements OnInit {
 
   vehicleplaceForm = new FormGroup({
     placeid: new FormControl(0),
-    root_no: new FormControl(null,[Validators.required]),
-    place: new FormControl('',[Validators.required]),
+    root_no: new FormControl(null, [Validators.required]),
+    place: new FormControl('', [Validators.required]),
     cuid: new FormControl(1)
   })
 
@@ -288,7 +283,6 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var placeinsert = (this.vehicleplaceForm.value);
               this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
-                console.log(res, 'resss')
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refreshvehiclePlaceList();
@@ -305,7 +299,6 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var placeinsert = (this.vehicleplaceForm.value);
               this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
-                console.log(res, 'resss')
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshvehiclePlaceList();

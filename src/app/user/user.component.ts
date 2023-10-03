@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   MaxId: any = [];
   buttonId: boolean = true;
   staffList: any[] = [];
-  staffListAll:any[]=[];
+  staffListAll: any[] = [];
   public showPassword: boolean;
   public showPasswordOnPress: boolean;
 
@@ -33,7 +33,6 @@ export class UserComponent implements OnInit {
     this.refreshStaffList();
   }
 
-
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -45,7 +44,7 @@ export class UserComponent implements OnInit {
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
       this.staffListAll = data;
-      this.staffList=this.staffListAll.filter((e)=>{return e.activestatus==1})
+      this.staffList = this.staffListAll.filter((e) => { return e.activestatus == 1 })
     });
   }
 
@@ -67,17 +66,13 @@ export class UserComponent implements OnInit {
     });
   }
 
-
-
   getMaxId() {
     this.userSvc.getMaxId().subscribe(data => {
       this.MaxId = data;
     });
   }
 
-
   newUserProfile() {
-debugger;
     if (this.userProfileForm.value.password == this.userProfileForm.value.c_password) {
       if (this.userProfileForm.valid) {
         if (this.userProfileForm.value.userid == 0) {
@@ -86,7 +81,7 @@ debugger;
               if (res == true) {
                 var userInsert = (this.userProfileForm.value);
                 this.userSvc.newUserProfile(userInsert).subscribe(res => {
-                  debugger;
+
                   if (res.status == 'Saved successfully') {
                     this.notificationSvc.success("Saved Success")
                     this.refreshsUsersList();
@@ -141,7 +136,6 @@ debugger;
     }
   }
 
-
   deleteClick(userid: number) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
@@ -170,7 +164,6 @@ debugger;
     this.userProfileForm.get('cuid')?.setValue(user.cuid);
     this.buttonId = false;
   }
-
 
   cancelClick() {
     this.userProfileForm.reset();

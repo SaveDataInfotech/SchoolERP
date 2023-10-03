@@ -18,7 +18,7 @@ export class SupplierMasterComponent implements OnInit {
 
   constructor(
     private stySvc: SupplierTypeService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService,private router: Router) {
+    private notificationSvc: NotificationsService, private router: Router) {
   }
   ngOnInit(): void {
     this.refresupplierTypeList(),
@@ -39,8 +39,6 @@ export class SupplierMasterComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard');
   }
 
-  
-
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -48,7 +46,6 @@ export class SupplierMasterComponent implements OnInit {
     }
     return true;
   }
-
 
   refresupplierTypeList() {
     this.stySvc.getsupplierTypeList().subscribe(data => {
@@ -103,7 +100,6 @@ export class SupplierMasterComponent implements OnInit {
       this.MaxId = data;
     });
   }
-
 
   //sample  for Dialog working
   deleteClick(supplierid: number) {

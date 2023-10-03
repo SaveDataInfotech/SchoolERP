@@ -169,10 +169,7 @@ export class LeaveMasterComponent implements OnInit {
       no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
       e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
       leave: new FormArray([
-        // new FormGroup({
-        //   l_type:new FormControl(''),
-        //   elgible:new FormControl('')
-        // })
+
       ]),
       cuid: new FormControl(1),
     })
@@ -201,8 +198,6 @@ export class LeaveMasterComponent implements OnInit {
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     control.removeAt(index);
   }
-
-
 
   //get staff type Method
   refreshstaffTypeList() {

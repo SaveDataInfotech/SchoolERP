@@ -84,6 +84,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -121,6 +122,7 @@ textarea {
   resize: none !important;
   height: 80px;
 }
+
 .main-label {
   font-weight: 500;
 }
@@ -214,20 +216,23 @@ a:hover {
   .mat-dialog-container {
     padding: 0 !important;
   }
+
   ._header_flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 14px;
   }
+
   ._pop_up_header {
     background-color: rgb(25, 103, 210);
   }
 }
 
-.simple-notification-wrapper{
+.simple-notification-wrapper {
   z-index: 9999 !important;
 }
+
 ._pop_up_container_normal {
   // border: 2px solid rgb(25, 103, 210);
   border-radius: 6px;
@@ -235,22 +240,25 @@ a:hover {
   .mat-dialog-container {
     padding: 0 !important;
   }
+
   ._header_flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 14px;
   }
+
   ._pop_up_header {
     background-color: rgb(25, 103, 210);
   }
 }
 
-.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+.mat-input-element:disabled,
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
   color: black !important;
 }
 
-.disableFont{
+.disableFont {
   color: black;
 }
 
@@ -265,11 +273,13 @@ a:hover {
 //   // background-color: paleturquoise;
 // }
 
-td.mat-cell, td.mat-footer-cell{
+td.mat-cell,
+td.mat-footer-cell {
   border-bottom-width: 1px;
   border-bottom-color: rgb(29, 2, 2);
   border-bottom-style: solid;
 }
+
 // .mat-column-position {
 //   // width: 32px;
 //   border-right: 1px solid currentColor;
@@ -282,7 +292,7 @@ td.mat-cell, td.mat-footer-cell{
   z-index: 0;
   position: relative;
   transition: all 0.5s ease;
-   background: white; 
+  background: white;
   padding: 1rem;
   overflow-y: auto;
   max-height: 94%;
@@ -296,27 +306,28 @@ table th {
   width: auto !important;
 }
 
-td{
+td {
   text-align: center;
 }
-th{
+
+th {
   text-align: center;
   background-color: #ac2bac;
   color: white;
-font-family:  Roboto Slab;
+  font-family: Roboto Slab;
 }
 
-.homeicon{
+.homeicon {
   width: 50px;
   height: 50px;
-  background-color:#ac2bac;
+  background-color: #ac2bac;
   padding-top: 5px;
   border: 2px solid #ac2bac;
   border-radius: 100px;
   color: white;
 }
 
-.homeicon:hover{
+.homeicon:hover {
   box-shadow: 0px 0px 7px 4px rgb(241, 208, 236);
 }
 

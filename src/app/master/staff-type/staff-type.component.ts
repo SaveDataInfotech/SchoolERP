@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from "ngx-spinner";
 
 
 @Component({

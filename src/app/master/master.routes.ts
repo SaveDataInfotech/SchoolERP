@@ -12,6 +12,7 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 import { ReportsComponent } from './reports/reports.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
+import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 
 
 export const masterRoutes: Routes = [
@@ -34,6 +35,10 @@ export const masterRoutes: Routes = [
   {
     path: 'subject_assign',
     component: SubjectAssignComponent,
+  },
+  {
+    path: 'library_book_master',
+    component: LibraryBookMasterComponent,
   },
   {
     path:"uniform_master",

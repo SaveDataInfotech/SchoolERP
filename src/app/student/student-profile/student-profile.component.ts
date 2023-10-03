@@ -591,6 +591,7 @@ export class StudentProfileComponent implements OnInit {
 
   cancelClick() {
     this.studentDetailsForm.reset();
+    sessionStorage.removeItem('selectd');
     this.studentDetailsForm.get('profileid')?.setValue(0);
     this.studentDetailsForm.get('simage')?.setValue('');
     this.editableImage = '';

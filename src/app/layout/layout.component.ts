@@ -12,14 +12,6 @@ export class LayoutComponent implements OnInit {
   condition: boolean = true;
   username: any = localStorage.getItem("userid")
 
-  over() {
-    // this.condition=false;
-    // this.openSidebar=false;
-  }
-  sideover() {
-    // this.condition=true;
-    // this.openSidebar=true;
-  }
   constructor(private router: Router) { }
 
   ngOnInit() { console.log('current Application Login Role:::' + this.currentLoginRole) }
@@ -116,10 +108,6 @@ export class LayoutComponent implements OnInit {
       link: "schedule/schedule",
       icon: "studentdetails",
       sub_menu: [
-        // {
-        //   link_name:"schedule",
-        //   link:"schedule/schedule",
-        // },
 
       ]
     },
@@ -221,8 +209,6 @@ export class LayoutComponent implements OnInit {
           link_name: "Hostel Reports",
           link: "hostel/reports",
         }
-
-
       ]
     },
     {
@@ -364,6 +350,10 @@ export class LayoutComponent implements OnInit {
           link: "master/subject_assign"
         },
         {
+          link_name: "Book Master",
+          link: "master/library_book_master"
+        },
+        {
           link_name: "Uniform Master",
           link: "master/uniform_master"
         },
@@ -423,10 +413,7 @@ export class LayoutComponent implements OnInit {
       link: "user/user",
       icon: "studentdetails",
       sub_menu: [
-        // {
-        //   link_name:"schedule",
-        //   link:"schedule/schedule",
-        // },
+
       ]
     },
 

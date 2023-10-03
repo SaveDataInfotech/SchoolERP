@@ -16,16 +16,15 @@ export class UniformMasterComponent implements OnInit {
   MaxId: any = [];
   buttonId: boolean = true;
   overcoatif: boolean;
-  //submitted: boolean = false;
 
-  UniformMeterList:any=[];
-  MeterMaxId:any=[];
-  meterbuttonId:boolean=true;
-  overcoatifMetr:boolean;
+  UniformMeterList: any = [];
+  MeterMaxId: any = [];
+  meterbuttonId: boolean = true;
+  overcoatifMetr: boolean;
   constructor(
     private uniformSvc: UniformMasterService, private DialogSvc: DialogService, private notificationSvc: NotificationsService,
-    private uniformMSvc: uniformMeterService,private router: Router
-    ) {
+    private uniformMSvc: uniformMeterService, private router: Router
+  ) {
   }
   ngOnInit(): void {
     this.refreshUniformSizeList(),
@@ -37,12 +36,10 @@ export class UniformMasterComponent implements OnInit {
       this.MetercancelClick()
   }
 
-
   backButton() {
     this.router.navigateByUrl('/app/dashboard');
   }
 
-  
   uniformSizeForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
@@ -51,7 +48,7 @@ export class UniformMasterComponent implements OnInit {
     suiting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
     over_coat: new FormControl('--', [Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
     amount: new FormControl('', [Validators.required]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(1)
   })
 
   ifovercoatfun(value: any) {
@@ -69,13 +66,6 @@ export class UniformMasterComponent implements OnInit {
       this.UniformSizeList = data;
     });
   }
-  // ngsubmit() {
-  //   debugger;
-  //   this.submitted = true
-  //   if (this.uniformSizeForm.invalid) {
-  //     this.submitted = true
-  //   }
-  // }
 
   NewUniformSize() {
     debugger;
@@ -182,7 +172,6 @@ export class UniformMasterComponent implements OnInit {
   //Uniform meter
 
 
-
   uniformMeterForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
@@ -211,7 +200,6 @@ export class UniformMasterComponent implements OnInit {
     }
   }
 
-
   newUniformMeter() {
     if (this.uniformMeterForm.valid) {
       if (this.uniformMeterForm.value.uniformid == 0) {
@@ -222,7 +210,7 @@ export class UniformMasterComponent implements OnInit {
               this.uniformMSvc.addNewUniform(stafftypeinsert).subscribe(res => {
                 console.log(res, 'resss')
                 if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                  
+                  this.notificationSvc.success("Saved Success")
                   this.refreshUnifromMeterList();
                   this.getMaxIdUniformMeter();
                   this.MetercancelClick();

@@ -1,0 +1,367 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Category">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Book Category</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="bookCategoryForm" (ngSubmit)="newCategory()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Category Id</label>
+                                </div>
+                                <span class="inputdiv" *ngIf="categorybuttonId == true ">
+                                    <div *ngFor="let code of categoryMaxId">
+                                        <input placeholder="00{{code.category_id+1}}" class="form-control" type="text"
+                                            readonly required>
+                                    </div>
+                                </span>
+                                <span class="inputdiv" *ngIf="categorybuttonId != true">
+                                    <div>
+                                        <input formControlName="category_id" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Category Name<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':bookCategoryForm.controls.category_name.touched && bookCategoryForm.controls.category_name.errors}"
+                                        formControlName="category_name" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="bookCategoryForm.controls.category_name.touched && bookCategoryForm.controls.category_name.errors">
+                                        <div
+                                            *ngIf="bookCategoryForm.controls.category_name.touched && bookCategoryForm.controls.category_name.errors.required">
+                                            Category Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="categorybuttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="categorybuttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " (click)="categorycancelClick()"
+                                        value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Category Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let category of categoryList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{category.category_name}}</td>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="udateCategoryClick(category)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteCategoryClick(category.category_id)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Department">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Book Department</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="DepartmentForm" (ngSubmit)="newDepartment()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Department Id</label>
+                                </div>
+                                <span class="inputdiv" *ngIf="DepartmentbuttonId == true ">
+                                    <div *ngFor="let code of DepartmentMaxId">
+                                        <input placeholder="00{{code.department_id+1}}" class="form-control" type="text"
+                                            readonly required>
+                                    </div>
+                                </span>
+                                <span class="inputdiv" *ngIf="DepartmentbuttonId != true">
+                                    <div>
+                                        <input formControlName="department_id" class="form-control" type="text" readonly
+                                            required>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Department Name<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':DepartmentForm.controls.department_name.touched && DepartmentForm.controls.department_name.errors}"
+                                        formControlName="department_name" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="DepartmentForm.controls.department_name.touched && DepartmentForm.controls.department_name.errors">
+                                        <div
+                                            *ngIf="DepartmentForm.controls.department_name.touched && DepartmentForm.controls.department_name.errors.required">
+                                            Department Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="DepartmentbuttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="DepartmentbuttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " (click)="cancelDepartmentClick()"
+                                        value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Department Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let sty of DepartmentList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{sty.department_name}}</td>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton"
+                                            (click)="udateDepartmentClick(sty)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteDepartmentClick(sty.department_id)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Book Master">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Book Master</h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
+                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
+                        </div>
+                    </div>
+                    <form [formGroup]="bookMasterForm" (ngSubmit)="newBook()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Book Id</label>
+                                </div>                               
+                                <span class="inputdiv">
+                                    <div>
+                                        <input formControlName="book_id" class="form-control" type="text" readonly>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Category Name<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':bookMasterForm.controls.category_name.touched && bookMasterForm.controls.category_name.errors}"
+                                        formControlName="category_name" style="width: 100%;" class="form-control "
+                                        required>
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{category.category_name}} *ngFor="let category of categoryList;">
+                                            {{category.category_name}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="bookMasterForm.controls.category_name.touched && bookMasterForm.controls.category_name.errors">
+                                        <div
+                                            *ngIf="bookMasterForm.controls.category_name.touched && bookMasterForm.controls.category_name.errors.required">
+                                            Category Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Department Name<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':bookMasterForm.controls.department_name.touched && bookMasterForm.controls.department_name.errors}"
+                                        formControlName="department_name" style="width: 100%;" class="form-control "
+                                        required>
+                                        <option value="" selected disabled>Please select</option>
+                                        <option value={{dep.department_name}} *ngFor="let dep of DepartmentList;">
+                                            {{dep.department_name}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="bookMasterForm.controls.department_name.touched && bookMasterForm.controls.department_name.errors">
+                                        <div
+                                            *ngIf="bookMasterForm.controls.department_name.touched && bookMasterForm.controls.department_name.errors.required">
+                                            Department Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Book Name<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':bookMasterForm.controls.book_name.touched && bookMasterForm.controls.book_name.errors}"
+                                        formControlName="book_name" class="form-control" type="text" required>
+                                    <span class="text-danger"
+                                        *ngIf="bookMasterForm.controls.book_name.touched && bookMasterForm.controls.book_name.errors">
+                                        <div
+                                            *ngIf="bookMasterForm.controls.book_name.touched && bookMasterForm.controls.book_name.errors.required">
+                                            Book Name is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
+                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
+                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                        class="btn btn-danger btn-sm mt-4  " (click)="cancelClick()" value="Cancel" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-10 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Category Name</th>
+                                    <th>Department Name</th>
+                                    <th>Book Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let sty of bookList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{sty.category_name}}</td>
+                                    <td>{{sty.department_name}}</td>
+                                    <td>{{sty.book_name}}</td>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(sty)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(sty.id)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

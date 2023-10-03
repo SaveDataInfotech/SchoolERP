@@ -1,7 +1,7 @@
 <!-- <mat-sidenav-container class="example-container"> -->
 <!-- <mat-sidenav #sidenav mode="side" opened class="_slider"> -->
 
-<div class="sidebar" on-mouseover="sideover()" [class.sidebar-close]="!openSidebar">
+<div class="sidebar" [class.sidebar-close]="!openSidebar">
   <div class="logo-details">
     <div class="logo"> </div>
   </div>
@@ -40,7 +40,7 @@
 
 
 
-  
+
   <ul *ngIf="currentLoginRole == 'superadmin'" class="nav-links" id="nav-links">
 
     <li *ngFor="let item of superAdminmenuSidebar" #itemEl routerLinkActive="active">
@@ -108,7 +108,7 @@
           <mat-icon  svgIcon="logout" style="align-items: center; position: fixed ;right: 20px;top: 0.5px;color: white; width:2em ;height:2em " routerLink="/login">  </mat-icon>
         </div> -->
   </div>
-  <div class="body home-view" (click)="over()">
+  <div class="body home-view">
     <router-outlet></router-outlet>
   </div>
 </section>
