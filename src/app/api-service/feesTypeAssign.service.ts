@@ -24,7 +24,7 @@ addNewFeesTypeAssign(feesAssignInsert: any): Observable<any> {
   }
 
   deletefeesAssignType(typeid: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'FeesTypeAssign/delete_fees_type_assign?type_assignid=' + typeid, httpOptions);
   }

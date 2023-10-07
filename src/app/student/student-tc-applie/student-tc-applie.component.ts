@@ -82,7 +82,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
   //// Number Only Event
   numberOnly(event: any): boolean {
@@ -119,7 +119,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.studentTcApplyForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -164,7 +164,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   getAllStudents() {
-    debugger;
+    
     this.spinner.show();
     this.tcSvc.allStudents().subscribe(data => {
       this.allstudentList = data;
@@ -188,7 +188,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   addleave(admission_no: any) {
-    debugger;
+    
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails'];
     control.push(
       new FormGroup({
@@ -207,7 +207,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   newTcApplyAll() {
-    debugger;
+    
     let studentdetails = this.studentTcApplyForm.value
     this.tcSvc.TcApplyAll(studentdetails).subscribe(res => {
       if (res.status == 'Saved successfully') {
@@ -221,7 +221,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   profileCard(id: any) {
-    debugger
+    
     this.filterstudentList = this.studentList.filter((e: any) => { return e.admission_no == id });
   }
 
@@ -230,7 +230,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   CancelClickInAll() {
-    debugger;
+    
     //this.studentTcApplyForm.reset();
     this.studentTcApplyForm.get('tcleftid')?.setValue(0);
     this.studentTcApplyForm.get('classid')?.setValue(0);
@@ -261,7 +261,7 @@ export class StudentTcApplieComponent implements OnInit {
   })
 
   searchStudentByAdNo() {
-    debugger;
+    
     this.studentListByAd = this.allstudentList.filter((e) => {
       return e.admission_no == this.oneStudentTcLeftForm.value.admission_no
     })

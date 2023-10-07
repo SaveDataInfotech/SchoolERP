@@ -15,7 +15,7 @@ export class VehicleNoRootService {
   }
 
   getMaxId(): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'VehicleNoRoot/get_MaxId_vehicle_no_root');
   }
 

@@ -83,7 +83,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   staffFilter(value) {
-    debugger;
+    
     this.staffLoanForm.get('staff_no')?.setValue('');
     this.staffLoanForm.get('staff_name')?.setValue('');
     this.staffFilterList = this.staffList.filter((e) => { return e.staff_type == value })
@@ -96,7 +96,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   staffNameBind(value) {
-    debugger;
+    
     const name = this.staffFilterList.filter((e) => { return e.staff_no == value });
     this.staffLoanForm.get('staff_name')?.setValue(name[0].staff_name);
   }
@@ -158,7 +158,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   automatedEmiAmount() {
-    debugger;
+    
     const amount = Number(this.staffLoanForm.value.loan_amount) / Number(this.staffLoanForm.value.n_month);
     this.staffLoanForm.get('emi_amount')?.setValue(String(amount));
 
@@ -187,7 +187,7 @@ export class StaffLoanComponent implements OnInit {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   staffDeducFilter(value) {
-    debugger;
+    
     this.cancelClick1()
     this.staffDeductionFilterList = this.LoanList.filter((e) => { return e.staff_type == value })
   }
@@ -225,7 +225,7 @@ export class StaffLoanComponent implements OnInit {
   })
 
   PNChange(event: any) {
-    debugger;
+    
     if (event.target.checked) {
       this.staffLoanDeductionForm.get('d_amount')?.setValue('0');
     } else {
@@ -234,7 +234,7 @@ export class StaffLoanComponent implements OnInit {
   };
 
   LoanDeduction() {
-    debugger;
+    
     console.log(this.staffLoanDeductionForm.value)
     if (Number(this.staffLoanDeductionForm.value.d_amount) <= Number(this.staffLoanDeductionForm.value.balance_amount)) {
       var loanInsert = (this.staffLoanDeductionForm.value);

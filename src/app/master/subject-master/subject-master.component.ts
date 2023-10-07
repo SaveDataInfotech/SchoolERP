@@ -65,7 +65,7 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   subjectForm = new FormGroup({
@@ -88,11 +88,17 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subjectinsert = (this.subjectForm.value);
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshsubjectList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -104,12 +110,17 @@ export class SubjectMasterComponent implements OnInit {
             if (res == true) {
               var subjectinsert = (this.subjectForm.value);
               this.subjectSvc.addNewsubject(subjectinsert).subscribe(res => {
-
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
                   this.refreshsubjectList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -137,7 +148,7 @@ export class SubjectMasterComponent implements OnInit {
           this.subjectSvc.deletesubject(subjectid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              debugger;
+              
               this.refreshsubjectList();
               this.getMaxId();
               this.cancelClick();
@@ -237,7 +248,7 @@ export class SubjectMasterComponent implements OnInit {
           this.BranchSvc.deletesubBranch(branchid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              debugger;
+              
               this.refreshsubjectBranchList();
               this.getMaxIdSubBranch();
               this.cancelClickSubBranch();
@@ -283,7 +294,7 @@ export class SubjectMasterComponent implements OnInit {
 
 
   // selectedSub(event: any, option: any) {
-  //   debugger;    
+  //       
   //   if (event.target.checked) {
   //     this.subjectArray.push(option.toString());
   //   } else {
@@ -297,7 +308,7 @@ export class SubjectMasterComponent implements OnInit {
 
 
   // newSubjectAssign() {
-  //   debugger;
+  //   
   //   var subBranchinsert = (this.subjectAssignForm.value);
 
   //   this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
@@ -311,7 +322,7 @@ export class SubjectMasterComponent implements OnInit {
   // }
   // sub:any=[];
   // updateGetClickSubAssign(assign: any) {
-  //   debugger;  
+  //     
   //   this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
   //   this.subjectAssignForm.get('classid')?.setValue(assign.classid);
   //   this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
@@ -356,7 +367,7 @@ export class SubjectMasterComponent implements OnInit {
 
 
   // FilterGroupfun(classsid: any) {
-  //   debugger;
+  //   
   //   const classid = Number(classsid);
   //   this.subjectAssignForm.get('classid')?.setValue(classid);
   //   this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -374,7 +385,7 @@ export class SubjectMasterComponent implements OnInit {
   // }
 
   // FilterSectionfun(groupID: any) {
-  //   debugger;
+  //   
   //   const groupid = Number(groupID);
   //   this.subjectAssignForm.get('groupid')?.setValue(groupid);
   //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });

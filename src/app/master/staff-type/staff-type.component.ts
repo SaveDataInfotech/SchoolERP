@@ -50,7 +50,7 @@ export class StaffTypeComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-                debugger;
+                
                 console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved successfully")
@@ -74,7 +74,7 @@ export class StaffTypeComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-                debugger;
+                
                 console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")

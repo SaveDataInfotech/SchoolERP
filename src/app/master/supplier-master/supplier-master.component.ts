@@ -36,7 +36,7 @@ export class SupplierMasterComponent implements OnInit {
     cuid: new FormControl(1),
   })
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   numberOnly(event: any): boolean {

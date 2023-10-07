@@ -60,7 +60,6 @@ export class ClassComponent implements OnInit {
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
     class_name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]),
-    medium: new FormControl('English', [Validators.required]),
     cuid: new FormControl(1),
   })
 
@@ -75,13 +74,12 @@ export class ClassComponent implements OnInit {
   }
 
   New_Class() {
-    debugger;
+
     if (this.Student_classForm.valid) {
       if (this.Student_classForm.value.classid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
-              debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
@@ -104,7 +102,6 @@ export class ClassComponent implements OnInit {
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
-              debugger;
               var Classinsert = (this.Student_classForm.value);
               this.ClassSvc.addNewClass(Classinsert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
@@ -123,7 +120,6 @@ export class ClassComponent implements OnInit {
             }
           });
       }
-
     }
     else {
       this.Student_classForm.markAllAsTouched();
@@ -154,11 +150,8 @@ export class ClassComponent implements OnInit {
   }
 
   updateGetClick(StClass: any) {
-    debugger;
     this.Student_classForm.get('classid')?.setValue(StClass.classid);
-    let toArray = StClass.class_name.split("-");
-    this.Student_classForm.get('class_name')?.setValue(toArray[0]);
-    this.Student_classForm.get('medium')?.setValue(toArray[1]);
+    this.Student_classForm.get('class_name')?.setValue(StClass.class_name);
     this.Student_classForm.get('cuid')?.setValue(StClass.cuid);
     this.buttonId = false;
   }
@@ -167,7 +160,6 @@ export class ClassComponent implements OnInit {
     this.Student_classForm.reset();
     this.Student_classForm.get('classid')?.setValue(0);
     this.Student_classForm.get('class_name')?.setValue('');
-    this.Student_classForm.get('medium')?.setValue('English');
     this.Student_classForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
@@ -285,7 +277,7 @@ export class ClassComponent implements OnInit {
 
   //Student Section
   changefun(classsid: any) {
-    debugger;
+
     const classid = Number(classsid);
     this.Student_SectionForm.get('classid')?.setValue(classid);
     this.newlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -364,7 +356,6 @@ export class ClassComponent implements OnInit {
   }
 
   updateSectionClick(section: any) {
-    debugger;
     this.Student_SectionForm.get('sectionid')?.setValue(section.sectionid);
     this.Student_SectionForm.get('groupid')?.setValue(section.groupid);
     this.Student_SectionForm.get('classid')?.setValue(section.classid);
@@ -377,7 +368,7 @@ export class ClassComponent implements OnInit {
   }
 
   SectioncancelClick() {
-    debugger;
+
     this.Student_SectionForm.reset();
     this.Student_SectionForm.get('sectionid')?.setValue(0);
     this.Student_SectionForm.get('groupid')?.setValue(0);

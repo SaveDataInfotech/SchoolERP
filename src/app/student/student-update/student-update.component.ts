@@ -101,7 +101,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.searchForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -133,7 +133,7 @@ export class StudentUpdateComponent implements OnInit {
   })
 
   getAllStudents() {
-    debugger;
+    
     this.spinner.show();
     this.tcSvc.allStudents().subscribe(data => {
       this.allstudentList = data;
@@ -149,7 +149,7 @@ export class StudentUpdateComponent implements OnInit {
 
 
   searchStudentByClass() {
-    debugger;
+    
     this.studentList = this.allstudentList.filter((e) => {
       return e.classid == this.searchForm.value.classid
         && e.groupid == this.searchForm.value.groupid
@@ -158,7 +158,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   searchStudentByAd() {
-    debugger;
+    
     this.studentList = this.allstudentList.filter((e) => {
       return e.admission_no == this.searchForm.value.admission_no
     })
@@ -167,7 +167,7 @@ export class StudentUpdateComponent implements OnInit {
   /////////////////////
 
   editFunction(student) {
-    debugger
+    
 
     this.step_1 = (student.step_1 === true) ? true :false;
     this.step_2 = (student.step_2 === true) ? true :false;
@@ -198,7 +198,7 @@ export class StudentUpdateComponent implements OnInit {
 
     this.filterSibilingsList = this.allSibilingsList.filter((e) => { return e.admission_no == student.admission_no });
     this.filterSibilingsList.forEach((e) => {
-      debugger;    
+          
       const control = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
       control.push(
         new FormGroup({
@@ -223,7 +223,7 @@ export class StudentUpdateComponent implements OnInit {
 
 
   updatefilterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.studentDetailsForm.get('classid')?.setValue(classid);
     this.updategroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -244,7 +244,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   updatefilterSectionfun(groupID: any) {
-    debugger;
+    
     const groupid = Number(groupID);
     this.studentDetailsForm.get('groupid')?.setValue(groupid);
     this.updatesectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -362,7 +362,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   placeOfBo(vehicle_no_id: any) {
-    debugger;
+    
     let idn = Number(vehicle_no_id);
     this.studentDetailsForm.get('root_no')?.setValue(idn);
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
@@ -370,14 +370,14 @@ export class StudentUpdateComponent implements OnInit {
 
 
   newStudentProfileDetails() {
-    debugger;
+    
     if (this.studentDetailsForm.valid) {
-      debugger;
+      
       // if (this.studentDetailsForm.value.profileid == 0) {
       //   this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
       //     .afterClosed().subscribe(res => {
       //       if (res == true) {
-      //         debugger;
+      //         
       //         if (this.studentDetailsForm.value.vehicle_type == 'Bus' && this.studentDetailsForm.value.stay_type == 'Day scholar') {
       //           const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
       //           while (control.length !== 0) {
@@ -531,7 +531,7 @@ export class StudentUpdateComponent implements OnInit {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
-              debugger;
+              
               var studentinsert = (this.studentDetailsForm.value);
               this.studProSvc.studentDetails(studentinsert).subscribe(res => {
                 if (res?.recordid) {
@@ -568,13 +568,13 @@ export class StudentUpdateComponent implements OnInit {
 
 
   newstudentPersonalDetails() {
-    debugger;
+    
     let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
     if (this.studentPersonalDetailsForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             var studentinsert = (this.studentPersonalDetailsForm.value);
             this.studProSvc.PersonalDetails(studentinsert, searchAdmissionNo).subscribe(res => {
               if (res.status == 'Saved successfully') {
@@ -626,7 +626,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   addsibling() {
-    debugger;
+    
     const control = <FormArray>this.studentOtherDetailsForm.controls['sibling'];
     control.push(
       new FormGroup({
@@ -656,17 +656,17 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   newstudentOtherDetailss() {
-    debugger;
+    
     let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
     if (this.studentOtherDetailsForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             var studentinsert = (this.studentOtherDetailsForm.value);
             this.studProSvc.studentOtherDetails(studentinsert, searchAdmissionNo).subscribe(res => {
               if (res.status == 'Saved successfully') {
-                debugger;
+                
                 this.notificationSvc.success("Saved Success");
                 this.resStatus3 = true;
               }
@@ -698,13 +698,13 @@ export class StudentUpdateComponent implements OnInit {
   })
 
   newstudentCertificateDetailss() {
-    debugger;
+    
     let searchAdmissionNo = (this.studentDetailsForm.value.admission_no);
     if (this.studentCertificateForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             var studentinsert = (this.studentCertificateForm.value);
             this.studProSvc.studentCertificateDetails(studentinsert, searchAdmissionNo).subscribe(res => {
               if (res.status == 'Saved successfully') {

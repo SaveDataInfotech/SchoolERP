@@ -31,7 +31,7 @@ export class staffTypeService {
   }
 
   // udateGetClick(staffTypeid:number): Observable<any[]> {
-  //   debugger;
+  //   
   //   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
   //   return this.http.get<any[]>(this.apiUrl + 'StaffType/get_staff_type_ById?staffTypeid='+staffTypeid,httpOptions);
   // }

@@ -44,20 +44,25 @@ export class HostelMasterComponent implements OnInit {
   }
 
   newHostel() {
-    debugger;
+    
     if (this.hostelForm.valid) {
       if (this.hostelForm.value.hostelid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var hostelinsert = (this.hostelForm.value);
-              this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
+              this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {               
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshHostelList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

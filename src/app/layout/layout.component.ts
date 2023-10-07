@@ -122,25 +122,25 @@ export class LayoutComponent implements OnInit {
           link: "student/student_enquiry",
         },
         {
-          link_name: "Student Profile",
+          link_name: "Add Student Profile",
           link: "student/student_profile",
         },
         {
-          link_name: "Edit Student",
+          link_name: "Update Student Profile",
           link: "student/student_update",
         },
         {
           link_name: "Student Attendance",
           link: "student/student_attendance",
         },
-        // {
-        //   link_name: "Student Mark Entry",
-        //   link: "student/student_mark_entry",
-        // },
-        // {
-        //   link_name: "Mark Entry Grade Type",
-        //   link: "student/mark_entry_grade",
-        // },
+        {
+          link_name: "Student Mark Entry",
+          link: "student/student_mark_entry",
+        },
+        {
+          link_name: "Mark Entry Grade Type",
+          link: "student/mark_entry_grade",
+        },
         {
           link_name: "Student Tc Apply",
           link: "student/student_tc_applie",
@@ -188,29 +188,7 @@ export class LayoutComponent implements OnInit {
         }
       ]
     },
-    {
-      link_name: "Hostel Details",
-      link: null,
-      icon: "hostel",
-      sub_menu: [
-        {
-          link_name: "Room Allotment",
-          link: "hostel/room_allotment",
-        },
-        {
-          link_name: "Room Assign",
-          link: "hostel/room_assign",
-        },
-        {
-          link_name: "Hostel Attendance",
-          link: "hostel/hostel_attendance",
-        },
-        {
-          link_name: "Hostel Reports",
-          link: "hostel/reports",
-        }
-      ]
-    },
+
     {
       link_name: "Library",
       link: null,
@@ -247,6 +225,29 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Stock Details",
           link: "library/stocks"
+        }
+      ]
+    },
+    {
+      link_name: "Hostel Details",
+      link: null,
+      icon: "hostel",
+      sub_menu: [
+        {
+          link_name: "Room Allotment",
+          link: "hostel/room_allotment",
+        },
+        {
+          link_name: "Room Assign",
+          link: "hostel/room_assign",
+        },
+        {
+          link_name: "Hostel Attendance",
+          link: "hostel/hostel_attendance",
+        },
+        {
+          link_name: "Hostel Reports",
+          link: "hostel/reports",
         }
       ]
     },
@@ -337,9 +338,17 @@ export class LayoutComponent implements OnInit {
           link_name: "Batch Year",
           link: "master/batch_year"
         },
+        // {
+        //   link_name: "Fees Master",
+        //   link: "master/fees_master"
+        // },
         {
-          link_name: "Fees Master",
-          link: "master/fees_master"
+          link_name: "General Fees",
+          link: "master/general_fees"
+        },
+        {
+          link_name: "Special Fees",
+          link: "master/special_fees"
         },
         {
           link_name: "Subject Master",
@@ -349,10 +358,10 @@ export class LayoutComponent implements OnInit {
           link_name: "Subject Assign",
           link: "master/subject_assign"
         },
-        {
-          link_name: "Book Master",
-          link: "master/library_book_master"
-        },
+        // {
+        //   link_name: "Book Master",
+        //   link: "master/library_book_master"
+        // },
         {
           link_name: "Uniform Master",
           link: "master/uniform_master"
@@ -377,10 +386,10 @@ export class LayoutComponent implements OnInit {
           link_name: "Supplier Type",
           link: "master/supplier_master"
         },
-        {
-          link_name: "Role",
-          link: "master/role"
-        },
+        // {
+        //   link_name: "Role",
+        //   link: "master/role"
+        // },
         {
           link_name: "Reports",
           link: "master/reports"

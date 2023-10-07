@@ -76,7 +76,7 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   changefun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.StudentEnquiryForm.get('classid')?.setValue(classid);
     this.Groupnewlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -87,7 +87,7 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   selectedSub(event: any) {
-    debugger;
+    
     if (event.target.checked) {
       this.StudentEnquiryForm.get('s_declare')?.setValue(true);
     } else {
@@ -139,12 +139,12 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   newEnquiry() {
-    debugger;
+    
     if (this.StudentEnquiryForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             var Classinsert = (this.StudentEnquiryForm.value);
             this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
@@ -168,7 +168,7 @@ export class StudentEnquiryComponent implements OnInit {
     }
     else {
       this.StudentEnquiryForm.markAllAsTouched();
-      this.notificationSvc.error("Invalid Input")
+      this.notificationSvc.error("Fill the mandatory fileds")
     }
 
   }
@@ -179,7 +179,7 @@ export class StudentEnquiryComponent implements OnInit {
       this.MaxId.forEach(element => {
         this.maxnumber = element.enquiryid
       });
-      debugger;
+      
       var maxnum: string = String(this.maxnumber + 1)
       if (maxnum.length == 1) {
         this.enquiryno = '000' + maxnum

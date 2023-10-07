@@ -52,7 +52,7 @@ export class StaffSalaryComponent implements OnInit {
   }
 
   searchStaff() {
-    debugger;
+    
     if (this.staffSalaryForm.valid) {
 
       this.sttySalSvc.getstaffProfileListBySalary(this.staffSalaryForm.value.sal_month).subscribe(data => {

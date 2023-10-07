@@ -37,7 +37,7 @@ export class UniformMasterComponent implements OnInit {
   }
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   uniformSizeForm = new FormGroup({
@@ -68,7 +68,7 @@ export class UniformMasterComponent implements OnInit {
   }
 
   NewUniformSize() {
-    debugger;
+
     if (this.uniformSizeForm.valid) {
       if (this.uniformSizeForm.value.uniformid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -76,12 +76,17 @@ export class UniformMasterComponent implements OnInit {
             if (res == true) {
               var uniformsizeinsert = (this.uniformSizeForm.value);
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -93,12 +98,17 @@ export class UniformMasterComponent implements OnInit {
             if (res == true) {
               var uniformsizeinsert = (this.uniformSizeForm.value);
               this.uniformSvc.addNewuniform(uniformsizeinsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+                if (res.status == 'Update Success') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshUniformSizeList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -191,7 +201,7 @@ export class UniformMasterComponent implements OnInit {
   }
 
   ifovercoatfunMeter(value: any) {
-    debugger;
+
     if (value != "Male") {
       this.overcoatifMetr = true;
     }

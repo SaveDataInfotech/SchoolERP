@@ -184,7 +184,7 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   addleave() {
-    debugger;
+    
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     control.push(
       new FormGroup({
@@ -226,14 +226,14 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   staffNameChange(value) {
-    debugger
+    
     const newarray = this.staffList.filter((e) => { return e.staff_no == value })
     this.leaveAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
   }
 
 
   NewLeaveAssign() {
-    debugger;
+    
     if (this.leaveAssignForm.valid) {
       if (this.leaveAssignForm.value.assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -241,8 +241,7 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leaveAssigninsert = (this.leaveAssignForm.value);
               this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshLeaveAssignList();
                   this.refreshLeaveAssignByIDList();
@@ -250,6 +249,12 @@ export class LeaveMasterComponent implements OnInit {
                   this.getAssignMaxId();
                   this.AssigncancelClick();
                   this.refreshStaffList();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -261,14 +266,20 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leaveAssigninsert = (this.leaveAssignForm.value);
               this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
                   this.refreshLeaveAssignList();
                   this.refreshLeaveAssignByIDList();
                   this.refreshstaffTypeList();
                   this.getAssignMaxId();
                   this.AssigncancelClick();
+                  this.refreshStaffList();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -333,7 +344,7 @@ export class LeaveMasterComponent implements OnInit {
     const eligibleDays = busControl3.at(i).get('elgible').value;
     const elDays = this.leaveAssignForm.get('leave') as FormArray;
     elDays.controls.forEach((e) => {
-      debugger;
+      
       const num = Number(e.value.elgible);
       total = total + num;
     })

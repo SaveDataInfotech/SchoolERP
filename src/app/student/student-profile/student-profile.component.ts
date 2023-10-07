@@ -109,13 +109,13 @@ export class StudentProfileComponent implements OnInit {
     }, 1000);
   }
   setvalueform() {
-    debugger;
+    
     var storedValues: any = sessionStorage.getItem("selectd");
     var myObj = JSON.parse(storedValues);
     this.studentDetailsForm.patchValue(myObj);
     this.studentDetailsForm.patchValue(myObj);
     this.studentDetailsForm.get('newstudent').setValue('Yes');
-    debugger;
+    
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
     this.filterSectionfun(this.studentDetailsForm.value.groupid);
     if (this.groupFilterlist.length == 0) {
@@ -137,30 +137,30 @@ export class StudentProfileComponent implements OnInit {
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
-      debugger;
+      
       this.ClassList = data;
     });
   }
 
 
   refreshGroupList() {
-    debugger;
+    
     this.GroupSvc.getGroupList().subscribe(data => {
       this.GroupList = data;
     });
   }
 
   refreshSectionList() {
-    debugger;
+    
     this.spinner.show();
     this.ScSvc.getSectionList().subscribe(data => {
-      debugger;
+      
       this.SectionList = data;
     });
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.studentDetailsForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -181,7 +181,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   filterSectionfun(groupID: any) {
-    debugger;
+    
     const groupid = Number(groupID);
     this.studentDetailsForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -253,6 +253,10 @@ export class StudentProfileComponent implements OnInit {
 
   backButton() {
     this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
+
+  feeAssignFun(){
+    this.router.navigateByUrl('/app/master/fees_master');
   }
 
   studentDetailsForm = new FormGroup({
@@ -345,7 +349,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   placeOfBo(vehicle_no_id: any) {
-    debugger;
+    
     let idn = Number(vehicle_no_id);
     this.studentDetailsForm.get('root_no')?.setValue(idn);
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
@@ -353,7 +357,7 @@ export class StudentProfileComponent implements OnInit {
 
   getMaxId() {
     this.studProSvc.getMaxId().subscribe(data => {
-      debugger;
+      
       this.maxIDList = data;
       this.maxIDList.forEach(element => {
         this.maxnumber = element.profileid
@@ -380,14 +384,14 @@ export class StudentProfileComponent implements OnInit {
   }
 
   newStudentProfileDetails() {
-    debugger;
+    
     if (this.studentDetailsForm.valid) {
-      debugger;
+      
 
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             if (this.studentDetailsForm.value.vehicle_type == 'Bus' && this.studentDetailsForm.value.stay_type == 'Day scholar') {
               const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
               while (control.length !== 0) {
@@ -573,7 +577,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   addsibling() {
-    debugger;
+    
     const control = <FormArray>this.studentDetailsForm.controls['sibling'];
     control.push(
       new FormGroup({

@@ -11,7 +11,7 @@ export class staffAssignService {
   }
 
   searchSubjectByClass(classid: number, groupid: number, sectionid: number, batch_year: any): Observable<any[]> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.get<any[]>(this.apiUrl + 'StaffAssign/get_subject_by_staffassign?classid=' + classid + '&groupid=' + groupid + '&sectionid=' + sectionid + '&batch_year=' + batch_year, httpOptions);
   }
@@ -22,7 +22,7 @@ export class staffAssignService {
   }
 
   getSubjectArray(id:number): Observable<any[]> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.get<any[]>(this.apiUrl + 'StaffAssign/get_subjects_by_staffassign?staff_assign_id='+id,httpOptions);
   }

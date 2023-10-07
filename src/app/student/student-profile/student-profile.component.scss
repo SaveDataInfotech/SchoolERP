@@ -15,3 +15,22 @@ td {
   color: rgb(2, 2, 56);
   font-family: sans-serif;
 }
+
+.blink_me {
+  animation: blinker 2s linear infinite;
+  color: red;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+a{
+  font-family: Georgia, serif;
+  font-size: large;
+}
+a:hover{
+  cursor: pointer;
+}

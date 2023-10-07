@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { assign, subject } from 'src/app/Model/subjectAssign.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -29,7 +30,8 @@ export class SubjectAssignComponent implements OnInit {
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private notificationSvc: NotificationsService,
-    private DialogSvc: DialogService
+    private DialogSvc: DialogService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,10 @@ export class SubjectAssignComponent implements OnInit {
     this.refreshSectionList();
     this.cancelClick();
     this.getMaxIdAssign();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshsubjectList() {
@@ -67,36 +73,36 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   FilterGroupfun(classsid: any) {
-    debugger;
+
     const classid = Number(classsid);
     this.subjectAssignForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.subjectAssignForm.groupid = 0;
-    this.subjectAssignForm.sectionid = 0;
+    this.subjectAssignForm.sectionid = null;
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.subjectAssignForm.sectionid = 0;
+      this.subjectAssignForm.sectionid = null;
     }
     else {
       this.groupDisplay = true;
-      this.subjectAssignForm.sectionid = 0;
+      this.subjectAssignForm.sectionid = null;
     }
   }
 
   FilterSectionfun(groupID: any) {
-    debugger;
+
     const groupid = Number(groupID);
     this.subjectAssignForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.subjectAssignForm.sectionid = 0;
+    this.subjectAssignForm.sectionid = null;
   }
 
   subjectAssignForm: assign = {
     assignid: 0,
-    classid: 0,
+    classid: null,
     groupid: 0,
-    sectionid: 0,
+    sectionid: null,
     subjetsid: '',
     subjectsname: '',
     cuid: 1,
@@ -107,20 +113,37 @@ export class SubjectAssignComponent implements OnInit {
 
   onSubmit() {
     this.subjectAssignForm.subjetsid = this.subjectDetailList.filter(x => x.isselect == true).map(x => x.subjectid).join(",").toString();
-    this.subjectAssignForm.subjectsname = this.subjectDetailList.filter(x => x.isselect == true).map(x => x.subject_name).join(",").toString();
-    console.log(this.subjectAssignForm)
-    this.subSvc.newSubjectAssign(this.subjectAssignForm).subscribe(res => {
-      if (res.status == 'Saved successfully') {
-        debugger
-        this.notificationSvc.success("Saved Success");
-        this.getSubassign();
-        this.cancelClick();
-        this.getMaxIdAssign();
-      }
-      else {
-        this.notificationSvc.error("Something Error")
-      }
-    });
+    if (this.subjectAssignForm.subjetsid != '') {
+      this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            this.subjectAssignForm.subjectsname = this.subjectDetailList.filter(x => x.isselect == true).map(x => x.subject_name).join(",").toString();
+            this.subSvc.newSubjectAssign(this.subjectAssignForm).subscribe(res => {
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success("Saved Success");
+                this.getSubassign();
+                this.cancelClick();
+                this.getMaxIdAssign();
+              }
+              else if (res.status == 'Updated successfully') {
+                this.notificationSvc.success("Updated Success");
+                this.getSubassign();
+                this.cancelClick();
+                this.getMaxIdAssign();
+              }
+              else if (res.status == 'Already exists') {
+                this.notificationSvc.warn("Already exists")
+              }
+              else {
+                this.notificationSvc.error("Something Error")
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.notificationSvc.error('Please select Subjects')
+    }
   }
 
   getSubassign() {
@@ -136,7 +159,7 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   assigndeleteClick(assignid: number) {
-    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+    this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.subSvc.deleteAssign(assignid).subscribe(res => {
@@ -153,7 +176,7 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   edit(assign: assign) {
-    debugger;
+
     this.assignbuttonId = false;
     this.subjectDetailList.forEach(element => {
       element.isselect = false;
@@ -181,9 +204,9 @@ export class SubjectAssignComponent implements OnInit {
 
   cancelClick() {
     this.subjectAssignForm.assignid = 0;
-    this.subjectAssignForm.classid = 0;
+    this.subjectAssignForm.classid = null;
     this.subjectAssignForm.groupid = 0;
-    this.subjectAssignForm.sectionid = 0;
+    this.subjectAssignForm.sectionid = null;
     this.subjectAssignForm.subjetsid = '';
     this.subjectAssignForm.subjectsname = '';
     this.refreshsubjectList();

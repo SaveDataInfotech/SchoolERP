@@ -16,7 +16,7 @@ export class subjectAssignService{
   }
 
   addNewsubjectAssign(subjectinsert: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'SubjectAssign/insert_subject_assign', subjectinsert, httpOptions);
   }

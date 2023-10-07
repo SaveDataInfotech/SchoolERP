@@ -174,14 +174,22 @@
                         <div class="row mt-3">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Staff type</label>
+                                    <label class="pt-2" style="margin: auto;">Staff type<span class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select formControlName="staff_type" style="width: 100%;" class="form-control">
+                                    <select [ngClass]="{'is-invalid':staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors}"
+                                     formControlName="staff_type" style="width: 100%;" class="form-control" required>
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
                                             {{StaffType.staffType}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors.required">
+                                            Basic Pay is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
 

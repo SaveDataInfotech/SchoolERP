@@ -14,10 +14,11 @@
             <div class="row">
                 <div class="col-sm-6 mt-3" style="display: flex;">
                     <div class="labeldiv">
-                        <label class="pt-2" style="display: flex;">Purchase Date</label>
+                        <label class="pt-2" style="display: flex;">Purchase Date<span class="text-danger">*</span></label>
                     </div>
                     <div class="inputdiv">
-                        <input formControlName="purchase_date" type="date" class="form-control">
+                        <input [ngClass]="{'is-invalid':addBookForm.controls.purchase_date.touched && addBookForm.controls.purchase_date.errors}"
+                         formControlName="purchase_date" type="date" class="form-control" required>
                     </div>
                 </div>
             </div>
@@ -25,10 +26,13 @@
             <div class="row">
                 <div class="col-sm-6 mt-3" style="display: flex;">
                     <div class="labeldiv">
-                        <label class="pt-2" style="display: flex;">Book ID</label>
+                        <label class="pt-2" style="display: flex;">Book ID<span class="text-danger">*</span></label>
                     </div>
                     <div class="inputdiv">
-                        <input formControlName="book_id" (change)="mapBookDetails()" type="text" class="form-control">
+                        <input
+                            [ngClass]="{'is-invalid':addBookForm.controls.book_id.touched && addBookForm.controls.book_id.errors}"
+                            formControlName="book_id" (change)="mapBookDetails()" type="text" class="form-control"
+                            required>
                     </div>
                 </div>
             </div>
@@ -39,7 +43,7 @@
                         <label class="pt-2" style="display: flex;">Category</label>
                     </div>
                     <div class="inputdiv">
-                        <input formControlName="category_name" type="text" class="form-control">
+                        <input readonly formControlName="category_name" type="text" class="form-control">
                     </div>
                 </div>
             </div>
@@ -50,7 +54,7 @@
                         <label class="pt-2" style="display: flex;">Department</label>
                     </div>
                     <div class="inputdiv">
-                        <input formControlName="department_name" type="text" class="form-control">
+                        <input readonly formControlName="department_name" type="text" class="form-control">
                     </div>
                 </div>
             </div>
@@ -61,7 +65,7 @@
                         <label class="pt-2" style="display: flex;">Book Name</label>
                     </div>
                     <div class="inputdiv">
-                        <input formControlName="book_name" type="text" class="form-control">
+                        <input readonly formControlName="book_name" type="text" class="form-control">
                     </div>
                 </div>
             </div>
@@ -80,37 +84,39 @@
             <div class="row">
                 <div class="col-sm-6 mt-3" style="display: flex;">
                     <div class="labeldiv">
-                        <label class="pt-2" style="display: flex;">Price</label>
+                        <label class="pt-2" style="display: flex;">Price<span class="text-danger">*</span></label>
                     </div>
                     <div class="inputdiv">
-                        <input (keypress)="numberOnly($event)" formControlName="price" type="text" class="form-control">
+                        <input
+                            [ngClass]="{'is-invalid':addBookForm.controls.price.touched && addBookForm.controls.price.errors}"
+                            (keypress)="numberOnly($event)" formControlName="price" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 mt-3" style="display: flex;">
                     <div class="labeldiv">
-                        <label class="pt-2" style="display: flex;">Quantity</label>
+                        <label class="pt-2" style="display: flex;">Quantity<span class="text-danger">*</span></label>
                     </div>
                     <div class="inputdiv">
-                        <input (keypress)="numberOnly($event)" formControlName="quantity" type="text" class="form-control">
+                        <input
+                            [ngClass]="{'is-invalid':addBookForm.controls.quantity.touched && addBookForm.controls.quantity.errors}"
+                            (keypress)="numberOnly($event)" formControlName="quantity" type="text" class="form-control" required>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 mt-5">
                 <div style="text-align: center;">
-                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                        class="btn btn-primary mr-3 btn-sm" value="Save" />
-                    <input matTooltip="click to cancel" type="reset" class="btn btn-danger mr-3 btn-sm"
-                        style="width: 80px;" value="cancel" />
+                    <button type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm">
+                        <span> {{ addBookForm.value.add_id ==0 ? 'Save' : 'Edit'}}</span></button>
+                    <input matTooltip="click to cancel" type="button" (click)="addBookCancelClick()"
+                        class="btn btn-danger mr-3 btn-sm" style="width: 80px;" value="cancel" />
                 </div>
             </div>
         </form>
 
-        <hr />
-
-        <div class="row">
+        <!-- <div class="row">
             <label style="color: blue;" class="col-sm-6 mt-3 mr-3">
                 <h3>If you want to upload a File</h3>
             </label>
@@ -126,11 +132,11 @@
                 <div style="text-align: center;">
                     <input matTooltip="Click to Save" type="submit" style="width: 80px;"
                         class="btn btn-primary mr-3 btn-sm" value="Save" />
-                    <input matTooltip="click to cancel" type="reset" class="btn btn-danger mr-3 btn-sm"
-                        style="width: 80px;" value="cancel" />
+                    <input matTooltip="click to cancel" type="button" 
+                        class="btn btn-danger mr-3 btn-sm" style="width: 80px;" value="cancel" />
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="table-responsive mt-5">
             <table class="col-sm-12 table table-hover table-bordered table-sm  ">
@@ -139,29 +145,29 @@
                         <th>Si.No</th>
                         <th>Purchase Date</th>
                         <th>Book ID</th>
-                        <th>Book Name</th>
-                        <th>Author</th>
                         <th>Category</th>
                         <th>Department</th>
+                        <th>Book Name</th>
+                        <th>Author</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>07/08/2023</td>
-                        <td>12</td>
-                        <td>StarWars</td>
-                        <td>James</td>
-                        <td>Comics</td>
-                        <td>Entertainment</td>
-                        <td>200</td>
-                        <td>25</td>
+                    <tr *ngFor="let book of addBookList;let i=index;">
+                        <td>{{i+1}}</td>
+                        <td>{{book.purchase_date}}</td>
+                        <td>{{book.book_id}}</td>
+                        <td>{{book.category_name}}</td>
+                        <td>{{book.department_name}}</td>
+                        <td>{{book.book_name}}</td>
+                        <td>{{book.book_author}}</td>
+                        <td>{{book.price}}</td>
+                        <td>{{book.quantity}}</td>
                         <td class="tdoption">
-                            <span class="m-2 editbutton" title="Click to edit" ><b>edit</b></span>
-                            <!-- (click)="udateGetClick(sty)" -->
+                            <span class="m-2 editbutton" (click)="udateGetClick(book)"
+                                title="Click to edit"><b>edit</b></span>
                         </td>
                     </tr>
                 </tbody>

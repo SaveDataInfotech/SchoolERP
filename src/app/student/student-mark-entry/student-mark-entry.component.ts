@@ -97,7 +97,7 @@ export class StudentMarkEntryComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.rankTypeMarkForm.get('classid')?.setValue(classid);
     // this.rankTypeMarkForm.classid = classid;
@@ -224,7 +224,7 @@ this.subjectsArray(i).push(this.putNewSubject());
   // }
 
   searchStudentByClass() {
-    debugger;
+    
     this.spinner.show();
     // let classid: number = (this.rankTypeMarkForm.classid);
     // let groupid: number = (this.rankTypeMarkForm.groupid);
@@ -260,7 +260,7 @@ this.subjectsArray(i).push(this.putNewSubject());
     });
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
-      debugger;
+      
       this.subjectList = data;
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
         return { name: item, selected: false };

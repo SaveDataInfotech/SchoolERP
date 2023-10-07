@@ -69,7 +69,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.searchStudentForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -115,7 +115,7 @@ export class StudentPromoteComponent implements OnInit {
   }
   //////////////////
   profilterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.studentPromoteForm.classid = classid;
     this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -136,7 +136,7 @@ export class StudentPromoteComponent implements OnInit {
     const groupid = Number(groupID);
     this.studentPromoteForm.groupid = groupid;
     this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.studentPromoteForm.sectionid = 0;
+    this.studentPromoteForm.sectionid = null;
   }
 
   studentPromoteForm = {

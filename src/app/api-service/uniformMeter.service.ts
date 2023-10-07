@@ -15,7 +15,7 @@ export class uniformMeterService {
   }
 
   getMaxId(): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'UniformMeter/get_MaxId_Uniform_meter');
   }
 

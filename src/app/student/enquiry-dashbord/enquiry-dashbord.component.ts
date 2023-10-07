@@ -34,7 +34,7 @@ export class EnquiryDashbordComponent implements OnInit {
   }
 
   onchange(id: any) {
-    debugger;
+    
     var idd = Number(id)
     this.staffTypeid = idd;
     this.serchList(this.staffTypeid);
@@ -106,7 +106,7 @@ export class EnquiryDashbordComponent implements OnInit {
 
 
   ActiveAdmissionClick(selected: any) {
-    debugger;
+    
     sessionStorage.removeItem('selectd')
     var myStr = JSON.stringify(selected);
     sessionStorage.setItem("selectd", myStr);

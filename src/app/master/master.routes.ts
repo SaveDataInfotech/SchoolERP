@@ -13,6 +13,8 @@ import { ReportsComponent } from './reports/reports.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
 import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
+import { GeneralFeesComponent } from './general-fees/general-fees.component';
+import { SpecialFeesComponent } from './special-fees/special-fees.component';
 
 
 export const masterRoutes: Routes = [
@@ -27,6 +29,14 @@ export const masterRoutes: Routes = [
   {
     path:"fees_master",
     component:FeesMasterComponent,
+  },
+  {
+    path:"general_fees",
+    component:GeneralFeesComponent,
+  },
+  {
+    path:"special_fees",
+    component:SpecialFeesComponent,
   },
   {
     path:"subject_master",

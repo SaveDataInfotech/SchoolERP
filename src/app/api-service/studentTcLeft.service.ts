@@ -11,19 +11,19 @@ export class studentTcLeftService {
   }
 
   allStudents(): Observable<any[]> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_all_Students', httpOptions);
   }
 
   TcApply(studentdetails: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentTcLeft/insert_student_tc_left', studentdetails, httpOptions);
   }
 
   TcApplyAll(studentdetails: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentTcLeft/insert_student_tc_leftbyall', studentdetails, httpOptions);
   }

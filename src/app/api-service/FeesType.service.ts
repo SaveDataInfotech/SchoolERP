@@ -24,7 +24,7 @@ export class FeesTypeService {
   }
 
   deletefeesType(typeid: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'FeesType/Delete_fees_type?typeid=' + typeid, httpOptions);
   }

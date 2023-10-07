@@ -53,7 +53,7 @@ export class VehicleMasterComponent implements OnInit {
   })
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   refreshvehicleTypeList() {
@@ -182,11 +182,17 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var venortinsert = (this.vehicleNoRootForm.value);
               this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshvehicleNoRootList();
                   this.getMaxIdVehicleNoRoot();
                   this.cancelClickVehicleNoRoot();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -283,11 +289,17 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var placeinsert = (this.vehicleplaceForm.value);
               this.PlaceSvc.addNewPlace(placeinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
                   this.refreshvehiclePlaceList();
                   this.getMaxIdPlace();
                   this.cancelClickPlace();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

@@ -9,9 +9,6 @@
                                 <h3 class="ml-1">Student Class</h3>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
                     </div>
                     <form [formGroup]="Student_classForm" (ngSubmit)="New_Class()">
                         <div class="row">
@@ -57,31 +54,24 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Medium<span
-                                            class="text-danger">*</span></label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <select style="width:100%;"
-                                        [ngClass]="{'is-invalid':Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors}"
-                                        class="form-control" formControlName="medium" name="selectAction">
-                                        <option selected value='English'>English</option>
-                                        <option value="Tamil">Tamil</option>
-                                    </select>
-                                    <span class="text-danger"
-                                        *ngIf="Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors">
-                                        <div
-                                            *ngIf="Student_classForm.controls.medium.touched && Student_classForm.controls.medium.errors.required">
-                                            Medium is required
-                                        </div>
-                                    </span>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ Student_classForm.value.classid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
@@ -94,7 +84,7 @@
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </form>
                 </mat-card-content>
@@ -138,9 +128,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Student Section</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <form [formGroup]="Student_SectionForm" (ngSubmit)="NewSection()">
@@ -227,6 +214,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ Student_SectionForm.value.sectionid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="SectioncancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="SectionbuttonId == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -236,7 +239,7 @@
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -285,9 +288,6 @@
                                 <h3 class="ml-1">Student Group</h3>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
                     </div>
                     <form [formGroup]="Student_GroupForm" (ngSubmit)="NewGroup()">
                         <div class="row">
@@ -320,7 +320,9 @@
                                         [ngClass]="{'is-invalid': Student_GroupForm.get('classid')?.touched && Student_GroupForm.get('classid')?.errors}"
                                         name="selectAction">
                                         <option value="null" selected disabled>Please select</option>
-                                        <option *ngFor="let class of ClassList;" [ngValue]="class.classid">
+                                        <option
+                                            [disabled]="class.class_name != 'XI' && class.class_name != 'Xl' && class.class_name != 'XII' && class.class_name != 'Xll'"
+                                            *ngFor="let class of ClassList;" [ngValue]="class.classid">
                                             {{class.class_name}}</option>
                                     </select>
                                     <span class="text-danger"
@@ -383,6 +385,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ Student_GroupForm.value.groupid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="GroupcancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="GroupbuttonId == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -392,7 +410,7 @@
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>

@@ -9,9 +9,6 @@
                                 <h3 class="ml-1">Uniform Master</h3>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
                     </div>
                     <form [formGroup]="uniformSizeForm" (ngSubmit)="NewUniformSize()">
                         <div class="row">
@@ -47,7 +44,6 @@
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="buttonId != true" value="Male">Male</option>
                                         <option [disabled]="buttonId != true" value="FeMale">Female</option>
-                                        <option [disabled]="buttonId != true" value="Others">All</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors">
@@ -73,7 +69,7 @@
                                         *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors">
                                         <div
                                             *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.required">
-                                            Size is required
+                                            Class is required
                                         </div>
                                         <div
                                             *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.pattern">
@@ -169,13 +165,14 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ uniformSizeForm.value.uniformid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
@@ -206,7 +203,7 @@
                                     <td>{{size.shirting}}</td>
                                     <td>{{size.suiting}}</td>
                                     <td>{{size.over_coat}}</td>
-                                    <td>{{size.amount}}</td>
+                                    <td style="text-align: right;">{{size.amount}}</td>
                                     <td class="tdoption">
                                         <span class="m-2 editbutton" (click)="udateGetClick(size)"><b>edit</b></span>
                                         <span>||</span>
@@ -231,9 +228,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Uniform Master</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <form [formGroup]="uniformMeterForm" (ngSubmit)="newUniformMeter()">
@@ -270,7 +264,6 @@
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="meterbuttonId != true" value="Male">Male</option>
                                         <option [disabled]="meterbuttonId != true" value="FeMale">Female</option>
-                                        <option [disabled]="meterbuttonId != true" value="Others">All</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors">
@@ -341,7 +334,6 @@
                                             Invalid pattern (Enter like 2m 0r 1.5m)
                                         </div>
                                     </span>
-
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
@@ -399,6 +391,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ uniformMeterForm.value.uniformid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="MetercancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="meterbuttonId == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -409,7 +417,7 @@
                                         value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -435,11 +443,11 @@
                                     <td>{{i+1}}</td>
                                     <td>{{meter.gender}}</td>
                                     <td>{{meter.shirting}}</td>
-                                    <td>{{meter.sh_am}}</td>
+                                    <td style="text-align: right;">{{meter.sh_am}}</td>
                                     <td>{{meter.suiting}}</td>
-                                    <td>{{meter.su_am}}</td>
+                                    <td style="text-align: right;">{{meter.su_am}}</td>
                                     <td>{{meter.overcoat}}</td>
-                                    <td>{{meter.oc_am}}</td>
+                                    <td style="text-align: right;">{{meter.oc_am}}</td>
                                     <td class="tdoption">
                                         <span class="m-2 editbutton"
                                             (click)="updateMeterGetClick(meter)"><b>edit</b></span>

@@ -24,6 +24,7 @@ export class AddDataComponent implements OnInit {
   ngOnInit(): void {
     this.refreshBookList();
     this.refreshAddBookList();
+    this.addBookCancelClick();
   }
 
   backButton() {
@@ -46,7 +47,7 @@ export class AddDataComponent implements OnInit {
   }
 
   addBookForm = new FormGroup({
-    id: new FormControl(0),
+    add_id: new FormControl(0),
     purchase_date: new FormControl(''),
     book_id: new FormControl(''),
     category_name: new FormControl(''),
@@ -59,27 +60,32 @@ export class AddDataComponent implements OnInit {
   });
 
   mapBookDetails() {
-    debugger;
+    
     const newBookList = this.bookList.filter((e) => { return e.book_id == this.addBookForm.value.book_id });
-    this.addBookForm.get('category_name')?.setValue(newBookList[0].category_name);
-    this.addBookForm.get('department_name')?.setValue(newBookList[0].department_name);
-    this.addBookForm.get('book_name')?.setValue(newBookList[0].book_name);
+    if (newBookList.length != 0) {
+      this.addBookForm.get('category_name')?.setValue(newBookList[0].category_name);
+      this.addBookForm.get('department_name')?.setValue(newBookList[0].department_name);
+      this.addBookForm.get('book_name')?.setValue(newBookList[0].book_name);
+    }
+    else {
+      this.addBookForm.get('category_name')?.setValue('');
+      this.addBookForm.get('department_name')?.setValue('');
+      this.addBookForm.get('book_name')?.setValue('');
+      this.notificationSvc.error("Invalid Book Id")
+    }
+
   }
 
   refreshAddBookList() {
     this.adBoSvc.getBookList().subscribe(data => {
-      debugger;
+      
       this.addBookList = data;
     });
   }
 
   save() {
-    console.log(this.addBookForm.value)
-  }
-
-  newDepartment() {
     if (this.addBookForm.valid) {
-      if (this.addBookForm.value.id == 0) {
+      if (this.addBookForm.value.add_id == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
@@ -88,7 +94,7 @@ export class AddDataComponent implements OnInit {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved successfully")
                   this.refreshAddBookList();
-                  //this.cancelDepartmentClick();
+                  this.addBookCancelClick();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
@@ -100,7 +106,7 @@ export class AddDataComponent implements OnInit {
             }
           });
       }
-      else if (this.addBookForm.value.id != 0) {
+      else if (this.addBookForm.value.add_id != 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
@@ -109,7 +115,7 @@ export class AddDataComponent implements OnInit {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshAddBookList();
-                  //this.cancelDepartmentClick();
+                  this.addBookCancelClick();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
@@ -127,7 +133,26 @@ export class AddDataComponent implements OnInit {
     }
     else {
       this.addBookForm.markAllAsTouched();
+      this.notificationSvc.error("Fill mandatory");
     }
   }
 
+  udateGetClick(book) {
+    this.addBookForm.patchValue(book);
+  }
+
+  addBookCancelClick() {
+    this.refreshAddBookList();
+    this.addBookForm.reset();
+    this.addBookForm.get('add_id')?.setValue(0);
+    this.addBookForm.get('purchase_date')?.setValue('');
+    this.addBookForm.get('book_id')?.setValue('');
+    this.addBookForm.get('category_name')?.setValue('');
+    this.addBookForm.get('department_name')?.setValue('');
+    this.addBookForm.get('book_name')?.setValue('');
+    this.addBookForm.get('book_author')?.setValue('');
+    this.addBookForm.get('price')?.setValue('');
+    this.addBookForm.get('quantity')?.setValue('');
+    this.addBookForm.get('cuid')?.setValue(1);
+  }
 }

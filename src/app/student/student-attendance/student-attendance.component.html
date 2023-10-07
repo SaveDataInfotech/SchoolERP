@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <mat-card class="mt-2 matcard">
-        <mat-card-content>            
+        <mat-card-content>
             <div class="row">
                 <div class="col-sm-6" style="display: flex;">
                     <div style="float: left;width: 300px;">
@@ -17,14 +17,13 @@
                         <div class="row">
                             <div class="col-sm-12 mt-2" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-3" style="margin: auto;">Date<span class="text-danger">
+                                    <label class="pt-2" style="margin: auto;">Date<span class="text-danger">
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [disabled]="serachDisabled == true" [min]="minDate" [max]="today"
-                                        placeholder="Enter 10-th Mark" name="date" [value]="today"
-                                        [(ngModel)]="studentAttendanceForm.date" class="form-control" type="date"
-                                        required>
+                                    <input [disabled]="serachDisabled == true" [max]="today" name="date"
+                                        [value]="today" [(ngModel)]="studentAttendanceForm.date" class="form-control"
+                                        type="date" required>
                                 </div>
                             </div>
                         </div>

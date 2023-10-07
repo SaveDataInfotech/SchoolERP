@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   ) { }
   canActivate(): boolean {
     if (this.loginSvc.isLoggedIn()) {
-      debugger;
+      
       return true;
     }
     else {

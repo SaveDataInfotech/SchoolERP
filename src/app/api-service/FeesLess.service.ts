@@ -15,7 +15,7 @@ export class FeesLessService {
     }
 
     getMaxId(): Observable<any[]> {
-        debugger;
+        
         return this.http.get<any[]>(this.apiUrl + 'FeesLess/get_MaxId_fees_less');
     }
 
@@ -26,7 +26,7 @@ export class FeesLessService {
     }
 
     deletefeesLessType(fess_lessid: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'FeesLess/delete_fees_less?fess_lessid=' + fess_lessid, httpOptions);
     }

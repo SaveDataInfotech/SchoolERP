@@ -1,0 +1,259 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Fees Type">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Fees Type</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="feestypeForm" (ngSubmit)="NewFeesType()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Fees Code</label>
+                                </div>
+                                <span class="inputdiv" *ngIf="buttonId == true ">
+                                    <div *ngFor="let code of MaxId">
+                                        <input placeholder="000{{code.typeid+1}}" class="form-control" type="text"
+                                            readonly>
+                                    </div>
+                                </span>
+                                <span class="inputdiv" *ngIf="buttonId != true">
+                                    <div>
+                                        <input formControlName="typeid" class="form-control" type="text" readonly>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Fees Type <span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors}"
+                                        formControlName="type_name" class="form-control" type="tel" required>
+
+                                    <span class="text-danger"
+                                        *ngIf="feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors">
+                                        <div
+                                            *ngIf="feestypeForm.controls.type_name.touched && feestypeForm.controls.type_name.errors.required">
+                                            Fees Type is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ feestypeForm.value.typeid ==0 ? 'Save' : 'Edit'}}</span></button>
+                                    <input (click)=" cancelClick()" type="button" style="width: 80px;"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Fees Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let fees of FeesList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{fees.type_name}}</td>
+                                    <td class="tdoption">
+                                        <span class="m-2 editbutton" (click)="udateGetClick(fees)"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="deleteClick(fees.typeid)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Fees Assign">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">General Fees Assign</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="generalFeesAssignForm" (ngSubmit)="newGeneralFees()">
+                        <div class="row">
+                            <div class="col-sm-3 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class Name<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select required
+                                        [ngClass]="{'is-invalid': generalFeesAssignForm.get('classid')?.touched && generalFeesAssignForm.get('classid')?.errors}"
+                                        formControlName="classid" style="width: 100%;" #t
+                                        (change)="filterGroupfun(t.value)" class="form-control " name="selectAction">
+                                        <option value=null selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="generalFeesAssignForm.get('classid')?.touched && generalFeesAssignForm.get('classid')?.errors">Class
+                                        name is required</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 mt-3" style="display: flex;" *ngIf="groupFilterlist.length !=0">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group Name</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select formControlName="groupid" style="width: 100%;" #s class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="group.groupid" *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Batch Year<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid': generalFeesAssignForm.controls.batch_year.touched && generalFeesAssignForm.controls.batch_year.errors}"
+                                        formControlName="batch_year" class="form-control" type="text" readonly required>
+
+                                    <span class="text-danger"
+                                        *ngIf="generalFeesAssignForm.controls.batch_year.touched && generalFeesAssignForm.controls.batch_year.errors">
+                                        <div
+                                            *ngIf="generalFeesAssignForm.controls.batch_year.touched && generalFeesAssignForm.controls.batch_year.errors.required">
+                                            Batch Year is required ! Please Visit Batch Year Page
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3" style="display: flex;">
+                                <div style="float: left;width: 100px;">
+                                    <input type="button" style="width: 80px;" class="btn btn-secondary btn-sm mt-4"
+                                        (click)="listFeesType()" value="Search" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="generalFeesAssignForm.value.feesList.length !=0" class="table-responsive mt-4">
+                            <table class="col-sm-8 table table-hover table-bordered table-sm  ">
+                                <thead>
+                                    <tr>
+                                        <th>Si.No</th>
+                                        <th>Fees Type</th>
+                                        <th>Male</th>
+                                        <th>Same to female</th>
+                                        <th>Female</th>
+                                    </tr>
+                                </thead>
+                                <tbody formArrayName="feesList">
+                                    <tr *ngFor="let chid of generalFeesAssignForm.get('feesList')['controls']; let i = index"
+                                        formGroupName="{{i}}">
+                                        <td class="pt-3">{{i+1}}</td>
+                                        <td class="pt-3">{{chid.get('type_name').value}}</td>
+                                        <td><input (keypress)="numberOnly($event)" type="text" class="form-control"
+                                                formControlName="male_amount"></td>
+                                        <td class="pt-3"><input style="width: 20px;height: 20px;"
+                                                (click)="sameFemaleAmount(i,$event)" type="checkbox">
+                                        </td>
+                                        <td><input (keypress)="numberOnly($event)" type="text" class="form-control"
+                                                formControlName="female_amount"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row" *ngIf="generalFeesAssignForm.value.feesList.length !=0">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ generalFeesAssignForm.value.assignid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="generalFeesCancel()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Claas Name</th>
+                                    <th>Group Name</th>
+                                    <th>Batch Year</th>
+                                    <th>Fee Type</th>
+                                    <th>Male</th>
+                                    <th>Female</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of generalFeesList;let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.class_name}}</td>
+                                    <td>{{item.group_name}}</td>
+                                    <td>{{item.batch_year}}</td>
+                                    <td>{{item.type_name}}</td>
+                                    <td style="text-align: right;">{{item.male_amount}}</td>
+                                    <td style="text-align: right;">{{item.female_amount}}</td>
+                                    <td> <span (click)="generalUpdate(item)" class="m-2 editbutton"><b>edit</b></span>
+                                        <span>||</span>
+                                        <span class="m-2 deletebutton"
+                                            (click)="generalDelete(item.assignid)"><b>delete</b></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

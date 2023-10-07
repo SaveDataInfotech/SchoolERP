@@ -8,7 +8,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ReportsComponent implements OnInit {
   markEntryForm: FormGroup;
-
+  sub:any;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -16,10 +16,12 @@ export class ReportsComponent implements OnInit {
       students: this.fb.array([])
     });
 
+    this.sub=['Math', 'Science','English', 'History']
+
     // Data from another array: Students
     const studentsData = [
-      { name: 'Student 1', subjects: ['Math', 'Science'] },
-      { name: 'Student 2', subjects: ['English', 'History'] }
+      { name: 'Student 1', subjects:this.sub },
+      { name: 'Student 2', subjects: this.sub }
     ];
 
     studentsData.forEach(student => {

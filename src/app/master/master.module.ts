@@ -30,6 +30,8 @@ import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
 import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
+import { GeneralFeesComponent } from './general-fees/general-fees.component';
+import { SpecialFeesComponent } from './special-fees/special-fees.component';
 
 
 
@@ -50,7 +52,9 @@ import { LibraryBookMasterComponent } from './library-book-master/library-book-m
     ResonDialogComponent,
     RoleComponent,
     SubjectAssignComponent,
-    LibraryBookMasterComponent
+    LibraryBookMasterComponent,
+    GeneralFeesComponent,
+    SpecialFeesComponent
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

@@ -15,7 +15,7 @@ export class VehiclePlaceService {
   }
 
   getMaxIdPlace(): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'VehiclePlace/get_MaxId_vehicle_place');
   }
 

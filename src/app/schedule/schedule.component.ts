@@ -25,13 +25,13 @@ export class ScheduleComponent implements OnInit {
 
 
   searchStudentByClass() {
-    debugger;  
+      
     let classid: number = (1);
     let groupid: number = (0);
     let sectionid: number = (1);
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
-      debugger;
+      
       this.subjectList = data;
       console.log('subject'+this.subjectList)
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function(item){
@@ -54,7 +54,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   getAllStudents() {
-    debugger;
+    
     this.spinner.show();
     this.tcSvc.allStudents().subscribe(data => {
       this.allstudentList = data;

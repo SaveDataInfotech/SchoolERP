@@ -60,7 +60,7 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.rankTypeMarkForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -108,7 +108,7 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   searchStudentByClass() {
-    debugger;
+    
     this.spinner.show();
     let classid: number = (this.rankTypeMarkForm.classid);
     let groupid: number = (this.rankTypeMarkForm.groupid);
@@ -124,7 +124,7 @@ export class MarkEntryGradeComponent implements OnInit {
     });
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
-      debugger;
+      
       this.subjectList = data;
       console.log('subject'+this.subjectList)
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function(item){

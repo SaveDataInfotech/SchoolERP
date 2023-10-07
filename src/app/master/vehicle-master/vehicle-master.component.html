@@ -9,9 +9,6 @@
                                 <h3 class="ml-1">Vehicle Type</h3>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
                     </div>
                     <form [formGroup]="vehicletypeForm" (ngSubmit)="NewVehicleType()">
                         <div class="row">
@@ -58,6 +55,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ vehicletypeForm.value.typeid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -67,7 +80,7 @@
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -111,9 +124,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Vehicle No & Vechicle Root</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <form [formGroup]="vehicleNoRootForm" (ngSubmit)="NewVehicleNoRoot()">
@@ -204,6 +214,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ vehicleNoRootForm.value.vehicle_no_id ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClickVehicleNoRoot()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="NoRootbuttonId == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -214,7 +240,7 @@
                                         value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -263,9 +289,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Vehicle Place</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <form [formGroup]="vehicleplaceForm" (ngSubmit)="NewVehiclePlace()">
@@ -337,6 +360,22 @@
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ vehicleplaceForm.value.placeid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClickPlace()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
                                 <div style="float: left;width: 250px;">
                                     <input *ngIf="buttonIdPlace == true" matTooltip="Click to Save" type="submit"
                                         style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -347,10 +386,10 @@
                                         value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
 
-                    <hr />
+                    <!-- <hr />
 
                     <p style="color: green;">If you have an Excel sheet select path here!</p>
                     <form>
@@ -370,7 +409,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
                 </mat-card-content>
             </mat-card>
 

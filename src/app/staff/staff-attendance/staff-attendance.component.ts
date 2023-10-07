@@ -94,7 +94,7 @@ export class StaffAttendanceComponent implements OnInit {
   }
 
   searchStaff() {
-    debugger;
+    
     let staff_type = (this.staffAttendanceForm.staff_type);
     if (staff_type != '' && this.staffAttendanceForm.date != '') {
       let date = (this.staffAttendanceForm.date);

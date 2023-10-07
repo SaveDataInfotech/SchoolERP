@@ -1,39 +1,36 @@
-
 <form [formGroup]="markEntryForm" (ngSubmit)="onSubmit()">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Subjects</th>
-        </tr>
-      </thead>
-      <tbody formArrayName="students">
-        <tr *ngFor="let student of markEntryForm.get('students')['controls']; let i = index"
-          [formGroupName]="i">
-          <td>
-            <input type="text" formControlName="name">
+  <table class="table table-bordered">
+    <thead formArrayName="students">
+      <tr>
+        <th>Name</th>
+        <th>Subjects</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Avg</th>
+        <th>Rank</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="students">
+      <tr *ngFor="let student of markEntryForm.get('students')['controls']; let i = index" [formGroupName]="i">
+        <td>
+          <span class="hide-text" *ngIf="i == 0"> .</span>
+          {{student.get('name').value}}
+        </td>
+        <span formArrayName="subjects">
+          <td *ngFor="let subject of student.get('subjects').controls; let j = index" [formGroupName]="j">
+            <span class="h6" style="margin-bottom: 10px;" *ngIf="i == 0">{{subject.get('name').value}}</span>            
+            <span style="display: flex;">
+              <input placeholder="Mark" type="text" class="mr-2 form-control" formControlName="marks">
+              <input placeholder="Grade" class="form-control" type="text" formControlName="grade">
+            </span>
           </td>
-          <td>
-            <table>
-              <tbody formArrayName="subjects">
-                <tr *ngFor="let subject of student.get('subjects').controls; let j = index"
-                  [formGroupName]="j">
-                  <td>
-                    <input type="text" formControlName="marks">
-                  </td>
-                  <td>
-                    <input type="number" formControlName="grade">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button type="submit">Submit</button>
-  </form>
-
-
-
-  
+        </span>
+        <td><span class="hide-text" *ngIf="i == 0"> ....</span><input class="form-control"></td>
+        <td><span class="hide-text" *ngIf="i == 0"> .</span><input class="form-control"></td>
+        <td><span class="hide-text" *ngIf="i == 0"> .</span><input class="form-control"></td>
+        <td><span class="hide-text" *ngIf="i == 0"> .</span><input class="form-control"></td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="submit">Submit</button>
+</form>

@@ -150,7 +150,6 @@
                                 <option value='' selected disabled>Please select</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">FeMale</option>
-                                <option value="Others">Other</option>
                             </select>
                             <span class="text-danger"
                                 *ngIf="StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors">
@@ -430,8 +429,20 @@
                             <label class="pt-2" style="margin: auto;">Mobile Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10" minlength="10"
+                            <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10"
                                 class="form-control" type="tel">
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
+                                    Invalid input
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.m_ph.touched && StudentEnquiryForm.controls.m_ph.errors.minlength">
+                                    Invalid input
+                                </div>
+                            </span>
+
                         </div>
                     </div>
                 </div>

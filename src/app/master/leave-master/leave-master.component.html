@@ -9,9 +9,6 @@
                                 <h3 class="ml-1">Leave Type</h3>
                             </div>
                         </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
                     </div>
                     <form [formGroup]="leavetypeForm" (ngSubmit)=" NewLeaveType()">
                         <div class="row">
@@ -68,7 +65,7 @@
                                         *ngIf="leavetypeForm.controls.fullName.touched && leavetypeForm.controls.fullName.errors">
                                         <div
                                             *ngIf="leavetypeForm.controls.fullName.touched && leavetypeForm.controls.fullName.errors.required">
-                                            fullName is required
+                                            Full Name is required
                                         </div>
                                     </span>
                                 </div>
@@ -76,6 +73,22 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ leavetypeForm.value.typeid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                 </div>
@@ -88,7 +101,7 @@
                                         style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -133,9 +146,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Leave Assign</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <form [formGroup]="leaveAssignForm" (ngSubmit)="NewLeaveAssign()">
@@ -286,7 +296,23 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12 mt-4">
+                        <div class="row">
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                </div>
+                                <div style="float: left;width: 350px;">
+                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                        <span> {{ leaveAssignForm.value.assignid ==0 ? 'Save' :
+                                            'Edit'}}</span></button>
+                                    <input type="button" style="width: 80px;" (click)="AssigncancelClick()"
+                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        (click)="backButton()" value="Close" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
                                 <input *ngIf="AssignbuttonId == true" matTooltip="Click to Save" type="submit"
                                     style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
@@ -295,7 +321,7 @@
                                 <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button"
                                     style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>

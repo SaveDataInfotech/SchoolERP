@@ -20,7 +20,7 @@ export class hostelMasterService {
 
 
   addNewHostel(hostelinsert: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'HostelMaster/insert_hostel_master', hostelinsert, httpOptions);
   }

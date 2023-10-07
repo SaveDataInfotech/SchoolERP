@@ -11,11 +11,11 @@ export class addBookService {
     }
 
     getBookList(): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl + 'BookMaster/Get');
+        return this.http.get<any[]>(this.apiUrl + 'AddBook/Get');
     }
 
-    addNewBook(newBookinsert: any): Observable<any> {
+    addNewBook(newBookinsert: any): Observable<any> {        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.post<any>(this.apiUrl + 'BookMaster/insert_book_master', newBookinsert, httpOptions);
+        return this.http.post<any>(this.apiUrl + 'AddBook/insert_add_book', newBookinsert, httpOptions);
     }
 }

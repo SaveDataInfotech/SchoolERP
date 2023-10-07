@@ -27,14 +27,14 @@ export class LoginComponent implements OnInit {
     var email = String(this.loginForm.value.email);
     var password = String(this.loginForm.value.password);
     this.loginSvc.loginGetClick(email,password).subscribe(data => {
-      debugger;
+      
         this.userDetails = data;
         if(this.userDetails[0] != null && this.userDetails[0].user_name != null && this.userDetails[0].role_name != null && this.userDetails[0] != undefined){
           this.loginForm.reset();
           this.loginSvc.storeToken(this.userDetails[0].role_name)// temp array // token
           localStorage.setItem('rolename',this.userDetails[0].role_name);
           localStorage.setItem('staffid',this.userDetails[0].staff_no);
-          this.router.navigateByUrl('/app/dashboard');
+          this.router.navigateByUrl('/app/dashboard/dashboard');
           this.notificationSvc.success("LOGIN SUCCESSFUL")
         }
         else{          

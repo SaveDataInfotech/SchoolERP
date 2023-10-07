@@ -1,13 +1,13 @@
 <div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Subject Assign</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Subject Assign</h3>
+                    </div>
+                </div>
+            </div>
             <form #AssignForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -23,7 +23,7 @@
                         <span *ngIf="assignbuttonId != true">
                             <div class="inputdiv">
                                 <input name="assignid" [(ngModel)]="subjectAssignForm.assignid" class="form-control"
-                                    type="text" readonly required>
+                                    type="text" readonly>
                             </div>
                         </span>
                     </div>
@@ -32,18 +32,22 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Class</label>
+                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <select name="classid" [(ngModel)]="subjectAssignForm.classid" style="width: 100%;" #t
-                                (change)="FilterGroupfun(t.value)" class="form-control">
-                                <option value=0 selected disabled>Please select</option>
+                            <select #classid="ngModel"
+                                [class.is-invalid]="classid.invalid && (classid.dirty || classid.touched)"
+                                name="classid" [(ngModel)]="subjectAssignForm.classid" style="width: 100%;" #t
+                                (change)="FilterGroupfun(t.value)" class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="row" *ngIf="groupDisplay == true">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -64,12 +68,14 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Section</label>
+                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <select name="sectionid" [(ngModel)]="subjectAssignForm.sectionid" style="width: 100%;"
-                                class="form-control ">
-                                <option value=0 selected disabled>Please select</option>
+                            <select #sectionid="ngModel"
+                                [class.is-invalid]="sectionid.invalid && (sectionid.dirty || sectionid.touched)"
+                                name="sectionid" [(ngModel)]="subjectAssignForm.sectionid" style="width: 100%;"
+                                class="form-control " required>
+                                <option value=null selected disabled>Please select</option>
                                 <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
                                     {{section.section_name}}</option>
                             </select>
@@ -94,14 +100,30 @@
                     <div class="col-sm-6" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
+                        <div style="float: left;width: 350px;">
+                            <button [disabled]="AssignForm.invalid" type="submit" style="width: 80px;"
+                                class="btn btn-success mr-3 btn-sm mt-4">
+                                <span> {{ subjectAssignForm.assignid ==0 ? 'Save' : 'Edit'}}</span></button>
+                            <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
+                            <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                (click)="backButton()" value="Close" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                        </div>
+                        <div style="float: left;width: 250px;">                           
+                                <button type="submit" style="width: 80px;" class="btn btn-primary mt-4 mr-3 btn-sm">
+                                    <span> {{ subjectAssignForm.assignid ==0 ? 'Save' : 'Edit'}}</span></button>
                             <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
                                 (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
                         </div>
                     </div>
-                </div>
+                </div> -->
             </form>
         </mat-card-content>
     </mat-card>

@@ -210,7 +210,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   getMaxIdLess() {
-    debugger;
+    
     this.FlSvc.getMaxId().subscribe(data => {
       this.MaxIdLess = data;
     });
@@ -331,7 +331,7 @@ export class FeesMasterComponent implements OnInit {
 
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.feesAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -391,7 +391,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   newFeesAssign() {
-    debugger;
+    
     if (this.feesAssignForm.valid) {
       if (this.feesAssignForm.value.assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -399,12 +399,19 @@ export class FeesMasterComponent implements OnInit {
             if (res == true) {
               var feesAssignInsert = (this.feesAssignForm.value);
               this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
-                if (res?.recordid) {
+                
+                if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshFeesAssignList();
                   this.getMaxIdAssign();
                   this.cancelClickAssign();
                 }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }                
               });
             }
           });
@@ -414,13 +421,19 @@ export class FeesMasterComponent implements OnInit {
           .afterClosed().subscribe(res => {
             if (res == true) {
               var feesAssignInsert = (this.feesAssignForm.value);
-              this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+              this.feeAsSvc.addNewFeesAssign(feesAssignInsert).subscribe(res => {                
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Updated Success");
                   this.refreshFeesAssignList();
                   this.getMaxIdAssign();
                   this.cancelClickAssign();
                 }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }        
               });
             }
           });
@@ -454,7 +467,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   updateGetClickAssign(Assign: any) {
-    debugger;
+    
     this.feesAssignForm.get('assignid')?.setValue(Assign.assignid);
     this.feesAssignForm.get('classid')?.setValue(Assign.classid);
     this.filterGroupfun(Assign.classid);
@@ -511,7 +524,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   newFeesTypeAssign() {
-    debugger;
+    
     if (this.feesTypeAssignForm.valid) {
       if (this.feesTypeAssignForm.value.type_assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -564,7 +577,7 @@ export class FeesMasterComponent implements OnInit {
   }
 
   updateGetClicTypekAssign(Assign: any) {
-    debugger;
+    
     this.feesTypeAssignForm.get('type_assignid')?.setValue(Assign.type_assignid);
     this.feesTypeAssignForm.get('typeid')?.setValue(Assign.typeid);
     this.feesTypeAssignForm.get('type_assign_name')?.setValue(Assign.type_assign_name);

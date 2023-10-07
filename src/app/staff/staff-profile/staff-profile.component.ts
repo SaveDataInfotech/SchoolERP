@@ -207,6 +207,7 @@ export class StaffProfileComponent implements OnInit {
     }
     else {
       this.staffProfileForm.markAllAsTouched();
+      this.notificationSvc.error('Fill in the Mandatory fileds')
     }
 
   }
@@ -221,7 +222,7 @@ export class StaffProfileComponent implements OnInit {
 
   getMaxId() {
     this.staffSvc.getMaxId().subscribe(data => {
-      debugger;
+      
       this.maxIDList = data;
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id

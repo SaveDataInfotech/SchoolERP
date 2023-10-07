@@ -29,7 +29,7 @@ export class StudentAttendanceComponent implements OnInit {
   todayDate: Date = new Date();
 
   date1 = new Date();
-  minDate = new Date();
+  //minDate = new Date();
   currentYear = this.date1.getUTCFullYear();
 
   currentMonth = this.date1.getUTCMonth() + 1;
@@ -76,7 +76,7 @@ export class StudentAttendanceComponent implements OnInit {
 
 
   backButton() {
-    this.router.navigateByUrl('/app/dashboard');
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
   //////////////////////// FN CHECKBOX FUNCTION
   fnupdateAllComplete() {
@@ -132,7 +132,7 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+
     const classid = Number(classsid);
     this.studentAttendanceForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -150,7 +150,7 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   filterSectionfun(groupID: any) {
-    debugger;
+
     const groupid = Number(groupID);
     this.studentAttendanceForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -179,7 +179,6 @@ export class StudentAttendanceComponent implements OnInit {
     let date: any = (this.studentAttendanceForm.date);
     if (date != '' && classid != 0 && sectionid != 0) {
       this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
-        debugger;
         this.studentList = data;
         if (this.studentList.length != 0) {
           if (this.studentList[0].ani == true) {
@@ -206,7 +205,7 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   checkChange(option: any) {
-    debugger;
+
     if (option) {
       this.studentAttendanceForm.fn = true;
     } else {
@@ -218,14 +217,13 @@ export class StudentAttendanceComponent implements OnInit {
     const date = this.studentAttendanceForm.date;
     const classg = this.studentAttendanceForm.classid;
     const section = this.studentAttendanceForm.sectionid;
-    debugger;
     if (date != '' && classg != 0 && section != 0) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.sAdSvc.newAttendance(data).subscribe(res => {
               if (res.status == 'Insert Success') {
-                debugger;
+
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
               }
@@ -250,7 +248,7 @@ export class StudentAttendanceComponent implements OnInit {
     this.studentAttendanceForm.fn = false;
     this.studentAttendanceForm.an = false;
     this.studentAttendanceForm.date = this.today;
-    this.studentList = null;
+    this.studentList = [];
     this.serachDisabled = false;
     this.fni = false;
     this.ani = false;

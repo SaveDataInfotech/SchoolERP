@@ -45,12 +45,17 @@ export class RoleComponent implements OnInit {
             if (res == true) {
               var roleinsert = (this.roleForm.value);
               this.roleSvc.addNewRole(roleinsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")                  
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
                   this.refreshRoleList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }
@@ -62,12 +67,17 @@ export class RoleComponent implements OnInit {
             if (res == true) {
               var roleinsert = (this.roleForm.value);
               this.roleSvc.addNewRole(roleinsert).subscribe(res => {
-                console.log(res, 'resss')
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
                   this.refreshRoleList();
                   this.getMaxId();
                   this.cancelClick();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
                 }
               });
             }

@@ -21,7 +21,7 @@ export class ResonDialogComponent implements OnInit {
   }
 
   condialog(reson:any){
-    debugger;
+    
    const res:any=true
     this.dialogRef.close(reson);
   }
