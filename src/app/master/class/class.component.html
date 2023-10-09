@@ -39,7 +39,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input
                                         [ngClass]="{'is-invalid': Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}"
-                                        formControlName="class_name" class="form-control" type="text">
+                                        formControlName="class_name" class="form-control" oninput="this.value = this.value.toUpperCase()" type="text">
                                     <span class="text-danger"
                                         *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors">
                                         <div

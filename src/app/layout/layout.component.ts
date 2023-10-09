@@ -351,6 +351,14 @@ export class LayoutComponent implements OnInit {
           link: "master/special_fees"
         },
         {
+          link_name: "Bus Fees",
+          link: "master/bus_fees"
+        },
+        {
+          link_name: "Special Bus Fees",
+          link: "master/special_bus_fees"
+        },
+        {
           link_name: "Subject Master",
           link: "master/subject_master"
         },

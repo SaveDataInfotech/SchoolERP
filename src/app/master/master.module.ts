@@ -32,7 +32,8 @@ import { SubjectAssignComponent } from './subject-assign/subject-assign.componen
 import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
-
+import { BusFeesComponent } from './bus-fees/bus-fees.component';
+import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
 
 
 @NgModule({
@@ -54,7 +55,9 @@ import { SpecialFeesComponent } from './special-fees/special-fees.component';
     SubjectAssignComponent,
     LibraryBookMasterComponent,
     GeneralFeesComponent,
-    SpecialFeesComponent
+    SpecialFeesComponent,
+    BusFeesComponent,
+    SpecialBusFeesComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

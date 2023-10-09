@@ -14,3 +14,16 @@ td {
   color: rgb(2, 2, 56);
   font-family: sans-serif;
 }
+
+.blink_me {
+ animation: blinker 3s linear infinite;
+  color: red;
+  font-size: large;
+  font-family: Georgia, serif;
+}
+
+@keyframes blinker {
+  80% {
+    opacity: 0.5;
+  }
+}

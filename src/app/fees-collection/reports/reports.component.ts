@@ -61,8 +61,6 @@ export class ReportsComponent implements OnInit {
     subjects.push(this.createSubjectFormGroup());
   }
 
-
-
   onSubmit() {
     if (this.markEntryForm.valid) {
       console.log(this.markEntryForm.value);

@@ -15,6 +15,8 @@ import { SubjectAssignComponent } from './subject-assign/subject-assign.componen
 import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
+import { BusFeesComponent } from './bus-fees/bus-fees.component';
+import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
 
 
 export const masterRoutes: Routes = [
@@ -37,6 +39,14 @@ export const masterRoutes: Routes = [
   {
     path:"special_fees",
     component:SpecialFeesComponent,
+  },
+  {
+    path:"bus_fees",
+    component:BusFeesComponent,
+  },
+  {
+    path:"special_bus_fees",
+    component:SpecialBusFeesComponent,
   },
   {
     path:"subject_master",

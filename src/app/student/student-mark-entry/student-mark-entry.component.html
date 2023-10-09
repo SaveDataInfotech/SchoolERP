@@ -87,17 +87,14 @@
                         </div>
 
                         <div class="row ">
-                            <!-- <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label  class="pt-2" style="margin: auto;">Batch</label>
+                                    <label class="pt-2" style="margin: auto;">Batch</label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select style="width: 100%;" class="form-control " >
-                                        <option>A</option>
-                                        <option>B</option>
-                                    </select>
+                                    <input class="form-control">
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Date</label>
@@ -119,14 +116,12 @@
                         </div>
                     </form>
                     <div class="row">
-
-
                         <div class="col-sm-6 mt-3" style="display: flex;">
                             <span *ngFor="let subject of spiltList">
                                 <div style="float: left;text-align: left;" class="mt-2 ml-4">
                                     <div style="float: left;text-align: left;">
                                         <input style="height: 15px;width: 15px;" [(ngModel)]="subject.selected"
-                                            type="checkbox" name="{{subject.name}}" (change)="onchange()">
+                                            type="checkbox" name="{{subject.name}}" #sna>
                                     </div>
                                     <div style="float: left;text-align: left;" class="ml-2">
                                         {{subject.name}}
@@ -138,73 +133,59 @@
 
                     <div class="col-sm-12 mt-5">
                         <div style="text-align: center;">
-                            <button matTooltip="Click to Search" type="button" class="btn btn-primary btn-sm ">Search<i
-                                    class="fa fa-search ml-2"></i></button>
+                            <button matTooltip="Click to Search" type="button" (click)="onchange()"
+                                class="btn btn-primary btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
                         </div>
                     </div>
 
-
                     <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
-                        <div class="table-responsive mt-5">
-                            <table formArrayName="studentList"
-                                class="col-sm-12 table table-hover table-bordered table-sm  ">
-                                <thead>
-                                    <tr>
-                                        <th>Si.No</th>
-                                        <th>A.NO</th>
-                                        <th>Student Name</th>
-                                        <th *ngFor="let subject of subjectFilterList;">{{subject.name}}</th>
-                                        <th>Total</th>
-                                        <th>Grade</th>
-                                        <th>Status</th>
-                                        <th>Avg</th>
-                                        <th>Rank</th>
-                                    </tr>
-                                </thead>
-                                <tbody *ngFor="let chid of getControls().controls; let i = index">
-                                    <tr [formGroupName]="i">
-                                        <td><span class="mt-2">{{i+1}}</span></td>
-                                        <td><input formControlName="admission_no" class="form-control"
-                                                style="width: 60px;"></td>
-                                        <td><input formControlName="student_name" class="form-control"
-                                                style="width: 160px;"></td>
-                                        <span>
-                                            
-                                            <span formArrayName="subjectArray">
-                                                <span *ngFor="let studentsub of subjectsArray(i).controls;let j=index;">
-                                                    <span [formGroupName]="j">
-                                                        <td><input formControlName="name" class="form-control"
-                                                                style="width: 60px;"></td>
-                                                                <td><input formControlName="mark" class="form-control"
-                                                                    style="width: 60px;"></td>
-                                                    </span>
-                                                </span>
+                        <table class="table table-bordered">
+                            <thead formArrayName="students">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Subjects</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Avg</th>
+                                    <th>Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="students">
+                                <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
+                                    [formGroupName]="i">
+                                    <td>
+                                        <span class="hide-text" *ngIf="i == 0"> .</span>
+                                        {{student.get('student_name').value}}
+                                    </td>
+                                    <span formArrayName="subjects">
+                                        <td *ngFor="let subject of student.get('subjects').controls; let j = index"
+                                            [formGroupName]="j">
+                                            <span class="h6" style="margin-bottom: 10px;"
+                                                *ngIf="i == 0">{{subject.get('name').value}}</span>
+                                            <span style="display: flex;">
+                                                <input (change)="gradeConvert(i,j)" placeholder="Mark" type="text"
+                                                    class="mr-2 form-control" formControlName="marks">
+                                                <input placeholder="Grade" class="form-control" type="text"
+                                                    formControlName="grade">
                                             </span>
-                                        </span>
-                                        <button (click)="addNewSubjetc(i)">add</button>
-                                        <td><input formControlName="total" class="form-control" style="width: 60px;">
                                         </td>
-
-                                        <td><input formControlName="grade" class="form-control" style="width: 60px;">
-                                        </td>
-                                        <td><input formControlName="status" class="form-control" style="width: 60px;">
-                                        </td>
-                                        <td><input formControlName="average" class="form-control" style="width: 60px;">
-                                        </td>
-                                        <td><input formControlName="s_rank" class="form-control" style="width: 60px;">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-sm-12 mt-4">
-                            <div style="text-align: center;">
-                                <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
-                                <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
-                            </div>
-                        </div>
+                                    </span>
+                                    <td><span class="hide-text" *ngIf="i == 0"> ....</span><input
+                                            formControlName="total" class="form-control">
+                                    </td>
+                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="status"
+                                            class="form-control">
+                                    </td>
+                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="avg"
+                                            class="form-control">
+                                    </td>
+                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="rank"
+                                            class="form-control">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit">Submit</button>
                     </form>
                 </mat-card-content>
             </mat-card>

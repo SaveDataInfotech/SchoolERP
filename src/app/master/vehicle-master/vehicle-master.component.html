@@ -178,7 +178,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors}"
-                                        formControlName="vehicle_no" class="form-control" type="text" required>
+                                        formControlName="vehicle_no" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" required>
                                     <span class="text-danger"
                                         *ngIf="vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors">
                                         <div
