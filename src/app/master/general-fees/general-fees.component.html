@@ -27,11 +27,7 @@
                                         <input formControlName="typeid" class="form-control" type="text" readonly>
                                     </div>
                                 </span>
-                            </div>
-
-                            <div class="col-sm-6 mt-5">
-                                <p class="blink_me">If you are entering admission fee then enter as <span class="text-success">(Admission Fees)</span></p>
-                            </div>
+                            </div>                           
                         </div>
 
                         <div class="row">
@@ -52,6 +48,24 @@
                                             Fees Type is required
                                         </div>
                                     </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-5 mt-3" style="display: block;">
+                                <div class="form-check mt-3">
+                                    <input  style="width: 25px;height: 25px;" type="radio" class="form-check-input" formControlName="student_type"
+                                        value="Common Fees" checked>
+                                    <label class="form-check-label p-2">Common Fees (All students must in this
+                                        fees)</label>
+                                </div>
+                                <div class="form-check mt-3">
+                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input" formControlName="student_type"
+                                        value="Admission Fees">
+                                    <label class="form-check-label p-2">Admission Fees (Only new students)</label>
                                 </div>
                             </div>
                         </div>

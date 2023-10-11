@@ -216,13 +216,26 @@
                                         formGroupName="{{i}}">
                                         <td class="pt-3">{{i+1}}</td>
                                         <td class="pt-3">{{chid.get('type_name').value}}</td>
-                                        <td><input type="text" class="form-control" formControlName="male_amount"></td>
-                                        <td><input type="text" class="form-control" formControlName="female_amount">
+                                        <td class="pt-3">{{chid.get('male_amount').value}}</td>
+                                        <td class="pt-3">{{chid.get('female_amount').value}}
                                         </td>
-                                        <td><input (keypress)="numberOnly($event)" type="text"
-                                                class="form-control was-validated" formControlName="s_male_amount"></td>
-                                        <td><input (keypress)="numberOnly($event)" type="text"
-                                                formControlName="s_female_amount" class="form-control was-validated">
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input (keypress)="numberOnly($event)" type="text"  class="form-control"
+                                                    formControlName="s_male_amount">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input (keypress)="numberOnly($event)" type="text" class="form-control"
+                                                    formControlName="s_female_amount">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -260,8 +273,8 @@
                                     <th>Batch Year</th>
                                     <th>Fees Less</th>
                                     <th>Fee Type</th>
-                                    <th>Male Amount</th>
-                                    <th>Female Amount</th>
+                                    <th>Male Deduction %</th>
+                                    <th>Female Deduction %</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -273,8 +286,8 @@
                                     <td>{{item.batch_year}}</td>
                                     <td>{{item.less_type}}</td>
                                     <td>{{item.type_name}}</td>
-                                    <td style="text-align: right;">{{item.s_male_amount}}</td>
-                                    <td style="text-align: right;">{{item.s_female_amount}}</td>
+                                    <td>{{item.s_male_amount}}%</td>
+                                    <td>{{item.s_female_amount}}%</td>
                                     <td> <span (click)="specialFeesUpdate(item)"
                                             class="m-2 editbutton"><b>edit</b></span>
                                         <span>||</span>

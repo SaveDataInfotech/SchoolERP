@@ -91,6 +91,7 @@ export class GeneralFeesComponent implements OnInit {
   feestypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl(''),
+    student_type:new FormControl('Common Fees'),
     cuid: new FormControl(1),
   })
 
@@ -182,6 +183,7 @@ export class GeneralFeesComponent implements OnInit {
   udateGetClick(fees: any) {
     this.feestypeForm.get('typeid')?.setValue(fees.typeid);
     this.feestypeForm.get('type_name')?.setValue(fees.type_name);
+    this.feestypeForm.get('student_type')?.setValue(fees.student_type);
     this.feestypeForm.get('cuid')?.setValue(fees.cuid);
     this.buttonId = false;
   }
@@ -190,6 +192,7 @@ export class GeneralFeesComponent implements OnInit {
     this.feestypeForm.reset();
     this.feestypeForm.get('typeid')?.setValue(0);
     this.feestypeForm.get('type_name')?.setValue('');
+    this.feestypeForm.get('student_type')?.setValue('Common Fees');
     this.feestypeForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }

@@ -115,8 +115,7 @@ export class SpecialFeesComponent implements OnInit {
     });
   }
 
-  getMaxIdLess() {
-    
+  getMaxIdLess() {    
     this.FlSvc.getMaxId().subscribe(data => {
       this.MaxIdLess = data;
     });
