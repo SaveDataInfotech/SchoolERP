@@ -131,15 +131,15 @@ export class StudentMarkEntryComponent implements OnInit {
   onchange() {
     debugger;
     const newarray = this.spiltList.filter((e) => { return e.selected == true });
-    this.subjectFilterList = [];
+    this.subjectFilterList = newarray;
     const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
     while (control2.length !== 0) {
       control2.removeAt(0)
     }
 
-    newarray.forEach(element => {
-      this.subjectFilterList.push(element.name);
-    });
+    // newarray.forEach(element => {
+    //   this.subjectFilterList.push(element.name);
+    // });
 
     this.studentList.forEach(e => {
       e['subjects'] = this.subjectFilterList;
@@ -194,9 +194,13 @@ export class StudentMarkEntryComponent implements OnInit {
     return (this.rankTypeMarkForm.get('students') as FormArray).controls;
   }
 
-  createSubjectFormGroup(subject?: string): FormGroup {
+  createSubjectFormGroup(subject?): FormGroup {
+    debugger;
+    const subjectn=subject.name;
+    const select=subject.selected
     return this.fb.group({
-      name: [subject, Validators.required],
+      name: [subjectn, Validators.required],
+      selected: [select, Validators.required],
       marks: ['', Validators.required],
       grade: ['', Validators.required],
     });
@@ -244,8 +248,6 @@ export class StudentMarkEntryComponent implements OnInit {
     });
     courseControl.at(i).get('total').setValue(String(this.total));
 
-    courseControl.at(i).get('avg').setValue(String((this.total) / course.length));
-
-    console.log(this.total);
+    courseControl.at(i).get('avg').setValue(String((this.total) / course.length));    
   }
 }

@@ -14,6 +14,10 @@ export class BusFeesAssignService {
         return this.http.get<any[]>(this.apiUrl + 'BusFeesAssign/get_buss_fees_assign');
     }
 
+    getGroupBusFeesList(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'BusFeesAssign/get_group_by_buss_fees_assign');
+    }
+
     addNewBusFees(data: any): Observable<any> {
         debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

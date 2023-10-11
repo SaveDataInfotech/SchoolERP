@@ -25,15 +25,14 @@ export class SubjectMasterComponent implements OnInit {
   BranchbuttonId: boolean = true;
 
 
-  //Subject Assign
-  // subjectArray: any[] = [];
-  // groupDisplay: boolean = true;
-  // ClassList: any = [];
-  // GroupList: any = [];
-  // SectionList: any = [];
-  // groupFilterlist: any = [];
-  // sectionFilterlist: any = [];
-  // subjectAssignList:any=[];
+  subjectArray: any[] = [];
+  groupDisplay: boolean = true;
+  ClassList: any = [];
+  GroupList: any = [];
+  SectionList: any = [];
+  groupFilterlist: any = [];
+  sectionFilterlist: any = [];
+  subjectAssignList: any = [];
 
   constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
     private DialogSvc: DialogService, private notificationSvc: NotificationsService,
@@ -56,7 +55,7 @@ export class SubjectMasterComponent implements OnInit {
 
     //Subject Assign
 
-    //   this.refreshClassList()
+    // this.refreshClassList()
     // this.refreshGroupList()
     // this.refreshSectionList()
 
@@ -71,6 +70,7 @@ export class SubjectMasterComponent implements OnInit {
   subjectForm = new FormGroup({
     subjectid: new FormControl(0),
     subject_name: new FormControl('', [Validators.required]),
+    practical_status: new FormControl('Non Practical Subject'),
     cuid: new FormControl(1),
   })
 
@@ -148,7 +148,7 @@ export class SubjectMasterComponent implements OnInit {
           this.subjectSvc.deletesubject(subjectid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              
+
               this.refreshsubjectList();
               this.getMaxId();
               this.cancelClick();
@@ -161,6 +161,7 @@ export class SubjectMasterComponent implements OnInit {
   udateGetClick(subject: any) {
     this.subjectForm.get('subjectid')?.setValue(subject.subjectid);
     this.subjectForm.get('subject_name')?.setValue(subject.subject_name);
+    this.subjectForm.get('practical_status')?.setValue(subject.practical_status);
     this.subjectForm.get('cuid')?.setValue(subject.cuid);
     this.buttonId = false;
   }
@@ -169,13 +170,13 @@ export class SubjectMasterComponent implements OnInit {
     this.subjectForm.reset();
     this.subjectForm.get('subjectid')?.setValue(0);
     this.subjectForm.get('subject_name')?.setValue('');
+    this.subjectForm.get('practical_status')?.setValue('Non Practical Subject');
     this.subjectForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
 
 
   //Subject Branches
-
 
   subjectBranchForm = new FormGroup({
     branchid: new FormControl(0),
@@ -248,7 +249,7 @@ export class SubjectMasterComponent implements OnInit {
           this.BranchSvc.deletesubBranch(branchid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              
+
               this.refreshsubjectBranchList();
               this.getMaxIdSubBranch();
               this.cancelClickSubBranch();
@@ -282,7 +283,7 @@ export class SubjectMasterComponent implements OnInit {
   //   classid: new FormControl(0, [Validators.required]),
   //   groupid: new FormControl(0, [Validators.required]),
   //   sectionid: new FormControl(0, [Validators.required]),
-  //   selectedSubjects:new FormControl(),
+  //   selectedSubjects: new FormControl(),
   //   cuid: new FormControl(1),
   // })
 
@@ -292,27 +293,19 @@ export class SubjectMasterComponent implements OnInit {
   //   });
   // }
 
-
   // selectedSub(event: any, option: any) {
-  //       
   //   if (event.target.checked) {
   //     this.subjectArray.push(option.toString());
   //   } else {
   //     this.subjectArray = this.subjectArray.filter((val) => val.toString() !== option.toString());
-  //   }
-  //   //this.subjectAssignForm.selectedSubjects new FormControl(this.subjectArray);
-  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.subjectArray);
-  //   console.log(this.subjectArray);
+  //   }   
+  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.subjectArray);   
   // };
 
-
-
   // newSubjectAssign() {
-  //   
+  //   debugger;
   //   var subBranchinsert = (this.subjectAssignForm.value);
-
   //   this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
-  //    
   //     if (res?.recordid) {
   //       this.refreshsubjectAssignList();
   //       //this.getMaxIdSubBranch();
@@ -320,21 +313,17 @@ export class SubjectMasterComponent implements OnInit {
   //     }
   //   });
   // }
-  // sub:any=[];
+  // sub: any = [];
   // updateGetClickSubAssign(assign: any) {
-  //     
   //   this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
   //   this.subjectAssignForm.get('classid')?.setValue(assign.classid);
   //   this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
   //   this.subjectAssignForm.get('sectionid')?.setValue(assign.sectionid);
   //   this.subjectAssignForm.get('cuid')?.setValue(assign.cuid);
-
   //   this.sub = assign.subject.split(";");
   //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.sub);
   //   console.log(this.subjectAssignForm.value.selectedSubjects);
   // }
-
-
 
   // cancelClickSubAssign() {
   //   this.subjectAssignForm.reset();
@@ -342,7 +331,7 @@ export class SubjectMasterComponent implements OnInit {
   //   this.subjectAssignForm.get('classid')?.setValue(0);
   //   this.subjectAssignForm.get('groupid')?.setValue(0);
   //   this.subjectAssignForm.get('sectionid')?.setValue(0);
-  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(0);
+  //   this.subjectAssignForm.get('selectedSubjects')?.setValue('');
   //   this.subjectAssignForm.get('cuid')?.setValue(1);
   //   //this.BranchbuttonId = true;
   // }
@@ -365,9 +354,7 @@ export class SubjectMasterComponent implements OnInit {
   //   });
   // }
 
-
   // FilterGroupfun(classsid: any) {
-  //   
   //   const classid = Number(classsid);
   //   this.subjectAssignForm.get('classid')?.setValue(classid);
   //   this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -385,7 +372,6 @@ export class SubjectMasterComponent implements OnInit {
   // }
 
   // FilterSectionfun(groupID: any) {
-  //   
   //   const groupid = Number(groupID);
   //   this.subjectAssignForm.get('groupid')?.setValue(groupid);
   //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });

@@ -19,7 +19,8 @@ export class BusFeesComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
   busFeeList: any[] = [];
-  //kmvalue: string = 'KM';
+  groupBusFeeList:any[]=[];
+  ClassnameList:any[]=[];
   constructor(private VhtySvc: VehicleTypeService, private router: Router,
     private ClassSvc: studentClassService, private notificationSvc: NotificationsService,
     private batchSvc: BatechYearService,
@@ -30,6 +31,10 @@ export class BusFeesComponent implements OnInit {
     this.refreshvehicleTypeList();
     this.GetActiveBatchYear();
     this.refreshBusFeeList();
+    this.refreshGroupBusFeeList();
+
+    this.ClassSvc.getClassList().subscribe(data => {
+      this.ClassnameList = data})
   }
 
   GetActiveBatchYear() {
@@ -55,6 +60,18 @@ export class BusFeesComponent implements OnInit {
     this.busFeSvc.getBusFeesList().subscribe(data => {
       debugger;
       this.busFeeList = data;
+    });
+  }
+
+  refreshGroupBusFeeList() {
+    this.busFeSvc.getGroupBusFeesList().subscribe(data => {
+      debugger;
+      this.groupBusFeeList = data;
+      this.groupBusFeeList.forEach((e)=>{
+        e['class']=e.class_name.split(",");
+        e['amo']=e.amount.split(",")
+      })      
+      console.log(this.groupBusFeeList)
     });
   }
 
@@ -149,12 +166,12 @@ export class BusFeesComponent implements OnInit {
               this.busFeSvc.addNewBusFees(insert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success");
-                  this.refreshBusFeeList();
+                  this.refreshGroupBusFeeList();
                   this.busFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists");
-                  this.refreshBusFeeList();
+                  this.refreshGroupBusFeeList();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -171,12 +188,12 @@ export class BusFeesComponent implements OnInit {
               this.busFeSvc.addNewBusFees(insert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success");
-                  this.refreshBusFeeList();
+                  this.refreshGroupBusFeeList();
                   this.busFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists");
-                  this.refreshBusFeeList();
+                  this.refreshGroupBusFeeList();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -199,7 +216,7 @@ export class BusFeesComponent implements OnInit {
           this.busFeSvc.deleteBusFees(busfeeid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              this.refreshBusFeeList();
+              this.refreshGroupBusFeeList();
               this.busFeesCancel()
             }
           });

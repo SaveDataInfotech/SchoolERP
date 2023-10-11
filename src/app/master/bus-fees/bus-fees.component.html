@@ -10,7 +10,7 @@
             </div>
             <form [formGroup]="busFeesForm" (ngSubmit)="save()">
                 <div class="row">
-                    <div class="col-sm-3 mt-3" style="display: flex;">
+                    <div class="col-sm-4 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Vehicle Type<span class="text-danger">
                                     *</span></label>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-3 mt-3" style="display: flex;">
+                    <div class="col-sm-2 mt-3" style="display: flex;">
                         <div class="inputdiv">
                             <button style="width: 100px;" (click)="refreshClassList()" type="button"
                                 class="btn btn-secondary">Show</button>
@@ -95,7 +95,8 @@
                                     formGroupName="{{i}}"><input class="form-control" formControlName="amount"></td>
                                 <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
                                         type="submit">Save</button>
-                                    <button class="btn btn-danger btn-sm" type="button">Clear</button>
+                                    <button (click)="busFeesCancel()" class="btn btn-danger btn-sm"
+                                        type="button">Clear</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -107,26 +108,24 @@
 
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <table class="col-sm-11 table table-hover table-bordered table-sm  mt-2 ml-5">
+            <table class="col-sm-12 table table-hover table-bordered table-sm  mt-2">
                 <thead>
                     <tr>
                         <th>S No</th>
                         <th>Vehicle Type</th>
                         <th>KM Range</th>
-                        <th>Batch Year</th>
-                        <th>Class Name</th>
-                        <th>Amount</th>
+                        <th>Batch Year</th>                        
+                        <th *ngFor="let class of ClassnameList">{{class.class_name}}</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let bus of busFeeList;let i=index;">
+                    <tr *ngFor="let bus of groupBusFeeList;let i=index;">
                         <td>{{i+1}}</td>
                         <td>{{bus.vehicle_type}}</td>
                         <td>{{bus.kmrange}}</td>
-                        <td>{{bus.batch_year}}</td>
-                        <td>{{bus.class_name}}</td>
-                        <td style="text-align: right;">{{bus.amount}}</td>
+                        <td>{{bus.batch_year}}</td>                       
+                        <td *ngFor="let am of bus.amo">{{am}} <span *ngIf="am == ''"> Null </span></td>
                         <td>
                             <span class="m-2 deletebutton" (click)="busFeeDelete(bus.busfeeid)"><b>delete</b></span>
                         </td>

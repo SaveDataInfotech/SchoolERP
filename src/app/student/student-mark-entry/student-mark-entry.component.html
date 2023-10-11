@@ -116,7 +116,7 @@
                         </div>
                     </form>
                     <div class="row">
-                        <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="col-sm-8 mt-3" style="display: flex;">
                             <span *ngFor="let subject of spiltList">
                                 <div style="float: left;text-align: left;" class="mt-2 ml-4">
                                     <div style="float: left;text-align: left;">
@@ -139,52 +139,58 @@
                     </div>
 
                     <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
-                        <table class="table table-bordered">
-                            <thead formArrayName="students">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Subjects</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                    <th>Avg</th>
-                                    <th>Rank</th>
-                                </tr>
-                            </thead>
-                            <tbody formArrayName="students">
-                                <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
-                                    [formGroupName]="i">
-                                    <td>
-                                        <span class="hide-text" *ngIf="i == 0"> .</span>
-                                        {{student.get('student_name').value}}
-                                    </td>
-                                    <span formArrayName="subjects">
-                                        <td *ngFor="let subject of student.get('subjects').controls; let j = index"
-                                            [formGroupName]="j">
-                                            <span class="h6" style="margin-bottom: 10px;"
-                                                *ngIf="i == 0">{{subject.get('name').value}}</span>
-                                            <span style="display: flex;">
-                                                <input (change)="gradeConvert(i,j)" placeholder="Mark" type="text"
-                                                    class="mr-2 form-control" formControlName="marks">
-                                                <input placeholder="Grade" class="form-control" type="text"
-                                                    formControlName="grade">
-                                            </span>
+                        <div class="table-responsive text-nowrap mt-3">
+                            <table class="table table-bordered">
+                                <thead formArrayName="students">
+
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Subjects</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Avg</th>
+                                        <th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody formArrayName="students">
+                                    <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
+                                        [formGroupName]="i">
+                                        <td>
+                                            <span class="hide-text" *ngIf="i == 0"> .</span>
+                                            {{student.get('student_name').value}}
                                         </td>
-                                    </span>
-                                    <td><span class="hide-text" *ngIf="i == 0"> ....</span><input
-                                            formControlName="total" class="form-control">
-                                    </td>
-                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="status"
-                                            class="form-control">
-                                    </td>
-                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="avg"
-                                            class="form-control">
-                                    </td>
-                                    <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="rank"
-                                            class="form-control">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <span formArrayName="subjects">
+
+                                            <td *ngFor="let subject of student.get('subjects').controls; let j = index"
+                                                [formGroupName]="j">
+
+                                                <span class="h6" style="margin-bottom: 10px;"
+                                                    *ngIf="i == 0">{{subject.get('name').value}}</span>
+                                                <span style="display: flex;">
+                                                    <input style="width: 80px;" (change)="gradeConvert(i,j)"
+                                                        placeholder="Mark" type="text" class="mr-2 form-control"
+                                                        formControlName="marks">
+                                                    <input style="width: 70px;" readonly placeholder="Grade" class="form-control" type="text"
+                                                        formControlName="grade">
+                                                </span>
+                                            </td>
+                                        </span>
+                                        <td><span class="hide-text" *ngIf="i == 0"> ....</span><input
+                                                formControlName="total" class="form-control">
+                                        </td>
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input
+                                                formControlName="status" class="form-control">
+                                        </td>
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="avg"
+                                                class="form-control">
+                                        </td>
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input
+                                                formControlName="rank" class="form-control">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <button type="submit">Submit</button>
                     </form>
                 </mat-card-content>
