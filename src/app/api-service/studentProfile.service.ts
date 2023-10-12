@@ -26,7 +26,7 @@ export class studentProfileService {
 
 
   studentDetails(studentinsert: any): Observable<any> {
-    
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentProfile/insert_student_profile_details', studentinsert, httpOptions);
   }

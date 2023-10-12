@@ -11,7 +11,7 @@ export class GeneralFeesService {
     }
 
     getGeneralFeesList(): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl + 'GeneralFees/get_student_commonfees_list');
+        return this.http.get<any[]>(this.apiUrl + 'GeneralFees/get_student_general_list');
     }
 
     addNewGeneralFees(data: any): Observable<any> {

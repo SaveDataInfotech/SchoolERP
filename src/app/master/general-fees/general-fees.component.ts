@@ -91,7 +91,7 @@ export class GeneralFeesComponent implements OnInit {
   feestypeForm = new FormGroup({
     typeid: new FormControl(0),
     type_name: new FormControl(''),
-    student_type:new FormControl('Common Fees'),
+    student_type: new FormControl('Common Fees'),
     cuid: new FormControl(1),
   })
 
@@ -255,7 +255,6 @@ export class GeneralFeesComponent implements OnInit {
   }
 
   newGeneralFees() {
-
     const control = <FormArray>this.generalFeesAssignForm.controls['feesList'];
     if (control.length != 0) {
       if (this.generalFeesAssignForm.value.assignid == 0) {
@@ -310,7 +309,6 @@ export class GeneralFeesComponent implements OnInit {
   }
 
   generalUpdate(item) {
-
     this.generalFeesAssignForm.patchValue(item);
     const control = <FormArray>this.generalFeesAssignForm.controls['feesList'];
     while (control.length !== 0) {

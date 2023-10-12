@@ -91,32 +91,15 @@
                 <table class="col-sm-12 table table-bordered table-sm  mt-4">
                     <thead>
                         <tr>
-                            <th>Fees Name</th>
-                            <th>Fees Type</th>
+                            <th>Fees Name</th>                          
                             <th>Amount</th>
                             <th>Balance</th>
                             <th style="width: 150px;">Payable Amount</th>
                         </tr>
                     </thead>
-                    <tbody formArrayName="admissionFeesList">
-                        <tr *ngFor="let chid of feesCollectionForm.get('admissionFeesList')['controls']; let i = index"
-                            formGroupName="{{i}}">
-                            <td class="pt-3"><span style="color: red;"
-                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
-                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
-                                {{chid.get('type_name').value}}</td>
-                            <td></td>
-                            <td><input readonly formControlName="amount" type="text" style="width: 150px;"
-                                    class="form-control" /></td>
-                            <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
-                                    class="form-control" /></td>
-                            <td><input (keypress)="numberOnly($event)" (input)="adtotal(i,adamount.value)" #adamount
-                                    formControlName="d_amount" type="text" style="width: 150px;" class="form-control" />
-                            </td>
-                        </tr>
-                    </tbody>
 
-                    <tbody formArrayName="busFeesList">
+
+                    <!-- <tbody formArrayName="busFeesList">
                         <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
                             formGroupName="{{j}}">
                             <td class="pt-3">
@@ -130,25 +113,24 @@
                             <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
                             <td><input (keypress)="numberOnly($event)" (input)="bustotal(j,busamount.value)" #busamount
-                                    formControlName="d_amount" type="text" style="width: 150px;" class="form-control" />
+                                    formControlName="deduction_amount" type="text" style="width: 150px;" class="form-control" />
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> -->
 
-                    <tbody formArrayName="commonFeesList">
-                        <tr *ngFor="let chid of feesCollectionForm.get('commonFeesList')['controls']; let i = index"
+                    <tbody formArrayName="generalFees">
+                        <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
                             formGroupName="{{i}}">
                             <td class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>
                                 {{chid.get('type_name').value}}</td>
-                            <td class="pt-3">{{chid.get('type_assign_name').value}}</td>
                             <td><input readonly formControlName="amount" type="text" style="width: 150px;"
                                     class="form-control" /></td>
-                            <td><input readonly formControlName="balance_amount" type="text" style="width: 150px;"
+                            <td><input readonly formControlName="balance" type="text" style="width: 150px;"
                                     class="form-control" /></td>
                             <td><input (keypress)="numberOnly($event)" (input)="commontotal(i,commonamount.value)"
-                                    #commonamount formControlName="d_amount" type="text" style="width: 150px;"
+                                    #commonamount formControlName="deduction_amount" type="text" style="width: 150px;"
                                     class="form-control" />
                             </td>
                         </tr>
@@ -158,7 +140,7 @@
                         <tr>
                             <td class="p-2"
                                 style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
-                                colspan="4">Total Amount</td>
+                                colspan="3">Total Amount</td>
                             <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
                                     type="text" class="form-control" /></td>
                         </tr>

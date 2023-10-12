@@ -208,7 +208,7 @@ export class SpecialFeesComponent implements OnInit {
     this.genFeesSvc.getGeneralFeesList().subscribe(data => {
       this.generalFeesList = data;
       this.generalFeesList.forEach(e => {
-        e['s_assignid'] = 0;
+        e['assignid'] = 0;
         e['s_male_amount']='';
         e['s_female_amount']='';
       });
@@ -222,9 +222,9 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   specialFeesForm = new FormGroup({
-    s_assignid: new FormControl(0),
+    assignid: new FormControl(0),
     classid: new FormControl(null),
-    less_type: new FormControl(''),
+    fess_lessid: new FormControl(0),
     groupid: new FormControl(0),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
@@ -242,7 +242,8 @@ export class SpecialFeesComponent implements OnInit {
         control.removeAt(0)
       }
       if (control.length == 0) {
-        const classFilterArray = this.specialFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year && e.less_type == this.specialFeesForm.value.less_type && e.classid == this.specialFeesForm.value.classid && e.groupid == this.specialFeesForm.value.groupid })
+        debugger;
+        const classFilterArray = this.specialFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year && e.fess_lessid == this.specialFeesForm.value.fess_lessid && e.classid == this.specialFeesForm.value.classid && e.groupid == this.specialFeesForm.value.groupid })
         const genFilterList = this.generalFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year && e.classid == this.specialFeesForm.value.classid && e.groupid == this.specialFeesForm.value.groupid })
         const result = classFilterArray.concat(genFilterList.filter(x => classFilterArray.every(e => x.typeid !== e.typeid)));
         if (result.length != 0) {
@@ -250,10 +251,10 @@ export class SpecialFeesComponent implements OnInit {
             const control = <FormArray>this.specialFeesForm.controls['s_feesList'];
             control.push(
               new FormGroup({
-                s_assignid: new FormControl(element.s_assignid),
+                assignid: new FormControl(element.assignid),
                 classid: new FormControl(this.specialFeesForm.value.classid),
                 groupid: new FormControl(this.specialFeesForm.value.groupid),
-                less_type: new FormControl(this.specialFeesForm.value.less_type),
+                fess_lessid: new FormControl(this.specialFeesForm.value.fess_lessid),                
                 batch_year: new FormControl(this.specialFeesForm.value.batch_year),
                 cuid: new FormControl(this.specialFeesForm.value.cuid),
                 typeid: new FormControl(element.typeid),
@@ -282,7 +283,7 @@ export class SpecialFeesComponent implements OnInit {
   specialFeesSave() {
     const control = <FormArray>this.specialFeesForm.controls['s_feesList'];
     if (control.length != 0) {
-      if (this.specialFeesForm.value.s_assignid == 0) {
+      if (this.specialFeesForm.value.assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
@@ -344,10 +345,10 @@ export class SpecialFeesComponent implements OnInit {
       const control = <FormArray>this.specialFeesForm.controls['s_feesList'];
       control.push(
         new FormGroup({
-          s_assignid: new FormControl(item.s_assignid),
+          assignid: new FormControl(item.assignid),
           classid: new FormControl(item.classid),
           groupid: new FormControl(item.groupid),
-          less_type: new FormControl(item.less_type),
+          fess_lessid: new FormControl(item.fess_lessid),
           batch_year: new FormControl(item.batch_year),
           cuid: new FormControl(this.specialFeesForm.value.cuid),
           typeid: new FormControl(item.typeid),
@@ -382,10 +383,10 @@ export class SpecialFeesComponent implements OnInit {
 
   specialFeesCancel() {
     this.specialFeesForm.reset();
-    this.specialFeesForm.get('s_assignid')?.setValue(0);
+    this.specialFeesForm.get('assignid')?.setValue(0);
     this.specialFeesForm.get('classid')?.setValue(null);
     this.specialFeesForm.get('groupid')?.setValue(0);
-    this.specialFeesForm.get('less_type')?.setValue('');
+    this.specialFeesForm.get('fess_lessid')?.setValue(0);
     this.specialFeesForm.get('batch_year')?.setValue(this.newgetbatch);
     this.specialFeesForm.get('cuid')?.setValue(0);
 

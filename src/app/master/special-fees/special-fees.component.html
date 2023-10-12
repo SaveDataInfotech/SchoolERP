@@ -155,17 +155,17 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid':specialFeesForm.controls.less_type.touched && specialFeesForm.controls.less_type.errors}"
-                                        formControlName="less_type" style="width: 100%;" #s class="form-control"
+                                        [ngClass]="{'is-invalid':specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors}"
+                                        formControlName="fess_lessid" style="width: 100%;" #s class="form-control"
                                         required>
-                                        <option value='' selected disabled>Please select</option>
-                                        <option value={{item.less_type}} *ngFor="let item of FeesLessList;">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="item.fess_lessid" *ngFor="let item of FeesLessList;">
                                             {{item.less_type}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="specialFeesForm.controls.less_type.touched && specialFeesForm.controls.less_type.errors">
+                                        *ngIf="specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors">
                                         <div
-                                            *ngIf="specialFeesForm.controls.less_type.touched && specialFeesForm.controls.less_type.errors.required">
+                                            *ngIf="specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors.required">
                                             Fees Less is required
                                         </div>
                                     </span>
@@ -248,7 +248,7 @@
                                 </div>
                                 <div style="float: left;width: 350px;">
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                        <span> {{ specialFeesForm.value.s_assignid ==0 ? 'Save' :
+                                        <span> {{ specialFeesForm.value.assignid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" (click)="specialFeesCancel()" style="width: 80px;"
                                         class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
