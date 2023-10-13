@@ -221,7 +221,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group mb-3">
-                                                <input (keypress)="numberOnly($event)" type="text"  class="form-control"
+                                                <input (keypress)="numberOnly($event)" (change)="validateWhite(i)" type="text"  class="form-control"
                                                     formControlName="s_male_amount">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">%</span>
@@ -230,7 +230,7 @@
                                         </td>
                                         <td>
                                             <div class="input-group mb-3">
-                                                <input (keypress)="numberOnly($event)" type="text" class="form-control"
+                                                <input (keypress)="numberOnly($event)" (change)="fevalidateWhite(i)" type="text" class="form-control"
                                                     formControlName="s_female_amount">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">%</span>

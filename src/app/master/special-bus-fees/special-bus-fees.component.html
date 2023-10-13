@@ -119,8 +119,8 @@
                                             <input style="width: 100px;" class="form-control mr-1" readonly
                                                 formControlName="amount">
                                             <div style="width: 100px;" class="input-group mb-3">
-                                                <input type="text" (change)="validateWhite(i)" class="form-control" formControlName="less_per"
-                                                    (keypress)="numberOnly($event)">
+                                                <input type="text" (change)="validateWhite(i)" class="form-control"
+                                                    formControlName="less_per" (keypress)="numberOnly($event)">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">%</span>
                                                 </div>
@@ -150,25 +150,21 @@
                         <th>Vehicle Type</th>
                         <th>KM Range</th>
                         <th>Batch Year</th>
-                        <th>Class Name</th>
                         <th>Fees Less</th>
-                        <th>Amount</th>
-                        <th>Deduction %</th>
+                        <th *ngFor="let class of ClassnameList">{{class.class_name}}</th>                       
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let bus of specialBusFeesList;let i=index;">
+                    <tr *ngFor="let bus of specialGroupBusFeesList;let i=index;">
                         <td>{{i+1}}</td>
                         <td>{{bus.vehicle_type}}</td>
                         <td>{{bus.kmrange}}</td>
-                        <td>{{bus.batch_year}}</td>
-                        <td>{{bus.class_name}}</td>
-                        <td>{{bus.less_type}}</td>
-                        <td style="text-align: right;">{{bus.amount}}</td>
-                        <td>{{bus.less_per}}%</td>
+                        <td>{{bus.batch_year}}</td>                       
+                        <td>{{bus.less_type}}</td>    
+                        <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}</td>                    
                         <td>
-                            <span class="m-2 deletebutton"><b>delete</b></span>
+                            <span (click)="specialBusFeeDelete(bus.vehicle_type,bus.kmrange,bus.batch_year,bus.less_type)"  class="m-2 deletebutton"><b>delete</b></span>
                         </td>
                     </tr>
                 </tbody>

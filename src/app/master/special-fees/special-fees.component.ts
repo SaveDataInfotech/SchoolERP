@@ -83,7 +83,7 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    
+
     const classid = Number(classsid);
     this.specialFeesForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -115,11 +115,13 @@ export class SpecialFeesComponent implements OnInit {
     });
   }
 
-  getMaxIdLess() {    
+  getMaxIdLess() {
     this.FlSvc.getMaxId().subscribe(data => {
       this.MaxIdLess = data;
     });
   }
+
+
 
   NewFeesLess() {
     if (this.feesLessForm.valid) {
@@ -209,8 +211,8 @@ export class SpecialFeesComponent implements OnInit {
       this.generalFeesList = data;
       this.generalFeesList.forEach(e => {
         e['assignid'] = 0;
-        e['s_male_amount']='';
-        e['s_female_amount']='';
+        e['s_male_amount'] = '';
+        e['s_female_amount'] = '';
       });
     });
   }
@@ -234,6 +236,37 @@ export class SpecialFeesComponent implements OnInit {
     return (this.specialFeesForm.get('s_feesList') as FormArray).controls;
   }
 
+  validateWhite(i) {
+    debugger;
+    const busControl3 = this.specialFeesForm.get('s_feesList') as FormArray;
+    const per = busControl3.at(i).get('s_male_amount').value;
+    if (Number(per) > 100) {
+      busControl3.at(i).get('s_male_amount').setValue('100');
+    }
+    else if (Number(per) < 0) {
+      busControl3.at(i).get('s_male_amount').setValue('0');
+    }
+    else {
+      busControl3.at(i).get('s_male_amount').setValue(per);
+    }
+  }
+
+  fevalidateWhite(i) {
+    debugger;
+    const busControl3 = this.specialFeesForm.get('s_feesList') as FormArray;
+    const per = busControl3.at(i).get('s_female_amount').value;
+    if (Number(per) > 100) {
+      busControl3.at(i).get('s_female_amount').setValue('100');
+    }
+    else if (Number(per) < 0) {
+      busControl3.at(i).get('s_female_amount').setValue('0');
+    }
+    else {
+      busControl3.at(i).get('s_female_amount').setValue(per);
+    }
+  }
+
+
   listFeesType() {
     debugger;
     if (this.specialFeesForm.valid) {
@@ -254,7 +287,7 @@ export class SpecialFeesComponent implements OnInit {
                 assignid: new FormControl(element.assignid),
                 classid: new FormControl(this.specialFeesForm.value.classid),
                 groupid: new FormControl(this.specialFeesForm.value.groupid),
-                fess_lessid: new FormControl(this.specialFeesForm.value.fess_lessid),                
+                fess_lessid: new FormControl(this.specialFeesForm.value.fess_lessid),
                 batch_year: new FormControl(this.specialFeesForm.value.batch_year),
                 cuid: new FormControl(this.specialFeesForm.value.cuid),
                 typeid: new FormControl(element.typeid),
@@ -335,7 +368,7 @@ export class SpecialFeesComponent implements OnInit {
   }
 
 
-  specialFeesUpdate(item) {    
+  specialFeesUpdate(item) {
     this.specialFeesForm.patchValue(item);
     const control = <FormArray>this.specialFeesForm.controls['s_feesList'];
     while (control.length !== 0) {

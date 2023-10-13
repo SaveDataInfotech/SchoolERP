@@ -14,14 +14,18 @@ export class SpecialBusFeesAssignService {
         return this.http.get<any[]>(this.apiUrl + 'SpecialBusFee/Get');
     }
 
+    getSpecialGroupBusFeesList(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'SpecialBusFee/get_group_by_specialbusfee');
+    }
+
     addNewSpecialBusFees(data: any): Observable<any> {
         debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'SpecialBusFee/insert_specialbusfee', data, httpOptions);
     }
 
-    deleteSpecialBusFees(assignid: any): Observable<any> {
+    deleteSpecialBusFees(type, km, year, less_type): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'BusFeesAssign/delete_buss_fees_assign?busfeeid=' + assignid, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'SpecialBusFee/delete_specialbusfee?vehicle_type=' + type + '&kmrange=' + km + '&batch_year=' + year + '&less_type=' + less_type, httpOptions);
     }
 }

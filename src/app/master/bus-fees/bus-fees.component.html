@@ -92,7 +92,7 @@
                         <tbody formArrayName="classfeelist">
                             <tr>
                                 <td *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
-                                    formGroupName="{{i}}"><input class="form-control" formControlName="amount"></td>
+                                    formGroupName="{{i}}"><input class="form-control" (keypress)="numberOnly($event)" formControlName="amount"></td>
                                 <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
                                         type="submit">Save</button>
                                     <button (click)="busFeesCancel()" class="btn btn-danger btn-sm"
@@ -124,10 +124,10 @@
                         <td>{{i+1}}</td>
                         <td>{{bus.vehicle_type}}</td>
                         <td>{{bus.kmrange}}</td>
-                        <td>{{bus.batch_year}}</td>                       
-                        <td *ngFor="let am of bus.amo">{{am}} <span *ngIf="am == ''"> Null </span></td>
+                        <td>{{bus.batch_year}}</td>                          
+                            <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}</td>                                                           
                         <td>
-                            <span class="m-2 deletebutton" (click)="busFeeDelete(bus.busfeeid)"><b>delete</b></span>
+                            <span class="m-2 deletebutton" (click)="busFeeDelete(bus.vehicle_type,bus.kmrange,bus.batch_year)"><b>delete</b></span>
                         </td>
                     </tr>
                 </tbody>

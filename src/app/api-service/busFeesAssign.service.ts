@@ -24,8 +24,8 @@ export class BusFeesAssignService {
         return this.http.post<any>(this.apiUrl + 'BusFeesAssign/insert_buss_fees_assign', data, httpOptions);
     }
 
-    deleteBusFees(assignid: any): Observable<any> {
+    deleteBusFees(type, km, year): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'BusFeesAssign/delete_buss_fees_assign?busfeeid=' + assignid, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'BusFeesAssign/delete_buss_fees_assign?vehicle_type=' + type + '&kmrange=' + km + '&batch_year=' + year, httpOptions);
     }
 }

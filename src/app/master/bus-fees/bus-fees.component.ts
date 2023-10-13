@@ -19,8 +19,8 @@ export class BusFeesComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
   busFeeList: any[] = [];
-  groupBusFeeList:any[]=[];
-  ClassnameList:any[]=[];
+  groupBusFeeList: any[] = [];
+  ClassnameList: any[] = [];
   constructor(private VhtySvc: VehicleTypeService, private router: Router,
     private ClassSvc: studentClassService, private notificationSvc: NotificationsService,
     private batchSvc: BatechYearService,
@@ -34,7 +34,8 @@ export class BusFeesComponent implements OnInit {
     this.refreshGroupBusFeeList();
 
     this.ClassSvc.getClassList().subscribe(data => {
-      this.ClassnameList = data})
+      this.ClassnameList = data
+    })
   }
 
   GetActiveBatchYear() {
@@ -63,16 +64,46 @@ export class BusFeesComponent implements OnInit {
     });
   }
 
+  //// Number Only Event
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   refreshGroupBusFeeList() {
     this.busFeSvc.getGroupBusFeesList().subscribe(data => {
       debugger;
       this.groupBusFeeList = data;
-      this.groupBusFeeList.forEach((e)=>{
-        e['class']=e.class_name.split(",");
-        e['amo']=e.amount.split(",")
-      })      
+      this.groupBusFeeList.forEach((e) => {
+        e['class'] = e.class_name.split(",");
+        e['amo'] = e.amount.split(",")
+      })
       console.log(this.groupBusFeeList)
     });
+  }
+
+  getAmount(value: any, i) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    newClass = this.groupBusFeeList[i].class_name.split(",");
+    newAmount = this.groupBusFeeList[i].amount.split(",");
+
+    if (newClass.length == newAmount.length) {
+      index = newClass.indexOf(value);
+      if (index >= 0) {
+        getAmount = newAmount[index];
+      }
+      else {
+        getAmount = 'NULL';
+      }
+    }
+    return getAmount;
   }
 
   autokm() {
@@ -209,11 +240,11 @@ export class BusFeesComponent implements OnInit {
     }
   }
 
-  busFeeDelete(busfeeid) {
+  busFeeDelete(type, km, year) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
-          this.busFeSvc.deleteBusFees(busfeeid).subscribe(res => {
+          this.busFeSvc.deleteBusFees(type, km, year).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
               this.refreshGroupBusFeeList();
@@ -237,5 +268,4 @@ export class BusFeesComponent implements OnInit {
       control.removeAt(0)
     }
   };
-
 }
