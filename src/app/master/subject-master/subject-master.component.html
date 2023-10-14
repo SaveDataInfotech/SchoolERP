@@ -1,393 +1,112 @@
-<mat-tab-group animationDuration="0ms">
-    <mat-tab label="Subject">
-        <div class="container-fluid mt-2">
-            <mat-card class="mt-4 matcard mb-5">
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-sm-6" style="display: flex;">
-                            <div style="float: left;width: 300px;">
-                                <h3 class="ml-1">Subject Master</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <form [formGroup]="subjectForm" (ngSubmit)="newSubject()">
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Code</label>
-                                </div>
-                                <span *ngIf="buttonId == true ">
-                                    <div class="inputdiv" *ngFor="let code of MaxId">
-                                        <input placeholder="0{{code.subjectid+1}}" class="form-control" type="text"
-                                            readonly>
-                                    </div>
-                                </span>
-                                <span *ngIf="buttonId != true">
-                                    <div class="inputdiv">
-                                        <input formControlName="subjectid" class="form-control" type="text" readonly>
-                                    </div>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Name <span
-                                            class="text-danger">*</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors}"
-                                        formControlName="subject_name" class="form-control" type="tel" required>
-                                    <span class="text-danger"
-                                        *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors">
-                                        <div
-                                            *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors.required">
-                                            Subject Name is required
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-2">
-                            </div>
-                            <div class="col-sm-5 mt-3" style="display: block;">
-                                <div class="form-check mt-3">
-                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
-                                        formControlName="practical_status" value="Non Practical Subject" checked>
-                                    <label class="form-check-label p-2">Non Practical Subject</label>
-                                </div>
-                                <div class="form-check mt-3">
-                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
-                                        formControlName="practical_status" value="Practical Subject">
-                                    <label class="form-check-label p-2">Practical Subject</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 350px;">
-                                    <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                        <span> {{ subjectForm.value.subjectid ==0 ? 'Save' :
-                                            'Edit'}}</span></button>
-                                    <input type="button" style="width: 80px;" (click)="cancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
-                                        (click)="backButton()" value="Close" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="cancelClick()" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
-                    </form>
-                </mat-card-content>
-            </mat-card>
-            <mat-card class="mt-2 matcard mb-5">
-                <mat-card-content>
-                    <div class="table-responsive">
-                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                            <thead>
-                                <tr>
-                                    <th>Si.No</th>
-                                    <th>Subject Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let subject of subjectDetailList;let i=index;">
-                                    <td>{{i+1}}</td>
-                                    <td>{{subject.subject_name}}</td>
-                                    <td class="tdoption">
-                                        <span class="m-2 editbutton" (click)="udateGetClick(subject)"><b>edit</b></span>
-                                        <span>||</span>
-                                        <span class="m-2 deletebutton"
-                                            (click)="deleteClick(subject.subjectid)"><b>delete</b></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </mat-tab>
-
-
-    <!-- <mat-tab label="Subject Assign">
-        <div class="container-fluid mt-2">
+<div class="container-fluid">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
             <div class="row">
-                <div class="col-12" style="display: flex;">
+                <div class="col-sm-6" style="display: flex;">
                     <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Subject Assign</h3>
+                        <h3 class="ml-1">Subject Master</h3>
                     </div>
                 </div>
             </div>
-            <mat-card class="mt-2 matcard mb-5">
-                <mat-card-content>
-                    <form [formGroup]="subjectAssignForm" (ngSubmit)="newSubjectAssign()">
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Assign Code</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input placeholder="0011788" class="form-control" type="text" disabled required>
-                                </div>
-                            </div>
+            <form [formGroup]="subjectForm" (ngSubmit)="newSubject()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Subject Code</label>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Class</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select formControlName="classid" style="width: 100%;" #t
-                                        (change)="FilterGroupfun(t.value)" class="form-control " >
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
-                                            {{class.class_name}}</option>
-                                    </select>
-                                </div>
+                        <span *ngIf="buttonId == true ">
+                            <div class="inputdiv" *ngFor="let code of MaxId">
+                                <input placeholder="0{{code.subjectid+1}}" class="form-control" type="text" readonly>
                             </div>
-                        </div>
-
-                        <div class="row" *ngIf="groupDisplay == true">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Group</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select formControlName="groupid" style="width: 100%;" #s
-                                        (change)="FilterSectionfun(s.value)" class="form-control" >
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
-                                            {{group.group_name}}</option>
-                                    </select>
-                                </div>
+                        </span>
+                        <span *ngIf="buttonId != true">
+                            <div class="inputdiv">
+                                <input formControlName="subjectid" class="form-control" type="text" readonly>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Section</label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select formControlName="sectionid" style="width: 100%;" class="form-control "
-                                        >
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
-                                            {{section.section_name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row col-sm-8 mt-3" style="display: flex;">
-                            <div *ngFor="let subject of subjectDetailList"
-                                style="float: left;text-align: left; width:200px;" class="col-sm-4 mt-4 ">
-                                <div style="float: left;text-align: left;">
-                                    <input (change)="selectedSub($event, subject.subjectid)" style="height: 15px;width: 15px;"
-                                    formArrayName="selectedSubjects" type="checkbox"
-                                        [value]="subject.value">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    {{subject.subject_name}}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-            <mat-card class="mt-2 matcard mb-5">
-                <mat-card-content>
-                    <div class="table-responsive">
-                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                            <thead>
-                                <tr>
-                                    <th>Si.No</th>
-                                    <th>Class Name</th>
-                                    <th>Section Name</th>
-                                    <th>Group Name</th>
-                                    <th>Subject Name</th>                                    
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let assign of subjectAssignList;let i=index;">
-                                    <td>{{i+1}}</td>
-                                    <td>{{assign.class_name}}</td>
-                                    <td>{{assign.section_name}}</td>
-                                    <td>{{assign.group_name}}</td>
-                                    <td>{{assign.subject}}</td>
-                                    <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClickSubAssign(assign)"
-                                            style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                        <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                            class="pl-2">delete</mat-icon>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </mat-tab> -->
-
-
-    <!-- <mat-tab label="Subject Branches">
-        <div class="container-fluid mt-2">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">Subject Branches</h3>
+                        </span>
                     </div>
                 </div>
-            </div>
-            <mat-card class="mt-2 matcard mb-5">
-                <mat-card-content>
-                    <form [formGroup]="subjectBranchForm" (ngSubmit)="newSubjectBranch()">
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Code</label>
-                                </div>
-                                <span *ngIf="BranchbuttonId == true ">
-                                    <div class="inputdiv" *ngFor="let code of MaxIdBranch">
-                                        <input placeholder="0{{code.branchid+1}}" class="form-control" type="text"
-                                            readonly required>
-                                    </div>
-                                </span>
-                                <span *ngIf="BranchbuttonId != true">
-                                    <div class="inputdiv">
-                                        <input formControlName="branchid" class="form-control" type="text" readonly
-                                            required>
-                                    </div>
-                                </span>
-                            </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Subject Name <span
+                                    class="text-danger">*</span></label>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Subject Name<span class="text-danger"> *</span></label>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors}"
+                                formControlName="subject_name" class="form-control" type="tel" required>
+                            <span class="text-danger"
+                                *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors">
+                                <div
+                                    *ngIf="subjectForm.controls.subject_name.touched && subjectForm.controls.subject_name.errors.required">
+                                    Subject Name is required
                                 </div>
-                                <div class="inputdiv">
-                                    <select [ngClass]="{'is-invalid': subjectBranchForm.get('subjectid')?.touched && subjectBranchForm.get('subjectid')?.errors}"
-                                     formControlName="subjectid" style="width: 100%;" class="form-control "
-                                        >
-                                        <option value=null selected disabled>Please select</option>
-                                        <option [ngValue]="subject.subjectid"
-                                            *ngFor="let subject of subjectDetailList;">{{subject.subject_name}}</option>
-                                    </select>
-                                    <span class="text-danger"
-                                    *ngIf="subjectBranchForm.get('subjectid')?.touched && subjectBranchForm.get('subjectid')?.errors">Subject
-                                    name is required</span>
-                                </div>
-                            </div>
+                            </span>
                         </div>
-
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Branch Name <span class="text-danger">*</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input [ngClass]="{'is-invalid':subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors}"
-                                     formControlName="branch_name" class="form-control" type="tel" required>
-                                    <span class="text-danger"
-                                        *ngIf="subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors">
-                                        <div
-                                            *ngIf="subjectBranchForm.controls.branch_name.touched && subjectBranchForm.controls.branch_name.errors.required">
-                                            Subject Name is required
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="BranchbuttonId == true"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="BranchbuttonId != true"
-                                        matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="cancelClickSubBranch()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-            <mat-card class="mt-2 matcard mb-5">
-                <mat-card-content>
-                    <div class="table-responsive">
-                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
-                            <thead>
-                                <tr>
-                                    <th>Si.No</th>
-                                    <th>Subject Name</th>
-                                    <th>Branch Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let branch of subjectBranchList;let i=index">
-                                    <td>{{i+1}}</td>
-                                    <td>{{branch.subject_name}}</td>
-                                    <td>{{branch.branch_name}}</td>
-                                    <td class="tdoption">
-                                        <span class="m-2 editbutton"
-                                            (click)="updateGetClickSubBranch(branch)"><b>edit</b></span>
-                                        <span>||</span>
-                                        <span class="m-2 deletebutton"
-                                            (click)="deleteClickSubBranch(branch.branchid)"><b>delete</b></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </mat-tab> -->
-</mat-tab-group>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-5 mt-3" style="display: block;">
+                        <div class="form-check mt-3">
+                            <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
+                                formControlName="practical_status" value="Non Practical Subject" checked>
+                            <label class="form-check-label p-2">Non Practical Subject</label>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
+                                formControlName="practical_status" value="Practical Subject">
+                            <label class="form-check-label p-2">Practical Subject</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                        </div>
+                        <div style="float: left;width: 350px;">
+                            <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                <span> {{ subjectForm.value.subjectid ==0 ? 'Save' :
+                                    'Edit'}}</span></button>
+                            <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                            <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
+                                (click)="backButton()" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>Subject Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let subject of subjectDetailList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{subject.subject_name}}</td>
+                            <td class="tdoption">
+                                <span class="m-2 editbutton" (click)="udateGetClick(subject)"><b>edit</b></span>
+                                <span>||</span>
+                                <span class="m-2 deletebutton"
+                                    (click)="deleteClick(subject.subjectid)"><b>delete</b></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

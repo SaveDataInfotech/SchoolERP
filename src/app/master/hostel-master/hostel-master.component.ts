@@ -44,14 +44,13 @@ export class HostelMasterComponent implements OnInit {
   }
 
   newHostel() {
-    
     if (this.hostelForm.valid) {
       if (this.hostelForm.value.hostelid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var hostelinsert = (this.hostelForm.value);
-              this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {               
+              this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved successfully")
                   this.refreshHostelList();
@@ -74,7 +73,7 @@ export class HostelMasterComponent implements OnInit {
             if (res == true) {
               var hostelinsert = (this.hostelForm.value);
               this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshHostelList();
@@ -100,7 +99,6 @@ export class HostelMasterComponent implements OnInit {
     });
   }
 
-
   //sample  for Dialog working
   deleteClick(hostelid: number) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
@@ -119,11 +117,8 @@ export class HostelMasterComponent implements OnInit {
   }
 
   updateGetClick(hostel: any) {
-    this.hostelForm.get('hostelid')?.setValue(hostel.hostelid);
-    this.hostelForm.get('hostel_name')?.setValue(hostel.hostel_name);
-    this.hostelForm.get('no_of_rooms')?.setValue(hostel.no_of_rooms);
-    this.hostelForm.get('pa_room')?.setValue(hostel.pa_room);
-    this.hostelForm.get('cuid')?.setValue(hostel.cuid);
+    this.hostelForm.patchValue(hostel);
+    this.hostelForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 

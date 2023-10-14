@@ -15,16 +15,13 @@ export class uniformMeterService {
   }
 
   getMaxId(): Observable<any[]> {
-    
     return this.http.get<any[]>(this.apiUrl + 'UniformMeter/get_MaxId_Uniform_meter');
   }
-
 
   addNewUniform(uniforminsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'UniformMeter/insert_Uniform_meter', uniforminsert, httpOptions);
   }
-
 
   deleteUniform(uniformid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

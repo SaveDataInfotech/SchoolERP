@@ -18,13 +18,10 @@ export class hostelMasterService {
     return this.http.get<any[]>(this.apiUrl + 'HostelMaster/get_MaxId_hostel_master');
   }
 
-
   addNewHostel(hostelinsert: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'HostelMaster/insert_hostel_master', hostelinsert, httpOptions);
   }
-
 
   deleteHostel(hostelid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

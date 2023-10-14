@@ -27,7 +27,7 @@
                                         <input formControlName="typeid" class="form-control" type="text" readonly>
                                     </div>
                                 </span>
-                            </div>                           
+                            </div>
                         </div>
 
                         <div class="row">
@@ -51,20 +51,20 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-sm-2">
                             </div>
                             <div class="col-sm-5 mt-3" style="display: block;">
                                 <div class="form-check mt-3">
-                                    <input  style="width: 25px;height: 25px;" type="radio" class="form-check-input" formControlName="student_type"
-                                        value="Common Fees" checked>
+                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
+                                        formControlName="student_type" value="Common Fees" checked>
                                     <label class="form-check-label p-2">Common Fees (All students must in this
                                         fees)</label>
                                 </div>
                                 <div class="form-check mt-3">
-                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input" formControlName="student_type"
-                                        value="Admission Fees">
+                                    <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
+                                        formControlName="student_type" value="Admission Fees">
                                     <label class="form-check-label p-2">Admission Fees (Only new students)</label>
                                 </div>
                             </div>
@@ -78,8 +78,8 @@
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
                                         <span> {{ feestypeForm.value.typeid ==0 ? 'Save' : 'Edit'}}</span></button>
                                     <input (click)=" cancelClick()" type="button" style="width: 80px;"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
@@ -227,8 +227,8 @@
                                         <span> {{ generalFeesAssignForm.value.assignid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="generalFeesCancel()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>

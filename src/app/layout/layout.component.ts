@@ -337,11 +337,7 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Batch Year",
           link: "master/batch_year"
-        },
-        // {
-        //   link_name: "Fees Master",
-        //   link: "master/fees_master"
-        // },
+        },        
         {
           link_name: "General Fees",
           link: "master/general_fees"
@@ -404,27 +400,27 @@ export class LayoutComponent implements OnInit {
         }
       ]
     },
-    {
-      link_name: "Customer",
-      link: null,
-      icon: "customer",
-      sub_menu: [
-        {
-          link_name: "New Customer",
-          link: "customer/create_customer",
-        }, {
-          link_name: "Customer Details",
-          link: "customer/customer_details",
-        }, {
-          link_name: "Customer Report",
-          link: "customer/customer_report",
-        }, {
-          link_name: "Guardian Master",
-          link: "master/create_guardian",
-        },
+    // {
+    //   link_name: "Customer",
+    //   link: null,
+    //   icon: "customer",
+    //   sub_menu: [
+    //     {
+    //       link_name: "New Customer",
+    //       link: "customer/create_customer",
+    //     }, {
+    //       link_name: "Customer Details",
+    //       link: "customer/customer_details",
+    //     }, {
+    //       link_name: "Customer Report",
+    //       link: "customer/customer_report",
+    //     }, {
+    //       link_name: "Guardian Master",
+    //       link: "master/create_guardian",
+    //     },
 
-      ]
-    },
+    //   ]
+    // },
     {
       link_name: "User",
       link: "user/user",

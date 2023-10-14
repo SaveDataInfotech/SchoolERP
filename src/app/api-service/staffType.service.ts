@@ -18,12 +18,10 @@ export class staffTypeService {
     return this.http.get<any[]>(this.apiUrl + 'StaffType/get_MaxId_staff_type');
   }
 
-
   addNewstaffType(stafftypeinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StaffType/insert_staff_type', stafftypeinsert, httpOptions);
   }
-
 
   deletestaffType(staffTypeid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -31,7 +29,6 @@ export class staffTypeService {
   }
 
   // udateGetClick(staffTypeid:number): Observable<any[]> {
-  //   
   //   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
   //   return this.http.get<any[]>(this.apiUrl + 'StaffType/get_staff_type_ById?staffTypeid='+staffTypeid,httpOptions);
   // }

@@ -3,10 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class subjectService{
-    readonly apiUrl = 'https://localhost:44314/api/';
+export class subjectService {
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
@@ -18,12 +18,10 @@ export class subjectService{
     return this.http.get<any[]>(this.apiUrl + 'Subject/get_MaxId_subject');
   }
 
-
   addNewsubject(subjectinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'Subject/insert_subject', subjectinsert, httpOptions);
   }
-
 
   deletesubject(subjectid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

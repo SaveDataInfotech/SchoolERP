@@ -3,12 +3,10 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogService } from 'src/app/api-service/Dialog.service';
-import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
-import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
@@ -67,9 +65,7 @@ export class StudentUpdateComponent implements OnInit {
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
     private studProSvc: studentProfileService,
-    private feeAsSvc: FeesAssignService,
     private PlaceSvc: VehiclePlaceService,
-    private feeTyAsSvc: FeesTypeAssignService,
     private FlSvc: FeesLessService,
     private vhNoRtSvc: VehicleNoRootService,
   ) { this.createForm(); }
@@ -355,12 +351,6 @@ export class StudentUpdateComponent implements OnInit {
     return (this.studentDetailsForm.get('commonFeesList') as FormArray).controls;
   }
 
-  refreshFeesAssignList() {
-    this.feeAsSvc.getFeesAssignList().subscribe(data => {
-      this.FeesAssignList = data;
-    });
-  }
-
   placeOfBo(vehicle_no_id: any) {
     
     let idn = Number(vehicle_no_id);
@@ -600,12 +590,6 @@ export class StudentUpdateComponent implements OnInit {
     });
   }
 
-  refreshFeesTypeAssignList() {
-    this.feeTyAsSvc.getfeesTypeAssignList().subscribe(data => {
-      this.FeesTypeAssignList = data;
-      this.FeesTypeAssignFillterList = this.FeesTypeAssignList.filter((e: any) => { return e.type_name == 'Bus Fees' });
-    });
-  }
 
   refreshFeesLessList() {
     this.FlSvc.getfeesLessList().subscribe(data => {

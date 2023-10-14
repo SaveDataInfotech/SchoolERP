@@ -91,7 +91,7 @@
                 <table class="col-sm-12 table table-bordered table-sm  mt-4">
                     <thead>
                         <tr>
-                            <th>Fees Name</th>                          
+                            <th>Fees Name</th>
                             <th>Amount</th>
                             <th>Balance</th>
                             <th style="width: 150px;">Payable Amount</th>
@@ -121,6 +121,7 @@
                     <tbody formArrayName="generalFees">
                         <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
                             formGroupName="{{i}}">
+                            <!-- *ngIf=" chid.get('balance').value !=0 " -->
                             <td class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>

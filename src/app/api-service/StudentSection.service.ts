@@ -3,12 +3,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class studentSectionService{
-    readonly apiUrl = 'https://localhost:44314/api/';
+export class studentSectionService {
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
-
   }
 
   getSectionList(): Observable<any[]> {
@@ -19,12 +18,10 @@ export class studentSectionService{
     return this.http.get<any[]>(this.apiUrl + 'StudentSection/get_MaxId_student_section');
   }
 
-
   addNewSection(Sectioninsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentSection/insert_student_section', Sectioninsert, httpOptions);
   }
-
 
   deleteSection(sectionid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

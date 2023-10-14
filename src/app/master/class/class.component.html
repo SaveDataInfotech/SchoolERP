@@ -37,18 +37,15 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
+                                    <input (keypress)="stringOnly($event)"
                                         [ngClass]="{'is-invalid': Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}"
-                                        formControlName="class_name" class="form-control" oninput="this.value = this.value.toUpperCase()" type="text">
+                                        formControlName="class_name" class="form-control"
+                                        oninput="this.value = this.value.toUpperCase()" type="text">
                                     <span class="text-danger"
                                         *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors">
                                         <div
                                             *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.required">
                                             Class name is required
-                                        </div>
-                                        <div
-                                            *ngIf="Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors.pattern">
-                                            Use only letters or numbers
                                         </div>
                                     </span>
                                 </div>
@@ -64,28 +61,12 @@
                                         <span> {{ Student_classForm.value.classid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
-                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
-
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -95,7 +76,7 @@
                         <table class="col-sm-6 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
-                                    <th>Si.No.</th>
+                                    <th>Si.No</th>
                                     <th>Class Name</th>
                                     <th>Action</th>
                                 </tr>
@@ -219,27 +200,12 @@
                                         <span> {{ Student_SectionForm.value.sectionid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="SectioncancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="SectionbuttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="SectionbuttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)="SectioncancelClick()" type="button"
-                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
+                        </div>                        
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -252,7 +218,7 @@
                                     <th>Si.No</th>
                                     <th>Class Name</th>
                                     <th>Group Name</th>
-                                    <th>Section</th>
+                                    <th>Section Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -340,17 +306,13 @@
                                 <div style="float: left;width: 250px;">
                                     <input
                                         [ngClass]="{'is-invalid': Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors}"
-                                        formControlName="group_name" class="form-control" type="tel" required>
+                                        formControlName="group_name" class="form-control" type="tel" (keypress)="stringOnly($event)" required>
                                     <span class="text-danger"
                                         *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors">
                                         <div
                                             *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors.required">
                                             Group name is required
-                                        </div>
-                                        <div
-                                            *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors.pattern">
-                                            Use only letters or numbers
-                                        </div>
+                                        </div>                                       
                                     </span>
                                 </div>
                             </div>
@@ -371,11 +333,7 @@
                                         <div
                                             *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.required">
                                             Group Description is required
-                                        </div>
-                                        <div
-                                            *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.pattern">
-                                            Use only letters or numbers
-                                        </div>
+                                        </div>                                        
                                     </span>
                                 </div>
                             </div>
@@ -390,27 +348,12 @@
                                         <span> {{ Student_GroupForm.value.groupid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="GroupcancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="GroupbuttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="GroupbuttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)=GroupcancelClick() type="button"
-                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
+                        </div>                        
                     </form>
                 </mat-card-content>
             </mat-card>

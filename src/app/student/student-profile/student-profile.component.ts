@@ -8,9 +8,7 @@ import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
-import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
-import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
@@ -59,9 +57,7 @@ export class StudentProfileComponent implements OnInit {
     private FlSvc: FeesLessService,
     private studProSvc: studentProfileService,
     private PlaceSvc: VehiclePlaceService,
-    private feeTyAsSvc: FeesTypeAssignService,
     private vhNoRtSvc: VehicleNoRootService,
-    private feeAsSvc: FeesAssignService,
     private batchSvc: BatechYearService,
     private spinner: NgxSpinnerService,
     private router: Router,
@@ -104,7 +100,6 @@ export class StudentProfileComponent implements OnInit {
     this.refreshSectionList();
     this.refreshFeesLessList();
     this.refreshvehiclePlaceList();
-    this.refreshFeesTypeAssignList();
     this.refreshvehicleNoRootList();
     this.refreshGeneralFeesList();
     this.refreshSpecialFeesList();
@@ -602,13 +597,6 @@ export class StudentProfileComponent implements OnInit {
   refreshvehiclePlaceList() {
     this.PlaceSvc.getPlaceList().subscribe(data => {
       this.PlaceList = data;
-    });
-  }
-
-  refreshFeesTypeAssignList() {
-    this.feeTyAsSvc.getfeesTypeAssignList().subscribe(data => {
-      this.FeesTypeAssignList = data;
-      this.FeesTypeAssignFillterList = this.FeesTypeAssignList.filter((e: any) => { return e.type_name == 'Bus Fees' });
     });
   }
 

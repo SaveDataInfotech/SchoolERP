@@ -15,16 +15,13 @@ export class VehicleNoRootService {
   }
 
   getMaxId(): Observable<any[]> {
-    
     return this.http.get<any[]>(this.apiUrl + 'VehicleNoRoot/get_MaxId_vehicle_no_root');
   }
-
 
   addNewVeNoRt(venortinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'VehicleNoRoot/insert_vehicle_no_root', venortinsert, httpOptions);
   }
-
 
   deleteVeNoRt(vehicle_no_id: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

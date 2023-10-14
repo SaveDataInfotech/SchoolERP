@@ -15,7 +15,6 @@ export class SpecialFeesService {
     }
 
     addNewSpecialFees(data: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'SpecialFees/insert_special_fees', data, httpOptions);
     }

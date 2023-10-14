@@ -14,9 +14,9 @@ export class getSubjects {
     return this.http.get<any[]>(this.apiUrl + 'GetSubjects/Get');
   }
 
-  newSubjectAssign(feesAssignInsert: any): Observable<any> {
+  newSubjectAssign(value: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'GetSubjects/insert_subassign', feesAssignInsert, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'GetSubjects/insert_subassign', value, httpOptions);
   }
 
   getSubassign(): Observable<any[]> {
@@ -27,8 +27,8 @@ export class getSubjects {
     return this.http.get<any[]>(this.apiUrl + 'GetSubjects/get_MaxId_subassign');
   }
 
-  deleteAssign(typeid: any): Observable<any> {
+  deleteAssign(id: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete<any>(this.apiUrl + 'GetSubjects/delete_subassign?assignid=' + typeid, httpOptions);
+    return this.http.delete<any>(this.apiUrl + 'GetSubjects/delete_subassign?assignid=' + id, httpOptions);
   }
 }

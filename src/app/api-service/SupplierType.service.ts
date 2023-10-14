@@ -18,12 +18,10 @@ export class SupplierTypeService {
     return this.http.get<any[]>(this.apiUrl + 'SupplierType/get_MaxId_supplier_type');
   }
 
-
   addNewsupplierType(suppliertypeinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'SupplierType/insert_supplier_type', suppliertypeinsert, httpOptions);
   }
-
 
   deletesupplierType(supplierid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

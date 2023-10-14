@@ -50,8 +50,6 @@ export class StaffTypeComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-                
-                console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved successfully")
                   this.refreshstaffTypeList();
@@ -74,8 +72,6 @@ export class StaffTypeComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.stafftypeForm.value);
               this.stySvc.addNewstaffType(stafftypeinsert).subscribe(res => {
-                
-                console.log(res, 'resss')
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshstaffTypeList();
@@ -108,7 +104,6 @@ export class StaffTypeComponent implements OnInit {
     });
   }
 
-
   //sample  for Dialog working
   deleteClick(staffTypeid: number) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
@@ -126,10 +121,10 @@ export class StaffTypeComponent implements OnInit {
       });
   }
 
-  udateGetClick(staffType: any) {
-    this.stafftypeForm.get('staffTypeid')?.setValue(staffType.staffTypeid);
-    this.stafftypeForm.get('stafftype')?.setValue(staffType.staffType);
-    this.stafftypeForm.get('cuid')?.setValue(staffType.cuid);
+  udateGetClick(value: any) {
+    this.stafftypeForm.get('staffTypeid')?.setValue(value.staffTypeid);
+    this.stafftypeForm.get('stafftype')?.setValue(value.staffType);
+    this.stafftypeForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 

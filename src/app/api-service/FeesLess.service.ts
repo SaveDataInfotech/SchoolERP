@@ -15,18 +15,15 @@ export class FeesLessService {
     }
 
     getMaxId(): Observable<any[]> {
-        
         return this.http.get<any[]>(this.apiUrl + 'FeesLess/get_MaxId_fees_less');
     }
 
     addNewFeesLess(feeslessinsert: any): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'FeesLess/insert_fees_less', feeslessinsert, httpOptions);
-        
     }
 
     deletefeesLessType(fess_lessid: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'FeesLess/delete_fees_less?fess_lessid=' + fess_lessid, httpOptions);
     }

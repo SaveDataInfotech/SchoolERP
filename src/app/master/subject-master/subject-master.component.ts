@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
-import { studentSectionService } from 'src/app/api-service/StudentSection.service';
-import { subjectAssignService } from 'src/app/api-service/SubjectAssign.service';
-import { SubjectBranchService } from 'src/app/api-service/SubjectBranch.service';
-import { studentClassService } from 'src/app/api-service/studentClass.service';
-import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { subjectService } from 'src/app/api-service/subject.service';
 
 @Component({
@@ -20,47 +15,15 @@ export class SubjectMasterComponent implements OnInit {
   buttonId: boolean = true;
   subjectDetailList: any = [];
 
-  subjectBranchList: any = [];
-  MaxIdBranch: any = [];
-  BranchbuttonId: boolean = true;
-
-
-  subjectArray: any[] = [];
-  groupDisplay: boolean = true;
-  ClassList: any = [];
-  GroupList: any = [];
-  SectionList: any = [];
-  groupFilterlist: any = [];
-  sectionFilterlist: any = [];
-  subjectAssignList: any = [];
-
-  constructor(private subjectSvc: subjectService, private BranchSvc: SubjectBranchService,
+  constructor(private subjectSvc: subjectService,
     private DialogSvc: DialogService, private notificationSvc: NotificationsService,
-    private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
-    private router: Router,
-    private ScSvc: studentSectionService, private subAsSvc: subjectAssignService) {
-
-
+    private router: Router) {
   }
 
   ngOnInit(): void {
     this.refreshsubjectList(),
       this.getMaxId(),
-      this.cancelClick(),
-
-      this.refreshsubjectBranchList(),
-      this.getMaxIdSubBranch(),
-      this.cancelClickSubBranch()
-
-
-    //Subject Assign
-
-    // this.refreshClassList()
-    // this.refreshGroupList()
-    // this.refreshSectionList()
-
-    // this.refreshsubjectAssignList()
-    // this.cancelClickSubAssign()
+      this.cancelClick()
   }
 
   backButton() {
@@ -148,7 +111,6 @@ export class SubjectMasterComponent implements OnInit {
           this.subjectSvc.deletesubject(subjectid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-
               this.refreshsubjectList();
               this.getMaxId();
               this.cancelClick();
@@ -159,10 +121,8 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   udateGetClick(subject: any) {
-    this.subjectForm.get('subjectid')?.setValue(subject.subjectid);
-    this.subjectForm.get('subject_name')?.setValue(subject.subject_name);
-    this.subjectForm.get('practical_status')?.setValue(subject.practical_status);
-    this.subjectForm.get('cuid')?.setValue(subject.cuid);
+    this.subjectForm.patchValue(subject);
+    this.subjectForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 
@@ -174,207 +134,4 @@ export class SubjectMasterComponent implements OnInit {
     this.subjectForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
-
-
-  //Subject Branches
-
-  subjectBranchForm = new FormGroup({
-    branchid: new FormControl(0),
-    subjectid: new FormControl(null, [Validators.required]),
-    branch_name: new FormControl('', [Validators.required]),
-    cuid: new FormControl(1),
-  })
-
-  refreshsubjectBranchList() {
-    this.BranchSvc.getsubBranchList().subscribe(data => {
-      this.subjectBranchList = data;
-    });
-  }
-
-  newSubjectBranch() {
-    if (this.subjectBranchForm.valid) {
-      if (this.subjectBranchForm.value.branchid == 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              var subBranchinsert = (this.subjectBranchForm.value);
-              this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-
-                if (res?.recordid) {
-                  this.notificationSvc.success("Saved Success")
-                  this.refreshsubjectBranchList();
-                  this.getMaxIdSubBranch();
-                  this.cancelClickSubBranch();
-                }
-              });
-            }
-          });
-      }
-      else if (this.subjectBranchForm.value.branchid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              var subBranchinsert = (this.subjectBranchForm.value);
-              this.BranchSvc.addNewsubBranch(subBranchinsert).subscribe(res => {
-
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
-                  this.refreshsubjectBranchList();
-                  this.getMaxIdSubBranch();
-                  this.cancelClickSubBranch();
-                }
-              });
-            }
-          });
-      }
-      else {
-        alert("Something error;")
-      }
-    }
-    else {
-      this.subjectBranchForm.markAllAsTouched();
-    }
-  }
-
-  getMaxIdSubBranch() {
-    this.BranchSvc.getMaxIdsubBranch().subscribe(data => {
-      this.MaxIdBranch = data;
-    });
-  }
-
-  deleteClickSubBranch(branchid: number) {
-    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-          this.BranchSvc.deletesubBranch(branchid).subscribe(res => {
-            if (res?.recordid) {
-              this.notificationSvc.error("Deleted Success")
-
-              this.refreshsubjectBranchList();
-              this.getMaxIdSubBranch();
-              this.cancelClickSubBranch();
-            }
-          });
-        }
-      });
-  }
-
-  updateGetClickSubBranch(branch: any) {
-    this.subjectBranchForm.get('branchid')?.setValue(branch.branchid);
-    this.subjectBranchForm.get('subjectid')?.setValue(branch.subjectid);
-    this.subjectBranchForm.get('branch_name')?.setValue(branch.branch_name);
-    this.subjectBranchForm.get('cuid')?.setValue(branch.cuid);
-    this.BranchbuttonId = false;
-  }
-
-  cancelClickSubBranch() {
-    this.subjectBranchForm.reset();
-    this.subjectBranchForm.get('branchid')?.setValue(0);
-    this.subjectBranchForm.get('subjectid')?.setValue(null);
-    this.subjectBranchForm.get('branch_name')?.setValue('');
-    this.subjectBranchForm.get('cuid')?.setValue(1);
-    this.BranchbuttonId = true;
-  }
-
-  //Subject Assign
-
-  // subjectAssignForm = new FormGroup({
-  //   subjectAssignid: new FormControl(0),
-  //   classid: new FormControl(0, [Validators.required]),
-  //   groupid: new FormControl(0, [Validators.required]),
-  //   sectionid: new FormControl(0, [Validators.required]),
-  //   selectedSubjects: new FormControl(),
-  //   cuid: new FormControl(1),
-  // })
-
-  // refreshsubjectAssignList() {
-  //   this.subAsSvc.getSubjectAssign().subscribe(data => {
-  //     this.subjectAssignList = data;
-  //   });
-  // }
-
-  // selectedSub(event: any, option: any) {
-  //   if (event.target.checked) {
-  //     this.subjectArray.push(option.toString());
-  //   } else {
-  //     this.subjectArray = this.subjectArray.filter((val) => val.toString() !== option.toString());
-  //   }   
-  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.subjectArray);   
-  // };
-
-  // newSubjectAssign() {
-  //   debugger;
-  //   var subBranchinsert = (this.subjectAssignForm.value);
-  //   this.subAsSvc.addNewsubjectAssign(subBranchinsert).subscribe(res => {
-  //     if (res?.recordid) {
-  //       this.refreshsubjectAssignList();
-  //       //this.getMaxIdSubBranch();
-  //       this.cancelClickSubAssign();
-  //     }
-  //   });
-  // }
-  // sub: any = [];
-  // updateGetClickSubAssign(assign: any) {
-  //   this.subjectAssignForm.get('subjectAssignid')?.setValue(assign.subjectAssignid);
-  //   this.subjectAssignForm.get('classid')?.setValue(assign.classid);
-  //   this.subjectAssignForm.get('groupid')?.setValue(assign.groupid);
-  //   this.subjectAssignForm.get('sectionid')?.setValue(assign.sectionid);
-  //   this.subjectAssignForm.get('cuid')?.setValue(assign.cuid);
-  //   this.sub = assign.subject.split(";");
-  //   this.subjectAssignForm.get('selectedSubjects')?.setValue(this.sub);
-  //   console.log(this.subjectAssignForm.value.selectedSubjects);
-  // }
-
-  // cancelClickSubAssign() {
-  //   this.subjectAssignForm.reset();
-  //   this.subjectAssignForm.get('subjectAssignid')?.setValue(0);
-  //   this.subjectAssignForm.get('classid')?.setValue(0);
-  //   this.subjectAssignForm.get('groupid')?.setValue(0);
-  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
-  //   this.subjectAssignForm.get('selectedSubjects')?.setValue('');
-  //   this.subjectAssignForm.get('cuid')?.setValue(1);
-  //   //this.BranchbuttonId = true;
-  // }
-
-  // refreshClassList() {
-  //   this.ClassSvc.getClassList().subscribe(data => {
-  //     this.ClassList = data;
-  //   });
-  // }
-
-  // refreshGroupList() {
-  //   this.GroupSvc.getGroupList().subscribe(data => {
-  //     this.GroupList = data;
-  //   });
-  // }
-
-  // refreshSectionList() {
-  //   this.ScSvc.getSectionList().subscribe(data => {
-  //     this.SectionList = data;
-  //   });
-  // }
-
-  // FilterGroupfun(classsid: any) {
-  //   const classid = Number(classsid);
-  //   this.subjectAssignForm.get('classid')?.setValue(classid);
-  //   this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
-  //   this.subjectAssignForm.get('groupid')?.setValue(0);
-  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
-  //   if (this.groupFilterlist.length == 0) {
-  //     this.groupDisplay = false;
-  //     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-  //     this.subjectAssignForm.get('sectionid')?.setValue(0);
-  //   }
-  //   else {
-  //     this.groupDisplay = true;
-  //     this.subjectAssignForm.get('sectionid')?.setValue(0);
-  //   }
-  // }
-
-  // FilterSectionfun(groupID: any) {
-  //   const groupid = Number(groupID);
-  //   this.subjectAssignForm.get('groupid')?.setValue(groupid);
-  //   this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-  //   this.subjectAssignForm.get('sectionid')?.setValue(0);
-  // }
 }

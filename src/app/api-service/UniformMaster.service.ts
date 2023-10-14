@@ -18,12 +18,10 @@ export class UniformMasterService {
     return this.http.get<any[]>(this.apiUrl + 'UniformMaster/get_MaxId_uniform_master');
   }
 
-
   addNewuniform(uniforminsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'UniformMaster/insert_uniform_master', uniforminsert, httpOptions);
   }
-
 
   deleteuniform(uniformid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

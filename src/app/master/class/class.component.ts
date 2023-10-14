@@ -55,6 +55,15 @@ export class ClassComponent implements OnInit {
     this.SectioncancelClick()
   }
 
+   //// Number Only Event
+   stringOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
   //Student Class
 
   Student_classForm = new FormGroup({
@@ -74,7 +83,6 @@ export class ClassComponent implements OnInit {
   }
 
   New_Class() {
-
     if (this.Student_classForm.valid) {
       if (this.Student_classForm.value.classid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -124,7 +132,6 @@ export class ClassComponent implements OnInit {
     else {
       this.Student_classForm.markAllAsTouched();
     }
-
   }
 
   getMaxId() {
@@ -150,9 +157,8 @@ export class ClassComponent implements OnInit {
   }
 
   updateGetClick(StClass: any) {
-    this.Student_classForm.get('classid')?.setValue(StClass.classid);
-    this.Student_classForm.get('class_name')?.setValue(StClass.class_name);
-    this.Student_classForm.get('cuid')?.setValue(StClass.cuid);
+    this.Student_classForm.patchValue(StClass);
+    this.Student_classForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 
@@ -240,11 +246,8 @@ export class ClassComponent implements OnInit {
   }
 
   updateGroupClick(group: any) {
-    this.Student_GroupForm.get('groupid')?.setValue(group.groupid);
-    this.Student_GroupForm.get('classid')?.setValue(group.classid);
-    this.Student_GroupForm.get('group_name')?.setValue(group.group_name);
-    this.Student_GroupForm.get('description')?.setValue(group.description);
-    this.Student_GroupForm.get('cuid')?.setValue(group.cuid);
+    this.Student_GroupForm.patchValue(group);
+    this.Student_GroupForm.get('cuid')?.setValue(1);
     this.GroupbuttonId = false;
   }
 
@@ -277,7 +280,6 @@ export class ClassComponent implements OnInit {
 
   //Student Section
   changefun(classsid: any) {
-
     const classid = Number(classsid);
     this.Student_SectionForm.get('classid')?.setValue(classid);
     this.newlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -356,11 +358,8 @@ export class ClassComponent implements OnInit {
   }
 
   updateSectionClick(section: any) {
-    this.Student_SectionForm.get('sectionid')?.setValue(section.sectionid);
-    this.Student_SectionForm.get('groupid')?.setValue(section.groupid);
-    this.Student_SectionForm.get('classid')?.setValue(section.classid);
-    this.Student_SectionForm.get('section_name')?.setValue(section.section_name);
-    this.Student_SectionForm.get('cuid')?.setValue(section.cuid);
+    this.Student_SectionForm.patchValue(section);
+    this.Student_SectionForm.get('cuid')?.setValue(1);
     this.SectionbuttonId = false;
 
     this.Student_SectionForm.get('classid')?.setValue(section.classid);
@@ -368,7 +367,6 @@ export class ClassComponent implements OnInit {
   }
 
   SectioncancelClick() {
-
     this.Student_SectionForm.reset();
     this.Student_SectionForm.get('sectionid')?.setValue(0);
     this.Student_SectionForm.get('groupid')?.setValue(0);

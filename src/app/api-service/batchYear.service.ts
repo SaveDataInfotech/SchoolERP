@@ -30,13 +30,11 @@ export class BatechYearService {
   }
 
   ActiveStatusBatch(batchid: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.put<any>(this.apiUrl + 'BatchYear/Update_batch_year_activeStataus?batchid=' + batchid, httpOptions);
   }
 
   deleteBatch(batchid: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'BatchYear/delete_batch_year?batchid=' + batchid, httpOptions);
   }

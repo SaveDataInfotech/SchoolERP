@@ -61,7 +61,7 @@ export class SupplierMasterComponent implements OnInit {
             if (res == true) {
               var suppliertypeinsert = (this.suppliertypeForm.value);
               this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refresupplierTypeList();
@@ -78,7 +78,7 @@ export class SupplierMasterComponent implements OnInit {
             if (res == true) {
               var suppliertypeinsert = (this.suppliertypeForm.value);
               this.stySvc.addNewsupplierType(suppliertypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refresupplierTypeList();
@@ -119,13 +119,8 @@ export class SupplierMasterComponent implements OnInit {
   }
 
   udateGetClick(supplier: any) {
-    this.suppliertypeForm.get('supplierid')?.setValue(supplier.supplierid);
-    this.suppliertypeForm.get('supplier_name')?.setValue(supplier.supplier_name);
-    this.suppliertypeForm.get('mobile_number')?.setValue(supplier.mobile_number);
-    this.suppliertypeForm.get('gst_no')?.setValue(supplier.gst_no);
-    this.suppliertypeForm.get('balance')?.setValue(supplier.balance);
-    this.suppliertypeForm.get('address')?.setValue(supplier.address);
-    this.suppliertypeForm.get('cuid')?.setValue(supplier.cuid);
+    this.suppliertypeForm.patchValue(supplier);
+    this.suppliertypeForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 

@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { ClassComponent } from './class/class.component';
 import { BatchYearComponent } from './batch-year/batch-year.component';
-import { FeesMasterComponent } from './fees-master/fees-master.component';
 import { SubjectMasterComponent } from './subject-master/subject-master.component';
 import { UniformMasterComponent } from './uniform-master/uniform-master.component';
 import { StaffTypeComponent } from './staff-type/staff-type.component';
@@ -27,10 +26,6 @@ export const masterRoutes: Routes = [
   {
     path: 'batch_year',
     component: BatchYearComponent,
-  },
-  {
-    path:"fees_master",
-    component:FeesMasterComponent,
   },
   {
     path:"general_fees",

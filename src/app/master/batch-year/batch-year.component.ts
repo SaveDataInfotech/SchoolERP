@@ -114,9 +114,8 @@ export class BatchYearComponent implements OnInit {
   }
 
   udateGetClick(batch: any) {
-    this.BatchYearForm.get('batchid')?.setValue(batch.batchid);
-    this.BatchYearForm.get('batch_year')?.setValue(batch.batch_year);
-    this.BatchYearForm.get('cuid')?.setValue(batch.cuid);
+    this.BatchYearForm.patchValue(batch);
+    this.BatchYearForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
   ActiveStatusClick(batchid: number) {

@@ -3,12 +3,8 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
-import { FeesAssignService } from 'src/app/api-service/FeesAssign.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
-import { FeesTypeService } from 'src/app/api-service/FeesType.service';
-import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
-import { FeesTypeAssignService } from 'src/app/api-service/feesTypeAssign.service';
 import { GeneralFeesService } from 'src/app/api-service/generalFees.service';
 import { SpecialFeesService } from 'src/app/api-service/specialFees.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -34,17 +30,14 @@ export class SpecialFeesComponent implements OnInit {
 
   specialFeesList: any = [];
 
-  constructor(private FtySvc: FeesTypeService,
+  constructor(
     private FlSvc: FeesLessService,
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
-    private feeAsSvc: FeesAssignService,
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
-    private ScSvc: studentSectionService,
     private batchSvc: BatechYearService,
     private router: Router,
-    private feeTyAsSvc: FeesTypeAssignService,
     private genFeesSvc: GeneralFeesService,
     private spFSvc: SpecialFeesService) { }
 
@@ -83,7 +76,6 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-
     const classid = Number(classsid);
     this.specialFeesForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -121,8 +113,6 @@ export class SpecialFeesComponent implements OnInit {
     });
   }
 
-
-
   NewFeesLess() {
     if (this.feesLessForm.valid) {
       if (this.feesLessForm.value.fess_lessid == 0) {
@@ -135,6 +125,7 @@ export class SpecialFeesComponent implements OnInit {
                   this.notificationSvc.success("Saved Success")
                   this.refreshFeesLessList();
                   this.getMaxIdLess();
+                  this.refreshSpecialFeesList();
                   this.cancelClickLess();
                 }
                 else if (res.status == 'Already exists') {
@@ -157,6 +148,7 @@ export class SpecialFeesComponent implements OnInit {
                   this.notificationSvc.success("Updated Success")
                   this.refreshFeesLessList();
                   this.getMaxIdLess();
+                  this.refreshSpecialFeesList();
                   this.cancelClickLess();
                 }
                 else if (res.status == 'Already exists') {
@@ -176,9 +168,8 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   udateGetClickLess(less: any) {
-    this.feesLessForm.get('fess_lessid')?.setValue(less.fess_lessid);
-    this.feesLessForm.get('less_type')?.setValue(less.less_type);
-    this.feesLessForm.get('cuid')?.setValue(less.cuid);
+    this.feesLessForm.patchValue(less);
+    this.feesLessForm.get('cuid')?.setValue(1);
     this.buttonIdLess = false;
   }
 
@@ -226,7 +217,7 @@ export class SpecialFeesComponent implements OnInit {
   specialFeesForm = new FormGroup({
     assignid: new FormControl(0),
     classid: new FormControl(null),
-    fess_lessid: new FormControl(0),
+    fess_lessid: new FormControl(''),
     groupid: new FormControl(0),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
@@ -289,7 +280,7 @@ export class SpecialFeesComponent implements OnInit {
                 groupid: new FormControl(this.specialFeesForm.value.groupid),
                 fess_lessid: new FormControl(this.specialFeesForm.value.fess_lessid),
                 batch_year: new FormControl(this.specialFeesForm.value.batch_year),
-                cuid: new FormControl(this.specialFeesForm.value.cuid),
+                cuid: new FormControl(1),
                 typeid: new FormControl(element.typeid),
                 type_name: new FormControl(element.type_name),
                 male_amount: new FormControl(element.male_amount),
@@ -328,8 +319,9 @@ export class SpecialFeesComponent implements OnInit {
                   this.specialFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists");
+                  this.notificationSvc.success("Saved Success");
                   this.refreshSpecialFeesList();
+                  this.specialFeesCancel();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -350,8 +342,9 @@ export class SpecialFeesComponent implements OnInit {
                   this.specialFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists");
+                  this.notificationSvc.success("Saved Success");
                   this.refreshSpecialFeesList();
+                  this.specialFeesCancel();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -419,7 +412,7 @@ export class SpecialFeesComponent implements OnInit {
     this.specialFeesForm.get('assignid')?.setValue(0);
     this.specialFeesForm.get('classid')?.setValue(null);
     this.specialFeesForm.get('groupid')?.setValue(0);
-    this.specialFeesForm.get('fess_lessid')?.setValue(0);
+    this.specialFeesForm.get('fess_lessid')?.setValue('');
     this.specialFeesForm.get('batch_year')?.setValue(this.newgetbatch);
     this.specialFeesForm.get('cuid')?.setValue(0);
 

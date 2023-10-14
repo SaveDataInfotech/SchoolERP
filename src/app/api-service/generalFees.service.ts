@@ -11,13 +11,12 @@ export class GeneralFeesService {
     }
 
     getGeneralFeesList(): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl + 'GeneralFees/get_student_general_list');
+        return this.http.get<any[]>(this.apiUrl + 'GeneralFees/get_general_fees');
     }
 
     addNewGeneralFees(data: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.post<any>(this.apiUrl + 'GeneralFees/insert_staff_assign', data, httpOptions);
+        return this.http.post<any>(this.apiUrl + 'GeneralFees/insert_general_fees', data, httpOptions);
     }
 
     deleteGeneralFees(assignid: any): Observable<any> {

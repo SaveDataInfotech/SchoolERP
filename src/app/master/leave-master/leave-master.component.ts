@@ -72,7 +72,7 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+                
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshLeaveTypeList();
@@ -95,7 +95,7 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+                
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshLeaveTypeList();
@@ -141,9 +141,8 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   udateGetClick(Leave: any) {
-    this.leavetypeForm.get('typeid')?.setValue(Leave.typeid);
-    this.leavetypeForm.get('type_name')?.setValue(Leave.type_name);
-    this.leavetypeForm.get('fullName')?.setValue(Leave.fullName);
+    this.leavetypeForm.patchValue(Leave);
+   
     this.leavetypeForm.get('cuid')?.setValue(Leave.cuid);
     this.buttonId = false;
   }

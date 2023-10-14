@@ -4,7 +4,6 @@ import { ClassComponent } from './class/class.component';
 import { masterRoutes } from './master.routes';
 import { RouterModule } from '@angular/router';
 import { BatchYearComponent } from './batch-year/batch-year.component';
-import { FeesMasterComponent } from './fees-master/fees-master.component';
 import { SubjectMasterComponent } from './subject-master/subject-master.component';
 import { UniformMasterComponent } from './uniform-master/uniform-master.component';
 import { StaffTypeComponent } from './staff-type/staff-type.component';
@@ -40,7 +39,6 @@ import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.com
   declarations: [
     ClassComponent,
     BatchYearComponent,
-    FeesMasterComponent,
     SubjectMasterComponent,
     UniformMasterComponent,
     StaffTypeComponent,

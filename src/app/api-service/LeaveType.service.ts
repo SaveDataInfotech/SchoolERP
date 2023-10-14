@@ -18,12 +18,10 @@ export class LeaveTypeService {
     return this.http.get<any[]>(this.apiUrl + 'LeaveType/get_MaxId_leave_type');
   }
 
-
   addNewleaveType(leavetypeinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'LeaveType/insert_leave_type',leavetypeinsert, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'LeaveType/insert_leave_type', leavetypeinsert, httpOptions);
   }
-
 
   deleteLeaveType(typeid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

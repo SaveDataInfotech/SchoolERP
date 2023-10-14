@@ -40,13 +40,22 @@ export class UniformMasterComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
+  //// Number Only Event
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   uniformSizeForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
     size: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
-    shirting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
-    suiting: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
-    over_coat: new FormControl('--', [Validators.pattern('[a-zA-Z0-9][A-Za-z0-9._-]*')]),
+    shirting: new FormControl(''),
+    suiting: new FormControl(''),
+    over_coat: new FormControl('--'),
     amount: new FormControl('', [Validators.required]),
     cuid: new FormControl(1)
   })
@@ -60,7 +69,6 @@ export class UniformMasterComponent implements OnInit {
     }
   }
 
-
   refreshUniformSizeList() {
     this.uniformSvc.getuniformList().subscribe(data => {
       this.UniformSizeList = data;
@@ -68,7 +76,7 @@ export class UniformMasterComponent implements OnInit {
   }
 
   NewUniformSize() {
-
+    debugger;
     if (this.uniformSizeForm.valid) {
       if (this.uniformSizeForm.value.uniformid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -93,6 +101,7 @@ export class UniformMasterComponent implements OnInit {
           });
       }
       else if (this.uniformSizeForm.value.uniformid != 0) {
+        debugger;
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
@@ -153,14 +162,8 @@ export class UniformMasterComponent implements OnInit {
     else {
       this.overcoatif = true;
     }
-    this.uniformSizeForm.get('uniformid')?.setValue(size.uniformid);
-    this.uniformSizeForm.get('gender')?.setValue(size.gender);
-    this.uniformSizeForm.get('size')?.setValue(size.size);
-    this.uniformSizeForm.get('shirting')?.setValue(size.shirting);
-    this.uniformSizeForm.get('suiting')?.setValue(size.suiting);
-    this.uniformSizeForm.get('over_coat')?.setValue(size.over_coat);
-    this.uniformSizeForm.get('amount')?.setValue(size.amount);
-    this.uniformSizeForm.get('cuid')?.setValue(size.cuid);
+    this.uniformSizeForm.patchValue(size);
+    this.uniformSizeForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 
@@ -201,7 +204,6 @@ export class UniformMasterComponent implements OnInit {
   }
 
   ifovercoatfunMeter(value: any) {
-
     if (value != "Male") {
       this.overcoatifMetr = true;
     }
@@ -218,7 +220,7 @@ export class UniformMasterComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.uniformMeterForm.value);
               this.uniformMSvc.addNewUniform(stafftypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+                
                 if (res?.recordid) {
                   this.notificationSvc.success("Saved Success")
                   this.refreshUnifromMeterList();
@@ -235,7 +237,7 @@ export class UniformMasterComponent implements OnInit {
             if (res == true) {
               var stafftypeinsert = (this.uniformMeterForm.value);
               this.uniformMSvc.addNewUniform(stafftypeinsert).subscribe(res => {
-                console.log(res, 'resss')
+                
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshUnifromMeterList();
@@ -253,7 +255,6 @@ export class UniformMasterComponent implements OnInit {
     else {
       this.uniformMeterForm.markAllAsTouched();
     }
-
   }
 
   getMaxIdUniformMeter() {
@@ -287,15 +288,8 @@ export class UniformMasterComponent implements OnInit {
     else {
       this.overcoatifMetr = true;
     }
-    this.uniformMeterForm.get('uniformid')?.setValue(meter.uniformid);
-    this.uniformMeterForm.get('gender')?.setValue(meter.gender);
-    this.uniformMeterForm.get('shirting')?.setValue(meter.shirting);
-    this.uniformMeterForm.get('sh_am')?.setValue(meter.sh_am);
-    this.uniformMeterForm.get('suiting')?.setValue(meter.suiting);
-    this.uniformMeterForm.get('su_am')?.setValue(meter.su_am);
-    this.uniformMeterForm.get('overcoat')?.setValue(meter.overcoat);
-    this.uniformMeterForm.get('oc_am')?.setValue(meter.oc_am);
-    this.uniformMeterForm.get('cuid')?.setValue(meter.cuid);
+    this.uniformMeterForm.patchValue(meter);
+    this.uniformMeterForm.get('cuid')?.setValue(1);
     this.meterbuttonId = false;
   }
 

@@ -8,7 +8,6 @@ import { Observable } from "rxjs";
 export class studentClassService {
   readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
-
   }
 
   getClassList(): Observable<any[]> {
@@ -28,5 +27,4 @@ export class studentClassService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'StudentClass/delete_student_class?classid=' + classid, httpOptions);
   }
-
 }

@@ -40,7 +40,7 @@
                                     <select
                                         [ngClass]="{'is-invalid':uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors}"
                                         #t (change)="ifovercoatfun(t.value)" style="width: 100%;" class="form-control"
-                                        formControlName="gender" name="selectAction">
+                                        formControlName="gender">
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="buttonId != true" value="Male">Male</option>
                                         <option [disabled]="buttonId != true" value="FeMale">Female</option>
@@ -62,7 +62,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="buttonId != true"
                                         [ngClass]="{'is-invalid':uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors}"
                                         formControlName="size" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -147,7 +147,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':uniformSizeForm.controls.amount.touched && uniformSizeForm.controls.amount.errors}"
                                         formControlName="amount" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -170,8 +170,8 @@
                                         <span> {{ uniformSizeForm.value.uniformid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
@@ -260,7 +260,7 @@
                                     <select
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors}"
                                         #m (change)="ifovercoatfunMeter(m.value)" style="width: 100%;"
-                                        class="form-control" formControlName="gender" name="selectAction">
+                                        class="form-control" formControlName="gender">
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="meterbuttonId != true" value="Male">Male</option>
                                         <option [disabled]="meterbuttonId != true" value="FeMale">Female</option>
@@ -299,7 +299,7 @@
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
-                                    <input placeholder="Amount" currencyInput
+                                    <input placeholder="Amount" currencyInput (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.sh_am.touched && uniformMeterForm.controls.sh_am.errors}"
                                         formControlName="sh_am" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -337,7 +337,7 @@
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
-                                    <input placeholder="Amount"
+                                    <input placeholder="Amount" (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.su_am.touched && uniformMeterForm.controls.su_am.errors}"
                                         formControlName="su_am" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -360,29 +360,12 @@
                                     <input
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.overcoat.touched  && uniformMeterForm.controls.overcoat.errors  && uniformMeterForm.controls.overcoat.errors.pattern}"
                                         formControlName="overcoat" class="form-control" type="text">
-                                    <span class="text-danger"
-                                        *ngIf="uniformMeterForm.controls.overcoat.touched && uniformMeterForm.controls.overcoat.errors">
-                                        <div *ngIf="uniformMeterForm.controls.overcoat.touched">
-                                            Suiting is required
-                                        </div>
-                                        <div
-                                            *ngIf="uniformMeterForm.controls.overcoat.touched && uniformMeterForm.controls.overcoat.errors.pattern">
-                                            Invalid pattern (Enter like 2m 0r 1.5m)
-                                        </div>
-                                    </span>
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
-                                    <input
+                                    <input (keypress)="numberOnly($event)" placeholder="Amount"
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors}"
-                                        formControlName="oc_am" class="form-control" type="text" required>
-                                    <span class="text-danger"
-                                        *ngIf="uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors">
-                                        <div
-                                            *ngIf="uniformMeterForm.controls.oc_am.touched && uniformMeterForm.controls.oc_am.errors.required">
-                                            Amount is required
-                                        </div>
-                                    </span>
+                                        formControlName="oc_am" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -396,28 +379,12 @@
                                         <span> {{ uniformMeterForm.value.uniformid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="MetercancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="meterbuttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="meterbuttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="MetercancelClick()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>

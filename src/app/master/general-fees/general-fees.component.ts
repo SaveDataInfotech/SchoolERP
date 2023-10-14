@@ -66,7 +66,6 @@ export class GeneralFeesComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-
     const classid = Number(classsid);
     this.generalFeesAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -181,10 +180,8 @@ export class GeneralFeesComponent implements OnInit {
   }
 
   udateGetClick(fees: any) {
-    this.feestypeForm.get('typeid')?.setValue(fees.typeid);
-    this.feestypeForm.get('type_name')?.setValue(fees.type_name);
-    this.feestypeForm.get('student_type')?.setValue(fees.student_type);
-    this.feestypeForm.get('cuid')?.setValue(fees.cuid);
+    this.feestypeForm.patchValue(fees);
+    this.feestypeForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 
@@ -236,7 +233,7 @@ export class GeneralFeesComponent implements OnInit {
               classid: new FormControl(this.generalFeesAssignForm.value.classid),
               groupid: new FormControl(this.generalFeesAssignForm.value.groupid),
               batch_year: new FormControl(this.generalFeesAssignForm.value.batch_year),
-              cuid: new FormControl(this.generalFeesAssignForm.value.cuid),
+              cuid: new FormControl(1),
               typeid: new FormControl(element.typeid),
               type_name: new FormControl(element.type_name),
               male_amount: new FormControl(element.male_amount),
@@ -255,6 +252,7 @@ export class GeneralFeesComponent implements OnInit {
   }
 
   newGeneralFees() {
+    debugger
     const control = <FormArray>this.generalFeesAssignForm.controls['feesList'];
     if (control.length != 0) {
       if (this.generalFeesAssignForm.value.assignid == 0) {
@@ -269,8 +267,9 @@ export class GeneralFeesComponent implements OnInit {
                   this.generalFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists");
+                  this.notificationSvc.success("Saved Success");
                   this.refreshGeneralFeesList();
+                  this.generalFeesCancel();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -291,8 +290,9 @@ export class GeneralFeesComponent implements OnInit {
                   this.generalFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists");
+                  this.notificationSvc.success("Saved Success");
                   this.refreshGeneralFeesList();
+                  this.generalFeesCancel();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -322,7 +322,7 @@ export class GeneralFeesComponent implements OnInit {
           classid: new FormControl(item.classid),
           groupid: new FormControl(item.groupid),
           batch_year: new FormControl(item.batch_year),
-          cuid: new FormControl(this.generalFeesAssignForm.value.cuid),
+          cuid: new FormControl(1),
           typeid: new FormControl(item.typeid),
           type_name: new FormControl(item.type_name),
           male_amount: new FormControl(item.male_amount),

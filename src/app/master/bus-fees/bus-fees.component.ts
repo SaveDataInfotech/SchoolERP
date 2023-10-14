@@ -198,11 +198,13 @@ export class BusFeesComponent implements OnInit {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success");
                   this.refreshGroupBusFeeList();
+                  this.refreshBusFeeList();
                   this.busFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists");
                   this.refreshGroupBusFeeList();
+                  this.refreshBusFeeList();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -220,11 +222,13 @@ export class BusFeesComponent implements OnInit {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success");
                   this.refreshGroupBusFeeList();
+                  this.refreshBusFeeList();
                   this.busFeesCancel();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists");
                   this.refreshGroupBusFeeList();
+                  this.refreshBusFeeList();
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -248,6 +252,7 @@ export class BusFeesComponent implements OnInit {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
               this.refreshGroupBusFeeList();
+              this.refreshBusFeeList();
               this.busFeesCancel()
             }
           });
@@ -257,6 +262,7 @@ export class BusFeesComponent implements OnInit {
 
   busFeesCancel() {
     this.busFeesForm.reset();
+    this.refreshBusFeeList();
     this.busFeesForm.get('busfeeid')?.setValue(0);
     this.busFeesForm.get('vehicle_type')?.setValue('');
     this.busFeesForm.get('kmrange')?.setValue('');

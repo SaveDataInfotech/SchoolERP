@@ -18,12 +18,10 @@ export class VehicleTypeService {
     return this.http.get<any[]>(this.apiUrl + 'VehicleType/get_MaxId_vehicle_type');
   }
 
-
   addNewvehicleType(vehicletypeinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'VehicleType/insert_vehicle_type', vehicletypeinsert, httpOptions);
   }
-
 
   deletevehicleType(staffTypeid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

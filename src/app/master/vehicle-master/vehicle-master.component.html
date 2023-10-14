@@ -60,27 +60,12 @@
                                         <span> {{ vehicletypeForm.value.typeid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClick()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
-                                        style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -178,7 +163,8 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors}"
-                                        formControlName="vehicle_no" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" required>
+                                        formControlName="vehicle_no" class="form-control" type="text"
+                                        oninput="this.value = this.value.toUpperCase()" required>
                                     <span class="text-danger"
                                         *ngIf="vehicleNoRootForm.controls.vehicle_no.touched && vehicleNoRootForm.controls.vehicle_no.errors">
                                         <div
@@ -219,28 +205,12 @@
                                         <span> {{ vehicleNoRootForm.value.vehicle_no_id ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClickVehicleNoRoot()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="NoRootbuttonId == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="NoRootbuttonId != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="cancelClickVehicleNoRoot()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -365,51 +335,13 @@
                                         <span> {{ vehicleplaceForm.value.placeid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClickPlace()"
-                                        class="btn btn-danger mr-3 btn-sm mt-4" value="Clear" />
-                                    <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mt-4"
+                                        class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
                         </div>
-                        <!-- 
-                        <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input *ngIf="buttonIdPlace == true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input *ngIf="buttonIdPlace != true" matTooltip="Click to Save" type="submit"
-                                        style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        (click)="cancelClickPlace()" class="btn btn-danger btn-sm mt-4  "
-                                        value="Cancel" />
-                                </div>
-                            </div>
-                        </div> -->
                     </form>
-
-                    <!-- <hr />
-
-                    <p style="color: green;">If you have an Excel sheet select path here!</p>
-                    <form>
-                        <div class="row">
-                            <div class="col-xl-5 ">
-                                <div class="col-xs-3 p-3" style="display: flex;">
-                                    <label style="margin: auto;width: 10px;">Select</label>
-                                    <input class="form-control ml-5" type="file" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-4" style="display: flex;">
-                                <div style="float: left;width: 250px;">
-                                    <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                        class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                    <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                                        class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                                </div>
-                            </div>
-                        </div>
-                    </form> -->
                 </mat-card-content>
             </mat-card>
 

@@ -73,7 +73,6 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   FilterGroupfun(classsid: any) {
-
     const classid = Number(classsid);
     this.subjectAssignForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -91,7 +90,6 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   FilterSectionfun(groupID: any) {
-
     const groupid = Number(groupID);
     this.subjectAssignForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -114,7 +112,7 @@ export class SubjectAssignComponent implements OnInit {
   onSubmit() {
     this.subjectAssignForm.subjetsid = this.subjectDetailList.filter(x => x.isselect == true).map(x => x.subjectid).join(",").toString();
     if (this.subjectAssignForm.subjetsid != '') {
-      this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.subjectAssignForm.subjectsname = this.subjectDetailList.filter(x => x.isselect == true).map(x => x.subject_name).join(",").toString();
@@ -159,7 +157,7 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   assigndeleteClick(assignid: number) {
-    this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.subSvc.deleteAssign(assignid).subscribe(res => {
@@ -176,7 +174,6 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   edit(assign: assign) {
-
     this.assignbuttonId = false;
     this.subjectDetailList.forEach(element => {
       element.isselect = false;

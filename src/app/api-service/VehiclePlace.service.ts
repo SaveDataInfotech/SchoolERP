@@ -15,16 +15,13 @@ export class VehiclePlaceService {
   }
 
   getMaxIdPlace(): Observable<any[]> {
-    
     return this.http.get<any[]>(this.apiUrl + 'VehiclePlace/get_MaxId_vehicle_place');
   }
-
 
   addNewPlace(placeinsert: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'VehiclePlace/insert_vehicle_place', placeinsert, httpOptions);
   }
-
 
   deletePlace(placeid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

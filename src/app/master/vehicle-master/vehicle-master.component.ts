@@ -70,7 +70,6 @@ export class VehicleMasterComponent implements OnInit {
             if (res == true) {
               var vehicletypeinsert = (this.vehicletypeForm.value);
               this.VhtySvc.addNewvehicleType(vehicletypeinsert).subscribe(res => {
-
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshvehicleTypeList();
@@ -139,9 +138,8 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   udateGetClick(type: any) {
-    this.vehicletypeForm.get('typeid')?.setValue(type.typeid);
-    this.vehicletypeForm.get('vehicle_name')?.setValue(type.vehicle_name);
-    this.vehicletypeForm.get('cuid')?.setValue(type.cuid);
+    this.vehicletypeForm.patchValue(type);
+    this.vehicletypeForm.get('cuid')?.setValue(1);
     this.buttonId = false;
   }
 
@@ -243,11 +241,8 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   udateGetClickVehicleNoRoot(vhnort: any) {
-    this.vehicleNoRootForm.get('vehicle_no_id')?.setValue(vhnort.vehicle_no_id);
-    this.vehicleNoRootForm.get('vehicle_no')?.setValue(vhnort.vehicle_no);
-    this.vehicleNoRootForm.get('vehicle_type')?.setValue(vhnort.vehicle_type);
-    this.vehicleNoRootForm.get('vehicle_root_no')?.setValue(vhnort.vehicle_root_no);
-    this.vehicleNoRootForm.get('cuid')?.setValue(vhnort.cuid);
+    this.vehicleNoRootForm.patchValue(vhnort);
+    this.vehicleNoRootForm.get('cuid')?.setValue(1);
     this.NoRootbuttonId = false;
   }
 
@@ -321,7 +316,6 @@ export class VehicleMasterComponent implements OnInit {
             }
           });
       }
-
     }
     else {
       this.vehicleplaceForm.markAllAsTouched();
@@ -351,10 +345,8 @@ export class VehicleMasterComponent implements OnInit {
   }
 
   udateGetClickPlace(place: any) {
-    this.vehicleplaceForm.get('placeid')?.setValue(place.placeid);
-    this.vehicleplaceForm.get('root_no')?.setValue(place.root_no);
-    this.vehicleplaceForm.get('place')?.setValue(place.place);
-    this.vehicleplaceForm.get('cuid')?.setValue(place.cuid);
+    this.vehicleplaceForm.patchValue(place);
+    this.vehicleplaceForm.get('cuid')?.setValue(1);
     this.buttonIdPlace = false;
   }
 
