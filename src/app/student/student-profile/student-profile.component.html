@@ -370,15 +370,17 @@
                             <label class="pt-2" style="margin: auto;">Vehicle Type</label>
                         </div>
                         <div class="inputdiv">
-                            <select formControlName="vehicle_type" style="width: 100%;" class="form-control">
-                                <option selected value="" disabled>Please select </option>
-                                <option>Own vehicle</option>
-                                <option>Bus</option>
+                            <select formControlName="vehicle_type" (change)="searchKM()" style="width: 100%;"
+                                class="form-control">
+                                <option selected value=null disabled>Please select </option>
+                                <option value=0>Own vehicle</option>
+                                <option [ngValue]="vh.typeid" *ngFor="let vh of vehicleTypeList">{{vh.vehicle_name}}
+                                </option>
                             </select>
                         </div>
                     </div>
 
-                    <div *ngIf="studentDetailsForm.value.vehicle_type == 'Bus' && studentDetailsForm.value.stay_type == 'Day scholar'"
+                    <div *ngIf="studentDetailsForm.value.vehicle_type != 0 && studentDetailsForm.value.stay_type == 'Day scholar'"
                         class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Bus Distance</label>
@@ -386,14 +388,14 @@
                         <div class="inputdiv">
                             <select formControlName="busdistance" style="width: 100%;" class="form-control ">
                                 <option value='' selected disabled>Please select</option>
-                                <option value={{fees.type_assign_name}} *ngFor="let fees of FeesTypeAssignFillterList;">
-                                    {{fees.type_assign_name}}</option>
+                                <option value={{fees.kmrange}} *ngFor="let fees of kmFillterList;">
+                                    {{fees.kmrange}}</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div *ngIf="studentDetailsForm.value.vehicle_type == 'Bus' && studentDetailsForm.value.stay_type == 'Day scholar'"
+                <div *ngIf="studentDetailsForm.value.vehicle_type != 0 && studentDetailsForm.value.stay_type == 'Day scholar'"
                     class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">

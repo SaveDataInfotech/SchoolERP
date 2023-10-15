@@ -14,6 +14,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { GeneralFeesService } from 'src/app/api-service/generalFees.service';
 import { SpecialFeesService } from 'src/app/api-service/specialFees.service';
+import { VehicleTypeService } from 'src/app/api-service/VehicleType.service';
+import { BusFeesAssignService } from 'src/app/api-service/busFeesAssign.service';
+import { SpecialBusFeesAssignService } from 'src/app/api-service/specialBusFee.service';
 @Component({
   selector: 'app-student-profile',
   templateUrl: './student-profile.component.html',
@@ -35,7 +38,7 @@ export class StudentProfileComponent implements OnInit {
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
   FeesLessList: any = [];
-  FeesTypeAssignList: any = [];
+  kmFillterList: any = [];
   groupDisplay: boolean = true;
   //assignbuttonId: boolean = true;
   storedValue: any;
@@ -49,6 +52,10 @@ export class StudentProfileComponent implements OnInit {
   newgetbatch: string;
   generalFeesList: any[] = [];
   specialFeesList: any[] = [];
+  groupBusFeeList: any[] = [];
+  busFeeList: any[] = [];
+  vehicleTypeList: any[] = [];
+  specialBusFeesList: any[] = [];
   constructor(private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
     private ClassSvc: studentClassService,
@@ -62,7 +69,10 @@ export class StudentProfileComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private router: Router,
     private genFeesSvc: GeneralFeesService,
-    private spFSvc: SpecialFeesService) { }
+    private spFSvc: SpecialFeesService,
+    private VhtySvc: VehicleTypeService,
+    private busFeSvc: BusFeesAssignService,
+    private spBusSvc: SpecialBusFeesAssignService,) { }
 
 
   date1 = new Date();
@@ -101,8 +111,12 @@ export class StudentProfileComponent implements OnInit {
     this.refreshFeesLessList();
     this.refreshvehiclePlaceList();
     this.refreshvehicleNoRootList();
+    this.refreshBusFeeList();
+    this.refreshSpecialBusFeeList();
+    this.refresgroupBusFeeList();
     this.refreshGeneralFeesList();
     this.refreshSpecialFeesList();
+    this.refreshvehicleTypeList();
     this.GetActiveBatchYear();
     this.getMaxId();
     setTimeout(() => {
@@ -132,6 +146,12 @@ export class StudentProfileComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  refreshvehicleTypeList() {
+    this.VhtySvc.getvehicleTypeList().subscribe(data => {
+      this.vehicleTypeList = data;
+    });
   }
 
   //get class details
@@ -285,7 +305,7 @@ export class StudentProfileComponent implements OnInit {
     newstudent: new FormControl('Yes'),
     feesless: new FormControl(''),
     stay_type: new FormControl(''),
-    vehicle_type: new FormControl(''),
+    vehicle_type: new FormControl(0),
     root_no: new FormControl(0),
     boading_place: new FormControl(''),
     busdistance: new FormControl(''),
@@ -344,11 +364,40 @@ export class StudentProfileComponent implements OnInit {
       this.generalFeesList = data;
     });
   }
+
   refreshSpecialFeesList() {
     this.spFSvc.getSpecialFeesList().subscribe(data => {
       debugger;
       this.specialFeesList = data;
     });
+  }
+
+  refresgroupBusFeeList() {
+    this.busFeSvc.getGroupBusFeesList().subscribe(data => {
+      debugger;
+      this.groupBusFeeList = data;
+    });
+  }
+
+  refreshBusFeeList() {
+    this.busFeSvc.getBusFeesList().subscribe(data => {
+      debugger;
+      this.busFeeList = data;
+    });
+  }
+
+  refreshSpecialBusFeeList() {
+    this.spBusSvc.getSpecialBusFeesList().subscribe(data => {
+      this.specialBusFeesList = data;
+    });
+  }
+
+  searchKM() {
+    debugger;
+    const vhType = this.studentDetailsForm.value.vehicle_type
+    this.kmFillterList = this.groupBusFeeList.filter((e) => {
+      return e.typeid == vhType
+    })
   }
 
   placeOfBo(vehicle_no_id: any) {
@@ -391,54 +440,83 @@ export class StudentProfileComponent implements OnInit {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            if (this.studentDetailsForm.value.vehicle_type == 'Bus' && this.studentDetailsForm.value.stay_type == 'Day scholar') {
-              const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-              while (control.length !== 0) {
-                control.removeAt(0)
-              }
-
-
-
-              const feesList = this.FeesAssignList.filter((e) => {
-                return e.classid == this.studentDetailsForm.value.classid
-                  && e.groupid == this.studentDetailsForm.value.groupid
-                  && e.gender == this.studentDetailsForm.value.gender
-                  && e.batch_year == this.studentDetailsForm.value.batch_year
-                  && e.type_name == 'Bus Fees'
-                  && e.studentfeestype == 'Bus Fees'
-                  && e.type_assign_name == this.studentDetailsForm.value.busdistance
-                  && e.isactive == true
-              });
-
-              feesList.forEach(element => {
+            {
+              if (this.studentDetailsForm.value.vehicle_type != 0 && this.studentDetailsForm.value.stay_type == 'Day scholar') {
                 const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                control.push(
-                  new FormGroup({
-                    admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                    classid: new FormControl(this.studentDetailsForm.value.classid),
-                    groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                    sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                    gender: new FormControl(this.studentDetailsForm.value.gender),
-                    date: new FormControl(this.studentDetailsForm.value.date),
-                    batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                    studentfeestype: new FormControl(element.studentfeestype),
-                    type_name: new FormControl(element.type_name),
-                    type_assign_name: new FormControl(element.type_assign_name),
-                    less_type: new FormControl(element.less_type),
-                    amount: new FormControl(element.amount),
-                    balance_amount: new FormControl(element.amount)
-                  })
-                )
-              });
-            }
-            else {
-              this.studentDetailsForm.get('vehicle_type')?.setValue('');
-              this.studentDetailsForm.get('root_no')?.setValue(0);
-              this.studentDetailsForm.get('boading_place')?.setValue('');
-              this.studentDetailsForm.get('busdistance')?.setValue('');
-              const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-              while (control.length !== 0) {
-                control.removeAt(0)
+                while (control.length !== 0) {
+                  control.removeAt(0)
+                }
+
+                if (this.studentDetailsForm.value.feesless == 'Not Specified' || this.studentDetailsForm.value.feesless == '' || this.studentDetailsForm.value.feesless == null) {
+                  const feesList = this.busFeeList.filter((e) => {
+                    return e.classid == this.studentDetailsForm.value.classid
+                      && e.groupid == this.studentDetailsForm.value.groupid
+                      && e.gender == this.studentDetailsForm.value.gender
+                      && e.batch_year == this.studentDetailsForm.value.batch_year
+                      && e.typeid == this.studentDetailsForm.value.vehicle_type
+                      && e.kmrange == this.studentDetailsForm.value.busdistance
+                      && e.isactive == true
+                  });
+
+                  feesList.forEach(element => {
+                    const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                    control.push(
+                      new FormGroup({
+                        busfeeid: new FormControl(element.busfeeid),
+                        admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                        classid: new FormControl(this.studentDetailsForm.value.classid),
+                        groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                        sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                        gender: new FormControl(this.studentDetailsForm.value.gender),
+                        date: new FormControl(this.studentDetailsForm.value.date),
+                        batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                        typeid: new FormControl(element.typeid),
+                        kmrange: new FormControl(element.kmrange)
+                      })
+                    )
+                  });
+                }
+                else {
+                  const feesList = this.specialBusFeesList.filter((e) => {
+                    return e.classid == this.studentDetailsForm.value.classid
+                      && e.groupid == this.studentDetailsForm.value.groupid
+                      && e.gender == this.studentDetailsForm.value.gender
+                      && e.batch_year == this.studentDetailsForm.value.batch_year
+                      && e.typeid == this.studentDetailsForm.value.vehicle_type
+                      && e.kmrange == this.studentDetailsForm.value.busdistance
+                      && e.less_type == this.studentDetailsForm.value.feesless
+                      && e.isactive == true
+                  });
+
+                  feesList.forEach(element => {
+                    const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                    control.push(
+                      new FormGroup({
+                        busfeeid: new FormControl(element.busfeeid),
+                        admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                        classid: new FormControl(this.studentDetailsForm.value.classid),
+                        groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                        sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                        gender: new FormControl(this.studentDetailsForm.value.gender),
+                        date: new FormControl(this.studentDetailsForm.value.date),
+                        batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                        typeid: new FormControl(element.typeid),
+                        fess_lessid: new FormControl(element.fess_lessid),
+                        kmrange: new FormControl(element.kmrange)
+                      })
+                    )
+                  });
+                }
+              }
+              else {
+                this.studentDetailsForm.get('vehicle_type')?.setValue(0);
+                this.studentDetailsForm.get('root_no')?.setValue(0);
+                this.studentDetailsForm.get('boading_place')?.setValue('');
+                this.studentDetailsForm.get('busdistance')?.setValue('');
+                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                while (control.length !== 0) {
+                  control.removeAt(0)
+                }
               }
             }
 
@@ -662,7 +740,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('newstudent')?.setValue('Yes');
     this.studentDetailsForm.get('feesless')?.setValue('');
     this.studentDetailsForm.get('stay_type')?.setValue('');
-    this.studentDetailsForm.get('vehicle_type')?.setValue('');
+    this.studentDetailsForm.get('vehicle_type')?.setValue(0);
     this.studentDetailsForm.get('root_no')?.setValue(0);
     this.studentDetailsForm.get('boading_place')?.setValue('');
     this.studentDetailsForm.get('busdistance')?.setValue('');
@@ -671,7 +749,7 @@ export class StudentProfileComponent implements OnInit {
     while (control1.length !== 0) {
       control1.removeAt(0)
     }
-   
+
     const control3 = <FormArray>this.studentDetailsForm.controls['generalFees'];
     while (control3.length !== 0) {
       control3.removeAt(0)

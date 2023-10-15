@@ -17,18 +17,17 @@
                         </div>
                         <div class="inputdiv">
                             <select
-                                [ngClass]="{'is-invalid': busFeesForm.controls.vehicle_type.touched && busFeesForm.controls.vehicle_type.errors}"
-                                autofocus formControlName="vehicle_type" style="width: 100%;" class="form-control"
-                                required>
-                                <option value='' selected disabled>Please select</option>
-                                <option value={{VehickeType.vehicle_name}} *ngFor="let VehickeType of vehicleTypeList;">
+                                [ngClass]="{'is-invalid': busFeesForm.controls.typeid.touched && busFeesForm.controls.typeid.errors}"
+                                autofocus formControlName="typeid" style="width: 100%;" class="form-control" required>
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="VehickeType.typeid" *ngFor="let VehickeType of vehicleTypeList;">
                                     {{VehickeType.vehicle_name}}
                                 </option>
                             </select>
                             <span class="text-danger"
-                                *ngIf="busFeesForm.controls.vehicle_type.touched && busFeesForm.controls.vehicle_type.errors">
+                                *ngIf="busFeesForm.controls.typeid.touched && busFeesForm.controls.typeid.errors">
                                 <div
-                                    *ngIf="busFeesForm.controls.vehicle_type.touched && busFeesForm.controls.vehicle_type.errors.required">
+                                    *ngIf="busFeesForm.controls.typeid.touched && busFeesForm.controls.typeid.errors.required">
                                     Vehicle Type is required
                                 </div>
                             </span>
@@ -92,10 +91,11 @@
                         <tbody formArrayName="classfeelist">
                             <tr>
                                 <td *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
-                                    formGroupName="{{i}}"><input class="form-control" (keypress)="numberOnly($event)" formControlName="amount"></td>
+                                    formGroupName="{{i}}"><input class="form-control" (keypress)="numberOnly($event)"
+                                        formControlName="amount"></td>
                                 <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
                                         type="submit">Save</button>
-                                    <button (click)="busFeesCancel()" class="btn btn-danger btn-sm"
+                                    <button (click)="busFeesCancel()" class="btn btn-primary btn-sm"
                                         type="button">Clear</button>
                                 </td>
                             </tr>
@@ -114,7 +114,7 @@
                         <th>S No</th>
                         <th>Vehicle Type</th>
                         <th>KM Range</th>
-                        <th>Batch Year</th>                        
+                        <th>Batch Year</th>
                         <th *ngFor="let class of ClassnameList">{{class.class_name}}</th>
                         <th>Action</th>
                     </tr>
@@ -124,10 +124,11 @@
                         <td>{{i+1}}</td>
                         <td>{{bus.vehicle_type}}</td>
                         <td>{{bus.kmrange}}</td>
-                        <td>{{bus.batch_year}}</td>                          
-                            <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}</td>                                                           
+                        <td>{{bus.batch_year}}</td>
+                        <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}</td>
                         <td>
-                            <span class="m-2 deletebutton" (click)="busFeeDelete(bus.vehicle_type,bus.kmrange,bus.batch_year)"><b>delete</b></span>
+                            <span class="m-2 deletebutton"
+                                (click)="busFeeDelete(bus.typeid,bus.kmrange,bus.batch_year)"><b>delete</b></span>
                         </td>
                     </tr>
                 </tbody>

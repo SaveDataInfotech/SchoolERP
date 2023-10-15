@@ -142,7 +142,7 @@ export class BusFeesComponent implements OnInit {
 
           const typeFilterArray = this.busFeeList.filter((e) => {
             return e.batch_year == this.busFeesForm.value.batch_year
-              && e.vehicle_type == this.busFeesForm.value.vehicle_type
+              && e.typeid == this.busFeesForm.value.typeid
               && e.kmrange == this.busFeesForm.value.kmrange
           });
 
@@ -153,7 +153,7 @@ export class BusFeesComponent implements OnInit {
             control.push(
               new FormGroup({
                 busfeeid: new FormControl(element.busfeeid),
-                vehicle_type: new FormControl(this.busFeesForm.value.vehicle_type),
+                typeid: new FormControl(this.busFeesForm.value.typeid),
                 kmrange: new FormControl(this.busFeesForm.value.kmrange),
                 batch_year: new FormControl(this.busFeesForm.value.batch_year),
                 class_name: new FormControl(element.class_name),
@@ -176,7 +176,7 @@ export class BusFeesComponent implements OnInit {
 
   busFeesForm = new FormGroup({
     busfeeid: new FormControl(0),
-    vehicle_type: new FormControl(''),
+    typeid: new FormControl(0),
     kmrange: new FormControl(''),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
@@ -245,11 +245,16 @@ export class BusFeesComponent implements OnInit {
   }
 
   busFeeDelete(type, km, year) {
+    debugger;
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
+        debugger;
         if (res == true) {
+          debugger;
           this.busFeSvc.deleteBusFees(type, km, year).subscribe(res => {
+            debugger;
             if (res?.recordid) {
+              debugger;
               this.notificationSvc.error("Deleted Success")
               this.refreshGroupBusFeeList();
               this.refreshBusFeeList();
@@ -264,7 +269,7 @@ export class BusFeesComponent implements OnInit {
     this.busFeesForm.reset();
     this.refreshBusFeeList();
     this.busFeesForm.get('busfeeid')?.setValue(0);
-    this.busFeesForm.get('vehicle_type')?.setValue('');
+    this.busFeesForm.get('typeid')?.setValue(0);
     this.busFeesForm.get('kmrange')?.setValue('');
     this.busFeesForm.get('batch_year')?.setValue(this.newgetbatch);
     this.busFeesForm.get('cuid')?.setValue(0);

@@ -26,6 +26,6 @@ export class BusFeesAssignService {
 
     deleteBusFees(type, km, year): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'BusFeesAssign/delete_buss_fees_assign?vehicle_type=' + type + '&kmrange=' + km + '&batch_year=' + year, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'BusFeesAssign/delete_buss_fees_assign?typeid=' + type + '&kmrange=' + km + '&batch_year=' + year, httpOptions);
     }
 }
