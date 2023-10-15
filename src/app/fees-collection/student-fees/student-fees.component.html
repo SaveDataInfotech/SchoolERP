@@ -137,6 +137,25 @@
                         </tr>
                     </tbody>
 
+                    <tbody formArrayName="busFeesList">
+                        <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
+                            formGroupName="{{j}}">
+                            <!-- *ngIf=" chid.get('balance').value !=0 " -->
+                            <td class="pt-3"><span style="color: red;"
+                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                {{chid.get('vehicle_name').value}}</td>
+                            <td><input readonly formControlName="amount" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input readonly formControlName="balance" type="text" style="width: 150px;"
+                                    class="form-control" /></td>
+                            <td><input (keypress)="numberOnly($event)" (input)="bustotal(j,busamount.value)" #busamount
+                                    #commonamount formControlName="deduction_amount" type="text" style="width: 150px;"
+                                    class="form-control" />
+                            </td>
+                        </tr>
+                    </tbody>
+
                     <tbody>
                         <tr>
                             <td class="p-2"

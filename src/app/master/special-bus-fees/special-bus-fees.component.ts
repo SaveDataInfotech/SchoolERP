@@ -176,7 +176,7 @@ export class SpecialBusFeesComponent implements OnInit {
     s_busfeeid: new FormControl(0),
     typeid: new FormControl(0),
     kmrange: new FormControl(''),
-    fess_lessid: new FormControl(0),
+    fess_lessid: new FormControl(null),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
     s_classfeelist: new FormArray([])
@@ -324,7 +324,7 @@ export class SpecialBusFeesComponent implements OnInit {
     this.specialBusFeesform.get('s_busfeeid')?.setValue(0);
     this.specialBusFeesform.get('typeid')?.setValue(0);
     this.specialBusFeesform.get('kmrange')?.setValue('');
-    this.specialBusFeesform.get('fess_lessid')?.setValue(0);
+    this.specialBusFeesform.get('fess_lessid')?.setValue(null);
     this.specialBusFeesform.get('batch_year')?.setValue(this.newgetbatch);
     this.specialBusFeesform.get('cuid')?.setValue(0);
 

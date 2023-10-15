@@ -14,11 +14,12 @@ export class FeescollectionService {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/GetStudents');
   }
 
-  getBusFeesList(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list');
+  getBusFeesList(value): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list?admission_no='+value);
   }
 
   studentFeesDeduction(feesInsert: any): Observable<any> {
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'FeesCollection/insert_student_admissionfees_deduction', feesInsert, httpOptions);
   }

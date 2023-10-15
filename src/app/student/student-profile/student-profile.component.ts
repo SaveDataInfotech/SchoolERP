@@ -436,22 +436,24 @@ export class StudentProfileComponent implements OnInit {
   }
 
   newStudentProfileDetails() {
+    debugger;
     if (this.studentDetailsForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             {
+              debugger;
               if (this.studentDetailsForm.value.vehicle_type != 0 && this.studentDetailsForm.value.stay_type == 'Day scholar') {
+                debugger;
                 const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
                 while (control.length !== 0) {
                   control.removeAt(0)
                 }
 
                 if (this.studentDetailsForm.value.feesless == 'Not Specified' || this.studentDetailsForm.value.feesless == '' || this.studentDetailsForm.value.feesless == null) {
+                  debugger;
                   const feesList = this.busFeeList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid
-                      && e.groupid == this.studentDetailsForm.value.groupid
-                      && e.gender == this.studentDetailsForm.value.gender
+                    return e.classid == this.studentDetailsForm.value.classid                     
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
@@ -477,10 +479,9 @@ export class StudentProfileComponent implements OnInit {
                   });
                 }
                 else {
+                  debugger;
                   const feesList = this.specialBusFeesList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid
-                      && e.groupid == this.studentDetailsForm.value.groupid
-                      && e.gender == this.studentDetailsForm.value.gender
+                    return e.classid == this.studentDetailsForm.value.classid                                       
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
@@ -492,7 +493,7 @@ export class StudentProfileComponent implements OnInit {
                     const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
                     control.push(
                       new FormGroup({
-                        busfeeid: new FormControl(element.busfeeid),
+                        busfeeid: new FormControl(element.s_busfeeid),
                         admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
                         classid: new FormControl(this.studentDetailsForm.value.classid),
                         groupid: new FormControl(this.studentDetailsForm.value.groupid),
@@ -509,6 +510,7 @@ export class StudentProfileComponent implements OnInit {
                 }
               }
               else {
+                debugger;
                 this.studentDetailsForm.get('vehicle_type')?.setValue(0);
                 this.studentDetailsForm.get('root_no')?.setValue(0);
                 this.studentDetailsForm.get('boading_place')?.setValue('');
