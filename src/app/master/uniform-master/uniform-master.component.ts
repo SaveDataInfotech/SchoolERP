@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { UniformMasterService } from 'src/app/api-service/UniformMaster.service';
+import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { uniformMeterService } from 'src/app/api-service/uniformMeter.service';
 
 @Component({
@@ -21,9 +22,11 @@ export class UniformMasterComponent implements OnInit {
   MeterMaxId: any = [];
   meterbuttonId: boolean = true;
   overcoatifMetr: boolean;
+
+  ClassList: any = [];
   constructor(
     private uniformSvc: UniformMasterService, private DialogSvc: DialogService, private notificationSvc: NotificationsService,
-    private uniformMSvc: uniformMeterService, private router: Router
+    private uniformMSvc: uniformMeterService, private router: Router, private ClassSvc: studentClassService,
   ) {
   }
   ngOnInit(): void {
@@ -33,7 +36,9 @@ export class UniformMasterComponent implements OnInit {
 
       this.refreshUnifromMeterList(),
       this.getMaxIdUniformMeter(),
-      this.MetercancelClick()
+      this.MetercancelClick();
+
+      this.refreshClassList();
   }
 
   backButton() {
@@ -49,10 +54,16 @@ export class UniformMasterComponent implements OnInit {
     return true;
   }
 
+  refreshClassList() {
+    this.ClassSvc.getClassList().subscribe(data => {
+      this.ClassList = data;
+    });
+  }
+
   uniformSizeForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
-    size: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
+    classid: new FormControl(null),
     shirting: new FormControl(''),
     suiting: new FormControl(''),
     over_coat: new FormControl('--'),
@@ -171,7 +182,7 @@ export class UniformMasterComponent implements OnInit {
     this.uniformSizeForm.reset();
     this.uniformSizeForm.get('uniformid')?.setValue(0);
     this.uniformSizeForm.get('gender')?.setValue('');
-    this.uniformSizeForm.get('size')?.setValue('');
+    this.uniformSizeForm.get('classid')?.setValue(null);
     this.uniformSizeForm.get('shirting')?.setValue('');
     this.uniformSizeForm.get('suiting')?.setValue('');
     this.uniformSizeForm.get('over_coat')?.setValue('');
@@ -188,11 +199,12 @@ export class UniformMasterComponent implements OnInit {
   uniformMeterForm = new FormGroup({
     uniformid: new FormControl(0),
     gender: new FormControl('', [Validators.required]),
-    shirting: new FormControl('', [Validators.required]),
+    classid:new FormControl(null),
+    shirting: new FormControl('1M', [Validators.required]),
     sh_am: new FormControl('', [Validators.required]),
-    suiting: new FormControl('', [Validators.required]),
+    suiting: new FormControl('1M', [Validators.required]),
     su_am: new FormControl('', [Validators.required]),
-    overcoat: new FormControl(''),
+    overcoat: new FormControl('1M'),
     oc_am: new FormControl(''),
     cuid: new FormControl(1),
   })
@@ -297,11 +309,12 @@ export class UniformMasterComponent implements OnInit {
     this.uniformMeterForm.reset();
     this.uniformMeterForm.get('uniformid')?.setValue(0);
     this.uniformMeterForm.get('gender')?.setValue('');
-    this.uniformMeterForm.get('shirting')?.setValue('');
+    this.uniformMeterForm.get('classid')?.setValue(null);
+    this.uniformMeterForm.get('shirting')?.setValue('1M');
     this.uniformMeterForm.get('sh_am')?.setValue('');
-    this.uniformMeterForm.get('suiting')?.setValue('');
+    this.uniformMeterForm.get('suiting')?.setValue('1M');
     this.uniformMeterForm.get('su_am')?.setValue('');
-    this.uniformMeterForm.get('overcoat')?.setValue('');
+    this.uniformMeterForm.get('overcoat')?.setValue('1M');
     this.uniformMeterForm.get('oc_am')?.setValue('');
     this.uniformMeterForm.get('cuid')?.setValue(1);
     this.meterbuttonId = true;

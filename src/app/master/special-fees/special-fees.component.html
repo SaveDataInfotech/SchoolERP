@@ -208,6 +208,7 @@
                                         <th>General Fees Male</th>
                                         <th>General Fees Female</th>
                                         <th>Special Fees Male</th>
+                                        <th>Same to female</th>
                                         <th>Special Fees Female</th>
                                     </tr>
                                 </thead>
@@ -228,6 +229,8 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td class="pt-3"><input style="width: 20px;height: 20px;"
+                                            (click)="sameFemaleAmount(i,$event)" type="checkbox">
                                         <td>
                                             <div class="input-group mb-3">
                                                 <input (keypress)="numberOnly($event)" (change)="fevalidateWhite(i)"

@@ -83,89 +83,7 @@
                                         <input (click)="searchStudentByClass()" matTooltip="Click to Save" type="button"
                                             style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Search" />
                                     </div>
-                                </div>
-
-                                <div class="row ">
-                                    <div class="col-sm-12 mt-3" style="display: flex;">
-                                        <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Admission No</label>
-                                        </div>
-                                        <div class="inputdiv">
-                                            <select formControlName="search_ad" #p (change)="profileCard(p.value)"
-                                                class="form-control" style="width: 100%;">
-                                                <option value='' selected disabled>Please Select</option>
-                                                <option value={{student.admission_no}}
-                                                    *ngFor="let student of studentList;">
-                                                    {{student.admission_no}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-7">
-                                <div *ngFor="let student of filterstudentList" class="col-sm-12">
-                                    <mat-card style="background-color: rgb(195, 155, 233);" class="mt-2">
-                                        <mat-card-content style="display: flex;width: 100%;">
-                                            <div class="col-sm-12 row " style="font-size: 15px;">
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Admission
-                                                        No - </label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">
-                                                        {{student.admission_no}}</label>
-                                                </div>
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Name:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.student_name}}</label>
-                                                </div>
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">DOB:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.dob
-                                                        |
-                                                        date: 'MM/dd/yyyy'}}</label>
-                                                </div>
-
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Gender:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.gender}}</label>
-                                                </div>
-
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Aadhar
-                                                        No:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.aadhar}}</label>
-                                                </div>
-
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">EMIS
-                                                        No:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.emis_no}}</label>
-                                                </div>
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Class:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.class_name}}</label>
-                                                </div>
-
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Father
-                                                        Name:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.father_name}}</label>
-                                                </div>
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Mother
-                                                        Name:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.mother_name}}</label>
-                                                </div>
-                                                <div style="float: left;" class="col-sm-6 mt-3">
-                                                    <label style="color:white;text-align: right;">Batch:</label><label
-                                                        style="color:blue;text-align: left;padding-left:5px ;">{{student.batch_year}}</label>
-                                                </div>
-                                                <input class="addbutton form-control mt-1" type="button"
-                                                    (click)="addleave(student.admission_no)" value="Add +" />
-                                            </div>
-                                        </mat-card-content>
-                                    </mat-card>
-                                </div>
+                                </div>                    
                             </div>
                         </div>
 
@@ -175,12 +93,12 @@
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
+                                        <th></th>
                                         <th>A.NO</th>
                                         <th>Type</th>
                                         <th>TC.NO</th>
                                         <th>Date</th>
-                                        <th>Remarks</th>
-                                        <th>Action</th>
+                                        <th>Remarks</th>                                        
                                     </tr>
                                 </thead>
                                 <tbody
@@ -188,8 +106,8 @@
                                     formGroupName="{{i}}">
                                     <tr>
                                         <td><span class="mt-2">{{i+1}}</span></td>
-                                        <td><input readonly #a (click)="search(a.value)" formControlName="admission_no"
-                                                type="text" style="width: 200px;" class="form-control" /></td>
+                                        <td><input type="checkbox" formControlName="selected" ></td>
+                                        <td>{{chid.get('admission_no').value}}--{{chid.get('student_name').value}}</td>
                                         <td>
                                             <select formControlName="type" class="form-control" style="width: 150px;">
                                                 <option value="" selected disabled>Please Select</option>
@@ -202,14 +120,7 @@
                                         </td>
                                         <td><input formControlName="date" type="date" class="form-control" /></td>
                                         <td><input formControlName="remarks" type="text" style="width: 200px;"
-                                                class="form-control" /></td>
-
-                                        <td>
-                                            <div>
-                                                <input class="removebutton form-control" type="button"
-                                                    (click)="removeLeave(i)" value="remove" />
-                                            </div>
-                                        </td>
+                                                class="form-control" /></td>                                        
                                     </tr>
                                 </tbody>
                                 <div>
@@ -363,7 +274,7 @@
                             </form>
                         </div>
 
-                        <div *ngFor="let student of studentListByAd" class="col-sm-7  mt-3">
+                        <div *ngFor="let student of StudentDataList" class="col-sm-7  mt-3">
                             <mat-card style="background-color: rgb(195, 155, 233);" class="mt-2">
                                 <mat-card-content style="display: flex;width: 100%;">
                                     <div class="col-sm-12 row " style="font-size: 15px;">

@@ -192,6 +192,7 @@ export class GeneralFeesComponent implements OnInit {
     this.feestypeForm.get('student_type')?.setValue('Common Fees');
     this.feestypeForm.get('cuid')?.setValue(1);
     this.buttonId = true;
+    this.refreshGeneralFeesList();
   }
 
 

@@ -62,20 +62,16 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input [readonly]="buttonId != true"
-                                        [ngClass]="{'is-invalid':uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors}"
-                                        formControlName="size" class="form-control" type="text" required>
+                                    <select required
+                                        [ngClass]="{'is-invalid': uniformSizeForm.get('classid')?.touched && uniformSizeForm.get('classid')?.errors}"
+                                        formControlName="classid" style="width: 100%;" class="form-control">
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="class.classid" *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
                                     <span class="text-danger"
-                                        *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors">
-                                        <div
-                                            *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.required">
-                                            Class is required
-                                        </div>
-                                        <div
-                                            *ngIf="uniformSizeForm.controls.size.touched && uniformSizeForm.controls.size.errors.pattern">
-                                            Use only letters(A-Z)
-                                        </div>
-                                    </span>
+                                        *ngIf="uniformSizeForm.get('classid')?.touched && uniformSizeForm.get('classid')?.errors">Class
+                                        name is required</span>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +178,7 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <table class="col-sm-7 table table-hover table-bordered table-sm  ">
+                        <table class="col-sm-10 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
@@ -199,7 +195,7 @@
                                 <tr *ngFor="let size of UniformSizeList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{size.gender}}</td>
-                                    <td>{{size.size}}</td>
+                                    <td>{{size.class_name}}</td>
                                     <td>{{size.shirting}}</td>
                                     <td>{{size.suiting}}</td>
                                     <td>{{size.over_coat}}</td>
@@ -276,6 +272,26 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select required
+                                        [ngClass]="{'is-invalid': uniformMeterForm.get('classid')?.touched && uniformMeterForm.get('classid')?.errors}"
+                                        formControlName="classid" style="width: 100%;" class="form-control">
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="class.classid" *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="uniformMeterForm.get('classid')?.touched && uniformMeterForm.get('classid')?.errors">Class
+                                        name is required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-7 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Shirting<span
@@ -284,7 +300,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors}"
-                                        formControlName="shirting" class="form-control" type="text" required>
+                                        formControlName="shirting" class="form-control" type="text" readonly required>
                                     <span class="text-danger"
                                         *ngIf="uniformMeterForm.controls.shirting.touched && uniformMeterForm.controls.shirting.errors">
                                         <div
@@ -322,7 +338,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors}"
-                                        formControlName="suiting" class="form-control" type="text" required>
+                                        formControlName="suiting" class="form-control" type="text" readonly required>
                                     <span class="text-danger"
                                         *ngIf="uniformMeterForm.controls.suiting.touched && uniformMeterForm.controls.suiting.errors">
                                         <div
@@ -359,7 +375,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':uniformMeterForm.controls.overcoat.touched  && uniformMeterForm.controls.overcoat.errors  && uniformMeterForm.controls.overcoat.errors.pattern}"
-                                        formControlName="overcoat" class="form-control" type="text">
+                                        formControlName="overcoat" readonly class="form-control" type="text">
                                 </div>
 
                                 <div style="width: 100px;" class="ml-2">
@@ -391,11 +407,12 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <table class="col-sm-7 table table-hover table-bordered table-sm  ">
+                        <table class="col-sm-10 table table-hover table-bordered table-sm  ">
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
                                     <th>Gender</th>
+                                    <th>Class</th>
                                     <th>Shirting</th>
                                     <th>Amount</th>
                                     <th>Suiting</th>
@@ -409,6 +426,7 @@
                                 <tr *ngFor="let meter of UniformMeterList;let i=index;">
                                     <td>{{i+1}}</td>
                                     <td>{{meter.gender}}</td>
+                                    <td>{{meter.class_name}}</td>
                                     <td>{{meter.shirting}}</td>
                                     <td style="text-align: right;">{{meter.sh_am}}</td>
                                     <td>{{meter.suiting}}</td>

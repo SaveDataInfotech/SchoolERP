@@ -150,7 +150,6 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   filterSectionfun(groupID: any) {
-
     const groupid = Number(groupID);
     this.studentAttendanceForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -205,7 +204,6 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   checkChange(option: any) {
-
     if (option) {
       this.studentAttendanceForm.fn = true;
     } else {

@@ -142,9 +142,8 @@
                         <div class="table-responsive text-nowrap mt-3">
                             <table class="table table-bordered">
                                 <thead formArrayName="students">
-
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Admission No</th>
                                         <th>Subjects</th>
                                         <th>Total</th>
                                         <th>Status</th>
@@ -157,7 +156,7 @@
                                         [formGroupName]="i">
                                         <td>
                                             <span class="hide-text" *ngIf="i == 0"> .</span>
-                                            {{student.get('student_name').value}}
+                                            {{student.get('admission_no').value}}
                                         </td>
                                         <span formArrayName="subjects">
 
@@ -167,25 +166,28 @@
                                                 <span class="h6" style="margin-bottom: 10px;"
                                                     *ngIf="i == 0">{{subject.get('name').value}}</span>
                                                 <span style="display: flex;">
-                                                    <input style="width: 80px;" (change)="gradeConvert(i,j)"
+                                                    <input
+                                                        [ngStyle]="{'border-color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
+                                                        style="width: 80px;" (change)="gradeConvert(i,j)"
                                                         placeholder="Mark" type="text" class="mr-2 form-control"
                                                         formControlName="marks">
-                                                    <input style="width: 70px;" readonly placeholder="Grade" class="form-control" type="text"
-                                                        formControlName="grade">
+                                                    <input style="width: 70px;" readonly placeholder="Grade"
+                                                        class="form-control" type="text" formControlName="grade">
                                                 </span>
                                             </td>
                                         </span>
-                                        <td><span class="hide-text" *ngIf="i == 0"> ....</span><input
-                                                formControlName="total" class="form-control">
+                                        <td><span class="hide-text" *ngIf="i == 0"> ....</span>
+                                            <span>{{student.get('total').value}}</span>
                                         </td>
-                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input
-                                                formControlName="status" class="form-control">
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                            <span
+                                                [ngStyle]="{'color': (student.get('status').value == 'Pass') ? 'green':'red'}">{{student.get('status').value}}</span>
                                         </td>
-                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input formControlName="avg"
-                                                class="form-control">
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                            <span>{{student.get('avg').value}}</span>
                                         </td>
-                                        <td><span class="hide-text" *ngIf="i == 0"> .</span><input
-                                                formControlName="rank" class="form-control">
+                                        <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                            <span>{{student.get('rank').value}}</span>
                                         </td>
                                     </tr>
                                 </tbody>

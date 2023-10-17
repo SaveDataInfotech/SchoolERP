@@ -10,20 +10,17 @@ export class studentTcLeftService {
   constructor(private http: HttpClient) {
   }
 
-  allStudents(): Observable<any[]> {
-    
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_all_Students', httpOptions);
+  allStudents(classid,groupId,sectionId,Batch): Observable<any[]> {
+    debugger;  
+    return this.http.get<any[]>(this.apiUrl + 'StudentTcLeft/get_student_generalfees_list?classid='+classid+'&sectionid='+sectionId+'&groupid='+groupId+'&batch_year='+Batch);    
   }
 
-  TcApply(studentdetails: any): Observable<any> {
-    
+  TcApply(studentdetails: any): Observable<any> {    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentTcLeft/insert_student_tc_left', studentdetails, httpOptions);
   }
 
-  TcApplyAll(studentdetails: any): Observable<any> {
-    
+  TcApplyAll(studentdetails: any): Observable<any> {    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentTcLeft/insert_student_tc_leftbyall', studentdetails, httpOptions);
   }

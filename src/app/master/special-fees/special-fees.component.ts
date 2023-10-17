@@ -391,6 +391,17 @@ export class SpecialFeesComponent implements OnInit {
     }
   };
 
+  sameFemaleAmount(i, value) {
+    if (value.target.checked) {
+      const busControl = this.specialFeesForm.get('s_feesList') as FormArray;
+      busControl.at(i).get('s_female_amount').setValue(busControl.at(i).get('s_male_amount').value);
+    }
+    else {
+      const busControl = this.specialFeesForm.get('s_feesList') as FormArray;
+      busControl.at(i).get('s_female_amount').setValue('0');
+    }
+  }
+
 
   specialDelete(value) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')

@@ -9,6 +9,7 @@ import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentTcLeftService } from 'src/app/api-service/studentTcLeft.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
+import { studentProfileService } from 'src/app/api-service/studentProfile.service';
 @Component({
   selector: 'app-student-tc-applie',
   templateUrl: './student-tc-applie.component.html',
@@ -22,11 +23,11 @@ export class StudentTcApplieComponent implements OnInit {
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
   BatchList: any = [];
-  studentList: any = [];
+  StudentDataList: any = [];
   groupDisplay: boolean = true;
-  studentNameFilterlist: any = [];
-  studentListByAd: any = [];
-  filterstudentList: any = [];
+  // studentNameFilterlist: any = [];
+  // studentListByAd: any = [];
+  //filterstudentList: any = [];
   serachDisabledone: boolean = false;
   allstudentList: any[] = [];
   constructor(private ClassSvc: studentClassService,
@@ -37,7 +38,8 @@ export class StudentTcApplieComponent implements OnInit {
     private notificationSvc: NotificationsService,
     private batchSvc: BatechYearService,
     private tcSvc: studentTcLeftService,
-    private router: Router) { this.createForm(); }
+    private router: Router,
+    private studProSvc: studentProfileService,) { this.createForm(); }
 
   date1 = new Date();
 
@@ -77,8 +79,6 @@ export class StudentTcApplieComponent implements OnInit {
     this.refreshBatchYearList();
     this.CancelClickInTc();
     this.CancelClickInAll();
-
-    this.getAllStudents();
   }
 
   backButton() {
@@ -119,7 +119,7 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    
+
     const classid = Number(classsid);
     this.studentTcApplyForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -163,51 +163,43 @@ export class StudentTcApplieComponent implements OnInit {
     })
   }
 
-  getAllStudents() {
-    
-    this.spinner.show();
-    this.tcSvc.allStudents().subscribe(data => {
-      this.allstudentList = data;
-      this.spinner.hide();
-    });
-  }
-
-
   searchStudentByClass() {
-    this.studentTcApplyForm.get('search_ad')?.setValue('')
-    this.studentList = this.allstudentList.filter((e) => {
-      return e.classid == this.studentTcApplyForm.value.classid
-        && e.groupid == this.studentTcApplyForm.value.groupid
-        && e.sectionid == this.studentTcApplyForm.value.sectionid
-        && e.batch_year == this.studentTcApplyForm.value.batch_year
-    })
+    const ClassId = this.studentTcApplyForm.value.classid;
+    const GroupId = this.studentTcApplyForm.value.groupid;
+    const SectionId = this.studentTcApplyForm.value.sectionid;
+    const BatchYear = this.studentTcApplyForm.value.batch_year;
+    this.tcSvc.allStudents(ClassId, GroupId, SectionId, BatchYear).subscribe(data => {
+      this.allstudentList = data;
+    
+    debugger;
+    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
+    while (control.length !== 0) {
+      control.removeAt(0)
+    }
+
+    if (control.length == 0) {
+      this.allstudentList.forEach(element => {
+        control.push(
+          new FormGroup({
+            admission_no: new FormControl(element.admission_no),
+            student_name: new FormControl(element.student_name),
+            type: new FormControl(''),
+            tcno: new FormControl(''),
+            date: new FormControl(this.today),
+            remarks: new FormControl(''),
+            selected: new FormControl(false)
+          })
+        )
+      });
+    }
+  });
   }
 
   getControls() {
     return (this.studentTcApplyForm.get('leftdetails') as FormArray).controls;
   }
 
-  addleave(admission_no: any) {
-    
-    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails'];
-    control.push(
-      new FormGroup({
-        admission_no: new FormControl(admission_no),
-        type: new FormControl(''),
-        tcno: new FormControl(''),
-        date: new FormControl(''),
-        remarks: new FormControl('')
-      })
-    )
-  }
-
-  removeLeave(index: any) {
-    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails'];
-    control.removeAt(index);
-  }
-
   newTcApplyAll() {
-    
     let studentdetails = this.studentTcApplyForm.value
     this.tcSvc.TcApplyAll(studentdetails).subscribe(res => {
       if (res.status == 'Saved successfully') {
@@ -220,17 +212,7 @@ export class StudentTcApplieComponent implements OnInit {
     })
   }
 
-  profileCard(id: any) {
-    
-    this.filterstudentList = this.studentList.filter((e: any) => { return e.admission_no == id });
-  }
-
-  search(id: string) {
-    this.filterstudentList = this.studentList.filter((e: any) => { return e.admission_no == id });
-  }
-
   CancelClickInAll() {
-    
     //this.studentTcApplyForm.reset();
     this.studentTcApplyForm.get('tcleftid')?.setValue(0);
     this.studentTcApplyForm.get('classid')?.setValue(0);
@@ -239,13 +221,10 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('batch_year')?.setValue(0);
     this.studentTcApplyForm.get('search_ad')?.setValue('')
     this.studentTcApplyForm.get('cuid')?.setValue(1);
-    this.studentList = [];
-    this.filterstudentList = [];
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
     while (control.length !== 0) {
       control.removeAt(0)
     }
-
   }
 
   ////////////////
@@ -261,16 +240,18 @@ export class StudentTcApplieComponent implements OnInit {
   })
 
   searchStudentByAdNo() {
-    
-    this.studentListByAd = this.allstudentList.filter((e) => {
-      return e.admission_no == this.oneStudentTcLeftForm.value.admission_no
+    const value = this.oneStudentTcLeftForm.value.admission_no;
+    this.studProSvc.searchstudentDetails(value).subscribe(data => {
+      this.StudentDataList = data;
+      if (this.StudentDataList.length == 0) {
+        this.notificationSvc.error("Invalid Admission Number");
+      }
+      else {
+        this.serachDisabledone = true;
+      }
     })
-    if (this.studentListByAd.length == 0) {
-      this.notificationSvc.error("Invalid Admission Number");
-    }
-    else {
-      this.serachDisabledone = true;
-    }
+
+    
   }
 
   newTcApply() {
@@ -299,8 +280,8 @@ export class StudentTcApplieComponent implements OnInit {
 
   CancelClickInTc() {
     this.oneStudentTcLeftForm.reset();
-    this.studentListByAd = [];
     this.serachDisabledone = false;
+    this.StudentDataList=[];
     this.oneStudentTcLeftForm.get('tcleftid')?.setValue(0);
     this.oneStudentTcLeftForm.get('admission_no')?.setValue('');
     this.oneStudentTcLeftForm.get('type')?.setValue('');

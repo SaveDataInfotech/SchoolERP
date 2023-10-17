@@ -1,43 +1,36 @@
-.labeldiv {
-  float: left;
-  width: 150px;
-  text-align: left;
+h3 {
+  color: blue;
+  font-size: large;
+  font-weight: 500;
+  font-family: Georgia, serif;
+  font-style: oblique;
 }
 
-.inputdiv {
-  float: left;
-  width: 250px;
+.matcard {
+  box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
 }
 
-.carddiv {
-  background-color: white;
-  box-shadow: 0px 2px 3px 3px lightgray;
-  background-image: linear-gradient(135deg,blue,rgb(240, 6, 189));
-  border-radius: 5px;
-  height: 305px;
-  transition: transform .5s;
-}
-
-.carddiv:hover {
-  transform: scale(1.05);
-}
-
-.cardlabel {
-  // width: 35%;
-  color: orange;
+td {
   font-size: 15px;
-  font-weight: 600;
-  font-family: open sans;
-  float: left;
-  text-align: right;
-}
-
-.cardlabelcon {
-  width: 50%;
-  font-weight: 600;
-  font-size: 15px;
+  color: rgb(2, 2, 56);
   font-family: sans-serif;
-  float: left;
-  color:white;
-  padding-left: 15px;
+}
+
+.blink_me {
+  animation: blinker 2s linear infinite;
+  color: red;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+a{
+  font-family: Georgia, serif;
+  font-size: large;
+}
+a:hover{
+  cursor: pointer;
 }

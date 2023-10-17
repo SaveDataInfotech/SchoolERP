@@ -55,13 +55,14 @@ export class ClassComponent implements OnInit {
     this.SectioncancelClick()
   }
 
-   //// Number Only Event
-   stringOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+  letterOnly(event) {
+    var charCode = event.keyCode;
+
+    if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
+
       return true;
-    }
-    return false;
+    else
+      return false;
   }
 
   //Student Class
