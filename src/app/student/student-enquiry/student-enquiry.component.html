@@ -18,9 +18,6 @@
                         <h3 class="ml-1">Student Registration</h3>
                     </div>
                 </div>
-                <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                        (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                </div>
             </div>
             <form [formGroup]="StudentEnquiryForm" (ngSubmit)="newEnquiry()">
                 <div class="row">
@@ -214,18 +211,22 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input
+                            <select
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors}"
-                                formControlName="community" class="form-control" type="text" required>
+                                style="width: 100%;" formControlName="community" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="BC">BC</option>
+                                <option value="MBC">MBC</option>
+                                <option value="BCM">BCM</option>
+                                <option value="DC">DC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
                             <span class="text-danger"
                                 *ngIf="StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors">
                                 <div
                                     *ngIf="StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors.required">
                                     Community is required
-                                </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors.pattern">
-                                    Use letters only
                                 </div>
                             </span>
                         </div>
@@ -259,8 +260,19 @@
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
-                        <div class="inputdiv">
-                            <input formControlName="bloodgroup" class="form-control" type="text">
+                        <div class="inputdiv">                           
+                            <select                                
+                                style="width: 100%;" formControlName="bloodgroup" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
                         </div>
                     </div>
 
@@ -573,9 +585,11 @@
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
                         <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                            class="btn btn-success mr-3 btn-sm" value="Save" />
                         <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
+                            value="Close" />
                     </div>
                 </div>
             </form>

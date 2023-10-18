@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MarkEntryGradeTypeModel, Subject, studentListModel } from 'src/app/Model/MarkEntry.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
+import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { markEntryService } from 'src/app/api-service/markEntryGrade.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
@@ -25,10 +27,12 @@ export class StudentMarkEntryComponent implements OnInit {
 
   studentList: any[] = [];
   subjectList: any[] = [];
-  spiltList: Subject[] = [];
+  spiltList: any = [];
   subjectFilterList: any[] = [];
   sub: any;
   subjectDetailList: any[] = [];
+  activeBatchYear: any = [];
+  newgetbatch: string;
   constructor(
     private fb: FormBuilder,
     private ClassSvc: studentClassService,
@@ -39,6 +43,8 @@ export class StudentMarkEntryComponent implements OnInit {
     private notificationSvc: NotificationsService,
     private meSvc: markEntryService,
     private subjectSvc: subjectService,
+    private router: Router,
+    private batchSvc: BatechYearService,
   ) { this.createForm(); }
 
   date1 = new Date();
@@ -67,6 +73,31 @@ export class StudentMarkEntryComponent implements OnInit {
     this.refreshGroupList();
     this.refreshSectionList();
     this.refreshsubjectList();
+    this.GetActiveBatchYear();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
+  }
+
+
+  //// Number Only Event
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+
+  GetActiveBatchYear() {
+    this.batchSvc.GetActiveBatchYear().subscribe(data => {
+      this.activeBatchYear = data;
+      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
+      this.newgetbatch = (getbatch.replace(/['"]+/g, ''));
+      this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);
+    });
   }
 
   refreshClassList() {
@@ -98,15 +129,15 @@ export class StudentMarkEntryComponent implements OnInit {
     this.rankTypeMarkForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.rankTypeMarkForm.get('groupid')?.setValue(0);
-    this.rankTypeMarkForm.get('sectionid')?.setValue(0);
+    this.rankTypeMarkForm.get('sectionid')?.setValue(null);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.rankTypeMarkForm.get('sectionid')?.setValue(0);
+      this.rankTypeMarkForm.get('sectionid')?.setValue(null);
     }
     else {
       this.groupDisplay = true;
-      this.rankTypeMarkForm.get('sectionid')?.setValue(0);
+      this.rankTypeMarkForm.get('sectionid')?.setValue(null);
     }
   }
 
@@ -131,7 +162,7 @@ export class StudentMarkEntryComponent implements OnInit {
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
       this.subjectList = data;
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
-        return { name: item, selected: false };
+        return { subject_name: item, selected: false };
       });;
     });
 
@@ -139,65 +170,74 @@ export class StudentMarkEntryComponent implements OnInit {
 
   onchange() {
     debugger;
-    const newarray = this.spiltList.filter((e) => { return e.selected == true });
-    this.subjectFilterList = newarray;
-    this.subjectFilterList.forEach((e) => {
-      this.subjectDetailList.forEach((y) => {
-        if (e.name == y.subject_name) {
-          e['practical_status'] = y.practical_status
-        }
-      })
-    })
-    const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
-    while (control2.length !== 0) {
-      control2.removeAt(0)
-    }
-
-    this.studentList.forEach(e => {
-      e['subjects'] = this.subjectFilterList;
-      e['total'] = '0';
-      e['status'] = '';
-      e['avg'] = '';
-      e['rank'] = '';
-    });
-
-    this.studentList.forEach(student => {
-      this.addStudent(student);
-    });
-  }
-
-  save() {
     if (this.rankTypeMarkForm.valid) {
-      console.log(this.rankTypeMarkForm.value);
-    } else {
-      console.log(this.rankTypeMarkForm.value);
+      const newarray = this.spiltList.filter((e) => { return e.selected == true });
+      this.subjectFilterList = newarray;
+      if (this.subjectFilterList.length != 0) {
+
+
+        this.subjectFilterList.forEach((e) => {
+          this.subjectDetailList.forEach((y) => {
+            if (e.subject_name == y.subject_name) {
+              e['practical_status'] = y.practical_status
+            }
+          })
+        })
+        const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
+        while (control2.length !== 0) {
+          control2.removeAt(0)
+        }
+
+        this.studentList.forEach(e => {
+          e['subjects'] = this.subjectFilterList;
+          e['total'] = '0';
+          e['status'] = '';
+          e['average'] = '';
+          e['rank'] = '';
+        });
+
+        this.studentList.forEach(student => {
+          this.addStudent(student);
+        });
+      }
+      else {
+        this.notificationSvc.error('Select at least one subject');
+      }
+    }
+    else {
+      this.rankTypeMarkForm.markAllAsTouched();
+      this.notificationSvc.error('Enter mandatory fields');
     }
   }
+
+
 
   rankTypeMarkForm: FormGroup;
   createForm() {
     this.rankTypeMarkForm = this.fb.group({
       entryid: new FormControl(0),
-      classid: new FormControl(0),
+      classid: new FormControl(null),
       groupid: new FormControl(0),
-      sectionid: new FormControl(0),
-      date: new FormControl(),
+      sectionid: new FormControl(null),
+      batch_year: new FormControl(''),
+      date: new FormControl(''),
       exam_name: new FormControl(''),
       classincharge: new FormControl(''),
       with_prac: new FormControl(''),
       with_out_prac: new FormControl(''),
-      students: this.fb.array([])
+      students: this.fb.array([]),
+      cuid: new FormControl(1)
     });
   }
 
   createStudentFormGroup(student?: any): FormGroup {
     student = student || { admission_no: '', subjects: [] };
     return this.fb.group({
-      admission_no: [student.admission_no, Validators.required],
-      total: [student.total, Validators.required],
-      status: [student.status, Validators.required],
-      avg: [student.avg, Validators.required],
-      rank: [student.rank, Validators.required],
+      admission_no: [student.admission_no],
+      total: [student.total],
+      status: [student.status],
+      average: [student.average],
+      rank: [student.rank],
       subjects: this.fb.array(student.subjects.map(subject => this.createSubjectFormGroup(subject)))
     });
   }
@@ -208,16 +248,15 @@ export class StudentMarkEntryComponent implements OnInit {
 
   createSubjectFormGroup(subject?): FormGroup {
     debugger;
-    const subjectn = subject.name;
+    const subjectn = subject.subject_name;
     const select = subject.selected;
     const prac = subject.practical_status;
     return this.fb.group({
-      name: [subjectn, Validators.required],
-      selected: [select, Validators.required],
-      practical_status: [prac, Validators.required],
-      marks: ['', Validators.required],
-      grade: ['', Validators.required],
-      pass_status: ['', Validators.required]
+      subject_name: [subjectn],
+      selected: [select],
+      practical_status: [prac],
+      marks: [''],
+      pass_status: ['']
     });
   }
 
@@ -240,25 +279,6 @@ export class StudentMarkEntryComponent implements OnInit {
     if (i >= 0 && i < studentsArray.length) {
       const studentFormGroup = studentsArray.at(i) as FormGroup;
       const subjectsArray = studentFormGroup.get('subjects') as FormArray;
-
-      if (j >= 0 && j < subjectsArray.length) {
-        const subjectFormGroup = subjectsArray.at(j) as FormGroup;
-        if (Number(subjectFormGroup.get('marks').value) <= 100) {
-          if (Number(subjectFormGroup.get('marks').value) > 80) {
-            subjectFormGroup.get('grade').setValue('A+');
-          }
-          else if (Number(subjectFormGroup.get('marks').value) > 50) {
-            subjectFormGroup.get('grade').setValue('B+');
-          }
-          else {
-            subjectFormGroup.get('grade').setValue('D');
-          }
-        }
-        else {
-          subjectFormGroup.get('marks').setValue('');
-        }
-      }
-
       const subjectFormGroup = subjectsArray.at(j) as FormGroup;
       if (subjectFormGroup.get('practical_status').value == 'Practical Subject') {
         if (Number(subjectFormGroup.get('marks').value) >= Number(this.rankTypeMarkForm.value.with_prac)) {
@@ -291,7 +311,7 @@ export class StudentMarkEntryComponent implements OnInit {
     });
     courseControl.at(i).get('total').setValue(String(this.total));
 
-    courseControl.at(i).get('avg').setValue(String((this.total) / course.length));
+    courseControl.at(i).get('average').setValue(String((this.total) / course.length));
 
     const allPassed = course.every(element => element.pass_status === "Pass");
     if (allPassed) {
@@ -302,7 +322,7 @@ export class StudentMarkEntryComponent implements OnInit {
 
     const orderBYMark = studentsArray.controls.map(control => control.value);
     const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
-    const Student = studentsArray.controls.map(control => control.value);    
+    const Student = studentsArray.controls.map(control => control.value);
     passorderBYMark.sort((a, b) => parseInt(b.total) - parseInt(a.total));
 
     Student.forEach((stu, m) => {
@@ -311,9 +331,46 @@ export class StudentMarkEntryComponent implements OnInit {
         debugger;
         if (stu.admission_no == element.admission_no) {
           debugger
-          courseControl.at(m).get('rank').setValue(Number(k + 1));
+          courseControl.at(m).get('rank').setValue(String(k + 1));
         }
       });
     });
+  }
+
+  save() {
+    console.log(this.rankTypeMarkForm.value);
+    if (this.rankTypeMarkForm.valid) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            var insert = (this.rankTypeMarkForm.value);
+            this.meSvc.newRankTypeMark(insert).subscribe(res => {
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success("Saved Success");
+                this.cancelForm();
+              }
+              else {
+                this.notificationSvc.error("Something error");
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.rankTypeMarkForm.markAllAsTouched();
+      this.notificationSvc.error("Fill the mandatory fileds")
+    }
+  }
+
+
+  cancelForm(){
+    this.rankTypeMarkForm.reset();
+    this.subjectFilterList=[];   
+    this.spiltList=[];
+
+    const students = this.rankTypeMarkForm.get('students') as FormArray;  
+    while (students.length !== 0) {
+      students.removeAt(0)
+    }
   }
 }
