@@ -7,13 +7,15 @@ import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { StudentAttendance } from '../../Model/studentAttendance.model';
 import { Router } from '@angular/router';
+import { BatechYearService } from 'src/app/api-service/batchYear.service';
 @Component({
   selector: 'app-student-attendance',
   templateUrl: './student-attendance.component.html',
   styleUrls: ['./student-attendance.component.scss']
 })
 export class StudentAttendanceComponent implements OnInit {
-
+  newgetbatch: String;
+  activeBatchYear: any = [];
   studentList: StudentAttendance[] = [];
   ClassList: any = [];
   GroupList: any = [];
@@ -27,6 +29,7 @@ export class StudentAttendanceComponent implements OnInit {
   ani: boolean = false;
   fni: boolean = false;
   todayDate: Date = new Date();
+
 
   date1 = new Date();
   //minDate = new Date();
@@ -45,6 +48,7 @@ export class StudentAttendanceComponent implements OnInit {
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
+    this.GetActiveBatchYear();
 
     if (this.currentMonth < 10) {
       this.finalMonth = "0" + this.currentMonth;
@@ -72,7 +76,8 @@ export class StudentAttendanceComponent implements OnInit {
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
-    private router: Router) { }
+    private router: Router,
+    private batchSvc: BatechYearService,) { }
 
 
   backButton() {
@@ -156,8 +161,19 @@ export class StudentAttendanceComponent implements OnInit {
     this.studentAttendanceForm.sectionid = 0;
   }
 
+  GetActiveBatchYear() {
+    this.batchSvc.GetActiveBatchYear().subscribe(data => {
+      this.activeBatchYear = data;
+      const getbatch = JSON.stringify(this.activeBatchYear[0].batch_year)
+      this.newgetbatch = String(getbatch.replace(/['"]+/g, ''));
+      this.studentAttendanceForm.batch_year = this.newgetbatch;
+    });
+  }
+
+
   studentAttendanceForm: StudentAttendance = {
     attendanceid: 0,
+    batch_year: '',
     classid: 0,
     groupid: 0,
     sectionid: 0,
@@ -176,8 +192,10 @@ export class StudentAttendanceComponent implements OnInit {
     let groupid: number = (this.studentAttendanceForm.groupid);
     let sectionid: number = (this.studentAttendanceForm.sectionid);
     let date: any = (this.studentAttendanceForm.date);
+    let batchYear: any = (this.studentAttendanceForm.batch_year);
     if (date != '' && classid != 0 && sectionid != 0) {
-      this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date).subscribe(data => {
+      this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date, batchYear).subscribe(data => {
+        debugger;
         this.studentList = data;
         if (this.studentList.length != 0) {
           if (this.studentList[0].ani == true) {
@@ -221,7 +239,6 @@ export class StudentAttendanceComponent implements OnInit {
           if (res == true) {
             this.sAdSvc.newAttendance(data).subscribe(res => {
               if (res.status == 'Insert Success') {
-
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
               }
@@ -238,6 +255,7 @@ export class StudentAttendanceComponent implements OnInit {
   }
 
   cancelClick() {
+    this.studentAttendanceForm.batch_year = this.newgetbatch;
     this.studentAttendanceForm.classid = 0;
     this.studentAttendanceForm.groupid = 0;
     this.studentAttendanceForm.sectionid = 0;

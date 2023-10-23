@@ -125,10 +125,10 @@ export class MarkEntryGradeComponent implements OnInit {
     let groupid: number = (this.rankTypeMarkForm.value.groupid);
     let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
 
-    this.meSvc.searchStudentByClass(classid, groupid, sectionid).subscribe(data => {
-      this.spinner.hide();
-      this.studentList = data;
-    });
+    // this.meSvc.searchStudentByClass(classid, groupid, sectionid).subscribe(data => {
+    //   this.spinner.hide();
+    //   this.studentList = data;
+    // });
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
       this.subjectList = data;

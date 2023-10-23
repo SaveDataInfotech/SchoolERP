@@ -153,8 +153,8 @@ export class StudentMarkEntryComponent implements OnInit {
     let classid: number = (this.rankTypeMarkForm.value.classid);
     let groupid: number = (this.rankTypeMarkForm.value.groupid);
     let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
-
-    this.meSvc.searchStudentByClass(classid, groupid, sectionid).subscribe(data => {
+    let batchYear: string = (this.rankTypeMarkForm.value.batch_year);
+    this.meSvc.searchStudentByClass(classid, groupid, sectionid,batchYear).subscribe(data => {
       this.spinner.hide();
       this.studentList = data;
     });
@@ -363,12 +363,12 @@ export class StudentMarkEntryComponent implements OnInit {
   }
 
 
-  cancelForm(){
+  cancelForm() {
     this.rankTypeMarkForm.reset();
-    this.subjectFilterList=[];   
-    this.spiltList=[];
+    this.subjectFilterList = [];
+    this.spiltList = [];
 
-    const students = this.rankTypeMarkForm.get('students') as FormArray;  
+    const students = this.rankTypeMarkForm.get('students') as FormArray;
     while (students.length !== 0) {
       students.removeAt(0)
     }

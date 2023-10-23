@@ -119,20 +119,19 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-
     const classid = Number(classsid);
     this.studentTcApplyForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.studentTcApplyForm.get('groupid')?.setValue(0);
-    this.studentTcApplyForm.get('sectionid')?.setValue(0);
+    this.studentTcApplyForm.get('sectionid')?.setValue(null);
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.studentTcApplyForm.get('sectionid')?.setValue(0);
+      this.studentTcApplyForm.get('sectionid')?.setValue(null);
     }
     else {
       this.groupDisplay = true;
-      this.studentTcApplyForm.get('sectionid')?.setValue(0);
+      this.studentTcApplyForm.get('sectionid')?.setValue(null);
     }
   }
 
@@ -140,7 +139,7 @@ export class StudentTcApplieComponent implements OnInit {
     const groupid = Number(groupID);
     this.studentTcApplyForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.studentTcApplyForm.get('sectionid')?.setValue(0);
+    this.studentTcApplyForm.get('sectionid')?.setValue(null);
   }
 
 
@@ -151,9 +150,9 @@ export class StudentTcApplieComponent implements OnInit {
   createForm() {
     this.studentTcApplyForm = new FormGroup({
       tcleftid: new FormControl(0),
-      classid: new FormControl(0),
+      classid: new FormControl(null),
       groupid: new FormControl(0),
-      sectionid: new FormControl(0),
+      sectionid: new FormControl(null),
       batch_year: new FormControl(''),
       search_ad: new FormControl(''),
       leftdetails: new FormArray([
@@ -164,35 +163,38 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   searchStudentByClass() {
-    const ClassId = this.studentTcApplyForm.value.classid;
-    const GroupId = this.studentTcApplyForm.value.groupid;
-    const SectionId = this.studentTcApplyForm.value.sectionid;
-    const BatchYear = this.studentTcApplyForm.value.batch_year;
-    this.tcSvc.allStudents(ClassId, GroupId, SectionId, BatchYear).subscribe(data => {
-      this.allstudentList = data;
-    
-    debugger;
-    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
-    while (control.length !== 0) {
-      control.removeAt(0)
-    }
+    if (this.studentTcApplyForm.valid) {
+      const ClassId = this.studentTcApplyForm.value.classid;
+      const GroupId = this.studentTcApplyForm.value.groupid;
+      const SectionId = this.studentTcApplyForm.value.sectionid;
+      const BatchYear = this.studentTcApplyForm.value.batch_year;
+      this.tcSvc.allStudents(ClassId, GroupId, SectionId, BatchYear).subscribe(data => {
+        this.allstudentList = data;
+        const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
+        while (control.length !== 0) {
+          control.removeAt(0)
+        }
 
-    if (control.length == 0) {
-      this.allstudentList.forEach(element => {
-        control.push(
-          new FormGroup({
-            admission_no: new FormControl(element.admission_no),
-            student_name: new FormControl(element.student_name),
-            type: new FormControl(''),
-            tcno: new FormControl(''),
-            date: new FormControl(this.today),
-            remarks: new FormControl(''),
-            selected: new FormControl(false)
-          })
-        )
+        if (control.length == 0) {
+          this.allstudentList.forEach(element => {
+            control.push(
+              new FormGroup({
+                admission_no: new FormControl(element.admission_no),
+                student_name: new FormControl(element.student_name),
+                type: new FormControl(''),
+                tcno: new FormControl(''),
+                date: new FormControl(this.today),
+                remarks: new FormControl(''),
+                selected: new FormControl(false)
+              })
+            )
+          });
+        }
       });
     }
-  });
+    else {
+      this.studentTcApplyForm.markAllAsTouched();
+    }
   }
 
   getControls() {
@@ -201,24 +203,30 @@ export class StudentTcApplieComponent implements OnInit {
 
   newTcApplyAll() {
     let studentdetails = this.studentTcApplyForm.value
-    this.tcSvc.TcApplyAll(studentdetails).subscribe(res => {
-      if (res.status == 'Saved successfully') {
-        this.notificationSvc.success("Saved Success")
-        this.CancelClickInAll();
-      }
-      else {
-        this.CancelClickInAll();
-      }
-    })
+    const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
+    if (control.length != 0) {
+      this.tcSvc.TcApplyAll(studentdetails).subscribe(res => {
+        if (res.status == 'Saved successfully') {
+          this.notificationSvc.success("Saved Success")
+          this.CancelClickInAll();
+        }
+        else {
+          this.CancelClickInAll();
+        }
+      })
+    }
+    else {
+      this.notificationSvc.error('Invalid student details');
+    }
   }
 
   CancelClickInAll() {
-    //this.studentTcApplyForm.reset();
+    this.studentTcApplyForm.reset();
     this.studentTcApplyForm.get('tcleftid')?.setValue(0);
-    this.studentTcApplyForm.get('classid')?.setValue(0);
+    this.studentTcApplyForm.get('classid')?.setValue(null);
     this.studentTcApplyForm.get('groupid')?.setValue(0);
-    this.studentTcApplyForm.get('sectionid')?.setValue(0);
-    this.studentTcApplyForm.get('batch_year')?.setValue(0);
+    this.studentTcApplyForm.get('sectionid')?.setValue(null);
+    this.studentTcApplyForm.get('batch_year')?.setValue('');
     this.studentTcApplyForm.get('search_ad')?.setValue('')
     this.studentTcApplyForm.get('cuid')?.setValue(1);
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
@@ -250,8 +258,6 @@ export class StudentTcApplieComponent implements OnInit {
         this.serachDisabledone = true;
       }
     })
-
-    
   }
 
   newTcApply() {
@@ -281,7 +287,7 @@ export class StudentTcApplieComponent implements OnInit {
   CancelClickInTc() {
     this.oneStudentTcLeftForm.reset();
     this.serachDisabledone = false;
-    this.StudentDataList=[];
+    this.StudentDataList = [];
     this.oneStudentTcLeftForm.get('tcleftid')?.setValue(0);
     this.oneStudentTcLeftForm.get('admission_no')?.setValue('');
     this.oneStudentTcLeftForm.get('type')?.setValue('');

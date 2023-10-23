@@ -72,7 +72,7 @@
                                 [ngClass]="{'is-invalid': studentDetailsForm.get('classid')?.touched && studentDetailsForm.value.classid == 0}"
                                 formControlName="classid" style="width: 100%;" #ut
                                 (change)="updatefilterGroupfun(ut.value)" class="form-control">
-                                <option value=0 selected disabled>Please select</option>
+                                <option value=null selected disabled>Please select</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
@@ -739,10 +739,12 @@
 
                 <div class="col-sm-12 mt-4 mb-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 100px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
+                            class="btn btn-success mr-3 btn-sm" value="Edit" />
                         <input (click)=" cancelClick()" matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
+                            value="Close" />
                     </div>
                 </div>
             </div>

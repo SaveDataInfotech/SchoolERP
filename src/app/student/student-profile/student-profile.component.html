@@ -6,9 +6,6 @@
                     <h3 class="ml-1">Add Student Profile</h3>
                 </div>
             </div>
-            <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                    (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-            </div>
         </div>
         <form [formGroup]="studentDetailsForm" (ngSubmit)="newStudentProfileDetails()">
             <div class="container mt-2">
@@ -18,10 +15,6 @@
                             <h3 class="ml-1" style="color: orangered;">Student Details</h3>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -111,14 +104,14 @@
                         </div>
                         <div class="inputdiv">
                             <select required
-                                [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.value.sectionid == 0}"
+                            [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.get('sectionid')?.errors }"
                                 formControlName="sectionid" style="width: 100%;" class="form-control ">
-                                <option value=0 selected disabled>Please select</option>
+                                <option value=null selected disabled>Please select</option>
                                 <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
                                     {{section.section_name}}</option>
                             </select>
                             <span class="text-danger"
-                                *ngIf="studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.value.sectionid == 0">Section
+                                *ngIf=" studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.get('sectionid')?.errors">Section
                                 name is required</span>
                         </div>
                     </div>
@@ -277,7 +270,15 @@
                             <label class="pt-2" style="margin: auto;">Community</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="community" class="form-control" type="text">
+                            <select style="width: 100%;" formControlName="community" class="form-control">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="BC">BC</option>
+                                <option value="MBC">MBC</option>
+                                <option value="BCM">BCM</option>
+                                <option value="DC">DC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
                         </div>
                     </div>
 
@@ -467,7 +468,17 @@
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="bloodgroup" class="form-control" type="text">
+                            <select style="width: 100%;" formControlName="bloodgroup" class="form-control">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
                         </div>
                     </div>
 
@@ -862,13 +873,13 @@
 
                 <div class="col-sm-12 mt-4 mb-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 100px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input (click)="cancelClick()" matTooltip="Click to Cancel" type="button" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
+                        <input (click)="cancelClick()" type="button" style="width: 80px;"
+                            class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
+                            value="Close" />
                     </div>
                 </div>
-
             </div>
         </form>
     </mat-card-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -29,12 +30,13 @@ export class StudentUpdateComponent implements OnInit {
   //groupFilterlist: any[];
   //sectionFilterlist: any[];
   updatesectionFilterlist: any[];
-  updategroupFilterlist: any[];
+  updategroupFilterlist: any[] = [];
   StudentDataList: any[] = [];
   allSibilingsList: any[] = [];
   updategroupDisplay: boolean;
   constructor(
     private spinner: NgxSpinnerService,
+    private router: Router,
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -48,6 +50,10 @@ export class StudentUpdateComponent implements OnInit {
     this.refreshGroupList();
     this.refreshSectionList();
     this.getAllSibilings();
+  }
+
+  backButton() {
+    this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
   numberOnly(event: any): boolean {
@@ -278,7 +284,7 @@ export class StudentUpdateComponent implements OnInit {
 
   updateStudent() {
     if (this.studentDetailsForm.valid) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+      this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             var studentinsert = (this.studentDetailsForm.value);

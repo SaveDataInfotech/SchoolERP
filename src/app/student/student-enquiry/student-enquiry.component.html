@@ -173,6 +173,14 @@
                                 <option value="Indian">Indian</option>
                                 <option value="Foreigner">Foreigner</option>
                             </select>
+
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors.required">
+                                    Nationality is required
+                                </div>
+                            </span>
                         </div>
                     </div>
 
@@ -260,9 +268,8 @@
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
-                        <div class="inputdiv">                           
-                            <select                                
-                                style="width: 100%;" formControlName="bloodgroup" class="form-control" required>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" formControlName="bloodgroup" class="form-control">
                                 <option value='' selected disabled>Please select</option>
                                 <option value="O+">O+</option>
                                 <option value="O-">O-</option>
@@ -301,8 +308,6 @@
                         </div>
                     </div>
                 </div>
-
-                <hr>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -449,17 +454,11 @@
                                     *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
                                     Invalid input
                                 </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.m_ph.touched && StudentEnquiryForm.controls.m_ph.errors.minlength">
-                                    Invalid input
-                                </div>
                             </span>
 
                         </div>
                     </div>
                 </div>
-
-                <hr>
 
                 <div class="row">
                     <div class="col-sm-12">

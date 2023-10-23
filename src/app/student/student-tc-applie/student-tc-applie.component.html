@@ -16,12 +16,13 @@
                                 <div class="row ">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Batch</label>
+                                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger"> *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select formControlName="batch_year" style="width: 100%;"
-                                                class="form-control ">
-                                                <option value=0 selected disabled>Please select</option>
+                                            <select [ngClass]="{'is-invalid':studentTcApplyForm.controls.batch_year.touched && studentTcApplyForm.controls.batch_year.errors}"
+                                             formControlName="batch_year" style="width: 100%;"
+                                                class="form-control" required>
+                                                <option value='' selected disabled>Please select</option>
                                                 <option [ngValue]="batch.batch_year" *ngFor="let batch of BatchList;">
                                                     {{batch.batch_year}}</option>
                                             </select>
@@ -32,12 +33,13 @@
                                 <div class="row">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Class</label>
+                                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger"> *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select formControlName="classid" style="width: 100%;" #t
+                                            <select [ngClass]="{'is-invalid': studentTcApplyForm.get('classid')?.touched && studentTcApplyForm.get('classid')?.errors }"
+                                             formControlName="classid" style="width: 100%;" #t required
                                                 (change)="filterGroupfun(t.value)" class="form-control ">
-                                                <option value=0 selected disabled>Please select</option>
+                                                <option value=null selected disabled>Please select</option>
                                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
                                                     {{class.class_name}}</option>
                                             </select>
@@ -64,12 +66,13 @@
                                 <div class="row ">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Section</label>
+                                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger"> *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select formControlName="sectionid" style="width: 100%;"
+                                            <select [ngClass]="{'is-invalid': studentTcApplyForm.get('sectionid')?.touched && studentTcApplyForm.get('sectionid')?.errors }"
+                                             formControlName="sectionid" style="width: 100%;" required
                                                 class="form-control ">
-                                                <option value=0 selected disabled>Please select</option>
+                                                <option value=null selected disabled>Please select</option>
                                                 <option [ngValue]="section.sectionid"
                                                     *ngFor="let section of sectionFilterlist;">
                                                     {{section.section_name}}</option>
@@ -80,10 +83,10 @@
 
                                 <div class="col-sm-12 mt-4">
                                     <div style="text-align: center;">
-                                        <input (click)="searchStudentByClass()" matTooltip="Click to Save" type="button"
+                                        <input (click)="searchStudentByClass()" type="button"
                                             style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Search" />
                                     </div>
-                                </div>                    
+                                </div>
                             </div>
                         </div>
 
@@ -98,7 +101,7 @@
                                         <th>Type</th>
                                         <th>TC.NO</th>
                                         <th>Date</th>
-                                        <th>Remarks</th>                                        
+                                        <th>Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody
@@ -106,7 +109,7 @@
                                     formGroupName="{{i}}">
                                     <tr>
                                         <td><span class="mt-2">{{i+1}}</span></td>
-                                        <td><input type="checkbox" formControlName="selected" ></td>
+                                        <td><input type="checkbox" formControlName="selected"></td>
                                         <td>{{chid.get('admission_no').value}}--{{chid.get('student_name').value}}</td>
                                         <td>
                                             <select formControlName="type" class="form-control" style="width: 150px;">
@@ -120,7 +123,7 @@
                                         </td>
                                         <td><input formControlName="date" type="date" class="form-control" /></td>
                                         <td><input formControlName="remarks" type="text" style="width: 200px;"
-                                                class="form-control" /></td>                                        
+                                                class="form-control" /></td>
                                     </tr>
                                 </tbody>
                                 <div>
@@ -130,9 +133,11 @@
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                    class="btn btn-success mr-3 btn-sm" value="Save" />
                                 <input matTooltip="Click to Cancel" (click)="CancelClickInAll()" type="button"
-                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                    style="width: 80px;" class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm"
+                                    (click)="backButton()" value="Close" />
                             </div>
                         </div>
                     </form>
@@ -150,9 +155,6 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Student TC/Left/Long Absente</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
                         </div>
                     </div>
                     <div class="row">
@@ -178,7 +180,6 @@
                                                 </div>
                                             </span>
                                         </div>
-
                                     </div>
 
                                     <div class="col-sm-12 ml-5">
@@ -265,10 +266,12 @@
 
                                     <div class="ml-5 col-sm-12" style="text-align: center;">
                                         <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                            class="btn btn-primary mr-3 btn-sm mt-3" value="Save" />
+                                            class="btn btn-success mr-3 btn-sm mt-3" value="Save" />
                                         <input matTooltip="Click to Cancel" type="button" (click)="CancelClickInTc()"
-                                            style="width: 80px;" class="btn btn-danger btn-sm mr-2 mt-3"
+                                            style="width: 80px;" class="btn btn-primary btn-sm mr-2 mt-3"
                                             value="Cancel" />
+                                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-3"
+                                            (click)="backButton()" value="Close" />
                                     </div>
                                 </div>
                             </form>

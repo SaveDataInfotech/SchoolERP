@@ -186,27 +186,26 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.studentDetailsForm.get('groupid')?.setValue(0);
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
+    this.studentDetailsForm.get('sectionid')?.setValue(null);
     // this.studentDetailsForm.get('mark_10')?.setValue('');
     if (this.groupFilterlist.length == 0) {
       this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
-      this.studentDetailsForm.get('sectionid')?.setValue(0);
+      this.studentDetailsForm.get('sectionid')?.setValue(null);
       //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
     else {
       this.groupDisplay = true;
-      this.studentDetailsForm.get('sectionid')?.setValue(0);
+      this.studentDetailsForm.get('sectionid')?.setValue(null);
       //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
   }
 
   filterSectionfun(groupID: any) {
-
     const groupid = Number(groupID);
     this.studentDetailsForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
+    this.studentDetailsForm.get('sectionid')?.setValue(null);
   }
   //image
   deleteImage() {
@@ -289,7 +288,7 @@ export class StudentProfileComponent implements OnInit {
     batch_year: new FormControl(''),
     classid: new FormControl(null),
     groupid: new FormControl(0),
-    sectionid: new FormControl(0),
+    sectionid: new FormControl(null),
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
@@ -453,7 +452,7 @@ export class StudentProfileComponent implements OnInit {
                 if (this.studentDetailsForm.value.feesless == 'Not Specified' || this.studentDetailsForm.value.feesless == '' || this.studentDetailsForm.value.feesless == null) {
                   debugger;
                   const feesList = this.busFeeList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid                     
+                    return e.classid == this.studentDetailsForm.value.classid
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
@@ -481,7 +480,7 @@ export class StudentProfileComponent implements OnInit {
                 else {
                   debugger;
                   const feesList = this.specialBusFeesList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid                                       
+                    return e.classid == this.studentDetailsForm.value.classid
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
@@ -670,6 +669,7 @@ export class StudentProfileComponent implements OnInit {
     }
     else {
       this.studentDetailsForm.markAllAsTouched();
+      this.notificationSvc.error("Fill in the mandatory fields");
     }
   }
 
@@ -726,7 +726,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('batch_year')?.setValue(this.newgetbatch);
     this.studentDetailsForm.get('classid')?.setValue(null);
     this.studentDetailsForm.get('groupid')?.setValue(0);
-    this.studentDetailsForm.get('sectionid')?.setValue(0);
+    this.studentDetailsForm.get('sectionid')?.setValue(null);
     this.studentDetailsForm.get('mark_10')?.setValue('');
     this.studentDetailsForm.get('roll_no')?.setValue('');
     this.studentDetailsForm.get('emis_no')?.setValue('');
