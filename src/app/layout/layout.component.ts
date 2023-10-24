@@ -137,10 +137,10 @@ export class LayoutComponent implements OnInit {
           link_name: "Student Mark Entry",
           link: "student/student_mark_entry",
         },
-        {
-          link_name: "Mark Entry Grade Type",
-          link: "student/mark_entry_grade",
-        },
+        // {
+        //   link_name: "Mark Entry Grade Type",
+        //   link: "student/mark_entry_grade",
+        // },
         {
           link_name: "Student Tc Apply",
           link: "student/student_tc_applie",

@@ -1,13 +1,13 @@
 <div class="container-fluid mt-2">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 300px;">
-                <h3 class="ml-1">Rank Type </h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Mark entry Rank Type</h3>
+                    </div>
+                </div>
+            </div>
             <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -178,7 +178,7 @@
                             <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
                                 [formGroupName]="i">
                                 <td>
-                                    <span class="hide-text" *ngIf="i == 0"> .</span>
+                                    <span class="hide-text" *ngIf="i == 0"></span>
                                     {{student.get('admission_no').value}}
                                 </td>
                                 <span formArrayName="subjects">
@@ -188,24 +188,24 @@
                                         <span class="h6" style="margin-bottom: 10px;"
                                             *ngIf="i == 0">{{subject.get('subject_name').value}}</span>
                                         <span style="display: flex;">
-                                            <input
+                                            <input (keypress)="numberOnly($event)"
                                                 [ngStyle]="{'border-color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
                                                 (change)="gradeConvert(i,j)" placeholder="Mark" type="text"
                                                 class="mr-2 form-control" formControlName="marks">
                                         </span>
                                     </td>
                                 </span>
-                                <td><span class="hide-text" *ngIf="i == 0"> ....</span>
+                                <td><span class="hide-text" *ngIf="i == 0"></span>
                                     <span>{{student.get('total').value}}</span>
                                 </td>
-                                <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                <td><span class="hide-text" *ngIf="i == 0"> </span>
                                     <span
                                         [ngStyle]="{'color': (student.get('status').value == 'Pass') ? 'green':'red'}">{{student.get('status').value}}</span>
                                 </td>
-                                <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                <td><span class="hide-text" *ngIf="i == 0"> </span>
                                     <span>{{student.get('average').value}}</span>
                                 </td>
-                                <td><span class="hide-text" *ngIf="i == 0"> .</span>
+                                <td><span class="hide-text" *ngIf="i == 0"> </span>
                                     <span>{{student.get('rank').value}}</span>
                                 </td>
                             </tr>

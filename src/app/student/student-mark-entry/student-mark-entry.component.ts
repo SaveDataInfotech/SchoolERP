@@ -29,7 +29,7 @@ export class StudentMarkEntryComponent implements OnInit {
   subjectList: any[] = [];
   spiltList: any = [];
   subjectFilterList: any[] = [];
-  sub: any;
+  //sub: any;
   subjectDetailList: any[] = [];
   activeBatchYear: any = [];
   newgetbatch: string;
@@ -79,7 +79,6 @@ export class StudentMarkEntryComponent implements OnInit {
   backButton() {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
-
 
   //// Number Only Event
   numberOnly(event: any): boolean {
@@ -154,7 +153,7 @@ export class StudentMarkEntryComponent implements OnInit {
     let groupid: number = (this.rankTypeMarkForm.value.groupid);
     let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
     let batchYear: string = (this.rankTypeMarkForm.value.batch_year);
-    this.meSvc.searchStudentByClass(classid, groupid, sectionid,batchYear).subscribe(data => {
+    this.meSvc.searchStudentByClass(classid, groupid, sectionid, batchYear).subscribe(data => {
       this.spinner.hide();
       this.studentList = data;
     });
@@ -165,7 +164,6 @@ export class StudentMarkEntryComponent implements OnInit {
         return { subject_name: item, selected: false };
       });;
     });
-
   }
 
   onchange() {
@@ -209,8 +207,6 @@ export class StudentMarkEntryComponent implements OnInit {
       this.notificationSvc.error('Enter mandatory fields');
     }
   }
-
-
 
   rankTypeMarkForm: FormGroup;
   createForm() {
@@ -361,7 +357,6 @@ export class StudentMarkEntryComponent implements OnInit {
       this.notificationSvc.error("Fill the mandatory fileds")
     }
   }
-
 
   cancelForm() {
     this.rankTypeMarkForm.reset();

@@ -162,7 +162,7 @@
                         <td>{{bus.kmrange}}</td>
                         <td>{{bus.batch_year}}</td>
                         <td>{{bus.less_type}}</td>
-                        <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}</td>
+                        <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}%</td>
                         <td>
                             <span (click)="specialBusFeeDelete(bus.typeid,bus.kmrange,bus.batch_year,bus.fess_lessid)"
                                 class="m-2 deletebutton"><b>delete</b></span>

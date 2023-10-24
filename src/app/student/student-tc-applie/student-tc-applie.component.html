@@ -1,27 +1,29 @@
 <mat-tab-group animationDuration="0ms">
-    <mat-tab label="All Students">
+    <mat-tab label="Multiple Students">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12" style="display: flex;">
-                    <div class="inputdiv">
-                        <h3 class="ml-1">Student TC/Left/Long Absent</h3>
-                    </div>
-                </div>
-            </div>
-            <mat-card class="mt-2 matcard mb-2">
+            <mat-card class="mt-4 matcard mb-2">
                 <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Student TC/Left/Long Absente</h3>
+                            </div>
+                        </div>
+                    </div>
                     <form [formGroup]="studentTcApplyForm" (ngSubmit)="newTcApplyAll()">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="row ">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger"> *</span></label>
+                                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">
+                                                    *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select [ngClass]="{'is-invalid':studentTcApplyForm.controls.batch_year.touched && studentTcApplyForm.controls.batch_year.errors}"
-                                             formControlName="batch_year" style="width: 100%;"
-                                                class="form-control" required>
+                                            <select
+                                                [ngClass]="{'is-invalid':studentTcApplyForm.controls.batch_year.touched && studentTcApplyForm.controls.batch_year.errors}"
+                                                formControlName="batch_year" style="width: 100%;" class="form-control"
+                                                required>
                                                 <option value='' selected disabled>Please select</option>
                                                 <option [ngValue]="batch.batch_year" *ngFor="let batch of BatchList;">
                                                     {{batch.batch_year}}</option>
@@ -33,11 +35,13 @@
                                 <div class="row">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger"> *</span></label>
+                                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger">
+                                                    *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select [ngClass]="{'is-invalid': studentTcApplyForm.get('classid')?.touched && studentTcApplyForm.get('classid')?.errors }"
-                                             formControlName="classid" style="width: 100%;" #t required
+                                            <select
+                                                [ngClass]="{'is-invalid': studentTcApplyForm.get('classid')?.touched && studentTcApplyForm.get('classid')?.errors }"
+                                                formControlName="classid" style="width: 100%;" #t required
                                                 (change)="filterGroupfun(t.value)" class="form-control ">
                                                 <option value=null selected disabled>Please select</option>
                                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
@@ -66,11 +70,13 @@
                                 <div class="row ">
                                     <div class="col-sm-12 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger"> *</span></label>
+                                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger">
+                                                    *</span></label>
                                         </div>
                                         <div class="inputdiv">
-                                            <select [ngClass]="{'is-invalid': studentTcApplyForm.get('sectionid')?.touched && studentTcApplyForm.get('sectionid')?.errors }"
-                                             formControlName="sectionid" style="width: 100%;" required
+                                            <select
+                                                [ngClass]="{'is-invalid': studentTcApplyForm.get('sectionid')?.touched && studentTcApplyForm.get('sectionid')?.errors }"
+                                                formControlName="sectionid" style="width: 100%;" required
                                                 class="form-control ">
                                                 <option value=null selected disabled>Please select</option>
                                                 <option [ngValue]="section.sectionid"
@@ -83,8 +89,8 @@
 
                                 <div class="col-sm-12 mt-4">
                                     <div style="text-align: center;">
-                                        <input (click)="searchStudentByClass()" type="button"
-                                            style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Search" />
+                                        <input (click)="searchStudentByClass()" type="button" style="width: 80px;"
+                                            class="btn btn-primary mr-3 btn-sm" value="Search" />
                                     </div>
                                 </div>
                             </div>
@@ -277,60 +283,56 @@
                             </form>
                         </div>
 
-                        <div *ngFor="let student of StudentDataList" class="col-sm-7  mt-3">
-                            <mat-card style="background-color: rgb(195, 155, 233);" class="mt-2">
+                        <div *ngFor="let student of StudentDataList" class="col-sm-7  mt-2">
+                            <mat-card style="background-color: rgb(167, 165, 166);" class="mt-2">
                                 <mat-card-content style="display: flex;width: 100%;">
                                     <div class="col-sm-12 row " style="font-size: 15px;">
+                                        <img style="border-radius: 10px;border: 2px solid white;"
+                                            src="{{student.simage}}" alt="" width="100" height="100">
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Admission
-                                                No - </label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">
+                                            <label class="labelhead">Admission
+                                                No - </label><label class="labelcon">
                                                 {{student.admission_no}}</label>
                                         </div>
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Name:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.student_name}}</label>
+                                            <label class="labelhead">Name:</label><label
+                                                class="labelcon">{{student.student_name}}</label>
                                         </div>
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">DOB:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.dob |
+                                            <label class="labelhead">DOB:</label><label class="labelcon">{{student.dob |
                                                 date: 'MM/dd/yyyy'}}</label>
                                         </div>
 
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Gender:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.gender}}</label>
+                                            <label class="labelhead">Gender:</label><label
+                                                class="labelcon">{{student.gender}}</label>
                                         </div>
 
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Aadhar
-                                                No:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.aadhar}}</label>
+                                            <label class="labelhead">Aadhar
+                                                No:</label><label class="labelcon">{{student.aadhar}}</label>
                                         </div>
 
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">EMIS
-                                                No:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.emis_no}}</label>
+                                            <label class="labelhead">EMIS
+                                                No:</label><label class="labelcon">{{student.emis_no}}</label>
                                         </div>
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Class:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.class_name}}</label>
+                                            <label class="labelhead">Class:</label><label
+                                                class="labelcon">{{student.class_name}}</label>
                                         </div>
 
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Father
-                                                Name:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.father_name}}</label>
+                                            <label class="labelhead">Father
+                                                Name:</label><label class="labelcon">{{student.father_name}}</label>
                                         </div>
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Mother
-                                                Name:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.mother_name}}</label>
+                                            <label class="labelhead">Mother
+                                                Name:</label><label class="labelcon">{{student.mother_name}}</label>
                                         </div>
                                         <div style="float: left;" class="col-sm-6 mt-3">
-                                            <label style="color:white;text-align: right;">Batch:</label><label
-                                                style="color:blue;text-align: left;padding-left:5px ;">{{student.batch_year}}</label>
+                                            <label class="labelhead">Batch:</label><label
+                                                class="labelcon">{{student.batch_year}}</label>
                                         </div>
                                     </div>
                                 </mat-card-content>

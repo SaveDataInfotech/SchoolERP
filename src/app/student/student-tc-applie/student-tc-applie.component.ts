@@ -42,16 +42,11 @@ export class StudentTcApplieComponent implements OnInit {
     private studProSvc: studentProfileService,) { this.createForm(); }
 
   date1 = new Date();
-
   currentYear = this.date1.getUTCFullYear();
-
   currentMonth = this.date1.getUTCMonth() + 1;
-
   currentDate = this.date1.getUTCDate();
-
   todayDate: Date = new Date();
   today = String(this.todayDate);
-
   finalMonth: any;
   finalDay: any;
 
@@ -63,14 +58,12 @@ export class StudentTcApplieComponent implements OnInit {
     else {
       this.finalMonth = this.currentMonth;
     }
-
     if (this.currentDate < 10) {
       this.finalDay = "0" + this.currentDate;
     }
     else {
       this.finalDay = this.currentDate;
     }
-
     this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
 
     this.refreshClassList();
@@ -156,7 +149,6 @@ export class StudentTcApplieComponent implements OnInit {
       batch_year: new FormControl(''),
       search_ad: new FormControl(''),
       leftdetails: new FormArray([
-
       ]),
       cuid: new FormControl(1),
     })
@@ -281,7 +273,6 @@ export class StudentTcApplieComponent implements OnInit {
     else {
       this.oneStudentTcLeftForm.markAllAsTouched();
     }
-
   }
 
   CancelClickInTc() {

@@ -17,10 +17,10 @@ export class studentPromoteService {
     
   }
 
-  searchStudentbypromote(classid:number,groupid:number,sectionid:number): Observable<any[]> {
-    
+  searchStudentbypromote(classid:number,groupid:number,sectionid:number,Batch): Observable<any[]> {  
+    debugger;  
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'StudentPromote/get_student_attendance_bypromote?classid='+classid+'&groupid='+groupid+'&sectionid='+sectionid,httpOptions);    
+    return this.http.get<any[]>(this.apiUrl + 'StudentPromote/get_student_attendance_bypromote?classid='+classid+'&groupid='+groupid+'&sectionid='+sectionid+'&batch_year='+Batch,httpOptions);    
   }
 
 }

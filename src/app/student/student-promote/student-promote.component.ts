@@ -68,8 +68,7 @@ export class StudentPromoteComponent implements OnInit {
     });
   }
 
-  filterGroupfun(classsid: any) {
-    
+  filterGroupfun(classsid: any) {    
     const classid = Number(classsid);
     this.searchStudentForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -96,26 +95,26 @@ export class StudentPromoteComponent implements OnInit {
   searchStudentForm = {
     classid: 0,
     groupid: 0,
-    sectionid: 0
+    sectionid: 0,
+    batch_year:''
   };
 
   searchStudent() {
     const classid = this.searchStudentForm.classid;
     const groupid = this.searchStudentForm.groupid;
     const sectionid = this.searchStudentForm.sectionid;
-    if (classid != 0 && sectionid != 0) {
-      this.promoSvc.searchStudentbypromote(classid, groupid, sectionid).subscribe(data => {
+    const Batch=this.searchStudentForm.batch_year;
+    if (classid != 0 && sectionid != 0 && Batch !='' && Batch !=null) {
+      this.promoSvc.searchStudentbypromote(classid, groupid, sectionid,Batch).subscribe(data => {
         this.StudentList = data;
       });
     }
     else {
       this.notificationSvc.error('Fill in the mandatory fields');
     }
-
   }
   //////////////////
-  profilterGroupfun(classsid: any) {
-    
+  profilterGroupfun(classsid: any) {    
     const classid = Number(classsid);
     this.studentPromoteForm.classid = classid;
     this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -150,7 +149,6 @@ export class StudentPromoteComponent implements OnInit {
 
   save(data) {
     const filterlist = data.filter((e) => { return e.isselected == true });
-
     const batch_year = this.studentPromoteForm.batch_year;
     const classid = this.studentPromoteForm.classid;
     const groupid = this.studentPromoteForm.groupid;
@@ -173,14 +171,13 @@ export class StudentPromoteComponent implements OnInit {
     this.searchStudentForm.classid = 0;
     this.searchStudentForm.groupid = 0;
     this.searchStudentForm.sectionid = 0;
-
+    this.searchStudentForm.batch_year='';
     this.studentPromoteForm.batch_year = null;
     this.studentPromoteForm.classid = null;
     this.studentPromoteForm.groupid = 0;
     this.studentPromoteForm.sectionid = null;
     this.studentPromoteForm.date = '';
-
-    this.StudentList = null;
+    this.StudentList = [];
   }
 
 }

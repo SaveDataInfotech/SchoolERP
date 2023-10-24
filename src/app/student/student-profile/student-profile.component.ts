@@ -651,6 +651,7 @@ export class StudentProfileComponent implements OnInit {
             var studentinsert = (this.studentDetailsForm.value);
             console.log(this.studentDetailsForm)
             this.studProSvc.studentDetails(studentinsert).subscribe(res => {
+              debugger;
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved Success");
                 this.getMaxId();
