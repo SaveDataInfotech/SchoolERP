@@ -184,7 +184,6 @@
                                 <span formArrayName="subjects">
                                     <td *ngFor="let subject of student.get('subjects').controls; let j = index"
                                         [formGroupName]="j">
-
                                         <span class="h6" style="margin-bottom: 10px;"
                                             *ngIf="i == 0">{{subject.get('subject_name').value}}</span>
                                         <span style="display: flex;">

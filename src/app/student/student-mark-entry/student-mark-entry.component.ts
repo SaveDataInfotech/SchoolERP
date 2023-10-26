@@ -148,6 +148,7 @@ export class StudentMarkEntryComponent implements OnInit {
   }
 
   searchStudentByClass() {
+    debugger;
     this.spinner.show();
     let classid: number = (this.rankTypeMarkForm.value.classid);
     let groupid: number = (this.rankTypeMarkForm.value.groupid);
@@ -159,6 +160,7 @@ export class StudentMarkEntryComponent implements OnInit {
     });
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
+      debugger;
       this.subjectList = data;
       this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
         return { subject_name: item, selected: false };

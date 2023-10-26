@@ -27,7 +27,7 @@ export class LeaveMasterComponent implements OnInit {
   leaveAssignLeaveTypeFilterList: any = [];
 
   staffList: any[] = [];
-
+  newStaffList: any[] = [];
   constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
     private notificationSvc: NotificationsService, private router: Router,
@@ -59,8 +59,24 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   refreshLeaveTypeList() {
+    debugger;
     this.LvtySvc.getLeaveTypeList().subscribe(data => {
       this.LaveTyList = data;
+      const control = <FormArray>this.leaveAssignForm.controls['leave'];
+      while (control.length !== 0) {
+        control.removeAt(0)
+      }
+      if (control.length == 0) {
+        data.forEach(element => {
+          control.push(
+            new FormGroup({
+              typeid: new FormControl(element.typeid),
+              type_name: new FormControl(element.type_name),
+              elgible: new FormControl('')
+            })
+          )
+        });
+      }
     });
   }
 
@@ -72,7 +88,7 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-                
+
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Saved Success")
                   this.refreshLeaveTypeList();
@@ -95,7 +111,7 @@ export class LeaveMasterComponent implements OnInit {
             if (res == true) {
               var leavetypeinsert = (this.leavetypeForm.value);
               this.LvtySvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-                
+
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshLeaveTypeList();
@@ -142,7 +158,7 @@ export class LeaveMasterComponent implements OnInit {
 
   udateGetClick(Leave: any) {
     this.leavetypeForm.patchValue(Leave);
-   
+
     this.leavetypeForm.get('cuid')?.setValue(Leave.cuid);
     this.buttonId = false;
   }
@@ -162,11 +178,11 @@ export class LeaveMasterComponent implements OnInit {
   createForm() {
     this.leaveAssignForm = new FormGroup({
       assignid: new FormControl(0),
-      staff_type: new FormControl('', [Validators.required]),
+      staff_typeid: new FormControl(null, [Validators.required]),
       staff_no: new FormControl(''),
       staff_name: new FormControl('', [Validators.required]),
       no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
-      e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
+      //e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
       leave: new FormArray([
 
       ]),
@@ -175,23 +191,22 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   get staff_type() {
-    return this.leaveAssignForm.get('staff_type');
+    return this.leaveAssignForm.get('staff_typeid');
   }
 
   getControls() {
     return (this.leaveAssignForm.get('leave') as FormArray).controls;
   }
 
-  addleave() {
-    
-    const control = <FormArray>this.leaveAssignForm.controls['leave'];
-    control.push(
-      new FormGroup({
-        l_type: new FormControl(''),
-        elgible: new FormControl('')
-      })
-    )
-  }
+  // addleave() {
+  //   const control = <FormArray>this.leaveAssignForm.controls['leave'];
+  //   control.push(
+  //     new FormGroup({
+  //       typeid: new FormControl(0),
+  //       elgible: new FormControl('')
+  //     })
+  //   )
+  // }
 
   removeLeave(index: any) {
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
@@ -225,19 +240,19 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   staffNameChange(value) {
-    
     const newarray = this.staffList.filter((e) => { return e.staff_no == value })
     this.leaveAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
   }
 
 
   NewLeaveAssign() {
-    
+    debugger;
     if (this.leaveAssignForm.valid) {
       if (this.leaveAssignForm.value.assignid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
+              debugger;
               var leaveAssigninsert = (this.leaveAssignForm.value);
               this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
@@ -316,6 +331,12 @@ export class LeaveMasterComponent implements OnInit {
       });
   }
 
+  staffFilter() {
+    debugger;
+    const Id = this.leaveAssignForm.value.staff_typeid
+    this.newStaffList = this.staffList.filter((e) => { return e.staff_typeid == Id });
+  }
+
   AssignUpdateGetClick(assign: any) {
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     while (control.length !== 0) {
@@ -329,7 +350,8 @@ export class LeaveMasterComponent implements OnInit {
       const control = <FormArray>this.leaveAssignForm.controls['leave'];
       control.push(
         new FormGroup({
-          l_type: new FormControl(element.l_type),
+          typeid: new FormControl(element.typeid),
+          type_name:new FormControl(element.type_name),
           elgible: new FormControl(element.elgible)
         })
       )
@@ -338,12 +360,11 @@ export class LeaveMasterComponent implements OnInit {
 
   eligibleFun(i) {
     let total: number = 0;
-    const EPerMonth = this.leaveAssignForm.value.e_per_mon
+    const EPerMonth = this.leaveAssignForm.value.no_of_leave
     const busControl3 = this.leaveAssignForm.get('leave') as FormArray;
     const eligibleDays = busControl3.at(i).get('elgible').value;
     const elDays = this.leaveAssignForm.get('leave') as FormArray;
     elDays.controls.forEach((e) => {
-      
       const num = Number(e.value.elgible);
       total = total + num;
     })
@@ -357,17 +378,21 @@ export class LeaveMasterComponent implements OnInit {
     this.leaveAssignForm.reset();
     this.refreshStaffList();
     this.leaveAssignForm.get('assignid')?.setValue(0);
-    this.leaveAssignForm.get('staff_type')?.setValue('');
+    this.leaveAssignForm.get('staff_typeid')?.setValue(null);
     this.leaveAssignForm.get('staff_name')?.setValue('');
     this.leaveAssignForm.get('staff_no')?.setValue('');
     this.leaveAssignForm.get('no_of_leave')?.setValue(null);
-    this.leaveAssignForm.get('e_per_mon')?.setValue(null);
+    // this.leaveAssignForm.get('e_per_mon')?.setValue('');
     this.leaveAssignForm.get('cuid')?.setValue(1);
     this.AssignbuttonId = true;
 
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     while (control.length !== 0) {
       control.removeAt(0)
+    }
+
+    if (control.length == 0) {
+      this.refreshLeaveTypeList()
     }
   }
 }

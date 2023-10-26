@@ -27,4 +27,12 @@ export class VehiclePlaceService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'VehiclePlace/delete_vehicle_place?placeid=' + placeid, httpOptions);
   }
+
+
+  addNewXLPlace(placeinsert: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'VehiclePlace/insert_vehicle_placexl', placeinsert, httpOptions);
+  }
+
 }

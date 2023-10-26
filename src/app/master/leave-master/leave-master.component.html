@@ -160,15 +160,21 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid':staff_type && staff_type.invalid && staff_type.touched}"
-                                        formControlName="staff_type" style="width: 100%;" class="form-control ">
-                                        <option value="" selected disabled>Please select</option>
-                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
-                                            {{StaffType.staffType}}</option>
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors}"
+                                        formControlName="staff_typeid" style="width: 100%;" (change)="staffFilter()"
+                                        class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="StaffType.staff_typeid"
+                                            *ngFor="let StaffType of StaffTypeList;">
+                                            {{StaffType.staff_type}}</option>
                                     </select>
-                                    <p class="text-danger m-1"
-                                        *ngIf="staff_type && staff_type.invalid && staff_type.touched">
-                                        Staff Type is required</p>
+                                    <span class="text-danger"
+                                        *ngIf="leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors">
+                                        <div
+                                            *ngIf="leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors.required">
+                                            Staff Type is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +188,7 @@
                                     <select #st (change)="staffNameChange(st.value)" formControlName="staff_no"
                                         style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
-                                        <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">
+                                        <option value={{Staff.staff_no}} *ngFor="let Staff of newStaffList;">
                                             {{Staff.staff_no}}</option>
                                     </select>
                                 </div>
@@ -219,7 +225,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <!-- <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Eligible Per Month<span
                                             class="text-danger"> *</span></label>
@@ -236,7 +242,7 @@
                                         </div>
                                     </span>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div formArrayName="leave">
@@ -248,18 +254,14 @@
                                             <label class="pt-2" style="margin: auto;">Leave Type <span
                                                     class="text-danger">*</span></label>
                                         </div>
-                                        <div class="inputdiv">
-                                            <select formControlName="l_type" style="width: 100%;" class="form-control ">
-                                                <option value="" selected disabled>Please select</option>
-                                                <option value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
-                                                    {{leave.type_name}}</option>
-                                            </select>
+                                        <div class="inputdiv">                                           
+                                            <input class="form-control" readonly formControlName="type_name" type="text">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Eligible <span
+                                            <label class="" style="margin: auto;">Maximum eligible per month<span
                                                     class="text-danger">*</span></label>
                                         </div>
                                         <div class="inputdiv">
@@ -272,13 +274,12 @@
                                                 (click)="removeLeave(i)" value="Remove" />
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <input class="ml-2 form-control addbutton" type="button" (click)="addleave()"
                                     value="Add Leave +" />
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="row">
@@ -296,17 +297,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="col-sm-12 mt-4">
-                            <div style="text-align: center;">
-                                <input *ngIf="AssignbuttonId == true" matTooltip="Click to Save" type="submit"
-                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                                <input *ngIf="AssignbuttonId != true" matTooltip="Click to Save" type="submit"
-                                    style="width: 80px;" class="btn btn-primary mt-4 btn-sm mr-3 " value="Update" />
-                                <input matTooltip="Click to Cancel" (click)="AssigncancelClick()" type="button"
-                                    style="width: 80px;" class="btn btn-danger btn-sm mt-4  " value="Cancel" />
-                            </div>
-                        </div> -->
                     </form>
                 </mat-card-content>
             </mat-card>

@@ -12,8 +12,8 @@ export class AppComponent {
   title = 'School ERP Software';
 
   notificationOptions = {
-    timeOut: 3500,
-    showProgressBar: false,
+    timeOut: 3900,
+    showProgressBar: true,
     pauseOnHover: true,
     clickToClose: true,
     // animate: 'fromRight',

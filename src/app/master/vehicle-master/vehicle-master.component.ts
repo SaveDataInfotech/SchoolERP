@@ -6,7 +6,7 @@ import { DialogService } from 'src/app/api-service/Dialog.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
 import { VehicleTypeService } from 'src/app/api-service/VehicleType.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-vehicle-master',
   templateUrl: './vehicle-master.component.html',
@@ -357,5 +357,97 @@ export class VehicleMasterComponent implements OnInit {
     this.vehicleplaceForm.get('place')?.setValue('');
     this.vehicleplaceForm.get('cuid')?.setValue(1);
     this.buttonIdPlace = true;
+  }
+
+
+  /////////////////
+
+
+  file: File | null;
+  data: any[] = [];
+
+
+  vehicleplaceXLForm = new FormGroup({
+    root_no: new FormControl(null),
+    places: new FormControl([]),
+    cuid:new FormControl(1)
+  })
+
+  onFileChange(event: any) {
+    debugger;
+    this.file = event.target.files[0];
+  }
+  uploadFile(event: Event) {
+    debugger;
+    event.preventDefault();
+
+    if (!this.file) {
+      this.notificationSvc.error('No file selected')
+      return;
+    }
+
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      const arrayBuffer = fileReader.result as ArrayBuffer;
+      const data = new Uint8Array(arrayBuffer);
+      const arr = [];
+      for (let i = 0; i != data.length; ++i) {
+        arr[i] = String.fromCharCode(data[i]);
+      }
+      const bstr = arr.join('');
+
+      const workbook = XLSX.read(bstr, { type: 'binary' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+
+      this.data = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+
+      for (let i = 0; i < this.data.length; i++) {
+        const obj = this.data[i];
+        const keys = Object.keys(obj);
+
+        if (keys[0] != 'places') {
+          this.notificationSvc.error('Invalid Column Name - The column name must be in (places).');
+          this.vehicleplaceXLForm.reset();
+          return;
+        }
+      }
+
+      this.vehicleplaceXLForm.get('places')?.setValue(this.data);
+
+      if (this.vehicleplaceXLForm.valid) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              var placeinsert = (this.vehicleplaceXLForm.value);
+              this.PlaceSvc.addNewXLPlace(placeinsert).subscribe(res => {
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved successfully")
+                  this.refreshvehiclePlaceList();
+                  this.getMaxIdPlace();
+                  this.xlCancelClick();                  
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists")
+                }
+                else {
+                  this.notificationSvc.error("Something error")
+                }
+              });
+            }
+          });
+      }
+      else {
+        this.vehicleplaceXLForm.markAllAsTouched();
+      }
+
+    };
+    fileReader.readAsArrayBuffer(this.file);
+  }
+
+
+  xlCancelClick(){
+    this.vehicleplaceXLForm.reset();
+    this.vehicleplaceXLForm.get('cuid')?.setValue(1);
   }
 }

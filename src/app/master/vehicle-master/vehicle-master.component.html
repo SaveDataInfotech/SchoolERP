@@ -140,8 +140,7 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid':vehicle_type && vehicle_type.invalid && vehicle_type.touched}"
-                                        formControlName="vehicle_type" style="width: 100%;" class="form-control "
-                                        name="selectAction">
+                                        formControlName="vehicle_type" style="width: 100%;" class="form-control ">
                                         <option value="" selected disabled>Please select</option>
                                         <option value={{VehickeType.vehicle_name}}
                                             *ngFor="let VehickeType of DepartmentList;">{{VehickeType.vehicle_name}}
@@ -290,8 +289,7 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid': vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors}"
-                                        formControlName="root_no" style="width: 100%;" class="form-control "
-                                        name="selectAction">
+                                        formControlName="root_no" style="width: 100%;" class="form-control ">
                                         <option value=null selected disabled>Please select</option>
                                         <option [ngValue]="VehicleRoot.vehicle_root_no"
                                             *ngFor="let VehicleRoot of vehicleNoRootList;">
@@ -341,6 +339,53 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div style="color: blue;font-size: 18px;">This is the place to save Boarding Places from an excel sheet</div>
+                    <form [formGroup]="vehicleplaceXLForm" (submit)="uploadFile($event)">
+                        <div class=" mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Vehicle Root No<span class="text-danger">
+                                        *</span></label>
+                            </div>
+                            <div class="inputdiv">
+                                <select
+                                    [ngClass]="{'is-invalid': vehicleplaceXLForm.get('root_no')?.touched && vehicleplaceXLForm.get('root_no')?.errors}"
+                                    formControlName="root_no" style="width: 100%;" class="form-control" required>
+                                    <option value=null selected disabled>Please select</option>
+                                    <option [ngValue]="VehicleRoot.vehicle_root_no"
+                                        *ngFor="let VehicleRoot of vehicleNoRootList;">
+                                        {{VehicleRoot.vehicle_root_no}}</option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="vehicleplaceXLForm.get('root_no')?.touched && vehicleplaceXLForm.get('root_no')?.errors">Vehicle
+                                    Root No
+                                    is required</span>
+                            </div>
+                        </div>
+
+                        <div class=" mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Chose file<span class="text-danger">
+                                        *</span></label>
+                            </div>
+                            <div class="inputdiv">
+                                <input type="file" (change)="onFileChange($event)" accept=".xlsx">
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; width: 50%;" class="mt-4">
+                            <button class="btn btn-success mr-3 btn-sm" type="submit">Upload Excel File & Save</button>
+                            <button type="button" (click)="xlCancelClick()" style="width: 80px;" class="btn btn-primary mr-3 btn-sm">
+                                Clear</button>
+                            <input type="button" style="width: 80px;" class="btn btn-danger btn-sm"
+                                (click)="backButton()" value="Close" />
+                        </div>
+
                     </form>
                 </mat-card-content>
             </mat-card>
