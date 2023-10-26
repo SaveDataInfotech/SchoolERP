@@ -177,7 +177,7 @@
                                             *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (keypress)="letterOnly($event)"
+                                    <input (keypress)="sectionletterOnly($event)"
                                         [ngClass]="{'is-invalid': Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors}"
                                         formControlName="section_name" class="form-control" type="text" required>
                                     <span class="text-danger"

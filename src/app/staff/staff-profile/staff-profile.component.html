@@ -15,25 +15,28 @@
                     </div>
                     <form [formGroup]="staffProfileForm" novalidate (ngSubmit)="onSubmit()">
                         <div class="row mt-3">
-                            <div class="col-sm-8" style="margin: auto;">
-                                <div *ngIf="editableImage">
-                                    <img [src]="editableImage" alt="No image found" width="200" height="150" />
-                                    <span class="pl-2" style="cursor: pointer">
-                                        <mat-icon class="icons" style="padding-left: 2px" svgIcon="roundDelete"
-                                            matTooltip="Delete" (click)="deleteImage()"></mat-icon>
-                                    </span>
+                            <div class="col-sm-6" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Type<span
+                                            class="text-danger">*</span></label>
                                 </div>
-                                <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
-                                    (change)="onSelect($event)" style="width:160px;height: 160px;">
-                                    <ngx-dropzone-label>
-                                        <div>
-                                            <span>Click to upload or Drag & Drop !</span>
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.staff_typeid.touched && staffProfileForm.controls.staff_typeid.errors}"
+                                        formControlName="staff_typeid" (change)="findStaffCode()" style="width: 100%;"
+                                        class="form-control" required>
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option [ngValue]="StaffType.staff_typeid"
+                                            *ngFor="let StaffType of StaffTypeList;">
+                                            {{StaffType.staff_type}}</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.staff_typeid.touched && staffProfileForm.controls.staff_typeid.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.staff_typeid.touched && staffProfileForm.controls.staff_typeid.errors.required">
+                                            Staff Type is required
                                         </div>
-                                    </ngx-dropzone-label>
-                                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
-                                        (removed)="onRemove(f)">
-                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                                    </ngx-dropzone-image-preview>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -110,6 +113,30 @@
                             </div>
                         </div>
 
+                        <div class="row mt-3">
+                            <div class="col-sm-8" style="margin: auto;">
+                                <div *ngIf="editableImage">
+                                    <img [src]="editableImage" alt="No image found" width="200" height="150" />
+                                    <span class="pl-2" style="cursor: pointer">
+                                        <mat-icon class="icons" style="padding-left: 2px" svgIcon="roundDelete"
+                                            matTooltip="Delete" (click)="deleteImage()"></mat-icon>
+                                    </span>
+                                </div>
+                                <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
+                                    (change)="onSelect($event)" style="width:160px;height: 160px;">
+                                    <ngx-dropzone-label>
+                                        <div>
+                                            <span>Click to upload or Drag & Drop !</span>
+                                        </div>
+                                    </ngx-dropzone-label>
+                                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-image-preview>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
@@ -172,27 +199,6 @@
                         </div>
 
                         <div class="row mt-3">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Staff type<span class="text-danger">*</span></label>
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <select [ngClass]="{'is-invalid':staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors}"
-                                     formControlName="staff_type" style="width: 100%;" class="form-control" required>
-                                        <option value="" selected disabled>Please select</option>
-                                        <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
-                                            {{StaffType.staffType}}</option>
-                                    </select>
-                                    <span class="text-danger"
-                                        *ngIf="staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors">
-                                        <div
-                                            *ngIf="staffProfileForm.controls.staff_type.touched && staffProfileForm.controls.staff_type.errors.required">
-                                            Basic Pay is required
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
-
                             <div class="col-sm-6" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Major Subject</label>
@@ -643,10 +649,10 @@
                     <form>
                         <div class="row">
                             <div class="col-sm-4 mt-2">
-                                <select #t (change)="typeChange(t.value)" class="form-control" style="width: 200px;">
-                                    <option disabled selected>Select Staff type</option>
-                                    <option value={{StaffType.staffType}} *ngFor="let StaffType of StaffTypeList;">
-                                        {{StaffType.staffType}}</option>
+                                <select #tt (change)="typeChange(tt.value)" class="form-control" style="width: 200px;">
+                                    <option value=0 disabled selected>Select Staff type</option>
+                                    <option value={{StaffType.staff_typeid}} *ngFor="let StaffType of StaffTypeList;">
+                                        {{StaffType.staff_type}}</option>
                                 </select>
                             </div>
                             <div class="col-sm-4  mt-2">

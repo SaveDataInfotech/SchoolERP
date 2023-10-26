@@ -23,9 +23,9 @@ export class staffTypeService {
     return this.http.post<any>(this.apiUrl + 'StaffType/insert_staff_type', stafftypeinsert, httpOptions);
   }
 
-  deletestaffType(staffTypeid: any): Observable<any> {
+  deletestaffType(staff_typeid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.delete<any>(this.apiUrl + 'StaffType/delete_staff_type?staffTypeid=' + staffTypeid, httpOptions);
+    return this.http.delete<any>(this.apiUrl + 'StaffType/delete_staff_type?staff_typeid=' + staff_typeid, httpOptions);
   }
 
   // udateGetClick(staffTypeid:number): Observable<any[]> {

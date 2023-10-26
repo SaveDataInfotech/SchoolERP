@@ -40,7 +40,6 @@ export class StaffProfileComponent implements OnInit {
 
     this.refreshStaffList();
     this.cancelClick();
-    this.getMaxId();
   }
   ngxSpinner: any;
   deleteImage() {
@@ -106,6 +105,7 @@ export class StaffProfileComponent implements OnInit {
 
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
+      debugger;
       this.StaffTypeList = data;
     });
   }
@@ -124,6 +124,7 @@ export class StaffProfileComponent implements OnInit {
   createForm() {
     this.staffProfileForm = new FormGroup({
       id: new FormControl(0),
+      staff_typeid: new FormControl(0),
       staff_no: new FormControl(''),
       staff_name: new FormControl(''),
       gender: new FormControl(''),
@@ -135,7 +136,6 @@ export class StaffProfileComponent implements OnInit {
       designation: new FormControl(''),
       experience: new FormControl(''),
       pc: new FormControl(''),
-      staff_type: new FormControl(''),
       major_subject: new FormControl(''),
       class_hand: new FormControl(''),
       join_date: new FormControl(''),
@@ -190,7 +190,6 @@ export class StaffProfileComponent implements OnInit {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved successfully")
                 this.refreshStaffList();
-                this.getMaxId();
                 this.cancelClick();
                 this.staffFilterList = [];
                 this.files = [];
@@ -220,36 +219,42 @@ export class StaffProfileComponent implements OnInit {
     });
   }
 
-  getMaxId() {
-    this.staffSvc.getMaxId().subscribe(data => {
-      
+  findStaffCode() {
+    debugger;
+    const staffTypeid = this.staffProfileForm.value.staff_typeid
+    const newStaffCode = this.StaffTypeList.filter((e) => { return e.staff_typeid == staffTypeid })
+    const staffCd = newStaffCode[0].short_code
+
+    this.staffSvc.getMaxId(staffTypeid).subscribe(data => {
+      debugger;
       this.maxIDList = data;
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id
       });
-
+      debugger;
       var maxnum: string = String(this.maxnumber + 1)
       if (maxnum.length == 1) {
         this.staffno = '000' + maxnum
-        this.staffProfileForm.get('staff_no')?.setValue('000' + maxnum);
+        this.staffProfileForm.get('staff_no')?.setValue(staffCd + '000' + maxnum);
       }
       else if (maxnum.length == 2) {
         this.staffno = '00' + maxnum
-        this.staffProfileForm.get('staff_no')?.setValue('00' + maxnum);
+        this.staffProfileForm.get('staff_no')?.setValue(staffCd + '00' + maxnum);
       }
       else if (maxnum.length == 3) {
         this.staffno = '0' + maxnum
-        this.staffProfileForm.get('staff_no')?.setValue('0' + maxnum);
+        this.staffProfileForm.get('staff_no')?.setValue(staffCd + '0' + maxnum);
       }
       else {
         this.staffno = maxnum
-        this.staffProfileForm.get('staff_no')?.setValue(maxnum);
+        this.staffProfileForm.get('staff_no')?.setValue(staffCd + maxnum);
       }
     });
   }
 
   typeChange(type: any) {
-    this.staffFilterList = this.staffList.filter((e) => { return e.staff_type == type })
+    debugger;
+    this.staffFilterList = this.staffList.filter((e) => { return e.staff_typeid == Number(type) })
   }
 
   noChange(no: any) {
@@ -270,11 +275,10 @@ export class StaffProfileComponent implements OnInit {
   }
 
   cancelClick() {
-    this.getMaxId();
     this.refreshStaffList();
     this.staffProfileForm.reset();
     this.staffProfileForm.get('id')?.setValue(0);
-    this.staffProfileForm.get('staff_no')?.setValue(this.staffno);
+    this.staffProfileForm.get('staff_no')?.setValue('');
     this.staffProfileForm.get('staff_name')?.setValue('');
     this.staffProfileForm.get('gender')?.setValue('');
     this.staffProfileForm.get('img')?.setValue('');
@@ -285,7 +289,7 @@ export class StaffProfileComponent implements OnInit {
     this.staffProfileForm.get('designation')?.setValue('');
     this.staffProfileForm.get('experience')?.setValue('');
     this.staffProfileForm.get('pc')?.setValue('');
-    this.staffProfileForm.get('staff_type')?.setValue('');
+    this.staffProfileForm.get('staff_typeid')?.setValue(0);
     this.staffProfileForm.get('major_subject')?.setValue('');
     this.staffProfileForm.get('class_hand')?.setValue('');
     this.staffProfileForm.get('join_date')?.setValue('');

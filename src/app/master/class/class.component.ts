@@ -57,12 +57,23 @@ export class ClassComponent implements OnInit {
 
   letterOnly(event) {
     var charCode = event.keyCode;
-
     if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
 
       return true;
     else
       return false;
+  }
+
+  sectionletterOnly(event) {
+    const charCode = (event.which) ? event.which : event.keyCode;
+
+  if ((charCode >= 65 && charCode <= 90) || // A-Z
+      (charCode >= 97 && charCode <= 122) || // a-z
+      (charCode >= 48 && charCode <= 57)) { // 0-9
+    return true;
+  } else {
+    return false;
+  }
   }
 
   //Student Class

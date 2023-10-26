@@ -66,6 +66,9 @@
                                         <td>{{dashbord.f_ph}}</td>
                                         <td>{{dashbord.enquiry_date | date: 'MM/dd/yyyy'}}</td>
                                         <td>
+                                            <button (click)="deleteEnquiry(dashbord.enquiryid)" [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'Red'}"
+                                             [disabled]="dashbord.enquiry_status == 1" type="button"
+                                                class="movebutton ml-1">Delete</button>
                                             <button
                                                 [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'green'}"
                                                 [disabled]="dashbord.enquiry_status == 1" type="button"
@@ -85,7 +88,6 @@
 
     <mat-tab label="Enquiry">
         <div class="container-fluid mt-4">
-
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">

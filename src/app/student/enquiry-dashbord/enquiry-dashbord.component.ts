@@ -34,7 +34,6 @@ export class EnquiryDashbordComponent implements OnInit {
   }
 
   onchange(id: any) {
-    
     var idd = Number(id)
     this.staffTypeid = idd;
     this.serchList(this.staffTypeid);
@@ -106,7 +105,6 @@ export class EnquiryDashbordComponent implements OnInit {
 
 
   ActiveAdmissionClick(selected: any) {
-    
     sessionStorage.removeItem('selectd')
     var myStr = JSON.stringify(selected);
     sessionStorage.setItem("selectd", myStr);
@@ -125,6 +123,19 @@ export class EnquiryDashbordComponent implements OnInit {
             }
             else {
               this.notificationSvc.error("Something Error")
+            }
+          });
+        }
+      });
+  }
+
+  deleteEnquiry(id) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to delete this Registeration ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.enquirySvc.deleteEnquiry(id).subscribe(res => {
+            if (res?.recordid) {
+              this.serchList(this.staffTypeid);
             }
           });
         }

@@ -97,8 +97,7 @@ export class StaffPermissionComponent implements OnInit {
     })
   }
 
-  dateRangeChange() {
-    
+  dateRangeChange() {    
     const Month = this.staffLeavePermissionForm.value.month;
     const currentMonth = this.datepipe.transform(this.today, 'yyyy-MM');
     if (Month == currentMonth) {
@@ -109,17 +108,14 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  dateChange() {
-    
+  dateChange() {    
     const staffNo = this.staffLeavePermissionForm.value.staff_no;
     const month = this.staffLeavePermissionForm.value.month;
     const fromdate = new Date(this.staffLeavePermissionForm.value.fromdate);
     const todate = new Date(this.staffLeavePermissionForm.value.todate);
     var daysOfYear = [];
     for (var d = fromdate; d <= todate; d.setDate(d.getDate() + 1)) {
-      
-      const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-        
+      const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {        
         return e.staff_no == staffNo && e.month == month && e.leave_day == this.datepipe.transform(d, 'yyyy-MM-dd')
       });
 
@@ -131,7 +127,6 @@ export class StaffPermissionComponent implements OnInit {
         this.staffLeavePermissionForm.get('fromdate')?.setValue('');
         this.staffLeavePermissionForm.get('todate')?.setValue('');
       }
-
     }
     this.staffLeavePermissionForm.get('leave_days')?.setValue(daysOfYear);
     this.totaldays = daysOfYear.length;
@@ -156,8 +151,7 @@ export class StaffPermissionComponent implements OnInit {
     return (this.leaveAssignForm.get('leaveList') as FormArray).controls;
   }
 
-  searchLeave() {
-    
+  searchLeave() {    
     const month = this.staffLeavePermissionForm.value.month;
     const staffNo = this.staffLeavePermissionForm.value.staff_no;
 
@@ -167,8 +161,7 @@ export class StaffPermissionComponent implements OnInit {
         this.staffLeavePermissionForm.get('staff_name')?.setValue(this.StaffLeaveList[0].staff_name);
       }
       
-      if (this.StaffLeaveList.length == 0) {
-        
+      if (this.StaffLeaveList.length == 0) {        
         const LaveAsByIDFillterList = this.LaveAsByIDList.filter((e) => { return e.staff_no == staffNo });
         if (LaveAsByIDFillterList.length != 0) {
           const control1 = <FormArray>this.leaveAssignForm.controls['leaveList'];
@@ -205,21 +198,17 @@ export class StaffPermissionComponent implements OnInit {
         else {
           this.notificationSvc.error('No leave is assign to this staff or Invalid Staff No')
         }
-
       }
     });
-
   }
 
-  save() {
-    
+  save() {    
     if (this.staffLeavePermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             const formvalue = (this.staffLeavePermissionForm.value);
-            this.slpSvc.addNewPermission(formvalue).subscribe(res => {
-              
+            this.slpSvc.addNewPermission(formvalue).subscribe(res => {              
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
@@ -231,7 +220,6 @@ export class StaffPermissionComponent implements OnInit {
     else {
       this.staffLeavePermissionForm.markAllAsTouched();
     }
-
   }
 
   cancelClick() {
@@ -277,8 +265,7 @@ export class StaffPermissionComponent implements OnInit {
     this.pANChange();
   }
 
-  pFNChange() {
-    
+  pFNChange() {    
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -304,8 +291,7 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  pANChange() {
-    
+  pANChange() {    
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -331,8 +317,7 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  pSave() {
-    
+  pSave() {    
     this.staffHalfDayPermissionForm.get('staff_no')?.setValue(this.staffLeavePermissionForm.value.staff_no);
     if (this.staffHalfDayPermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')

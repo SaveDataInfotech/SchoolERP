@@ -16,13 +16,14 @@
                         </div>
                         <span class="inputdiv" *ngIf="buttonId == true ">
                             <div *ngFor="let code of MaxId">
-                                <input placeholder="00{{code.staffTypeid+1}}" class="form-control" type="text" readonly
+                                <input placeholder="00{{code.staff_typeid+1}}" class="form-control" type="text" readonly
                                     required>
                             </div>
                         </span>
                         <span class="inputdiv" *ngIf="buttonId != true">
                             <div>
-                                <input formControlName="staffTypeid" class="form-control" type="text" readonly required>
+                                <input formControlName="staff_typeid" class="form-control" type="text" readonly
+                                    required>
                             </div>
                         </span>
                     </div>
@@ -35,17 +36,36 @@
                         </div>
                         <div class="inputdiv">
                             <input
-                                [ngClass]="{'is-invalid':stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors}"
-                                formControlName="stafftype" class="form-control" type="text" required>
+                                [ngClass]="{'is-invalid':stafftypeForm.controls.staff_type.touched && stafftypeForm.controls.staff_type.errors}"
+                                formControlName="staff_type" class="form-control" type="text"
+                                (keypress)="letterOnly($event)" required>
                             <span class="text-danger"
-                                *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors">
+                                *ngIf="stafftypeForm.controls.staff_type.touched && stafftypeForm.controls.staff_type.errors">
                                 <div
-                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.required">
-                                    Stafftype is required
+                                    *ngIf="stafftypeForm.controls.staff_type.touched && stafftypeForm.controls.staff_type.errors.required">
+                                    Staff Type is required
                                 </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Short Code<span
+                                    class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':stafftypeForm.controls.short_code.touched && stafftypeForm.controls.short_code.errors}"
+                                formControlName="short_code" class="form-control" type="text"
+                                (keypress)="letterOnly($event)" required>
+                            <span class="text-danger"
+                                *ngIf="stafftypeForm.controls.short_code.touched && stafftypeForm.controls.short_code.errors">
                                 <div
-                                    *ngIf="stafftypeForm.controls.stafftype.touched && stafftypeForm.controls.stafftype.errors.pattern">
-                                    Use letters only
+                                    *ngIf="stafftypeForm.controls.short_code.touched && stafftypeForm.controls.short_code.errors.required">
+                                    Short Code is required
                                 </div>
                             </span>
                         </div>
@@ -58,7 +78,7 @@
                         </div>
                         <div style="float: left;width: 350px;">
                             <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                <span> {{ stafftypeForm.value.staffTypeid ==0 ? 'Save' :
+                                <span> {{ stafftypeForm.value.staff_typeid ==0 ? 'Save' :
                                     'Edit'}}</span></button>
                             <input type="button" style="width: 80px;" (click)="cancelClick()"
                                 class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
@@ -66,7 +86,7 @@
                                 (click)="backButton()" value="Close" />
                         </div>
                     </div>
-                </div>              
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
@@ -79,18 +99,20 @@
                         <tr>
                             <th>Si.No</th>
                             <th>Staff Type</th>
+                            <th>Short Code</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let sty of DepartmentList;let i=index;">
                             <td>{{i+1}}</td>
-                            <td>{{sty.staffType}}</td>
+                            <td>{{sty.staff_type}}</td>
+                            <td>{{sty.short_code}}</td>
                             <td class="tdoption">
                                 <span class="m-2 editbutton" (click)="udateGetClick(sty)"><b>edit</b></span>
                                 <span>||</span>
                                 <span class="m-2 deletebutton"
-                                    (click)="deleteClick(sty.staffTypeid)"><b>delete</b></span>
+                                    (click)="deleteClick(sty.staff_typeid)"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>
