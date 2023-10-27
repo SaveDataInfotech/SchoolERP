@@ -24,7 +24,7 @@ export class LeaveAssignService {
 
 
   addNewleaveAssign(leaveAssigninsert: any): Observable<any> {
-    
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'LeaveAssign/insert_leave_assign', leaveAssigninsert, httpOptions);
   }

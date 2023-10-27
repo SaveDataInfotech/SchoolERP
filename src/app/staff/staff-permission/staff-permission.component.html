@@ -19,8 +19,8 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <input
-                                [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.month.touched && staffLeavePermissionForm.controls.month.errors}"
-                                formControlName="month" [min]="minMonth" (change)="dateRangeChange()"
+                                [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.year.touched && staffLeavePermissionForm.controls.year.errors}"
+                                formControlName="year" [min]="minMonth" (change)="dateRangeChange()"
                                 class="form-control" type="month" required>
                         </div>
                     </div>
@@ -45,8 +45,8 @@
 
                     <div class="col-sm-12 mt-3">
                         <div style="text-align: center;">
-                            <button (click)="searchLeave()" matTooltip="Click to Search"
-                                [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.month.errors"
+                            <button (click)="searchLeave()"
+                                [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.year.errors"
                                 type="button" class="btn btn-primary">Search<i class="fa fa-search ml-2"></i></button>
                         </div>
                     </div>
@@ -58,11 +58,10 @@
                 <div class="row">
                     <div *ngFor="let leave of StaffLeaveList" class="col-sm-4 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">{{leave.l_type}}</label>
+                            <label class="pt-2" style="margin: auto;">{{leave.type_name}}</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input readonly value={{leave.balance_eligible}} class="form-control" type="number"
-                                required>
+                            <input readonly value={{leave.eligible_days}} class="form-control" type="number" required>
                         </div>
                     </div>
                 </div>
@@ -84,12 +83,12 @@
                         <tbody>
                             <tr>
                                 <td style="width: 140px;"><select
-                                        [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.l_type.touched && staffLeavePermissionForm.controls.l_type.errors}"
-                                        formControlName="l_type" (change)="dateChange()" style="width: 100%;"
+                                        [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.typeid.touched && staffLeavePermissionForm.controls.typeid.errors}"
+                                        formControlName="typeid" (change)="dateChange()" style="width: 100%;"
                                         class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option *ngFor="let Staff of StaffLeaveList;">
-                                            {{Staff.l_type}}</option>
+                                        <option [ngValue]="Staff.typeid" *ngFor="let Staff of StaffLeaveList;">
+                                            {{Staff.type_name}}</option>
                                     </select></td>
                                 <td style="width: 180px;"><input
                                         [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.fromdate.touched && staffLeavePermissionForm.controls.fromdate.errors}"

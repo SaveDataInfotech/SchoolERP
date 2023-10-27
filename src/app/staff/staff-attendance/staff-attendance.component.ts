@@ -79,7 +79,7 @@ export class StaffAttendanceComponent implements OnInit {
   staffAttendanceForm: StaffAttendanceModel = {
     id: 0,
     date: this.today,
-    staff_type: '',
+    staff_typeid: 0,
     staff_no: '',
     staff_name: '',
     fn: false,
@@ -94,11 +94,11 @@ export class StaffAttendanceComponent implements OnInit {
   }
 
   searchStaff() {
-    
-    let staff_type = (this.staffAttendanceForm.staff_type);
-    if (staff_type != '' && this.staffAttendanceForm.date != '') {
+    debugger;
+    let staffTypeid = (this.staffAttendanceForm.staff_typeid);
+    if (staffTypeid != 0 && this.staffAttendanceForm.date != '') {
       let date = (this.staffAttendanceForm.date);
-      this.stAtSvc.searchStudentByAttendance(staff_type, date).subscribe(data => {
+      this.stAtSvc.searchStudentByAttendance(staffTypeid, date).subscribe(data => {
         this.staffList = data;
         if (this.staffList.length != 0) {
           this.serachDisabled = true;
@@ -108,7 +108,6 @@ export class StaffAttendanceComponent implements OnInit {
     else {
       this.notificationSvc.error('Fill in the mandatory fields');
     }
-
   }
 
   save(value) {
@@ -130,7 +129,7 @@ export class StaffAttendanceComponent implements OnInit {
 
   cancelClick() {
     this.staffAttendanceForm.date = this.today;
-    this.staffAttendanceForm.staff_type = '';
+    this.staffAttendanceForm.staff_typeid = 0;
     this.staffAttendanceForm.staff_no = '';
     this.staffAttendanceForm.staff_name = '';
     this.staffAttendanceForm.fn = false;

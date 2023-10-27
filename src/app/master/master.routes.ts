@@ -16,6 +16,7 @@ import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
 import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
+import { StaffCategoryComponent } from './staff-category/staff-category.component';
 
 
 export const masterRoutes: Routes = [
@@ -62,6 +63,10 @@ export const masterRoutes: Routes = [
   {
     path:"staff_type",
     component:StaffTypeComponent
+  },
+  {
+    path:"staff_category",
+    component:StaffCategoryComponent
   },
   {
     path:"leave_master",

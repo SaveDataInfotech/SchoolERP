@@ -375,6 +375,10 @@ export class LayoutComponent implements OnInit {
           link: "master/staff_type"
         },
         {
+          link_name: "Staff Category",
+          link: "master/staff_category"
+        },
+        {
           link_name: "Leave Master",
           link: "master/leave_master"
         },

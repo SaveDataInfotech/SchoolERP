@@ -5,8 +5,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { LeaveAssignService } from 'src/app/api-service/LeaveAssign.service';
 import { LeaveTypeService } from 'src/app/api-service/LeaveType.service';
-import { staffProfileService } from 'src/app/api-service/staffProfile.service';
-import { staffTypeService } from 'src/app/api-service/staffType.service';
+import { staffCategoryService } from 'src/app/api-service/staffCategory.service';
 
 @Component({
   selector: 'app-leave-master',
@@ -14,8 +13,6 @@ import { staffTypeService } from 'src/app/api-service/staffType.service';
   styleUrls: ['./leave-master.component.scss']
 })
 export class LeaveMasterComponent implements OnInit {
-  StaffTypeList: any = [];
-
   LaveTyList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
@@ -23,28 +20,23 @@ export class LeaveMasterComponent implements OnInit {
   LaveAsList: any = [];
   AssignMaxId: any = [];
   AssignbuttonId: boolean = true;
-  LaveAsByIDList: any = [];
-  leaveAssignLeaveTypeFilterList: any = [];
+  categoryList: any[] = [];
 
-  staffList: any[] = [];
-  newStaffList: any[] = [];
-  constructor(private LvtySvc: LeaveTypeService, private SttySvc: staffTypeService,
+  constructor(private LvtySvc: LeaveTypeService,
     private LvAsSvc: LeaveAssignService, private DialogSvc: DialogService,
     private notificationSvc: NotificationsService, private router: Router,
-    private staffSvc: staffProfileService,) { this.createForm(); }
+    private scSvc: staffCategoryService,
+  ) { this.createForm(); }
 
   ngOnInit(): void {
-    this.refreshstaffTypeList(),
-
-      this.refreshLeaveTypeList(),
+    this.refreshLeaveTypeList(),
       this.getMaxId(),
       this.getAssignMaxId(),
 
       this.refreshLeaveAssignList(),
       this.cancelClick(),
       this.AssigncancelClick();
-    this.refreshLeaveAssignByIDList();
-    this.refreshStaffList();
+    this.refreshstaffCategoryList();
   }
 
   leavetypeForm = new FormGroup({
@@ -62,21 +54,10 @@ export class LeaveMasterComponent implements OnInit {
     debugger;
     this.LvtySvc.getLeaveTypeList().subscribe(data => {
       this.LaveTyList = data;
-      const control = <FormArray>this.leaveAssignForm.controls['leave'];
-      while (control.length !== 0) {
-        control.removeAt(0)
-      }
-      if (control.length == 0) {
-        data.forEach(element => {
-          control.push(
-            new FormGroup({
-              typeid: new FormControl(element.typeid),
-              type_name: new FormControl(element.type_name),
-              elgible: new FormControl('')
-            })
-          )
-        });
-      }
+      this.LaveTyList.forEach(e => {
+        e['assignid'] = 0;
+        e['eligible_days'] = '0';
+      });
     });
   }
 
@@ -165,6 +146,7 @@ export class LeaveMasterComponent implements OnInit {
 
   cancelClick() {
     this.leavetypeForm.reset();
+    this.AssigncancelClick();
     this.leavetypeForm.get('typeid')?.setValue(0);
     this.leavetypeForm.get('type_name')?.setValue('');
     this.leavetypeForm.get('fullName')?.setValue('');
@@ -174,15 +156,23 @@ export class LeaveMasterComponent implements OnInit {
 
 
   //Leave Assign
+
+  refreshstaffCategoryList() {
+    this.scSvc.getCategoryList().subscribe(data => {
+      this.categoryList = data;
+    });
+  }
+  refreshLeaveAssignList() {
+    this.LvAsSvc.getLeaveAssignList().subscribe(data => {
+      this.LaveAsList = data;
+    });
+  }
+
   leaveAssignForm: FormGroup;
   createForm() {
     this.leaveAssignForm = new FormGroup({
       assignid: new FormControl(0),
-      staff_typeid: new FormControl(null, [Validators.required]),
-      staff_no: new FormControl(''),
-      staff_name: new FormControl('', [Validators.required]),
-      no_of_leave: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
-      //e_per_mon: new FormControl([Validators.required, Validators.pattern('[0-9]')]),
+      category_id: new FormControl(null, [Validators.required]),
       leave: new FormArray([
 
       ]),
@@ -190,116 +180,39 @@ export class LeaveMasterComponent implements OnInit {
     })
   }
 
-  get staff_type() {
-    return this.leaveAssignForm.get('staff_typeid');
-  }
-
   getControls() {
     return (this.leaveAssignForm.get('leave') as FormArray).controls;
   }
 
-  // addleave() {
+  // removeLeave(index: any) {
   //   const control = <FormArray>this.leaveAssignForm.controls['leave'];
-  //   control.push(
-  //     new FormGroup({
-  //       typeid: new FormControl(0),
-  //       elgible: new FormControl('')
-  //     })
-  //   )
+  //   control.at(index).get('eligible_days').setValue('0');
+  //   control.removeAt(index);    
   // }
-
-  removeLeave(index: any) {
-    const control = <FormArray>this.leaveAssignForm.controls['leave'];
-    control.removeAt(index);
-  }
-
-  //get staff type Method
-  refreshstaffTypeList() {
-    this.SttySvc.getstaffTypeList().subscribe(data => {
-      this.StaffTypeList = data;
-    });
-  }
-
-  refreshLeaveAssignList() {
-    this.LvAsSvc.getLeaveAssignList().subscribe(data => {
-      this.LaveAsList = data;
-    });
-  }
-
-  refreshLeaveAssignByIDList() {
-    this.LvAsSvc.getLeaveAssignByIDList().subscribe(data => {
-      this.LaveAsByIDList = data;
-    });
-  }
-
-  refreshStaffList() {
-    this.staffSvc.getstaffProfileList().subscribe(data => {
-      const staffArray = data;
-      this.staffList = staffArray.filter((e) => { return e.activestatus == 1 });
-    });
-  }
-
-  staffNameChange(value) {
-    const newarray = this.staffList.filter((e) => { return e.staff_no == value })
-    this.leaveAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
-  }
-
 
   NewLeaveAssign() {
     debugger;
     if (this.leaveAssignForm.valid) {
-      if (this.leaveAssignForm.value.assignid == 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              debugger;
-              var leaveAssigninsert = (this.leaveAssignForm.value);
-              this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
-                if (res.status == 'Saved successfully') {
-                  this.notificationSvc.success("Saved Success")
-                  this.refreshLeaveAssignList();
-                  this.refreshLeaveAssignByIDList();
-                  this.refreshstaffTypeList();
-                  this.getAssignMaxId();
-                  this.AssigncancelClick();
-                  this.refreshStaffList();
-                }
-                else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists")
-                }
-                else {
-                  this.notificationSvc.error("Something error")
-                }
-              });
-            }
-          });
-      }
-      else if (this.leaveAssignForm.value.assignid != 0) {
-        this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
-          .afterClosed().subscribe(res => {
-            if (res == true) {
-              var leaveAssigninsert = (this.leaveAssignForm.value);
-              this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
-                if (res.status == 'Saved successfully') {
-                  this.notificationSvc.success("Saved Success")
-                  this.refreshLeaveAssignList();
-                  this.refreshLeaveAssignByIDList();
-                  this.refreshstaffTypeList();
-                  this.getAssignMaxId();
-                  this.AssigncancelClick();
-                  this.refreshStaffList();
-                }
-                else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists")
-                }
-                else {
-                  this.notificationSvc.error("Something error")
-                }
-              });
-            }
-          });
-      }
-
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            debugger;
+            var leaveAssigninsert = (this.leaveAssignForm.value.leave);
+            this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success("Saved Success");
+                this.AssigncancelClick();
+              }
+              else if (res.status == 'Already exists') {
+                this.notificationSvc.warn("Already exists");
+                this.AssigncancelClick();
+              }
+              else {
+                this.notificationSvc.error("Something error");
+              }
+            });
+          }
+        });
     }
     else {
       this.leaveAssignForm.markAllAsTouched();
@@ -318,76 +231,75 @@ export class LeaveMasterComponent implements OnInit {
         if (res == true) {
           this.LvAsSvc.deleteLeaveAssign(assignid).subscribe(res => {
             if (res?.recordid) {
-              this.notificationSvc.error("Deleted Success")
-              this.refreshLeaveAssignList();
-              this.refreshLeaveAssignByIDList();
-              this.refreshstaffTypeList();
-              this.getAssignMaxId();
+              this.notificationSvc.error("Deleted Success");
               this.AssigncancelClick();
-              this.refreshStaffList();
             }
           });
         }
       });
   }
 
-  staffFilter() {
-    debugger;
-    const Id = this.leaveAssignForm.value.staff_typeid
-    this.newStaffList = this.staffList.filter((e) => { return e.staff_typeid == Id });
-  }
-
-  AssignUpdateGetClick(assign: any) {
+  leaveList() {
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     while (control.length !== 0) {
       control.removeAt(0)
     }
-    this.leaveAssignForm.patchValue(assign)
-    this.AssignbuttonId = false;
-    this.leaveAssignLeaveTypeFilterList = this.LaveAsByIDList.filter((e: any) => { return e.assignid == assign.assignid });
-    console.log(1 + this.leaveAssignLeaveTypeFilterList)
-    this.leaveAssignLeaveTypeFilterList.forEach(element => {
-      const control = <FormArray>this.leaveAssignForm.controls['leave'];
-      control.push(
-        new FormGroup({
-          typeid: new FormControl(element.typeid),
-          type_name: new FormControl(element.type_name),
-          elgible: new FormControl(element.elgible)
-        })
-      )
-    });
+    if (control.length == 0) {
+
+      const laveFilterArray = this.LaveAsList.filter((e) => { return e.category_id == this.leaveAssignForm.value.category_id });
+      const result = laveFilterArray.concat(this.LaveTyList.filter(x => laveFilterArray.every(typeid => x.typeid !== typeid.typeid)));
+
+      result.forEach(element => {
+        control.push(
+          new FormGroup({
+            assignid: new FormControl(element.assignid),
+            category_id: new FormControl(this.leaveAssignForm.value.category_id),
+            typeid: new FormControl(element.typeid),
+            type_name: new FormControl(element.type_name),
+            eligible_days: new FormControl(element.eligible_days),
+            cuid: new FormControl(1),
+          })
+        )
+      });
+    }
   }
 
-  eligibleFun(i) {
-    const EPerMonth = this.leaveAssignForm.value.no_of_leave
-    const busControl3 = this.leaveAssignForm.get('leave') as FormArray;
-    const eligibleDays = busControl3.at(i).get('elgible').value;
-
-    if (Number(EPerMonth) < Number(eligibleDays)) {
-      this.notificationSvc.error('Invalid Eligible Days');
-      busControl3.at(i).get('elgible').setValue('0');
+  Update(assign) {
+    const control = <FormArray>this.leaveAssignForm.controls['leave'];
+    while (control.length !== 0) {
+      control.removeAt(0)
     }
+    if (control.length == 0) {
+
+      const laveFilterArray = this.LaveAsList.filter((e) => { return e.assignid == assign });
+      this.leaveAssignForm.get('category_id')?.setValue(laveFilterArray[0].category_id)
+      laveFilterArray.forEach(element => {
+        control.push(
+          new FormGroup({
+            assignid: new FormControl(element.assignid),
+            category_id: new FormControl(element.category_id),
+            typeid: new FormControl(element.typeid),
+            type_name: new FormControl(element.type_name),
+            eligible_days: new FormControl(element.eligible_days),
+            cuid: new FormControl(1),
+          })
+        )
+      });
+    }
+
   }
 
   AssigncancelClick() {
     this.leaveAssignForm.reset();
-    this.refreshStaffList();
+    this.refreshLeaveAssignList();
+    this.getAssignMaxId();
     this.leaveAssignForm.get('assignid')?.setValue(0);
-    this.leaveAssignForm.get('staff_typeid')?.setValue(null);
-    this.leaveAssignForm.get('staff_name')?.setValue('');
-    this.leaveAssignForm.get('staff_no')?.setValue('');
-    this.leaveAssignForm.get('no_of_leave')?.setValue(null);
-    // this.leaveAssignForm.get('e_per_mon')?.setValue('');
+    this.leaveAssignForm.get('category_id')?.setValue(null);
     this.leaveAssignForm.get('cuid')?.setValue(1);
     this.AssignbuttonId = true;
-
     const control = <FormArray>this.leaveAssignForm.controls['leave'];
     while (control.length !== 0) {
       control.removeAt(0)
-    }
-
-    if (control.length == 0) {
-      this.refreshLeaveTypeList()
     }
   }
 }

@@ -32,11 +32,11 @@
                                     *</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select required name="staff_type" [(ngModel)]="staffAttendanceForm.staff_type"
+                            <select required name="staff_typeid" [(ngModel)]="staffAttendanceForm.staff_typeid"
                                 style="width: 100%;" class="form-control ">
-                                <option value='' selected disabled>Please select</option>
-                                <option [disabled]="serachDisabled == true" *ngFor="let Staff of StaffTypeList;">
-                                    {{Staff.staffType}}</option>
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="Staff.staff_typeid" [disabled]="serachDisabled == true" *ngFor="let Staff of StaffTypeList;">
+                                    {{Staff.staff_type}}</option>
                             </select>
                         </div>
                     </div>

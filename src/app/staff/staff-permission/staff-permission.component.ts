@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { Router } from '@angular/router';
+import { staffProfileService } from 'src/app/api-service/staffProfile.service';
 
 @Component({
   selector: 'app-staff-permission',
@@ -14,8 +15,7 @@ import { Router } from '@angular/router';
 })
 export class StaffPermissionComponent implements OnInit {
   StaffLeaveList: any[] = [];
-  LaveAsByIDList: any[] = [];
-  LaveAsList:any[]=[];
+  LaveAsList: any[] = [];
   totaldays: any;
   AllStaffLeavePermissionHistoryList: any[] = [];
 
@@ -29,19 +29,22 @@ export class StaffPermissionComponent implements OnInit {
   finalDay: any;
   minDate: any;
   minMonth: any;
+
+  staffList: any[] = [];
   constructor(
     public datepipe: DatePipe,
     private slpSvc: staffLeavePermissionService,
     private LvAsSvc: LeaveAssignService,
     private notificationSvc: NotificationsService,
     private DialogSvc: DialogService,
-    private router: Router
+    private router: Router,
+    private staffSvc: staffProfileService,
   ) { this.createForm(); }
 
   ngOnInit(): void {
-    this.refreshLeaveAssignByIDList();
     this.getAllStaffLeavePermissionHistory();
-
+    this.refreshLeaveAssignList();
+    this.refreshStaffList();
     if (this.currentMonth < 10) {
       this.finalMonth = "0" + this.currentMonth;
     }
@@ -60,7 +63,7 @@ export class StaffPermissionComponent implements OnInit {
     this.staffHalfDayPermissionForm.get('date').setValue(this.today);
 
     this.minMonth = this.datepipe.transform(this.today, 'yyyy-MM');
-    this.staffLeavePermissionForm.get('month').setValue(this.minMonth);
+    this.staffLeavePermissionForm.get('year').setValue(this.minMonth);
     this.staffHalfDayPermissionForm.get('month').setValue(this.minMonth);
 
     this.dateRangeChange();
@@ -70,15 +73,16 @@ export class StaffPermissionComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
-  refreshLeaveAssignByIDList() {
-    this.LvAsSvc.getLeaveAssignByIDList().subscribe(data => {
-      this.LaveAsByIDList = data;
-    });
-  }
 
   refreshLeaveAssignList() {
     this.LvAsSvc.getLeaveAssignList().subscribe(data => {
       this.LaveAsList = data;
+    });
+  }
+
+  refreshStaffList() {
+    this.staffSvc.getstaffProfileList().subscribe(data => {
+      this.staffList = data;
     });
   }
 
@@ -91,11 +95,11 @@ export class StaffPermissionComponent implements OnInit {
   staffLeavePermissionForm: FormGroup;
   createForm() {
     this.staffLeavePermissionForm = new FormGroup({
-      month: new FormControl(''),
+      year: new FormControl(''),
       staff_no: new FormControl(''),
       staff_name: new FormControl(''),
       date: new FormControl(this.today),
-      l_type: new FormControl(null),
+      typeid: new FormControl(null),
       fromdate: new FormControl(''),
       todate: new FormControl(''),
       leave_days: new FormControl([]),
@@ -104,8 +108,8 @@ export class StaffPermissionComponent implements OnInit {
     })
   }
 
-  dateRangeChange() {    
-    const Month = this.staffLeavePermissionForm.value.month;
+  dateRangeChange() {
+    const Month = this.staffLeavePermissionForm.value.year;
     const currentMonth = this.datepipe.transform(this.today, 'yyyy-MM');
     if (Month == currentMonth) {
       this.minDate = this.today;
@@ -115,15 +119,16 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  dateChange() {    
+  dateChange() {
+    debugger;
     const staffNo = this.staffLeavePermissionForm.value.staff_no;
-    const month = this.staffLeavePermissionForm.value.month;
+    const year = this.staffLeavePermissionForm.value.year;
     const fromdate = new Date(this.staffLeavePermissionForm.value.fromdate);
     const todate = new Date(this.staffLeavePermissionForm.value.todate);
     var daysOfYear = [];
     for (var d = fromdate; d <= todate; d.setDate(d.getDate() + 1)) {
-      const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {        
-        return e.staff_no == staffNo && e.month == month && e.leave_day == this.datepipe.transform(d, 'yyyy-MM-dd')
+      const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
+        return e.staff_no == staffNo && e.year == year && e.leave_day == this.datepipe.transform(d, 'yyyy-MM-dd')
       });
 
       if (checkArray.length == 0) {
@@ -138,8 +143,8 @@ export class StaffPermissionComponent implements OnInit {
     this.staffLeavePermissionForm.get('leave_days')?.setValue(daysOfYear);
     this.totaldays = daysOfYear.length;
 
-    const eligibleday = this.StaffLeaveList.filter((e) => { return e.l_type == this.staffLeavePermissionForm.value.l_type });
-    if (Number(eligibleday[0].balance_eligible) < this.totaldays) {
+    const eligibleday = this.StaffLeaveList.filter((e) => { return e.typeid == this.staffLeavePermissionForm.value.typeid });
+    if (Number(eligibleday[0].eligible_days) < this.totaldays) {
       this.staffLeavePermissionForm.get('todate')?.setValue('');
       this.staffLeavePermissionForm.get('total_days')?.setValue('');
       this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
@@ -158,41 +163,49 @@ export class StaffPermissionComponent implements OnInit {
     return (this.leaveAssignForm.get('leaveList') as FormArray).controls;
   }
 
-  searchLeave() {    
-    const month = this.staffLeavePermissionForm.value.month;
+  searchLeave() {
+    debugger;
+    const year = String((new Date(this.staffLeavePermissionForm.value.year)).getFullYear());
     const staffNo = this.staffLeavePermissionForm.value.staff_no;
-
-    this.slpSvc.getstaffLeaveList(month, staffNo).subscribe(data => {
+    const newStaff = this.staffList.filter((e) => { return e.staff_no == staffNo })
+    debugger;
+    this.slpSvc.getstaffLeaveList(year, staffNo).subscribe(data => {
+      debugger;
       this.StaffLeaveList = data;
       if (this.StaffLeaveList.length != 0) {
         this.staffLeavePermissionForm.get('staff_name')?.setValue(this.StaffLeaveList[0].staff_name);
       }
-      
-      if (this.StaffLeaveList.length == 0) {        
-        const LaveAsByIDFillterList = this.LaveAsByIDList.filter((e) => { return e.staff_no == staffNo });
+
+      if (this.StaffLeaveList.length == 0) {
+        debugger;
+        const LaveAsByIDFillterList = this.LaveAsList.filter((e) => { return e.category_id == newStaff[0].category_id });
         if (LaveAsByIDFillterList.length != 0) {
+          debugger;
           const control1 = <FormArray>this.leaveAssignForm.controls['leaveList'];
           while (control1.length !== 0) {
             control1.removeAt(0);
           }
-          LaveAsByIDFillterList.forEach(element => {
-            const control = <FormArray>this.leaveAssignForm.controls['leaveList'];
-            control.push(
-              new FormGroup({
-                month: new FormControl(month),
-                staff_no: new FormControl(staffNo),
-                l_type: new FormControl(element.l_type),
-                eligible: new FormControl(element.elgible),
-                balance_eligible: new FormControl(element.elgible),
-                date: new FormControl(this.today),
-                cuid: new FormControl(1),
-              })
-            )
-          });
+          if (control1.length == 0) {
+            LaveAsByIDFillterList.forEach(element => {
+              const control = <FormArray>this.leaveAssignForm.controls['leaveList'];
+              control.push(
+                new FormGroup({
+                  year: new FormControl(year),
+                  staff_no: new FormControl(staffNo),
+                  assignid: new FormControl(element.assignid),
+                  category_id: new FormControl(element.category_id),
+                  typeid: new FormControl(element.typeid),
+                  day_off: new FormControl('0'),
+                  date: new FormControl(this.today),
+                  cuid: new FormControl(1),
+                })
+              )
+            });
+          }
           var leavetypeinsert = (this.leaveAssignForm.value);
           this.slpSvc.addNewleaveType(leavetypeinsert).subscribe(res => {
             if (res.status == 'Saved successfully') {
-              this.slpSvc.getstaffLeaveList(month, staffNo).subscribe(data => {
+              this.slpSvc.getstaffLeaveList(year, staffNo).subscribe(data => {
                 this.StaffLeaveList = data;
                 this.staffLeavePermissionForm.get('staff_name')?.setValue(this.StaffLeaveList[0].staff_name);
               });
@@ -209,13 +222,14 @@ export class StaffPermissionComponent implements OnInit {
     });
   }
 
-  save() {    
+  save() {
+    debugger;
     if (this.staffLeavePermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
             const formvalue = (this.staffLeavePermissionForm.value);
-            this.slpSvc.addNewPermission(formvalue).subscribe(res => {              
+            this.slpSvc.addNewPermission(formvalue).subscribe(res => {
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
@@ -233,11 +247,11 @@ export class StaffPermissionComponent implements OnInit {
     this.getAllStaffLeavePermissionHistory();
     this.StaffLeaveList = [];
     this.staffLeavePermissionForm.reset();
-    this.staffLeavePermissionForm.get('month')?.setValue(this.minMonth);
+    this.staffLeavePermissionForm.get('year')?.setValue(this.minMonth);
     this.staffLeavePermissionForm.get('staff_no')?.setValue('');
     this.staffLeavePermissionForm.get('staff_name')?.setValue('');
     this.staffLeavePermissionForm.get('date')?.setValue(this.today);
-    this.staffLeavePermissionForm.get('l_type')?.setValue(null);
+    this.staffLeavePermissionForm.get('typeid')?.setValue(null);
     this.staffLeavePermissionForm.get('fromdate')?.setValue('');
     this.staffLeavePermissionForm.get('todate')?.setValue('');
     this.staffLeavePermissionForm.get('leave_days')?.setValue('');
@@ -272,7 +286,7 @@ export class StaffPermissionComponent implements OnInit {
     this.pANChange();
   }
 
-  pFNChange() {    
+  pFNChange() {
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -281,7 +295,7 @@ export class StaffPermissionComponent implements OnInit {
     const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
     const FN = this.staffHalfDayPermissionForm.value.p_fn;
     const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-      
+
       return (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays && e.p_fn == FN)
     });
 
@@ -298,7 +312,7 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  pANChange() {    
+  pANChange() {
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -307,7 +321,7 @@ export class StaffPermissionComponent implements OnInit {
     const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
     const AN = this.staffHalfDayPermissionForm.value.p_an;
     const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-      
+
       return (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.month == Month && e.leave_day == leaveDays && e.p_an == AN)
     });
 
@@ -324,7 +338,7 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  pSave() {    
+  pSave() {
     this.staffHalfDayPermissionForm.get('staff_no')?.setValue(this.staffLeavePermissionForm.value.staff_no);
     if (this.staffHalfDayPermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -333,7 +347,7 @@ export class StaffPermissionComponent implements OnInit {
             const formvalue = (this.staffHalfDayPermissionForm.value);
             console.log(formvalue);
             this.slpSvc.addNewHalfDay(formvalue).subscribe(res => {
-              
+
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
@@ -346,18 +360,4 @@ export class StaffPermissionComponent implements OnInit {
       this.staffHalfDayPermissionForm.markAllAsTouched();
     }
   }
-
-  // cancelClickHalfDay() {
-  //   this.getAllStaffLeavePermissionHistory();  
-  //   this.StaffLeaveList = [];
-  //   this.staffHalfDayPermissionForm.reset();
-  //   this.staffHalfDayPermissionForm.get('month')?.setValue(this.minMonth);
-  //   this.staffHalfDayPermissionForm.get('staff_no')?.setValue('');
-  //   this.staffHalfDayPermissionForm.get('date')?.setValue(this.today);
-  //   this.staffHalfDayPermissionForm.get('l_type')?.setValue(null);
-  //   this.staffHalfDayPermissionForm.get('p_fn')?.setValue(false);
-  //   this.staffHalfDayPermissionForm.get('p_an')?.setValue(false);
-  //   this.staffHalfDayPermissionForm.get('leave_days')?.setValue([]);
-  //   this.staffHalfDayPermissionForm.get('cuid')?.setValue(1);
-  // }
 }

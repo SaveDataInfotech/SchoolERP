@@ -11,12 +11,13 @@ export class staffAttendanceService {
     }
 
     searchStudentByAttendance(staff_type, date): Observable<any[]> {
+        debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.get<any[]>(this.apiUrl + 'StaffAttendance/get_staff_attendance?staff_type=' + staff_type + '&date=' + date, httpOptions);
+        return this.http.get<any[]>(this.apiUrl + 'StaffAttendance/get_staff_attendance?staff_typeid=' + staff_type + '&date=' + date, httpOptions);
     }
 
     newAttendance(value: any): Observable<any> {
-        
+        debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StaffAttendance/insert_staff_attendance', value, httpOptions);
     }

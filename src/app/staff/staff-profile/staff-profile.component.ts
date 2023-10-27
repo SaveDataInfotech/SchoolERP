@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { staffCategoryService } from 'src/app/api-service/staffCategory.service';
 import { staffProfileService } from 'src/app/api-service/staffProfile.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -26,12 +27,15 @@ export class StaffProfileComponent implements OnInit {
   maxIDList: any[] = [];
   maxnumber: number;
   staffno: string;
+
+  categoryList: any[] = [];
   constructor(private SttySvc: staffTypeService,
     private ClassSvc: studentClassService,
     private notificationSvc: NotificationsService,
     private staffSvc: staffProfileService,
     private DialogSvc: DialogService,
-    private router: Router
+    private router: Router,
+    private scSvc: staffCategoryService,
   ) { this.createForm() }
 
   ngOnInit(): void {
@@ -40,6 +44,7 @@ export class StaffProfileComponent implements OnInit {
 
     this.refreshStaffList();
     this.cancelClick();
+    this.refreshstaffCategoryList()
   }
   ngxSpinner: any;
   deleteImage() {
@@ -116,6 +121,12 @@ export class StaffProfileComponent implements OnInit {
     });
   }
 
+  refreshstaffCategoryList() {
+    this.scSvc.getCategoryList().subscribe(data => {
+      this.categoryList = data;
+    });
+  }
+
   backButton() {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
@@ -124,7 +135,8 @@ export class StaffProfileComponent implements OnInit {
   createForm() {
     this.staffProfileForm = new FormGroup({
       id: new FormControl(0),
-      staff_typeid: new FormControl(0),
+      staff_typeid: new FormControl(null),
+      category_id:new FormControl(null),
       staff_no: new FormControl(''),
       staff_name: new FormControl(''),
       gender: new FormControl(''),
@@ -174,8 +186,7 @@ export class StaffProfileComponent implements OnInit {
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       reliving: new FormControl('No'),
-      reliving_date: new FormControl(''),
-      //activestatus: new FormControl(false),
+      reliving_date: new FormControl(''),     
       cuid: new FormControl(1)
     })
   }
@@ -228,6 +239,9 @@ export class StaffProfileComponent implements OnInit {
     this.staffSvc.getMaxId(staffTypeid).subscribe(data => {
       debugger;
       this.maxIDList = data;
+      if(this.maxIDList.length ==0){
+        this.maxnumber=0;
+      }
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id
       });
@@ -279,6 +293,7 @@ export class StaffProfileComponent implements OnInit {
     this.staffProfileForm.reset();
     this.staffProfileForm.get('id')?.setValue(0);
     this.staffProfileForm.get('staff_no')?.setValue('');
+    this.staffProfileForm.get('category_id')?.setValue(null);
     this.staffProfileForm.get('staff_name')?.setValue('');
     this.staffProfileForm.get('gender')?.setValue('');
     this.staffProfileForm.get('img')?.setValue('');
@@ -289,7 +304,7 @@ export class StaffProfileComponent implements OnInit {
     this.staffProfileForm.get('designation')?.setValue('');
     this.staffProfileForm.get('experience')?.setValue('');
     this.staffProfileForm.get('pc')?.setValue('');
-    this.staffProfileForm.get('staff_typeid')?.setValue(0);
+    this.staffProfileForm.get('staff_typeid')?.setValue(null);
     this.staffProfileForm.get('major_subject')?.setValue('');
     this.staffProfileForm.get('class_hand')?.setValue('');
     this.staffProfileForm.get('join_date')?.setValue('');

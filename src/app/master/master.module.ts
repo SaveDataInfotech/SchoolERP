@@ -33,6 +33,7 @@ import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
 import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
+import { StaffCategoryComponent } from './staff-category/staff-category.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.com
     SpecialFeesComponent,
     BusFeesComponent,
     SpecialBusFeesComponent,
+    StaffCategoryComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

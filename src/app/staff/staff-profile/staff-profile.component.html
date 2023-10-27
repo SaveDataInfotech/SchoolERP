@@ -25,8 +25,8 @@
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.staff_typeid.touched && staffProfileForm.controls.staff_typeid.errors}"
                                         formControlName="staff_typeid" (change)="findStaffCode()" style="width: 100%;"
                                         class="form-control" required>
-                                        <option value=0 selected disabled>Please select</option>
-                                        <option [ngValue]="StaffType.staff_typeid"
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [disabled]="staffProfileForm.value.id !=0" [ngValue]="StaffType.staff_typeid"
                                             *ngFor="let StaffType of StaffTypeList;">
                                             {{StaffType.staff_type}}</option>
                                     </select>
@@ -35,6 +35,30 @@
                                         <div
                                             *ngIf="staffProfileForm.controls.staff_typeid.touched && staffProfileForm.controls.staff_typeid.errors.required">
                                             Staff Type is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Category Name<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':staffProfileForm.controls.category_id.touched && staffProfileForm.controls.category_id.errors}"
+                                        formControlName="category_id" style="width: 100%;"
+                                        class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="cate.category_id" *ngFor="let cate of categoryList;">
+                                            {{cate.category}}</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="staffProfileForm.controls.category_id.touched && staffProfileForm.controls.category_id.errors">
+                                        <div
+                                            *ngIf="staffProfileForm.controls.category_id.touched && staffProfileForm.controls.category_id.errors.required">
+                                            Category Name is required
                                         </div>
                                     </span>
                                 </div>

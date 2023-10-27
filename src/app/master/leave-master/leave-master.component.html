@@ -155,103 +155,27 @@
 
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Staff Type<span class="text-danger">
+                                    <label class="pt-2" style="margin: auto;">Category Name<span class="text-danger">
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors}"
-                                        formControlName="staff_typeid" style="width: 100%;" (change)="staffFilter()"
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.category_id.touched && leaveAssignForm.controls.category_id.errors}"
+                                        formControlName="category_id" style="width: 100%;" (change)="leaveList()"
                                         class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option [ngValue]="StaffType.staff_typeid"
-                                            *ngFor="let StaffType of StaffTypeList;">
-                                            {{StaffType.staff_type}}</option>
+                                        <option [ngValue]="cate.category_id" *ngFor="let cate of categoryList;">
+                                            {{cate.category}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors">
+                                        *ngIf="leaveAssignForm.controls.category_id.touched && leaveAssignForm.controls.category_id.errors">
                                         <div
-                                            *ngIf="leaveAssignForm.controls.staff_typeid.touched && leaveAssignForm.controls.staff_typeid.errors.required">
-                                            Staff Type is required
+                                            *ngIf="leaveAssignForm.controls.category_id.touched && leaveAssignForm.controls.category_id.errors.required">
+                                            Category Name is required
                                         </div>
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Staff No<span class="text-danger">
-                                            *</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <select
-                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors}"
-                                        #st (change)="staffNameChange(st.value)" formControlName="staff_no"
-                                        style="width: 100%;" class="form-control" required>
-                                        <option value='' selected disabled>Please select</option>
-                                        <option value={{Staff.staff_no}} *ngFor="let Staff of newStaffList;">
-                                            {{Staff.staff_no}}</option>
-                                    </select>
-                                    <span class="text-danger"
-                                        *ngIf="leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors">
-                                        <div
-                                            *ngIf="leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors.required">
-                                            Staff No is required
-                                        </div>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Staff Name<span class="text-danger">
-                                            *</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input readonly formControlName="staff_name" class="form-control" type="text"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">No of Leave<span class="text-danger">
-                                            *</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors}"
-                                        formControlName="no_of_leave" class="form-control" type="number" required>
-                                    <span class="text-danger"
-                                        *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors">
-                                        <div
-                                            *ngIf="leaveAssignForm.controls.no_of_leave.touched && leaveAssignForm.controls.no_of_leave.errors.required">
-                                            No of Leave is required
-                                        </div>
-                                    </span>
-                                </div>
-
-                            </div>
-                            <!-- <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Eligible Per Month<span
-                                            class="text-danger"> *</span></label>
-                                </div>
-                                <div class="inputdiv">
-                                    <input
-                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors}"
-                                        formControlName="e_per_mon" class="form-control" type="number" required>
-                                    <span class="text-danger"
-                                        *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors">
-                                        <div
-                                            *ngIf="leaveAssignForm.controls.e_per_mon.touched && leaveAssignForm.controls.e_per_mon.errors.required">
-                                            Eligible Per Month is required
-                                        </div>
-                                    </span>
-                                </div>
-                            </div> -->
                         </div>
 
                         <div formArrayName="leave">
@@ -270,28 +194,23 @@
 
                                     <div class="col-sm-6 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="" style="margin: auto;">Maximum eligible per month</label>
+                                            <label class="" style="margin: auto;">Maximum eligible per Year</label>
                                         </div>
                                         <div class="inputdiv">
-                                            <input formControlName="elgible" (change)="eligibleFun(i)"
-                                                class="form-control" type="text">
+                                            <input formControlName="eligible_days" class="form-control" type="text">
                                         </div>
 
-                                        <div>
+                                        <!-- <div>
                                             <mat-icon class="m-2 text-danger" style="cursor: pointer;"
                                                 (click)="removeLeave(i)">remove_circle_outline</mat-icon>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div>
-                                <input class="ml-2 form-control addbutton" type="button" (click)="addleave()"
-                                    value="Add Leave +" />
-                            </div> -->
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-12" style="display: flex;">                                
+                            <div class="col-sm-12" style="display: flex;">
                                 <div style="float: left;width: 350px;margin: auto;">
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
                                         <span> {{ leaveAssignForm.value.assignid ==0 ? 'Save' :
@@ -313,21 +232,21 @@
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
-                                    <th>Staff Type</th>
-                                    <th>Staff Name</th>
-                                    <th>No.Of Leave</th>                                  
+                                    <th>Category</th>
+                                    <th>Leave Type</th>
+                                    <th>No.Of Leave</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let assign of LaveAsList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{assign.staff_type}}</td>
-                                    <td>{{assign.staff_name}}</td>
-                                    <td>{{assign.no_of_leave}}</td>                                   
+                                    <td>{{assign.category}}</td>
+                                    <td>{{assign.type_name}}</td>
+                                    <td>{{assign.eligible_days}}</td>
                                     <td class="tdoption">
-                                        <span class="m-2 editbutton"
-                                            (click)="AssignUpdateGetClick(assign)"><b>edit</b></span>
+                                        <span (click)="Update(assign.assignid)"
+                                            class="m-2 editbutton"><b>edit</b></span>
                                         <span>||</span>
                                         <span class="m-2 deletebutton"
                                             (click)="AssigndeleteClick(assign.assignid)"><b>delete</b></span>
