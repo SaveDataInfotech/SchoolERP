@@ -351,7 +351,7 @@ export class LeaveMasterComponent implements OnInit {
       control.push(
         new FormGroup({
           typeid: new FormControl(element.typeid),
-          type_name:new FormControl(element.type_name),
+          type_name: new FormControl(element.type_name),
           elgible: new FormControl(element.elgible)
         })
       )
@@ -359,18 +359,13 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   eligibleFun(i) {
-    let total: number = 0;
     const EPerMonth = this.leaveAssignForm.value.no_of_leave
     const busControl3 = this.leaveAssignForm.get('leave') as FormArray;
     const eligibleDays = busControl3.at(i).get('elgible').value;
-    const elDays = this.leaveAssignForm.get('leave') as FormArray;
-    elDays.controls.forEach((e) => {
-      const num = Number(e.value.elgible);
-      total = total + num;
-    })
-    if (Number(EPerMonth) < Number(eligibleDays) || Number(EPerMonth) < total) {
+
+    if (Number(EPerMonth) < Number(eligibleDays)) {
       this.notificationSvc.error('Invalid Eligible Days');
-      busControl3.at(i).get('elgible').setValue('');
+      busControl3.at(i).get('elgible').setValue('0');
     }
   }
 

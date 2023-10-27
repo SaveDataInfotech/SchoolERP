@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
@@ -365,12 +365,13 @@ export class VehicleMasterComponent implements OnInit {
 
   file: File | null;
   data: any[] = [];
-
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
 
   vehicleplaceXLForm = new FormGroup({
     root_no: new FormControl(null),
     places: new FormControl([]),
-    cuid:new FormControl(1)
+    cuid: new FormControl(1)
   })
 
   onFileChange(event: any) {
@@ -407,8 +408,8 @@ export class VehicleMasterComponent implements OnInit {
         const keys = Object.keys(obj);
 
         if (keys[0] != 'places') {
-          this.notificationSvc.error('Invalid Column Name - The column name must be in (places).');
-          this.vehicleplaceXLForm.reset();
+          this.notificationSvc.error('The column name must be in lowercase with this name (places).');
+          this.xlCancelClick();
           return;
         }
       }
@@ -425,7 +426,7 @@ export class VehicleMasterComponent implements OnInit {
                   this.notificationSvc.success("Saved successfully")
                   this.refreshvehiclePlaceList();
                   this.getMaxIdPlace();
-                  this.xlCancelClick();                  
+                  this.xlCancelClick();
                 }
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
@@ -445,9 +446,9 @@ export class VehicleMasterComponent implements OnInit {
     fileReader.readAsArrayBuffer(this.file);
   }
 
-
-  xlCancelClick(){
+  xlCancelClick() {
     this.vehicleplaceXLForm.reset();
+    this.myInputVariable.nativeElement.value = "";
     this.vehicleplaceXLForm.get('cuid')?.setValue(1);
   }
 }

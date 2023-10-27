@@ -185,12 +185,21 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <select #st (change)="staffNameChange(st.value)" formControlName="staff_no"
-                                        style="width: 100%;" class="form-control ">
+                                    <select
+                                        [ngClass]="{'is-invalid':leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors}"
+                                        #st (change)="staffNameChange(st.value)" formControlName="staff_no"
+                                        style="width: 100%;" class="form-control" required>
                                         <option value='' selected disabled>Please select</option>
                                         <option value={{Staff.staff_no}} *ngFor="let Staff of newStaffList;">
                                             {{Staff.staff_no}}</option>
                                     </select>
+                                    <span class="text-danger"
+                                        *ngIf="leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors">
+                                        <div
+                                            *ngIf="leaveAssignForm.controls.staff_no.touched && leaveAssignForm.controls.staff_no.errors.required">
+                                            Staff No is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
 
@@ -251,18 +260,17 @@
                                 <div class="row">
                                     <div class="col-sm-6 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="pt-2" style="margin: auto;">Leave Type <span
-                                                    class="text-danger">*</span></label>
+                                            <label class="pt-2" style="margin: auto;">Leave Type</label>
                                         </div>
-                                        <div class="inputdiv">                                           
-                                            <input class="form-control" readonly formControlName="type_name" type="text">
+                                        <div class="inputdiv">
+                                            <input class="form-control" readonly formControlName="type_name"
+                                                type="text">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="" style="margin: auto;">Maximum eligible per month<span
-                                                    class="text-danger">*</span></label>
+                                            <label class="" style="margin: auto;">Maximum eligible per month</label>
                                         </div>
                                         <div class="inputdiv">
                                             <input formControlName="elgible" (change)="eligibleFun(i)"
@@ -270,8 +278,8 @@
                                         </div>
 
                                         <div>
-                                            <input class="ml-2 form-control removebutton" type="button"
-                                                (click)="removeLeave(i)" value="Remove" />
+                                            <mat-icon class="m-2 text-danger" style="cursor: pointer;"
+                                                (click)="removeLeave(i)">remove_circle_outline</mat-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -283,10 +291,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                </div>
-                                <div style="float: left;width: 350px;">
+                            <div class="col-sm-12" style="display: flex;">                                
+                                <div style="float: left;width: 350px;margin: auto;">
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
                                         <span> {{ leaveAssignForm.value.assignid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
@@ -309,8 +315,7 @@
                                     <th>Si.No</th>
                                     <th>Staff Type</th>
                                     <th>Staff Name</th>
-                                    <th>No.Of Leave</th>
-                                    <th>Eligible Per Month</th>
+                                    <th>No.Of Leave</th>                                  
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -319,8 +324,7 @@
                                     <td>{{i+1}}</td>
                                     <td>{{assign.staff_type}}</td>
                                     <td>{{assign.staff_name}}</td>
-                                    <td>{{assign.no_of_leave}}</td>
-                                    <td>{{assign.e_per_mon}}</td>
+                                    <td>{{assign.no_of_leave}}</td>                                   
                                     <td class="tdoption">
                                         <span class="m-2 editbutton"
                                             (click)="AssignUpdateGetClick(assign)"><b>edit</b></span>

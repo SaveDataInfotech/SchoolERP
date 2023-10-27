@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 })
 export class StaffPermissionComponent implements OnInit {
   StaffLeaveList: any[] = [];
-  LaveAsByIDList: any = [];
+  LaveAsByIDList: any[] = [];
+  LaveAsList:any[]=[];
   totaldays: any;
   AllStaffLeavePermissionHistoryList: any[] = [];
 
@@ -72,6 +73,12 @@ export class StaffPermissionComponent implements OnInit {
   refreshLeaveAssignByIDList() {
     this.LvAsSvc.getLeaveAssignByIDList().subscribe(data => {
       this.LaveAsByIDList = data;
+    });
+  }
+
+  refreshLeaveAssignList() {
+    this.LvAsSvc.getLeaveAssignList().subscribe(data => {
+      this.LaveAsList = data;
     });
   }
 
