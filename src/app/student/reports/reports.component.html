@@ -1,22 +1,209 @@
-<section class="example-section">
-  <span class="example-list-section">
-    <mat-checkbox class="example-margin"
-                  [checked]="allComplete"
-                  [color]="task.color"
-                  [indeterminate]="someComplete()"
-                  (change)="setAll($event.checked)">
-      {{task.name}}
-    </mat-checkbox>
-  </span>
-  <span class="example-list-section">
-    <ul>
-      <li *ngFor="let subtask of task.subtasks">
-        <mat-checkbox [(ngModel)]="subtask.completed"
-                      [color]="subtask.color"
-                      (ngModelChange)="updateAllComplete()">
-          {{subtask.name}}
-        </mat-checkbox>
-      </li>
-    </ul>
-  </span>
-</section>
+<div class="container-fluid mt-2">
+  <mat-card class="mt-2 matcard mb-5">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-sm-6" style="display: flex;">
+          <div style="float: left;width: 300px;">
+            <h3 class="ml-1">Mark entry Rank Type</h3>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
+        <div class="row">
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Class<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <select
+                [ngClass]="{'is-invalid': rankTypeMarkForm.get('classid')?.touched && rankTypeMarkForm.get('classid')?.errors }"
+                formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
+                class="form-control" required>
+                <option value=null selected disabled>Please select</option>
+                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                  {{class.class_name}}</option>
+              </select>
+              <span class="text-danger"
+                *ngIf="rankTypeMarkForm.get('classid')?.touched && rankTypeMarkForm.get('classid')?.errors">Class
+                name is required</span>
+            </div>
+          </div>
+
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Class Incharge<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <input
+                [ngClass]="{'is-invalid':rankTypeMarkForm.controls.classincharge.touched && rankTypeMarkForm.controls.classincharge.errors}"
+                formControlName="classincharge" class="form-control" type="text" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Group</label>
+            </div>
+            <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+              <select formControlName="groupid" style="width: 100%;" #s (change)="filterSectionfun(s.value)"
+                class="form-control ">
+                <option value=0 selected disabled>Please select</option>
+                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                  {{group.group_name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-1" style="margin: auto;">With practical pass mark<span
+                  class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <input
+                [ngClass]="{'is-invalid':rankTypeMarkForm.controls.with_prac.touched && rankTypeMarkForm.controls.with_prac.errors}"
+                formControlName="with_prac" class="form-control" type="text" (keypress)="numberOnly($event)" required>
+            </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Section<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <select
+                [ngClass]="{'is-invalid': rankTypeMarkForm.get('sectionid')?.touched && rankTypeMarkForm.get('sectionid')?.errors }"
+                formControlName="sectionid" (change)="searchStudentByClass()" style="width: 100%;" class="form-control"
+                required>
+                <option value=null selected disabled>Please select</option>
+                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                  {{section.section_name}}</option>
+              </select>
+              <span class="text-danger"
+                *ngIf="rankTypeMarkForm.get('sectionid')?.touched && rankTypeMarkForm.get('sectionid')?.errors">Section
+                name is required</span>
+            </div>
+          </div>
+
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-1" style="margin: auto;">With out practical pass
+                mark<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <input
+                [ngClass]="{'is-invalid':rankTypeMarkForm.controls.with_out_prac.touched && rankTypeMarkForm.controls.with_out_prac.errors}"
+                formControlName="with_out_prac" class="form-control" type="text" (keypress)="numberOnly($event)"
+                required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <input
+                [ngClass]="{'is-invalid':rankTypeMarkForm.controls.batch_year.touched && rankTypeMarkForm.controls.batch_year.errors}"
+                formControlName="batch_year" class="form-control" readonly required>
+            </div>
+          </div>
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Date</label>
+            </div>
+            <div class="inputdiv">
+              <input
+                [ngClass]="{'is-invalid':rankTypeMarkForm.controls.date.touched && rankTypeMarkForm.controls.date.errors}"
+                formControlName="date" [value]="today" class="form-control" type="date" required>
+            </div>
+          </div>
+
+          <div class="col-sm-6 mt-3" style="display: flex;">
+            <div class="labeldiv">
+              <label class="pt-2" style="margin: auto;">Exam Name<span class="text-danger">*</span></label>
+            </div>
+            <div class="inputdiv">
+              <select formControlName="exam_name" (change)="clickpop()" style="width: 100%;" class="form-control"
+                required>
+                <option value=null selected disabled>Please select</option>
+                <option value={{section.exam_name}} *ngFor="let section of StudentList;">
+                  {{section.exam_name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
+        <div class="table-responsive container text-nowrap mt-3">
+          <table class="table">
+            <thead formArrayName="students">
+              <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let ii = index"
+                [formGroupName]="ii">
+                <th class="mb-4" *ngIf="ii == 0">Admission No</th>
+                <th *ngIf="ii == 0" formArrayName="subjects" style="display: flex;">
+                  <span *ngFor="let subject of student.get('subjects').controls; let jj = index" [formGroupName]="jj">
+                    <input type="text" class="mr-2 form-control form-controls transubject"
+                      formControlName="subject_name" readonly>
+                  </span>
+                </th>
+                <th *ngIf="ii == 0">Total</th>
+                <th *ngIf="ii == 0">Status</th>
+                <th *ngIf="ii == 0">Avg</th>
+                <th *ngIf="ii == 0">Rank</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="students">
+              <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
+                [formGroupName]="i">
+                <td>
+                  {{student.get('admission_no').value}}
+                </td>
+                <td>
+                  <span formArrayName="subjects" style="display: flex;">
+                    <span *ngFor="let subject of student.get('subjects').controls; let j = index" [formGroupName]="j">
+                      <span style="display: flex;">
+                        <input (keypress)="numberOnly($event)"
+                          [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
+                          (change)="gradeConvert(i,j)" placeholder="Mark" type="text"
+                          class="mr-2 form-control form-controls" formControlName="marks">
+                      </span>
+                    </span>
+                  </span>
+                </td>
+                <td>
+                  <span>{{student.get('total').value}}</span>
+                </td>
+                <td>
+                  <span
+                    [ngStyle]="{'color': (student.get('status').value == 'Pass') ? 'green':'red'}">{{student.get('status').value}}</span>
+                </td>
+                <td>
+                  <span>{{student.get('average').value}}</span>
+                </td>
+                <td>
+                  <span>{{student.get('rank').value}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-12 mt-4">
+          <div style="text-align: center;">
+            <input matTooltip="Click to Save" type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm"
+              value="Save" />
+            <input matTooltip="Click to Cancel" type="button" style="width: 80px;" class="btn btn-primary btn-sm mr-2"
+              (click)="cancelForm()" value="Cancel" />
+            <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
+              value="Close" />
+          </div>
+        </div>
+      </form>
+      <button type="button" (click)="clickpop()">igufuyufguf</button>
+    </mat-card-content>
+  </mat-card>
+</div>

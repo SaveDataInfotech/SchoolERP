@@ -82,11 +82,12 @@ export class StaffLoanComponent implements OnInit {
     });
   }
 
-  staffFilter(value) {
-    
+  staffFilter() {   
+    debugger; 
     this.staffLoanForm.get('staff_no')?.setValue('');
     this.staffLoanForm.get('staff_name')?.setValue('');
-    this.staffFilterList = this.staffList.filter((e) => { return e.staff_type == value })
+   const value=this.staffLoanForm.value.staff_typeid
+    this.staffFilterList = this.staffList.filter((e) => { return e.staff_typeid == value })
   }
 
   refreshgetLoanList() {
@@ -95,15 +96,14 @@ export class StaffLoanComponent implements OnInit {
     });
   }
 
-  staffNameBind(value) {
-    
+  staffNameBind(value) {    
     const name = this.staffFilterList.filter((e) => { return e.staff_no == value });
     this.staffLoanForm.get('staff_name')?.setValue(name[0].staff_name);
   }
 
   staffLoanForm = new FormGroup({
     id: new FormControl(0),
-    staff_type: new FormControl('', [Validators.required]),
+    staff_typeid: new FormControl(null, [Validators.required]),
     date: new FormControl(''),
     staff_no: new FormControl('', [Validators.required]),
     staff_name: new FormControl(''),
@@ -122,6 +122,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   saNewLoan() {
+    debugger
     if (this.staffLoanForm.valid) {
       var loanInsert = (this.staffLoanForm.value);
       if (Number(this.staffLoanForm.value.n_month) <= 0) {
@@ -154,11 +155,9 @@ export class StaffLoanComponent implements OnInit {
     else {
       this.staffLoanForm.markAllAsTouched();
     }
-
   }
 
   automatedEmiAmount() {
-    
     const amount = Number(this.staffLoanForm.value.loan_amount) / Number(this.staffLoanForm.value.n_month);
     this.staffLoanForm.get('emi_amount')?.setValue(String(amount));
 
@@ -173,7 +172,7 @@ export class StaffLoanComponent implements OnInit {
   newLoanCancelClick() {
     this.staffLoanForm.reset();
     this.staffLoanForm.get('id')?.setValue(0);
-    this.staffLoanForm.get('staff_type')?.setValue('');
+    this.staffLoanForm.get('staff_typeid')?.setValue(null);
     this.staffLoanForm.get('date')?.setValue(this.today);
     this.staffLoanForm.get('staff_no')?.setValue('');
     this.staffLoanForm.get('staff_name')?.setValue('');
@@ -186,10 +185,10 @@ export class StaffLoanComponent implements OnInit {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  staffDeducFilter(value) {
-    
-    this.cancelClick1()
-    this.staffDeductionFilterList = this.LoanList.filter((e) => { return e.staff_type == value })
+  staffDeducFilter() {    
+    this.cancelClick1();
+    const value=this.staffLoanDeductionForm.value.staff_typeid 
+    this.staffDeductionFilterList = this.LoanList.filter((e) => { return e.staff_typeid == value });
   }
 
   patchvalue(value) {
@@ -209,7 +208,7 @@ export class StaffLoanComponent implements OnInit {
 
   staffLoanDeductionForm = new FormGroup({
     id: new FormControl(0),
-    staff_type: new FormControl(''),
+    staff_typeid: new FormControl(null),
     date: new FormControl(''),
     staff_no: new FormControl(''),
     staff_name: new FormControl(''),
@@ -266,7 +265,7 @@ export class StaffLoanComponent implements OnInit {
   cancelClick() {
     this.staffLoanDeductionForm.reset();
     this.staffLoanDeductionForm.get('id')?.setValue(0);
-    this.staffLoanDeductionForm.get('staff_type')?.setValue('');
+    this.staffLoanDeductionForm.get('staff_typeid')?.setValue(null);
     this.staffLoanDeductionForm.get('date')?.setValue('');
     this.staffLoanDeductionForm.get('staff_no')?.setValue('');
     this.staffLoanDeductionForm.get('staff_name')?.setValue('');

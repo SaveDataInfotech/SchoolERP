@@ -13,6 +13,7 @@ export class StaffLoanService {
   readonly apiUrl = 'https://localhost:44314/api/';
   
   addNewLoan(loanInsert: any): Observable<any> {
+    debugger
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post(this.apiUrl + 'StaffLoan/insert_staff_loan', loanInsert, httpOptions);
   }

@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="staffAssignForm.get('subjects')['controls'].length !=0">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Class incharge</label>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="table-responsive mt-5">
+                <div *ngIf="staffAssignForm.get('subjects')['controls'].length !=0" class="table-responsive mt-5">
                     <table class="col-sm-12 table table-hover table-bordered table-sm">
                         <thead>
                             <tr>
@@ -118,9 +118,7 @@
                             <tr *ngFor="let chid of staffAssignForm.get('subjects')['controls']; let i = index"
                                 formGroupName="{{i}}">
                                 <td>{{i+1}}</td>
-                                <td><input formControlName="subjectsname" class="form-control shadow-none"
-                                        style="border: 0px;" readonly type="text">
-                                </td>
+                                <td>{{chid.get('subjectsname').value}}</td>
                                 <td> <select formControlName="pm_staff_no" style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
                                         <option value={{Staff.staff_no}} *ngFor="let Staff of staffList;">

@@ -83,7 +83,6 @@ export class StaffAssignComponent implements OnInit {
   }
 
   FilterGroupfun(classsid: any) {
-    
     const classid = Number(classsid);
     this.staffAssignForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -101,7 +100,6 @@ export class StaffAssignComponent implements OnInit {
   }
 
   FilterSectionfun(groupID: any) {
-    
     const groupid = Number(groupID);
     this.staffAssignForm.get('groupid').setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -116,7 +114,6 @@ export class StaffAssignComponent implements OnInit {
   }
 
   staffNameChange(value) {
-    
     const newarray = this.staffList.filter((e) => { return e.staff_no == value })
     this.staffAssignForm.get('staff_name')?.setValue(newarray[0].staff_name)
   }
@@ -156,7 +153,7 @@ export class StaffAssignComponent implements OnInit {
     let batch_year: any = (this.staffAssignForm.value.batch_year);
     if (classid != null && sectionid != null && batch_year != null) {
       this.staSvc.searchSubjectByClass(classid, groupid, sectionid, batch_year).subscribe(data => {
-        
+
         this.subjectList = data;
         if (this.subjectList.length != 0) {
           if (this.subjectList[0].batch_year != null) {
@@ -164,7 +161,7 @@ export class StaffAssignComponent implements OnInit {
               this.staffAssignForm.patchValue(element)
             });
             this.staSvc.getSubjectArray(this.staffAssignForm.value.staff_assign_id).subscribe(data => {
-              
+
               this.subjectAssignByList = data;
               this.subjectAssignByList.forEach(element => {
                 const control = <FormArray>this.staffAssignForm.controls['subjects'];
@@ -206,15 +203,13 @@ export class StaffAssignComponent implements OnInit {
     }
   }
 
-
   save() {
-    
     var staffAsssinInsert = (this.staffAssignForm.value);
     this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.staSvc.addNewstaffAssign(staffAsssinInsert).subscribe(res => {
-            
+
             if (res.status == 'Insert Success') {
               this.notificationSvc.success("Saved successfully")
               this.cancelClick();

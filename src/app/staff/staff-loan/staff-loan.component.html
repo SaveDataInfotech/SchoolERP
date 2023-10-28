@@ -33,12 +33,12 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select
-                                        [ngClass]="{'is-invalid': staffLoanForm.get('staff_type')?.touched && staffLoanForm.get('staff_type')?.errors}"
-                                        formControlName="staff_type" #st (change)="staffFilter(st.value)"
+                                        [ngClass]="{'is-invalid': staffLoanForm.get('staff_typeid')?.touched && staffLoanForm.get('staff_typeid')?.errors}"
+                                        formControlName="staff_typeid" (change)="staffFilter()"
                                         style="width: 100%;" class="form-control ">
-                                        <option value='' selected disabled>Please select</option>
-                                        <option *ngFor="let Staff of StaffTypeList;">
-                                            {{Staff.staffType}}</option>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="Staff.staff_typeid" *ngFor="let Staff of StaffTypeList;">
+                                            {{Staff.staff_type}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -191,11 +191,12 @@
                                     <label class="pt-2" style="margin: auto;">Staff Type</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select formControlName="staff_type" #std (change)="staffDeducFilter(std.value)"
-                                        style="width: 100%;" class="form-control ">
-                                        <option value='' selected disabled>Please select</option>
-                                        <option value={{Staff.staffType}} *ngFor="let Staff of StaffTypeList;">
-                                            {{Staff.staffType}}</option>
+                                    <select [ngClass]="{'is-invalid': staffLoanDeductionForm.get('staff_typeid')?.touched && staffLoanDeductionForm.get('staff_typeid')?.errors}"
+                                     formControlName="staff_typeid" (change)="staffDeducFilter()"
+                                        style="width: 100%;" class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="Staff.staff_typeid" *ngFor="let Staff of StaffTypeList;">
+                                            {{Staff.staff_type}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -285,7 +286,7 @@
                                     <label class="pt-2" style="margin: auto;">Payable Amount</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input #cmpa (change)="comparePayAmount(cmpa.value)" formControlName="d_amount"
+                                    <input [readOnly]="staffLoanDeductionForm.value.pn_month == true" #cmpa (change)="comparePayAmount(cmpa.value)" formControlName="d_amount"
                                         class="form-control" type="text">
                                 </div>
                             </div>
@@ -316,7 +317,7 @@
         </div>
     </mat-tab>
 
-    <mat-tab label="Bank Loan Collection">
+    <!-- <mat-tab label="Bank Loan Collection">
         <div class="container-fluid mt-1">
             <div class="row">
                 <div class="col-12" style="display: flex;">
@@ -455,5 +456,5 @@
                 </mat-card-content>
             </mat-card>
         </div>
-    </mat-tab>
+    </mat-tab> -->
 </mat-tab-group>

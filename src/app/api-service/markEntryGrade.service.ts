@@ -25,4 +25,15 @@ export class markEntryService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/insert_student_markentry_rank', value, httpOptions);
   }
+
+
+  refresStudentList(): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_student_mark_by_rank', httpOptions);
+  }
+
+  refresSubjectList(): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_subject_mark_by_rank', httpOptions);
+  }
 }
