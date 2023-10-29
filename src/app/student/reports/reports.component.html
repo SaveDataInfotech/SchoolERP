@@ -140,7 +140,7 @@
       </form>
       <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
         <div class="table-responsive container text-nowrap mt-3">
-          <table class="table">
+          <table class="table table-bordered">
             <thead formArrayName="students">
               <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let ii = index"
                 [formGroupName]="ii">
@@ -167,9 +167,9 @@
                   <span formArrayName="subjects" style="display: flex;">
                     <span *ngFor="let subject of student.get('subjects').controls; let j = index" [formGroupName]="j">
                       <span style="display: flex;">
-                        <input (keypress)="numberOnly($event)"
+                        <input
                           [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
-                          (change)="gradeConvert(i,j)" placeholder="Mark" type="text"
+                          (change)="gradeConvert(i,j,grd.value)" placeholder="Mark" type="text" #grd
                           class="mr-2 form-control form-controls" formControlName="marks">
                       </span>
                     </span>
@@ -202,8 +202,9 @@
               value="Close" />
           </div>
         </div>
-      </form>
-      <button type="button" (click)="clickpop()">igufuyufguf</button>
+      </form>      
     </mat-card-content>
   </mat-card>
+
+  
 </div>

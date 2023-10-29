@@ -8,110 +8,156 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form>
+            <form [formGroup]="vehicleAssignForm" (ngSubmit)="newAssign()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Vehicle No</label>
+                            <label class="pt-2" style="margin: auto;">Vehicle type<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>TN-03-AU-9861</option>                                
+                            <select
+                                [ngClass]="{'is-invalid':vehicleAssignForm.controls.typeid.touched && vehicleAssignForm.controls.typeid.errors}"
+                                formControlName="typeid" style="width: 100%;" class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
+                                <option [ngValue]="VehickeType.typeid" *ngFor="let VehickeType of vehicleTypeList;">
+                                    {{VehickeType.vehicle_name}}
+                                </option>
                             </select>
+                            <span class="text-danger"
+                                *ngIf="vehicleAssignForm.controls.typeid.touched && vehicleAssignForm.controls.typeid.errors">
+                                <div
+                                    *ngIf="vehicleAssignForm.controls.typeid.touched && vehicleAssignForm.controls.typeid.errors.required">
+                                    Vehicle Type is required
+                                </div>
+                            </span>
                         </div>
                     </div>
+
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Root No</label>
+                            <label class="pt-2" style="margin: auto;">Vehicle No<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>3</option>                                
+                            <select
+                                [ngClass]="{'is-invalid':vehicleAssignForm.controls.vehicle_no_id.touched && vehicleAssignForm.controls.vehicle_no_id.errors}"
+                                formControlName="vehicle_no_id" style="width: 100%;" class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
+                                <option [ngValue]="Vehi.vehicle_no_id" *ngFor="let Vehi of vehicleNoRootList;">
+                                    {{Vehi.vehicle_no}}
+                                </option>
                             </select>
+                            <span class="text-danger"
+                                *ngIf="vehicleAssignForm.controls.vehicle_no_id.touched && vehicleAssignForm.controls.vehicle_no_id.errors">
+                                <div
+                                    *ngIf="vehicleAssignForm.controls.vehicle_no_id.touched && vehicleAssignForm.controls.vehicle_no_id.errors.required">
+                                    Vehicle No is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Driver Name</label>
+                            <label class="pt-2" style="margin: auto;">Driver Name<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Ram</option>
-                                <option>Kumar</option>
+                            <select
+                                [ngClass]="{'is-invalid':vehicleAssignForm.controls.driver_no.touched && vehicleAssignForm.controls.driver_no.errors}"
+                                formControlName="driver_no" style="width: 100%;" class="form-control" required>
+                                <option value="" selected disabled>Please select</option>
+                                <option value={{Vehi.staff_no}} *ngFor="let Vehi of staffList;">
+                                    {{Vehi.staff_no}} -
+                                    {{Vehi.staff_name}}
+                                </option>
                             </select>
+                            <span class="text-danger"
+                                *ngIf="vehicleAssignForm.controls.driver_no.touched && vehicleAssignForm.controls.driver_no.errors">
+                                <div
+                                    *ngIf="vehicleAssignForm.controls.driver_no.touched && vehicleAssignForm.controls.driver_no.errors.required">
+                                    Driver Name is required
+                                </div>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Helper Name</label>
+                            <label class="pt-2" style="margin: auto;">Helper Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Ram</option>
-                                <option>Kumar</option>
+                            <select formControlName="helper_no" style="width: 100%;" class="form-control">
+                                <option value="" selected disabled>Please select</option>
+                                <option value={{Vehi.staff_no}} *ngFor="let Vehi of staffList;">
+                                    {{Vehi.staff_no}} -
+                                    {{Vehi.staff_name}}
+                                </option>
                             </select>
                         </div>
                     </div>
-
                 </div>
+
                 <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Vehicle type</label>
+                            <label class="pt-2" style="margin: auto;">No of Students</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <select style="width: 100%;" class="form-control " name="selectAction">
-                                <option>Bus</option>
-                                <option>Van</option>
-                            </select>
+                            <input formControlName="no_of_students" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-12">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                            class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="text-align: center;">
+                                <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                    <span> {{ vehicleAssignForm.value.vehicle_assignid ==0 ? 'Save' :
+                                        'Edit'}}</span></button>
+                                <input type="button" (click)="cancelClick()" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
+                                    (click)="backButton()" value="Close" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
-
-            
         </mat-card-content>
     </mat-card>
     <mat-card class="mt-5 matcard">
         <mat-card-content>
             <div class="table-responsive">
-                <table class="col-sm-8 table table-hover table-bordered table-sm ">
+                <table class="col-sm-10 table table-hover table-bordered table-sm ">
                     <thead>
                         <tr>
                             <th>Si.No</th>
+                            <th>Vehicle Type</th>
                             <th>Vehicle No</th>
-                            <th>Root No</th>                           
                             <th>Driver Name</th>
                             <th>Helper Name</th>
-                            <th>Vehicle Type</th>    
-                            <th>Action</th>                        
+                            <th>No of Students</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>TN-03-AU-9861</td>
-                            <td>3</td>
-                            <td>Ram</td>
-                            <td>Kumar</td>
-                            <td>Van</td>   
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                            <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                class="pl-2">delete</mat-icon>
-                        </td>                        
+                        <tr *ngFor="let assign of vehicleAssignList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{assign.vehicle_name}}</td>
+                            <td>{{assign.vehicle_no}}</td>
+                            <td>{{assign.driver_name}}</td>
+                            <td>{{assign.helper_name}}</td>
+                            <td>{{assign.no_of_students}}</td>
+                            <td class="tdoption">
+                                <span (click)="updateClick(assign)" class="m-2 editbutton"><b>edit</b></span>
+                                <span>||</span>
+                                <span (click)="deleteClick(assign.vehicle_assignid)"
+                                    class="m-2 deletebutton"><b>delete</b></span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

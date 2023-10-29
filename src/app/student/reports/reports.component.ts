@@ -233,6 +233,7 @@ export class ReportsComponent implements OnInit {
     debugger;
     student = student || { admission_no: '', subjects: [] };
     return this.fb.group({
+      entryid: [student.entryid],
       admission_no: [student.admission_no],
       total: [student.total],
       status: [student.status],
@@ -248,13 +249,11 @@ export class ReportsComponent implements OnInit {
 
   createSubjectFormGroup(subject?): FormGroup {
     debugger;
-    const subjectn = subject.subject_name;
-    const select = subject.selected;
-    const prac = subject.practical_status;
     return this.fb.group({
-      subject_name: [subjectn],
-      selected: [select],
-      practical_status: [prac],
+      subjectentryid: subject.subjectentryid,
+      subject_name: subject.subject_name,
+      selected: subject.selected,
+      practical_status: subject.practical_status,
       marks: subject.marks,
       pass_status: subject.pass_status
     });
@@ -272,8 +271,16 @@ export class ReportsComponent implements OnInit {
 
   total: number = 0;
 
-  gradeConvert(i, j) {
+  gradeConvert(i, j, grd) {
     debugger;
+    if (Number(grd) > 100) {
+      const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
+      const studentFormGroup = studentsArray.at(i) as FormGroup;
+      const subjectsArray = studentFormGroup.get('subjects') as FormArray;
+      const subjectFormGroup = subjectsArray.at(j) as FormGroup;
+      subjectFormGroup.get('marks').setValue('');
+    }
+
     this.total = 0;
     const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
     if (i >= 0 && i < studentsArray.length) {
