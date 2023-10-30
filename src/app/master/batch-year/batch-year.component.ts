@@ -28,15 +28,29 @@ export class BatchYearComponent implements OnInit {
 
   formatBatch(value) {
     debugger;
-    const spilt = value.split("-");
-    let oldBatch = this.BatchList[0].batch_year.split("-");
-    if (Number(spilt[0]) + 1 == Number(spilt[1]) && Number(spilt[0]) == Number(oldBatch[0]) + 1 && Number(spilt[1]) == Number(oldBatch[1]) + 1) {
-      this.BatchYearForm.get('batch_year').setErrors(null);
+
+    if (this.BatchList.length == 0) {
+      const spilt = value.split("-");
+      if (Number(spilt[0]) + 1 == Number(spilt[1])) {
+        this.BatchYearForm.get('batch_year').setErrors(null);
+      }
+      else {
+        this.BatchYearForm.get('batch_year').setErrors({ 'invalidBatchYear': true });
+        this.notificationSvc.error('Invalid Batch Year');
+      }
     }
     else {
-      this.BatchYearForm.get('batch_year').setErrors({ 'invalidBatchYear': true });
-      this.notificationSvc.error('Invalid Batch Year');      
+      const spilt = value.split("-");
+      let oldBatch = this.BatchList[0].batch_year.split("-");
+      if (Number(spilt[0]) + 1 == Number(spilt[1]) && Number(spilt[0]) == Number(oldBatch[0]) + 1 && Number(spilt[1]) == Number(oldBatch[1]) + 1) {
+        this.BatchYearForm.get('batch_year').setErrors(null);
+      }
+      else {
+        this.BatchYearForm.get('batch_year').setErrors({ 'invalidBatchYear': true });
+        this.notificationSvc.error('Invalid Batch Year');
+      }
     }
+
   }
 
   BatchYearForm = new FormGroup({

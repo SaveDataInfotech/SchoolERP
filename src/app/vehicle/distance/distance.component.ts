@@ -10,15 +10,10 @@ export class DistanceComponent implements OnInit {
   constructor() { }
 
   date1=new Date();
-
   currentYear=this.date1.getUTCFullYear();
-
   currentMonth=this.date1.getUTCMonth()+1;
-
   currentDate=this.date1.getUTCDate();
-
   today="2023-12-12";
-
   finalMonth:any;
   finalDay:any;
 
@@ -30,15 +25,12 @@ export class DistanceComponent implements OnInit {
     else{
       this.finalMonth=this.currentMonth;
     }
-
-
     if(this.currentDate < 10){
       this.finalDay="0"+this.currentDate;
     }
     else{
       this.finalDay=this.currentDate;
     }
-
     this.today=this.currentYear+"-"+this.finalMonth+"-"+this.finalDay;
 
   }
