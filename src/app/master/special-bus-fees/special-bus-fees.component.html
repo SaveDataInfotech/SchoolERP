@@ -120,7 +120,7 @@
                                                 formControlName="amount">
                                             <div style="width: 100px;" class="input-group mb-3">
                                                 <input type="text" (change)="validateWhite(i)" class="form-control"
-                                                    formControlName="less_per" (keypress)="numberOnly($event)">
+                                                    formControlName="less_per" (keypress)="numberOnly($event)" required>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">%</span>
                                                 </div>
@@ -143,33 +143,51 @@
 
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <table class="col-sm-11 table table-hover table-bordered table-sm  mt-2">
-                <thead>
-                    <tr>
-                        <th>S No</th>
-                        <th>Vehicle Type</th>
-                        <th>KM Range</th>
-                        <th>Batch Year</th>
-                        <th>Fees Less</th>
-                        <th *ngFor="let class of ClassnameList">{{class.class_name}}</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let bus of specialGroupBusFeesList;let i=index;">
-                        <td>{{i+1}}</td>
-                        <td>{{bus.vehicle_type}}</td>
-                        <td>{{bus.kmrange}}</td>
-                        <td>{{bus.batch_year}}</td>
-                        <td>{{bus.less_type}}</td>
-                        <td *ngFor="let am of ClassnameList">{{getAmount(am.class_name,i)}}%</td>
-                        <td>
-                            <span (click)="specialBusFeeDelete(bus.typeid,bus.kmrange,bus.batch_year,bus.fess_lessid)"
-                                class="m-2 deletebutton"><b>delete</b></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="col-sm-11 table table-hover table-bordered table-sm  mt-2">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Vehicle Type</th>
+                            <th>KM Range</th>
+                            <th>Batch Year</th>
+                            <th>Fees Less</th>
+                            <th *ngFor="let class of ClassnameList">
+                                <span style="color: blue;">{{class.class_name}}</span>
+                                <span>
+                            <th>General Amt</th>
+                            <th>Deduction %</th>
+                            <th>Deduction Amt</th>
+                            <th>Payable Amt</th>
+                            </span>
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bus of specialGroupBusFeesList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{bus.vehicle_type}}</td>
+                            <td>{{bus.kmrange}}</td>
+                            <td>{{bus.batch_year}}</td>
+                            <td>{{bus.less_type}}</td>
+                            <td *ngFor="let am of ClassnameList">
+                                <span>
+                            <td style="width: 80px;color:blue;">{{getGenAmount(am.class_name,i)}}</td>
+                            <td style="width: 80px;">{{getAmount(am.class_name,i)}}%</td>
+                            <td style="width: 80px;color:red;">{{getDeAmount(am.class_name,i)}}</td>
+                            <td style="width: 80px;color:green;">{{getPayableAmount(am.class_name,i)}}</td>
+                            </span>
+                            </td>
+                            <td>
+                                <span
+                                    (click)="specialBusFeeDelete(bus.typeid,bus.kmrange,bus.batch_year,bus.fess_lessid)"
+                                    class="m-2 deletebutton"><b>delete</b></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>

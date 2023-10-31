@@ -37,7 +37,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input (keypress)="letterOnly($event)"
+                                    <input (keypress)="letterOnly($event)" #inputclass
                                         [ngClass]="{'is-invalid': Student_classForm.controls.class_name.touched && Student_classForm.controls.class_name.errors}"
                                         formControlName="class_name" class="form-control"
                                         oninput="this.value = this.value.toUpperCase()" type="text">
@@ -141,7 +141,7 @@
                                     <select
                                         [ngClass]="{'is-invalid': Student_SectionForm.get('classid')?.touched && Student_SectionForm.get('classid')?.errors}"
                                         style="width: 100%;" class="form-control" formControlName="classid" #t
-                                        (change)="changefun(t.value)" name="selectAction">
+                                        (change)="changefun(t.value)">
                                         <option value=null selected disabled>Please select</option>
                                         <option [disabled]="SectionbuttonId != true" *ngFor="let class of ClassList"
                                             value={{class.classid}}>
@@ -160,8 +160,7 @@
                                     <label class="pt-2" style="margin: auto;">Group Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select style="width: 100%;" class="form-control" formControlName="groupid"
-                                        name="selectAction">
+                                    <select style="width: 100%;" class="form-control" formControlName="groupid">
                                         <option value=0 selected disabled>Please select</option>
                                         <option [disabled]="SectionbuttonId != true" *ngFor="let group of newlist;"
                                             [ngValue]="group.groupid">
@@ -178,6 +177,7 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <input (keypress)="sectionletterOnly($event)"
+                                        oninput="this.value = this.value.toUpperCase()"
                                         [ngClass]="{'is-invalid': Student_SectionForm.controls.section_name.touched && Student_SectionForm.controls.section_name.errors}"
                                         formControlName="section_name" class="form-control" type="text" required>
                                     <span class="text-danger"
@@ -205,7 +205,7 @@
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </form>
                 </mat-card-content>
             </mat-card>
@@ -283,8 +283,7 @@
                                 </div>
                                 <div style="float: left;width: 250px;">
                                     <select style="width: 100%;" class="form-control" formControlName="classid"
-                                        [ngClass]="{'is-invalid': Student_GroupForm.get('classid')?.touched && Student_GroupForm.get('classid')?.errors}"
-                                        name="selectAction">
+                                        [ngClass]="{'is-invalid': Student_GroupForm.get('classid')?.touched && Student_GroupForm.get('classid')?.errors}">
                                         <option value="null" selected disabled>Please select</option>
                                         <option
                                             [disabled]="class.class_name != 'XI' && class.class_name != 'Xl' && class.class_name != 'XII' && class.class_name != 'Xll'"
@@ -306,13 +305,14 @@
                                 <div style="float: left;width: 250px;">
                                     <input
                                         [ngClass]="{'is-invalid': Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors}"
-                                        formControlName="group_name" class="form-control" type="tel" (keypress)="letterOnly($event)" required>
+                                        formControlName="group_name" class="form-control" type="tel"
+                                        (keypress)="letterOnly($event)" required>
                                     <span class="text-danger"
                                         *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors">
                                         <div
                                             *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors.required">
                                             Group name is required
-                                        </div>                                       
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@
                                         <div
                                             *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors.required">
                                             Group Description is required
-                                        </div>                                        
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -353,7 +353,7 @@
                                         (click)="backButton()" value="Close" />
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </form>
                 </mat-card-content>
             </mat-card>

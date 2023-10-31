@@ -8,88 +8,106 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form>
+            <form [formGroup]="vehicleDistanceForm" (ngSubmit)="newDistance()">
                 <div class="row">
-
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Vehicle No</label>
+                            <label class="pt-2" style="margin: auto;">Date</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="TN-03-AU-9861" class="form-control" type="text" required>
+                            <input class="form-control" formControlName="date" type="date">
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Root No</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="3" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Date</label>
+                            <label class="pt-2" style="margin: auto;">Vehicle No<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" [value]="today" type="date" required>
+                            <select
+                                [ngClass]="{'is-invalid':vehicleDistanceForm.controls.vehicle_no_id.touched && vehicleDistanceForm.controls.vehicle_no_id.errors}"
+                                formControlName="vehicle_no_id" style="width: 100%;" class="form-control"
+                                (change)="getVehicleDetails()" required>
+                                <option value=null selected disabled>Please select</option>
+                                <option [ngValue]="Vehi.vehicle_no_id" *ngFor="let Vehi of vehicleAssignList;">
+                                    {{Vehi.vehicle_no}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="vehicleDistanceForm.controls.vehicle_no_id.touched && vehicleDistanceForm.controls.vehicle_no_id.errors">
+                                <div
+                                    *ngIf="vehicleDistanceForm.controls.vehicle_no_id.touched && vehicleDistanceForm.controls.vehicle_no_id.errors.required">
+                                    Vehicle No is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Root No</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input formControlName="vehicle_root_no" class="form-control" type="text" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Driver Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input formControlName="driver_no" class="form-control" type="text" readonly>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Driver Name</label>
+                            <label class="pt-2" style="margin: auto;">Helper Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input formControlName="helper_no" class="form-control" type="text" readonly>
                         </div>
                     </div>
                 </div>
+
                 <div class="row ">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">Helper Name</label>
+                            <label class="pt-2" style="margin: auto;">K.M Start</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
-                        </div>
-                    </div>                    
-                </div>
-
-                <div class="row ">
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">K.M Start</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input placeholder="30" class="form-control" type="text" required>
+                            <input formControlName="km_start" class="form-control" type="text" required>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label for="ex2" class="pt-2" style="margin: auto;">K.M End</label>
+                            <label class="pt-2" style="margin: auto;">K.M End</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="30" class="form-control" type="text" required>
+                            <input formControlName="km_end" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                            class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="text-align: center;">
+                                <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                    <span> {{ vehicleDistanceForm.value.distanceid ==0 ? 'Save' :
+                                        'Edit'}}</span></button>
+                                <input type="button" (click)="cancelClick()" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
+                                    (click)="backButton()" value="Close" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
-
-            
         </mat-card-content>
     </mat-card>
 
@@ -100,9 +118,9 @@
                     <thead>
                         <tr>
                             <th>Si.No</th>
+                            <th>Date</th>
                             <th>Vehicle No</th>
                             <th>Root No</th>
-                            <th>Date</th>
                             <th>Driver Name</th>
                             <th>Helper Name</th>
                             <th>K.M Start</th>
@@ -111,20 +129,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>TN-03-AU-9861</td>
-                            <td>3</td>
-                            <td>12-12-2023</td>
-                            <td>Ram</td>
-                            <td>Kumar</td>
-                            <td>30</td>
-                            <td>29</td>                           
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                            <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                class="pl-2">delete</mat-icon>
-                        </td>
+                        <tr *ngFor="let item of vehicleDistanceList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.vehicle_no}}</td>
+                            <td>{{item.vehicle_root_no}}</td>
+                            <td>{{item.driver_name}}</td>
+                            <td>{{item.helper_name}}</td>
+                            <td>{{item.km_start}}</td>
+                            <td>{{item.km_end}}</td>
+                            <td class="tdoption">
+                                <span (click)="updateClick(item)" class="m-2 editbutton"><b>edit</b></span>
+                                <span>||</span>
+                                <span (click)="deleteClick(item.distanceid)"
+                                    class="m-2 deletebutton"><b>delete</b></span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

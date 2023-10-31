@@ -38,7 +38,7 @@
                             <input
                                 [ngClass]="{'is-invalid':stafftypeForm.controls.staff_type.touched && stafftypeForm.controls.staff_type.errors}"
                                 formControlName="staff_type" class="form-control" type="text"
-                                (keypress)="letterOnly($event)" required>
+                                (keypress)="charSymbol($event)" required>
                             <span class="text-danger"
                                 *ngIf="stafftypeForm.controls.staff_type.touched && stafftypeForm.controls.staff_type.errors">
                                 <div

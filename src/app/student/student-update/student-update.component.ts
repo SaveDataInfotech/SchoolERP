@@ -8,6 +8,8 @@ import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
+import { VehicleTypeService } from 'src/app/api-service/VehicleType.service';
+import { BusFeesAssignService } from 'src/app/api-service/busFeesAssign.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
@@ -34,6 +36,14 @@ export class StudentUpdateComponent implements OnInit {
   StudentDataList: any[] = [];
   allSibilingsList: any[] = [];
   updategroupDisplay: boolean;
+
+  vehicleTypeList: any[] = [];
+  groupBusFeeList: any[] = [];
+  kmFillterList: any[] = [];
+  vehicleNoRootList: any = [];
+  PlaceList: any = [];
+  placefilterList: any[] = [];
+  FeesLessList: any = [];
   constructor(
     private spinner: NgxSpinnerService,
     private router: Router,
@@ -43,6 +53,11 @@ export class StudentUpdateComponent implements OnInit {
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
     private studProSvc: studentProfileService,
+    private VhtySvc: VehicleTypeService,
+    private busFeSvc: BusFeesAssignService,
+    private vhNoRtSvc: VehicleNoRootService,
+    private PlaceSvc: VehiclePlaceService,
+    private FlSvc: FeesLessService,
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +65,12 @@ export class StudentUpdateComponent implements OnInit {
     this.refreshGroupList();
     this.refreshSectionList();
     this.getAllSibilings();
+
+    this.refreshvehicleTypeList();
+    this.refresgroupBusFeeList();
+    this.refreshvehicleNoRootList();
+    this.refreshvehiclePlaceList();
+    this.refreshFeesLessList();
   }
 
   backButton() {
@@ -62,6 +83,22 @@ export class StudentUpdateComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  numberNotApplicable(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
+
+  refresgroupBusFeeList() {
+    this.busFeSvc.getGroupBusFeesList().subscribe(data => {
+      debugger;
+      this.groupBusFeeList = data;
+    });
   }
 
   refreshClassList() {
@@ -143,6 +180,28 @@ export class StudentUpdateComponent implements OnInit {
   }
 
 
+  refreshvehicleTypeList() {
+    this.VhtySvc.getvehicleTypeList().subscribe(data => {
+      this.vehicleTypeList = data;
+    });
+  }
+  refreshvehicleNoRootList() {
+    this.vhNoRtSvc.getVeNoRtList().subscribe(data => {
+      this.vehicleNoRootList = data;
+    });
+  }
+
+  refreshvehiclePlaceList() {
+    this.PlaceSvc.getPlaceList().subscribe(data => {
+      this.PlaceList = data;
+    });
+  }
+
+  refreshFeesLessList() {
+    this.FlSvc.getfeesLessList().subscribe(data => {
+      this.FeesLessList = data;
+    });
+  }
 
 
   //get class details
@@ -199,6 +258,15 @@ export class StudentUpdateComponent implements OnInit {
         }
         this.studentDetailsForm.patchValue(this.StudentDataList[0]);
 
+        const vhType = this.studentDetailsForm.value.vehicle_type
+        this.kmFillterList = this.groupBusFeeList.filter((e) => {
+          return e.typeid == vhType
+        });
+        debugger;
+        const idn = this.studentDetailsForm.value.root_no
+
+        this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
+
         const control = <FormArray>this.studentDetailsForm.controls['sibling'];
 
         while (control.length !== 0) {
@@ -248,6 +316,13 @@ export class StudentUpdateComponent implements OnInit {
     religion: new FormControl(''),
     community: new FormControl(''),
     caste: new FormControl(''),
+    newstudent: new FormControl(''),
+    feesless: new FormControl(''),
+    stay_type: new FormControl(''),
+    vehicle_type: new FormControl(0),
+    root_no: new FormControl(0),
+    boading_place: new FormControl(''),
+    busdistance: new FormControl(''),
     bloodgroup: new FormControl(''),
     phy_challanged: new FormControl(''),
     i_m_1: new FormControl(''),
@@ -263,7 +338,7 @@ export class StudentUpdateComponent implements OnInit {
     m_ph: new FormControl(''),
     p_address: new FormControl(''),
     c_address: new FormControl(''),
-    l_class: new FormControl(''),
+    l_classid: new FormControl(0),
     l_school: new FormControl(''),
     l_stream: new FormControl(''),
     l_medium: new FormControl(''),
@@ -303,6 +378,7 @@ export class StudentUpdateComponent implements OnInit {
     }
     else {
       this.studentDetailsForm.markAllAsTouched();
+      this.notificationSvc.error("Fill in the manatory fileds")
     }
   }
 
@@ -367,7 +443,7 @@ export class StudentUpdateComponent implements OnInit {
     this.studentDetailsForm.get('p_address')?.setValue('');
     this.studentDetailsForm.get('c_address')?.setValue('');
     this.studentDetailsForm.get('cuid')?.setValue(0);
-    this.studentDetailsForm.get('l_class')?.setValue('');
+    this.studentDetailsForm.get('l_classid')?.setValue(0);
     this.studentDetailsForm.get('l_school')?.setValue('');
     this.studentDetailsForm.get('l_stream')?.setValue('');
     this.studentDetailsForm.get('l_medium')?.setValue('');

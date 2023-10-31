@@ -276,8 +276,14 @@
                                     <th>Batch Year</th>
                                     <th>Fees Less</th>
                                     <th>Fee Type</th>
-                                    <th>Male Deduction %</th>
-                                    <th>Female Deduction %</th>
+                                    <th style="background-color: blue;color: white;">General Fees Male</th>
+                                    <th style="background-color: blue;color: white;">Deduction %</th>
+                                    <th style="background-color: blue;color: white;">Deduction Amt</th>
+                                    <th style="background-color: blue;color: white;">Payable Amt</th>
+                                    <th style="background-color: rgb(241, 15, 140);color: white;">General Fees Female</th>
+                                    <th style="background-color: rgb(241, 15, 140);color: white;">Deduction %</th>
+                                    <th style="background-color: rgb(241, 15, 140);color: white;">Deduction Amt</th>
+                                    <th style="background-color: rgb(241, 15, 140);color: white;">Payable Amt</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -289,8 +295,14 @@
                                     <td>{{item.batch_year}}</td>
                                     <td>{{item.less_type}}</td>
                                     <td>{{item.type_name}}</td>
-                                    <td>{{item.s_male_amount}}%</td>
-                                    <td>{{item.s_female_amount}}%</td>
+                                    <td style="color: blue;">{{item.male_amount}}</td>
+                                    <td style="color: blue;">{{item.s_male_amount}}%</td>
+                                    <td style="color: blue;">{{item.maledeamount}}</td>
+                                    <td style="color: blue;">{{+item.male_amount - +item.maledeamount}}</td>
+                                    <td style="color: rgb(241, 15, 140);">{{item.female_amount}}</td>
+                                    <td style="color: rgb(241, 15, 140);">{{item.s_female_amount}}%</td>
+                                    <td style="color: rgb(241, 15, 140);">{{item.femaledeamount}}</td>
+                                    <td style="color: rgb(241, 15, 140);">{{+item.female_amount - +item.femaledeamount}}</td>
                                     <td> <span (click)="specialFeesUpdate(item)"
                                             class="m-2 editbutton"><b>edit</b></span>
                                         <span>||</span>

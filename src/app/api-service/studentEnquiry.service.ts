@@ -15,6 +15,7 @@ export class studentEnquiryService {
   }
 
   addNewEnquiry(enquiryinsert: any): Observable<any> {
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentEnquiry/insert_student_enquiry', enquiryinsert, httpOptions);
   }

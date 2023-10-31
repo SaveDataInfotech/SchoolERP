@@ -30,6 +30,15 @@ export class StaffTypeComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
+  charSymbol(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
+
   letterOnly(event) {
     var charCode = event.keyCode;
     if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
@@ -41,7 +50,7 @@ export class StaffTypeComponent implements OnInit {
 
   stafftypeForm = new FormGroup({
     staff_typeid: new FormControl(0),
-    staff_type: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
+    staff_type: new FormControl(''),
     short_code: new FormControl(''),
     cuid: new FormControl(1),
   })
@@ -67,7 +76,7 @@ export class StaffTypeComponent implements OnInit {
                   this.cancelClick();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists")
+                  this.notificationSvc.warn("Already exists staff type or staff code")
                 }
                 else {
                   this.notificationSvc.error("Something error")
@@ -89,8 +98,9 @@ export class StaffTypeComponent implements OnInit {
                   this.cancelClick();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists")
+                  this.notificationSvc.warn("Already exists staff type or staff code")
                 }
+                
                 else {
                   this.notificationSvc.error("Something error")
                 }

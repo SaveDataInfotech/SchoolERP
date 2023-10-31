@@ -36,7 +36,7 @@
                         <div class="inputdiv">
                             <input (change)="formatBatch(batch.value)" #batch
                                 [ngClass]="{'is-invalid':BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors}"
-                                formControlName="batch_year" pattern="[0-9]{4}-[0-9]{4}" class="form-control" type="tel"
+                                formControlName="batch_year" pattern="[0-9]{4}-[0-9]{4}" class="form-control" type="text"
                                 required>
                             <span class="text-danger"
                                 *ngIf="BatchYearForm.controls.batch_year.touched && BatchYearForm.controls.batch_year.errors">

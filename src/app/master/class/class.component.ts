@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,6 +28,12 @@ export class ClassComponent implements OnInit {
   //Fillter new list array for student Group
   newlist: any = [];
 
+  @ViewChild('inputclass', { static: false })
+  set inputclass(element: ElementRef<HTMLInputElement>) {
+    if (element) {
+      element.nativeElement.focus()
+    }
+  }
 
   constructor(
     private ClassSvc: studentClassService,
@@ -35,7 +41,9 @@ export class ClassComponent implements OnInit {
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
-    private router: Router) {
+    private router: Router,
+    private host: ElementRef,
+    private elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -52,7 +60,9 @@ export class ClassComponent implements OnInit {
       //Student Section
       this.refreshSectionList();
     this.getSectionMaxId();
-    this.SectioncancelClick()
+    this.SectioncancelClick();
+
+
   }
 
   letterOnly(event) {
@@ -67,13 +77,13 @@ export class ClassComponent implements OnInit {
   sectionletterOnly(event) {
     const charCode = (event.which) ? event.which : event.keyCode;
 
-  if ((charCode >= 65 && charCode <= 90) || // A-Z
+    if ((charCode >= 65 && charCode <= 90) || // A-Z
       (charCode >= 97 && charCode <= 122) || // a-z
       (charCode >= 48 && charCode <= 57)) { // 0-9
-    return true;
-  } else {
-    return false;
-  }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   //Student Class
@@ -244,6 +254,13 @@ export class ClassComponent implements OnInit {
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists")
                 }
+                else if (res.status == 'Already exists Group name so I changed description name only') {
+                  this.notificationSvc.warn(res.status);
+                  this.SectioncancelClick();
+                  this.refreshGroupList();
+                  this.getGroupMaxId();
+                  this.GroupcancelClick();
+                }
                 else {
                   this.notificationSvc.error("Something error")
                 }
@@ -291,6 +308,12 @@ export class ClassComponent implements OnInit {
   }
 
   //Student Section
+
+
+
+
+
+
   changefun(classsid: any) {
     const classid = Number(classsid);
     this.Student_SectionForm.get('classid')?.setValue(classid);
@@ -346,7 +369,7 @@ export class ClassComponent implements OnInit {
           .afterClosed().subscribe(res => {
             if (res == true) {
               var Sectioninsert = (this.Student_SectionForm.value);
-              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
+              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {                
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshSectionList();
@@ -354,9 +377,9 @@ export class ClassComponent implements OnInit {
                   this.SectioncancelClick();
                 }
                 else if (res.status == 'Already exists') {
-                  this.notificationSvc.warn("Already exists")
+                  this.notificationSvc.warn("Already exists");
                 }
-                else {
+                else {                 
                   this.notificationSvc.error("Something error")
                 }
               });

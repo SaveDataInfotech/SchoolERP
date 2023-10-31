@@ -148,6 +148,15 @@ export class StudentProfileComponent implements OnInit {
     return true;
   }
 
+
+  numberNotApplicable(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
   refreshvehicleTypeList() {
     this.VhtySvc.getvehicleTypeList().subscribe(data => {
       this.vehicleTypeList = data;
@@ -327,7 +336,7 @@ export class StudentProfileComponent implements OnInit {
     m_ph: new FormControl(''),
     p_address: new FormControl(''),
     c_address: new FormControl(''),
-    l_class: new FormControl(''),
+    l_classid: new FormControl(0),
     l_school: new FormControl(''),
     l_stream: new FormControl(''),
     l_medium: new FormControl(''),
@@ -810,7 +819,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('p_address')?.setValue('');
     this.studentDetailsForm.get('c_address')?.setValue('');
     this.studentDetailsForm.get('cuid')?.setValue(0);
-    this.studentDetailsForm.get('l_class')?.setValue('');
+    this.studentDetailsForm.get('l_classid')?.setValue(0);
     this.studentDetailsForm.get('l_school')?.setValue('');
     this.studentDetailsForm.get('l_stream')?.setValue('');
     this.studentDetailsForm.get('l_medium')?.setValue('');

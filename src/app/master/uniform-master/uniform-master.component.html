@@ -43,7 +43,7 @@
                                         formControlName="gender">
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="buttonId != true" value="Male">Male</option>
-                                        <option [disabled]="buttonId != true" value="FeMale">Female</option>
+                                        <option [disabled]="buttonId != true" value="Female">Female</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="uniformSizeForm.controls.gender.touched && uniformSizeForm.controls.gender.errors">
@@ -259,7 +259,7 @@
                                         class="form-control" formControlName="gender">
                                         <option value="" selected disabled>Please select</option>
                                         <option [disabled]="meterbuttonId != true" value="Male">Male</option>
-                                        <option [disabled]="meterbuttonId != true" value="FeMale">Female</option>
+                                        <option [disabled]="meterbuttonId != true" value="Female">Female</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="uniformMeterForm.controls.gender.touched && uniformMeterForm.controls.gender.errors">

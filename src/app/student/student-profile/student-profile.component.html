@@ -31,7 +31,7 @@
                             <label class="pt-2" style="margin: auto;">Admission Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="admission_no" class="form-control" type="text">
+                            <input readonly formControlName="admission_no" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="inputdiv">
                             <select required
-                            [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.get('sectionid')?.errors }"
+                                [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.get('sectionid')?.errors }"
                                 formControlName="sectionid" style="width: 100%;" class="form-control ">
                                 <option value=null selected disabled>Please select</option>
                                 <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
@@ -169,7 +169,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors}"
                                 formControlName="student_name" class="form-control" type="text">
 
@@ -192,8 +193,9 @@
                             <label class="pt-2" style="margin: auto;">மாணவர் பெயர்</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="தமிழில்" formControlName="student_name_t" class="form-control"
-                                type="text">
+                            <input oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)" placeholder="தமிழில்"
+                                formControlName="student_name_t" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -455,12 +457,10 @@
                             </ngx-dropzone-image-preview>
                         </div>
                     </div>
-                    <!-- <div class="col-sm-5" >
+                    <div class="col-sm-5">
                         <p class="blink_me">Make sure the student class fee details are on the Fees Assign page - Before
                             Save</p>
-                        <a (click)="feeAssignFun()">Click to go to <span class="text-danger">Fees Assign</span>
-                            page</a><i class="fa fa-arrow-right ml-1 "></i>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6 " style="display: flex;">
@@ -502,7 +502,8 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 1</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="i_m_1" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_1" class="form-control"
+                                type="text">
                         </div>
                     </div>
 
@@ -511,7 +512,8 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 2</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="i_m_2" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_2" class="form-control"
+                                type="text">
                         </div>
                     </div>
                 </div>
@@ -523,7 +525,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.father_name.touched && studentDetailsForm.controls.father_name.errors}"
                                 formControlName="father_name" class="form-control" type="text">
                             <span class="text-danger"
@@ -545,7 +548,8 @@
                             <label class="pt-2" style="margin: auto;">Occupation</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="f_occupation" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="f_occupation"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -556,7 +560,8 @@
                             <label class="pt-2" style="margin: auto;">Qualification</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="f_qualification" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="f_qualification"
+                                class="form-control" type="text">
                         </div>
                     </div>
 
@@ -602,7 +607,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.mother_name.touched && studentDetailsForm.controls.mother_name.errors}"
                                 formControlName="mother_name" class="form-control" type="text">
                             <span class="text-danger"
@@ -624,7 +630,8 @@
                             <label class="pt-2" style="margin: auto;">Occupation</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_occupation" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="m_occupation"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -635,7 +642,8 @@
                             <label class="pt-2" style="margin: auto;">Qualification</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_qualification" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="m_qualification"
+                                class="form-control" type="text">
                         </div>
                     </div>
 
@@ -704,7 +712,11 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Std</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_class" class="form-control" type="text">
+                            <select formControlName="l_classid" style="width: 100%;" class="form-control">
+                                <option value=0 selected>Not Specified</option>
+                                <option [ngValue]="class.classid" *ngFor="let class of ClassList">{{class.class_name}}
+                                </option>
+                            </select>
                         </div>
                     </div>
 
@@ -713,7 +725,8 @@
                             <label class="pt-2" style="margin: auto;">Last Studied School</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_school" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="l_school"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -724,7 +737,12 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Stream</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_stream" class="form-control" type="text">
+                            <select formControlName="l_stream" style="width: 100%;" class="form-control">
+                                <option value="">Not Specified</option>
+                                <option value="Matric">Matric</option>
+                                <option value="CBSC">CBSC</option>
+                                <option value="State Board">State Board</option>
+                            </select>
                         </div>
                     </div>
 
@@ -733,7 +751,8 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Medium</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_medium" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="l_medium"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>

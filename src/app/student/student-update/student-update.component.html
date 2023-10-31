@@ -71,9 +71,9 @@
                             <select
                                 [ngClass]="{'is-invalid': studentDetailsForm.get('classid')?.touched && studentDetailsForm.value.classid == 0}"
                                 formControlName="classid" style="width: 100%;" #ut
-                                (change)="updatefilterGroupfun(ut.value)" class="form-control">
+                                (change)="updatefilterGroupfun(ut.value)" class="form-control" required>
                                 <option value=null selected disabled>Please select</option>
-                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                <option disabled value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
                             <span class="text-danger"
@@ -102,7 +102,7 @@
                             <select formControlName="groupid" style="width: 100%;" #us
                                 (change)="updatefilterSectionfun(us.value)" class="form-control">
                                 <option value=0 selected disabled>Please select</option>
-                                <option value={{group.groupid}} *ngFor="let group of updategroupFilterlist;">
+                                <option disabled value={{group.groupid}} *ngFor="let group of updategroupFilterlist;">
                                     {{group.group_name}}</option>
                             </select>
                         </div>
@@ -118,7 +118,7 @@
                         <div class="inputdiv">
                             <select
                                 [ngClass]="{'is-invalid': studentDetailsForm.get('sectionid')?.touched && studentDetailsForm.value.sectionid == 0}"
-                                formControlName="sectionid" style="width: 100%;" class="form-control ">
+                                formControlName="sectionid" style="width: 100%;" class="form-control" required>
                                 <option value=0 selected disabled>Please select</option>
                                 <option [ngValue]="section.sectionid" *ngFor="let section of updatesectionFilterlist;">
                                     {{section.section_name}}</option>
@@ -182,7 +182,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors}"
                                 formControlName="student_name" class="form-control" type="text">
 
@@ -205,8 +206,9 @@
                             <label class="pt-2" style="margin: auto;">மாணவர் பெயர்</label>
                         </div>
                         <div class="inputdiv">
-                            <input placeholder="தமிழில்" formControlName="student_name_t" class="form-control"
-                                type="text">
+                            <input oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)" placeholder="தமிழில்"
+                                formControlName="student_name_t" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -283,7 +285,15 @@
                             <label class="pt-2" style="margin: auto;">Community</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="community" class="form-control" type="text">
+                            <select style="width: 100%;" formControlName="community" class="form-control">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="BC">BC</option>
+                                <option value="MBC">MBC</option>
+                                <option value="BCM">BCM</option>
+                                <option value="DC">DC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
                         </div>
                     </div>
 
@@ -304,6 +314,113 @@
                         </div>
                         <div class="inputdiv">
                             <input formControlName="date" class="form-control" type="date">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  mt-3">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Fees Less<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" formControlName="feesless" class="form-control">
+                                <option selected value="" disabled>Please select </option>
+                                <option disabled value='Not Specified'>Not Specified</option>
+                                <option disabled *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">New Student<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" formControlName="newstudent" class="form-control">
+                                <option disabled value="No">NO</option>
+                                <option disabled value="Yes">YES</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Place of stay<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="stay_type" style="width: 100%;" class="form-control">
+                                <option disabled selected value="" disabled>Please select </option>
+                                <option disabled>Day scholar</option>
+                                <option disabled>Hostel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div *ngIf="studentDetailsForm.value.stay_type == 'Day scholar'" class="col-sm-6 mt-3"
+                        style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Vehicle Type</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="vehicle_type" style="width: 100%;" class="form-control">
+                                <option selected value=null disabled>Please select </option>
+                                <option disabled value=0>Own vehicle</option>
+                                <option disabled [ngValue]="vh.typeid" *ngFor="let vh of vehicleTypeList">
+                                    {{vh.vehicle_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="studentDetailsForm.value.vehicle_type != 0 && studentDetailsForm.value.stay_type == 'Day scholar'"
+                        class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Bus Distance</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="busdistance" style="width: 100%;" class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option disabled value={{fees.kmrange}} *ngFor="let fees of kmFillterList;">
+                                    {{fees.kmrange}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="studentDetailsForm.value.vehicle_type != 0 && studentDetailsForm.value.stay_type == 'Day scholar'"
+                    class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Root No</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="root_no" style="width: 100%;" class="form-control ">
+                                <option value=0 selected disabled>Please select</option>
+                                <option disabled value={{VehicleRoot.vehicle_no_id}}
+                                    *ngFor="let VehicleRoot of vehicleNoRootList;">
+                                    {{VehicleRoot.vehicle_root_no}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Place of Boading</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" formControlName="boading_place" class="form-control ">
+                                <option value='' selected disabled>Please select</option>
+                                <option disabled value={{place.place}} *ngFor="let place of placefilterList;">
+                                    {{place.place}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -368,7 +485,8 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 1</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="i_m_1" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_1" class="form-control"
+                                type="text">
                         </div>
                     </div>
 
@@ -377,7 +495,8 @@
                             <label class="pt-2" style="margin: auto;">Indentification Mark 2</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="i_m_2" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_2" class="form-control"
+                                type="text">
                         </div>
                     </div>
                 </div>
@@ -389,7 +508,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.father_name.touched && studentDetailsForm.controls.father_name.errors}"
                                 formControlName="father_name" class="form-control" type="text">
                             <span class="text-danger"
@@ -411,7 +531,8 @@
                             <label class="pt-2" style="margin: auto;">Occupation</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="f_occupation" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="f_occupation"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -422,7 +543,8 @@
                             <label class="pt-2" style="margin: auto;">Qualification</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="f_qualification" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="f_qualification"
+                                class="form-control" type="text">
                         </div>
                     </div>
 
@@ -468,7 +590,8 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input required
+                            <input required oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.mother_name.touched && studentDetailsForm.controls.mother_name.errors}"
                                 formControlName="mother_name" class="form-control" type="text">
                             <span class="text-danger"
@@ -490,7 +613,8 @@
                             <label class="pt-2" style="margin: auto;">Occupation</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_occupation" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="m_occupation"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -501,7 +625,8 @@
                             <label class="pt-2" style="margin: auto;">Qualification</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_qualification" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="m_qualification"
+                                class="form-control" type="text">
                         </div>
                     </div>
 
@@ -523,7 +648,7 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <textarea required
+                            <textarea
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.p_address.touched && studentDetailsForm.controls.p_address.errors}"
                                 required formControlName="p_address" class="form-control" rows="4"></textarea>
                             <span class="text-danger"
@@ -542,7 +667,7 @@
                                     class="text-danger"> *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <textarea required
+                            <textarea
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.c_address.touched && studentDetailsForm.controls.c_address.errors}"
                                 required formControlName="c_address" class="form-control" rows="4"></textarea>
                             <span class="text-danger"
@@ -570,7 +695,11 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Std</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_class" class="form-control" type="text">
+                            <select formControlName="l_classid" style="width: 100%;" class="form-control">
+                                <option value=0 selected>Not Specified</option>
+                                <option [ngValue]="class.classid" *ngFor="let class of ClassList">{{class.class_name}}
+                                </option>
+                            </select>
                         </div>
                     </div>
 
@@ -579,7 +708,8 @@
                             <label class="pt-2" style="margin: auto;">Last Studied School</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_school" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="l_school"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -590,7 +720,12 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Stream</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_stream" class="form-control" type="text">
+                            <select formControlName="l_stream" style="width: 100%;" class="form-control">
+                                <option value="">Not Specified</option>
+                                <option value="Matric">Matric</option>
+                                <option value="CBSC">CBSC</option>
+                                <option value="State Board">State Board</option>
+                            </select>
                         </div>
                     </div>
 
@@ -599,7 +734,8 @@
                             <label class="pt-2" style="margin: auto;">Last Studied Medium</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="l_medium" class="form-control" type="text">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="l_medium"
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>

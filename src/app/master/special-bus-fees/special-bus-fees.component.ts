@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -43,7 +43,8 @@ export class SpecialBusFeesComponent implements OnInit {
     private busFeSvc: BusFeesAssignService,
     private FlSvc: FeesLessService,
     private spBusSvc: SpecialBusFeesAssignService,
-    private ClassSvc: studentClassService,) { }
+    private ClassSvc: studentClassService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.GetActiveBatchYear();
@@ -155,6 +156,70 @@ export class SpecialBusFeesComponent implements OnInit {
     return getAmount;
   }
 
+  getGenAmount(value: any, i) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    newClass = this.specialGroupBusFeesList[i].class_name.split(",");
+    newAmount = this.specialGroupBusFeesList[i].genbusamount.split(",");
+
+    if (newClass.length == newAmount.length) {
+      index = newClass.indexOf(value);
+      if (index >= 0) {
+        getAmount = newAmount[index];
+      }
+      else {
+        getAmount = 'NULL';
+      }
+    }
+    return getAmount;
+  }
+
+  getDeAmount(value: any, i) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    newClass = this.specialGroupBusFeesList[i].class_name.split(",");
+    newAmount = this.specialGroupBusFeesList[i].busdeamount.split(",");
+
+    if (newClass.length == newAmount.length) {
+      index = newClass.indexOf(value);
+      if (index >= 0) {
+        getAmount = newAmount[index];
+      }
+      else {
+        getAmount = 'NULL';
+      }
+    }
+    return getAmount;
+  }
+
+  getPayableAmount(value: any, i) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    newClass = this.specialGroupBusFeesList[i].class_name.split(",");
+    newAmount = this.specialGroupBusFeesList[i].payablebusamount.split(",");
+
+    if (newClass.length == newAmount.length) {
+      index = newClass.indexOf(value);
+      if (index >= 0) {
+        getAmount = newAmount[index];
+      }
+      else {
+        getAmount = 'NULL';
+      }
+    }
+    return getAmount;
+  }
+
+
   autokm() {
     debugger;
     var regExp = /[a-zA-Z]/g;
@@ -179,7 +244,8 @@ export class SpecialBusFeesComponent implements OnInit {
     fess_lessid: new FormControl(null),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
-    s_classfeelist: new FormArray([])
+    s_classfeelist: new FormArray([]
+    )
   });
 
   getControls() {

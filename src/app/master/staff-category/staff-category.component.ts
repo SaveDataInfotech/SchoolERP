@@ -37,6 +37,14 @@ export class StaffCategoryComponent implements OnInit {
       return false;
   }
 
+  charSymbol(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
   staffCategoryForm = new FormGroup({
     category_id: new FormControl(0),
     category: new FormControl(''),

@@ -76,7 +76,6 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   changefun(classsid: any) {
-    
     const classid = Number(classsid);
     this.StudentEnquiryForm.get('classid')?.setValue(classid);
     this.Groupnewlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -87,7 +86,7 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   selectedSub(event: any) {
-    
+
     if (event.target.checked) {
       this.StudentEnquiryForm.get('s_declare')?.setValue(true);
     } else {
@@ -123,7 +122,7 @@ export class StudentEnquiryComponent implements OnInit {
     address: new FormControl('', [Validators.required]),
     i_m_1: new FormControl(''),
     i_m_2: new FormControl(''),
-    l_class: new FormControl(''),
+    l_classid: new FormControl(0),
     l_school: new FormControl(''),
     l_stream: new FormControl(''),
     l_medium: new FormControl(''),
@@ -138,13 +137,21 @@ export class StudentEnquiryComponent implements OnInit {
     return true;
   }
 
+  numberNotApplicable(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
+
   newEnquiry() {
-    
+
     if (this.StudentEnquiryForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            
             var Classinsert = (this.StudentEnquiryForm.value);
             this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
@@ -179,7 +186,7 @@ export class StudentEnquiryComponent implements OnInit {
       this.MaxId.forEach(element => {
         this.maxnumber = element.enquiryid
       });
-      
+
       var maxnum: string = String(this.maxnumber + 1)
       if (maxnum.length == 1) {
         this.enquiryno = '000' + maxnum
@@ -230,7 +237,7 @@ export class StudentEnquiryComponent implements OnInit {
     this.StudentEnquiryForm.get('address')?.setValue('');
     this.StudentEnquiryForm.get('i_m_1')?.setValue('');
     this.StudentEnquiryForm.get('i_m_2')?.setValue('');
-    this.StudentEnquiryForm.get('l_class')?.setValue('');
+    this.StudentEnquiryForm.get('l_classid')?.setValue(0);
     this.StudentEnquiryForm.get('l_school')?.setValue('');
     this.StudentEnquiryForm.get('l_stream')?.setValue('');
     this.StudentEnquiryForm.get('l_medium')?.setValue('');
