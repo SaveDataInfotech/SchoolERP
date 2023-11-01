@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -31,7 +32,8 @@ export class StudentPromoteComponent implements OnInit {
     private batchSvc: BatechYearService,
     private promoSvc: studentPromoteService,
     private notificationSvc: NotificationsService,
-    private router: Router) { }
+    private router: Router,
+    private DialogSvc: DialogService) { }
 
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class StudentPromoteComponent implements OnInit {
     });
   }
 
-  filterGroupfun(classsid: any) {    
+  filterGroupfun(classsid: any) {
     const classid = Number(classsid);
     this.searchStudentForm.classid = classid;
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -96,16 +98,16 @@ export class StudentPromoteComponent implements OnInit {
     classid: 0,
     groupid: 0,
     sectionid: 0,
-    batch_year:''
+    batch_year: ''
   };
 
   searchStudent() {
     const classid = this.searchStudentForm.classid;
     const groupid = this.searchStudentForm.groupid;
     const sectionid = this.searchStudentForm.sectionid;
-    const Batch=this.searchStudentForm.batch_year;
-    if (classid != 0 && sectionid != 0 && Batch !='' && Batch !=null) {
-      this.promoSvc.searchStudentbypromote(classid, groupid, sectionid,Batch).subscribe(data => {
+    const Batch = this.searchStudentForm.batch_year;
+    if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
+      this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
         this.StudentList = data;
       });
     }
@@ -114,7 +116,7 @@ export class StudentPromoteComponent implements OnInit {
     }
   }
   //////////////////
-  profilterGroupfun(classsid: any) {    
+  profilterGroupfun(classsid: any) {
     const classid = Number(classsid);
     this.studentPromoteForm.classid = classid;
     this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -149,29 +151,65 @@ export class StudentPromoteComponent implements OnInit {
 
   save(data) {
     const filterlist = data.filter((e) => { return e.isselected == true });
-    const batch_year = this.studentPromoteForm.batch_year;
-    const classid = this.studentPromoteForm.classid;
-    const groupid = this.studentPromoteForm.groupid;
-    const setionid = this.studentPromoteForm.sectionid;
-    const date = this.studentPromoteForm.date;
-    const cuid = this.studentPromoteForm.cuid;
+    if (filterlist.length != 0) {
 
-    this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
-      if (res.status == 'Saved successfully') {
-        this.notificationSvc.success('Saved Successfully');
-        this.cancelClick();
-      }
-      else {
-        this.notificationSvc.error('Something Error');
-      }
-    });
+      this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            const batch_year = this.studentPromoteForm.batch_year;
+            const classid = this.studentPromoteForm.classid;
+            const groupid = this.studentPromoteForm.groupid;
+            const setionid = this.studentPromoteForm.sectionid;
+            const date = this.studentPromoteForm.date;
+            const cuid = this.studentPromoteForm.cuid;
+
+            this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
+              debugger;
+              if (res.status == 'Saved successfully') {
+                this.notificationSvc.success('Saved Successfully');
+                this.cancelClick();
+              }
+              else if (res.status == "No bus fees") {
+                this.notificationSvc.error('fees details not there for these students');
+                const classid = this.searchStudentForm.classid;
+                const groupid = this.searchStudentForm.groupid;
+                const sectionid = this.searchStudentForm.sectionid;
+                const Batch = this.searchStudentForm.batch_year;
+                if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
+                  this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
+                    this.StudentList = data;
+                  });
+                }
+              }
+              else if (res.status == "No General fees") {
+                this.notificationSvc.error('fees details not there for these students');
+                const classid = this.searchStudentForm.classid;
+                const groupid = this.searchStudentForm.groupid;
+                const sectionid = this.searchStudentForm.sectionid;
+                const Batch = this.searchStudentForm.batch_year;
+                if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
+                  this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
+                    this.StudentList = data;
+                  });
+                }
+              }
+              else {
+                this.notificationSvc.error('Something Error');
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.notificationSvc.error("Please select atlest one student");
+    }
   }
 
   cancelClick() {
     this.searchStudentForm.classid = 0;
     this.searchStudentForm.groupid = 0;
     this.searchStudentForm.sectionid = 0;
-    this.searchStudentForm.batch_year='';
+    this.searchStudentForm.batch_year = '';
     this.studentPromoteForm.batch_year = null;
     this.studentPromoteForm.classid = null;
     this.studentPromoteForm.groupid = 0;
