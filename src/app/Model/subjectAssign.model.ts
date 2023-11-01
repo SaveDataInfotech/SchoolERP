@@ -2,6 +2,7 @@ export class subject {
     subjectid: number;
     subject_name: string;
     isselect: boolean;
+  classids: any;
 }
 
 export class assign {

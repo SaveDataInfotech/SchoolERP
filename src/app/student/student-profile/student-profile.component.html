@@ -301,17 +301,17 @@
                         </div>
                         <div class="inputdiv">
                             <select required
-                                [ngClass]="{'is-invalid':studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors}"
-                                style="width: 100%;" formControlName="feesless" class="form-control">
-                                <option selected value="" disabled>Please select </option>
-                                <option value='Not Specified'>Not Specified</option>
-                                <option *ngFor="let less of FeesLessList;">{{less.less_type}}</option>
+                                [ngClass]="{'is-invalid':studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors}"
+                                style="width: 100%;" formControlName="fess_lessid" class="form-control">
+                                <option selected value=null disabled>Please select </option>
+                                <option [ngValue]=0>Not Specified</option>
+                                <option *ngFor="let less of FeesLessList;" [ngValue]="less.fess_lessid">{{less.less_type}}</option>
                             </select>
 
                             <span class="text-danger"
-                                *ngIf="studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors">
+                                *ngIf="studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors">
                                 <div
-                                    *ngIf="studentDetailsForm.controls.feesless.touched && studentDetailsForm.controls.feesless.errors.required">
+                                    *ngIf="studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors.required">
                                     Fees Less is required
                                 </div>
                             </span>

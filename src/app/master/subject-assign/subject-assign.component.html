@@ -69,7 +69,7 @@
                             <label class="pt-2" style="margin: auto;">Section<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <select #sectionid="ngModel"
+                            <select #sectionid="ngModel" 
                                 [class.is-invalid]="sectionid.invalid && (sectionid.dirty || sectionid.touched)"
                                 name="sectionid" [(ngModel)]="subjectAssignForm.sectionid" style="width: 100%;"
                                 class="form-control " required>

@@ -311,7 +311,7 @@ export class StudentProfileComponent implements OnInit {
     community: new FormControl(''),
     caste: new FormControl(''),
     newstudent: new FormControl('Yes'),
-    feesless: new FormControl(''),
+    fess_lessid: new FormControl(null),
     stay_type: new FormControl(''),
     vehicle_type: new FormControl(0),
     root_no: new FormControl(0),
@@ -458,7 +458,7 @@ export class StudentProfileComponent implements OnInit {
                   control.removeAt(0)
                 }
 
-                if (this.studentDetailsForm.value.feesless == 'Not Specified' || this.studentDetailsForm.value.feesless == '' || this.studentDetailsForm.value.feesless == null) {
+                if (this.studentDetailsForm.value.fess_lessid == 0 || this.studentDetailsForm.value.fess_lessid == null) {
                   debugger;
                   const feesList = this.busFeeList.filter((e) => {
                     return e.classid == this.studentDetailsForm.value.classid
@@ -499,7 +499,7 @@ export class StudentProfileComponent implements OnInit {
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
-                      && e.less_type == this.studentDetailsForm.value.feesless
+                      && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
                       && e.isactive == true
                   });
 
@@ -550,7 +550,7 @@ export class StudentProfileComponent implements OnInit {
               }
               if (control.length == 0) {
                 debugger;
-                if (this.studentDetailsForm.value.feesless == 'Not Specified' || this.studentDetailsForm.value.feesless == '' || this.studentDetailsForm.value.feesless == null) {
+                if (this.studentDetailsForm.value.fess_lessid == 0 || this.studentDetailsForm.value.fess_lessid == null) {
                   if (this.studentDetailsForm.value.newstudent == 'No') {
                     let generalfeeList = this.generalFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
@@ -786,7 +786,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('community')?.setValue('');
     this.studentDetailsForm.get('caste')?.setValue('');
     this.studentDetailsForm.get('newstudent')?.setValue('Yes');
-    this.studentDetailsForm.get('feesless')?.setValue('');
+    this.studentDetailsForm.get('fess_lessid')?.setValue(null);
     this.studentDetailsForm.get('stay_type')?.setValue('');
     this.studentDetailsForm.get('vehicle_type')?.setValue(0);
     this.studentDetailsForm.get('root_no')?.setValue(0);

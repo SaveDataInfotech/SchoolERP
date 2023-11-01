@@ -49,9 +49,9 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   refreshsubjectList() {
-    this.subSvc.getsubjectList().subscribe(data => {
-      this.subjectDetailList = data;
-    });
+    // this.subSvc.getsubjectList().subscribe(data => {
+    //   this.subjectDetailList = data;
+    // });
   }
 
   refreshClassList() {
@@ -87,6 +87,7 @@ export class SubjectAssignComponent implements OnInit {
       this.groupDisplay = true;
       this.subjectAssignForm.sectionid = null;
     }
+    this.filterSubject();
   }
 
   FilterSectionfun(groupID: any) {
@@ -94,6 +95,20 @@ export class SubjectAssignComponent implements OnInit {
     this.subjectAssignForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
     this.subjectAssignForm.sectionid = null;
+  }
+
+  filterSubject() {
+    debugger;
+    this.subSvc.getsubjectList().subscribe(data => {
+      debugger;
+      const clasID = this.subjectAssignForm.classid;
+      this.subjectDetailList = data;
+      this.subjectDetailList.forEach(item => {
+        item.classids = item.classids.split(',').map(Number);
+      });
+      this.subjectDetailList = this.subjectDetailList.filter(item => item.classids.includes(clasID));
+    });
+
   }
 
   subjectAssignForm: assign = {

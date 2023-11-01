@@ -305,7 +305,7 @@ export class SpecialBusFeesComponent implements OnInit {
     }
     else {
       this.specialBusFeesform.markAllAsTouched();
-      this.notificationSvc.error('There are no details to save');
+      this.notificationSvc.error('There are no details');
     }
   }
 

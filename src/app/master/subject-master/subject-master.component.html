@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </div>
-            <form [formGroup]="subjectForm" (ngSubmit)="newSubject()">
+            <form #AssignForm="ngForm" [formGroup]="subjectForm" (ngSubmit)="newSubject()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
@@ -43,6 +43,28 @@
                                     Subject Name is required
                                 </div>
                             </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <input style="height: 15px; width: 15px;" type="checkbox" formControlName="selectAll"
+                            (change)="toggleAllCheckboxes()"> <span class="ml-2" style="color: blue;"> Select All</span>
+
+                        <div formArrayName="classidArray" class="row col-sm-8 mt-3" style="display: flex;">
+                            <div *ngFor="let chid of subjectForm.get('classidArray')['controls']; let i = index"
+                                formGroupName="{{i}}" style="float: left;text-align: left; width:200px;"
+                                class="col-sm-4 mt-4 ">
+                                <div style="float: left;text-align: left;">
+                                    <input (change)="updateSelectAllCheckbox()" formControlName="selected"
+                                        style="height: 15px;width: 15px;" type="checkbox">
+                                </div>
+                                <div style="float: left;text-align: left;" class="ml-2">
+                                    {{chid.get('class_name').value}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
