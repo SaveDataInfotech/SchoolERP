@@ -85,10 +85,11 @@
 
                     <div class="col-sm-3 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Date</label>
+                            <label class="pt-2" style="margin: auto;">Date<span class="text-danger"> *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input [(ngModel)]="studentPromoteForm.date" name="date" type="date" class="form-control">
+                            <input #date="ngModel" [class.is-invalid]="date.invalid && (date.dirty || date.touched)"
+                             [(ngModel)]="studentPromoteForm.date" required name="date" type="date" class="form-control">
                         </div>
                     </div>
                 </div>

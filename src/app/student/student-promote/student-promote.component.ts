@@ -152,10 +152,10 @@ export class StudentPromoteComponent implements OnInit {
   save(data) {
     const filterlist = data.filter((e) => { return e.isselected == true });
     if (filterlist.length != 0) {
-
       this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
+            debugger;
             const batch_year = this.studentPromoteForm.batch_year;
             const classid = this.studentPromoteForm.classid;
             const groupid = this.studentPromoteForm.groupid;

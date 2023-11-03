@@ -124,13 +124,15 @@ export class StudentProfileComponent implements OnInit {
     }, 1000);
   }
   setvalueform() {
-
+    debugger;
     var storedValues: any = sessionStorage.getItem("selectd");
     var myObj = JSON.parse(storedValues);
     this.studentDetailsForm.patchValue(myObj);
-    this.studentDetailsForm.patchValue(myObj);
+    if (myObj != null) {
+      this.studentDetailsForm.get('p_address')?.setValue(myObj.address);
+      this.studentDetailsForm.get('c_address')?.setValue(myObj.address);
+    }
     this.studentDetailsForm.get('newstudent').setValue('Yes');
-
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
     this.filterSectionfun(this.studentDetailsForm.value.groupid);
     if (this.groupFilterlist.length == 0) {
@@ -403,13 +405,23 @@ export class StudentProfileComponent implements OnInit {
   searchKM() {
     debugger;
     const vhType = this.studentDetailsForm.value.vehicle_type
-    this.kmFillterList = this.groupBusFeeList.filter((e) => {
-      return e.typeid == vhType && e.batch_year == this.newgetbatch
-    })
+    const placeStay = this.studentDetailsForm.value.stay_type
+    if (vhType > 0 && placeStay=='Day scholar') {
+      this.kmFillterList = this.groupBusFeeList.filter((e) => {
+        return e.typeid == vhType && e.batch_year == this.newgetbatch
+      });
+
+      this.studentDetailsForm.get('busdistance').setValidators([Validators.required]);
+      this.studentDetailsForm.get('busdistance').updateValueAndValidity();
+    }
+    else{
+      this.studentDetailsForm.get('busdistance').clearValidators();
+      this.studentDetailsForm.get('busdistance').updateValueAndValidity();
+    }
+
   }
 
   placeOfBo(vehicle_no_id: any) {
-
     let idn = Number(vehicle_no_id);
     this.studentDetailsForm.get('root_no')?.setValue(idn);
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
@@ -623,6 +635,7 @@ export class StudentProfileComponent implements OnInit {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
                         && e.isactive == true
                         && e.student_type != 'Admission Fees'
                     });
@@ -658,6 +671,7 @@ export class StudentProfileComponent implements OnInit {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
                         && e.isactive == true
                     });
 

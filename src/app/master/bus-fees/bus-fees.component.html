@@ -19,7 +19,7 @@
                             <select
                                 [ngClass]="{'is-invalid': busFeesForm.controls.typeid.touched && busFeesForm.controls.typeid.errors}"
                                 autofocus formControlName="typeid" style="width: 100%;" class="form-control" required>
-                                <option value=0 selected disabled>Please select</option>
+                                <option value=null selected disabled>Please select</option>
                                 <option [ngValue]="VehickeType.typeid" *ngFor="let VehickeType of vehicleTypeList;">
                                     {{VehickeType.vehicle_name}}
                                 </option>
@@ -79,8 +79,9 @@
                         </div>
                     </div>
 
+                    <div class="table-responsive">
                     <table *ngIf="busFeesForm.get('classfeelist').value.length !=0"
-                        class="col-sm-11 table table-hover table-bordered table-sm  m-5">
+                        class="col-sm-12 table table-hover table-bordered table-sm  mt-5">
                         <thead formArrayName="classfeelist">
                             <tr>
                                 <th *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
@@ -91,7 +92,7 @@
                         <tbody formArrayName="classfeelist">
                             <tr>
                                 <td *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
-                                    formGroupName="{{i}}"><input class="form-control" (keypress)="numberOnly($event)"
+                                    formGroupName="{{i}}"><input style="width: 90px;" class="form-control" (keypress)="numberOnly($event)"
                                         formControlName="amount"></td>
                                 <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
                                         type="submit">Save</button>
@@ -101,6 +102,7 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
                 </div>
             </form>
         </mat-card-content>

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MarkEntryGradeTypeModel, Subject, studentListModel } from 'src/app/Model/MarkEntry.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -33,6 +32,8 @@ export class StudentMarkEntryComponent implements OnInit {
   subjectDetailList: any[] = [];
   activeBatchYear: any = [];
   newgetbatch: string;
+
+  StudentList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private ClassSvc: studentClassService,
@@ -74,6 +75,7 @@ export class StudentMarkEntryComponent implements OnInit {
     this.refreshSectionList();
     this.refreshsubjectList();
     this.GetActiveBatchYear();
+    this.refreshStudentList();
   }
 
   backButton() {
@@ -184,46 +186,66 @@ export class StudentMarkEntryComponent implements OnInit {
     });
   }
 
+
+  refreshStudentList() {
+    this.meSvc.refresStudentList().subscribe(data => {
+      this.StudentList = data;
+    });
+  }
   onchange() {
     debugger;
-    if (this.rankTypeMarkForm.valid) {
-      const newarray = this.spiltList.filter((e) => { return e.selected == true });
-      this.subjectFilterList = newarray;
-      if (this.subjectFilterList.length != 0) {
+    const examName = this.rankTypeMarkForm.value.exam_name;
+    const examClass = this.rankTypeMarkForm.value.classid;
+    const examGroup = this.rankTypeMarkForm.value.groupid;
+    const examSection = this.rankTypeMarkForm.value.sectionid;
+    const examBatchYear = this.rankTypeMarkForm.value.batch_year;
+    const newArray1 = this.StudentList.filter((e) => {
+      return e.exam_name == examName
+        && e.classid == examClass && e.groupid == examGroup && e.sectionid == examSection && e.batch_year == examBatchYear
+    });
 
-
-        this.subjectFilterList.forEach((e) => {
-          this.subjectDetailList.forEach((y) => {
-            if (e.subject_name == y.subject_name) {
-              e['practical_status'] = y.practical_status
-            }
+    if (newArray1.length == 0) {
+      if (this.rankTypeMarkForm.valid) {
+        const newarray = this.spiltList.filter((e) => { return e.selected == true });
+        this.subjectFilterList = newarray;
+        if (this.subjectFilterList.length != 0) {
+          this.subjectFilterList.forEach((e) => {
+            this.subjectDetailList.forEach((y) => {
+              if (e.subject_name == y.subject_name) {
+                e['practical_status'] = y.practical_status
+              }
+            })
           })
-        })
-        const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
-        while (control2.length !== 0) {
-          control2.removeAt(0)
+          const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
+          while (control2.length !== 0) {
+            control2.removeAt(0)
+          }
+
+          this.studentList.forEach(e => {
+            e['subjects'] = this.subjectFilterList;
+            e['total'] = '0';
+            e['status'] = '';
+            e['average'] = '';
+            e['rank'] = '';
+          });
+
+          this.studentList.forEach(student => {
+            this.addStudent(student);
+          });
         }
-
-        this.studentList.forEach(e => {
-          e['subjects'] = this.subjectFilterList;
-          e['total'] = '0';
-          e['status'] = '';
-          e['average'] = '';
-          e['rank'] = '';
-        });
-
-        this.studentList.forEach(student => {
-          this.addStudent(student);
-        });
+        else {
+          this.notificationSvc.error('Select at least one subject');
+        }
       }
       else {
-        this.notificationSvc.error('Select at least one subject');
+        this.rankTypeMarkForm.markAllAsTouched();
+        this.notificationSvc.error('Enter mandatory fields');
       }
     }
     else {
-      this.rankTypeMarkForm.markAllAsTouched();
-      this.notificationSvc.error('Enter mandatory fields');
+      this.notificationSvc.error('Exam name Alredy used,use different name');
     }
+
   }
 
   rankTypeMarkForm: FormGroup;
@@ -289,12 +311,12 @@ export class StudentMarkEntryComponent implements OnInit {
   gradeConvert(i, j, grd) {
     debugger;
     let gradeValue = parseFloat(grd); // Convert the input to a number
-    
+
     // Check if the input is not a number (i.e., a letter)
     if (isNaN(gradeValue)) {
       gradeValue = 0; // Treat it as 0
     }
-  
+
     if (gradeValue > 100) {
       const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
       const studentFormGroup = studentsArray.at(i) as FormGroup;
@@ -302,14 +324,14 @@ export class StudentMarkEntryComponent implements OnInit {
       const subjectFormGroup = subjectsArray.at(j) as FormGroup;
       subjectFormGroup.get('marks').setValue('');
     }
-  
+
     this.total = 0;
     const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
     if (i >= 0 && i < studentsArray.length) {
       const studentFormGroup = studentsArray.at(i) as FormGroup;
       const subjectsArray = studentFormGroup.get('subjects') as FormArray;
       const subjectFormGroup = subjectsArray.at(j) as FormGroup;
-      
+
       // Use the adjusted gradeValue instead of grd
       if (subjectFormGroup.get('practical_status').value === 'Practical Subject') {
         if (gradeValue >= Number(this.rankTypeMarkForm.value.with_prac)) {
@@ -336,7 +358,7 @@ export class StudentMarkEntryComponent implements OnInit {
       this.total = this.total + Number(element.marks)
     });
     courseControl.at(i).get('total').setValue(String(this.total));
-    const avg=parseFloat((this.total / course.length).toFixed(1));
+    const avg = parseFloat((this.total / course.length).toFixed(1));
     courseControl.at(i).get('average').setValue(String(avg));
     const allPassed = course.every(element => element.pass_status === "Pass");
     if (allPassed) {
@@ -361,7 +383,7 @@ export class StudentMarkEntryComponent implements OnInit {
       });
     });
   }
-  
+
   save() {
     console.log(this.rankTypeMarkForm.value);
     if (this.rankTypeMarkForm.valid) {
@@ -389,6 +411,9 @@ export class StudentMarkEntryComponent implements OnInit {
 
   cancelForm() {
     this.rankTypeMarkForm.reset();
+    this.rankTypeMarkForm.get('entryid')?.setValue(0),
+    this.rankTypeMarkForm.get('cuid')?.setValue(1),
+    this.refreshStudentList();
     this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);
     this.subjectFilterList = [];
     this.spiltList = [];

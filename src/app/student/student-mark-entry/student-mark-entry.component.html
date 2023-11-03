@@ -23,7 +23,8 @@
                                         formControlName="classid" style="width: 100%;" #t
                                         (change)="filterGroupfun(t.value)" class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                        <option [disabled]="subjectFilterList.length !=0" value={{class.classid}}
+                                            *ngFor="let class of ClassList;">
                                             {{class.class_name}}</option>
                                     </select>
                                     <span class="text-danger"
@@ -38,7 +39,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="subjectFilterList.length !=0"
                                         [ngClass]="{'is-invalid':rankTypeMarkForm.controls.classincharge.touched && rankTypeMarkForm.controls.classincharge.errors}"
                                         formControlName="classincharge" class="form-control" type="text" required>
                                 </div>
@@ -53,7 +54,8 @@
                                     <select formControlName="groupid" style="width: 100%;" #s
                                         (change)="filterSectionfun(s.value)" class="form-control ">
                                         <option value=0 selected disabled>Please select</option>
-                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                        <option [disabled]="subjectFilterList.length !=0" value={{group.groupid}}
+                                            *ngFor="let group of groupFilterlist;">
                                             {{group.group_name}}</option>
                                     </select>
                                 </div>
@@ -65,7 +67,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="subjectFilterList.length !=0"
                                         [ngClass]="{'is-invalid':rankTypeMarkForm.controls.with_prac.touched && rankTypeMarkForm.controls.with_prac.errors}"
                                         formControlName="with_prac" class="form-control" type="text" #markw
                                         (keypress)="numberOnly($event)" (change)="passMarkValidationW(markw.value)"
@@ -85,7 +87,7 @@
                                         formControlName="sectionid" (change)="searchStudentByClass()"
                                         style="width: 100%;" class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option [ngValue]="section.sectionid"
+                                        <option [disabled]="subjectFilterList.length !=0" [ngValue]="section.sectionid"
                                             *ngFor="let section of sectionFilterlist;">
                                             {{section.section_name}}</option>
                                     </select>
@@ -101,7 +103,7 @@
                                         mark<span class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="subjectFilterList.length !=0"
                                         [ngClass]="{'is-invalid':rankTypeMarkForm.controls.with_out_prac.touched && rankTypeMarkForm.controls.with_out_prac.errors}"
                                         formControlName="with_out_prac" class="form-control" type="text" #mark
                                         (keypress)="numberOnly($event)" (change)="passMarkValidation(mark.value)"
@@ -124,10 +126,11 @@
                             </div>
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Date</label>
+                                    <label class="pt-2" style="margin: auto;">Date<span
+                                            class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="subjectFilterList.length !=0"
                                         [ngClass]="{'is-invalid':rankTypeMarkForm.controls.date.touched && rankTypeMarkForm.controls.date.errors}"
                                         formControlName="date" [value]="today" class="form-control" type="date"
                                         required>
@@ -140,7 +143,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input [readonly]="subjectFilterList.length !=0"
                                         [ngClass]="{'is-invalid':rankTypeMarkForm.controls.exam_name.touched && rankTypeMarkForm.controls.exam_name.errors}"
                                         formControlName="exam_name" class="form-control" type="text" required>
                                 </div>
@@ -152,7 +155,8 @@
                             <span *ngFor="let subject of spiltList">
                                 <div style="float: left;text-align: left;" class="mt-2 ml-4">
                                     <div style="float: left;text-align: left;">
-                                        <input style="height: 15px;width: 15px;" [(ngModel)]="subject.selected"
+                                        <input [disabled]="subjectFilterList.length !=0"
+                                            style="height: 15px;width: 15px;" [(ngModel)]="subject.selected"
                                             type="checkbox" name="{{subject.subject_name}}" #sna>
                                     </div>
                                     <div style="float: left;text-align: left;" class="ml-2">
@@ -207,7 +211,7 @@
                                                         <input #grd
                                                             [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
                                                             (change)="gradeConvert(i,j,grd.value)" placeholder="Mark"
-                                                            type="text"
+                                                            type="text" (keypress)="numberOnly($event)"
                                                             class="mr-2 form-control form-controls form-controls"
                                                             formControlName="marks">
                                                     </span>

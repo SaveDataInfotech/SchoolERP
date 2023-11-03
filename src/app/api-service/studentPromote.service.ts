@@ -10,8 +10,8 @@ export class studentPromoteService {
   constructor(private http: HttpClient) {
   }
 
-  newStudent(studentinsert:any,batch_year,classid,groupid,setionid,cuid,date): Observable<any> {
-    
+  newStudent(studentinsert:any,batch_year,classid,groupid,setionid,cuid,date:string): Observable<any> {
+    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentPromote/student_promote?batch_year='+batch_year+'&classid='+classid+'&groupid='+groupid+'&sectionid='+setionid+'&cuid='+cuid+'&date='+date,studentinsert,httpOptions);
     

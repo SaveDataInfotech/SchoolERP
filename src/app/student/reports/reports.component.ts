@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MarkEntryGradeTypeModel, Subject, studentListModel } from 'src/app/Model/MarkEntry.model';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -26,10 +25,11 @@ export class ReportsComponent implements OnInit {
   sectionFilterlist: any = [];
   groupDisplay: boolean = true;
 
-  studentList: any[] = [];
-  subjectList: any[] = [];
-  spiltList: any = [];
-  subjectFilterList: any[] = [];
+  // studentList: any[] = [];
+  StudentExamNameList: any[] = [];
+  // subjectList: any[] = [];
+  // spiltList: any = [];
+  //subjectFilterList: any[] = [];
   //sub: any;
   subjectDetailList: any[] = [];
   activeBatchYear: any = [];
@@ -40,12 +40,12 @@ export class ReportsComponent implements OnInit {
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
-    private spinner: NgxSpinnerService,
     private notificationSvc: NotificationsService,
     private meSvc: markEntryService,
     private subjectSvc: subjectService,
     private router: Router,
     private batchSvc: BatechYearService,
+    private spinner: NgxSpinnerService,
   ) { this.createForm(); }
 
   date1 = new Date();
@@ -77,7 +77,7 @@ export class ReportsComponent implements OnInit {
     this.GetActiveBatchYear();
 
 
-    // this.refreshStudentList();
+    this.refreshStudentList();
     this.refreshSubjectList();
   }
 
@@ -152,64 +152,61 @@ export class ReportsComponent implements OnInit {
     this.rankTypeMarkForm.get('sectionid')?.setValue(0);
   }
 
-  searchStudentByClass() {
+  searchExamnameByClass() {
     debugger;
-    let classid: number = (this.rankTypeMarkForm.value.classid);
-    let groupid: number = (this.rankTypeMarkForm.value.groupid);
-    let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
+    this.refreshStudentList();
+    this.refreshSubjectList();
+    let classID: number = (this.rankTypeMarkForm.value.classid);
+    let groupID: number = (this.rankTypeMarkForm.value.groupid);
+    let sectionID: number = (this.rankTypeMarkForm.value.sectionid);
     let batchYear: string = (this.rankTypeMarkForm.value.batch_year);
 
-    this.meSvc.refresStudentList().subscribe(data => {
-      this.StudentList = data;
-      debugger;
-      this.StudentList = this.StudentList.filter((e) => {
-        return e.classid == classid && e.groupid == groupid
-          && e.sectionid == sectionid && e.batch_year == batchYear
-      })
+    this.meSvc.refresExamname(classID, groupID, sectionID, batchYear).subscribe(data => {
+      this.StudentExamNameList = data;
     });
   }
 
-  onchange() {
-    debugger;
-    if (this.rankTypeMarkForm.valid) {
-      const newarray = this.spiltList.filter((e) => { return e.selected == true });
-      this.subjectFilterList = newarray;
-      if (this.subjectFilterList.length != 0) {
+  // onchange() {
+  //   debugger;
+  //   if (this.rankTypeMarkForm.valid) {
+  //     const newarray = this.spiltList.filter((e) => { return e.selected == true });
+  //     this.subjectFilterList = newarray;
+  //     if (this.subjectFilterList.length != 0) {
 
 
-        this.subjectFilterList.forEach((e) => {
-          this.subjectDetailList.forEach((y) => {
-            if (e.subject_name == y.subject_name) {
-              e['practical_status'] = y.practical_status
-            }
-          })
-        })
-        const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
-        while (control2.length !== 0) {
-          control2.removeAt(0)
-        }
+  //       this.subjectFilterList.forEach((e) => {
+  //         this.subjectDetailList.forEach((y) => {
+  //           if (e.subject_name == y.subject_name) {
+  //             e['practical_status'] = y.practical_status
+  //           }
+  //         })
+  //       })
+  //       const control2 = <FormArray>this.rankTypeMarkForm.controls['students'];
+  //       while (control2.length !== 0) {
+  //         control2.removeAt(0)
+  //       }
 
-        this.studentList.forEach(e => {
-          e['subjects'] = this.subjectFilterList;
-          e['total'] = '0';
-          e['status'] = '';
-          e['average'] = '';
-          e['rank'] = '';
-        });
+  //       this.studentList.forEach(e => {
+  //         e['subjects'] = this.subjectFilterList;
+  //         e['total'] = '0';
+  //         e['status'] = '';
+  //         e['average'] = '';
+  //         e['rank'] = '';
+  //       });
 
-        this.studentList.forEach(student => {
-          this.addStudent(student);
-        });
-      }
-      else {
-        this.notificationSvc.error('Select at least one subject');
-      }
-    }
-    else {
-      this.rankTypeMarkForm.markAllAsTouched();
-      this.notificationSvc.error('Enter mandatory fields');
-    }
-  }
+  //       this.studentList.forEach(student => {
+  //         this.addStudent(student);
+  //       });
+  //     }
+  //     else {
+  //       this.notificationSvc.error('Select at least one subject');
+  //     }
+  //   }
+  //   else {
+  //     this.rankTypeMarkForm.markAllAsTouched();
+  //     this.notificationSvc.error('Enter mandatory fields');
+  //   }
+  // }
 
   rankTypeMarkForm: FormGroup;
   createForm() {
@@ -351,7 +348,7 @@ export class ReportsComponent implements OnInit {
         .afterClosed().subscribe(res => {
           if (res == true) {
             var insert = (this.rankTypeMarkForm.value);
-            this.meSvc.newRankTypeMark(insert).subscribe(res => {
+            this.meSvc.editRankTypeMark(insert).subscribe(res => {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved Success");
                 this.cancelForm();
@@ -371,8 +368,12 @@ export class ReportsComponent implements OnInit {
 
   cancelForm() {
     this.rankTypeMarkForm.reset();
-    this.subjectFilterList = [];
-    this.spiltList = [];
+    this.rankTypeMarkForm.get('cuid')?.setValue(1),
+      this.refreshStudentList();
+    this.refreshSubjectList();
+    this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);
+    //this.subjectFilterList = [];
+    //this.spiltList = [];
 
     const students = this.rankTypeMarkForm.get('students') as FormArray;
     while (students.length !== 0) {
@@ -381,29 +382,50 @@ export class ReportsComponent implements OnInit {
   }
 
 
-
-
   ////////////////////////////////////////
   StudentList: any[] = [];
   SubjectList: any[] = [];
   SubjectListsss: any[] = [];
+  StudentList1: any[] = [];
   refreshStudentList() {
+    this.spinner.show();
     this.meSvc.refresStudentList().subscribe(data => {
       this.StudentList = data;
+      this.spinner.hide();
     });
   }
 
   refreshSubjectList() {
+    this.spinner.show();
     this.meSvc.refresSubjectList().subscribe(data => {
       this.SubjectListsss = data;
+      this.spinner.hide();
     });
   }
-  StudentList1: any[];
+
   clickpop() {
     debugger;
-    this.StudentList1 = this.StudentList.filter((e) => { return e.exam_name == this.rankTypeMarkForm.value.exam_name });
+    let examName = String(this.rankTypeMarkForm.value.exam_name);
+    let classID: number = (this.rankTypeMarkForm.value.classid);
+    let groupID: number = (this.rankTypeMarkForm.value.groupid);
+    let sectionID: number = (this.rankTypeMarkForm.value.sectionid);
+    let batchYear: string = (this.rankTypeMarkForm.value.batch_year);
+    this.StudentList1 = this.StudentList.filter((e) => {
+      return e.exam_name == examName
+        && e.classid == classID && e.groupid == groupID && e.sectionid == sectionID && e.batch_year == batchYear
+    });
     this.rankTypeMarkForm.patchValue(this.StudentList1[0]);
-    this.populateStudentsFormArray(this.StudentList1);
+
+    const students = this.rankTypeMarkForm.get('students') as FormArray;
+    while (students.length !== 0) {
+      students.removeAt(0)
+    }
+
+    if (students.length == 0) {
+      debugger;
+      this.populateStudentsFormArray(this.StudentList1);
+    }
+
     //this.populateSubjectList(this.SubjectList);
   }
 
@@ -412,7 +434,6 @@ export class ReportsComponent implements OnInit {
   populateStudentsFormArray(data: any[]) {
     debugger;
     const studentsFormArray = this.rankTypeMarkForm.get('students') as FormArray;
-
     data.forEach(studentData => {
       debugger;
       this.SubjectList = this.SubjectListsss.filter((e) => {

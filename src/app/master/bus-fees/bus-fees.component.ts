@@ -176,7 +176,7 @@ export class BusFeesComponent implements OnInit {
 
   busFeesForm = new FormGroup({
     busfeeid: new FormControl(0),
-    typeid: new FormControl(0),
+    typeid: new FormControl(null),
     kmrange: new FormControl(''),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
@@ -269,7 +269,7 @@ export class BusFeesComponent implements OnInit {
     this.busFeesForm.reset();
     this.refreshBusFeeList();
     this.busFeesForm.get('busfeeid')?.setValue(0);
-    this.busFeesForm.get('typeid')?.setValue(0);
+    this.busFeesForm.get('typeid')?.setValue(null);
     this.busFeesForm.get('kmrange')?.setValue('');
     this.busFeesForm.get('batch_year')?.setValue(this.newgetbatch);
     this.busFeesForm.get('cuid')?.setValue(0);

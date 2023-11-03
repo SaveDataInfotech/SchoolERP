@@ -26,6 +26,12 @@ export class markEntryService {
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/insert_student_markentry_rank', value, httpOptions);
   }
 
+  editRankTypeMark(value: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/update_student_markentry_rank',value, httpOptions);
+  }
+
 
   refresStudentList(): Observable<any[]> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -35,5 +41,10 @@ export class markEntryService {
   refresSubjectList(): Observable<any[]> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_subject_mark_by_rank', httpOptions);
+  }
+
+  refresExamname(classID, groupID, sectionID, batchYear): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_exam_name_mark_entry?classid=' + classID + '&groupid=' + groupID + '&sectionid=' + sectionID + '&batch_year=' + batchYear, httpOptions);
   }
 }
