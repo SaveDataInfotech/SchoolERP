@@ -305,7 +305,8 @@
                                 style="width: 100%;" formControlName="fess_lessid" class="form-control">
                                 <option selected value=null disabled>Please select </option>
                                 <option [ngValue]=0>Not Specified</option>
-                                <option *ngFor="let less of FeesLessList;" [ngValue]="less.fess_lessid">{{less.less_type}}</option>
+                                <option *ngFor="let less of FeesLessList;" [ngValue]="less.fess_lessid">
+                                    {{less.less_type}}</option>
                             </select>
 
                             <span class="text-danger"
@@ -386,11 +387,13 @@
                     <div *ngIf="studentDetailsForm.value.vehicle_type != 0 && studentDetailsForm.value.stay_type == 'Day scholar'"
                         class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Bus Distance<span class="text-danger"> *</span></label>
+                            <label class="pt-2" style="margin: auto;">Bus Distance<span class="text-danger">
+                                    *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <select [ngClass]="{'is-invalid':studentDetailsForm.controls.busdistance.touched && studentDetailsForm.controls.busdistance.errors}"
-                             formControlName="busdistance" style="width: 100%;" class="form-control ">
+                            <select
+                                [ngClass]="{'is-invalid':studentDetailsForm.controls.busdistance.touched && studentDetailsForm.controls.busdistance.errors}"
+                                formControlName="busdistance" style="width: 100%;" class="form-control ">
                                 <option value='' selected disabled>Please select</option>
                                 <option value={{fees.kmrange}} *ngFor="let fees of kmFillterList;">
                                     {{fees.kmrange}}</option>

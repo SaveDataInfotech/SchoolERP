@@ -151,6 +151,7 @@ export class StudentAttendanceComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.studentAttendanceForm.sectionid = 0;
+      this.sectionFilterlist=[];
     }
   }
 

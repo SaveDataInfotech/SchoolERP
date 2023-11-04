@@ -142,6 +142,7 @@ export class ReportsComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.rankTypeMarkForm.get('sectionid')?.setValue(null);
+      this.sectionFilterlist=[];
     }
   }
 
@@ -149,7 +150,7 @@ export class ReportsComponent implements OnInit {
     const groupid = Number(groupID);
     this.rankTypeMarkForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.rankTypeMarkForm.get('sectionid')?.setValue(0);
+    this.rankTypeMarkForm.get('sectionid')?.setValue(null);
   }
 
   searchExamnameByClass() {
@@ -315,7 +316,8 @@ export class ReportsComponent implements OnInit {
     });
     courseControl.at(i).get('total').setValue(String(this.total));
 
-    courseControl.at(i).get('average').setValue(String((this.total) / course.length));
+    const avg = parseFloat((this.total / course.length).toFixed(1));
+    courseControl.at(i).get('average').setValue(String(avg));
 
     const allPassed = course.every(element => element.pass_status === "Pass");
     if (allPassed) {
@@ -369,6 +371,7 @@ export class ReportsComponent implements OnInit {
   cancelForm() {
     this.rankTypeMarkForm.reset();
     this.rankTypeMarkForm.get('cuid')?.setValue(1),
+    this.rankTypeMarkForm.get('exam_name')?.setValue(''),
       this.refreshStudentList();
     this.refreshSubjectList();
     this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);

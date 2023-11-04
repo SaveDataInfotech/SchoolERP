@@ -374,7 +374,7 @@
                             <input
                                 [ngClass]="{'is-invalid':StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors}"
                                 (keypress)="numberOnly($event)" minlength="10" maxlength="10" formControlName="f_ph"
-                                required class="form-control" type="tel">
+                                required class="form-control" type="text">
                             <span class="text-danger"
                                 *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
                                 <div

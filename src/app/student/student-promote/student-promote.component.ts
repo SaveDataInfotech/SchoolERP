@@ -66,6 +66,7 @@ export class StudentPromoteComponent implements OnInit {
 
   refreshSectionList() {
     this.ScSvc.getSectionList().subscribe(data => {
+      debugger;
       this.SectionList = data;
     });
   }
@@ -84,10 +85,12 @@ export class StudentPromoteComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.searchStudentForm.sectionid = 0;
+      
     }
   }
 
   filterSectionfun(groupID: any) {
+    debugger;
     const groupid = Number(groupID);
     this.searchStudentForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -130,10 +133,12 @@ export class StudentPromoteComponent implements OnInit {
     else {
       this.progroupDisplay = true;
       this.studentPromoteForm.sectionid = null;
+      this.prosectionFilterlist=[];
     }
   }
 
   profilterSectionfun(groupID: any) {
+    debugger;
     const groupid = Number(groupID);
     this.studentPromoteForm.groupid = groupid;
     this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });

@@ -19,7 +19,7 @@
                             <select
                                 [ngClass]="{'is-invalid': specialBusFeesform.controls.typeid.touched && specialBusFeesform.controls.typeid.errors}"
                                 formControlName="typeid" style="width: 100%;" class="form-control" required>
-                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]=null selected disabled>Please select</option>
                                 <option [ngValue]="VehickeType.typeid" *ngFor="let VehickeType of vehicleTypeList;">
                                     {{VehickeType.vehicle_name}}
                                 </option>
@@ -62,7 +62,7 @@
                             <select
                                 [ngClass]="{'is-invalid':specialBusFeesform.controls.fess_lessid.touched && specialBusFeesform.controls.fess_lessid.errors}"
                                 formControlName="fess_lessid" style="width: 100%;" #s class="form-control" required>
-                                <option value=null selected disabled>Please select</option>
+                                <option [ngValue]=null selected disabled>Please select</option>
                                 <option [ngValue]="item.fess_lessid" *ngFor="let item of FeesLessList;">
                                     {{item.less_type}}</option>
                             </select>

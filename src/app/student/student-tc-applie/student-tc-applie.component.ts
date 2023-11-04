@@ -125,6 +125,7 @@ export class StudentTcApplieComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.studentTcApplyForm.get('sectionid')?.setValue(null);
+      this.sectionFilterlist=[];
     }
   }
 
@@ -242,7 +243,7 @@ export class StudentTcApplieComponent implements OnInit {
   searchStudentByAdNo() {
     const value = this.oneStudentTcLeftForm.value.admission_no;
     this.studProSvc.searchstudentDetails(value).subscribe(data => {
-      this.StudentDataList = data;
+      this.StudentDataList = data.filter((e) => { return e.isactive == 1 });
       if (this.StudentDataList.length == 0) {
         this.notificationSvc.error("Invalid Admission Number");
       }
@@ -253,25 +254,30 @@ export class StudentTcApplieComponent implements OnInit {
   }
 
   newTcApply() {
-    if (this.oneStudentTcLeftForm.valid) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            let studentdetails = this.oneStudentTcLeftForm.value
-            this.tcSvc.TcApply(studentdetails).subscribe(res => {
-              if (res.status == 'Saved successfully') {
-                this.notificationSvc.success("Saved Success")
-                this.CancelClickInTc();
-              }
-              else {
-                this.notificationSvc.error("Error")
-              }
-            })
-          }
-        })
+    if (this.StudentDataList.length != 0) {
+      if (this.oneStudentTcLeftForm.valid) {
+        this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+          .afterClosed().subscribe(res => {
+            if (res == true) {
+              let studentdetails = this.oneStudentTcLeftForm.value
+              this.tcSvc.TcApply(studentdetails).subscribe(res => {
+                if (res.status == 'Saved successfully') {
+                  this.notificationSvc.success("Saved Success")
+                  this.CancelClickInTc();
+                }
+                else {
+                  this.notificationSvc.error("Error")
+                }
+              })
+            }
+          })
+      }
+      else {
+        this.oneStudentTcLeftForm.markAllAsTouched();
+      }
     }
     else {
-      this.oneStudentTcLeftForm.markAllAsTouched();
+      this.notificationSvc.error('Search Student Admission no')
     }
   }
 

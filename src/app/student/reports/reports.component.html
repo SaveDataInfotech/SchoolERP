@@ -123,9 +123,10 @@
               <label class="pt-2" style="margin: auto;">Exam Name<span class="text-danger">*</span></label>
             </div>
             <div class="inputdiv">
-              <select formControlName="exam_name" (change)="clickpop()" style="width: 100%;" class="form-control"
+              <select  [ngClass]="{'is-invalid':rankTypeMarkForm.controls.exam_name.touched && rankTypeMarkForm.controls.exam_name.errors}"
+               formControlName="exam_name" (change)="clickpop()" style="width: 100%;" class="form-control"
                 required>
-                <option value=null selected disabled>Please select</option>
+                <option value='' selected disabled>Please select</option>
                 <option value={{section.exam_name}} *ngFor="let section of StudentExamNameList;">
                   {{section.exam_name}}</option>
               </select>
@@ -134,7 +135,7 @@
         </div>
       </form>
       <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
-        <div class="table-responsive container text-nowrap mt-3">
+        <div class="table-responsive container mt-3">
           <table class="table table-bordered">
             <thead formArrayName="students">
               <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let ii = index"

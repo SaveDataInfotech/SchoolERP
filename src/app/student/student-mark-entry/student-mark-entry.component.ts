@@ -142,6 +142,7 @@ export class StudentMarkEntryComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
+    debugger;
     const classid = Number(classsid);
     this.rankTypeMarkForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -155,6 +156,7 @@ export class StudentMarkEntryComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.rankTypeMarkForm.get('sectionid')?.setValue(null);
+      this.sectionFilterlist=[];
     }
   }
 
@@ -162,7 +164,7 @@ export class StudentMarkEntryComponent implements OnInit {
     const groupid = Number(groupID);
     this.rankTypeMarkForm.get('groupid')?.setValue(groupid);
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
-    this.rankTypeMarkForm.get('sectionid')?.setValue(0);
+    this.rankTypeMarkForm.get('sectionid')?.setValue(null);
   }
 
   searchStudentByClass() {

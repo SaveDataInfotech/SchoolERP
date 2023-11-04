@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -307,7 +307,7 @@ export class StudentUpdateComponent implements OnInit {
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
-    aadhar: new FormControl(''),
+    aadhar: new FormControl('',[Validators.required,Validators.pattern("^[0-9]*$")]),
     student_name: new FormControl(''),
     student_name_t: new FormControl(''),
     dob: new FormControl(''),
@@ -330,7 +330,7 @@ export class StudentUpdateComponent implements OnInit {
     father_name: new FormControl(''),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl(''),
+    f_ph: new FormControl('',[Validators.required,Validators.pattern("^[0-9]*$")]),
     f_email: new FormControl(''),
     mother_name: new FormControl(''),
     m_occupation: new FormControl(''),

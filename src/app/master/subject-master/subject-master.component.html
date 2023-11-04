@@ -46,28 +46,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <input style="height: 15px; width: 15px;" type="checkbox" formControlName="selectAll"
-                            (change)="toggleAllCheckboxes()"> <span class="ml-2" style="color: blue;"> Select All</span>
-
-                        <div formArrayName="classidArray" class="row col-sm-8 mt-3" style="display: flex;">
-                            <div *ngFor="let chid of subjectForm.get('classidArray')['controls']; let i = index"
-                                formGroupName="{{i}}" style="float: left;text-align: left; width:200px;"
-                                class="col-sm-4 mt-4 ">
-                                <div style="float: left;text-align: left;">
-                                    <input (change)="updateSelectAllCheckbox()" formControlName="selected"
-                                        style="height: 15px;width: 15px;" type="checkbox">
-                                </div>
-                                <div style="float: left;text-align: left;" class="ml-2">
-                                    {{chid.get('class_name').value}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-sm-2">
@@ -82,6 +60,36 @@
                             <input style="width: 25px;height: 25px;" type="radio" class="form-check-input"
                                 formControlName="practical_status" value="Practical Subject">
                             <label class="form-check-label p-2">Practical Subject</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <div style="display: flex;">
+                                <input style="height: 15px; width: 15px;" type="checkbox" formControlName="selectAll"
+                                    (change)="toggleAllCheckboxes()"> <span
+                                    *ngIf="subjectForm.value.selectAll == false || subjectForm.value.selectAll == null"
+                                    class="ml-2" style="color: blue;"> Select All</span><span
+                                    *ngIf="subjectForm.value.selectAll == true" class="ml-2"
+                                    style="color: blue;">Deselect all</span>
+                            </div>
+                        </div>
+                        <div class="inputdiv">
+                            <div formArrayName="classidArray" class="row" style="display: flex;">
+                                <div *ngFor="let chid of subjectForm.get('classidArray')['controls']; let i = index"
+                                    formGroupName="{{i}}" style="float: left;text-align: left; width:200px;"
+                                    class="col-sm-4 mt-4 ">
+                                    <div style="float: left;text-align: left;">
+                                        <input (change)="updateSelectAllCheckbox()" formControlName="selected"
+                                            style="height: 15px;width: 15px;" type="checkbox">
+                                    </div>
+                                    <div style="float: left;text-align: left;" class="ml-2">
+                                        {{chid.get('class_name').value}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ export class SubjectAssignComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.refreshsubjectList();
+    //this.refreshsubjectList();
     this.getSubassign();
     this.refreshClassList();
     this.refreshGroupList();
@@ -48,11 +48,11 @@ export class SubjectAssignComponent implements OnInit {
     this.router.navigateByUrl('/app/dashboard/dashboard');
   }
 
-  refreshsubjectList() {
-    // this.subSvc.getsubjectList().subscribe(data => {
-    //   this.subjectDetailList = data;
-    // });
-  }
+  // refreshsubjectList() {
+  //   // this.subSvc.getsubjectList().subscribe(data => {
+  //   //   this.subjectDetailList = data;
+  //   // });
+  // }
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
@@ -86,6 +86,7 @@ export class SubjectAssignComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.subjectAssignForm.sectionid = null;
+      this.sectionFilterlist=[];
     }
     this.filterSubject();
   }
@@ -97,9 +98,9 @@ export class SubjectAssignComponent implements OnInit {
     this.subjectAssignForm.sectionid = null;
   }
 
-  filterSubject() {
+  async filterSubject() {
     debugger;
-    this.subSvc.getsubjectList().subscribe(data => {
+    await this.subSvc.getsubjectList().subscribe(data => {
       debugger;
       const clasID = this.subjectAssignForm.classid;
       this.subjectDetailList = data;
@@ -108,7 +109,6 @@ export class SubjectAssignComponent implements OnInit {
       });
       this.subjectDetailList = this.subjectDetailList.filter(item => item.classids.includes(clasID));
     });
-
   }
 
   subjectAssignForm: assign = {
@@ -178,7 +178,7 @@ export class SubjectAssignComponent implements OnInit {
           this.subSvc.deleteAssign(assignid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
-              this.refreshsubjectList();
+              // this.refreshsubjectList();
               this.getSubassign();
               this.getMaxIdAssign();
               this.cancelClick();
@@ -188,30 +188,40 @@ export class SubjectAssignComponent implements OnInit {
       });
   }
 
-  edit(assign: assign) {
+  async edit(assign: assign) {
     this.assignbuttonId = false;
-    this.subjectDetailList.forEach(element => {
-      element.isselect = false;
-    });
-    let select = assign.subjetsid.split(",");
-    for (let i = 0; i < select.length; i++) {
-      this.subjectDetailList.filter(x => x.subjectid == Number(select[i])).map(x => x.isselect = true);
-    }
-    this.subjectAssignForm.assignid = assign.assignid;
-    this.subjectAssignForm.classid = assign.classid;
+    await this.subSvc.getsubjectList().subscribe(data => {
+      debugger;
+      this.subjectDetailList = data;
+      this.subjectDetailList.forEach(item => {
+        item.classids = item.classids.split(',').map(Number);
+      });
+      this.subjectDetailList = this.subjectDetailList.filter(item => item.classids.includes(assign.classid));
 
-    this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == assign.classid });
-    this.subjectAssignForm.groupid = assign.groupid;
-    this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == assign.groupid });
-    this.subjectAssignForm.sectionid = assign.sectionid;
-    if (this.groupFilterlist.length == 0) {
-      this.groupDisplay = false;
-      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == assign.classid });
+
+      this.subjectDetailList.forEach(element => {
+        element.isselect = false;
+      });
+      let select = assign.subjetsid.split(",");
+      for (let i = 0; i < select.length; i++) {
+        this.subjectDetailList.filter(x => x.subjectid == Number(select[i])).map(x => x.isselect = true);
+      }
+      this.subjectAssignForm.assignid = assign.assignid;
+      this.subjectAssignForm.classid = assign.classid;
+
+      this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == assign.classid });
+      this.subjectAssignForm.groupid = assign.groupid;
+      this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == assign.groupid });
       this.subjectAssignForm.sectionid = assign.sectionid;
-    }
-    else {
-      this.groupDisplay = true;
-    }
+      if (this.groupFilterlist.length == 0) {
+        this.groupDisplay = false;
+        this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == assign.classid });
+        this.subjectAssignForm.sectionid = assign.sectionid;
+      }
+      else {
+        this.groupDisplay = true;
+      }
+    });
   }
 
   cancelClick() {
@@ -221,8 +231,7 @@ export class SubjectAssignComponent implements OnInit {
     this.subjectAssignForm.sectionid = null;
     this.subjectAssignForm.subjetsid = '';
     this.subjectAssignForm.subjectsname = '';
-    this.refreshsubjectList();
-    this.getSubassign();
+    this.subjectDetailList = [];
     this.assignbuttonId = true;
   }
 

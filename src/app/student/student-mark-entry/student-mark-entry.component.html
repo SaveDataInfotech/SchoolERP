@@ -175,7 +175,7 @@
                     </div>
 
                     <form [formGroup]="rankTypeMarkForm" (ngSubmit)="save()">
-                        <div class="table-responsive text-nowrap mt-3">
+                        <div class="table-responsive mt-3">
                             <table class="table table-bordered">
                                 <thead formArrayName="students">
                                     <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let ii = index"

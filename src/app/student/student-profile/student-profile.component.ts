@@ -208,6 +208,7 @@ export class StudentProfileComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.studentDetailsForm.get('sectionid')?.setValue(null);
+      this.sectionFilterlist=[];
       //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
   }
@@ -303,7 +304,7 @@ export class StudentProfileComponent implements OnInit {
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
-    aadhar: new FormControl(''),
+    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     student_name: new FormControl(''),
     student_name_t: new FormControl(''),
     dob: new FormControl(''),
@@ -330,7 +331,7 @@ export class StudentProfileComponent implements OnInit {
     father_name: new FormControl(''),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl(''),
+    f_ph: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     f_email: new FormControl(''),
     mother_name: new FormControl(''),
     m_occupation: new FormControl(''),
@@ -406,17 +407,19 @@ export class StudentProfileComponent implements OnInit {
     debugger;
     const vhType = this.studentDetailsForm.value.vehicle_type
     const placeStay = this.studentDetailsForm.value.stay_type
-    if (vhType > 0 && placeStay=='Day scholar') {
+    if (vhType > 0 && placeStay == 'Day scholar') {
       this.kmFillterList = this.groupBusFeeList.filter((e) => {
         return e.typeid == vhType && e.batch_year == this.newgetbatch
       });
 
       this.studentDetailsForm.get('busdistance').setValidators([Validators.required]);
       this.studentDetailsForm.get('busdistance').updateValueAndValidity();
+      this.studentDetailsForm.get('busdistance').setValue('');
     }
-    else{
+    else {
       this.studentDetailsForm.get('busdistance').clearValidators();
       this.studentDetailsForm.get('busdistance').updateValueAndValidity();
+      this.studentDetailsForm.get('busdistance').setValue('');
     }
 
   }
@@ -455,8 +458,12 @@ export class StudentProfileComponent implements OnInit {
     });
   }
 
-  newStudentProfileDetails() {
+  async newStudentProfileDetails() {
     debugger;
+    await this.refreshBusFeeList();
+    await this.refreshSpecialBusFeeList();
+    await this.refreshGeneralFeesList();
+    await this.refreshSpecialFeesList();
     if (this.studentDetailsForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
