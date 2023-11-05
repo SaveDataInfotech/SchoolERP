@@ -129,12 +129,12 @@
                         <tbody>
                             <tr>
                                 <td style="width: 140px;"><select
-                                        [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.l_type.touched && staffHalfDayPermissionForm.controls.l_type.errors}"
-                                        formControlName="l_type" (change)="pDayChange()" style="width: 100%;"
+                                        [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.typeid.touched && staffHalfDayPermissionForm.controls.typeid.errors}"
+                                        formControlName="typeid" (change)="pDayChange()" style="width: 100%;"
                                         class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option *ngFor="let Staff of StaffLeaveList;">
-                                            {{Staff.l_type}}</option>
+                                        <option [ngValue]="Staff.typeid" *ngFor="let Staff of StaffLeaveList;">
+                                            {{Staff.type_name}}</option>
                                     </select></td>
                                 <td style="width: 180px;"><input (change)="pDayChange()"
                                         [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.h_leave_days.touched && staffHalfDayPermissionForm.controls.h_leave_days.errors}"

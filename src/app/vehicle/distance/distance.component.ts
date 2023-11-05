@@ -71,8 +71,8 @@ export class DistanceComponent implements OnInit {
     debugger;
     const vehicleNo = this.vehicleDistanceForm.value.vehicle_no_id;
     const newVehicleDetails = this.vehicleAssignList.filter((e) => { return e.vehicle_no_id == vehicleNo });
-    this.vehicleDistanceForm.get('driver_no')?.setValue(newVehicleDetails[0].driver_no);
-    this.vehicleDistanceForm.get('helper_no')?.setValue(newVehicleDetails[0].helper_no)
+    this.vehicleDistanceForm.get('driver_name')?.setValue(newVehicleDetails[0].driver_name);
+    this.vehicleDistanceForm.get('helper_name')?.setValue(newVehicleDetails[0].helper_name)
     this.vehicleDistanceForm.get('vehicle_root_no')?.setValue(newVehicleDetails[0].vehicle_root_no)
   }
 
@@ -81,8 +81,8 @@ export class DistanceComponent implements OnInit {
     date: new FormControl(''),
     vehicle_no_id: new FormControl(null),
     vehicle_root_no: new FormControl(),
-    driver_no: new FormControl(''),
-    helper_no: new FormControl(''),
+    driver_name: new FormControl(''),
+    helper_name: new FormControl(''),
     km_start: new FormControl(''),
     km_end: new FormControl(''),
     cuid: new FormControl(1)
@@ -144,6 +144,7 @@ export class DistanceComponent implements OnInit {
   }
 
   updateClick(item) {
+    debugger;
     this.vehicleDistanceForm.patchValue(item);
     this.vehicleDistanceForm.get('cuid')?.setValue(1);
   }
@@ -167,8 +168,8 @@ export class DistanceComponent implements OnInit {
     this.vehicleDistanceForm.get('distanceid')?.setValue(0);
     this.vehicleDistanceForm.get('date')?.setValue(this.today);
     this.vehicleDistanceForm.get('vehicle_root_no')?.setValue('');
-    this.vehicleDistanceForm.get('driver_no')?.setValue('');
-    this.vehicleDistanceForm.get('helper_no')?.setValue('');
+    this.vehicleDistanceForm.get('driver_name')?.setValue('');
+    this.vehicleDistanceForm.get('helper_name')?.setValue('');
     this.vehicleDistanceForm.get('km_start')?.setValue('');
     this.vehicleDistanceForm.get('km_end')?.setValue('');
 

@@ -18,6 +18,7 @@ export class VehicleAssignComponent implements OnInit {
   vehicleNoRootList: any[] = [];
   staffList: any[] = [];
   vehicleAssignList: any[] = [];
+  filteredVehicleNoRootList: any[] = [];
   constructor(private VhtySvc: VehicleTypeService,
     private vhNoRtSvc: VehicleNoRootService,
     private staffSvc: staffProfileService,
@@ -59,6 +60,12 @@ export class VehicleAssignComponent implements OnInit {
     this.vhASvc.getvehicleAssignList().subscribe(data => {
       this.vehicleAssignList = data
     });
+  }
+
+  vehicleNofilter() {
+    debugger;
+    const Typeid = this.vehicleAssignForm.value.typeid;
+    this.filteredVehicleNoRootList = this.vehicleNoRootList.filter((e) => { return e.typeid == Typeid })
   }
 
   vehicleAssignForm = new FormGroup({

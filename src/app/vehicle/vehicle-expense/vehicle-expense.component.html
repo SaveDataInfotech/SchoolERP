@@ -8,11 +8,12 @@
     </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
-            <form [formGroup]="vehicleExpenseForm">
+            <form [formGroup]="vehicleExpenseForm" (ngSubmit)="newExpense()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Vehicle No</label>
+                            <label class="pt-2" style="margin: auto;">Vehicle No<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
                             <select
@@ -36,10 +37,20 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Date</label>
+                            <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" [value]="today" type="date" required>
+                            <input
+                                [ngClass]="{'is-invalid':vehicleExpenseForm.controls.date.touched && vehicleExpenseForm.controls.date.errors}"
+                                formControlName="date" class="form-control" type="date" required>
+
+                            <span class="text-danger"
+                                *ngIf="vehicleExpenseForm.controls.date.touched && vehicleExpenseForm.controls.date.errors">
+                                <div
+                                    *ngIf="vehicleExpenseForm.controls.date.touched && vehicleExpenseForm.controls.date.errors.required">
+                                    Date is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -49,16 +60,26 @@
                             <label class="pt-2" style="margin: auto;">Root No</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="vehicle_root_no" class="form-control" type="text" required>
+                            <input formControlName="vehicle_root_no" readonly class="form-control" type="text" required>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Place of work</label>
+                            <label class="pt-2" style="margin: auto;">Place of work<span
+                                    class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="place_of_work" class="form-control" type="text" required>
+                            <input
+                                [ngClass]="{'is-invalid':vehicleExpenseForm.controls.place_of_work.touched && vehicleExpenseForm.controls.place_of_work.errors}"
+                                formControlName="place_of_work" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="vehicleExpenseForm.controls.place_of_work.touched && vehicleExpenseForm.controls.place_of_work.errors">
+                                <div
+                                    *ngIf="vehicleExpenseForm.controls.place_of_work.touched && vehicleExpenseForm.controls.place_of_work.errors.required">
+                                    Place of work is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -68,16 +89,25 @@
                             <label class="pt-2" style="margin: auto;">Driver Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="driver_name" class="form-control" type="text" required>
+                            <input formControlName="driver_name" readonly class="form-control" type="text">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Reason</label>
+                            <label class="pt-2" style="margin: auto;">Reason<span class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="reson" class="form-control" type="text" required>
+                            <input
+                                [ngClass]="{'is-invalid':vehicleExpenseForm.controls.reson.touched && vehicleExpenseForm.controls.reson.errors}"
+                                formControlName="reson" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="vehicleExpenseForm.controls.reson.touched && vehicleExpenseForm.controls.reson.errors">
+                                <div
+                                    *ngIf="vehicleExpenseForm.controls.reson.touched && vehicleExpenseForm.controls.reson.errors.required">
+                                    Reason is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -88,26 +118,43 @@
                             <label class="pt-2" style="margin: auto;">Helper Name</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="helper_name" class="form-control" type="text" required>
+                            <input formControlName="helper_name" readonly class="form-control" type="text">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Amount</label>
+                            <label class="pt-2" style="margin: auto;">Amount<span class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input placeholder="" class="form-control" type="text" required>
+                            <input
+                                [ngClass]="{'is-invalid':vehicleExpenseForm.controls.amount.touched && vehicleExpenseForm.controls.amount.errors}"
+                                formControlName="amount" class="form-control" type="text" required>
+
+                            <span class="text-danger"
+                                *ngIf="vehicleExpenseForm.controls.amount.touched && vehicleExpenseForm.controls.amount.errors">
+                                <div
+                                    *ngIf="vehicleExpenseForm.controls.amount.touched && vehicleExpenseForm.controls.amount.errors.required">
+                                    Amount is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 mt-4">
-                    <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mt-4 btn-sm mr-3 " value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                            class="btn btn-danger btn-sm mt-4  " value="Cancel" />
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="text-align: center;">
+                                <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                    <span> {{ vehicleExpenseForm.value.expenseid ==0 ? 'Save' :
+                                        'Edit'}}</span></button>
+                                <input type="button" (click)="cancelClick()" style="width: 80px;"
+                                    class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
+                                    (click)="backButton()" value="Close" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -133,20 +180,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>TN-03-AU-9861</td>
-                            <td>3</td>
-                            <td>12-12-2023</td>
-                            <td>Ram</td>
-                            <td>Kumar</td>
-                            <td>Kuniyamuthur</td>
-                            <td>Puncher</td>
-                            <td>500</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit"
-                                    style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    class="pl-2">delete</mat-icon>
+                        <tr *ngFor="let item of vehicleExpenseList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{item.vehicle_no}}</td>
+                            <td>{{item.vehicle_root_no}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.driver_name}}</td>
+                            <td>{{item.helper_name}}</td>
+                            <td>{{item.place_of_work}}</td>
+                            <td>{{item.reson}}</td>
+                            <td>{{item.amount}}</td>
+                            <td class="tdoption">
+                                <span (click)="updateClick(item)" class="m-2 editbutton"><b>edit</b></span>
+                                <span>||</span>
+                                <span (click)="deleteClick(item.expenseid)" class="m-2 deletebutton"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>
