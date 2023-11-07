@@ -85,7 +85,7 @@ export class StudentPromoteComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.searchStudentForm.sectionid = 0;
-      
+
     }
   }
 
@@ -133,7 +133,7 @@ export class StudentPromoteComponent implements OnInit {
     else {
       this.progroupDisplay = true;
       this.studentPromoteForm.sectionid = null;
-      this.prosectionFilterlist=[];
+      this.prosectionFilterlist = [];
     }
   }
 
@@ -171,10 +171,19 @@ export class StudentPromoteComponent implements OnInit {
             this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
               debugger;
               if (res.status == 'Saved successfully') {
+                const classid = this.searchStudentForm.classid;
+                const groupid = this.searchStudentForm.groupid;
+                const sectionid = this.searchStudentForm.sectionid;
+                const Batch = this.searchStudentForm.batch_year;
+                if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
+                  this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
+                    this.StudentList = data;
+                  });
+                }
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
               }
-              else if (res.status == "No bus fees") {
+              else if (res.status == "No fees") {
                 this.notificationSvc.error('fees details not there for these students');
                 const classid = this.searchStudentForm.classid;
                 const groupid = this.searchStudentForm.groupid;
@@ -186,18 +195,7 @@ export class StudentPromoteComponent implements OnInit {
                   });
                 }
               }
-              else if (res.status == "No General fees") {
-                this.notificationSvc.error('fees details not there for these students');
-                const classid = this.searchStudentForm.classid;
-                const groupid = this.searchStudentForm.groupid;
-                const sectionid = this.searchStudentForm.sectionid;
-                const Batch = this.searchStudentForm.batch_year;
-                if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
-                  this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
-                    this.StudentList = data;
-                  });
-                }
-              }
+              
               else {
                 this.notificationSvc.error('Something Error');
               }

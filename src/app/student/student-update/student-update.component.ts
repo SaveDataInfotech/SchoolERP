@@ -317,7 +317,7 @@ export class StudentUpdateComponent implements OnInit {
     community: new FormControl(''),
     caste: new FormControl(''),
     newstudent: new FormControl(''),
-    fess_lessid: new FormControl(null),
+    fees_lessid: new FormControl(null),
     stay_type: new FormControl(''),
     vehicle_type: new FormControl(0),
     root_no: new FormControl(0),

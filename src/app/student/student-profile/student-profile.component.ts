@@ -208,7 +208,7 @@ export class StudentProfileComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.studentDetailsForm.get('sectionid')?.setValue(null);
-      this.sectionFilterlist=[];
+      this.sectionFilterlist = [];
       //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
   }
@@ -314,7 +314,7 @@ export class StudentProfileComponent implements OnInit {
     community: new FormControl(''),
     caste: new FormControl(''),
     newstudent: new FormControl('Yes'),
-    fess_lessid: new FormControl(null),
+    fees_lessid: new FormControl(null),
     stay_type: new FormControl(''),
     vehicle_type: new FormControl(0),
     root_no: new FormControl(0),
@@ -477,7 +477,7 @@ export class StudentProfileComponent implements OnInit {
                   control.removeAt(0)
                 }
 
-                if (this.studentDetailsForm.value.fess_lessid == 0 || this.studentDetailsForm.value.fess_lessid == null) {
+                if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
                   debugger;
                   const feesList = this.busFeeList.filter((e) => {
                     return e.classid == this.studentDetailsForm.value.classid
@@ -518,7 +518,7 @@ export class StudentProfileComponent implements OnInit {
                       && e.batch_year == this.studentDetailsForm.value.batch_year
                       && e.typeid == this.studentDetailsForm.value.vehicle_type
                       && e.kmrange == this.studentDetailsForm.value.busdistance
-                      && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
+                      && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
                       && e.isactive == true
                   });
 
@@ -536,7 +536,7 @@ export class StudentProfileComponent implements OnInit {
                           date: new FormControl(this.studentDetailsForm.value.date),
                           batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
                           typeid: new FormControl(element.typeid),
-                          fess_lessid: new FormControl(element.fess_lessid),
+                          fees_lessid: new FormControl(element.fees_lessid),
                           kmrange: new FormControl(element.kmrange)
                         })
                       )
@@ -569,7 +569,7 @@ export class StudentProfileComponent implements OnInit {
               }
               if (control.length == 0) {
                 debugger;
-                if (this.studentDetailsForm.value.fess_lessid == 0 || this.studentDetailsForm.value.fess_lessid == null) {
+                if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
                   if (this.studentDetailsForm.value.newstudent == 'No') {
                     let generalfeeList = this.generalFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
@@ -642,7 +642,7 @@ export class StudentProfileComponent implements OnInit {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
-                        && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
+                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
                         && e.isactive == true
                         && e.student_type != 'Admission Fees'
                     });
@@ -654,7 +654,7 @@ export class StudentProfileComponent implements OnInit {
                         control.push(
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
+                            assignid: new FormControl(element.s_assignid),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
@@ -662,7 +662,7 @@ export class StudentProfileComponent implements OnInit {
                             date: new FormControl(this.studentDetailsForm.value.date),
                             batch_year: new FormControl(element.batch_year),
                             typeid: new FormControl(element.typeid),
-                            fess_lessid: new FormControl(element.fess_lessid)
+                            fees_lessid: new FormControl(element.fees_lessid)
                           })
                         )
                       });
@@ -678,7 +678,7 @@ export class StudentProfileComponent implements OnInit {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
-                        && e.fess_lessid == this.studentDetailsForm.value.fess_lessid
+                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
                         && e.isactive == true
                     });
 
@@ -689,7 +689,7 @@ export class StudentProfileComponent implements OnInit {
                         control.push(
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
+                            assignid: new FormControl(element.s_assignid),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
@@ -697,7 +697,7 @@ export class StudentProfileComponent implements OnInit {
                             date: new FormControl(this.studentDetailsForm.value.date),
                             batch_year: new FormControl(element.batch_year),
                             typeid: new FormControl(element.typeid),
-                            fess_lessid: new FormControl(element.fess_lessid)
+                            fees_lessid: new FormControl(element.fees_lessid)
                           })
                         )
                       })
@@ -807,7 +807,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('community')?.setValue('');
     this.studentDetailsForm.get('caste')?.setValue('');
     this.studentDetailsForm.get('newstudent')?.setValue('Yes');
-    this.studentDetailsForm.get('fess_lessid')?.setValue(null);
+    this.studentDetailsForm.get('fees_lessid')?.setValue(null);
     this.studentDetailsForm.get('stay_type')?.setValue('');
     this.studentDetailsForm.get('vehicle_type')?.setValue(0);
     this.studentDetailsForm.get('root_no')?.setValue(0);

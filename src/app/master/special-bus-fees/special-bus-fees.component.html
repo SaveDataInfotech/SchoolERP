@@ -60,16 +60,16 @@
                         </div>
                         <div>
                             <select
-                                [ngClass]="{'is-invalid':specialBusFeesform.controls.fess_lessid.touched && specialBusFeesform.controls.fess_lessid.errors}"
-                                formControlName="fess_lessid" style="width: 100%;" #s class="form-control" required>
+                                [ngClass]="{'is-invalid':specialBusFeesform.controls.fees_lessid.touched && specialBusFeesform.controls.fees_lessid.errors}"
+                                formControlName="fees_lessid" style="width: 100%;" #s class="form-control" required>
                                 <option [ngValue]=null selected disabled>Please select</option>
-                                <option [ngValue]="item.fess_lessid" *ngFor="let item of FeesLessList;">
+                                <option [ngValue]="item.fees_lessid" *ngFor="let item of FeesLessList;">
                                     {{item.less_type}}</option>
                             </select>
                             <span class="text-danger"
-                                *ngIf="specialBusFeesform.controls.fess_lessid.touched && specialBusFeesform.controls.fess_lessid.errors">
+                                *ngIf="specialBusFeesform.controls.fees_lessid.touched && specialBusFeesform.controls.fees_lessid.errors">
                                 <div
-                                    *ngIf="specialBusFeesform.controls.fess_lessid.touched && specialBusFeesform.controls.fess_lessid.errors.required">
+                                    *ngIf="specialBusFeesform.controls.fees_lessid.touched && specialBusFeesform.controls.fees_lessid.errors.required">
                                     Fees Less is required
                                 </div>
                             </span>
@@ -181,7 +181,7 @@
                             </td>
                             <td>
                                 <span
-                                    (click)="specialBusFeeDelete(bus.typeid,bus.kmrange,bus.batch_year,bus.fess_lessid)"
+                                    (click)="specialBusFeeDelete(bus.typeid,bus.kmrange,bus.batch_year,bus.fees_lessid)"
                                     class="m-2 deletebutton"><b>delete</b></span>
                             </td>
                         </tr>

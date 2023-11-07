@@ -23,8 +23,9 @@ export class FeesLessService {
         return this.http.post<any>(this.apiUrl + 'FeesLess/insert_fees_less', feeslessinsert, httpOptions);
     }
 
-    deletefeesLessType(fess_lessid: any): Observable<any> {
+    deletefeesLessType(id: any): Observable<any> {
+        debugger
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'FeesLess/delete_fees_less?fess_lessid=' + fess_lessid, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'FeesLess/delete_fees_less?fees_lessid=' + id, httpOptions);
     }
 }

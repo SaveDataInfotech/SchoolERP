@@ -318,6 +318,7 @@ export class ClassComponent implements OnInit {
     const classid = Number(classsid);
     this.Student_SectionForm.get('classid')?.setValue(classid);
     this.newlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+    this.Student_SectionForm.get('groupid')?.setValue(0);
   }
 
   Student_SectionForm = new FormGroup({

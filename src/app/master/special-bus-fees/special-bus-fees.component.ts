@@ -241,7 +241,7 @@ export class SpecialBusFeesComponent implements OnInit {
     s_busfeeid: new FormControl(0),
     typeid: new FormControl(null),
     kmrange: new FormControl(''),
-    fess_lessid: new FormControl(null),
+    fees_lessid: new FormControl(null),
     batch_year: new FormControl(''),
     cuid: new FormControl(1),
     s_classfeelist: new FormArray([]
@@ -265,7 +265,7 @@ export class SpecialBusFeesComponent implements OnInit {
           return e.batch_year == this.specialBusFeesform.value.batch_year
             && e.kmrange == this.specialBusFeesform.value.kmrange
             && e.typeid == this.specialBusFeesform.value.typeid
-            && e.fess_lessid == this.specialBusFeesform.value.fess_lessid
+            && e.fees_lessid == this.specialBusFeesform.value.fees_lessid
         });
 
         const genFilterList = this.busFeeList.filter((e) => {
@@ -281,9 +281,10 @@ export class SpecialBusFeesComponent implements OnInit {
             control.push(
               new FormGroup({
                 s_busfeeid: new FormControl(element.s_busfeeid),
+                busfeeid: new FormControl(element.busfeeid),
                 typeid: new FormControl(this.specialBusFeesform.value.typeid),
                 kmrange: new FormControl(this.specialBusFeesform.value.kmrange),
-                fess_lessid: new FormControl(this.specialBusFeesform.value.fess_lessid),
+                fees_lessid: new FormControl(this.specialBusFeesform.value.fees_lessid),
                 batch_year: new FormControl(this.specialBusFeesform.value.batch_year),
                 class_name: new FormControl(element.class_name),
                 classid: new FormControl(element.classid),
@@ -369,11 +370,11 @@ export class SpecialBusFeesComponent implements OnInit {
     }
   }
 
-  specialBusFeeDelete(type, km, year, fess_lessid) {
+  specialBusFeeDelete(type, km, year, fees_lessid) {
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {
-          this.spBusSvc.deleteSpecialBusFees(type, km, year, fess_lessid).subscribe(res => {
+          this.spBusSvc.deleteSpecialBusFees(type, km, year, fees_lessid).subscribe(res => {
             if (res?.recordid) {
               this.notificationSvc.error("Deleted Success")
               this.refreshSpecialBusFeeList();
@@ -390,7 +391,7 @@ export class SpecialBusFeesComponent implements OnInit {
     this.specialBusFeesform.get('s_busfeeid')?.setValue(0);
     this.specialBusFeesform.get('typeid')?.setValue(null);
     this.specialBusFeesform.get('kmrange')?.setValue('');
-    this.specialBusFeesform.get('fess_lessid')?.setValue(null);
+    this.specialBusFeesform.get('fees_lessid')?.setValue(null);
     this.specialBusFeesform.get('batch_year')?.setValue(this.newgetbatch);
     this.specialBusFeesform.get('cuid')?.setValue(0);
 

@@ -139,16 +139,20 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid':vehicle_type && vehicle_type.invalid && vehicle_type.touched}"
-                                        formControlName="vehicle_type" style="width: 100%;" class="form-control ">
-                                        <option value="" selected disabled>Please select</option>
-                                        <option value={{VehickeType.vehicle_name}}
+                                        [ngClass]="{'is-invalid':vehicleNoRootForm.controls.typeid.touched && vehicleNoRootForm.controls.typeid.errors}"
+                                        formControlName="typeid" style="width: 100%;" class="form-control ">
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="VehickeType.typeid"
                                             *ngFor="let VehickeType of DepartmentList;">{{VehickeType.vehicle_name}}
                                         </option>
                                     </select>
-                                    <p class="text-danger m-1"
-                                        *ngIf="vehicle_type && vehicle_type.invalid && vehicle_type.touched">
-                                        Vehicle Type is required</p>
+                                    <span class="text-danger"
+                                        *ngIf="vehicleNoRootForm.controls.typeid.touched && vehicleNoRootForm.controls.typeid.errors">
+                                        <div
+                                            *ngIf="vehicleNoRootForm.controls.typeid.touched && vehicleNoRootForm.controls.typeid.errors.required">
+                                            Vehicle Type is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +187,7 @@
                                 <div class="inputdiv">
                                     <input
                                         [ngClass]="{'is-invalid':vehicleNoRootForm.controls.vehicle_root_no.touched && vehicleNoRootForm.controls.vehicle_root_no.errors}"
-                                        formControlName="vehicle_root_no" class="form-control" type="number" required>
+                                        formControlName="vehicle_root_no" class="form-control" type="text" required>
                                     <span class="text-danger"
                                         *ngIf="vehicleNoRootForm.controls.vehicle_root_no.touched && vehicleNoRootForm.controls.vehicle_root_no.errors">
                                         <div
@@ -230,7 +234,7 @@
                             <tbody>
                                 <tr *ngFor="let vhnort of vehicleNoRootList;let i=index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{vhnort.vehicle_type}}</td>
+                                    <td>{{vhnort.vehicle_name}}</td>
                                     <td>{{vhnort.vehicle_no}}</td>
                                     <td>{{vhnort.vehicle_root_no}}</td>
                                     <td class="tdoption">
@@ -288,17 +292,20 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid': vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors}"
+                                        [ngClass]="{'is-invalid':vehicleplaceForm.controls.root_no.touched && vehicleplaceForm.controls.root_no.errors}"
                                         formControlName="root_no" style="width: 100%;" class="form-control ">
-                                        <option value=null selected disabled>Please select</option>
-                                        <option [ngValue]="VehicleRoot.vehicle_root_no"
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{VehicleRoot.vehicle_root_no}}
                                             *ngFor="let VehicleRoot of vehicleNoRootList;">
                                             {{VehicleRoot.vehicle_root_no}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="vehicleplaceForm.get('root_no')?.touched && vehicleplaceForm.get('root_no')?.errors">Vehicle
-                                        Root No
-                                        is required</span>
+                                        *ngIf="vehicleplaceForm.controls.root_no.touched && vehicleplaceForm.controls.root_no.errors">
+                                        <div
+                                            *ngIf="vehicleplaceForm.controls.root_no.touched && vehicleplaceForm.controls.root_no.errors.required">
+                                            Vehicle Root No is required
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>

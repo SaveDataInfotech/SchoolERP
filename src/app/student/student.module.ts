@@ -27,6 +27,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
 import { StudentUpdateComponent } from './student-update/student-update.component';
+import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { StudentUpdateComponent } from './student-update/student-update.componen
     ReportsComponent,
     EnquiryDashbordComponent,
     MarkEntryGradeComponent,
-    StudentUpdateComponent
+    StudentUpdateComponent,
+    UpdateMarkRankComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,

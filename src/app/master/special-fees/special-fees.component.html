@@ -18,13 +18,13 @@
                                 </div>
                                 <span *ngIf="buttonIdLess == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxIdLess">
-                                        <input placeholder="000{{code.fess_lessid+1}}" class="form-control" type="text"
+                                        <input placeholder="000{{code.fees_lessid+1}}" class="form-control" type="text"
                                             readonly required>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonIdLess != true">
                                     <div class="inputdiv">
-                                        <input formControlName="fess_lessid" class="form-control" type="text" readonly
+                                        <input formControlName="fees_lessid" class="form-control" type="text" readonly
                                             required>
                                     </div>
                                 </span>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div style="float: left;width: 350px;">
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                        <span> {{ feesLessForm.value.fess_lessid ==0 ? 'Save' :
+                                        <span> {{ feesLessForm.value.fees_lessid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" style="width: 80px;" (click)="cancelClickLess()"
                                         class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
@@ -90,7 +90,7 @@
                                             (click)="udateGetClickLess(less)"><b>edit</b></span>
                                         <span>||</span>
                                         <span class="m-2 deletebutton"
-                                            (click)="deleteClickLess(less.fess_lessid)"><b>delete</b></span>
+                                            (click)="deleteClickLess(less.fees_lessid)"><b>delete</b></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -155,17 +155,17 @@
                                 </div>
                                 <div class="inputdiv">
                                     <select
-                                        [ngClass]="{'is-invalid':specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors}"
-                                        formControlName="fess_lessid" style="width: 100%;" class="form-control"
+                                        [ngClass]="{'is-invalid':specialFeesForm.controls.fees_lessid.touched && specialFeesForm.controls.fees_lessid.errors}"
+                                        formControlName="fees_lessid" style="width: 100%;" class="form-control"
                                         required>
                                         <option value='' selected disabled>Please select</option>
-                                        <option [ngValue]="item.fess_lessid" *ngFor="let item of FeesLessList;">
+                                        <option [ngValue]="item.fees_lessid" *ngFor="let item of FeesLessList;">
                                             {{item.less_type}}</option>
                                     </select>
                                     <span class="text-danger"
-                                        *ngIf="specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors">
+                                        *ngIf="specialFeesForm.controls.fees_lessid.touched && specialFeesForm.controls.fees_lessid.errors">
                                         <div
-                                            *ngIf="specialFeesForm.controls.fess_lessid.touched && specialFeesForm.controls.fess_lessid.errors.required">
+                                            *ngIf="specialFeesForm.controls.fees_lessid.touched && specialFeesForm.controls.fees_lessid.errors.required">
                                             Fees Less is required
                                         </div>
                                     </span>
@@ -230,7 +230,7 @@
                                             </div>
                                         </td>
                                         <td class="pt-3"><input style="width: 20px;height: 20px;"
-                                            (click)="sameFemaleAmount(i,$event)" type="checkbox">
+                                                (click)="sameFemaleAmount(i,$event)" type="checkbox">
                                         <td>
                                             <div class="input-group mb-3">
                                                 <input (keypress)="numberOnly($event)" (change)="fevalidateWhite(i)"
@@ -251,7 +251,7 @@
                                 </div>
                                 <div style="float: left;width: 350px;">
                                     <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                        <span> {{ specialFeesForm.value.assignid ==0 ? 'Save' :
+                                        <span> {{ specialFeesForm.value.s_assignid ==0 ? 'Save' :
                                             'Edit'}}</span></button>
                                     <input type="button" (click)="specialFeesCancel()" style="width: 80px;"
                                         class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
@@ -280,7 +280,8 @@
                                     <th style="background-color: blue;color: white;">Deduction %</th>
                                     <th style="background-color: blue;color: white;">Deduction Amt</th>
                                     <th style="background-color: blue;color: white;">Payable Amt</th>
-                                    <th style="background-color: rgb(241, 15, 140);color: white;">General Fees Female</th>
+                                    <th style="background-color: rgb(241, 15, 140);color: white;">General Fees Female
+                                    </th>
                                     <th style="background-color: rgb(241, 15, 140);color: white;">Deduction %</th>
                                     <th style="background-color: rgb(241, 15, 140);color: white;">Deduction Amt</th>
                                     <th style="background-color: rgb(241, 15, 140);color: white;">Payable Amt</th>
@@ -302,11 +303,12 @@
                                     <td style="color: rgb(241, 15, 140);">{{item.female_amount}}</td>
                                     <td style="color: rgb(241, 15, 140);">{{item.s_female_amount}}%</td>
                                     <td style="color: rgb(241, 15, 140);">{{item.femaledeamount}}</td>
-                                    <td style="color: rgb(241, 15, 140);">{{+item.female_amount - +item.femaledeamount}}</td>
+                                    <td style="color: rgb(241, 15, 140);">{{+item.female_amount - +item.femaledeamount}}
+                                    </td>
                                     <td> <span (click)="specialFeesUpdate(item)"
                                             class="m-2 editbutton"><b>edit</b></span>
                                         <span>||</span>
-                                        <span (click)="specialDelete(item.assignid)"
+                                        <span (click)="specialDelete(item.s_assignid)"
                                             class="m-2 deletebutton"><b>delete</b></span>
                                     </td>
                                 </tr>

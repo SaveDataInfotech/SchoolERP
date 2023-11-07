@@ -80,7 +80,7 @@ export class DistanceComponent implements OnInit {
     distanceid: new FormControl(0),
     date: new FormControl(''),
     vehicle_no_id: new FormControl(null),
-    vehicle_root_no: new FormControl(),
+    vehicle_root_no: new FormControl(''),
     driver_name: new FormControl(''),
     helper_name: new FormControl(''),
     km_start: new FormControl(''),

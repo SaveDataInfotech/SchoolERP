@@ -26,6 +26,6 @@ export class SpecialBusFeesAssignService {
 
     deleteSpecialBusFees(type, km, year, less_type): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'SpecialBusFee/delete_specialbusfee?typeid=' + type + '&kmrange=' + km + '&batch_year=' + year + '&fess_lessid=' + less_type, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'SpecialBusFee/delete_specialbusfee?typeid=' + type + '&kmrange=' + km + '&batch_year=' + year + '&fees_lessid=' + less_type, httpOptions);
     }
 }

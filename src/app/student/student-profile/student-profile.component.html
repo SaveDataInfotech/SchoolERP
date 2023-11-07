@@ -301,18 +301,18 @@
                         </div>
                         <div class="inputdiv">
                             <select required
-                                [ngClass]="{'is-invalid':studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors}"
-                                style="width: 100%;" formControlName="fess_lessid" class="form-control">
+                                [ngClass]="{'is-invalid':studentDetailsForm.controls.fees_lessid.touched && studentDetailsForm.controls.fees_lessid.errors}"
+                                style="width: 100%;" formControlName="fees_lessid" class="form-control">
                                 <option selected value=null disabled>Please select </option>
                                 <option [ngValue]=0>Not Specified</option>
-                                <option *ngFor="let less of FeesLessList;" [ngValue]="less.fess_lessid">
+                                <option *ngFor="let less of FeesLessList;" [ngValue]="less.fees_lessid">
                                     {{less.less_type}}</option>
                             </select>
 
                             <span class="text-danger"
-                                *ngIf="studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors">
+                                *ngIf="studentDetailsForm.controls.fees_lessid.touched && studentDetailsForm.controls.fees_lessid.errors">
                                 <div
-                                    *ngIf="studentDetailsForm.controls.fess_lessid.touched && studentDetailsForm.controls.fess_lessid.errors.required">
+                                    *ngIf="studentDetailsForm.controls.fees_lessid.touched && studentDetailsForm.controls.fees_lessid.errors.required">
                                     Fees Less is required
                                 </div>
                             </span>

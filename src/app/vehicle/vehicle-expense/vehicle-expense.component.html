@@ -1,13 +1,13 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12" style="display: flex;">
-            <div style="float: left;width: 250px;">
-                <h3 class="ml-1">Vehicle Expenses</h3>
-            </div>
-        </div>
-    </div>
     <mat-card class="mt-2 matcard">
         <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Vehicle Expenses</h3>
+                    </div>
+                </div>
+            </div>
             <form [formGroup]="vehicleExpenseForm" (ngSubmit)="newExpense()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -193,7 +193,8 @@
                             <td class="tdoption">
                                 <span (click)="updateClick(item)" class="m-2 editbutton"><b>edit</b></span>
                                 <span>||</span>
-                                <span (click)="deleteClick(item.expenseid)" class="m-2 deletebutton"><b>delete</b></span>
+                                <span (click)="deleteClick(item.expenseid)"
+                                    class="m-2 deletebutton"><b>delete</b></span>
                             </td>
                         </tr>
                     </tbody>

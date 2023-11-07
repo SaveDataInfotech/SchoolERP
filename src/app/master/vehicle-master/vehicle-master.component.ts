@@ -157,14 +157,11 @@ export class VehicleMasterComponent implements OnInit {
   vehicleNoRootForm = new FormGroup({
     vehicle_no_id: new FormControl(0),
     vehicle_no: new FormControl('', [Validators.required]),
-    vehicle_type: new FormControl('', [Validators.required]),
-    vehicle_root_no: new FormControl(),
+    typeid: new FormControl(null, [Validators.required]),
+    vehicle_root_no: new FormControl(''),
     cuid: new FormControl(1),
   })
 
-  get vehicle_type() {
-    return this.vehicleNoRootForm.get('vehicle_type');
-  }
 
   refreshvehicleNoRootList() {
     this.vhNoRtSvc.getVeNoRtList().subscribe(data => {
@@ -197,16 +194,23 @@ export class VehicleMasterComponent implements OnInit {
           });
       }
       else if (this.vehicleNoRootForm.value.vehicle_no_id != 0) {
+        debugger;
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
               var venortinsert = (this.vehicleNoRootForm.value);
               this.vhNoRtSvc.addNewVeNoRt(venortinsert).subscribe(res => {
-                if (res?.recordid) {
-                  this.notificationSvc.success("Updated Success")
+                if (res.status == 'Update Success') {
+                  this.notificationSvc.success("Updated Success");
                   this.refreshvehicleNoRootList();
                   this.getMaxIdVehicleNoRoot();
                   this.cancelClickVehicleNoRoot();
+                }
+                else if (res.status == 'Already exists') {
+                  this.notificationSvc.warn("Already exists");
+                }
+                else {
+                  this.notificationSvc.error("Something error");
                 }
               });
             }
@@ -250,7 +254,7 @@ export class VehicleMasterComponent implements OnInit {
     this.vehicleNoRootForm.reset();
     this.vehicleNoRootForm.get('vehicle_no_id')?.setValue(0);
     this.vehicleNoRootForm.get('vehicle_no')?.setValue('');
-    this.vehicleNoRootForm.get('vehicle_type')?.setValue('');
+    this.vehicleNoRootForm.get('typeid')?.setValue(null);
     this.vehicleNoRootForm.get('vehicle_root_no')?.setValue(null);
     this.vehicleNoRootForm.get('cuid')?.setValue(1);
     this.NoRootbuttonId = true;
@@ -261,14 +265,10 @@ export class VehicleMasterComponent implements OnInit {
 
   vehicleplaceForm = new FormGroup({
     placeid: new FormControl(0),
-    root_no: new FormControl(null, [Validators.required]),
+    root_no: new FormControl('', [Validators.required]),
     place: new FormControl('', [Validators.required]),
     cuid: new FormControl(1)
   })
-
-  get root_no() {
-    return this.vehicleplaceForm.get('root_no');
-  }
 
   refreshvehiclePlaceList() {
     this.PlaceSvc.getPlaceList().subscribe(data => {
@@ -353,7 +353,7 @@ export class VehicleMasterComponent implements OnInit {
   cancelClickPlace() {
     this.vehicleplaceForm.reset();
     this.vehicleplaceForm.get('placeid')?.setValue(0);
-    this.vehicleplaceForm.get('root_no')?.setValue(null);
+    this.vehicleplaceForm.get('root_no')?.setValue('');
     this.vehicleplaceForm.get('place')?.setValue('');
     this.vehicleplaceForm.get('cuid')?.setValue(1);
     this.buttonIdPlace = true;

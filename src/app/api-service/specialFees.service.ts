@@ -19,8 +19,9 @@ export class SpecialFeesService {
         return this.http.post<any>(this.apiUrl + 'SpecialFees/insert_special_fees', data, httpOptions);
     }
 
-    deleteSpecialFees(assignid: any): Observable<any> {
+    deleteSpecialFees(id: any): Observable<any> {
+        debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-        return this.http.delete<any>(this.apiUrl + 'SpecialFees/delete_special_fees?assignid=' + assignid, httpOptions);
+        return this.http.delete<any>(this.apiUrl + 'SpecialFees/delete_special_fees?s_assignid=' + id, httpOptions);
     }
 }

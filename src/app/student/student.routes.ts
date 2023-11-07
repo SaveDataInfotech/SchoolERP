@@ -9,6 +9,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.component';
 import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
 import { StudentUpdateComponent } from './student-update/student-update.component';
+import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
 
 export const studentRoutes: Routes = [
   {
@@ -34,6 +35,10 @@ export const studentRoutes: Routes = [
   {
     path:"student_mark_entry",
     component:StudentMarkEntryComponent
+  },
+  {
+    path:"update_mark_rank",
+    component:UpdateMarkRankComponent
   },
   {
     path:"mark_entry_grade",

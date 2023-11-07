@@ -81,7 +81,7 @@ export class VehicleExpenseComponent implements OnInit {
     expenseid: new FormControl(0),
     vehicle_no_id: new FormControl(null),
     date: new FormControl(''),
-    vehicle_root_no: new FormControl(),
+    vehicle_root_no: new FormControl(''),
     driver_name: new FormControl(''),
     helper_name: new FormControl(''),
     place_of_work: new FormControl(),
