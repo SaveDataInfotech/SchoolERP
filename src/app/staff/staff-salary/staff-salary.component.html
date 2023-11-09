@@ -20,11 +20,11 @@
                         </div>
                         <div style="float: left;width: 250px;">
                             <select
-                                [ngClass]="{'is-invalid':staffSalaryForm.controls.staff_type.touched && staffSalaryForm.controls.staff_type.errors}"
-                                formControlName="staff_type" style="width: 100%;" class="form-control" required>
-                                <option value='' selected disabled>Please select</option>
-                                <option *ngFor="let Staff of StaffTypeList;">
-                                    {{Staff.staffType}}</option>
+                                [ngClass]="{'is-invalid':staffSalaryForm.controls.staff_typeid.touched && staffSalaryForm.controls.staff_typeid.errors}"
+                                formControlName="staff_typeid" style="width: 100%;" class="form-control" required>
+                                <option [ngValue]=null selected disabled>Please select</option>
+                                <option *ngFor="let Staff of StaffTypeList;" [ngValue]="Staff.staff_typeid">
+                                    {{Staff.staff_type}}</option>
                             </select>
                         </div>
                     </div>

@@ -90,7 +90,8 @@ export class StaffAttendanceComponent implements OnInit {
     ani: false,
     cuid: 0,
     l_fn: false,
-    l_an: false
+    l_an: false,
+    typeid: 0
   }
 
   searchStaff() {
@@ -100,6 +101,7 @@ export class StaffAttendanceComponent implements OnInit {
       let date = (this.staffAttendanceForm.date);
       this.stAtSvc.searchStudentByAttendance(staffTypeid, date).subscribe(data => {
         this.staffList = data;
+        debugger;
         if (this.staffList.length != 0) {
           this.serachDisabled = true;
         }

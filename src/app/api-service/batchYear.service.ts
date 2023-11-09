@@ -13,7 +13,7 @@ export class BatechYearService {
   readonly apiUrl = 'https://localhost:44314/api/';
 
   getBatchYearList(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'BatchYear/Get');
+    return this.http.get<any[]>(this.apiUrl +'BatchYear/Get');
   }
 
   getMaxId(): Observable<any[]> {

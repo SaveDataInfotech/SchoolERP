@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router,} from '@angular/router';
+import { CanActivate, Router, } from '@angular/router';
 import { loginService } from '../api-service/login.service';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -9,12 +9,11 @@ import { NotificationsService } from 'angular2-notifications';
 export class AuthGuard implements CanActivate {
   constructor(
     private loginSvc: loginService,
-    private router:Router,
-    private notificationSvc:NotificationsService
+    private router: Router,
+    private notificationSvc: NotificationsService
   ) { }
   canActivate(): boolean {
     if (this.loginSvc.isLoggedIn()) {
-      
       return true;
     }
     else {
@@ -25,5 +24,4 @@ export class AuthGuard implements CanActivate {
       return false;
     }
   }
-
 }

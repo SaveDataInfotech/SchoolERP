@@ -34,6 +34,11 @@ const routes: Routes = [
           import('./master/master.module').then((m) => m.MasterModule),
       },
       {
+        path: 'library_master',
+        loadChildren: () =>
+          import('./library-master/library-master.module').then((m) => m.LibraryMasterModule),
+      },
+      {
         path: 'student',
         loadChildren: () =>
           import('./student/student.module').then((m) => m.StudentModule),
@@ -78,11 +83,11 @@ const routes: Routes = [
       //     import('./admin/admin.module').then((m) => m.AdminModule),
       // },
 
-      {
-        path: 'customer',
-        loadChildren: () =>
-          import('./customer/customer.module').then((m) => m.CustomerModule),
-      },
+      // {
+      //   path: 'customer',
+      //   loadChildren: () =>
+      //     import('./customer/customer.module').then((m) => m.CustomerModule),
+      // },
 
     ],
   },

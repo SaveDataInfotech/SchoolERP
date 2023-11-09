@@ -16,8 +16,8 @@ export class UserComponent implements OnInit {
   buttonId: boolean = true;
   staffList: any[] = [];
   staffListAll: any[] = [];
-  public showPassword: boolean;
-  public showPasswordOnPress: boolean;
+  public showPassword: boolean = false;
+  //public showPasswordOnPress: boolean;
 
   constructor(
     private DialogSvc: DialogService,

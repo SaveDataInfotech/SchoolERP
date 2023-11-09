@@ -21,6 +21,7 @@ export class StudentFeesComponent implements OnInit {
   SectionList: any = [];
   StudentList: any[] = [];
   AdmissionFeesesList: any[] = [];
+  FeesCollectionList: any[] = [];
   BusFeesesList: any[] = [];
   total: number = 0;
   activeBatchYear: any = [];
@@ -67,6 +68,7 @@ export class StudentFeesComponent implements OnInit {
     this.refreshSectionList();
     this.refreshStudentList();
     this.GetActiveBatchYear();
+    this.refreshRecentFeesCollectionList(this.today);
   }
 
   backButton() {
@@ -116,11 +118,11 @@ export class StudentFeesComponent implements OnInit {
     });
   }
 
-  // refreshBusFeesList() {
-  //   this.feesCollSvc.getBusFeesList().subscribe(data => {
-  //     this.BusFeesesList = data;
-  //   });
-  // }
+  refreshRecentFeesCollectionList(today) {
+    this.feesCollSvc.RecentFeesCollectionList(today).subscribe(data => {
+      this.FeesCollectionList = data;
+    });
+  }
 
   printbill() {
     print()
@@ -135,7 +137,7 @@ export class StudentFeesComponent implements OnInit {
     batch_year: new FormControl(''),
     date: new FormControl(''),
     total_amount: new FormControl(''),
-    cuid: new FormControl(1),    
+    cuid: new FormControl(1),
     busFeesList: new FormArray([
     ]),
     generalFees: new FormArray([
@@ -179,7 +181,7 @@ export class StudentFeesComponent implements OnInit {
                 batch_year: new FormControl(element.batch_year),
                 typeid: new FormControl(element.typeid),
                 vehicle_name: new FormControl(element.vehicle_name),
-                kmrange:new FormControl(element.kmrange),
+                kmrange: new FormControl(element.kmrange),
                 fees_lessid: new FormControl(element.fees_lessid),
                 amount: new FormControl(element.amount),
                 balance: new FormControl(element.balance),
@@ -224,34 +226,32 @@ export class StudentFeesComponent implements OnInit {
           });
         }
       });
-
-
     }
     else {
       this.notificationSvc.error('Invalid Admission Number')
     }
 
   }
-  adtotal(i, val) {
+  // adtotal(i, val) {
 
-    let total: number = 0;
+  //   let total: number = 0;
 
-    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
-    bus.controls.forEach((e) => {
+  //   const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+  //   bus.controls.forEach((e) => {
 
-      const num = Number(e.value.deduction_amount);
-      total = total + num;
-    })
+  //     const num = Number(e.value.deduction_amount);
+  //     total = total + num;
+  //   })
 
-    const common = this.feesCollectionForm.get('generalFees') as FormArray;
-    common.controls.forEach((e) => {
+  //   const common = this.feesCollectionForm.get('generalFees') as FormArray;
+  //   common.controls.forEach((e) => {
 
-      const num = Number(e.value.deduction_amount);
-      total = total + num;
-    })
+  //     const num = Number(e.value.deduction_amount);
+  //     total = total + num;
+  //   })
 
-    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
-  }
+  //   this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+  // }
 
   bustotal(i, val) {
 
@@ -270,7 +270,7 @@ export class StudentFeesComponent implements OnInit {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
-  
+
     const common = this.feesCollectionForm.get('generalFees') as FormArray;
     common.controls.forEach((e) => {
 
@@ -330,7 +330,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   cancelclick() {
-    this.refreshStudentList();      
+    this.refreshStudentList();
     this.feesCollectionForm.reset();
     this.feesCollectionForm.get('date')?.setValue(this.today);
 

@@ -404,6 +404,18 @@ export class LayoutComponent implements OnInit {
         }
       ]
     },
+
+    {
+      link_name: "Library Master",
+      link: null,
+      icon: "customer",
+      sub_menu: [
+        {
+          link_name: "Book Mater",
+          link: "library_master/book_master",
+        }      
+      ]
+    },
     // {
     //   link_name: "Customer",
     //   link: null,

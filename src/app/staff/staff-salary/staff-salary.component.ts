@@ -29,6 +29,7 @@ export class StaffSalaryComponent implements OnInit {
   }
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
+      debugger;
       this.StaffTypeList = data;
     });
   }
@@ -37,7 +38,7 @@ export class StaffSalaryComponent implements OnInit {
   staffSalaryForm: FormGroup;
   createForm() {
     this.staffSalaryForm = new FormGroup({
-      staff_type: new FormControl(''),
+      staff_typeid: new FormControl(null),
       sal_month: new FormControl(''),
       working_days: new FormControl(''),
       staffList: new FormArray([
@@ -51,13 +52,12 @@ export class StaffSalaryComponent implements OnInit {
     return (this.staffSalaryForm.get('staffList') as FormArray).controls;
   }
 
-  searchStaff() {
-    
+  searchStaff() {    
     if (this.staffSalaryForm.valid) {
 
       this.sttySalSvc.getstaffProfileListBySalary(this.staffSalaryForm.value.sal_month).subscribe(data => {
         this.staffListSalaryAll = data;
-        this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 })
+        this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 && e.staff_typeid == this.staffSalaryForm.value.staff_typeid})
 
         const control = <FormArray>this.staffSalaryForm.controls['staffList'];
         while (control.length !== 0) {

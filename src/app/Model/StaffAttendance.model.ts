@@ -10,6 +10,7 @@ export class StaffAttendanceModel {
     l_fn: boolean;
     l_an: boolean;
     leave_type: string;
+    typeid:number;
     fni: boolean;
     ani: boolean;
     cuid: number;

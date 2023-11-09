@@ -14,6 +14,10 @@ export class FeescollectionService {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/GetStudents');
   }
 
+  RecentFeesCollectionList(value): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + ''+value);
+  }
+
   getBusFeesList(value): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list?admission_no='+value);
   }

@@ -8,10 +8,7 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Staff Profile</h3>
                             </div>
-                        </div>
-                        <div class="col-sm-6" style="text-align:right;cursor: pointer;" title="Click to Back"><button
-                                (click)="backButton()" class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                        </div>
+                        </div>                       
                     </div>
                     <form [formGroup]="staffProfileForm" novalidate (ngSubmit)="onSubmit()">
                         <div class="row mt-3">
@@ -26,8 +23,8 @@
                                         formControlName="staff_typeid" (change)="findStaffCode()" style="width: 100%;"
                                         class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option [disabled]="staffProfileForm.value.id !=0" [ngValue]="StaffType.staff_typeid"
-                                            *ngFor="let StaffType of StaffTypeList;">
+                                        <option [disabled]="staffProfileForm.value.id !=0"
+                                            [ngValue]="StaffType.staff_typeid" *ngFor="let StaffType of StaffTypeList;">
                                             {{StaffType.staff_type}}</option>
                                     </select>
                                     <span class="text-danger"
@@ -48,8 +45,8 @@
                                 <div class="inputdiv">
                                     <select
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.category_id.touched && staffProfileForm.controls.category_id.errors}"
-                                        formControlName="category_id" style="width: 100%;"
-                                        class="form-control" required>
+                                        formControlName="category_id" style="width: 100%;" class="form-control"
+                                        required>
                                         <option value=null selected disabled>Please select</option>
                                         <option [ngValue]="cate.category_id" *ngFor="let cate of categoryList;">
                                             {{cate.category}}</option>
@@ -79,7 +76,7 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input
+                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.staff_name.touched && staffProfileForm.controls.staff_name.errors}"
                                         type="text" style="width: 250px;" class="form-control"
                                         formControlName="staff_name" required>
@@ -105,8 +102,8 @@
                                         formControlName="gender" style="width: 250px;" class="form-control" required>
                                         <option value="">Please select</option>
                                         <option value="Male">Male</option>
-                                        <option value="FEMALE">FEMALE</option>
-                                        <option value="OTHER'S">OTHER'S</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                     <span class="text-danger"
                                         *ngIf="staffProfileForm.controls.gender.touched && staffProfileForm.controls.gender.errors">
@@ -177,7 +174,17 @@
                                     <label class="pt-2" style="margin: auto;">Blood Group</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="blood_group" class="form-control" type="text">
+                                    <select style="width: 100%;" formControlName="blood_group" class="form-control">
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -290,7 +297,7 @@
                                     <label class="pt-2" style="margin: auto;">Father Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="f_name" class="form-control" type="text">
+                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)" formControlName="f_name" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -299,7 +306,7 @@
                                     <label class="pt-2" style="margin: auto;">Mother Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input formControlName="m_name" class="form-control" type="text">
+                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)" formControlName="m_name" class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -467,7 +474,7 @@
                                             *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
+                                    <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors}"
                                         (change)="totalChange()" formControlName="basic_pay" class="form-control"
                                         type="text" required>
@@ -487,7 +494,7 @@
                                             *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
+                                    <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors}"
                                         (change)="totalChange()" formControlName="da" class="form-control" type="text"
                                         required>
@@ -509,7 +516,7 @@
                                             *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
+                                    <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors}"
                                         (change)="totalChange()" formControlName="hra" class="form-control" type="text"
                                         required>
@@ -529,7 +536,7 @@
                                             *</span></label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
+                                    <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors}"
                                         (change)="totalChange()" formControlName="allowance" class="form-control"
                                         type="text" required>
@@ -655,9 +662,11 @@
                         <div class="col-sm-12 mt-4">
                             <div style="text-align: center;">
                                 <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                                    class="btn btn-primary mr-3 btn-sm" value="Save" />
+                                    class="btn btn-success mr-3 btn-sm" value="Save" />
                                 <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
-                                    style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                                    style="width: 80px;" class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
+                            value="Close" />
                             </div>
                         </div>
                     </form>

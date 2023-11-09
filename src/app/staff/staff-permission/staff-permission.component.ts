@@ -206,7 +206,7 @@ export class StaffPermissionComponent implements OnInit {
             }
             var leavetypeinsert = (this.leaveAssignForm.value);
             this.slpSvc.addNewleaveType(leavetypeinsert).subscribe(res => {
-              if (res.status == 'Saved successfully') {
+              if (res.status == 'Saved successfully' || res.status == 'Alredy') {
                 this.slpSvc.getstaffLeaveList(year, staffNo).subscribe(data => {
                   this.StaffLeaveList = data;
                   this.staffLeavePermissionForm.get('staff_name')?.setValue(this.StaffLeaveList[0].staff_name);

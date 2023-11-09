@@ -35,7 +35,8 @@
                             <select required name="staff_typeid" [(ngModel)]="staffAttendanceForm.staff_typeid"
                                 style="width: 100%;" class="form-control ">
                                 <option value=0 selected disabled>Please select</option>
-                                <option [ngValue]="Staff.staff_typeid" [disabled]="serachDisabled == true" *ngFor="let Staff of StaffTypeList;">
+                                <option [ngValue]="Staff.staff_typeid" [disabled]="serachDisabled == true"
+                                    *ngFor="let Staff of StaffTypeList;">
                                     {{Staff.staff_type}}</option>
                             </select>
                         </div>
@@ -88,10 +89,10 @@
                                         [(ngModel)]="staff.l_an" name="lan{{i}}" #lan="ngModel" type="checkbox"><span
                                         *ngIf="staff.l_an == true">AN</span>
                                 </td>
-                                <td [width]="200"><select [(ngModel)]="staff.leave_type" name="lty{{i}}" #lty="ngModel"
+                                <td [width]="200"><select [(ngModel)]="staff.typeid" name="lty{{i}}" #lty="ngModel"
                                         style="width: 100%;" class="form-control ">
                                         <option value='' selected disabled>Please select</option>
-                                        <option disabled value={{leave.type_name}} *ngFor="let leave of LaveTyList;">
+                                        <option disabled value={{leave.typeid}} *ngFor="let leave of LaveTyList;">
                                             {{leave.type_name}}</option>
                                     </select></td>
                             </tr>

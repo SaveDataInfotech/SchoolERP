@@ -34,10 +34,9 @@
                         <div style="float: left;width: 250px;">
                             <select required
                                 [ngClass]="{'is-invalid':userProfileForm.controls.role_name.touched && userProfileForm.controls.role_name.errors}"
-                                formControlName="role_name" style="width: 100%;" class="form-control "
-                                name="selectAction">
+                                formControlName="role_name" style="width: 100%;" class="form-control ">
                                 <option value="" selected disabled>Please Select</option>
-                                <option value="SuperAdmin">SuperAdmin</option>
+                                <option value="Superadmin">Superadmin</option>
                                 <option value="Admin">Admin</option>
                             </select>
                             <span class="text-danger"
@@ -133,10 +132,10 @@
 
                             <span style="color: blue;font-size: large;max-height: 38px;" alt="show"
                                 class="fa fa-eye fa-eye-show pt-2 input-group-text"
-                                (click)="showPassword = !showPassword" [class.hide]="showPassword"></span>
+                                (click)="showPassword = !showPassword" *ngIf="showPassword"></span>
                             <span style="color: red;font-size: large;" alt="hide"
                                 class="fa fa-eye fa-eye-slash pt-2 input-group-text"
-                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></span>
+                                (click)="showPassword = !showPassword" *ngIf="!showPassword"></span>
 
                             <span class="text-danger" style="float: left;min-width: 240px;max-height: 38px;"
                                 *ngIf="userProfileForm.controls.password.touched && userProfileForm.controls.password.errors">

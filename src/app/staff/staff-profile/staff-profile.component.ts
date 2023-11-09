@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
@@ -108,6 +108,14 @@ export class StaffProfileComponent implements OnInit {
     return true;
   }
 
+  numberNotApplicable(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return true;
+    }
+    return false;
+  }
+
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
       debugger;
@@ -136,9 +144,9 @@ export class StaffProfileComponent implements OnInit {
     this.staffProfileForm = new FormGroup({
       id: new FormControl(0),
       staff_typeid: new FormControl(null),
-      category_id:new FormControl(null),
+      category_id: new FormControl(null),
       staff_no: new FormControl(''),
-      staff_name: new FormControl(''),
+      staff_name: new FormControl('',[Validators.pattern('^[a-zA-Z ]*$')]),
       gender: new FormControl(''),
       img: new FormControl(''),
       dob: new FormControl(''),
@@ -174,10 +182,10 @@ export class StaffProfileComponent implements OnInit {
       med_x: new FormControl(false),
       med_o: new FormControl(false),
       med_date: new FormControl(''),
-      basic_pay: new FormControl(''),
-      da: new FormControl(''),
-      hra: new FormControl(''),
-      allowance: new FormControl(''),
+      basic_pay: new FormControl('', [Validators.pattern("^[0-9]*$")]),
+      da: new FormControl('', [Validators.pattern("^[0-9]*$")]),
+      hra: new FormControl('', [Validators.pattern("^[0-9]*$")]),
+      allowance: new FormControl('', [Validators.pattern("^[0-9]*$")]),
       total_salary: new FormControl(''),
       pf: new FormControl(''),
       epf: new FormControl(''),
@@ -186,7 +194,7 @@ export class StaffProfileComponent implements OnInit {
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       reliving: new FormControl('No'),
-      reliving_date: new FormControl(''),     
+      reliving_date: new FormControl(''),
       cuid: new FormControl(1)
     })
   }
@@ -239,8 +247,8 @@ export class StaffProfileComponent implements OnInit {
     this.staffSvc.getMaxId(staffTypeid).subscribe(data => {
       debugger;
       this.maxIDList = data;
-      if(this.maxIDList.length ==0){
-        this.maxnumber=0;
+      if (this.maxIDList.length == 0) {
+        this.maxnumber = 0;
       }
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id

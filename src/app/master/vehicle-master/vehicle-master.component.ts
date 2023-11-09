@@ -368,8 +368,7 @@ export class VehicleMasterComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
 
-  vehicleplaceXLForm = new FormGroup({
-    root_no: new FormControl(null),
+  vehicleplaceXLForm = new FormGroup({   
     places: new FormControl([]),
     cuid: new FormControl(1)
   })
@@ -389,6 +388,7 @@ export class VehicleMasterComponent implements OnInit {
 
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
+      debugger;
       const arrayBuffer = fileReader.result as ArrayBuffer;
       const data = new Uint8Array(arrayBuffer);
       const arr = [];
@@ -404,15 +404,20 @@ export class VehicleMasterComponent implements OnInit {
       this.data = XLSX.utils.sheet_to_json(worksheet, { raw: true });
 
       for (let i = 0; i < this.data.length; i++) {
-        const obj = this.data[i];
-        const keys = Object.keys(obj);
-
-        if (keys[0] != 'places') {
-          this.notificationSvc.error('The column name must be in lowercase with this name (places).');
-          this.xlCancelClick();
-          return;
-        }
+        // Convert the root_no value to a string
+        this.data[i].root_no = this.data[i].root_no.toString();
       }
+
+      // for (let i = 0; i < this.data.length; i++) {
+      //   //const obj = this.data[i];
+      //  //const keys = Object.keys(obj);
+
+      //   // if (keys[0] != 'places') {
+      //   //   this.notificationSvc.error('The column name must be in lowercase with this name (places).');
+      //   //   this.xlCancelClick();
+      //   //   return;
+      //   // }
+      // }
 
       this.vehicleplaceXLForm.get('places')?.setValue(this.data);
 
@@ -448,6 +453,7 @@ export class VehicleMasterComponent implements OnInit {
 
   xlCancelClick() {
     this.vehicleplaceXLForm.reset();
+    this.file=null;
     this.myInputVariable.nativeElement.value = "";
     this.vehicleplaceXLForm.get('cuid')?.setValue(1);
   }
