@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -33,7 +34,8 @@ export class StudentPromoteComponent implements OnInit {
     private promoSvc: studentPromoteService,
     private notificationSvc: NotificationsService,
     private router: Router,
-    private DialogSvc: DialogService) { }
+    private DialogSvc: DialogService,
+    private spinner: NgxSpinnerService,) { }
 
 
   ngOnInit(): void {
@@ -105,6 +107,7 @@ export class StudentPromoteComponent implements OnInit {
   };
 
   searchStudent() {
+    this.spinner.show();
     const classid = this.searchStudentForm.classid;
     const groupid = this.searchStudentForm.groupid;
     const sectionid = this.searchStudentForm.sectionid;
@@ -112,9 +115,11 @@ export class StudentPromoteComponent implements OnInit {
     if (classid != 0 && sectionid != 0 && Batch != '' && Batch != null) {
       this.promoSvc.searchStudentbypromote(classid, groupid, sectionid, Batch).subscribe(data => {
         this.StudentList = data;
+        this.spinner.hide();
       });
     }
     else {
+      this.spinner.hide();
       this.notificationSvc.error('Fill in the mandatory fields');
     }
   }

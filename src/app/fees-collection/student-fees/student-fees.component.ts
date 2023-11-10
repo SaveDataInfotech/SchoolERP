@@ -68,7 +68,7 @@ export class StudentFeesComponent implements OnInit {
     this.refreshSectionList();
     this.refreshStudentList();
     this.GetActiveBatchYear();
-    this.refreshRecentFeesCollectionList(this.today);
+    //this.refreshRecentFeesCollectionList(this.today);
   }
 
   backButton() {
@@ -118,17 +118,18 @@ export class StudentFeesComponent implements OnInit {
     });
   }
 
-  refreshRecentFeesCollectionList(today) {
-    this.feesCollSvc.RecentFeesCollectionList(today).subscribe(data => {
-      this.FeesCollectionList = data;
-    });
-  }
+  // refreshRecentFeesCollectionList(today) {
+  //   this.feesCollSvc.RecentFeesCollectionList(today).subscribe(data => {
+  //     this.FeesCollectionList = data;
+  //   });
+  // }
 
   printbill() {
     print()
   }
 
   feesCollectionForm = new FormGroup({
+    select_all: new FormControl(false),
     admission_no: new FormControl(''),
     classid: new FormControl(),
     groupid: new FormControl(),
@@ -137,6 +138,8 @@ export class StudentFeesComponent implements OnInit {
     batch_year: new FormControl(''),
     date: new FormControl(''),
     total_amount: new FormControl(''),
+    bill_no: new FormControl(''),
+    payment_type: new FormControl('cash'),
     cuid: new FormControl(1),
     busFeesList: new FormArray([
     ]),
@@ -145,6 +148,10 @@ export class StudentFeesComponent implements OnInit {
   });
   getCommonControls() {
     return (this.feesCollectionForm.get('generalFees') as FormArray).controls;
+  }
+
+  getBusControls() {
+    return (this.feesCollectionForm.get('busFeesList') as FormArray).controls;
   }
 
   getStudent(value) {
@@ -171,6 +178,7 @@ export class StudentFeesComponent implements OnInit {
             const control = <FormArray>this.feesCollectionForm.controls['busFeesList'];
             control.push(
               new FormGroup({
+                selected: new FormControl(false),
                 feesid: new FormControl(element.feesid),
                 admission_no: new FormControl(this.feesCollectionForm.value.admission_no),
                 classid: new FormControl(element.classid),
@@ -206,6 +214,7 @@ export class StudentFeesComponent implements OnInit {
             const control = <FormArray>this.feesCollectionForm.controls['generalFees'];
             control.push(
               new FormGroup({
+                selected: new FormControl(false),
                 feesid: new FormControl(element.feesid),
                 admission_no: new FormControl(this.feesCollectionForm.value.admission_no),
                 classid: new FormControl(element.classid),
@@ -253,8 +262,24 @@ export class StudentFeesComponent implements OnInit {
   //   this.feesCollectionForm.get('total_amount')?.setValue(String(total))
   // }
 
-  bustotal(i, val) {
 
+  updateSelectAllCheckbox() {
+    debugger;
+    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
+    const selectAll = classidArray.controls.every((control) => control.get('selected').value === true);
+    this.feesCollectionForm.get('select_all').setValue(selectAll);
+  }
+
+  toggleAllCheckboxes() {
+    debugger;
+    const selectAllValue = this.feesCollectionForm.get('select_all').value;
+    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
+    for (let i = 0; i < classidArray.length; i++) {
+      classidArray.at(i).get('selected').setValue(selectAllValue);
+    }
+  }
+
+  bustotal(i, val) {
     let total: number = 0;
     const busControl = this.feesCollectionForm.get('busFeesList') as FormArray;
     const busam = busControl.at(i).get('balance').value;

@@ -1,25 +1,24 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { loginService } from '../api-service/login.service';
+// import { Injectable } from '@angular/core';
+// import {
+//   HttpRequest,
+//   HttpHandler,
+//   HttpEvent,
+//   HttpInterceptor
+// } from '@angular/common/http';
+// import { Observable } from 'rxjs';
+// import { loginService } from '../api-service/login.service';
 
-@Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+// @Injectable()
+// export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private ath: loginService) { }
+//   constructor(private ath: loginService) { }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    debugger;   
-    const yy=localStorage.getItem('token')
-    debugger;
-    if (yy != null) {
-      request = request.clone({ setHeaders: { Authorization: `Bearer ${yy}` } })
-    }
-    return next.handle(request);
-  }
-}
+//   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+//     const myToken = this.ath.getToken();
+//     debugger;
+//     if (myToken != null) {
+//       request = request.clone({ setHeaders: { Authorization: `Bearer ${myToken}` } })
+//     }
+//     return next.handle(request);
+//   }
+// }

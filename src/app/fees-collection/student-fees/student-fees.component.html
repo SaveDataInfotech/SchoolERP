@@ -83,11 +83,45 @@
                             <input readonly formControlName="date" class="form-control" type="Date" required>
                         </div>
                     </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Bill No</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input readonly formControlName="bill_no" class="form-control" type="text" [readOnly]
+                                required>
+                        </div>
+                    </div>
                 </div>
 
-                <table class="col-sm-12 table table-bordered table-sm  mt-4">
+                <div class="row">
+                    <div class="col-sm-6 mt-3 offset-sm-6" style="text-align: right;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Payment Type</label>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="form-check">
+                                <input formControlName="payment_type" value="cash" class="form-check-input"
+                                    style="width: 20px;height: 20px;" type="radio">
+                                <label class="form-check-label h6 p-2">
+                                    Cash
+                                </label>
+                            </div>
+                            <div class="form-check ml-5">
+                                <input formControlName="payment_type" value="cheque_upi" class="form-check-input"
+                                    style="width: 20px;height: 20px;" type="radio" checked>
+                                <label class="form-check-label h6 p-2">
+                                    Cheque / Upi
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="col-sm-10 table table-bordered table-sm  m-5">
                     <thead>
                         <tr>
+                            <th><input (change)="toggleAllCheckboxes()" type="checkbox" formControlName="select_all">
                             <th>Fees Name</th>
                             <th>Amount</th>
                             <th>Balance</th>
@@ -97,15 +131,17 @@
                     <tbody formArrayName="generalFees">
                         <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
                             formGroupName="{{i}}">
+                            <td *ngIf=" chid.get('balance').value !=0 "><input formControlName="selected"
+                                    (change)="updateSelectAllCheckbox()" type="checkbox"></td>
                             <!-- *ngIf=" chid.get('balance').value !=0 " -->
                             <td *ngIf=" chid.get('balance').value !=0 " class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>
                                 {{chid.get('type_name').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input readonly formControlName="amount"
-                                    type="text" style="width: 150px;" class="form-control" /></td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input readonly formControlName="balance"
-                                    type="text" style="width: 150px;" class="form-control" /></td>
+                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                                {{chid.get('amount').value}}</td>
+                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                                {{chid.get('balance').value}}</td>
                             <td *ngIf=" chid.get('balance').value !=0 "><input (keypress)="numberOnly($event)"
                                     (input)="commontotal(i,commonamount.value)" #commonamount
                                     formControlName="deduction_amount" type="text" style="width: 150px;"
@@ -118,14 +154,16 @@
                         <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
                             formGroupName="{{j}}">
                             <!-- *ngIf=" chid.get('balance').value !=0 " -->
+                            <td *ngIf=" chid.get('balance').value !=0 "><input formControlName="selected"
+                                    (change)="updateSelectAllCheckbox()" type="checkbox"></td>
                             <td *ngIf=" chid.get('balance').value !=0 " class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>
                                 {{chid.get('vehicle_name').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input readonly formControlName="amount"
-                                    type="text" style="width: 150px;" class="form-control" /></td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input readonly formControlName="balance"
-                                    type="text" style="width: 150px;" class="form-control" /></td>
+                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                                {{chid.get('amount').value}}</td>
+                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                                {{chid.get('balance').value}}</td>
                             <td *ngIf=" chid.get('balance').value !=0 "><input (keypress)="numberOnly($event)"
                                     (input)="bustotal(j,busamount.value)" #busamount #commonamount
                                     formControlName="deduction_amount" type="text" style="width: 150px;"
@@ -138,7 +176,7 @@
                         <tr>
                             <td class="p-2"
                                 style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
-                                colspan="3">Total Amount</td>
+                                colspan="4">Total Amount</td>
                             <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
                                     type="text" class="form-control" /></td>
                         </tr>

@@ -24,7 +24,7 @@ import {  ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { CurrencyPipe} from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { TokenInterceptor } from './interceptors/token.interceptor';
+//import { TokenInterceptor } from './interceptors/token.interceptor';
 @NgModule({
   declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
   imports: [
@@ -53,10 +53,10 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     
   ],
   exports: [NgxDropzoneModule],
-  providers: [{provide:HTTP_INTERCEPTORS,
-  useClass:TokenInterceptor,
-  multi:true
-}],
+//   providers: [{provide:HTTP_INTERCEPTORS,
+//   //useClass:TokenInterceptor,
+//   multi:true
+// }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
