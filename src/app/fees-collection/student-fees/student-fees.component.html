@@ -9,17 +9,21 @@
                 </div>
             </div>
             <form [formGroup]="feesCollectionForm" (ngSubmit)="FeesDeduction()">
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                <div class="row mt-3">
+                    <div class="col-sm-5" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Admission NO</label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input (keypress)="numberOnly($event)" (change)="getStudent(adno.value)" #adno
-                                formControlName="admission_no" class="form-control" type="text" required>
+                            <input (keypress)="numberOnly($event)" #adno
+                                [readOnly]="feesCollectionForm.value.student_name" formControlName="admission_no"
+                                class="form-control" type="text" required>
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary btn-sm" type="button" (click)="getStudent(adno.value)">Search</button>
+                    </div>  
+                    <div class="col-sm-6" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Class</label>
                         </div>
@@ -80,7 +84,7 @@
                             <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input readonly formControlName="date" class="form-control" type="Date" required>
+                            <input formControlName="date" class="form-control" type="Date" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -117,11 +121,12 @@
                         </div>
                     </div>
                 </div>
-
+             
                 <table class="col-sm-10 table table-bordered table-sm  m-5">
                     <thead>
                         <tr>
-                            <th><input (change)="toggleAllCheckboxes()" type="checkbox" formControlName="select_all">
+                            <th><input (change)="toggleAllCheckboxes($event)" type="checkbox"
+                                    formControlName="select_all">
                             <th>Fees Name</th>
                             <th>Amount</th>
                             <th>Balance</th>
@@ -131,21 +136,20 @@
                     <tbody formArrayName="generalFees">
                         <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
                             formGroupName="{{i}}">
-                            <td *ngIf=" chid.get('balance').value !=0 "><input formControlName="selected"
-                                    (change)="updateSelectAllCheckbox()" type="checkbox"></td>
-                            <!-- *ngIf=" chid.get('balance').value !=0 " -->
-                            <td *ngIf=" chid.get('balance').value !=0 " class="pt-3"><span style="color: red;"
+                            <td><input formControlName="selected" (change)="updateSelectAllCheckbox(i,$event)"
+                                    type="checkbox"></td>
+                            <td class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>
                                 {{chid.get('type_name').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                            <td style="text-align: right;">
                                 {{chid.get('amount').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                            <td style="text-align: right;">
                                 {{chid.get('balance').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input (keypress)="numberOnly($event)"
-                                    (input)="commontotal(i,commonamount.value)" #commonamount
-                                    formControlName="deduction_amount" type="text" style="width: 150px;"
-                                    class="form-control" />
+                            <td><input (keypress)="numberOnly($event)" (input)="commontotal(i,commonamount.value)"
+                                    #commonamount formControlName="deduction_amount"
+                                    [readOnly]="chid.get('selected').value == true " type="text" style="width: 150px;"
+                                    class="form-control text-right" />
                             </td>
                         </tr>
                     </tbody>
@@ -153,21 +157,19 @@
                     <tbody formArrayName="busFeesList">
                         <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
                             formGroupName="{{j}}">
-                            <!-- *ngIf=" chid.get('balance').value !=0 " -->
-                            <td *ngIf=" chid.get('balance').value !=0 "><input formControlName="selected"
-                                    (change)="updateSelectAllCheckbox()" type="checkbox"></td>
-                            <td *ngIf=" chid.get('balance').value !=0 " class="pt-3"><span style="color: red;"
+                            <td><input formControlName="selected" (change)="updateSelectAllCheckboxByBus(j,$event)"
+                                    type="checkbox"></td>
+                            <td class="pt-3"><span style="color: red;"
                                     *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
                                     Fees-Batch:{{chid.get('batch_year').value}}<br></span>
                                 {{chid.get('vehicle_name').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                            <td style="text-align: right;">
                                 {{chid.get('amount').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 " style="text-align: right;">
+                            <td style="text-align: right;">
                                 {{chid.get('balance').value}}</td>
-                            <td *ngIf=" chid.get('balance').value !=0 "><input (keypress)="numberOnly($event)"
-                                    (input)="bustotal(j,busamount.value)" #busamount #commonamount
-                                    formControlName="deduction_amount" type="text" style="width: 150px;"
-                                    class="form-control" />
+                            <td><input (keypress)="numberOnly($event)" (input)="bustotal(j,busamount.value)" #busamount
+                                    [readOnly]="chid.get('selected').value == true " formControlName="deduction_amount"
+                                    type="text" style="width: 150px;" class="form-control text-right" />
                             </td>
                         </tr>
                     </tbody>
@@ -178,7 +180,7 @@
                                 style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
                                 colspan="4">Total Amount</td>
                             <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
-                                    type="text" class="form-control" /></td>
+                                    type="text" class="form-control text-right" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -190,11 +192,47 @@
                             class="btn btn-primary btn-sm mr-2" value="Cancel" />
                         <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
                             value="Close" />
-                        <input matTooltip="Click to Print" (click)="printbill()" type="button"
-                            class="btn btn-primary m-3 btn-sm ml-5" value="Print" />
                     </div>
                 </div>
             </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Admission No</th>
+                        <th scope="col">Name</th>
+                        <th>Class</th>
+                        <th>Group</th>
+                        <th>Section</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Bill No</th>
+                        <th>Total Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of FeesCollectionList;let i=index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{item.student_name}}</td>
+                        <td>{{item.admission_no}}</td>
+                        <td>{{item.class_name}}</td>
+                        <td>{{item.group_name}}</td>
+                        <td>{{item.section_name}}</td>
+                        <td>{{item.date}}</td>
+                        <td>{{item.bill_no}}</td>
+                        <td>{{item.total_amount}}</td>
+                        <td>
+                            <button (click)="previewClick(item)" type="button"
+                                class="btn btn-primary btn-sm cursor-pointer" style="cursor: pointer;">Preview</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </mat-card-content>
     </mat-card>
 </div>

@@ -20,8 +20,7 @@ export class ResonDialogComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  condialog(reson:any){
-    
+  condialog(reson:any){    
    const res:any=true
     this.dialogRef.close(reson);
   }

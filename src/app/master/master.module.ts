@@ -34,6 +34,8 @@ import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
 import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
 import { StaffCategoryComponent } from './staff-category/staff-category.component';
+import { PreviewFeesDialogComponentComponent } from './preview-fees-dialog-component/preview-fees-dialog-component.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -58,11 +60,12 @@ import { StaffCategoryComponent } from './staff-category/staff-category.componen
     BusFeesComponent,
     SpecialBusFeesComponent,
     StaffCategoryComponent,
+    PreviewFeesDialogComponentComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
     RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule,HttpClientTestingModule,
-  MatDialogModule,MatButtonModule
+  MatDialogModule,MatButtonModule,NgxPrintModule
 
   ]
 })

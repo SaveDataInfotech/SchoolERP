@@ -24,6 +24,7 @@ import {  ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { CurrencyPipe} from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxPrintModule } from 'ngx-print';
 //import { TokenInterceptor } from './interceptors/token.interceptor';
 @NgModule({
   declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
@@ -49,6 +50,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatMenuModule,
     MatChipsModule,
     HttpClientModule,
+    NgxPrintModule,
     SimpleNotificationsModule.forRoot()
     
   ],

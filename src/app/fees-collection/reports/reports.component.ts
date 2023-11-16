@@ -26,15 +26,19 @@ export class ReportsComponent implements OnInit {
   SectionList: any = [];
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
+
+  spaid: boolean;
+  sbalance: boolean;
+  sbus: boolean;
+  colspanValue: number;
+  FeesListOutStanding:any[]=[];
+  checkedItems: any[] = [];
   constructor(private FtySvc: FeesTypeService,
     private batchSvc: BatechYearService,
     private fCSvc: FeesCollectionReportsService,
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
-    private ScSvc: studentSectionService,
-    private DialogSvc: DialogService,
-    private spinner: NgxSpinnerService,
-    private notificationSvc: NotificationsService,) { }
+    private ScSvc: studentSectionService) { }
 
   ngOnInit() {
     this.refreshFeesTypeList();
@@ -44,10 +48,9 @@ export class ReportsComponent implements OnInit {
     this.refreshSectionList();
   }
 
-  refreshFeesTypeList() {
-    this.FtySvc.getfeesTypeList().subscribe(data => {
-      this.FeesList = data;
-    });
+ async refreshFeesTypeList() {
+    const feeList = await this.FtySvc.getfeesTypeList().toPromise();
+    this.FeesListOutStanding = feeList;
   };
 
   refreshClassList() {
@@ -69,7 +72,7 @@ export class ReportsComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+
     const classid = Number(classsid);
     this.reportsForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -113,6 +116,7 @@ export class ReportsComponent implements OnInit {
 
 
   search() {
+
     const batchYear = this.reportsForm.value.batch_year
     const classId = this.reportsForm.value.classid
     const groupID = this.reportsForm.value.groupid
@@ -120,18 +124,20 @@ export class ReportsComponent implements OnInit {
     const adNo = this.reportsForm.value.admission_no
     if (this.reportsForm.value.type == 'multiple') {
       this.fCSvc.outstandingreportmultiplestudent(batchYear, classId, groupID, sectionId).subscribe(data => {
+
         this.outstandingreportmultiplestudentsList = data;
       });
     }
     else if (this.reportsForm.value.type == 'individual') {
       this.fCSvc.outstandingreportindividualstudent(batchYear, adNo).subscribe(data => {
+
         this.outstandingreportmultiplestudentsList = data;
       });
     }
   };
 
   getPaidAmount(value: any, i) {
-    debugger;
+
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -152,7 +158,7 @@ export class ReportsComponent implements OnInit {
   }
 
   getBalanceAmount(value: any, i) {
-    debugger;
+
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -170,5 +176,211 @@ export class ReportsComponent implements OnInit {
       }
     }
     return getAmount;
+  }
+
+  paid(event) {
+    if (event.target.checked) {
+      this.spaid = true
+    }
+    else {
+      this.spaid = false
+    }
+
+    if (this.spaid && this.sbalance) {
+      this.colspanValue = 2;
+    }
+    else {
+      this.colspanValue = 1;
+    }
+  }
+
+  balance(event) {
+    if (event.target.checked) {
+      this.sbalance = true
+    }
+    else {
+      this.sbalance = false
+    }
+
+    if (this.spaid && this.sbalance) {
+      this.colspanValue = 2;
+    }
+    else {
+      this.colspanValue = 1;
+    }
+  }
+
+  bus(event) {
+    debugger
+    if (event.target.checked) {
+      this.sbus = true
+    }
+    else {
+      this.sbus = false
+    }
+  }
+
+  updateCheckedItems(item: any) {
+    if (item.checked) {
+      this.checkedItems.push(item);
+    } else {
+      const index = this.checkedItems.indexOf(item);
+      if (index !== -1) {
+        this.checkedItems.splice(index, 1);
+      }
+    }
+  }
+
+
+  /////////////////////////////////////////
+
+  feetypetotalList: any[] = [];
+  busFeetypetotalList: any[] = [];
+  async searchReport(value) {
+    const busFeetypetotal = await this.fCSvc.busDescriptionReport(value).toPromise();
+    this.busFeetypetotalList = busFeetypetotal;
+
+    const feetypetotal = await this.fCSvc.generalDescriptionReport(value).toPromise();
+    this.feetypetotalList = feetypetotal;
+
+    const feeList = await this.FtySvc.getfeesTypeList().toPromise();
+    this.FeesList = feeList;
+  }
+
+  // getPaymentType(value: string): any {
+
+  //   if (value == 'cash') return 'Cash';
+  //   else if (value == 'cheque_upi') return 'Cheque/Upi';
+  //   else return '';
+  // }
+
+  getfeetypCashAmount(value: any) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    if (this.feetypetotalList.length != 0) {
+      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+
+      if (newFeesList.length != 0) {
+        newClass = newFeesList[0].typeids.split(",").map(Number);
+        newAmount = newFeesList[0].feetypetotal.split(",");
+
+        if (newClass.length == newAmount.length) {
+          index = newClass.indexOf(value);
+          if (index >= 0) {
+            getAmount = newAmount[index];
+          }
+          else {
+            getAmount = 'NULL';
+          }
+        }
+        return getAmount;
+      }
+      else { return 0 }
+
+    }
+    else { return 0; }
+  }
+
+  getfeetypUpiAmount(value: any) {
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    if (this.feetypetotalList.length != 0) {
+      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+      if (newFeesList.length != 0) {
+        newClass = newFeesList[0].typeids.split(",").map(Number);
+        newAmount = newFeesList[0].feetypetotal.split(",");
+
+        if (newClass.length == newAmount.length) {
+          index = newClass.indexOf(value);
+          if (index >= 0) {
+            getAmount = newAmount[index];
+          }
+          else {
+            getAmount = 'NULL';
+          }
+        }
+        return getAmount;
+      }
+      else { return 0 }
+    }
+    else { return 0; }
+
+  }
+
+
+  getfeetypBusCashAmount(b) {
+    debugger;
+    if (b == 0) {
+      let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+      if (newFeesList.length != 0) {
+        return newFeesList[0].feetypetotal
+      }
+      else {
+        return 0;
+      }
+    }
+    else if (b == 1) {
+      let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+      if (newFeesList.length != 0) {
+        return newFeesList[0].feetypetotal
+      }
+      else {
+        return 0;
+      }
+    }
+    else { return 0; }
+  }
+
+  getfeetypAmountSum(i) {
+    debugger
+    let sum: any;
+    let gensum: any;
+    let busSum: any;
+    if (i == 0) {
+      let newClass = [];
+      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+      if (newFeesList.length != 0) {
+        newClass = newFeesList[0].feetypetotal.split(",").map(Number);
+        gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
+      }
+      else {
+        gensum = 0;
+      }
+
+      let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+      if (newBusFeesList.length != 0) {
+        busSum = Number(newBusFeesList[0].feetypetotal)
+      }
+      else {
+        busSum = 0;
+      }
+      sum = gensum + busSum
+    }
+    else if (i == 1) {
+      let newClass = [];
+      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' })
+      if (newFeesList.length != 0) {
+        newClass = newFeesList[0].feetypetotal.split(",").map(Number);
+        gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
+      }
+      else {
+        gensum = 0;
+      }
+
+      let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+      if (newBusFeesList.length != 0) {
+        busSum = Number(newBusFeesList[0].feetypetotal)
+      }
+      else {
+        busSum = 0;
+      }
+      sum = gensum + busSum
+    }
+    return sum
   }
 }

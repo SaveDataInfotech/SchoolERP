@@ -15,11 +15,22 @@ export class FeescollectionService {
   }
 
   RecentFeesCollectionList(value): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + ''+value);
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value);
+  }
+
+  getgeneralfeesbybillno(value): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getgeneralfeesbybillno?bill_no=' + value);
+  }
+
+  getbusfeesbybillno(value): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getbusfeesbybillno?bill_no=' + value);
   }
 
   getBusFeesList(value): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list?admission_no='+value);
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list?admission_no=' + value);
   }
 
   studentFeesDeduction(feesInsert: any): Observable<any> {
@@ -28,9 +39,13 @@ export class FeescollectionService {
     return this.http.post<any>(this.apiUrl + 'FeesCollection/insert_student_admissionfees_deduction', feesInsert, httpOptions);
   }
 
-  getGeneralFeesList(value:any): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_generalfees_list?admission_no='+value);
+  getGeneralFeesList(value: any): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_generalfees_list?admission_no=' + value);
   }
-  
+
+  getMaxId(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_maxid_from_fees_deduction');
+  }
+
 
 }

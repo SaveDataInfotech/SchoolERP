@@ -146,7 +146,7 @@ export class StaffProfileComponent implements OnInit {
       staff_typeid: new FormControl(null),
       category_id: new FormControl(null),
       staff_no: new FormControl(''),
-      staff_name: new FormControl('',[Validators.pattern('^[a-zA-Z ]*$')]),
+      staff_name: new FormControl('', [Validators.pattern('^[a-zA-Z ]*$')]),
       gender: new FormControl(''),
       img: new FormControl(''),
       dob: new FormControl(''),

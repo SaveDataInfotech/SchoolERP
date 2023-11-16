@@ -19,4 +19,13 @@ export class FeesCollectionReportsService {
         debugger;
         return this.http.get<any[]>(this.apiUrl + 'FeesCollectionReports/outstandingreport_individual_students?batch_year=' + batchYear + '&admission_no=' + ad);
     }
+
+    generalDescriptionReport(value): Observable<any[]> {
+        debugger;
+        return this.http.get<any[]>(this.apiUrl + 'FeesCollection/fees_description_date?date=' + value);
+    }
+    busDescriptionReport(value): Observable<any[]> {
+        debugger;
+        return this.http.get<any[]>(this.apiUrl + 'FeesCollection/bus_fees_description_date?date=' + value);
+    }
 }

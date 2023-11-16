@@ -1,141 +1,205 @@
-<div class="container-fluid">
-  <mat-card class="mt-2 matcard">
-    <mat-card-content>
-      <div class="row">
-        <div class="col-sm-6" style="display: flex;">
-          <div style="float: left;width: 300px;">
-            <h3 class="ml-1">Fees Collection Reports</h3>
-          </div>
-        </div>
-      </div>
-      <form [formGroup]="reportsForm" (ngSubmit)="search()">
-        <div class="row">
-          <div class="col-sm-12" style="display: flex;">
-            <div class="form-check">
-              <input formControlName="type" value="individual" class="form-check-input"
-                style="width: 20px;height: 20px;" type="radio">
-              <label class="form-check-label h6 p-2">
-                Individual student
-              </label>
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="First">
+    <div class="container-fluid mb-5">
+      <mat-card class="mt-2 matcard">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-sm-6" style="display: flex;">
+              <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Fees Collection Reports</h3>
+              </div>
             </div>
-            <div class="form-check ml-5">
-              <input formControlName="type" value="multiple" class="form-check-input" style="width: 20px;height: 20px;"
-                type="radio" type="radio" checked>
-              <label class="form-check-label h6 p-2">
-                Multiple students
-              </label>
+          </div>
+          <form [formGroup]="reportsForm" (ngSubmit)="search()">
+            <div class="row">
+              <div class="col-sm-12" style="display: flex;">
+                <div class="form-check">
+                  <input formControlName="type" value="individual" class="form-check-input"
+                    style="width: 20px;height: 20px;" type="radio">
+                  <label class="form-check-label h6 p-2">
+                    Individual student
+                  </label>
+                </div>
+                <div class="form-check ml-5">
+                  <input formControlName="type" value="multiple" class="form-check-input"
+                    style="width: 20px;height: 20px;" type="radio" checked>
+                  <label class="form-check-label h6 p-2">
+                    Multiple students
+                  </label>
+                </div>
+              </div>
+
+              <div *ngIf="reportsForm.value.type == 'individual'" class="col-sm-4 mt-3" style="display: flex;">
+                <div class="labeldiv">
+                  <label class="pt-2">admission No<span class="text-danger"> *</span></label>
+                </div>
+                <div class="inputdiv">
+                  <input class="form-control" type="text" formControlName="admission_no">
+                </div>
+              </div>
+
+              <div *ngIf="reportsForm.value.type == 'multiple'" class="col-sm-3 mt-3" style="display: flex;">
+                <div class="labeldiv">
+                  <label class="pt-2">Class <span class="text-danger"> *</span></label>
+                </div>
+                <div class="inputdiv">
+                  <select
+                    [ngClass]="{'is-invalid': reportsForm.get('classid')?.touched && reportsForm.get('classid')?.errors }"
+                    formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
+                    class="form-control" required>
+                    <option value=null selected disabled>Please select</option>
+                    <option value={{class.classid}} *ngFor="let class of ClassList;">
+                      {{class.class_name}}</option>
+                  </select>
+                  <span class="text-danger"
+                    *ngIf="reportsForm.get('classid')?.touched && reportsForm.get('classid')?.errors">Class
+                    name is required</span>
+                </div>
+              </div>
+              <div *ngIf="groupFilterlist.length !=0 && reportsForm.value.type == 'multiple'" class="col-sm-3 mt-3"
+                style="display: flex;">
+                <div class="labeldiv">
+                  <label class="pt-2">Group <span class="text-danger"> *</span></label>
+                </div>
+                <div class="inputdiv">
+                  <select formControlName="groupid" style="width: 100%;" #s (change)="filterSectionfun(s.value)"
+                    class="form-control ">
+                    <option value=0 selected disabled>Please select</option>
+                    <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                      {{group.group_name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3 mt-3" *ngIf="reportsForm.value.type == 'multiple'" style="display: flex;">
+                <div class="labeldiv">
+                  <label class="pt-2">Section <span class="text-danger"> *</span></label>
+                </div>
+                <div class="inputdiv">
+                  <select
+                    [ngClass]="{'is-invalid': reportsForm.get('sectionid')?.touched && reportsForm.get('sectionid')?.errors }"
+                    formControlName="sectionid" style="width: 100%;" class="form-control" required>
+                    <option value=null selected disabled>Please select</option>
+                    <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                      {{section.section_name}}</option>
+                  </select>
+                  <span class="text-danger"
+                    *ngIf="reportsForm.get('sectionid')?.touched && reportsForm.get('sectionid')?.errors">Section
+                    name is required</span>
+                </div>
+              </div>
+              <div class="col-sm-3 mt-3" style="display: flex;">
+                <div class="labeldiv">
+                  <label class="pt-2">Batch <span class="text-danger"> *</span></label>
+                </div>
+                <div class="inputdiv">
+                  <input class="form-control" readonly type="text" formControlName="batch_year">
+                </div>
+              </div>
+              <div class="col-sm-2 mt-3">
+                <button type="submit" class="btn btn-outline-primary btn-sm  ml-5">Search</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="col-sm-12 d-flex justify-content-end mt-5">
+            <div *ngFor="let item of FeesListOutStanding" class="pl-3" style="display: flex;">
+              <input type="checkbox" style="width: 17px;height: 17px;" [(ngModel)]="item.checked"
+                (change)="updateCheckedItems(item)">
+              <label class="ml-2 text-primary">{{ item.type_name }}</label>
+            </div>
+            <div class="pl-3" style="display: flex;">
+              <input type="checkbox" (click)="bus($event)" style="width: 17px;height: 17px;">
+              <label class="ml-2 text-primary">Bus</label>
             </div>
           </div>
 
-          <div *ngIf="reportsForm.value.type == 'individual'" class="col-sm-4 mt-3" style="display: flex;">
-            <div class="labeldiv">
-              <label class="pt-2">admission No<span class="text-danger"> *</span></label>
+          <div class="col-sm-12 d-flex justify-content-end mt-3">
+            <div class="ml-3">
+              <input (click)="paid($event)" type="checkbox" style="width: 17px; height: 17px;">
+              <label class="h6 text-success ml-1">Paid</label>
             </div>
-            <div class="inputdiv">
-              <input class="form-control" type="text" formControlName="admission_no">
+            <div class="ml-3">
+              <input (click)="balance($event)" type="checkbox" style="width: 17px; height: 17px;">
+              <label class="h6 ml-1 text-danger">Balance</label>
             </div>
           </div>
 
-          <div *ngIf="reportsForm.value.type == 'multiple'" class="col-sm-3 mt-3" style="display: flex;">
-            <div class="labeldiv">
-              <label class="pt-2">Class <span class="text-danger"> *</span></label>
-            </div>
-            <div class="inputdiv">
-              <select
-                [ngClass]="{'is-invalid': reportsForm.get('classid')?.touched && reportsForm.get('classid')?.errors }"
-                formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
-                class="form-control" required>
-                <option value=null selected disabled>Please select</option>
-                <option value={{class.classid}} *ngFor="let class of ClassList;">
-                  {{class.class_name}}</option>
-              </select>
-              <span class="text-danger"
-                *ngIf="reportsForm.get('classid')?.touched && reportsForm.get('classid')?.errors">Class
-                name is required</span>
-            </div>
-          </div>
-          <div *ngIf="groupFilterlist.length !=0 && reportsForm.value.type == 'multiple'" class="col-sm-3 mt-3"
-            style="display: flex;">
-            <div class="labeldiv">
-              <label class="pt-2">Group <span class="text-danger"> *</span></label>
-            </div>
-            <div class="inputdiv">
-              <select formControlName="groupid" style="width: 100%;" #s (change)="filterSectionfun(s.value)"
-                class="form-control ">
-                <option value=0 selected disabled>Please select</option>
-                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
-                  {{group.group_name}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-sm-3 mt-3" *ngIf="reportsForm.value.type == 'multiple'" style="display: flex;">
-            <div class="labeldiv">
-              <label class="pt-2">Section <span class="text-danger"> *</span></label>
-            </div>
-            <div class="inputdiv">
-              <select
-                [ngClass]="{'is-invalid': reportsForm.get('sectionid')?.touched && reportsForm.get('sectionid')?.errors }"
-                formControlName="sectionid" style="width: 100%;" class="form-control" required>
-                <option value=null selected disabled>Please select</option>
-                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
-                  {{section.section_name}}</option>
-              </select>
-              <span class="text-danger"
-                *ngIf="reportsForm.get('sectionid')?.touched && reportsForm.get('sectionid')?.errors">Section
-                name is required</span>
-            </div>
-          </div>
-          <div class="col-sm-3 mt-3" style="display: flex;">
-            <div class="labeldiv">
-              <label class="pt-2">Batch <span class="text-danger"> *</span></label>
-            </div>
-            <div class="inputdiv">
-              <input class="form-control" readonly type="text" formControlName="batch_year">
-            </div>
-          </div>
-          <div class="col-sm-2 mt-3">
-            <button type="submit" class="btn btn-outline-primary btn-sm  ml-5">Search</button>
-          </div>
-        </div>
-      </form>
+          <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
+            <thead>
+              <tr style="color:blue;">
+                <th>SI NO</th>
+                <th>Name</th>
+                <th>A.NO</th>
+                <ng-container *ngFor="let item of checkedItems">
+                  <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
+                </ng-container>
+                <th *ngIf="sbus" [attr.colspan]="colspanValue">Bus</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <ng-container *ngFor="let item of checkedItems">
+                  <th style="color: green;" *ngIf="spaid">Paid</th>
+                  <th style="color: red;" *ngIf="sbalance">Balance</th>
+                </ng-container>
+                <th style="color: green;" *ngIf="spaid && sbus">Paid</th>
+                <th style="color: red;" *ngIf="sbalance && sbus">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of outstandingreportmultiplestudentsList;let i=index;">
+                <td>{{i+1}}</td>
+                <td>{{item.student_name}}</td>
+                <td>{{item.admission_no}}</td>
+                <ng-container *ngFor="let nestitem of checkedItems">
+                  <td *ngIf="spaid" style="color: green;">{{getPaidAmount(nestitem.typeid,i)}}</td>
+                  <td *ngIf="sbalance" style="color: red;">{{getBalanceAmount(nestitem.typeid,i)}}</td>
+                </ng-container>
+                <td *ngIf="spaid && sbus" style="color: green;">{{item.bus_deduction_amount}}</td>
+                <td *ngIf="sbalance && sbus" style="color: red;">{{item.busbalance}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Second">
+    <form class="m-5">
+      <input class="form-control m-5" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
 
-      <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
+      <table class="table table-bordered col-sm-6">
         <thead>
-          <tr style="color:blue;">
-            <th>SI NO</th>
-            <th>Name</th>
-            <th>A.NO</th>
-            <ng-container *ngFor="let item of FeesList">
-              <th colspan="2">{{ item.type_name }}</th>
-            </ng-container>
-            <th colspan="2">Bus</th>
-          </tr>
           <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <ng-container *ngFor="let item of FeesList">
-              <th>Paid</th>
-              <th>Balance</th>
-            </ng-container>
-            <th>Paid</th>
-            <th>Balance</th>
+            <th scope="col">Si.No</th>
+            <th scope="col">Description</th>
+            <th>Cash</th>
+            <th>Cheque/Upi</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of outstandingreportmultiplestudentsList;let i=index;">
-            <td>{{i+1}}</td>
-            <td>{{item.student_name}}</td>
-            <td>{{item.admission_no}}</td>
-            <ng-container *ngFor="let nestitem of FeesList">
-              <td style="color: green;">{{getPaidAmount(nestitem.typeid,i)}}</td>
-              <td style="color: red;">{{getBalanceAmount(nestitem.typeid,i)}}</td>
-            </ng-container>
-            <td>{{item.bus_deduction_amount}}</td>
-            <td>{{item.busbalance}}</td>
+          <ng-container *ngFor="let nestitem of FeesList;let j=index">
+            <tr>
+              <th scope="row">{{j+1}}</th>
+              <td>{{nestitem.type_name}}</td>
+              <td>{{getfeetypCashAmount(nestitem.typeid)}}</td>
+              <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
+            </tr>
+          </ng-container>
+          <tr>
+            <th>{{FeesList.length+1}}</th>
+            <td>Bus</td>
+            <td *ngFor="let item of busFeetypetotalList;let b=index">{{getfeetypBusCashAmount(b)}}</td>            
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <th colspan="2" style="text-align: right;">Total</th>
+            <td *ngFor="let mm of feetypetotalList;let i=index">{{getfeetypAmountSum(i)}}</td>
           </tr>
         </tbody>
       </table>
-    </mat-card-content>
-  </mat-card>
-</div>
+    </form>
+  </mat-tab>
+</mat-tab-group>

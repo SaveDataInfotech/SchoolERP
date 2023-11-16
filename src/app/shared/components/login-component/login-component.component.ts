@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
           this.loginForm.reset();
           this.loginSvc.storeToken(this.userDetails.token)// temp array // token
           localStorage.setItem('rolename',this.userDetails.role_name);
-          localStorage.setItem('staffid',this.userDetails.staff_no);
+          localStorage.setItem('userid',this.userDetails.userid);
           this.router.navigateByUrl('/app/dashboard/dashboard');
           this.notificationSvc.success("LOGIN SUCCESSFUL")
         }
