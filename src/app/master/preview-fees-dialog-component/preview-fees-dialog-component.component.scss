@@ -8,13 +8,32 @@
     text-transform: capitalize;
 }
 
-@media print {
-    @page {
-        size: auto !important;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        margin-left: 60px;
-        margin-right: 60px;
-    }
+@page {
+    size: A5;
+    margin: 10mm;
+}
 
+.containercss {
+    width: 148mm;
+    margin: 0 auto;
+}
+
+.row {
+    margin-bottom: 5px; /* Adjust as needed */
+}
+
+.col-sm-6 {
+    width: 50%; /* Adjust as needed, considering margins and gutters */
+    float: left;
+   // margin-right: 2%; /* Adjust as needed */
+}
+
+.col-sm-12 {
+    width: 100%;
+    float: left;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 10px; /* Adjust as needed */
 }

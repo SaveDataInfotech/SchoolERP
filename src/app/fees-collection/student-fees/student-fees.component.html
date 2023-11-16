@@ -84,7 +84,7 @@
                             <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
                         </div>
                         <div style="float: left;width: 250px;">
-                            <input formControlName="date" class="form-control" type="Date" required>
+                            <input [readOnly]="feesCollectionForm.value.student_name" formControlName="date" class="form-control" type="Date" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -178,7 +178,7 @@
                         <tr>
                             <td class="p-2"
                                 style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
-                                colspan="4">Total Amount</td>
+                                colspan="4">Total</td>
                             <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
                                     type="text" class="form-control text-right" /></td>
                         </tr>

@@ -31,7 +31,7 @@ export class ReportsComponent implements OnInit {
   sbalance: boolean;
   sbus: boolean;
   colspanValue: number;
-  FeesListOutStanding:any[]=[];
+  FeesListOutStanding: any[] = [];
   checkedItems: any[] = [];
   constructor(private FtySvc: FeesTypeService,
     private batchSvc: BatechYearService,
@@ -48,7 +48,7 @@ export class ReportsComponent implements OnInit {
     this.refreshSectionList();
   }
 
- async refreshFeesTypeList() {
+  async refreshFeesTypeList() {
     const feeList = await this.FtySvc.getfeesTypeList().toPromise();
     this.FeesListOutStanding = feeList;
   };
@@ -313,74 +313,79 @@ export class ReportsComponent implements OnInit {
   }
 
 
-  getfeetypBusCashAmount(b) {
+  getfeetypBusCashAmount() {
     debugger;
-    if (b == 0) {
-      let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
-      if (newFeesList.length != 0) {
-        return newFeesList[0].feetypetotal
-      }
-      else {
-        return 0;
-      }
+    let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+    if (newFeesList.length != 0) {
+      return newFeesList[0].feetypetotal
     }
-    else if (b == 1) {
-      let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
-      if (newFeesList.length != 0) {
-        return newFeesList[0].feetypetotal
-      }
-      else {
-        return 0;
-      }
+    else {
+      return 0;
     }
-    else { return 0; }
   }
 
-  getfeetypAmountSum(i) {
+  getfeetypBusUpiAmount() {
+    debugger;
+    let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+    if (newFeesList.length != 0) {
+      return newFeesList[0].feetypetotal
+    }
+    else {
+      return 0;
+    }
+  }
+
+  getfeetyCashAmountSum() {
     debugger
     let sum: any;
     let gensum: any;
     let busSum: any;
-    if (i == 0) {
-      let newClass = [];
-      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cash' });
-      if (newFeesList.length != 0) {
-        newClass = newFeesList[0].feetypetotal.split(",").map(Number);
-        gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
-      }
-      else {
-        gensum = 0;
-      }
 
-      let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
-      if (newBusFeesList.length != 0) {
-        busSum = Number(newBusFeesList[0].feetypetotal)
-      }
-      else {
-        busSum = 0;
-      }
-      sum = gensum + busSum
+    let newClass = [];
+    let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+    if (newFeesList.length != 0) {
+      newClass = newFeesList[0].feetypetotal.split(",").map(Number);
+      gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
     }
-    else if (i == 1) {
-      let newClass = [];
-      let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' })
-      if (newFeesList.length != 0) {
-        newClass = newFeesList[0].feetypetotal.split(",").map(Number);
-        gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
-      }
-      else {
-        gensum = 0;
-      }
+    else {
+      gensum = 0;
+    }
 
-      let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
-      if (newBusFeesList.length != 0) {
-        busSum = Number(newBusFeesList[0].feetypetotal)
-      }
-      else {
-        busSum = 0;
-      }
-      sum = gensum + busSum
+    let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+    if (newBusFeesList.length != 0) {
+      busSum = Number(newBusFeesList[0].feetypetotal)
     }
+    else {
+      busSum = 0;
+    }
+    return sum = gensum + busSum
+  }
+
+  getfeetyUpiAmountSum() {
+    debugger
+    let sum: any;
+    let gensum: any;
+    let busSum: any;
+
+    let newClass = [];
+    let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' })
+    if (newFeesList.length != 0) {
+      newClass = newFeesList[0].feetypetotal.split(",").map(Number);
+      gensum = newClass.reduce((acc, val) => acc + parseInt(val), 0);
+    }
+    else {
+      gensum = 0;
+    }
+
+    let newBusFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+    if (newBusFeesList.length != 0) {
+      busSum = Number(newBusFeesList[0].feetypetotal)
+    }
+    else {
+      busSum = 0;
+    }
+    sum = gensum + busSum
+
     return sum
   }
 }

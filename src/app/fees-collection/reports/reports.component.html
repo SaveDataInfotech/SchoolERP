@@ -187,17 +187,23 @@
               <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
             </tr>
           </ng-container>
-          <tr>
-            <th>{{FeesList.length+1}}</th>
-            <td>Bus</td>
-            <td *ngFor="let item of busFeetypetotalList;let b=index">{{getfeetypBusCashAmount(b)}}</td>            
-          </tr>
+          <ng-container *ngFor="let item of busFeetypetotalList;let b=index">
+            <tr *ngIf="b==0">
+              <th>{{FeesList.length+1}}</th>
+              <td>Bus</td>
+              <td>{{getfeetypBusCashAmount()}}</td>
+              <td>{{getfeetypBusUpiAmount()}}</td>
+            </tr>
+          </ng-container>
         </tbody>
         <tbody>
-          <tr>
-            <th colspan="2" style="text-align: right;">Total</th>
-            <td *ngFor="let mm of feetypetotalList;let i=index">{{getfeetypAmountSum(i)}}</td>
-          </tr>
+          <ng-container *ngFor="let mm of FeesList;let m=index">
+            <tr *ngIf="m == 0">
+              <th colspan="2" style="text-align: right;">Total</th>
+              <td>{{getfeetyCashAmountSum()}}</td>
+              <td>{{getfeetyUpiAmountSum()}}</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </form>
