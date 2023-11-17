@@ -1,0 +1,133 @@
+<div class="container-fluid mt-1">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Uniform Billing</h3>
+                    </div>
+                </div>
+            </div>
+
+            <form>
+                <div class="row">
+                    <div class="labeldiv">
+                        <label class="pt-2" style="margin: auto;"></label>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-check form-check-inline">
+                            <input style="height: 20px;width: 20px;" class="form-check-input" type="radio">
+                            <label style="font-size: 20px;" class="form-check-label">Normal</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input style="height: 20px;width: 20px;" class="form-check-input" type="radio">
+                            <label style="font-size: 20px;" class="form-check-label">Fees Relavant</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mt-2" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input name="batch_year" readonly class="form-control" type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" class="form-control " name="classid">
+                                <option value=0 selected disabled>Please select</option>
+                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-12 mt-3" style="display: flex;float: left;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" class="form-control ">
+                                <option value=0 selected disabled>Please select</option>
+                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-7">
+                        <textarea style="height: 120px;" placeholder="Write Your Message..."
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-7">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col"><input type="checkbox"> Select All</th>
+                                    <th scope="col">Admission No</th>
+                                    <th scope="col">Student Name</th>
+                                    <th>Mobile Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td><input type="checkbox"></td>
+                                    <td>6456</td>
+                                    <td>Ram</td>
+                                    <td>+91 9955431265</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td><input type="checkbox"></td>
+                                    <td>456546</td>
+                                    <td>Rajesh</td>
+                                    <td>+91 9955431265</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Fees Type</label> <br> <span class="p-2"><input type="checkbox">Term-1</span><span
+                        class="p-2"><input type="checkbox">Term-2</span><span class="p-2"><input
+                            type="checkbox">Term-3</span><span class="p-2"><input type="checkbox">Admission</span><span
+                        class="p-2"><input type="checkbox">Bus</span><span class="p-2"><input
+                            type="checkbox">Book</span>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

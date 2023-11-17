@@ -1,0 +1,209 @@
+<div class="container-fluid mt-1">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Uniform Billing</h3>
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="row mt-3">
+                    <div class="col-sm-5" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Admission NO</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input formControlName="admission_no" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary btn-sm" type="button">Search</button>
+                    </div>
+                    <div class="col-sm-6" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Class</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select formControlName="classid" style="width: 100%;" class="form-control">
+                                <option disabled>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select formControlName="groupid" style="width: 100%;" class="form-control">
+                                <option>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Section</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select formControlName="sectionid" style="width: 100%;" class="form-control">
+                                <option disabled>
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">*</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input readonly formControlName="batch_year" class="form-control" type="text" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Student Name</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input readonly formControlName="student_name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input formControlName="date" class="form-control" type="Date" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Bill No</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input readonly formControlName="bill_no" class="form-control" type="text" [readOnly]
+                                required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3 offset-sm-6" style="text-align: right;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Payment Type</label>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="form-check">
+                                <input formControlName="payment_type" value="cash" class="form-check-input"
+                                    style="width: 20px;height: 20px;" type="radio">
+                                <label class="form-check-label h6 p-2">
+                                    Cash
+                                </label>
+                            </div>
+                            <div class="form-check ml-5">
+                                <input formControlName="payment_type" value="cheque_upi" class="form-check-input"
+                                    style="width: 20px;height: 20px;" type="radio" checked>
+                                <label class="form-check-label h6 p-2">
+                                    Cheque / Upi
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-sm-6" style="display: flex;"> <label class="p-1">Set </label><input style="width: 100px;" class="ml-2 form-control"></div> <div class="col-sm-6"> <label>Meter</label></div>
+                    <div class="col-sm-6">                       
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Shirting</td>
+                                    <td>1.5M</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Suiting</td>
+                                    <td>1.5M</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Total</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Received</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Balance</th>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">                       
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Shirting</td>
+                                    <td>1.5M</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Suiting</td>
+                                    <td>1.5M</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Total</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Received</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;" colspan="2">Balance</th>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-12 mt-5">
+                    <div style="text-align: center;">
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
+                        <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" value="Close" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

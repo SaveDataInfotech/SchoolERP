@@ -136,7 +136,7 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Student Mark Entry",
           link: "student/student_mark_entry",
-        },        
+        },
         // {
         //   link_name: "Mark Entry Grade Type",
         //   link: "student/mark_entry_grade",
@@ -148,6 +148,10 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Student Promote",
           link: "student/student_promote",
+        },
+        {
+          link_name: "SMS",
+          link: "student/sms",
         },
         {
           link_name: "Student Reports",
@@ -261,6 +265,10 @@ export class LayoutComponent implements OnInit {
           link: "fees_collection/student_fees",
         },
         {
+          link_name: "Uniform Billing",
+          link: "fees_collection/uniform_bill",
+        },
+        {
           link_name: "Hostel Fees Collection",
           link: "fees_collection/student_hostel_fees",
         },
@@ -270,7 +278,15 @@ export class LayoutComponent implements OnInit {
         },
         {
           link_name: "Fees Collection Reports",
-          link: "fees_collection/reports",
+          link:"fees_collection/reports",
+          //fees_collection/reports
+          nested_sub_menu: [
+            {
+              link_name: "Report 1",
+              link: "fees_collection/reports"
+            }
+                  
+          ]
         }
       ]
     },
@@ -337,7 +353,7 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Batch Year",
           link: "master/batch_year"
-        },        
+        },
         {
           link_name: "General Fees",
           link: "master/general_fees"
@@ -413,7 +429,7 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Book Mater",
           link: "library_master/book_master",
-        }      
+        }
       ]
     },
     // {
@@ -474,6 +490,33 @@ export class LayoutComponent implements OnInit {
 
 
   showSubmenu(itemEl: HTMLElement) {
+    debugger;
     itemEl.classList.toggle("showMenu");
+  }
+
+  showNestedSubmenu(item_sub: HTMLElement) {
+    debugger;
+    const nestedSubMenu = item_sub.querySelector('.nested-sub-menu');
+    const isOpen = item_sub.classList.contains('showMenu');
+  
+    // Close all open nested submenus except the clicked one
+    const openNestedSubmenus = document.querySelectorAll('.nested-sub-menu.showMenu');
+    openNestedSubmenus.forEach((submenu) => {
+      if (submenu !== nestedSubMenu) {
+        submenu.classList.remove('showMenu');
+        submenu.parentElement?.classList.remove('showMenu');
+      }
+    });
+  
+    // Toggle the clicked submenu
+    if (nestedSubMenu) {
+      if (!isOpen) {
+        item_sub.classList.add('showMenu');
+        nestedSubMenu.classList.add('showMenu');
+      } else {
+        item_sub.classList.remove('showMenu');
+        nestedSubMenu.classList.remove('showMenu');
+      }
+    }
   }
 }

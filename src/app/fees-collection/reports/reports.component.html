@@ -1,7 +1,7 @@
 <mat-tab-group animationDuration="0ms">
-  <mat-tab label="First">
+  <mat-tab label="Out Standing Report">
     <div class="container-fluid mb-5">
-      <mat-card class="mt-2 matcard">
+      <mat-card class="mt-4 matcard">
         <mat-card-content>
           <div class="row">
             <div class="col-sm-6" style="display: flex;">
@@ -165,47 +165,60 @@
       </mat-card>
     </div>
   </mat-tab>
-  <mat-tab label="Second">
-    <form class="m-5">
-      <input class="form-control m-5" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
-
-      <table class="table table-bordered col-sm-6">
-        <thead>
-          <tr>
-            <th scope="col">Si.No</th>
-            <th scope="col">Description</th>
-            <th>Cash</th>
-            <th>Cheque/Upi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let nestitem of FeesList;let j=index">
-            <tr>
-              <th scope="row">{{j+1}}</th>
-              <td>{{nestitem.type_name}}</td>
-              <td>{{getfeetypCashAmount(nestitem.typeid)}}</td>
-              <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
-            </tr>
-          </ng-container>
-          <ng-container *ngFor="let item of FeesList;let b=index">
-            <tr *ngIf="b==0">
-              <th>{{FeesList.length+1}}</th>
-              <td>Bus</td>
-              <td>{{getfeetypBusCashAmount()}}</td>
-              <td>{{getfeetypBusUpiAmount()}}</td>
-            </tr>
-          </ng-container>
-        </tbody>
-        <tbody>
-          <ng-container *ngFor="let mm of FeesList;let m=index">
-            <tr *ngIf="m == 0">
-              <th colspan="2" style="text-align: right;">Total</th>
-              <td>{{getfeetyCashAmountSum()}}</td>
-              <td>{{getfeetyUpiAmountSum()}}</td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </form>
+  <mat-tab label="Daily Collection Report">
+    <div class="container-fluid mb-5">
+      <mat-card class="mt-4 matcard">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-sm-6" style="display: flex;">
+              <div style="float: left;width: 300px;">
+                <h3 class="ml-1">Fees Collection Reports</h3>
+              </div>
+            </div>
+          </div>
+          <form class="ml-5">
+            <label>Select Date</label>
+            <input class="form-control" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
+            <table class="table table-bordered mt-4 col-sm-6">
+              <thead>
+                <tr>
+                  <th scope="col">Si.No</th>
+                  <th scope="col">Description</th>
+                  <th>Cash</th>
+                  <th>Cheque/Upi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let nestitem of FeesList;let j=index">
+                  <tr>
+                    <th scope="row">{{j+1}}</th>
+                    <td>{{nestitem.type_name}}</td>
+                    <td>{{getfeetypCashAmount(nestitem.typeid)}}</td>
+                    <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngFor="let item of FeesList;let b=index">
+                  <tr *ngIf="b==0">
+                    <th>{{FeesList.length+1}}</th>
+                    <td>Bus</td>
+                    <td>{{getfeetypBusCashAmount()}}</td>
+                    <td>{{getfeetypBusUpiAmount()}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tbody>
+                <ng-container *ngFor="let mm of FeesList;let m=index">
+                  <tr *ngIf="m == 0">
+                    <th colspan="2" style="text-align: right;">Total</th>
+                    <td>{{getfeetyCashAmountSum()}}</td>
+                    <td>{{getfeetyUpiAmountSum()}}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </mat-tab>
 </mat-tab-group>

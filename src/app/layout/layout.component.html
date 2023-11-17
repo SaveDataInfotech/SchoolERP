@@ -43,7 +43,7 @@
 
   <ul *ngIf="currentLoginRole == 'superadmin'" class="nav-links" id="nav-links">
 
-    <li *ngFor="let item of superAdminmenuSidebar" #itemEl routerLinkActive="active">
+    <li *ngFor="let item of AdminmenuSidebar" #itemEl routerLinkActive="active">
       <div *ngIf="item.sub_menu.length == 0" class="dropdown-title">
         <a [routerLink]="[item.link]">
           <i [class]="item.icon"></i>
@@ -63,12 +63,25 @@
       </div>
       <ul class="sub-menu" [class.blank]="item.sub_menu.length == 0">
         <li><a class="link_name">{{item.link_name}}</a></li>
-        <li *ngFor="let item_sub of item.sub_menu" routerLinkActive="active">
-          <!-- submenu -->
-          <div>
-            <!-- <mat-icon style="color: white;" svgIcon="dashboard"></mat-icon> -->
-            <a [routerLink]="[item_sub.link]">{{item_sub.link_name}}</a>
+        <li *ngFor="let item_sub of item.sub_menu" #show_item_sub routerLinkActive="active">
+          <div *ngIf="item_sub.nested_sub_menu;  else  regularSubMenu">
+            <!-- Handle nested submenus -->
+            <div class="dropdown-title pointer" (click)="showNestedSubmenu(show_item_sub)">
+              <a>
+                <span>{{item_sub.link_name}}</span>
+              </a>
+              <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="nested-sub-menu">
+              <li *ngFor="let nested_item of item_sub.nested_sub_menu">
+                <a [routerLink]="[nested_item.link]">{{nested_item.link_name}}</a>
+              </li>
+            </ul>
           </div>
+          <!-- Regular submenu without nested items -->
+          <ng-template #regularSubMenu>
+            <a [routerLink]="[item_sub.link]">{{item_sub.link_name}}</a>
+          </ng-template>
         </li>
       </ul>
     </li>

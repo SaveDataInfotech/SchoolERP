@@ -78,8 +78,8 @@ export class UpdateMarkRankComponent implements OnInit {
     this.GetActiveBatchYear();
 
 
-    this.refreshStudentList();
-    this.refreshSubjectList();
+   // this.refreshStudentList();
+    //this.refreshSubjectList();
   }
 
   backButton() {
@@ -156,8 +156,8 @@ export class UpdateMarkRankComponent implements OnInit {
 
   searchExamnameByClass() {
     debugger;
-    this.refreshStudentList();
-    this.refreshSubjectList();
+    //this.refreshStudentList();
+   // this.refreshSubjectList();
     let classID: number = (this.rankTypeMarkForm.value.classid);
     let groupID: number = (this.rankTypeMarkForm.value.groupid);
     let sectionID: number = (this.rankTypeMarkForm.value.sectionid);
@@ -373,8 +373,8 @@ export class UpdateMarkRankComponent implements OnInit {
     this.rankTypeMarkForm.reset();
     this.rankTypeMarkForm.get('cuid')?.setValue(1),
     this.rankTypeMarkForm.get('exam_name')?.setValue(''),
-      this.refreshStudentList();
-    this.refreshSubjectList();
+      //this.refreshStudentList();
+    //this.refreshSubjectList();
     this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);
     //this.subjectFilterList = [];
     //this.spiltList = [];
@@ -391,24 +391,32 @@ export class UpdateMarkRankComponent implements OnInit {
   SubjectList: any[] = [];
   SubjectListsss: any[] = [];
   StudentList1: any[] = [];
-  refreshStudentList() {
-    this.spinner.show();
-    this.meSvc.refresStudentList().subscribe(data => {
-      this.StudentList = data;
-      this.spinner.hide();
-    });
-  }
+  // refreshStudentList() {
+  //   this.spinner.show();
+  //   this.meSvc.refresStudentList().subscribe(data => {
+  //     this.StudentList = data;
+  //     this.spinner.hide();
+  //   });
+  // }
 
-  refreshSubjectList() {
-    this.spinner.show();
-    this.meSvc.refresSubjectList().subscribe(data => {
-      this.SubjectListsss = data;
-      this.spinner.hide();
-    });
-  }
+  // refreshSubjectList() {
+  //   this.spinner.show();
+  //   this.meSvc.refresSubjectList().subscribe(data => {
+  //     this.SubjectListsss = data;
+  //     this.spinner.hide();
+  //   });
+  // }
 
-  clickpop() {
+ async clickpop() {
     debugger;
+    this.spinner.show();
+    const student = await this.meSvc.refresStudentList().toPromise();
+    this.StudentList = student;
+
+    const subject = await this.meSvc.refresSubjectList().toPromise();
+    this.SubjectListsss = subject;
+    this.spinner.hide();
+    
     let examName = String(this.rankTypeMarkForm.value.exam_name);
     let classID: number = (this.rankTypeMarkForm.value.classid);
     let groupID: number = (this.rankTypeMarkForm.value.groupid);

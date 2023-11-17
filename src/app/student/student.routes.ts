@@ -10,6 +10,7 @@ import { EnquiryDashbordComponent } from './enquiry-dashbord/enquiry-dashbord.co
 import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
 import { StudentUpdateComponent } from './student-update/student-update.component';
 import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
+import { SmsPageComponent } from './sms-page/sms-page.component';
 
 export const studentRoutes: Routes = [
   {
@@ -51,6 +52,10 @@ export const studentRoutes: Routes = [
   {
     path:"student_promote",
     component:StudentPromoteComponent,
+  },
+  {
+    path:"sms",
+    component:SmsPageComponent,
   },
   {
     path:"reports",

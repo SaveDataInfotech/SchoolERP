@@ -28,6 +28,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.component';
 import { StudentUpdateComponent } from './student-update/student-update.component';
 import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
+import { SmsPageComponent } from './sms-page/sms-page.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.com
     EnquiryDashbordComponent,
     MarkEntryGradeComponent,
     StudentUpdateComponent,
-    UpdateMarkRankComponent
+    UpdateMarkRankComponent,
+    SmsPageComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,

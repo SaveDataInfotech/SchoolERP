@@ -317,7 +317,7 @@ export class StudentProfileComponent implements OnInit {
     fees_lessid: new FormControl(null),
     stay_type: new FormControl(''),
     vehicle_type: new FormControl(0),
-    root_no: new FormControl(0),
+    root_no: new FormControl(''),
     boading_place: new FormControl(''),
     busdistance: new FormControl(''),
     busFeesList: new FormArray([
@@ -425,9 +425,10 @@ export class StudentProfileComponent implements OnInit {
   }
 
   placeOfBo(vehicle_no_id: any) {
-    let idn = Number(vehicle_no_id);
-    this.studentDetailsForm.get('root_no')?.setValue(idn);
-    this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
+    debugger;
+   // let idn = Number(vehicle_no_id);
+    this.studentDetailsForm.get('root_no')?.setValue(vehicle_no_id);
+    this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == vehicle_no_id });
   }
 
   getMaxId() {
@@ -551,7 +552,7 @@ export class StudentProfileComponent implements OnInit {
               else {
                 debugger;
                 this.studentDetailsForm.get('vehicle_type')?.setValue(0);
-                this.studentDetailsForm.get('root_no')?.setValue(0);
+                this.studentDetailsForm.get('root_no')?.setValue('');
                 this.studentDetailsForm.get('boading_place')?.setValue('');
                 this.studentDetailsForm.get('busdistance')?.setValue('');
                 const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
@@ -810,7 +811,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('fees_lessid')?.setValue(null);
     this.studentDetailsForm.get('stay_type')?.setValue('');
     this.studentDetailsForm.get('vehicle_type')?.setValue(0);
-    this.studentDetailsForm.get('root_no')?.setValue(0);
+    this.studentDetailsForm.get('root_no')?.setValue('');
     this.studentDetailsForm.get('boading_place')?.setValue('');
     this.studentDetailsForm.get('busdistance')?.setValue('');
     this.studentDetailsForm.get('cuid')?.setValue(0);

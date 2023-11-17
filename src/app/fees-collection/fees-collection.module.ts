@@ -16,6 +16,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { DatePipe } from '@angular/common';
+import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
 
 
 
@@ -24,7 +25,8 @@ import { DatePipe } from '@angular/common';
     StudentFeesComponent,
     StudentHostelFeesComponent,
     ReportsComponent,
-    ExpenseEntryComponent
+    ExpenseEntryComponent,
+    UniformBillingComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,

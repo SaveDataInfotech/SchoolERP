@@ -411,8 +411,8 @@
                         <div class="inputdiv">
                             <select #b (change)="placeOfBo(b.value)" formControlName="root_no" style="width: 100%;"
                                 class="form-control ">
-                                <option value=0 selected disabled>Please select</option>
-                                <option value={{VehicleRoot.vehicle_no_id}}
+                                <option value='' selected disabled>Please select</option>
+                                <option value={{VehicleRoot.vehicle_root_no}}
                                     *ngFor="let VehicleRoot of vehicleNoRootList;">
                                     {{VehicleRoot.vehicle_root_no}}</option>
                             </select>
