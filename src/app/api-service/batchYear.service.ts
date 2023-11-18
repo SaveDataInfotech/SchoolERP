@@ -10,7 +10,7 @@ export class BatechYearService {
   constructor(private http: HttpClient) {
   }
 
-  readonly apiUrl = 'https://localhost:44314/api/';
+ readonly apiUrl = 'http://localhost:8081/api/';
 
   getBatchYearList(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl +'BatchYear/Get');
