@@ -95,8 +95,12 @@
                   <input class="form-control" readonly type="text" formControlName="batch_year">
                 </div>
               </div>
-              <div class="col-sm-2 mt-3">
-                <button type="submit" class="btn btn-outline-primary btn-sm  ml-5">Search</button>
+              <div class="col-sm-2 mt-3" style="display: flex;">
+                <button type="submit" class="btn btn-outline-primary btn-sm  ml-2 mr-2">Search</button>
+                <button class="btn btn-primary btn-sm" style="width: 80px;" id="print-btn" color="primary"
+                  printSectionId="_print_section" ngxPrint [useExistingCss]="true">
+                  Print
+                </button>
               </div>
             </div>
           </form>
@@ -123,44 +127,45 @@
               <label class="h6 ml-1 text-danger">Balance</label>
             </div>
           </div>
-
-          <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
-            <thead>
-              <tr style="color:blue;">
-                <th>SI NO</th>
-                <th>Name</th>
-                <th>A.NO</th>
-                <ng-container *ngFor="let item of checkedItems">
-                  <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
-                </ng-container>
-                <th *ngIf="sbus" [attr.colspan]="colspanValue">Bus</th>
-              </tr>
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <ng-container *ngFor="let item of checkedItems">
-                  <th style="color: green;" *ngIf="spaid">Paid</th>
-                  <th style="color: red;" *ngIf="sbalance">Balance</th>
-                </ng-container>
-                <th style="color: green;" *ngIf="spaid && sbus">Paid</th>
-                <th style="color: red;" *ngIf="sbalance && sbus">Balance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of outstandingreportmultiplestudentsList;let i=index;">
-                <td>{{i+1}}</td>
-                <td>{{item.student_name}}</td>
-                <td>{{item.admission_no}}</td>
-                <ng-container *ngFor="let nestitem of checkedItems">
-                  <td *ngIf="spaid" style="color: green;">{{getPaidAmount(nestitem.typeid,i)}}</td>
-                  <td *ngIf="sbalance" style="color: red;">{{getBalanceAmount(nestitem.typeid,i)}}</td>
-                </ng-container>
-                <td *ngIf="spaid && sbus" style="color: green;">{{item.bus_deduction_amount}}</td>
-                <td *ngIf="sbalance && sbus" style="color: red;">{{item.busbalance}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div id="_print_section" class="container containercss">
+            <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
+              <thead>
+                <tr style="color:blue;">
+                  <th>SI NO</th>
+                  <th>Name</th>
+                  <th>A.NO</th>
+                  <ng-container *ngFor="let item of checkedItems">
+                    <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
+                  </ng-container>
+                  <th *ngIf="sbus" [attr.colspan]="colspanValue">Bus</th>
+                </tr>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <ng-container *ngFor="let item of checkedItems">
+                    <th style="color: green;" *ngIf="spaid">Paid</th>
+                    <th style="color: red;" *ngIf="sbalance">Balance</th>
+                  </ng-container>
+                  <th style="color: green;" *ngIf="spaid && sbus">Paid</th>
+                  <th style="color: red;" *ngIf="sbalance && sbus">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of outstandingreportmultiplestudentsList;let i=index;">
+                  <td>{{i+1}}</td>
+                  <td>{{item.student_name}}</td>
+                  <td>{{item.admission_no}}</td>
+                  <ng-container *ngFor="let nestitem of checkedItems">
+                    <td *ngIf="spaid" style="color: green;">{{getPaidAmount(nestitem.typeid,i)}}</td>
+                    <td *ngIf="sbalance" style="color: red;">{{getBalanceAmount(nestitem.typeid,i)}}</td>
+                  </ng-container>
+                  <td *ngIf="spaid && sbus" style="color: green;">{{item.bus_deduction_amount}}</td>
+                  <td *ngIf="sbalance && sbus" style="color: red;">{{item.busbalance}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -177,8 +182,15 @@
             </div>
           </div>
           <form class="ml-5">
-            <label>Select Date</label>
-            <input class="form-control" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
+            <div class="row">
+              <label class="m-2 ">Select Date</label>
+              <input class="form-control" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
+              <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                printSectionId="dail_collection_print" ngxPrint [useExistingCss]="true">
+                Print
+              </button>
+            </div>
+            <div id="dail_collection_print" class="container containercss">
             <table class="table table-bordered mt-4 col-sm-6">
               <thead>
                 <tr>
@@ -216,6 +228,7 @@
                 </ng-container>
               </tbody>
             </table>
+          </div>
           </form>
         </mat-card-content>
       </mat-card>

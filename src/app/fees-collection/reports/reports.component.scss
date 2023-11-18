@@ -6,3 +6,43 @@ h3 {
 .matcard {
   box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
 }
+
+@media print {
+  /* Set the size of the page to A5 */
+  @page {
+    size: A5 landscape; /* Change to 'portrait' if needed */
+    margin: 5mm; /* Adjust margins as needed */
+  }
+
+  /* Apply general styles for printing */
+  body {
+    font-family: Arial, sans-serif; /* Set a readable font */
+    font-size: 10pt; /* Adjust font size */
+  }
+
+  /* Adjust table styles */
+  #_print_section {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px; /* Add space between tables */
+  }
+
+  /* Table header styles */
+  #_print_section th {
+    background-color: lightgray;
+    border: 1px solid #000;
+    padding: 5px;
+  }
+
+  /* Table cell styles */
+  #_print_section td {
+    border: 1px solid #000;
+    padding: 5px;
+  }
+
+  /* Hide elements not necessary for printing */
+  /* For example, you might not need certain colors or visibility */
+  .hidden-for-print {
+    display: none;
+  }
+}

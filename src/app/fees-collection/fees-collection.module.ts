@@ -17,7 +17,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { DatePipe } from '@angular/common';
 import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
-
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -30,7 +30,7 @@ import { UniformBillingComponent } from './uniform-billing/uniform-billing.compo
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,NgxPrintModule
   ],
   providers:[DatePipe]
 })
