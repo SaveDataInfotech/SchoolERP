@@ -6,8 +6,8 @@
                 Vinnamangalam(po), Arni-632316</p>
         </div>
         <div class="col-sm-1">
-            <mat-icon style="float: right;color:red;cursor: pointer;background-color:rgb(211, 209, 209);" title="Click to close"
-                (click)="closedialog()">close</mat-icon>
+            <mat-icon style="float: right;color:red;cursor: pointer;background-color:rgb(211, 209, 209);"
+                title="Click to close" (click)="closedialog()">close</mat-icon>
         </div>
     </div>
 
@@ -192,6 +192,9 @@
                 printSectionId="_print_section" ngxPrint [useExistingCss]="true">
                 Print
             </button>
+
+            <button class="btn btn-light ml-2 btn-sm" style="color: green;background-color: azure;cursor: pointer;" (click)="exportToExcel()">Download to
+                Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
         </div>
     </div>
 </div>

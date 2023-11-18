@@ -65,13 +65,14 @@ export class VehicleAssignComponent implements OnInit {
   vehicleNofilter() {
     debugger;
     const Typeid = this.vehicleAssignForm.value.typeid;
-    this.filteredVehicleNoRootList = this.vehicleNoRootList.filter((e) => { return e.typeid == Typeid })
+    this.filteredVehicleNoRootList = this.vehicleNoRootList.filter((e) => { return e.typeid == Typeid });
+    this.vehicleAssignForm.get('vehicle_no_id')?.setValue(null)
   }
 
   vehicleAssignForm = new FormGroup({
     vehicle_assignid: new FormControl(0),
     typeid: new FormControl(null),
-    vehicle_no_id: new FormControl(),
+    vehicle_no_id: new FormControl(null),
     driver_no: new FormControl(''),
     helper_no: new FormControl(''),
     no_of_students: new FormControl(''),
@@ -132,8 +133,12 @@ export class VehicleAssignComponent implements OnInit {
   }
 
   updateClick(assign) {
+    debugger;
     this.vehicleAssignForm.patchValue(assign);
     this.vehicleAssignForm.get('cuid')?.setValue(1);
+    const Typeid = this.vehicleAssignForm.value.typeid;
+    this.filteredVehicleNoRootList = this.vehicleNoRootList.filter((e) => { return e.typeid == Typeid });
+    this.vehicleAssignForm.get('vehicle_no_id')?.setValue(assign.vehicle_no_id)
   }
 
 

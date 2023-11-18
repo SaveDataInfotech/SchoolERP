@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import * as converter from 'number-to-words';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-preview-fees-dialog-component',
   templateUrl: './preview-fees-dialog-component.component.html',
@@ -18,16 +18,19 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
   busFee: any = this.data.busFee;
   studentDetails: any;
   amountInWords: any;
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     debugger;
     this.generalFee = this.data.general;
     this.busFee = this.data.bus;
 
     this.studentDetails = this.data.studentDetails;
 
-    this.busFee.forEach(e => {
+    await this.busFee.forEach(e => {
       this.generalFee.push(e)
     });
+
+    console.log(this.generalFee, 'Busfee')
+    console.log(this.studentDetails, 'student')
     const { toWords } = require('number-to-words');
     this.amountInWords = toWords(Number(this.studentDetails.total_amount));
 
@@ -47,4 +50,68 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
     else if (value == 'cheque_upi') return 'Cheque/Upi';
     else return '';
   }
+
+  exportToExcel(): void {
+    const studentDetails = this.studentDetails;
+    const generalFee = this.generalFee;
+
+    const dataForExcel: any[] = [
+      {
+        'Admission No': studentDetails.admission_no,
+        'Bill No': studentDetails.bill_no,
+        'Student Name': studentDetails.student_name,
+        'Date': studentDetails.date,
+        'Class': studentDetails.class_name,
+        'Group': studentDetails.group_name,
+        'Section': studentDetails.section_name,
+        'Batch': studentDetails.batch_year,
+        'Father Name': studentDetails.father_name,
+        'Payment Mode': this.getPaymentType(studentDetails.payment_type),
+        'Si.No': '', // Explicitly declared as string        
+        'Description': '', // Explicitly declared as string
+        'Amount': '', // Explicitly declared as string
+        'Total': generalFee.reduce((total, item) => Number(total) + Number(item.deduction_amount || 0), 0),// Consider handling null or undefined values
+        'Amount in Words': this.amountInWords.charAt(0).toUpperCase() + this.amountInWords.slice(1) + ' ' + 'Rupees only'
+      }
+    ];
+
+    // Add each row for Si.No, Description, and Amount separately
+    for (let i = 0; i < generalFee.length; i++) {
+      const amountAsString = generalFee[i].deduction_amount !== null ? generalFee[i].deduction_amount.toString() : '';
+      dataForExcel.push({
+        'Admission No': '',
+        'Bill No': '',
+        'Student Name': '',
+        'Date': '',
+        'Class': '',
+        'Group': '',
+        'Section': '',
+        'Batch': '',
+        'Father Name': '',
+        'Payment Mode': '',
+        'Si.No': (i + 1).toString(), // Convert number to string explicitly       
+        'Description': generalFee[i].type_name,
+        'Amount': amountAsString,
+        'Total': '',
+        'Amount in Words': ''
+      });
+    }
+
+    // Save data as Excel file
+    this.saveAsExcelFile(dataForExcel, 'exported_data');
+  }
+
+  private saveAsExcelFile(data: any[], fileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const dataBlob: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    const a: HTMLAnchorElement = document.createElement('a');
+    document.body.appendChild(a);
+    a.href = window.URL.createObjectURL(dataBlob);
+    a.download = fileName + '.xlsx';
+    a.click();
+    document.body.removeChild(a);
+  }
+
 }
