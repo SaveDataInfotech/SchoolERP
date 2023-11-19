@@ -14,7 +14,7 @@ export class PreviewFeesDialogService {
         debugger;
         return this.dialog.open(PreviewFeesDialogComponentComponent, {
             width: '620px',
-            height:'auto',
+            maxHeight:'650px',
             panelClass: 'confirm-dialog-container',
             disableClose: true,
             data: {

@@ -20,10 +20,10 @@
                                 class="form-control" type="text" required>
                         </div>
                     </div>
-                    <div class="col-sm-1">
-                        <button class="btn btn-primary btn-sm" type="button" (click)="getStudent(adno.value)">Search</button>
+                    <div class="col-sm-2">
+                        <button class="btn btn-secondary btn-sm" type="button" (click)="getStudent(adno.value)">Search<i class="fa fa-search ml-2"></i></button>
                     </div>  
-                    <div class="col-sm-6" style="display: flex;">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Class</label>
                         </div>
@@ -203,7 +203,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Si.No</th>
                         <th scope="col">Admission No</th>
                         <th scope="col">Name</th>
                         <th>Class</th>

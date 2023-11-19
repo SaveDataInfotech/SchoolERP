@@ -71,9 +71,10 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 mt-4">
+                <div class="col-sm-5 mt-4">
                     <div style="text-align: center;">
-                        <button (click)="searchStudent()" type="button" class="btn btn-primary btn-sm ">Search</button>
+                        <button (click)="searchStudent()" type="button" class="btn btn-primary btn-sm ">Search<i
+                                class="fa fa-search ml-2"></i></button>
                     </div>
                 </div>
             </form>
@@ -89,7 +90,8 @@
                         </div>
                         <div class="inputdiv">
                             <input #date="ngModel" [class.is-invalid]="date.invalid && (date.dirty || date.touched)"
-                             [(ngModel)]="studentPromoteForm.date" required name="date" type="date" class="form-control">
+                                [(ngModel)]="studentPromoteForm.date" required name="date" type="date"
+                                class="form-control">
                         </div>
                     </div>
                 </div>

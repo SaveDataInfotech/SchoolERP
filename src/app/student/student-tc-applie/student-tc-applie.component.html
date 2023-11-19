@@ -89,8 +89,11 @@
 
                                 <div class="col-sm-12 mt-4">
                                     <div style="text-align: center;">
-                                        <input (click)="searchStudentByClass()" type="button" style="width: 80px;"
-                                            class="btn btn-primary mr-3 btn-sm" value="Search" />
+
+
+                                        <button (click)="searchStudentByClass()" type="button"
+                                            class="btn btn-sm btn-primary">Search<i
+                                                class="fa fa-search ml-2"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -302,22 +305,23 @@
                                             </div>
 
                                             <div class="row">
-                                                <label class="labelhead col-sm-6">Aadhar<span class="labelcon ml-2">{{student.aadhar}}</span></label>                                                
+                                                <label class="labelhead col-sm-6">Aadhar<span
+                                                        class="labelcon ml-2">{{student.aadhar}}</span></label>
                                             </div>
 
                                             <div class="row">
                                                 <label class="labelhead col-sm-12">Class<span
                                                         class="labelcon ml-2">{{student.class_name}}</span><span
                                                         class="labelcon ml-2">- {{student.group_name}}</span><span
-                                                        class="labelcon ml-2">- {{student.section_name}}</span></label>                                                
+                                                        class="labelcon ml-2">- {{student.section_name}}</span></label>
                                             </div>
 
                                             <div class="row">
                                                 <label class="labelhead col-sm-12">Father<span
                                                         class="labelcon ml-2">{{student.father_name}}</span><span
-                                                        class="labelcon ml-2">- {{student.f_ph}}</span></label>                                                
-                                            </div>                                            
-                                        </div>                                        
+                                                        class="labelcon ml-2">- {{student.f_ph}}</span></label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </mat-card-content>
                             </mat-card>

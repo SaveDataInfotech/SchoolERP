@@ -28,7 +28,8 @@
                   </label>
                 </div>
               </div>
-
+            </div>
+            <div class="row">
               <div *ngIf="reportsForm.value.type == 'individual'" class="col-sm-4 mt-3" style="display: flex;">
                 <div class="labeldiv">
                   <label class="pt-2">admission No<span class="text-danger"> *</span></label>
@@ -51,9 +52,6 @@
                     <option value={{class.classid}} *ngFor="let class of ClassList;">
                       {{class.class_name}}</option>
                   </select>
-                  <span class="text-danger"
-                    *ngIf="reportsForm.get('classid')?.touched && reportsForm.get('classid')?.errors">Class
-                    name is required</span>
                 </div>
               </div>
               <div *ngIf="groupFilterlist.length !=0 && reportsForm.value.type == 'multiple'" class="col-sm-3 mt-3"
@@ -82,9 +80,6 @@
                     <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
                       {{section.section_name}}</option>
                   </select>
-                  <span class="text-danger"
-                    *ngIf="reportsForm.get('sectionid')?.touched && reportsForm.get('sectionid')?.errors">Section
-                    name is required</span>
                 </div>
               </div>
               <div class="col-sm-3 mt-3" style="display: flex;">
@@ -95,12 +90,17 @@
                   <input class="form-control" readonly type="text" formControlName="batch_year">
                 </div>
               </div>
-              <div class="col-sm-2 mt-3" style="display: flex;">
-                <button type="submit" class="btn btn-outline-primary btn-sm  ml-2 mr-2">Search</button>
+            </div>
+            <div class="row">
+              <div class="col-sm-7 mt-3" style="display: flex;">
+                <button type="submit" class="btn btn btn-secondary btn-sm  ml-2 mr-2">Search<i
+                    class="fa fa-search ml-2"></i></button>
                 <button class="btn btn-primary btn-sm" style="width: 80px;" id="print-btn" color="primary"
                   printSectionId="_print_section" ngxPrint [useExistingCss]="true">
-                  Print
+                  Print<i class="fa fa-print ml-2"></i>
                 </button>
+                <button class="btn btn-info ml-2 btn-sm" (click)="exportTableToExcel()">Download to
+                  Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
               </div>
             </div>
           </form>
@@ -131,9 +131,9 @@
             <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
               <thead>
                 <tr style="color:blue;">
-                  <th>SI NO</th>
+                  <th>Si.NO</th>
                   <th>Name</th>
-                  <th>A.NO</th>
+                  <th>Admission NO</th>
                   <ng-container *ngFor="let item of checkedItems">
                     <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
                   </ng-container>
@@ -187,48 +187,50 @@
               <input class="form-control" (change)="searchReport(dt.value)" #dt style="width: 200px;" type="date">
               <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
                 printSectionId="dail_collection_print" ngxPrint [useExistingCss]="true">
-                Print
+                Print <i class="fa fa-print ml-2"></i>
               </button>
+              <button class="btn btn-info ml-2 btn-sm" (click)="exportDailyToExcel()">Download to
+                Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
             </div>
             <div id="dail_collection_print" class="container containercss">
-            <table class="table table-bordered mt-4 col-sm-6">
-              <thead>
-                <tr>
-                  <th scope="col">Si.No</th>
-                  <th scope="col">Description</th>
-                  <th>Cash</th>
-                  <th>Cheque/Upi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let nestitem of FeesList;let j=index">
+              <table class="table table-bordered mt-4 col-sm-6">
+                <thead>
                   <tr>
-                    <th scope="row">{{j+1}}</th>
-                    <td>{{nestitem.type_name}}</td>
-                    <td>{{getfeetypCashAmount(nestitem.typeid)}}</td>
-                    <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
+                    <th scope="col">Si.No</th>
+                    <th scope="col">Description</th>
+                    <th>Cash</th>
+                    <th>Cheque/Upi</th>
                   </tr>
-                </ng-container>
-                <ng-container *ngFor="let item of FeesList;let b=index">
-                  <tr *ngIf="b==0">
-                    <th>{{FeesList.length+1}}</th>
-                    <td>Bus</td>
-                    <td>{{getfeetypBusCashAmount()}}</td>
-                    <td>{{getfeetypBusUpiAmount()}}</td>
-                  </tr>
-                </ng-container>
-              </tbody>
-              <tbody>
-                <ng-container *ngFor="let mm of FeesList;let m=index">
-                  <tr *ngIf="m == 0">
-                    <th colspan="2" style="text-align: right;">Total</th>
-                    <td>{{getfeetyCashAmountSum()}}</td>
-                    <td>{{getfeetyUpiAmountSum()}}</td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let nestitem of FeesList;let j=index">
+                    <tr>
+                      <th scope="row">{{j+1}}</th>
+                      <td>{{nestitem.type_name}}</td>
+                      <td>{{getfeetypCashAmount(nestitem.typeid)}}</td>
+                      <td>{{getfeetypUpiAmount(nestitem.typeid)}}</td>
+                    </tr>
+                  </ng-container>
+                  <ng-container *ngFor="let item of FeesList;let b=index">
+                    <tr *ngIf="b==0">
+                      <th>{{FeesList.length+1}}</th>
+                      <td>Bus</td>
+                      <td>{{getfeetypBusCashAmount()}}</td>
+                      <td>{{getfeetypBusUpiAmount()}}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+                <tbody>
+                  <ng-container *ngFor="let mm of FeesList;let m=index">
+                    <tr *ngIf="m == 0">
+                      <th colspan="2" style="text-align: right;">Total</th>
+                      <td>{{getfeetyCashAmountSum()}}</td>
+                      <td>{{getfeetyUpiAmountSum()}}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
           </form>
         </mat-card-content>
       </mat-card>

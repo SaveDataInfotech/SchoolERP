@@ -494,6 +494,7 @@ export class StudentProfileComponent implements OnInit {
                       control.push(
                         new FormGroup({
                           busfeeid: new FormControl(element.busfeeid),
+                          s_busfeeid: new FormControl(0),
                           admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
                           classid: new FormControl(this.studentDetailsForm.value.classid),
                           groupid: new FormControl(this.studentDetailsForm.value.groupid),
@@ -514,6 +515,7 @@ export class StudentProfileComponent implements OnInit {
                 }
                 else {
                   debugger;
+                  debugger;
                   const feesList = this.specialBusFeesList.filter((e) => {
                     return e.classid == this.studentDetailsForm.value.classid
                       && e.batch_year == this.studentDetailsForm.value.batch_year
@@ -522,13 +524,14 @@ export class StudentProfileComponent implements OnInit {
                       && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
                       && e.isactive == true
                   });
-
+                  debugger;
                   if (feesList.length != 0) {
                     feesList.forEach(element => {
                       const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
                       control.push(
                         new FormGroup({
-                          busfeeid: new FormControl(element.s_busfeeid),
+                          busfeeid: new FormControl(element.busfeeid),
+                          s_busfeeid: new FormControl(element.s_busfeeid),
                           admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
                           classid: new FormControl(this.studentDetailsForm.value.classid),
                           groupid: new FormControl(this.studentDetailsForm.value.groupid),
@@ -588,6 +591,7 @@ export class StudentProfileComponent implements OnInit {
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
                             assignid: new FormControl(element.assignid),
+                            s_assignid: new FormControl(0),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
@@ -620,6 +624,7 @@ export class StudentProfileComponent implements OnInit {
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
                             assignid: new FormControl(element.assignid),
+                            s_assignid: new FormControl(0),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
@@ -655,7 +660,8 @@ export class StudentProfileComponent implements OnInit {
                         control.push(
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.s_assignid),
+                            assignid: new FormControl(element.assignid),
+                            s_assignid: new FormControl(element.s_assignid),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
@@ -690,7 +696,8 @@ export class StudentProfileComponent implements OnInit {
                         control.push(
                           new FormGroup({
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.s_assignid),
+                            assignid: new FormControl(element.assignid),
+                            s_assignid: new FormControl(element.s_assignid),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),

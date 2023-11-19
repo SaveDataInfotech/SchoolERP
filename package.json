@@ -23,6 +23,7 @@
     "@angular/router": "^14.2.0",
     "angular2-notifications": "^12.0.0",
     "dateformate": "^1.1.0",
+    "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "ngx-bootstrap": "^2.0.5",
     "ngx-dropzone": "^3.1.0",

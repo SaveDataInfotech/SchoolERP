@@ -9,7 +9,8 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { FeesCollectionReportsService } from 'src/app/api-service/feesCollectionReports.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -232,6 +233,19 @@ export class ReportsComponent implements OnInit {
   }
 
 
+  exportTableToExcel(): void {
+    const element = document.querySelector('.table'); // Selector for your table element
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const wbout: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const fileName = 'your_table_report.xlsx';
+
+    FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), fileName);
+  }
+
+
   /////////////////////////////////////////
 
   feetypetotalList: any[] = [];
@@ -246,13 +260,6 @@ export class ReportsComponent implements OnInit {
     const feeList = await this.FtySvc.getfeesTypeList().toPromise();
     this.FeesList = feeList;
   }
-
-  // getPaymentType(value: string): any {
-
-  //   if (value == 'cash') return 'Cash';
-  //   else if (value == 'cheque_upi') return 'Cheque/Upi';
-  //   else return '';
-  // }
 
   getfeetypCashAmount(value: any) {
     debugger;
@@ -387,5 +394,17 @@ export class ReportsComponent implements OnInit {
     sum = gensum + busSum
 
     return sum
+  }
+
+  exportDailyToExcel(): void {
+    const element = document.getElementById('dail_collection_print'); // ID of the container holding your table
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const wbout: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const fileName = 'fees_collection_report.xlsx';
+
+    FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), fileName);
   }
 }

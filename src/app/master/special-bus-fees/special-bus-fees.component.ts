@@ -253,6 +253,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   Search() {
+    debugger;
     if (this.specialBusFeesform.valid) {
       const control = <FormArray>this.specialBusFeesform.controls['s_classfeelist'];
       while (control.length !== 0) {

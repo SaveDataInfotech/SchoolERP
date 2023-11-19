@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <button (click)="findStudentByAdNO(adno.value)" type="button"
-                        class="btn btn-secondary">Search</button>
+                        class="btn btn-sm btn-secondary">Search<i class="fa fa-search ml-2"></i></button>
                 </div>
             </div>
         </div>
@@ -328,7 +328,8 @@
                             <select style="width: 100%;" formControlName="fees_lessid" class="form-control">
                                 <option selected value=null disabled>Please select </option>
                                 <option disabled value=0>Not Specified</option>
-                                <option disabled *ngFor="let less of FeesLessList;" [ngValue]="less.fees_lessid">{{less.less_type}}</option>
+                                <option disabled *ngFor="let less of FeesLessList;" [ngValue]="less.fees_lessid">
+                                    {{less.less_type}}</option>
                             </select>
                         </div>
                     </div>

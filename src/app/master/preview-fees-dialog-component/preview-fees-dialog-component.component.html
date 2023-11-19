@@ -190,10 +190,10 @@
             <button class="btn btn-danger btn-sm mr-3" style="width: 80px;" (click)="closedialog()">Back</button>
             <button class="btn btn-primary btn-sm" style="width: 80px;" id="print-btn" color="primary"
                 printSectionId="_print_section" ngxPrint [useExistingCss]="true">
-                Print
+                Print<i class="fa fa-print ml-2"></i>
             </button>
 
-            <button class="btn btn-light ml-2 btn-sm" style="color: green;background-color: azure;cursor: pointer;" (click)="exportToExcel()">Download to
+            <button class="btn btn-info ml-2 btn-sm" (click)="exportToExcel()">Download to
                 Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
         </div>
     </div>
