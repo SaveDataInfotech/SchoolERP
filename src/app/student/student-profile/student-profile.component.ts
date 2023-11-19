@@ -373,6 +373,7 @@ export class StudentProfileComponent implements OnInit {
     this.genFeesSvc.getGeneralFeesList().subscribe(data => {
       debugger;
       this.generalFeesList = data;
+      console.log(this.generalFeesList,'gen')
     });
   }
 
@@ -380,6 +381,7 @@ export class StudentProfileComponent implements OnInit {
     this.spFSvc.getSpecialFeesList().subscribe(data => {
       debugger;
       this.specialFeesList = data;
+      console.log(this.specialFeesList,'spec')
     });
   }
 
@@ -574,8 +576,10 @@ export class StudentProfileComponent implements OnInit {
               if (control.length == 0) {
                 debugger;
                 if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                  debugger;
                   if (this.studentDetailsForm.value.newstudent == 'No') {
-                    let generalfeeList = this.generalFeesList.filter((e) => {
+                    debugger;
+                    const generalfeeList = this.generalFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
@@ -609,7 +613,7 @@ export class StudentProfileComponent implements OnInit {
                     }
                   }
                   else {
-                    let generalfeeList = this.generalFeesList.filter((e) => {
+                    const generalfeeList = this.generalFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
@@ -643,8 +647,10 @@ export class StudentProfileComponent implements OnInit {
                   }
                 }
                 else {
+                  debugger;
                   if (this.studentDetailsForm.value.newstudent == 'No') {
-                    let specialfeeList = this.specialFeesList.filter((e) => {
+                    debugger;
+                    const specialfeeList = this.specialFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
@@ -681,7 +687,7 @@ export class StudentProfileComponent implements OnInit {
                   }
                   else {
                     debugger;
-                    let specialfeeList = this.specialFeesList.filter((e) => {
+                    const specialfeeList = this.specialFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
                         && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
@@ -733,7 +739,7 @@ export class StudentProfileComponent implements OnInit {
                 sessionStorage.removeItem('selectd');
               }
               else if (res.status == 'Already exists') {
-                this.notificationSvc.warn("Already exists Student Aadhar");
+                this.notificationSvc.warn("Already exists Student Aadhar or Admission No");
               }
               else {
                 this.notificationSvc.error("Something error");
