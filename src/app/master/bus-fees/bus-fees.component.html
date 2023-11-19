@@ -74,35 +74,35 @@
 
                     <div class="col-sm-2 mt-3" style="display: flex;">
                         <div class="inputdiv">
-                            <button style="width: 100px;" (click)="refreshClassList()" type="button"
-                                class="btn btn-secondary">Show</button>
+                            <button type="button" (click)="refreshClassList()" class="btn btn-secondary btn-sm">Search<i
+                                    class="fa fa-search ml-2"></i></button>
                         </div>
                     </div>
 
                     <div class="table-responsive">
-                    <table *ngIf="busFeesForm.get('classfeelist').value.length !=0"
-                        class="col-sm-12 table table-hover table-bordered table-sm  mt-5">
-                        <thead formArrayName="classfeelist">
-                            <tr>
-                                <th *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
-                                    formGroupName="{{i}}"><span>{{chid.get('class_name').value}}</span></th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody formArrayName="classfeelist">
-                            <tr>
-                                <td *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
-                                    formGroupName="{{i}}"><input style="width: 90px;" class="form-control" (keypress)="numberOnly($event)"
-                                        formControlName="amount"></td>
-                                <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
-                                        type="submit">Save</button>
-                                    <button (click)="busFeesCancel()" class="btn btn-primary btn-sm"
-                                        type="button">Clear</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <table *ngIf="busFeesForm.get('classfeelist').value.length !=0"
+                            class="col-sm-12 table table-hover table-bordered table-sm  mt-5">
+                            <thead formArrayName="classfeelist">
+                                <tr>
+                                    <th *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
+                                        formGroupName="{{i}}"><span>{{chid.get('class_name').value}}</span></th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="classfeelist">
+                                <tr>
+                                    <td *ngFor="let chid of busFeesForm.get('classfeelist')['controls']; let i = index"
+                                        formGroupName="{{i}}"><input style="width: 90px;" class="form-control"
+                                            (keypress)="numberOnly($event)" formControlName="amount"></td>
+                                    <td style="display: flex;"><button class="btn btn-success btn-sm mr-2"
+                                            type="submit">Save</button>
+                                        <button (click)="busFeesCancel()" class="btn btn-primary btn-sm"
+                                            type="button">Clear</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </form>
         </mat-card-content>
