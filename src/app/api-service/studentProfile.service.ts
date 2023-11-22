@@ -10,8 +10,8 @@ export class studentProfileService {
   constructor(private http: HttpClient) {
   }
 
-  getMaxId(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile');
+  getMaxId(value): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile?className='+value);
   }
 
   getallSibilings(): Observable<any[]> {
@@ -23,9 +23,9 @@ export class studentProfileService {
     return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_Student_details_ByAd?ad=' + value, httpOptions);
   }
 
-  studentDetails(studentinsert: any): Observable<any> {
+  studentDetails(value: any): Observable<any> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'StudentProfile/insert_student_profile_details', studentinsert, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'StudentProfile/insert_student_profile_details', value, httpOptions);
   }
 }

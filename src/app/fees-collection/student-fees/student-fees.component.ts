@@ -430,30 +430,42 @@ export class StudentFeesComponent implements OnInit {
   }
 
 
-  FeesDeduction() {
+  async FeesDeduction() {
     debugger;
-    if (this.feesCollectionForm.valid) {
-      var feesInsert = (this.feesCollectionForm.value);
-      this.DialogSvc.openConfirmDialog('Are you sure want to Save?')
-        .afterClosed().subscribe(res => {
-          if (res == true) {
-            this.feesCollSvc.studentFeesDeduction(feesInsert).subscribe(res => {
-              if (res.status == 'Insert Success') {
-                this.notificationSvc.success("Saved Success");
-                this.getMaxId();
-                this.cancelclick();
-                this.refreshRecentFeesCollectionList(this.today);
-              }
-              else {
-                this.notificationSvc.error("Something error")
+    await this.getMaxId();
+    this.feesCollSvc.RecentFeesCollectionList(this.today).subscribe(data => {
+      debugger;
+      this.FeesCollectionList = data;
+      const CheckBillNo = this.FeesCollectionList.filter((e) => { return e.bill_no == this.feesCollectionForm.value.bill_no });
+      if(CheckBillNo.length ==0){
+        if (this.feesCollectionForm.valid) {
+          var feesInsert = (this.feesCollectionForm.value);
+          this.DialogSvc.openConfirmDialog('Are you sure want to Save?')
+            .afterClosed().subscribe(res => {
+              if (res == true) {
+                this.feesCollSvc.studentFeesDeduction(feesInsert).subscribe(res => {
+                  if (res.status == 'Insert Success') {
+                    this.notificationSvc.success("Saved Success");
+                    this.getMaxId();
+                    this.cancelclick();
+                    this.refreshRecentFeesCollectionList(this.today);
+                  }
+                  else {
+                    this.notificationSvc.error("Something error")
+                  }
+                });
               }
             });
-          }
-        });
-    } else {
-      this.feesCollectionForm.markAllAsTouched();
-      this.notificationSvc.error("Fill in the mandatory fileds");
-    }
+        } else {
+          this.feesCollectionForm.markAllAsTouched();
+          this.notificationSvc.error("Fill in the mandatory fileds");
+        }
+      }
+      else{
+       this.getMaxId()
+        this.notificationSvc.error("Already have the bill number so I changed it - please save again");
+      }
+    });
   }
 
   async previewClick(value: any): Promise<void> {

@@ -305,8 +305,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input
                                         [ngClass]="{'is-invalid': Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors}"
-                                        formControlName="group_name" class="form-control" type="tel"
-                                        (keypress)="letterOnly($event)" required>
+                                        formControlName="group_name" class="form-control" type="text" required>
                                     <span class="text-danger"
                                         *ngIf="Student_GroupForm.controls.group_name.touched && Student_GroupForm.controls.group_name.errors">
                                         <div
@@ -327,7 +326,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input
                                         [ngClass]="{'is-invalid': Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors}"
-                                        formControlName="description" class="form-control" type="tel" required>
+                                        formControlName="description" class="form-control" type="text" required>
                                     <span class="text-danger"
                                         *ngIf="Student_GroupForm.controls.description.touched && Student_GroupForm.controls.description.errors">
                                         <div

@@ -118,7 +118,7 @@ export class StudentProfileComponent implements OnInit {
     this.refreshSpecialFeesList();
     this.refreshvehicleTypeList();
     this.GetActiveBatchYear();
-    this.getMaxId();
+    // this.getMaxId();
     setTimeout(() => {
       this.setvalueform();
     }, 1000);
@@ -169,7 +169,6 @@ export class StudentProfileComponent implements OnInit {
 
   refreshClassList() {
     this.ClassSvc.getClassList().subscribe(data => {
-
       this.ClassList = data;
     });
   }
@@ -211,6 +210,8 @@ export class StudentProfileComponent implements OnInit {
       this.sectionFilterlist = [];
       //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
+
+    this.getMaxId();
   }
 
   filterSectionfun(groupID: any) {
@@ -373,7 +374,6 @@ export class StudentProfileComponent implements OnInit {
     this.genFeesSvc.getGeneralFeesList().subscribe(data => {
       debugger;
       this.generalFeesList = data;
-      console.log(this.generalFeesList,'gen')
     });
   }
 
@@ -381,7 +381,6 @@ export class StudentProfileComponent implements OnInit {
     this.spFSvc.getSpecialFeesList().subscribe(data => {
       debugger;
       this.specialFeesList = data;
-      console.log(this.specialFeesList,'spec')
     });
   }
 
@@ -428,41 +427,67 @@ export class StudentProfileComponent implements OnInit {
 
   placeOfBo(vehicle_no_id: any) {
     debugger;
-   // let idn = Number(vehicle_no_id);
+    // let idn = Number(vehicle_no_id);
     this.studentDetailsForm.get('root_no')?.setValue(vehicle_no_id);
     this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == vehicle_no_id });
   }
 
   getMaxId() {
-    this.studProSvc.getMaxId().subscribe(data => {
-
+    debugger;
+    const classID = this.studentDetailsForm.value.classid
+    const classNameArray = this.ClassList.filter((e: any) => { return e.classid == classID });
+    const clasName = classNameArray[0].class_name
+    this.studProSvc.getMaxId(clasName).subscribe(data => {
+      debugger;
       this.maxIDList = data;
       this.maxIDList.forEach(element => {
         this.maxnumber = element.profileid
       });
-
-      var maxnum: string = String(this.maxnumber + 1)
-      if (maxnum.length == 1) {
-        this.admissionno = '000' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('000' + maxnum);
-      }
-      else if (maxnum.length == 2) {
-        this.admissionno = '00' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('00' + maxnum);
-      }
-      else if (maxnum.length == 3) {
-        this.admissionno = '0' + maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue('0' + maxnum);
+      if (clasName == 'XI' || clasName == 'XII') {
+        var maxnum: string = String(this.maxnumber + 1)
+        if (maxnum.length == 1) {
+          this.admissionno = '000' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('HS000' + maxnum);
+        }
+        else if (maxnum.length == 2) {
+          this.admissionno = '00' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('HS00' + maxnum);
+        }
+        else if (maxnum.length == 3) {
+          this.admissionno = '0' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('HS0' + maxnum);
+        }
+        else {
+          this.admissionno = maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('HS' + maxnum);
+        }
       }
       else {
-        this.admissionno = maxnum
-        this.studentDetailsForm.get('admission_no')?.setValue(maxnum);
+        var maxnum: string = String(this.maxnumber + 1)
+        if (maxnum.length == 1) {
+          this.admissionno = '000' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('000' + maxnum);
+        }
+        else if (maxnum.length == 2) {
+          this.admissionno = '00' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('00' + maxnum);
+        }
+        else if (maxnum.length == 3) {
+          this.admissionno = '0' + maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue('0' + maxnum);
+        }
+        else {
+          this.admissionno = maxnum
+          this.studentDetailsForm.get('admission_no')?.setValue(maxnum);
+        }
       }
     });
+
   }
 
   async newStudentProfileDetails() {
     debugger;
+    await this.getMaxId();
     await this.refreshBusFeeList();
     await this.refreshSpecialBusFeeList();
     await this.refreshGeneralFeesList();
@@ -740,6 +765,7 @@ export class StudentProfileComponent implements OnInit {
               }
               else if (res.status == 'Already exists') {
                 this.notificationSvc.warn("Already exists Student Aadhar or Admission No");
+                this.getMaxId();
               }
               else {
                 this.notificationSvc.error("Something error");
@@ -875,7 +901,6 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('tc_original')?.setValue(false);
     this.studentDetailsForm.get('tc_date_submission')?.setValue('');
     this.studentDetailsForm.get('cuid')?.setValue(0);
-    this.GetActiveBatchYear();
-    this.getMaxId();
+    this.GetActiveBatchYear();    
   }
 }

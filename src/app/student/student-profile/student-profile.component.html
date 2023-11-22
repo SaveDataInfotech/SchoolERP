@@ -31,7 +31,16 @@
                             <label class="pt-2" style="margin: auto;">Admission Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input readonly formControlName="admission_no" class="form-control" type="text">
+                            <input readonly
+                                [ngClass]="{'is-invalid':studentDetailsForm.controls.admission_no.touched && studentDetailsForm.controls.admission_no.errors}"
+                                formControlName="admission_no" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="studentDetailsForm.controls.admission_no.touched && studentDetailsForm.controls.admission_no.errors">
+                                <div
+                                    *ngIf="studentDetailsForm.controls.admission_no.touched && studentDetailsForm.controls.admission_no.errors.required">
+                                    Admission Number is required
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -46,6 +55,13 @@
                             <input
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors}"
                                 readonly formControlName="batch_year" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors">
+                                <div
+                                    *ngIf="studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors.required">
+                                    Batch is required
+                                </div>
+                            </span>
                         </div>
                     </div>
 
