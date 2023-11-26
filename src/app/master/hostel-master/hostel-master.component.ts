@@ -73,7 +73,6 @@ export class HostelMasterComponent implements OnInit {
             if (res == true) {
               var hostelinsert = (this.hostelForm.value);
               this.hosSvc.addNewHostel(hostelinsert).subscribe(res => {
-
                 if (res?.recordid) {
                   this.notificationSvc.success("Updated Success")
                   this.refreshHostelList();

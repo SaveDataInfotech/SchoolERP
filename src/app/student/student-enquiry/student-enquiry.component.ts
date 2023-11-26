@@ -19,11 +19,11 @@ export class StudentEnquiryComponent implements OnInit {
   MaxId: any = [];
   maxnumber: number;
   enquiryno: string;
+  userID: number = Number(localStorage.getItem("userid"));
   constructor(private ClassSvc: studentClassService, private GroupSvc: studentGroupService,
     private DialogSvc: DialogService, private enquirySvc: studentEnquiryService,
     private notificationSvc: NotificationsService,
     private router: Router) { }
-
 
   date1 = new Date();
   currentYear = this.date1.getUTCFullYear();
@@ -108,11 +108,11 @@ export class StudentEnquiryComponent implements OnInit {
     community: new FormControl('', [Validators.required]),
     caste: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     bloodgroup: new FormControl(''),
-    aadhar: new FormControl('', [Validators.required,Validators.pattern("^[0-9]*$")]),
+    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     father_name: new FormControl('', [Validators.required]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl('', [Validators.required,Validators.pattern("^[0-9]*$")]),
+    f_ph: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     f_email: new FormControl(''),
     mother_name: new FormControl('', [Validators.required]),
     m_occupation: new FormControl(''),
@@ -127,7 +127,7 @@ export class StudentEnquiryComponent implements OnInit {
     l_stream: new FormControl(''),
     l_medium: new FormControl(''),
     s_declare: new FormControl(false),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -242,7 +242,7 @@ export class StudentEnquiryComponent implements OnInit {
     this.StudentEnquiryForm.get('l_stream')?.setValue('');
     this.StudentEnquiryForm.get('l_medium')?.setValue('');
     this.StudentEnquiryForm.get('s_declare')?.setValue(false);
-    this.StudentEnquiryForm.get('cuid')?.setValue(1);
+    this.StudentEnquiryForm.get('cuid')?.setValue(this.userID);
     this.buttonId = true;
     this.getMaxId();
   }

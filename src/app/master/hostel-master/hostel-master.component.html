@@ -125,10 +125,10 @@
                             <td>{{hostel.hostel_name}}</td>
                             <td>{{hostel.no_of_rooms}}</td>
                             <td>{{hostel.pa_room}}</td>
-                            <td class="tdoption"> <mat-icon matTooltip="Click to Edit" (click)="updateGetClick(hostel)"
+                            <td class="tdoption"> <mat-icon (click)="updateGetClick(hostel)"
                                     style="color: blue;cursor: pointer;" class="pr-2">edit</mat-icon>
-                                <mat-icon matTooltip="Click to Delete" style="color: red;cursor: pointer;"
-                                    (click)="deleteClick(hostel.hostelid)" class="pl-2">delete</mat-icon>
+                                <mat-icon style="color: red;cursor: pointer;" (click)="deleteClick(hostel.hostelid)"
+                                    class="pl-2">delete</mat-icon>
                             </td>
                         </tr>
                     </tbody>

@@ -5,6 +5,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
+import { BusFeesAssignService } from 'src/app/api-service/busFeesAssign.service';
 import { GeneralFeesService } from 'src/app/api-service/generalFees.service';
 import { SpecialFeesService } from 'src/app/api-service/specialFees.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
@@ -29,7 +30,8 @@ export class SpecialFeesComponent implements OnInit {
   generalFeesList: any = [];
 
   specialFeesList: any = [];
-
+  groupBusFeeList: any[] = [];
+  kmFillterList: any = [];
   constructor(
     private FlSvc: FeesLessService,
     private DialogSvc: DialogService,
@@ -39,7 +41,8 @@ export class SpecialFeesComponent implements OnInit {
     private batchSvc: BatechYearService,
     private router: Router,
     private genFeesSvc: GeneralFeesService,
-    private spFSvc: SpecialFeesService) { }
+    private spFSvc: SpecialFeesService,
+    private busFeSvc: BusFeesAssignService,) { }
 
   ngOnInit(): void {
     this.refreshFeesLessList(),
@@ -53,6 +56,8 @@ export class SpecialFeesComponent implements OnInit {
     this.refreshGeneralFeesList();
 
     this.refreshSpecialFeesList();
+
+    this.refresgroupBusFeeList();
   }
 
   GetActiveBatchYear() {
@@ -220,11 +225,40 @@ export class SpecialFeesComponent implements OnInit {
     fees_lessid: new FormControl(''),
     groupid: new FormControl(0),
     batch_year: new FormControl(''),
+    kmrange: new FormControl('Own vehicle'),
     cuid: new FormControl(1),
     s_feesList: new FormArray([])
   });
   getControls() {
     return (this.specialFeesForm.get('s_feesList') as FormArray).controls;
+  }
+
+  autokm() {
+    debugger;
+    var regExp = /[a-zA-Z]/g;
+    var num = /([0-9]+)/g;
+    const km = this.specialFeesForm.value.kmrange
+    if (regExp.test(km) && km != null) {
+      const myArray = km.split(/([0-9]+)/)
+      this.specialFeesForm.get('kmrange')?.setValue(myArray[1] + 'KM');
+    }
+    else if (num.test(km) && km != null) {
+      this.specialFeesForm.get('kmrange')?.setValue(km + 'KM');
+    }
+    else {
+      this.specialFeesForm.get('kmrange')?.setValue('');
+    }
+  }
+
+  refresgroupBusFeeList() {
+    this.busFeSvc.getGroupBusFeesList().subscribe(data => {
+      debugger;
+      this.groupBusFeeList = data;
+
+      this.kmFillterList = this.groupBusFeeList.filter((e) => {
+        return e.batch_year == this.newgetbatch
+      });
+    });
   }
 
   validateWhite(i) {
@@ -267,12 +301,15 @@ export class SpecialFeesComponent implements OnInit {
       }
       if (control.length == 0) {
         debugger;
-        const classFilterArray = this.specialFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year 
-          && e.fees_lessid == this.specialFeesForm.value.fees_lessid 
-          && e.classid == this.specialFeesForm.value.classid 
-          && e.groupid == this.specialFeesForm.value.groupid });
+        const classFilterArray = this.specialFeesList.filter((e) => {
+          return e.batch_year == this.specialFeesForm.value.batch_year
+            && e.fees_lessid == this.specialFeesForm.value.fees_lessid
+            && e.classid == this.specialFeesForm.value.classid
+            && e.groupid == this.specialFeesForm.value.groupid
+            && e.kmrange == this.specialFeesForm.value.kmrange
+        });
 
-        const genFilterList = this.generalFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year && e.classid == this.specialFeesForm.value.classid && e.groupid == this.specialFeesForm.value.groupid })
+        const genFilterList = this.generalFeesList.filter((e) => { return e.batch_year == this.specialFeesForm.value.batch_year && e.classid == this.specialFeesForm.value.classid && e.groupid == this.specialFeesForm.value.groupid });
         const result = classFilterArray.concat(genFilterList.filter(x => classFilterArray.every(e => x.typeid !== e.typeid)));
         if (result.length != 0) {
           result.forEach(element => {
@@ -285,6 +322,7 @@ export class SpecialFeesComponent implements OnInit {
                 groupid: new FormControl(this.specialFeesForm.value.groupid),
                 fees_lessid: new FormControl(this.specialFeesForm.value.fees_lessid),
                 batch_year: new FormControl(this.specialFeesForm.value.batch_year),
+                kmrange: new FormControl(this.specialFeesForm.value.kmrange),
                 cuid: new FormControl(1),
                 typeid: new FormControl(element.typeid),
                 type_name: new FormControl(element.type_name),
@@ -431,6 +469,7 @@ export class SpecialFeesComponent implements OnInit {
     this.specialFeesForm.get('groupid')?.setValue(0);
     this.specialFeesForm.get('fees_lessid')?.setValue('');
     this.specialFeesForm.get('batch_year')?.setValue(this.newgetbatch);
+    this.specialFeesForm.get('kmrange')?.setValue('Own vehicle');
     this.specialFeesForm.get('cuid')?.setValue(0);
 
     const control = <FormArray>this.specialFeesForm.controls['s_feesList'];

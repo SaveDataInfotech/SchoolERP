@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class studentProfileService {
- readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
   getMaxId(value): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile?className='+value);
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_MaxId_student_profile?className=' + value);
   }
 
   getallSibilings(): Observable<any[]> {

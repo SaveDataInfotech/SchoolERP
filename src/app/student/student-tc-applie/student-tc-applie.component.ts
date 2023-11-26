@@ -16,7 +16,7 @@ import { studentProfileService } from 'src/app/api-service/studentProfile.servic
   styleUrls: ['./student-tc-applie.component.scss']
 })
 export class StudentTcApplieComponent implements OnInit {
-
+  userID: number = Number(localStorage.getItem("userid"));
   ClassList: any = [];
   GroupList: any = [];
   SectionList: any = [];
@@ -25,9 +25,6 @@ export class StudentTcApplieComponent implements OnInit {
   BatchList: any = [];
   StudentDataList: any = [];
   groupDisplay: boolean = true;
-  // studentNameFilterlist: any = [];
-  // studentListByAd: any = [];
-  //filterstudentList: any = [];
   serachDisabledone: boolean = false;
   allstudentList: any[] = [];
   constructor(private ClassSvc: studentClassService,
@@ -125,7 +122,7 @@ export class StudentTcApplieComponent implements OnInit {
     else {
       this.groupDisplay = true;
       this.studentTcApplyForm.get('sectionid')?.setValue(null);
-      this.sectionFilterlist=[];
+      this.sectionFilterlist = [];
     }
   }
 
@@ -151,7 +148,7 @@ export class StudentTcApplieComponent implements OnInit {
       search_ad: new FormControl(''),
       leftdetails: new FormArray([
       ]),
-      cuid: new FormControl(1),
+      cuid: new FormControl(this.userID),
     })
   }
 
@@ -221,7 +218,7 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('sectionid')?.setValue(null);
     this.studentTcApplyForm.get('batch_year')?.setValue('');
     this.studentTcApplyForm.get('search_ad')?.setValue('')
-    this.studentTcApplyForm.get('cuid')?.setValue(1);
+    this.studentTcApplyForm.get('cuid')?.setValue(this.userID);
     const control = <FormArray>this.studentTcApplyForm.controls['leftdetails']
     while (control.length !== 0) {
       control.removeAt(0)
@@ -237,7 +234,7 @@ export class StudentTcApplieComponent implements OnInit {
     tcno: new FormControl(''),
     date: new FormControl(''),
     remarks: new FormControl(''),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   searchStudentByAdNo() {
@@ -291,7 +288,7 @@ export class StudentTcApplieComponent implements OnInit {
     this.oneStudentTcLeftForm.get('tcno')?.setValue('');
     this.oneStudentTcLeftForm.get('date')?.setValue(this.today);
     this.oneStudentTcLeftForm.get('remarks')?.setValue('');
-    this.oneStudentTcLeftForm.get('cuid')?.setValue(1);
+    this.oneStudentTcLeftForm.get('cuid')?.setValue(this.userID);
 
     //this.studentTcApplyForm.get('leftdetails').setValue('');
   }

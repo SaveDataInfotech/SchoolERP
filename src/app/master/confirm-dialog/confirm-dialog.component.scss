@@ -1,21 +1,17 @@
-.condiv{
-    //border: 2px solid lightblue;
-   background-color: rgb(236, 239, 243);
-   //box-shadow: 0px 0px 8px 5px pink;
-    border-radius: 5px;
+.condiv {
+  background-color: rgb(236, 239, 243);
+  border-radius: 5px;
 }
 
-
 ._pop_up_header {
-    background-color: rgb(25, 103, 210);
-  }
+  background-color: rgb(25, 103, 210);
+}
 
-
-  ._header_flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
+._header_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}

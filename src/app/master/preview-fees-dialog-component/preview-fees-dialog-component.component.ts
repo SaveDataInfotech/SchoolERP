@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as converter from 'number-to-words';
 import * as XLSX from 'xlsx';
 @Component({
@@ -14,27 +14,31 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<PreviewFeesDialogComponentComponent>
   ) { }
-  generalFee: any = this.data.generalFee;
-  busFee: any = this.data.busFee;
+  generalFee: any[] = [];
+  busFee: any[] = [];
+  arrearFee: any[] = [];
   studentDetails: any;
   amountInWords: any;
   async ngOnInit(): Promise<void> {
     debugger;
     this.generalFee = this.data.general;
     this.busFee = this.data.bus;
-
+    this.arrearFee = this.data.arrear;
     this.studentDetails = this.data.studentDetails;
 
-    await this.busFee.forEach(e => {
-      this.generalFee.push(e)
-    });
+    await Promise.all(this.busFee.map(async (e) => {
+      this.generalFee.push(e);
+    }));
 
-    console.log(this.generalFee, 'Busfee')
-    console.log(this.studentDetails, 'student')
+    await Promise.all(this.arrearFee.map(async (e) => {
+      this.generalFee.push(e);
+    }));
+
     const { toWords } = require('number-to-words');
     this.amountInWords = toWords(Number(this.studentDetails.total_amount));
 
   }
+
   closedialog() {
     this.dialogRef.close(false);
   }

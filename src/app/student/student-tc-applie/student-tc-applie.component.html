@@ -179,8 +179,8 @@
                                             <input
                                                 [ngClass]="{'is-invalid':oneStudentTcLeftForm.controls.admission_no.touched && oneStudentTcLeftForm.controls.admission_no.errors}"
                                                 [readonly]="serachDisabledone == true" formControlName="admission_no"
-                                                (keypress)="numberOnly($event)" class="form-control" type="text"
-                                                required>
+                                                oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                                type="text" required>
                                             <span class="text-danger"
                                                 *ngIf="oneStudentTcLeftForm.controls.admission_no.touched && oneStudentTcLeftForm.controls.admission_no.errors">
                                                 <div

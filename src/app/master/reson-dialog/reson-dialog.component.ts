@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Inject } from '@angular/core';
-import { MAT_DIALOG_DATA,MatDialogModule,MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-reson-dialog',
@@ -9,19 +9,19 @@ import { MAT_DIALOG_DATA,MatDialogModule,MatDialogRef} from '@angular/material/d
 })
 export class ResonDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any,
-  public dialogRef:MatDialogRef<ResonDialogComponent>
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ResonDialogComponent>
   ) { }
 
   ngOnInit(): void {
   }
 
-  closedialog(){
+  closedialog() {
     this.dialogRef.close(false);
   }
 
-  condialog(reson:any){    
-   const res:any=true
+  condialog(reson: any) {
+    const res: any = true
     this.dialogRef.close(reson);
   }
 

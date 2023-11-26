@@ -20,6 +20,7 @@ export class BatchYearComponent implements OnInit {
   BatchList: any = [];
   buttonId: boolean = true;
   MaxId: any = [];
+  userID: number = Number(localStorage.getItem("userid"));
   ngOnInit(): void {
     this.refreshBatchYearList();
     this.getMaxId();
@@ -27,8 +28,6 @@ export class BatchYearComponent implements OnInit {
   }
 
   formatBatch(value) {
-    debugger;
-
     if (this.BatchList.length == 0) {
       const spilt = value.split("-");
       if (Number(spilt[0]) + 1 == Number(spilt[1])) {
@@ -50,14 +49,13 @@ export class BatchYearComponent implements OnInit {
         this.notificationSvc.error('Invalid Batch Year');
       }
     }
-
   }
 
   BatchYearForm = new FormGroup({
     batchid: new FormControl(0),
     batch_year: new FormControl('', [Validators.required]),
     updateReson: new FormControl(''),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   backButton() {
@@ -142,7 +140,7 @@ export class BatchYearComponent implements OnInit {
 
   udateGetClick(batch: any) {
     this.BatchYearForm.patchValue(batch);
-    this.BatchYearForm.get('cuid')?.setValue(1);
+    this.BatchYearForm.get('cuid')?.setValue(this.userID);
     this.buttonId = false;
   }
   ActiveStatusClick(batchid: number) {
@@ -175,7 +173,7 @@ export class BatchYearComponent implements OnInit {
     this.BatchYearForm.reset();
     this.BatchYearForm.get('batchid')?.setValue(0);
     this.BatchYearForm.get('batch_year')?.setValue('');
-    this.BatchYearForm.get('cuid')?.setValue(1);
+    this.BatchYearForm.get('cuid')?.setValue(this.userID);
     this.buttonId = true;
   }
 }

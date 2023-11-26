@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FeescollectionService {
- readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
@@ -29,6 +29,11 @@ export class FeescollectionService {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getbusfeesbybillno?bill_no=' + value);
   }
 
+  getArrearfeesbybillno(value): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getarrearfeesbybillno?bill_no=' + value);
+  }
+
   getBusFeesList(value): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_busfees_list?admission_no=' + value);
   }
@@ -43,9 +48,12 @@ export class FeescollectionService {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_student_generalfees_list?admission_no=' + value);
   }
 
+  getArrearFeesList(value: any): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'ArrearFees/get_student_arrearfees_list?admission_no=' + value);
+  }
+
   getMaxId(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_maxid_from_fees_deduction');
   }
-
 
 }

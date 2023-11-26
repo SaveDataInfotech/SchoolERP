@@ -24,7 +24,7 @@ export class GeneralFeesComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
   groupFilterlist: any = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
   generalFeesList: any = [];
   constructor(private FtySvc: FeesTypeService,
     private DialogSvc: DialogService,
@@ -91,7 +91,7 @@ export class GeneralFeesComponent implements OnInit {
     typeid: new FormControl(0),
     type_name: new FormControl(''),
     student_type: new FormControl('Common Fees'),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   refreshFeesTypeList() {
@@ -181,7 +181,7 @@ export class GeneralFeesComponent implements OnInit {
 
   udateGetClick(fees: any) {
     this.feestypeForm.patchValue(fees);
-    this.feestypeForm.get('cuid')?.setValue(1);
+    this.feestypeForm.get('cuid')?.setValue(this.userID);
     this.buttonId = false;
   }
 
@@ -190,7 +190,7 @@ export class GeneralFeesComponent implements OnInit {
     this.feestypeForm.get('typeid')?.setValue(0);
     this.feestypeForm.get('type_name')?.setValue('');
     this.feestypeForm.get('student_type')?.setValue('Common Fees');
-    this.feestypeForm.get('cuid')?.setValue(1);
+    this.feestypeForm.get('cuid')?.setValue(this.userID);
     this.buttonId = true;
     this.refreshGeneralFeesList();
   }
@@ -209,7 +209,7 @@ export class GeneralFeesComponent implements OnInit {
     classid: new FormControl(null, [Validators.required]),
     groupid: new FormControl(0, [Validators.required]),
     batch_year: new FormControl('', [Validators.required]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
     feesList: new FormArray([])
   });
 
@@ -234,7 +234,7 @@ export class GeneralFeesComponent implements OnInit {
               classid: new FormControl(this.generalFeesAssignForm.value.classid),
               groupid: new FormControl(this.generalFeesAssignForm.value.groupid),
               batch_year: new FormControl(this.generalFeesAssignForm.value.batch_year),
-              cuid: new FormControl(1),
+              cuid: new FormControl(this.userID),
               typeid: new FormControl(element.typeid),
               type_name: new FormControl(element.type_name),
               male_amount: new FormControl(element.male_amount),
@@ -323,7 +323,7 @@ export class GeneralFeesComponent implements OnInit {
           classid: new FormControl(item.classid),
           groupid: new FormControl(item.groupid),
           batch_year: new FormControl(item.batch_year),
-          cuid: new FormControl(1),
+          cuid: new FormControl(this.userID),
           typeid: new FormControl(item.typeid),
           type_name: new FormControl(item.type_name),
           male_amount: new FormControl(item.male_amount),
@@ -368,7 +368,7 @@ export class GeneralFeesComponent implements OnInit {
     this.generalFeesAssignForm.get('classid')?.setValue(null);
     this.generalFeesAssignForm.get('groupid')?.setValue(0);
     this.generalFeesAssignForm.get('batch_year')?.setValue(this.newgetbatch);
-    this.generalFeesAssignForm.get('cuid')?.setValue(0);
+    this.generalFeesAssignForm.get('cuid')?.setValue(this.userID);
 
     const control = <FormArray>this.generalFeesAssignForm.controls['feesList'];
     while (control.length !== 0) {

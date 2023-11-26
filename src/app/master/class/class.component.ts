@@ -27,7 +27,7 @@ export class ClassComponent implements OnInit {
 
   //Fillter new list array for student Group
   newlist: any = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
   @ViewChild('inputclass', { static: false })
   set inputclass(element: ElementRef<HTMLInputElement>) {
     if (element) {
@@ -41,9 +41,7 @@ export class ClassComponent implements OnInit {
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
-    private router: Router,
-    private host: ElementRef,
-    private elementRef: ElementRef) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -68,7 +66,6 @@ export class ClassComponent implements OnInit {
   letterOnly(event) {
     var charCode = event.keyCode;
     if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || charCode == 8)
-
       return true;
     else
       return false;
@@ -76,7 +73,6 @@ export class ClassComponent implements OnInit {
 
   sectionletterOnly(event) {
     const charCode = (event.which) ? event.which : event.keyCode;
-
     if ((charCode >= 65 && charCode <= 90) || // A-Z
       (charCode >= 97 && charCode <= 122) || // a-z
       (charCode >= 48 && charCode <= 57)) { // 0-9
@@ -91,7 +87,7 @@ export class ClassComponent implements OnInit {
   Student_classForm = new FormGroup({
     classid: new FormControl(0),
     class_name: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]+$')]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   refreshClassList() {
@@ -180,7 +176,7 @@ export class ClassComponent implements OnInit {
 
   updateGetClick(StClass: any) {
     this.Student_classForm.patchValue(StClass);
-    this.Student_classForm.get('cuid')?.setValue(1);
+    this.Student_classForm.get('cuid')?.setValue(this.userID);
     this.buttonId = false;
   }
 
@@ -188,7 +184,7 @@ export class ClassComponent implements OnInit {
     this.Student_classForm.reset();
     this.Student_classForm.get('classid')?.setValue(0);
     this.Student_classForm.get('class_name')?.setValue('');
-    this.Student_classForm.get('cuid')?.setValue(1);
+    this.Student_classForm.get('cuid')?.setValue(this.userID);
     this.buttonId = true;
   }
 
@@ -198,7 +194,7 @@ export class ClassComponent implements OnInit {
     classid: new FormControl(null, [Validators.required]),
     group_name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   refreshGroupList() {
@@ -276,7 +272,7 @@ export class ClassComponent implements OnInit {
 
   updateGroupClick(group: any) {
     this.Student_GroupForm.patchValue(group);
-    this.Student_GroupForm.get('cuid')?.setValue(1);
+    this.Student_GroupForm.get('cuid')?.setValue(this.userID);
     this.GroupbuttonId = false;
   }
 
@@ -286,7 +282,7 @@ export class ClassComponent implements OnInit {
     this.Student_GroupForm.get('classid')?.setValue(null);
     this.Student_GroupForm.get('group_name')?.setValue('');
     this.Student_GroupForm.get('description')?.setValue('');
-    this.Student_GroupForm.get('cuid')?.setValue(1);
+    this.Student_GroupForm.get('cuid')?.setValue(this.userID);
     this.GroupbuttonId = true;
   }
 
@@ -326,7 +322,7 @@ export class ClassComponent implements OnInit {
     groupid: new FormControl(0),
     classid: new FormControl(null, [Validators.required]),
     section_name: new FormControl('', [Validators.required]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   })
 
   refreshSectionList() {
@@ -370,7 +366,7 @@ export class ClassComponent implements OnInit {
           .afterClosed().subscribe(res => {
             if (res == true) {
               var Sectioninsert = (this.Student_SectionForm.value);
-              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {                
+              this.ScSvc.addNewSection(Sectioninsert).subscribe(res => {
                 if (res.status == 'Saved successfully') {
                   this.notificationSvc.success("Updated Success")
                   this.refreshSectionList();
@@ -380,7 +376,7 @@ export class ClassComponent implements OnInit {
                 else if (res.status == 'Already exists') {
                   this.notificationSvc.warn("Already exists");
                 }
-                else {                 
+                else {
                   this.notificationSvc.error("Something error")
                 }
               });
@@ -395,7 +391,7 @@ export class ClassComponent implements OnInit {
 
   updateSectionClick(section: any) {
     this.Student_SectionForm.patchValue(section);
-    this.Student_SectionForm.get('cuid')?.setValue(1);
+    this.Student_SectionForm.get('cuid')?.setValue(this.userID);
     this.SectionbuttonId = false;
 
     this.Student_SectionForm.get('classid')?.setValue(section.classid);
@@ -408,7 +404,7 @@ export class ClassComponent implements OnInit {
     this.Student_SectionForm.get('groupid')?.setValue(0);
     this.Student_SectionForm.get('classid')?.setValue(null);
     this.Student_SectionForm.get('section_name')?.setValue('');
-    this.Student_SectionForm.get('cuid')?.setValue(1);
+    this.Student_SectionForm.get('cuid')?.setValue(this.userID);
     this.SectionbuttonId = true;
   }
 

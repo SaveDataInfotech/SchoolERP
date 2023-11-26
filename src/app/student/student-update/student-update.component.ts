@@ -13,7 +13,6 @@ import { BusFeesAssignService } from 'src/app/api-service/busFeesAssign.service'
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
-import { studentTcLeftService } from 'src/app/api-service/studentTcLeft.service';
 
 @Component({
   selector: 'app-student-update',
@@ -25,7 +24,7 @@ export class StudentUpdateComponent implements OnInit {
   editableImage: any;
   file: any;
   base64textString: any[] = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
   ClassList: any[];
   GroupList: any[];
   SectionList: any[];
@@ -307,7 +306,7 @@ export class StudentUpdateComponent implements OnInit {
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
-    aadhar: new FormControl('',[Validators.required,Validators.pattern("^[0-9]*$")]),
+    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     student_name: new FormControl(''),
     student_name_t: new FormControl(''),
     dob: new FormControl(''),
@@ -330,7 +329,7 @@ export class StudentUpdateComponent implements OnInit {
     father_name: new FormControl(''),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
-    f_ph: new FormControl('',[Validators.required,Validators.pattern("^[0-9]*$")]),
+    f_ph: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     f_email: new FormControl(''),
     mother_name: new FormControl(''),
     m_occupation: new FormControl(''),
@@ -354,7 +353,7 @@ export class StudentUpdateComponent implements OnInit {
     tc_xerox: new FormControl(false),
     tc_original: new FormControl(false),
     tc_date_submission: new FormControl(''),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   });
 
   updateStudent() {
@@ -426,7 +425,6 @@ export class StudentUpdateComponent implements OnInit {
     this.studentDetailsForm.get('religion')?.setValue('');
     this.studentDetailsForm.get('community')?.setValue('');
     this.studentDetailsForm.get('caste')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.studentDetailsForm.get('bloodgroup')?.setValue('');
     this.studentDetailsForm.get('phy_challanged')?.setValue('');
     this.studentDetailsForm.get('i_m_1')?.setValue('');
@@ -442,12 +440,10 @@ export class StudentUpdateComponent implements OnInit {
     this.studentDetailsForm.get('m_ph')?.setValue('');
     this.studentDetailsForm.get('p_address')?.setValue('');
     this.studentDetailsForm.get('c_address')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.studentDetailsForm.get('l_classid')?.setValue(0);
     this.studentDetailsForm.get('l_school')?.setValue('');
     this.studentDetailsForm.get('l_stream')?.setValue('');
     this.studentDetailsForm.get('l_medium')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.studentDetailsForm.get('sibling_status')?.setValue('');
     const control4 = <FormArray>this.studentDetailsForm.controls['sibling'];
     while (control4.length !== 0) {
@@ -462,7 +458,7 @@ export class StudentUpdateComponent implements OnInit {
     this.studentDetailsForm.get('tc_xerox')?.setValue(false);
     this.studentDetailsForm.get('tc_original')?.setValue(false);
     this.studentDetailsForm.get('tc_date_submission')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
+    this.studentDetailsForm.get('cuid')?.setValue(this.userID);
 
     this.editableImage = '';
     this.files = [];

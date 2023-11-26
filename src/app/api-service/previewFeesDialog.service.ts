@@ -10,7 +10,7 @@ export class PreviewFeesDialogService {
 
     constructor(private dialog: MatDialog) { }
 
-    openConfirmDialog(generalFee:any,busFee:any,value) {
+    openConfirmDialog(generalFee:any,busFee:any,arrearFee,value) {
         debugger;
         return this.dialog.open(PreviewFeesDialogComponentComponent, {
             width: '620px',
@@ -20,6 +20,7 @@ export class PreviewFeesDialogService {
             data: {
                 general: generalFee,
                 bus:busFee,
+                arrear:arrearFee,
                 studentDetails:value
             }
         });

@@ -27,7 +27,7 @@ export class StudentProfileComponent implements OnInit {
   editableImage: any;
   file: any;
   base64textString: any[] = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
   PlaceList: any = [];
   placefilterList: any[] = [];
   FeesAssignList: any[] = [];
@@ -356,7 +356,7 @@ export class StudentProfileComponent implements OnInit {
     tc_xerox: new FormControl(false),
     tc_original: new FormControl(false),
     tc_date_submission: new FormControl(''),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   });
 
   get class() {
@@ -496,260 +496,607 @@ export class StudentProfileComponent implements OnInit {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            {
-              debugger;
-              if (this.studentDetailsForm.value.vehicle_type != 0 && this.studentDetailsForm.value.stay_type == 'Day scholar') {
+
+            const className = this.ClassList.filter((e) => { return e.classid == this.studentDetailsForm.value.classid });
+
+            if (className[0].class_name == 'XI' || className[0].class_name == 'XII') {
+              {
                 debugger;
-                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                while (control.length !== 0) {
-                  control.removeAt(0)
-                }
-
-                if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                if (this.studentDetailsForm.value.vehicle_type != 0 && this.studentDetailsForm.value.stay_type == 'Day scholar') {
                   debugger;
-                  const feesList = this.busFeeList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid
-                      && e.batch_year == this.studentDetailsForm.value.batch_year
-                      && e.typeid == this.studentDetailsForm.value.vehicle_type
-                      && e.kmrange == this.studentDetailsForm.value.busdistance
-                      && e.isactive == true
-                  });
+                  const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                  while (control.length !== 0) {
+                    control.removeAt(0)
+                  }
 
-                  if (feesList.length != 0) {
-                    feesList.forEach(element => {
-                      const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                      control.push(
-                        new FormGroup({
-                          busfeeid: new FormControl(element.busfeeid),
-                          s_busfeeid: new FormControl(0),
-                          admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                          classid: new FormControl(this.studentDetailsForm.value.classid),
-                          groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                          sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                          gender: new FormControl(this.studentDetailsForm.value.gender),
-                          date: new FormControl(this.studentDetailsForm.value.date),
-                          batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                          typeid: new FormControl(element.typeid),
-                          kmrange: new FormControl(element.kmrange)
-                        })
-                      )
+                  if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                    debugger;
+                    const feesList = this.busFeeList.filter((e) => {
+                      return e.classid == this.studentDetailsForm.value.classid
+                        && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.typeid == this.studentDetailsForm.value.vehicle_type
+                        && e.kmrange == this.studentDetailsForm.value.busdistance
+                        && e.isactive == true
                     });
+
+                    if (feesList.length != 0) {
+                      feesList.forEach(element => {
+                        const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                        control.push(
+                          new FormGroup({
+                            busfeeid: new FormControl(element.busfeeid),
+                            s_busfeeid: new FormControl(0),
+                            admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                            classid: new FormControl(this.studentDetailsForm.value.classid),
+                            groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                            sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                            gender: new FormControl(this.studentDetailsForm.value.gender),
+                            date: new FormControl(this.studentDetailsForm.value.date),
+                            batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                            typeid: new FormControl(element.typeid),
+                            kmrange: new FormControl(element.kmrange)
+                          })
+                        )
+                      });
+                    }
+                    else {
+                      this.notificationSvc.error('No Bus fee details have been declare for this student! Please visit Bus fee Master');
+                      return;
+                    }
                   }
                   else {
-                    this.notificationSvc.error('No Bus fee details have been declare for this student! Please visit Bus fee Master');
-                    return;
+                    debugger;
+                    debugger;
+                    const feesList = this.specialBusFeesList.filter((e) => {
+                      return e.classid == this.studentDetailsForm.value.classid
+                        && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.typeid == this.studentDetailsForm.value.vehicle_type
+                        && e.kmrange == this.studentDetailsForm.value.busdistance
+                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                        && e.isactive == true
+                    });
+                    debugger;
+                    if (feesList.length != 0) {
+                      feesList.forEach(element => {
+                        const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                        control.push(
+                          new FormGroup({
+                            busfeeid: new FormControl(element.busfeeid),
+                            s_busfeeid: new FormControl(element.s_busfeeid),
+                            admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                            classid: new FormControl(this.studentDetailsForm.value.classid),
+                            groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                            sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                            gender: new FormControl(this.studentDetailsForm.value.gender),
+                            date: new FormControl(this.studentDetailsForm.value.date),
+                            batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                            typeid: new FormControl(element.typeid),
+                            fees_lessid: new FormControl(element.fees_lessid),
+                            kmrange: new FormControl(element.kmrange)
+                          })
+                        )
+                      });
+                    }
+                    else {
+                      this.notificationSvc.error('No special Bus fee details have been declare for this student! Please visit special Bus fee Master');
+                      return;
+                    }
                   }
                 }
                 else {
                   debugger;
-                  debugger;
-                  const feesList = this.specialBusFeesList.filter((e) => {
-                    return e.classid == this.studentDetailsForm.value.classid
-                      && e.batch_year == this.studentDetailsForm.value.batch_year
-                      && e.typeid == this.studentDetailsForm.value.vehicle_type
-                      && e.kmrange == this.studentDetailsForm.value.busdistance
-                      && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
-                      && e.isactive == true
-                  });
-                  debugger;
-                  if (feesList.length != 0) {
-                    feesList.forEach(element => {
-                      const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
-                      control.push(
-                        new FormGroup({
-                          busfeeid: new FormControl(element.busfeeid),
-                          s_busfeeid: new FormControl(element.s_busfeeid),
-                          admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                          classid: new FormControl(this.studentDetailsForm.value.classid),
-                          groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                          sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                          gender: new FormControl(this.studentDetailsForm.value.gender),
-                          date: new FormControl(this.studentDetailsForm.value.date),
-                          batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
-                          typeid: new FormControl(element.typeid),
-                          fees_lessid: new FormControl(element.fees_lessid),
-                          kmrange: new FormControl(element.kmrange)
-                        })
-                      )
-                    });
-                  }
-                  else {
-                    this.notificationSvc.error('No special Bus fee details have been declare for this student! Please visit special Bus fee Master');
-                    return;
+                  this.studentDetailsForm.get('vehicle_type')?.setValue(0);
+                  this.studentDetailsForm.get('root_no')?.setValue('');
+                  this.studentDetailsForm.get('boading_place')?.setValue('');
+                  this.studentDetailsForm.get('busdistance')?.setValue('');
+                  const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                  while (control.length !== 0) {
+                    control.removeAt(0)
                   }
                 }
               }
-              else {
+
+              {
                 debugger;
-                this.studentDetailsForm.get('vehicle_type')?.setValue(0);
-                this.studentDetailsForm.get('root_no')?.setValue('');
-                this.studentDetailsForm.get('boading_place')?.setValue('');
-                this.studentDetailsForm.get('busdistance')?.setValue('');
-                const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
                 while (control.length !== 0) {
                   control.removeAt(0)
+                }
+                if (control.length == 0) {
+                  debugger;
+                  if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                    debugger;
+                    if (this.studentDetailsForm.value.newstudent == 'No') {
+                      debugger;
+                      const generalfeeList = this.generalFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.isactive == true
+                          && e.student_type != 'Admission Fees'
+                      });
+
+                      if (generalfeeList.length != 0) {
+                        generalfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(0),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid)
+                            })
+                          )
+                        });
+                      }
+                      else {
+                        this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                        return;
+                      }
+                    }
+                    else {
+                      const generalfeeList = this.generalFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.isactive == true
+                      });
+
+                      if (generalfeeList.length != 0) {
+                        generalfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(0),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid)
+                            })
+                          )
+                        })
+                      }
+                      else {
+                        this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                        return;
+                      }
+                    }
+                  }
+                  else {
+                    debugger;
+                    if (this.studentDetailsForm.value.vehicle_type != 0) {
+                      if (this.studentDetailsForm.value.newstudent == 'No') {
+                        debugger;
+                        const specialfeeList = this.specialFeesList.filter((e) => {
+                          return e.classid == this.studentDetailsForm.value.classid
+                            && e.groupid == this.studentDetailsForm.value.groupid
+                            && e.batch_year == this.studentDetailsForm.value.batch_year
+                            && e.kmrange == this.studentDetailsForm.value.busdistance
+                            && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                            && e.isactive == true
+                            && e.student_type != 'Admission Fees'
+                        });
+
+                        if (specialfeeList.length != 0) {
+                          specialfeeList.forEach(element => {
+                            debugger;
+                            const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                            control.push(
+                              new FormGroup({
+                                admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                                assignid: new FormControl(element.assignid),
+                                s_assignid: new FormControl(element.s_assignid),
+                                classid: new FormControl(this.studentDetailsForm.value.classid),
+                                groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                                sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                                gender: new FormControl(this.studentDetailsForm.value.gender),
+                                date: new FormControl(this.studentDetailsForm.value.date),
+                                batch_year: new FormControl(element.batch_year),
+                                typeid: new FormControl(element.typeid),
+                                fees_lessid: new FormControl(element.fees_lessid)
+                              })
+                            )
+                          });
+                        }
+                        else {
+                          this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                          return;
+                        }
+                      }
+                      else {
+                        debugger;
+                        const specialfeeList = this.specialFeesList.filter((e) => {
+                          return e.classid == this.studentDetailsForm.value.classid
+                            && e.groupid == this.studentDetailsForm.value.groupid
+                            && e.batch_year == this.studentDetailsForm.value.batch_year
+                            && e.kmrange == this.studentDetailsForm.value.busdistance
+                            && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                            && e.isactive == true
+                        });
+
+                        if (specialfeeList.length != 0) {
+                          specialfeeList.forEach(element => {
+                            debugger;
+                            const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                            control.push(
+                              new FormGroup({
+                                admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                                assignid: new FormControl(element.assignid),
+                                s_assignid: new FormControl(element.s_assignid),
+                                classid: new FormControl(this.studentDetailsForm.value.classid),
+                                groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                                sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                                gender: new FormControl(this.studentDetailsForm.value.gender),
+                                date: new FormControl(this.studentDetailsForm.value.date),
+                                batch_year: new FormControl(element.batch_year),
+                                typeid: new FormControl(element.typeid),
+                                fees_lessid: new FormControl(element.fees_lessid)
+                              })
+                            )
+                          })
+                        }
+                        else {
+                          this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                          return;
+                        }
+                      }
+                    }
+                    else {
+                      if (this.studentDetailsForm.value.newstudent == 'No') {
+                        debugger;
+                        const specialfeeList = this.specialFeesList.filter((e) => {
+                          return e.classid == this.studentDetailsForm.value.classid
+                            && e.groupid == this.studentDetailsForm.value.groupid
+                            && e.batch_year == this.studentDetailsForm.value.batch_year
+                            && e.kmrange == 'Own vehicle'
+                            && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                            && e.isactive == true
+                            && e.student_type != 'Admission Fees'
+                        });
+
+                        if (specialfeeList.length != 0) {
+                          specialfeeList.forEach(element => {
+                            debugger;
+                            const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                            control.push(
+                              new FormGroup({
+                                admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                                assignid: new FormControl(element.assignid),
+                                s_assignid: new FormControl(element.s_assignid),
+                                classid: new FormControl(this.studentDetailsForm.value.classid),
+                                groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                                sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                                gender: new FormControl(this.studentDetailsForm.value.gender),
+                                date: new FormControl(this.studentDetailsForm.value.date),
+                                batch_year: new FormControl(element.batch_year),
+                                typeid: new FormControl(element.typeid),
+                                fees_lessid: new FormControl(element.fees_lessid)
+                              })
+                            )
+                          });
+                        }
+                        else {
+                          this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                          return;
+                        }
+                      }
+                      else {
+                        debugger;
+                        const specialfeeList = this.specialFeesList.filter((e) => {
+                          return e.classid == this.studentDetailsForm.value.classid
+                            && e.groupid == this.studentDetailsForm.value.groupid
+                            && e.batch_year == this.studentDetailsForm.value.batch_year
+                            && e.kmrange == 'Own vehicle'
+                            && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                            && e.isactive == true
+                        });
+
+                        if (specialfeeList.length != 0) {
+                          specialfeeList.forEach(element => {
+                            debugger;
+                            const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                            control.push(
+                              new FormGroup({
+                                admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                                assignid: new FormControl(element.assignid),
+                                s_assignid: new FormControl(element.s_assignid),
+                                classid: new FormControl(this.studentDetailsForm.value.classid),
+                                groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                                sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                                gender: new FormControl(this.studentDetailsForm.value.gender),
+                                date: new FormControl(this.studentDetailsForm.value.date),
+                                batch_year: new FormControl(element.batch_year),
+                                typeid: new FormControl(element.typeid),
+                                fees_lessid: new FormControl(element.fees_lessid)
+                              })
+                            )
+                          })
+                        }
+                        else {
+                          this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                          return;
+                        }
+                      }
+                    }
+
+                  }
+                }
+                else {
+                  this.notificationSvc.error('Something Error')
                 }
               }
             }
-
-            {
-              debugger;
-              const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
-              while (control.length !== 0) {
-                control.removeAt(0)
-              }
-              if (control.length == 0) {
+            else {
+              {
                 debugger;
-                if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                if (this.studentDetailsForm.value.vehicle_type != 0 && this.studentDetailsForm.value.stay_type == 'Day scholar') {
                   debugger;
-                  if (this.studentDetailsForm.value.newstudent == 'No') {
+                  const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                  while (control.length !== 0) {
+                    control.removeAt(0)
+                  }
+
+                  if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
                     debugger;
-                    const generalfeeList = this.generalFeesList.filter((e) => {
+                    const feesList = this.busFeeList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
-                        && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.typeid == this.studentDetailsForm.value.vehicle_type
+                        && e.kmrange == this.studentDetailsForm.value.busdistance
                         && e.isactive == true
-                        && e.student_type != 'Admission Fees'
                     });
 
-                    if (generalfeeList.length != 0) {
-                      generalfeeList.forEach(element => {
-                        debugger;
-                        const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                    if (feesList.length != 0) {
+                      feesList.forEach(element => {
+                        const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
                         control.push(
                           new FormGroup({
+                            busfeeid: new FormControl(element.busfeeid),
+                            s_busfeeid: new FormControl(0),
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
-                            s_assignid: new FormControl(0),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
                             gender: new FormControl(this.studentDetailsForm.value.gender),
                             date: new FormControl(this.studentDetailsForm.value.date),
-                            batch_year: new FormControl(element.batch_year),
-                            typeid: new FormControl(element.typeid)
+                            batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                            typeid: new FormControl(element.typeid),
+                            kmrange: new FormControl(element.kmrange)
                           })
                         )
                       });
                     }
                     else {
-                      this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                      this.notificationSvc.error('No Bus fee details have been declare for this student! Please visit Bus fee Master');
                       return;
                     }
                   }
                   else {
-                    const generalfeeList = this.generalFeesList.filter((e) => {
+                    debugger;
+                    debugger;
+                    const feesList = this.specialBusFeesList.filter((e) => {
                       return e.classid == this.studentDetailsForm.value.classid
-                        && e.groupid == this.studentDetailsForm.value.groupid
                         && e.batch_year == this.studentDetailsForm.value.batch_year
+                        && e.typeid == this.studentDetailsForm.value.vehicle_type
+                        && e.kmrange == this.studentDetailsForm.value.busdistance
+                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
                         && e.isactive == true
                     });
-
-                    if (generalfeeList.length != 0) {
-                      generalfeeList.forEach(element => {
-                        debugger;
-                        const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                    debugger;
+                    if (feesList.length != 0) {
+                      feesList.forEach(element => {
+                        const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
                         control.push(
                           new FormGroup({
+                            busfeeid: new FormControl(element.busfeeid),
+                            s_busfeeid: new FormControl(element.s_busfeeid),
                             admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
-                            s_assignid: new FormControl(0),
                             classid: new FormControl(this.studentDetailsForm.value.classid),
                             groupid: new FormControl(this.studentDetailsForm.value.groupid),
                             sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
                             gender: new FormControl(this.studentDetailsForm.value.gender),
                             date: new FormControl(this.studentDetailsForm.value.date),
-                            batch_year: new FormControl(element.batch_year),
-                            typeid: new FormControl(element.typeid)
+                            batch_year: new FormControl(this.studentDetailsForm.value.batch_year),
+                            typeid: new FormControl(element.typeid),
+                            fees_lessid: new FormControl(element.fees_lessid),
+                            kmrange: new FormControl(element.kmrange)
                           })
                         )
-                      })
+                      });
                     }
                     else {
-                      this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                      this.notificationSvc.error('No special Bus fee details have been declare for this student! Please visit special Bus fee Master');
                       return;
                     }
                   }
                 }
                 else {
                   debugger;
-                  if (this.studentDetailsForm.value.newstudent == 'No') {
-                    debugger;
-                    const specialfeeList = this.specialFeesList.filter((e) => {
-                      return e.classid == this.studentDetailsForm.value.classid
-                        && e.groupid == this.studentDetailsForm.value.groupid
-                        && e.batch_year == this.studentDetailsForm.value.batch_year
-                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
-                        && e.isactive == true
-                        && e.student_type != 'Admission Fees'
-                    });
+                  this.studentDetailsForm.get('vehicle_type')?.setValue(0);
+                  this.studentDetailsForm.get('root_no')?.setValue('');
+                  this.studentDetailsForm.get('boading_place')?.setValue('');
+                  this.studentDetailsForm.get('busdistance')?.setValue('');
+                  const control = <FormArray>this.studentDetailsForm.controls['busFeesList'];
+                  while (control.length !== 0) {
+                    control.removeAt(0)
+                  }
+                }
+              }
 
-                    if (specialfeeList.length != 0) {
-                      specialfeeList.forEach(element => {
-                        debugger;
-                        const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
-                        control.push(
-                          new FormGroup({
-                            admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
-                            s_assignid: new FormControl(element.s_assignid),
-                            classid: new FormControl(this.studentDetailsForm.value.classid),
-                            groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                            sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                            gender: new FormControl(this.studentDetailsForm.value.gender),
-                            date: new FormControl(this.studentDetailsForm.value.date),
-                            batch_year: new FormControl(element.batch_year),
-                            typeid: new FormControl(element.typeid),
-                            fees_lessid: new FormControl(element.fees_lessid)
-                          })
-                        )
+              {
+                debugger;
+                const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                while (control.length !== 0) {
+                  control.removeAt(0)
+                }
+                if (control.length == 0) {
+                  debugger;
+                  if (this.studentDetailsForm.value.fees_lessid == 0 || this.studentDetailsForm.value.fees_lessid == null) {
+                    debugger;
+                    if (this.studentDetailsForm.value.newstudent == 'No') {
+                      debugger;
+                      const generalfeeList = this.generalFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.isactive == true
+                          && e.student_type != 'Admission Fees'
                       });
+
+                      if (generalfeeList.length != 0) {
+                        generalfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(0),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid)
+                            })
+                          )
+                        });
+                      }
+                      else {
+                        this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                        return;
+                      }
                     }
                     else {
-                      this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
-                      return;
+                      const generalfeeList = this.generalFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.isactive == true
+                      });
+
+                      if (generalfeeList.length != 0) {
+                        generalfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(0),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid)
+                            })
+                          )
+                        })
+                      }
+                      else {
+                        this.notificationSvc.error('No general fee details have been declare for this student! Please visit general fee Master');
+                        return;
+                      }
                     }
                   }
                   else {
                     debugger;
-                    const specialfeeList = this.specialFeesList.filter((e) => {
-                      return e.classid == this.studentDetailsForm.value.classid
-                        && e.groupid == this.studentDetailsForm.value.groupid
-                        && e.batch_year == this.studentDetailsForm.value.batch_year
-                        && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
-                        && e.isactive == true
-                    });
+                    if (this.studentDetailsForm.value.newstudent == 'No') {
+                      debugger;
+                      const specialfeeList = this.specialFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.kmrange == 'Own vehicle'
+                          && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                          && e.isactive == true
+                          && e.student_type != 'Admission Fees'
+                      });
 
-                    if (specialfeeList.length != 0) {
-                      specialfeeList.forEach(element => {
-                        debugger;
-                        const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
-                        control.push(
-                          new FormGroup({
-                            admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
-                            assignid: new FormControl(element.assignid),
-                            s_assignid: new FormControl(element.s_assignid),
-                            classid: new FormControl(this.studentDetailsForm.value.classid),
-                            groupid: new FormControl(this.studentDetailsForm.value.groupid),
-                            sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
-                            gender: new FormControl(this.studentDetailsForm.value.gender),
-                            date: new FormControl(this.studentDetailsForm.value.date),
-                            batch_year: new FormControl(element.batch_year),
-                            typeid: new FormControl(element.typeid),
-                            fees_lessid: new FormControl(element.fees_lessid)
-                          })
-                        )
-                      })
+                      if (specialfeeList.length != 0) {
+                        specialfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(element.s_assignid),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid),
+                              fees_lessid: new FormControl(element.fees_lessid)
+                            })
+                          )
+                        });
+                      }
+                      else {
+                        this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                        return;
+                      }
                     }
                     else {
-                      this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
-                      return;
+                      debugger;
+                      const specialfeeList = this.specialFeesList.filter((e) => {
+                        return e.classid == this.studentDetailsForm.value.classid
+                          && e.groupid == this.studentDetailsForm.value.groupid
+                          && e.batch_year == this.studentDetailsForm.value.batch_year
+                          && e.kmrange == 'Own vehicle'
+                          && e.fees_lessid == this.studentDetailsForm.value.fees_lessid
+                          && e.isactive == true
+                      });
+
+                      if (specialfeeList.length != 0) {
+                        specialfeeList.forEach(element => {
+                          debugger;
+                          const control = <FormArray>this.studentDetailsForm.controls['generalFees'];
+                          control.push(
+                            new FormGroup({
+                              admission_no: new FormControl(this.studentDetailsForm.value.admission_no),
+                              assignid: new FormControl(element.assignid),
+                              s_assignid: new FormControl(element.s_assignid),
+                              classid: new FormControl(this.studentDetailsForm.value.classid),
+                              groupid: new FormControl(this.studentDetailsForm.value.groupid),
+                              sectionid: new FormControl(this.studentDetailsForm.value.sectionid),
+                              gender: new FormControl(this.studentDetailsForm.value.gender),
+                              date: new FormControl(this.studentDetailsForm.value.date),
+                              batch_year: new FormControl(element.batch_year),
+                              typeid: new FormControl(element.typeid),
+                              fees_lessid: new FormControl(element.fees_lessid)
+                            })
+                          )
+                        })
+                      }
+                      else {
+                        this.notificationSvc.error('No special general fee details have been declare for this student! Please visit special general fee Master');
+                        return;
+                      }
                     }
                   }
                 }
-              }
-              else {
-                this.notificationSvc.error('Something Error')
+                else {
+                  this.notificationSvc.error('Something Error')
+                }
               }
             }
 
@@ -853,7 +1200,6 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('root_no')?.setValue('');
     this.studentDetailsForm.get('boading_place')?.setValue('');
     this.studentDetailsForm.get('busdistance')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     const control1 = <FormArray>this.studentDetailsForm.controls['busFeesList'];
     while (control1.length !== 0) {
       control1.removeAt(0)
@@ -879,12 +1225,10 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('m_ph')?.setValue('');
     this.studentDetailsForm.get('p_address')?.setValue('');
     this.studentDetailsForm.get('c_address')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.studentDetailsForm.get('l_classid')?.setValue(0);
     this.studentDetailsForm.get('l_school')?.setValue('');
     this.studentDetailsForm.get('l_stream')?.setValue('');
     this.studentDetailsForm.get('l_medium')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
     this.studentDetailsForm.get('sibling_status')?.setValue('');
     const control4 = <FormArray>this.studentDetailsForm.controls['sibling'];
     while (control4.length !== 0) {
@@ -900,7 +1244,7 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('tc_xerox')?.setValue(false);
     this.studentDetailsForm.get('tc_original')?.setValue(false);
     this.studentDetailsForm.get('tc_date_submission')?.setValue('');
-    this.studentDetailsForm.get('cuid')?.setValue(0);
-    this.GetActiveBatchYear();    
+    this.studentDetailsForm.get('cuid')?.setValue(this.userID);
+    this.GetActiveBatchYear();
   }
 }

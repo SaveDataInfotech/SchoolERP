@@ -6,6 +6,7 @@ import { DialogService } from 'src/app/api-service/Dialog.service';
 import { VehicleNoRootService } from 'src/app/api-service/VehicleNoRoot.service';
 import { VehiclePlaceService } from 'src/app/api-service/VehiclePlace.service';
 import { VehicleTypeService } from 'src/app/api-service/VehicleType.service';
+import { ExcelPlaceService } from 'src/app/api-service/examplePlaceExcel.service';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-vehicle-master',
@@ -28,7 +29,8 @@ export class VehicleMasterComponent implements OnInit {
   constructor(
     private VhtySvc: VehicleTypeService, private vhNoRtSvc: VehicleNoRootService,
     private PlaceSvc: VehiclePlaceService, private DialogSvc: DialogService,
-    private notificationSvc: NotificationsService, private router: Router) {
+    private notificationSvc: NotificationsService, private router: Router,
+    private excelService: ExcelPlaceService) {
   }
 
 
@@ -368,7 +370,7 @@ export class VehicleMasterComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
 
-  vehicleplaceXLForm = new FormGroup({   
+  vehicleplaceXLForm = new FormGroup({
     places: new FormControl([]),
     cuid: new FormControl(1)
   })
@@ -405,7 +407,17 @@ export class VehicleMasterComponent implements OnInit {
 
       for (let i = 0; i < this.data.length; i++) {
         // Convert the root_no value to a string
-        this.data[i].root_no = this.data[i].root_no.toString();
+        const obj = this.data[i];
+        const keys = Object.keys(obj);
+        debugger;
+        if (keys[0] == 'root_no' && keys[1] == 'places') {
+          this.data[i].root_no = this.data[i].root_no.toString();
+        }
+        else {
+          this.notificationSvc.error('The column name must be in lowercase with this name (root_no) - (places).');
+          this.xlCancelClick();
+          return;
+        }
       }
 
       // for (let i = 0; i < this.data.length; i++) {
@@ -451,9 +463,13 @@ export class VehicleMasterComponent implements OnInit {
     fileReader.readAsArrayBuffer(this.file);
   }
 
+  generateExcel() {
+     this.excelService.generateExcel();
+   }
+
   xlCancelClick() {
     this.vehicleplaceXLForm.reset();
-    this.file=null;
+    this.file = null;
     this.myInputVariable.nativeElement.value = "";
     this.vehicleplaceXLForm.get('cuid')?.setValue(1);
   }

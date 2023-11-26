@@ -146,6 +146,28 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3 mt-3" style="display: flex;" *ngIf="groupFilterlist.length !=0">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Km Range</label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':specialFeesForm.controls.kmrange.touched && specialFeesForm.controls.kmrange.errors}"
+                                        formControlName="kmrange" style="width: 100%;" class="form-control ">
+                                        <option value='Own vehicle' selected>Own vehicle</option>
+                                        <option value={{fees.kmrange}} *ngFor="let fees of kmFillterList;">
+                                            {{fees.kmrange}}</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="specialFeesForm.controls.kmrange.touched && specialFeesForm.controls.kmrange.errors">
+                                        <div
+                                            *ngIf="specialFeesForm.controls.kmrange.touched && specialFeesForm.controls.kmrange.errors.required">
+                                            KM Range is required
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3 mt-3" style="display: flex;">

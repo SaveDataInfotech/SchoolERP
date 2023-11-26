@@ -21,6 +21,7 @@ export class BusFeesComponent implements OnInit {
   busFeeList: any[] = [];
   groupBusFeeList: any[] = [];
   ClassnameList: any[] = [];
+  userID: number = Number(localStorage.getItem("userid"));
   constructor(private VhtySvc: VehicleTypeService, private router: Router,
     private ClassSvc: studentClassService, private notificationSvc: NotificationsService,
     private batchSvc: BatechYearService,
@@ -59,7 +60,6 @@ export class BusFeesComponent implements OnInit {
 
   refreshBusFeeList() {
     this.busFeSvc.getBusFeesList().subscribe(data => {
-      debugger;
       this.busFeeList = data;
     });
   }
@@ -75,7 +75,6 @@ export class BusFeesComponent implements OnInit {
 
   refreshGroupBusFeeList() {
     this.busFeSvc.getGroupBusFeesList().subscribe(data => {
-      debugger;
       this.groupBusFeeList = data;
       this.groupBusFeeList.forEach((e) => {
         e['class'] = e.class_name.split(",");
@@ -86,7 +85,6 @@ export class BusFeesComponent implements OnInit {
   }
 
   getAmount(value: any, i) {
-    debugger;
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -107,7 +105,6 @@ export class BusFeesComponent implements OnInit {
   }
 
   autokm() {
-    debugger;
     var regExp = /[a-zA-Z]/g;
     var num = /([0-9]+)/g;
     const km = this.busFeesForm.value.kmrange
@@ -124,7 +121,6 @@ export class BusFeesComponent implements OnInit {
   }
 
   refreshClassList() {
-    debugger;
     if (this.busFeesForm.valid) {
       this.ClassSvc.getClassList().subscribe(data => {
         this.ClassList = data;
@@ -159,7 +155,7 @@ export class BusFeesComponent implements OnInit {
                 class_name: new FormControl(element.class_name),
                 classid: new FormControl(element.classid),
                 amount: new FormControl(element.amount),
-                cuid: new FormControl(this.busFeesForm.value.cuid),
+                cuid: new FormControl(this.userID),
               })
             )
           });
@@ -179,7 +175,7 @@ export class BusFeesComponent implements OnInit {
     typeid: new FormControl(null),
     kmrange: new FormControl(''),
     batch_year: new FormControl(''),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
     classfeelist: new FormArray([])
   });
   getControls() {
@@ -245,16 +241,11 @@ export class BusFeesComponent implements OnInit {
   }
 
   busFeeDelete(type, km, year) {
-    debugger;
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
-        debugger;
         if (res == true) {
-          debugger;
           this.busFeSvc.deleteBusFees(type, km, year).subscribe(res => {
-            debugger;
             if (res?.recordid) {
-              debugger;
               this.notificationSvc.error("Deleted Success")
               this.refreshGroupBusFeeList();
               this.refreshBusFeeList();
@@ -272,7 +263,7 @@ export class BusFeesComponent implements OnInit {
     this.busFeesForm.get('typeid')?.setValue(null);
     this.busFeesForm.get('kmrange')?.setValue('');
     this.busFeesForm.get('batch_year')?.setValue(this.newgetbatch);
-    this.busFeesForm.get('cuid')?.setValue(0);
+    this.busFeesForm.get('cuid')?.setValue(this.userID);
 
     const control = <FormArray>this.busFeesForm.controls['classfeelist'];
     while (control.length !== 0) {

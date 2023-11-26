@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NotificationsService } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesTypeService } from 'src/app/api-service/FeesType.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
@@ -31,6 +28,7 @@ export class ReportsComponent implements OnInit {
   spaid: boolean;
   sbalance: boolean;
   sbus: boolean;
+  sarrear:boolean;
   colspanValue: number;
   FeesListOutStanding: any[] = [];
   checkedItems: any[] = [];
@@ -117,7 +115,6 @@ export class ReportsComponent implements OnInit {
 
 
   search() {
-
     const batchYear = this.reportsForm.value.batch_year
     const classId = this.reportsForm.value.classid
     const groupID = this.reportsForm.value.groupid
@@ -125,20 +122,17 @@ export class ReportsComponent implements OnInit {
     const adNo = this.reportsForm.value.admission_no
     if (this.reportsForm.value.type == 'multiple') {
       this.fCSvc.outstandingreportmultiplestudent(batchYear, classId, groupID, sectionId).subscribe(data => {
-
         this.outstandingreportmultiplestudentsList = data;
       });
     }
     else if (this.reportsForm.value.type == 'individual') {
       this.fCSvc.outstandingreportindividualstudent(batchYear, adNo).subscribe(data => {
-
         this.outstandingreportmultiplestudentsList = data;
       });
     }
   };
 
   getPaidAmount(value: any, i) {
-
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -218,6 +212,14 @@ export class ReportsComponent implements OnInit {
     }
     else {
       this.sbus = false
+    }
+  }
+  arrear(event){
+    if (event.target.checked) {
+      this.sarrear = true
+    }
+    else {
+      this.sarrear = false
     }
   }
 
@@ -316,7 +318,6 @@ export class ReportsComponent implements OnInit {
       else { return 0 }
     }
     else { return 0; }
-
   }
 
 

@@ -35,7 +35,8 @@
                   <label class="pt-2">admission No<span class="text-danger"> *</span></label>
                 </div>
                 <div class="inputdiv">
-                  <input class="form-control" type="text" formControlName="admission_no">
+                  <input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text"
+                    formControlName="admission_no">
                 </div>
               </div>
 
@@ -113,7 +114,12 @@
             </div>
             <div class="pl-3" style="display: flex;">
               <input type="checkbox" (click)="bus($event)" style="width: 17px;height: 17px;">
-              <label class="ml-2 text-primary">Bus</label>
+              <label class="ml-2 text-primary">BUS</label>
+            </div>
+
+            <div class="pl-3" style="display: flex;">
+              <input type="checkbox" (click)="arrear($event)" style="width: 17px;height: 17px;">
+              <label class="ml-2 text-primary">ARREAR</label>
             </div>
           </div>
 
@@ -127,7 +133,7 @@
               <label class="h6 ml-1 text-danger">Balance</label>
             </div>
           </div>
-          <div id="_print_section" class="container containercss">
+          <div id="_print_section" class="container containercss table-responsive">
             <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
               <thead>
                 <tr style="color:blue;">
@@ -137,7 +143,8 @@
                   <ng-container *ngFor="let item of checkedItems">
                     <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
                   </ng-container>
-                  <th *ngIf="sbus" [attr.colspan]="colspanValue">Bus</th>
+                  <th *ngIf="sbus" [attr.colspan]="colspanValue">BUS</th>
+                  <th *ngIf="sarrear" [attr.colspan]="colspanValue">ARREAR</th>
                 </tr>
                 <tr>
                   <th></th>
@@ -149,6 +156,8 @@
                   </ng-container>
                   <th style="color: green;" *ngIf="spaid && sbus">Paid</th>
                   <th style="color: red;" *ngIf="sbalance && sbus">Balance</th>
+                  <th style="color: green;" *ngIf="spaid && sarrear">Paid</th>
+                  <th style="color: red;" *ngIf="sbalance && sarrear">Balance</th>
                 </tr>
               </thead>
               <tbody>
@@ -162,6 +171,8 @@
                   </ng-container>
                   <td *ngIf="spaid && sbus" style="color: green;">{{item.bus_deduction_amount}}</td>
                   <td *ngIf="sbalance && sbus" style="color: red;">{{item.busbalance}}</td>
+                  <td *ngIf="spaid && sarrear" style="color: green;">{{item.arrear_deduction_amount}}</td>
+                  <td *ngIf="sbalance && sarrear" style="color: red;">{{item.arrearbalance}}</td>
                 </tr>
               </tbody>
             </table>

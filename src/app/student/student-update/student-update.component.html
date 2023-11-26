@@ -11,7 +11,7 @@
             <div class="col-sm-12 mt-3" style="display: flex;">
                 <div><label class="mt-2 mr-5">Admission Number</label></div>
                 <div>
-                    <input #adno style="max-width: 200px;" class="form-control mr-5" type="text">
+                    <input #adno oninput="this.value = this.value.toUpperCase()" style="max-width: 200px;" class="form-control mr-5" type="text">
                 </div>
                 <div>
                     <button (click)="findStudentByAdNO(adno.value)" type="button"
