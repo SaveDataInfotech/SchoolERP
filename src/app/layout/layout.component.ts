@@ -278,15 +278,7 @@ export class LayoutComponent implements OnInit {
         },
         {
           link_name: "Fees Collection Reports",
-          link:"fees_collection/reports",
-          //fees_collection/reports
-          nested_sub_menu: [
-            {
-              link_name: "Report 1",
-              link: "fees_collection/reports"
-            }
-                  
-          ]
+          link:"fees_collection/reports",          
         }
       ]
     },

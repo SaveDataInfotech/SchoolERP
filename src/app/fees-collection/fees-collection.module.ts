@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
 import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
 import { NgxPrintModule } from 'ngx-print';
 
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     StudentFeesComponent,
@@ -30,7 +30,7 @@ import { NgxPrintModule } from 'ngx-print';
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,NgxPrintModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,NgxPrintModule,MatAutocompleteModule
   ],
   providers:[DatePipe]
 })

@@ -35,6 +35,7 @@ export class StudentFeesComponent implements OnInit {
   maxnumber: number;
   billno: string;
   arrearfeesbybillnoList: any[] = [];
+  studentName:any[]=[];
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -142,6 +143,7 @@ export class StudentFeesComponent implements OnInit {
     groupid: new FormControl(),
     sectionid: new FormControl(),
     student_name: new FormControl(''),
+    father_name:new FormControl(''),
     batch_year: new FormControl(''),
     date: new FormControl(''),
     total_amount: new FormControl(''),
@@ -178,8 +180,10 @@ export class StudentFeesComponent implements OnInit {
       this.feesCollectionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
       this.feesCollectionForm.get('sectionid')?.setValue(this.StudentList[0].sectionid);
       this.feesCollectionForm.get('student_name')?.setValue(this.StudentList[0].student_name);
+      this.feesCollectionForm.get('father_name')?.setValue(this.StudentList[0].father_name);
       this.feesCollectionForm.get('batch_year')?.setValue(this.StudentList[0].batch_year);
-      this.feesCollectionForm.get('cuid')?.setValue(1);
+      this.feesCollectionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
+      this.feesCollectionForm.get('cuid')?.setValue(1);      
 
       const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
       this.BusFeesesList = busFee;
@@ -673,5 +677,13 @@ export class StudentFeesComponent implements OnInit {
       control4.removeAt(0)
     }
   }
+
+
+ async findName(value){
+  const studentDetails = await this.studProSvc.searchnameByclassid(value).toPromise();
+  this.studentName = studentDetails;
+  }
+
+  searchText = '';
 
 }

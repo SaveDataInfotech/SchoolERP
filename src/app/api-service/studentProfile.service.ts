@@ -23,6 +23,11 @@ export class studentProfileService {
     return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_Student_details_ByAd?ad=' + value, httpOptions);
   }
 
+  searchnameByclassid(value: any): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_Student_details_classid?classid=' + value, httpOptions);
+  }
+
   studentDetails(value: any): Observable<any> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

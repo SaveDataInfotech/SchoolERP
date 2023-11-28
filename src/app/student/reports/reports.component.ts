@@ -11,6 +11,7 @@ import { studentProfileMigrationService } from 'src/app/api-service/studentProfi
 export class ReportsComponent implements OnInit {
 
   StudentMigrationList: any = [];
+  FeesList:any=[];
 
   constructor(private MigSvc: studentProfileMigrationService,
     private notificationSvc: NotificationsService,
@@ -19,12 +20,12 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshStudentMigrationList();
+    this.refreshFeesDetailsList();
   }
 
   refreshStudentMigrationList() {
     this.MigSvc.getBatchYearList().subscribe(data => {
       this.StudentMigrationList = data;
-
       console.log(this.StudentMigrationList)
     });
   }
@@ -53,6 +54,39 @@ export class ReportsComponent implements OnInit {
 
                 this.refreshStudentMigrationList();
               }
+              else {
+                this.notificationSvc.error('Something Error');
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.notificationSvc.error("Please select atlest one student");
+    }
+  }
+
+
+  /////////////////////////////
+
+  refreshFeesDetailsList() {
+    this.MigSvc.getFeeList().subscribe(data => {
+      this.FeesList = data;
+      console.log('Fee',this.FeesList)
+    });
+  }
+
+
+  Gen() {
+    if (this.FeesList.length != 0) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            this.MigSvc.newFEEMig(this.FeesList).subscribe(res => {
+              debugger;
+              if (res.status == 'Insert Success') {
+                this.notificationSvc.success('Saved Successfully');
+              }             
               else {
                 this.notificationSvc.error('Something Error');
               }
