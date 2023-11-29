@@ -43,4 +43,16 @@ export class studentProfileMigrationService {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StudentFeeMig/insert_student_admissionfees_deduction', Sectioninsert, httpOptions);
     }
+
+//////////////////////////////////////
+
+    getBusList(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'StudentFeeMig/get_bus_fees_mig');
+    }
+
+    newBusMig(Sectioninsert: any): Observable<any> {
+        debugger;
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.post<any>(this.apiUrl + 'StudentFeeMig/insert_student_bus_fees_deduction_mig', Sectioninsert, httpOptions);
+    }
 }

@@ -12,7 +12,7 @@ export class ReportsComponent implements OnInit {
 
   StudentMigrationList: any = [];
   FeesList:any=[];
-
+  BusList:any=[];
   constructor(private MigSvc: studentProfileMigrationService,
     private notificationSvc: NotificationsService,
     private DialogSvc: DialogService) { }
@@ -21,6 +21,7 @@ export class ReportsComponent implements OnInit {
   ngOnInit(): void {
     this.refreshStudentMigrationList();
     this.refreshFeesDetailsList();
+    this.refreshBusDetailsList();
   }
 
   refreshStudentMigrationList() {
@@ -98,4 +99,37 @@ export class ReportsComponent implements OnInit {
       this.notificationSvc.error("Please select atlest one student");
     }
   }
+
+  //////////////////////////////////////////
+
+
+  refreshBusDetailsList() {
+    this.MigSvc.getBusList().subscribe(data => {
+      this.BusList = data;
+      console.log('Fee',this.BusList)
+    });
+  }
+
+  Bus() {
+    if (this.BusList.length != 0) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
+        .afterClosed().subscribe(res => {
+          if (res == true) {
+            this.MigSvc.newBusMig(this.BusList).subscribe(res => {
+              debugger;
+              if (res.status == 'Insert Success') {
+                this.notificationSvc.success('Saved Successfully');
+              }             
+              else {
+                this.notificationSvc.error('Something Error');
+              }
+            });
+          }
+        });
+    }
+    else {
+      this.notificationSvc.error("Please select atlest one student");
+    }
+  }
+
 }
