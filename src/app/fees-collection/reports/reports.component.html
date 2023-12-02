@@ -225,9 +225,18 @@
                   <ng-container *ngFor="let item of FeesList;let b=index">
                     <tr *ngIf="b==0">
                       <th>{{FeesList.length+1}}</th>
-                      <td>Bus</td>
+                      <td>BUS</td>
                       <td>{{getfeetypBusCashAmount()}}</td>
                       <td>{{getfeetypBusUpiAmount()}}</td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-container *ngFor="let item of FeesList;let b=index">
+                    <tr *ngIf="b==0">
+                      <th>{{FeesList.length+2}}</th>
+                      <td>ARREAR</td>
+                      <td>{{getArrearCashAmount()}}</td>
+                      <td>{{getArrearUpiAmount()}}</td>
                     </tr>
                   </ng-container>
                 </tbody>

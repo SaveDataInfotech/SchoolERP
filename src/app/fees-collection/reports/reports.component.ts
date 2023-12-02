@@ -28,7 +28,7 @@ export class ReportsComponent implements OnInit {
   spaid: boolean;
   sbalance: boolean;
   sbus: boolean;
-  sarrear:boolean;
+  sarrear: boolean;
   colspanValue: number;
   FeesListOutStanding: any[] = [];
   checkedItems: any[] = [];
@@ -214,7 +214,7 @@ export class ReportsComponent implements OnInit {
       this.sbus = false
     }
   }
-  arrear(event){
+  arrear(event) {
     if (event.target.checked) {
       this.sarrear = true
     }
@@ -252,9 +252,17 @@ export class ReportsComponent implements OnInit {
 
   feetypetotalList: any[] = [];
   busFeetypetotalList: any[] = [];
+  arrearFeetypetotalList: any[] = [];
   async searchReport(value) {
     const busFeetypetotal = await this.fCSvc.busDescriptionReport(value).toPromise();
     this.busFeetypetotalList = busFeetypetotal;
+
+
+
+    const arrearFeetypetotal = await this.fCSvc.arrearDescriptionReport(value).toPromise();
+    this.arrearFeetypetotalList = arrearFeetypetotal;
+
+    console.log(this.busFeetypetotalList, 'Arrear')
 
     const feetypetotal = await this.fCSvc.generalDescriptionReport(value).toPromise();
     this.feetypetotalList = feetypetotal;
@@ -343,11 +351,37 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+
+  getArrearCashAmount() {
+    debugger;
+    let newFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+    if (newFeesList.length != 0) {
+      return newFeesList[0].feetypetotal
+    }
+    else {
+      return 0;
+    }
+  }
+
+  getArrearUpiAmount() {
+    debugger;
+    let newFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+    if (newFeesList.length != 0) {
+      return newFeesList[0].feetypetotal
+    }
+    else {
+      return 0;
+    }
+  }
+
+
+
   getfeetyCashAmountSum() {
     debugger
     let sum: any;
     let gensum: any;
     let busSum: any;
+    let arrSum: any;
 
     let newClass = [];
     let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cash' });
@@ -366,7 +400,16 @@ export class ReportsComponent implements OnInit {
     else {
       busSum = 0;
     }
-    return sum = gensum + busSum
+
+    let newarrearFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
+    if (newarrearFeesList.length != 0) {
+      arrSum = Number(newarrearFeesList[0].feetypetotal)
+    }
+    else {
+      arrSum = 0;
+    }
+
+    return sum = gensum + busSum + arrSum
   }
 
   getfeetyUpiAmountSum() {
@@ -374,6 +417,7 @@ export class ReportsComponent implements OnInit {
     let sum: any;
     let gensum: any;
     let busSum: any;
+    let arrSum: any;
 
     let newClass = [];
     let newFeesList = this.feetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' })
@@ -392,7 +436,16 @@ export class ReportsComponent implements OnInit {
     else {
       busSum = 0;
     }
-    sum = gensum + busSum
+
+    let newarrearFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
+    if (newarrearFeesList.length != 0) {
+      arrSum = Number(newarrearFeesList[0].feetypetotal)
+    }
+    else {
+      arrSum = 0;
+    }
+
+    sum = gensum + busSum + arrSum
 
     return sum
   }

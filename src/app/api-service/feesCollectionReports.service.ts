@@ -28,4 +28,9 @@ export class FeesCollectionReportsService {
         debugger;
         return this.http.get<any[]>(this.apiUrl + 'FeesCollection/bus_fees_description_date?date=' + value);
     }
+
+    arrearDescriptionReport(value): Observable<any[]> {
+        debugger;
+        return this.http.get<any[]>(this.apiUrl + 'FeesCollection/arrear_fees_description_date?date=' + value);
+    }
 }
