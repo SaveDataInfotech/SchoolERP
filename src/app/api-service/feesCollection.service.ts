@@ -15,23 +15,19 @@ export class FeescollectionService {
   }
 
   RecentFeesCollectionList(value): Observable<any[]> {
-    debugger;
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value);
   }
 
-  getgeneralfeesbybillno(value): Observable<any[]> {
-    debugger;
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getgeneralfeesbybillno?bill_no=' + value);
+  getgeneralfeesbybillno(billNo, admissionNo): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getgeneralfeesbybillno?bill_no=' + billNo + '&admissionNo=' + admissionNo);
   }
 
-  getbusfeesbybillno(value): Observable<any[]> {
-    debugger;
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getbusfeesbybillno?bill_no=' + value);
+  getbusfeesbybillno(billNo, admissionNo): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getbusfeesbybillno?bill_no=' + billNo + '&admissionNo=' + admissionNo);
   }
 
-  getArrearfeesbybillno(value): Observable<any[]> {
-    debugger;
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getarrearfeesbybillno?bill_no=' + value);
+  getArrearfeesbybillno(billNo, admissionNo): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/getarrearfeesbybillno?bill_no=' + billNo + '&admissionNo=' + admissionNo);
   }
 
   getBusFeesList(value): Observable<any[]> {
@@ -39,9 +35,14 @@ export class FeescollectionService {
   }
 
   studentFeesDeduction(feesInsert: any): Observable<any> {
-    debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'FeesCollection/insert_student_admissionfees_deduction', feesInsert, httpOptions);
+  }
+
+  studentFeesEdit(data: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'FeesCollection/update_fees_collecction', data, httpOptions);
   }
 
   getGeneralFeesList(value: any): Observable<any[]> {

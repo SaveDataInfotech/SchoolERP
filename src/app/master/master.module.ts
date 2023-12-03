@@ -36,6 +36,7 @@ import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.com
 import { StaffCategoryComponent } from './staff-category/staff-category.component';
 import { PreviewFeesDialogComponentComponent } from './preview-fees-dialog-component/preview-fees-dialog-component.component';
 import { NgxPrintModule } from 'ngx-print';
+import { SchoolfeeEditComponent } from './schoolfee-edit/schoolfee-edit.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { NgxPrintModule } from 'ngx-print';
     SpecialBusFeesComponent,
     StaffCategoryComponent,
     PreviewFeesDialogComponentComponent,
+    SchoolfeeEditComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

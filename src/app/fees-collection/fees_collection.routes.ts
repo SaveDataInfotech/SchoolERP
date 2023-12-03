@@ -4,6 +4,7 @@ import { StudentHostelFeesComponent } from './student-hostel-fees/student-hostel
 import { ReportsComponent } from './reports/reports.component';
 import { ExpenseEntryComponent } from './expense-entry/expense-entry.component';
 import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
+import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 
 
 export const feescollectionRoutes: Routes = [
@@ -25,9 +26,12 @@ export const feescollectionRoutes: Routes = [
     component: ExpenseEntryComponent,
   },
   {
-    path:"reports",
-    component:ReportsComponent,
+    path: "reports",
+    component: ReportsComponent,
   },
-  
+  {
+    path: "totalbalance_reports",
+    component: TotalbalanceReportComponent,
+  }
 
 ];

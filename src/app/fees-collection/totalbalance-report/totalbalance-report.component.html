@@ -1,0 +1,60 @@
+<div class="container-fluid mb-5">
+    <mat-card class="mt-4 matcard">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-2" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Balance Reports</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                    printSectionId="dail_collection_print" ngxPrint [useExistingCss]="true">
+                    Print <i class="fa fa-print ml-2"></i>
+                </button>
+                <button (click)="exportExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                    Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                </div>               
+            </div>
+            <div id="dail_collection_print">
+                <div class="row">
+                    <div style="margin: auto;text-align: center;">
+                        <div>
+                            <img class="image" src="../../../assets/aimlogo.jpeg" style="width: 150px;">
+                        </div>
+                        <div style="text-align: center;">
+                            <h2 style="color: blue;">AIM MATRIC.HR. SEC. SCHOOL</h2>
+                            <p style="color: blue;">Chetpet Road, Aagaram,
+                                Vinnamangalam Post</p>
+                            <p style="color: blue;">8838011337,8248793260, Arni, Thiruvannamalai, India 632316
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin: auto;" class="col-sm-6">
+                        <label class="col-sm-12"><b>Date : </b>{{today}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <table style="margin: auto;" class="table table-bordered col-sm-6">
+                        <thead>
+                            <tr>
+                                <th scope="col">Si.No</th>
+                                <th scope="col">Description</th>
+                                <th>Balance Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of balanceList;let i=index">
+                                <th>{{i+1}}</th>
+                                <th>{{item.type_name}}</th>
+                                <td>{{item.total_balance}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

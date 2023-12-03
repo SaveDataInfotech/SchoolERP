@@ -25,19 +25,24 @@
                     <div style="float: left;width: 150px;text-align: left;">
                         <label class="pt-2" style="margin: auto;">Name</label>
                     </div>
+                    <mat-form-field>
+                        <mat-label>Student Name</mat-label>
+                        <mat-select #advw>
+                            <mat-form-field>
+                                <input matInput type="text" oninput="this.value = this.value.toUpperCase()" #auval
+                                    (input)="suggest(auval.value)" placeholder="Search">
+                            </mat-form-field>
 
-                    <div style="width: 250px;">
-                        <select style="width: 100%;" #advw class="form-control">
-                            <option selected disabled>Please select</option>
-                            <option *ngFor="let itemN of studentName"  value={{itemN.admission_no}}>
-                                {{ itemN.student_name }} - {{itemN.admission_no}}
-                            </option>
-                        </select>
-                    </div>
+                            <mat-option [value]="option.admission_no" *ngFor="let option of suggestions">
+                                {{option.student_name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
+
                 <div class="col-sm-2 mt-3">
-                    <button class="btn btn-secondary btn-sm" type="button" [disabled]="feesCollectionForm.value.student_name" (click)="getStudent(advw.value)">Search<i
-                            class="fa fa-search ml-2"></i></button>
+                    <button class="btn btn-info btn-sm" type="button" [disabled]="feesCollectionForm.value.student_name"
+                        (click)="getStudent(advw.value)">Search<i class="fa fa-search ml-2"></i></button>
                 </div>
             </div>
             <form [formGroup]="feesCollectionForm" (ngSubmit)="FeesDeduction()">
@@ -56,7 +61,8 @@
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-secondary btn-sm" type="button" [disabled]="feesCollectionForm.value.student_name" (click)="getStudent(adno.value)">Search<i
+                        <button class="btn btn-info btn-sm" type="button"
+                            [disabled]="feesCollectionForm.value.student_name" (click)="getStudent(adno.value)">Search<i
                                 class="fa fa-search ml-2"></i></button>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -263,7 +269,18 @@
 
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <table class="table table-striped">
+            <div class="row">
+                <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div style="float: left;width: 100px;text-align: left;">
+                        <label class="pt-2" style="margin: auto;">Date</label>
+                    </div>
+                    <div style="float: left;width: 250px;">
+                        <input #dtv (change)="refreshRecentFeesCollectionList(dtv.value)" class="form-control"
+                            type="Date">
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped mt-1">
                 <thead>
                     <tr>
                         <th scope="col">Si.No</th>
@@ -291,7 +308,10 @@
                         <td>{{item.total_amount}}</td>
                         <td>
                             <button (click)="previewClick(item)" type="button"
-                                class="btn btn-primary btn-sm cursor-pointer" style="cursor: pointer;">Preview</button>
+                                class="btn btn-primary btn-sm mr-2 cursor-pointer"
+                                style="cursor: pointer;">Preview</button>
+                            <button (click)="editClick(item)" type="button" class="btn btn-dark btn-sm cursor-pointer"
+                                style="cursor: pointer;">Edit <i class="fa fa-pencil ml-2"></i></button>
                         </td>
                     </tr>
                 </tbody>

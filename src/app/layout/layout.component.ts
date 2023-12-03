@@ -279,6 +279,10 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Fees Collection Reports",
           link:"fees_collection/reports",          
+        },
+        {
+          link_name: "Total Balance Reports",
+          link:"fees_collection/totalbalance_reports",          
         }
       ]
     },

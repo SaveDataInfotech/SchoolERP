@@ -145,6 +145,7 @@
                   </ng-container>
                   <th *ngIf="sbus" [attr.colspan]="colspanValue">BUS</th>
                   <th *ngIf="sarrear" [attr.colspan]="colspanValue">ARREAR</th>
+                  <th>Each Type Total Balance</th>
                 </tr>
                 <tr>
                   <th></th>
@@ -158,6 +159,7 @@
                   <th style="color: red;" *ngIf="sbalance && sbus">Balance</th>
                   <th style="color: green;" *ngIf="spaid && sarrear">Paid</th>
                   <th style="color: red;" *ngIf="sbalance && sarrear">Balance</th>
+                  <th style="color: blue;">Balance</th>
                 </tr>
               </thead>
               <tbody>
@@ -173,8 +175,10 @@
                   <td *ngIf="sbalance && sbus" style="color: red;">{{item.busbalance}}</td>
                   <td *ngIf="spaid && sarrear" style="color: green;">{{item.arrear_deduction_amount}}</td>
                   <td *ngIf="sbalance && sarrear" style="color: red;">{{item.arrearbalance}}</td>
+                  <td style="color: blue;">{{ getTotalForRow(i) }}</td>
                 </tr>
               </tbody>
+
             </table>
           </div>
         </mat-card-content>
@@ -203,8 +207,25 @@
               <button class="btn btn-info ml-2 btn-sm" (click)="exportDailyToExcel()">Download to
                 Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
             </div>
-            <div id="dail_collection_print" class="container containercss">
-              <table class="table table-bordered mt-4 col-sm-6">
+            <div id="dail_collection_print" class="container containercss mt-5">
+              <div class="row  align-items-start heading">
+                <div style="margin: auto;text-align: center;">
+                  <div>
+                    <img class="image" src="../../../assets/aimlogo.jpeg" style="width: 150px;">
+                  </div>
+                  <div style="text-align: center;">
+                    <h2 style="color: blue;">AIM MATRIC.HR. SEC. SCHOOL</h2>
+                    <p style="color: blue;">Chetpet Road, Aagaram,
+                      Vinnamangalam Post</p>
+                    <p style="color: blue;">8838011337,8248793260, Arni, Thiruvannamalai, India 632316</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label style="float: right;margin: auto;" class="col-sm-6"><b>Date : </b>{{dt.value}}</label>
+              </div>
+              <table style="margin: auto;" class="table table-bordered mt-4 col-sm-6">
+
                 <thead>
                   <tr>
                     <th scope="col">Si.No</th>

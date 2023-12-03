@@ -11,6 +11,8 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { Router } from '@angular/router';
 import { PreviewFeesDialogService } from 'src/app/api-service/previewFeesDialog.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
+import { ViewChild, ElementRef } from '@angular/core';
+import { SchoolfeeEditDialogService } from 'src/app/api-service/schoolFeeEditDialog.service';
 
 @Component({
   selector: 'app-student-fees',
@@ -18,13 +20,18 @@ import { studentProfileService } from 'src/app/api-service/studentProfile.servic
   styleUrls: ['./student-fees.component.scss']
 })
 export class StudentFeesComponent implements OnInit {
+
+
+  @ViewChild('csid') classSelect!: ElementRef;
+  @ViewChild('dtv') dateInputRef!: ElementRef;
+
   ClassList: any = [];
   GroupList: any = [];
   SectionList: any = [];
   StudentList: any[] = [];
   FeesCollectionList: any[] = [];
   BusFeesesList: any[] = [];
-  total: number = 0;
+  //  total: number = 0;
   activeBatchYear: any = [];
   newgetbatch: string;
   maxIDList: any[] = [];
@@ -35,7 +42,9 @@ export class StudentFeesComponent implements OnInit {
   maxnumber: number;
   billno: string;
   arrearfeesbybillnoList: any[] = [];
-  studentName:any[]=[];
+  studentName: any[] = [];
+  suggestions: any[] = [];
+
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -46,7 +55,8 @@ export class StudentFeesComponent implements OnInit {
     private batchSvc: BatechYearService,
     private router: Router,
     private pDSvc: PreviewFeesDialogService,
-    private studProSvc: studentProfileService,) { }
+    private studProSvc: studentProfileService,
+    private eDSvc: SchoolfeeEditDialogService) { }
 
 
   date1 = new Date();
@@ -143,7 +153,7 @@ export class StudentFeesComponent implements OnInit {
     groupid: new FormControl(),
     sectionid: new FormControl(),
     student_name: new FormControl(''),
-    father_name:new FormControl(''),
+    father_name: new FormControl(''),
     batch_year: new FormControl(''),
     date: new FormControl(''),
     total_amount: new FormControl(''),
@@ -183,7 +193,7 @@ export class StudentFeesComponent implements OnInit {
       this.feesCollectionForm.get('father_name')?.setValue(this.StudentList[0].father_name);
       this.feesCollectionForm.get('batch_year')?.setValue(this.StudentList[0].batch_year);
       this.feesCollectionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
-      this.feesCollectionForm.get('cuid')?.setValue(1);      
+      this.feesCollectionForm.get('cuid')?.setValue(1);
 
       const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
       this.BusFeesesList = busFee;
@@ -637,14 +647,15 @@ export class StudentFeesComponent implements OnInit {
   }
 
   async previewClick(value: any): Promise<void> {
-    const generalFees = await this.feesCollSvc.getgeneralfeesbybillno(value.bill_no).toPromise();
+    const generalFees = await this.feesCollSvc.getgeneralfeesbybillno(value.bill_no, value.admission_no).toPromise();
     this.Listgeneralfeesbybillno = generalFees;
     debugger;
-    const busFees = await this.feesCollSvc.getbusfeesbybillno(value.bill_no).toPromise();
-    this.busfeesbybillnoList = busFees;
-    debugger;
 
-    const arrearFees = await this.feesCollSvc.getArrearfeesbybillno(value.bill_no).toPromise();
+    const busFees = await this.feesCollSvc.getbusfeesbybillno(value.bill_no, value.admission_no).toPromise();
+    debugger;
+    this.busfeesbybillnoList = busFees;
+
+    const arrearFees = await this.feesCollSvc.getArrearfeesbybillno(value.bill_no, value.admission_no).toPromise();
     this.arrearfeesbybillnoList = arrearFees;
     debugger;
 
@@ -655,7 +666,7 @@ export class StudentFeesComponent implements OnInit {
       });
   }
 
-  cancelclick() {
+  cancelclick(): void {
     this.getMaxId();
     this.refreshRecentFeesCollectionList(this.today);
     this.feesCollectionForm.reset();
@@ -676,14 +687,46 @@ export class StudentFeesComponent implements OnInit {
     while (control4.length !== 0) {
       control4.removeAt(0)
     }
+
+    if (this.classSelect) {
+      (this.classSelect.nativeElement as HTMLSelectElement).selectedIndex = 0;
+    }
+    this.dateInputRef.nativeElement.value = this.today;
+
+    this.suggestions = [];
   }
 
-
- async findName(value){
-  const studentDetails = await this.studProSvc.searchnameByclassid(value).toPromise();
-  this.studentName = studentDetails;
+  async findName(value) {
+    const studentDetails = await this.studProSvc.searchnameByclassid(value).toPromise();
+    this.studentName = studentDetails;
+    this.suggestions = studentDetails
   }
 
-  searchText = '';
+  suggest(value) {
+    debugger;
+    this.suggestions = this.studentName.filter(item =>
+      item.student_name.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  editClick(value) {
+    this.eDSvc.openConfirmDialog(value)
+      .afterClosed().subscribe(res => {
+        debugger;
+        if (res) {
+          this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
+            if (res.status == 'Saved successfully') {
+              this.notificationSvc.success("Saved Success");
+              this.getMaxId();
+              this.cancelclick();
+              this.refreshRecentFeesCollectionList(this.today);
+            }
+            else {
+              this.notificationSvc.error("Something error")
+            }
+          });
+        }
+      });
+  }
 
 }

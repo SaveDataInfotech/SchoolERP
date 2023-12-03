@@ -24,10 +24,12 @@ h3 {
     font-size: 25px;
     /* Set font size for better readability */
   }
-.table{
-  width: 70%;
-  margin: auto;
-}
+
+  .table {
+    width: 70%;
+    margin: auto;
+  }
+
   /* Adjust table styles */
   .table-bordered {
     border-collapse: collapse;
@@ -56,5 +58,7 @@ h3 {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
+  .heading{
+    display: inline;
+  }
 }

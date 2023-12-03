@@ -18,19 +18,22 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { DatePipe } from '@angular/common';
 import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
 import { NgxPrintModule } from 'ngx-print';
-
+import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 @NgModule({
   declarations: [
     StudentFeesComponent,
     StudentHostelFeesComponent,
     ReportsComponent,
     ExpenseEntryComponent,
-    UniformBillingComponent
+    UniformBillingComponent,
+    TotalbalanceReportComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,NgxPrintModule,MatAutocompleteModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,NgxPrintModule,MatAutocompleteModule,
+    MatSelectModule
   ],
   providers:[DatePipe]
 })

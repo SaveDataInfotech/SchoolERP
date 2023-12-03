@@ -257,12 +257,8 @@ export class ReportsComponent implements OnInit {
     const busFeetypetotal = await this.fCSvc.busDescriptionReport(value).toPromise();
     this.busFeetypetotalList = busFeetypetotal;
 
-
-
     const arrearFeetypetotal = await this.fCSvc.arrearDescriptionReport(value).toPromise();
     this.arrearFeetypetotalList = arrearFeetypetotal;
-
-    console.log(this.busFeetypetotalList, 'Arrear')
 
     const feetypetotal = await this.fCSvc.generalDescriptionReport(value).toPromise();
     this.feetypetotalList = feetypetotal;
@@ -460,5 +456,24 @@ export class ReportsComponent implements OnInit {
     const fileName = 'fees_collection_report.xlsx';
 
     FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), fileName);
+  }
+
+
+  getTotalForRow(index: number) {
+    let total = 0;
+    const item = this.outstandingreportmultiplestudentsList[index];
+    if (item.balance) {
+      const balances = item.balance.split(",").map(Number);
+      total += balances.reduce((acc, val) => acc + val, 0);
+    }
+    if (item.busbalance) {
+      const busBalances = item.busbalance.split(",").map(Number);
+      total += busBalances.reduce((acc, val) => acc + val, 0);
+    }
+    if (item.arrearbalance) {
+      const arrearBalances = item.arrearbalance.split(",").map(Number);
+      total += arrearBalances.reduce((acc, val) => acc + val, 0);
+    }
+    return total;
   }
 }
