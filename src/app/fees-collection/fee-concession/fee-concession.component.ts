@@ -9,18 +9,18 @@ import { FeescollectionService } from 'src/app/api-service/feesCollection.servic
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { Router } from '@angular/router';
-import { PreviewFeesDialogService } from 'src/app/api-service/previewFeesDialog.service';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
 import { ViewChild, ElementRef } from '@angular/core';
-import { SchoolfeeEditDialogService } from 'src/app/api-service/schoolFeeEditDialog.service';
+import { FeesConcessionService } from 'src/app/api-service/feesConcession.service';
+import { concessionPreviewDialogService } from 'src/app/api-service/concessionPreview.service';
+
 
 @Component({
-  selector: 'app-student-fees',
-  templateUrl: './student-fees.component.html',
-  styleUrls: ['./student-fees.component.scss']
+  selector: 'app-fee-concession',
+  templateUrl: './fee-concession.component.html',
+  styleUrls: ['./fee-concession.component.scss']
 })
-export class StudentFeesComponent implements OnInit {
-
+export class FeeConcessionComponent implements OnInit {
 
   @ViewChild('csid') classSelect!: ElementRef;
   @ViewChild('dtv') dateInputRef!: ElementRef;
@@ -29,22 +29,21 @@ export class StudentFeesComponent implements OnInit {
   GroupList: any = [];
   SectionList: any = [];
   StudentList: any[] = [];
-  FeesCollectionList: any[] = [];
   BusFeesesList: any[] = [];
-  //  total: number = 0;
   activeBatchYear: any = [];
   newgetbatch: string;
-  maxIDList: any[] = [];
   generalFeesList: any[] = [];
   arrearFeesList: any[] = [];
-  Listgeneralfeesbybillno: any[] = [];
-  busfeesbybillnoList: any[] = [];
-  maxnumber: number;
-  billno: string;
-  arrearfeesbybillnoList: any[] = [];
   studentName: any[] = [];
   suggestions: any[] = [];
+  maxIDList: any[] = [];
+  maxnumber: number;
+  billno: string;
 
+  FeesConcesseionList: any[] = [];
+  ListgeneralConcessionbybillno: any[] = [];
+  busConcessionbybillnoList: any[] = [];
+  arrearConcessionbybillnoList: any[] = [];
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -54,9 +53,10 @@ export class StudentFeesComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private batchSvc: BatechYearService,
     private router: Router,
-    private pDSvc: PreviewFeesDialogService,
     private studProSvc: studentProfileService,
-    private eDSvc: SchoolfeeEditDialogService) { }
+    private feesConSvc: FeesConcessionService,
+    private cDSvc: concessionPreviewDialogService
+  ) { }
 
 
   date1 = new Date();
@@ -81,14 +81,14 @@ export class StudentFeesComponent implements OnInit {
       this.finalDay = this.currentDate;
     }
     this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
-    this.feesCollectionForm.get('date').setValue(this.today);
+    this.feesConcessionForm.get('date').setValue(this.today);
     /////////////
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
     this.GetActiveBatchYear();
     this.getMaxId();
-    this.refreshRecentFeesCollectionList(this.today);
+    this.refreshRecentConncessionList(this.today);
   }
 
   backButton() {
@@ -132,24 +132,22 @@ export class StudentFeesComponent implements OnInit {
   }
 
   async getMaxId() {
-    debugger;
-    const max = await this.feesCollSvc.getMaxId().toPromise();
+    const max = await this.feesConSvc.getMaxId().toPromise();
     this.maxIDList = max;
-    this.maxnumber = this.maxIDList[this.maxIDList.length - 1].s_deductionid + 1;
+    this.maxnumber = this.maxIDList[this.maxIDList.length - 1].g_concessionid + 1;
 
     const maxnum: string = String(this.maxnumber).padStart(4, '0');
     this.billno = maxnum;
-    this.feesCollectionForm.get('bill_no')?.setValue(maxnum);
+    this.feesConcessionForm.get('bill_no')?.setValue(maxnum);
   }
 
-  refreshRecentFeesCollectionList(today) {
-    this.feesCollSvc.RecentFeesCollectionList(today).subscribe(data => {
-      this.FeesCollectionList = data;
+  refreshRecentConncessionList(today) {
+    this.feesConSvc.RecentConcessionList(today).subscribe(data => {
+      this.FeesConcesseionList = data;
     });
   }
 
-  feesCollectionForm = new FormGroup({
-    select_all: new FormControl(false),
+  feesConcessionForm = new FormGroup({
     admission_no: new FormControl(''),
     classid: new FormControl(),
     groupid: new FormControl(),
@@ -160,7 +158,6 @@ export class StudentFeesComponent implements OnInit {
     date: new FormControl(''),
     total_amount: new FormControl(''),
     bill_no: new FormControl(''),
-    payment_type: new FormControl('cash'),
     cuid: new FormControl(1),
     busFeesList: new FormArray([
     ]),
@@ -170,15 +167,15 @@ export class StudentFeesComponent implements OnInit {
     ])
   });
   getCommonControls() {
-    return (this.feesCollectionForm.get('generalFees') as FormArray).controls;
+    return (this.feesConcessionForm.get('generalFees') as FormArray).controls;
   }
 
   getBusControls() {
-    return (this.feesCollectionForm.get('busFeesList') as FormArray).controls;
+    return (this.feesConcessionForm.get('busFeesList') as FormArray).controls;
   }
 
   getArrearControls() {
-    return (this.feesCollectionForm.get('arrearFees') as FormArray).controls;
+    return (this.feesConcessionForm.get('arrearFees') as FormArray).controls;
   }
 
   async getStudent(value) {
@@ -188,19 +185,19 @@ export class StudentFeesComponent implements OnInit {
     this.StudentList = studentDetails;
     debugger;
     if (this.StudentList.length != 0) {
-      this.feesCollectionForm.get('classid')?.setValue(this.StudentList[0].classid);
-      this.feesCollectionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
-      this.feesCollectionForm.get('sectionid')?.setValue(this.StudentList[0].sectionid);
-      this.feesCollectionForm.get('student_name')?.setValue(this.StudentList[0].student_name);
-      this.feesCollectionForm.get('father_name')?.setValue(this.StudentList[0].father_name);
-      this.feesCollectionForm.get('batch_year')?.setValue(this.StudentList[0].batch_year);
-      this.feesCollectionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
-      this.feesCollectionForm.get('cuid')?.setValue(1);
+      this.feesConcessionForm.get('classid')?.setValue(this.StudentList[0].classid);
+      this.feesConcessionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
+      this.feesConcessionForm.get('sectionid')?.setValue(this.StudentList[0].sectionid);
+      this.feesConcessionForm.get('student_name')?.setValue(this.StudentList[0].student_name);
+      this.feesConcessionForm.get('father_name')?.setValue(this.StudentList[0].father_name);
+      this.feesConcessionForm.get('batch_year')?.setValue(this.StudentList[0].batch_year);
+      this.feesConcessionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
+      this.feesConcessionForm.get('cuid')?.setValue(1);
 
       const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
       this.BusFeesesList = busFee;
 
-      const control3 = <FormArray>this.feesCollectionForm.controls['busFeesList'];
+      const control3 = <FormArray>this.feesConcessionForm.controls['busFeesList'];
       while (control3.length !== 0) {
         control3.removeAt(0)
       }
@@ -208,17 +205,17 @@ export class StudentFeesComponent implements OnInit {
       if (control3.length == 0) {
         this.BusFeesesList.forEach(element => {
           if (element.balance != 0) {
-            const control = <FormArray>this.feesCollectionForm.controls['busFeesList'];
+            const control = <FormArray>this.feesConcessionForm.controls['busFeesList'];
             control.push(
               new FormGroup({
                 selected: new FormControl(false),
                 feesid: new FormControl(element.feesid),
-                admission_no: new FormControl(this.feesCollectionForm.value.admission_no),
+                admission_no: new FormControl(this.feesConcessionForm.value.admission_no),
                 classid: new FormControl(element.classid),
                 groupid: new FormControl(element.groupid),
                 sectionid: new FormControl(element.sectionid),
                 gender: new FormControl(element.gender),
-                date: new FormControl(this.feesCollectionForm.value.date),
+                date: new FormControl(this.feesConcessionForm.value.date),
                 batch_year: new FormControl(element.batch_year),
                 typeid: new FormControl(element.typeid),
                 vehicle_name: new FormControl(element.vehicle_name),
@@ -227,9 +224,9 @@ export class StudentFeesComponent implements OnInit {
                 amount: new FormControl(element.amount),
                 balance: new FormControl(element.balance),
                 deduction_amount: new FormControl(''),
-                bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
-                payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                bill_no: new FormControl(this.feesConcessionForm.value.bill_no),
+                remarks: new FormControl(''),
+                cuid: new FormControl(this.feesConcessionForm.value.cuid),
               })
             )
           }
@@ -239,7 +236,7 @@ export class StudentFeesComponent implements OnInit {
       const generalFee = await this.feesCollSvc.getGeneralFeesList(value).toPromise();
       this.generalFeesList = generalFee;
 
-      const control4 = <FormArray>this.feesCollectionForm.controls['generalFees'];
+      const control4 = <FormArray>this.feesConcessionForm.controls['generalFees'];
       while (control4.length !== 0) {
         control4.removeAt(0)
       }
@@ -247,17 +244,17 @@ export class StudentFeesComponent implements OnInit {
       if (control4.length == 0) {
         this.generalFeesList.forEach(element => {
           if (element.balance != 0) {
-            const control = <FormArray>this.feesCollectionForm.controls['generalFees'];
+            const control = <FormArray>this.feesConcessionForm.controls['generalFees'];
             control.push(
               new FormGroup({
                 selected: new FormControl(false),
                 feesid: new FormControl(element.feesid),
-                admission_no: new FormControl(this.feesCollectionForm.value.admission_no),
+                admission_no: new FormControl(this.feesConcessionForm.value.admission_no),
                 classid: new FormControl(element.classid),
                 groupid: new FormControl(element.groupid),
                 sectionid: new FormControl(element.sectionid),
                 gender: new FormControl(element.gender),
-                date: new FormControl(this.feesCollectionForm.value.date),
+                date: new FormControl(this.feesConcessionForm.value.date),
                 batch_year: new FormControl(element.batch_year),
                 typeid: new FormControl(element.typeid),
                 type_name: new FormControl(element.type_name),
@@ -265,9 +262,9 @@ export class StudentFeesComponent implements OnInit {
                 amount: new FormControl(element.amount),
                 balance: new FormControl(element.balance),
                 deduction_amount: new FormControl(''),
-                bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
-                payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                bill_no: new FormControl(this.feesConcessionForm.value.bill_no),
+                remarks: new FormControl(''),
+                cuid: new FormControl(this.feesConcessionForm.value.cuid),
               })
             )
           }
@@ -278,7 +275,7 @@ export class StudentFeesComponent implements OnInit {
       const arrearFee = await this.feesCollSvc.getArrearFeesList(value).toPromise();
       this.arrearFeesList = arrearFee;
 
-      const control5 = <FormArray>this.feesCollectionForm.controls['arrearFees'];
+      const control5 = <FormArray>this.feesConcessionForm.controls['arrearFees'];
       while (control5.length !== 0) {
         control5.removeAt(0)
       }
@@ -288,24 +285,24 @@ export class StudentFeesComponent implements OnInit {
         this.arrearFeesList.forEach(element => {
           if (element.balance != 0) {
             debugger;
-            const control = <FormArray>this.feesCollectionForm.controls['arrearFees'];
+            const control = <FormArray>this.feesConcessionForm.controls['arrearFees'];
             control.push(
               new FormGroup({
                 selected: new FormControl(false),
                 arrear_feesid: new FormControl(element.arrear_feesid),
-                admission_no: new FormControl(this.feesCollectionForm.value.admission_no),
+                admission_no: new FormControl(this.feesConcessionForm.value.admission_no),
                 classid: new FormControl(element.classid),
                 groupid: new FormControl(element.groupid),
                 sectionid: new FormControl(element.sectionid),
-                date: new FormControl(this.feesCollectionForm.value.date),
+                date: new FormControl(this.feesConcessionForm.value.date),
                 batch_year: new FormControl(element.batch_year),
                 type_name: new FormControl('Arrear Fees'),
                 amount: new FormControl(element.amount),
                 balance: new FormControl(element.balance),
                 deduction_amount: new FormControl(''),
-                bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
-                payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                bill_no: new FormControl(this.feesConcessionForm.value.bill_no),
+                remarks: new FormControl(''),
+                cuid: new FormControl(this.feesConcessionForm.value.cuid),
               })
             )
           }
@@ -323,9 +320,7 @@ export class StudentFeesComponent implements OnInit {
   updateSelectAllCheckbox(i, value) {
     debugger;
     let total: number = 0;
-    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
-    const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
-    const arrearArray = this.feesCollectionForm.get('arrearFees') as FormArray;
+    const classidArray = this.feesConcessionForm.get('generalFees') as FormArray;
     if (value.target.checked) {
       const am = classidArray.at(i).get('balance').value;
       classidArray.at(i).get('deduction_amount').setValue(am);
@@ -333,42 +328,33 @@ export class StudentFeesComponent implements OnInit {
     else {
       classidArray.at(i).get('deduction_amount').setValue('0');
     }
-    const allSelectedInClassidArray = classidArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInBusArray = busArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInArraearArray = arrearArray.controls.every(control => control.get('selected').value === true);
-    if (allSelectedInClassidArray && allSelectedInBusArray && allSelectedInArraearArray) {
-      this.feesCollectionForm.get('select_all').setValue(true);
-    } else {
-      this.feesCollectionForm.get('select_all').setValue(false);
-    }
 
-    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+    const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
     bus.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const common = this.feesCollectionForm.get('generalFees') as FormArray;
+    const common = this.feesConcessionForm.get('generalFees') as FormArray;
     common.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+    const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
     arrear.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+    this.feesConcessionForm.get('total_amount')?.setValue(String(total))
   }
 
   updateSelectAllCheckboxArraer(i, value) {
     debugger;
     let total: number = 0;
-    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
-    const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
-    const arrearArray = this.feesCollectionForm.get('arrearFees') as FormArray;
+
+    const arrearArray = this.feesConcessionForm.get('arrearFees') as FormArray;
     if (value.target.checked) {
       const am = arrearArray.at(i).get('balance').value;
       arrearArray.at(i).get('deduction_amount').setValue(am);
@@ -376,43 +362,35 @@ export class StudentFeesComponent implements OnInit {
     else {
       arrearArray.at(i).get('deduction_amount').setValue('0');
     }
-    const allSelectedInClassidArray = classidArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInBusArray = busArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInArraearArray = arrearArray.controls.every(control => control.get('selected').value === true);
-    if (allSelectedInClassidArray && allSelectedInBusArray && allSelectedInArraearArray) {
-      this.feesCollectionForm.get('select_all').setValue(true);
-    } else {
-      this.feesCollectionForm.get('select_all').setValue(false);
-    }
 
-    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+    const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
     bus.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const common = this.feesCollectionForm.get('generalFees') as FormArray;
+    const common = this.feesConcessionForm.get('generalFees') as FormArray;
     common.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+    const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
     arrear.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+    this.feesConcessionForm.get('total_amount')?.setValue(String(total))
   }
 
 
   updateSelectAllCheckboxByBus(i, value) {
     debugger;
     let total: number = 0;
-    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
-    const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
-    const arrearArray = this.feesCollectionForm.get('arrearFees') as FormArray;
+
+    const busArray = this.feesConcessionForm.get('busFeesList') as FormArray;
+
     if (value.target.checked) {
       const am = busArray.at(i).get('balance').value;
       busArray.at(i).get('deduction_amount').setValue(am);
@@ -420,184 +398,114 @@ export class StudentFeesComponent implements OnInit {
     else {
       busArray.at(i).get('deduction_amount').setValue('0');
     }
-    const allSelectedInClassidArray = classidArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInBusArray = busArray.controls.every(control => control.get('selected').value === true);
-    const allSelectedInArraearArray = arrearArray.controls.every(control => control.get('selected').value === true);
-    if (allSelectedInClassidArray && allSelectedInBusArray && allSelectedInArraearArray) {
-      this.feesCollectionForm.get('select_all').setValue(true);
-    } else {
-      this.feesCollectionForm.get('select_all').setValue(false);
-    }
 
-    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+
+    const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
     bus.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const common = this.feesCollectionForm.get('generalFees') as FormArray;
+    const common = this.feesConcessionForm.get('generalFees') as FormArray;
     common.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+    const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
     arrear.controls.forEach((e) => {
       const num = Number(e.value.deduction_amount);
       total = total + num;
     })
 
-    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
-  }
-
-  toggleAllCheckboxes(value) {
-    debugger;
-    let total: number = 0;
-    const selectAllValue = this.feesCollectionForm.get('select_all').value;
-    const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
-    const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
-    const arrearArray = this.feesCollectionForm.get('arrearFees') as FormArray;
-    if (value.target.checked) {
-      for (let i = 0; i < classidArray.length; i++) {
-        classidArray.at(i).get('selected').setValue(selectAllValue);
-        const am = classidArray.at(i).get('balance').value;
-        classidArray.at(i).get('deduction_amount').setValue(am);
-      }
-
-      for (let i = 0; i < busArray.length; i++) {
-        busArray.at(i).get('selected').setValue(selectAllValue);
-        const am = busArray.at(i).get('balance').value;
-        busArray.at(i).get('deduction_amount').setValue(am);
-      }
-
-      for (let i = 0; i < arrearArray.length; i++) {
-        arrearArray.at(i).get('selected').setValue(selectAllValue);
-        const aa = arrearArray.at(i).get('balance').value;
-        arrearArray.at(i).get('deduction_amount').setValue(aa);
-      }
-    }
-    else {
-      for (let i = 0; i < classidArray.length; i++) {
-        classidArray.at(i).get('selected').setValue(selectAllValue);
-        classidArray.at(i).get('deduction_amount').setValue('0');
-      }
-
-      for (let i = 0; i < busArray.length; i++) {
-        busArray.at(i).get('selected').setValue(selectAllValue);
-        busArray.at(i).get('deduction_amount').setValue('0');
-      }
-
-      for (let i = 0; i < arrearArray.length; i++) {
-        arrearArray.at(i).get('selected').setValue(selectAllValue);
-        arrearArray.at(i).get('deduction_amount').setValue('0');
-      }
-    }
-    const common = this.feesCollectionForm.get('generalFees') as FormArray;
-    common.controls.forEach((e) => {
-      const num = Number(e.value.deduction_amount);
-      total = total + num;
-    });
-
-
-    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
-    bus.controls.forEach((e) => {
-      const num = Number(e.value.deduction_amount);
-      total = total + num;
-    });
-
-    const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
-    arrear.controls.forEach((e) => {
-      const num = Number(e.value.deduction_amount);
-      total = total + num;
-    });
-
-    this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+    this.feesConcessionForm.get('total_amount')?.setValue(String(total))
   }
 
   bustotal(i, val) {
     if (!isNaN(Number(val))) {
       if (/^\d+$/.test(val)) {
         let total: number = 0;
-        const busControl = this.feesCollectionForm.get('busFeesList') as FormArray;
+        const busControl = this.feesConcessionForm.get('busFeesList') as FormArray;
         const busam = busControl.at(i).get('balance').value;
         if (Number(busam) < Number(val)) {
           this.notificationSvc.error('Invalid Payable Amount');
-          const busControl1 = this.feesCollectionForm.get('busFeesList') as FormArray;
+          const busControl1 = this.feesConcessionForm.get('busFeesList') as FormArray;
           busControl1.at(i).get('deduction_amount').setValue('0');
         }
 
-        const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+        const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
         bus.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        const common = this.feesCollectionForm.get('generalFees') as FormArray;
+        const common = this.feesConcessionForm.get('generalFees') as FormArray;
         common.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+        const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
         arrear.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+        this.feesConcessionForm.get('total_amount')?.setValue(String(total))
 
       } else {
 
-        const busControl1 = this.feesCollectionForm.get('busFeesList') as FormArray;
+        const busControl1 = this.feesConcessionForm.get('busFeesList') as FormArray;
         busControl1.at(i).get('deduction_amount').setValue('');
       }
     } else {
       this.notificationSvc.error('Entered value is not a number.');
-      const busControl1 = this.feesCollectionForm.get('busFeesList') as FormArray;
+      const busControl1 = this.feesConcessionForm.get('busFeesList') as FormArray;
       busControl1.at(i).get('deduction_amount').setValue('');
     }
   }
 
   commontotal(i, val) {
+    debugger
     if (!isNaN(Number(val))) {
       if (/^\d+$/.test(val)) {
         let total: number = 0;
-        const busControl = this.feesCollectionForm.get('generalFees') as FormArray;
-        const busam = busControl.at(i).get('balance').value;
+        const commonControl = this.feesConcessionForm.get('generalFees') as FormArray;
+        const busam = commonControl.at(i).get('balance').value;
         if (Number(busam) < Number(val)) {
           this.notificationSvc.error('Invalid Payable Amount');
-          const busControl1 = this.feesCollectionForm.get('generalFees') as FormArray;
-          busControl1.at(i).get('deduction_amount').setValue('0');
+          const commonControl = this.feesConcessionForm.get('generalFees') as FormArray;
+          commonControl.at(i).get('deduction_amount').setValue('0');
         }
 
-        const common = this.feesCollectionForm.get('generalFees') as FormArray;
+        const common = this.feesConcessionForm.get('generalFees') as FormArray;
         common.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         })
 
-        const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+        const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
         bus.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+        const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
         arrear.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        this.feesCollectionForm.get('total_amount')?.setValue(String(total))
+        this.feesConcessionForm.get('total_amount')?.setValue(String(total))
       } else {
 
-        const busControl1 = this.feesCollectionForm.get('generalFees') as FormArray;
-        busControl1.at(i).get('deduction_amount').setValue('');
+        const commonControl = this.feesConcessionForm.get('generalFees') as FormArray;
+        commonControl.at(i).get('deduction_amount').setValue('');
       }
     } else {
-      const busControl1 = this.feesCollectionForm.get('generalFees') as FormArray;
-      busControl1.at(i).get('deduction_amount').setValue('');
       this.notificationSvc.error('Entered value is not a number.');
+      const commonControl = this.feesConcessionForm.get('generalFees') as FormArray;
+      commonControl.at(i).get('deduction_amount').setValue('');
     }
   }
 
@@ -605,42 +513,43 @@ export class StudentFeesComponent implements OnInit {
     if (!isNaN(Number(val))) {
       if (/^\d+$/.test(val)) {
         let total: number = 0;
-        const arrearControl = this.feesCollectionForm.get('arrearFees') as FormArray;
+        const arrearControl = this.feesConcessionForm.get('arrearFees') as FormArray;
         const aram = arrearControl.at(i).get('balance').value;
         if (Number(aram) < Number(val)) {
           this.notificationSvc.error('Invalid Payable Amount');
-          const arrearControl = this.feesCollectionForm.get('arrearFees') as FormArray;
+          const arrearControl = this.feesConcessionForm.get('arrearFees') as FormArray;
           arrearControl.at(i).get('deduction_amount').setValue('0');
         }
 
-        const common = this.feesCollectionForm.get('generalFees') as FormArray;
+        const common = this.feesConcessionForm.get('generalFees') as FormArray;
         common.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+        const bus = this.feesConcessionForm.get('busFeesList') as FormArray;
         bus.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+        const arrear = this.feesConcessionForm.get('arrearFees') as FormArray;
         arrear.controls.forEach((e) => {
           const num = Number(e.value.deduction_amount);
           total = total + num;
         });
 
-        this.feesCollectionForm.get('total_amount')?.setValue(String(total))
-      } else {
-        const arrearControl = this.feesCollectionForm.get('arrearFees') as FormArray;
-        arrearControl.at(i).get('deduction_amount').setValue('');
+        this.feesConcessionForm.get('total_amount')?.setValue(String(total))
 
+      } else {
+
+        const arrearControl = this.feesConcessionForm.get('arrearFees') as FormArray;
+        arrearControl.at(i).get('deduction_amount').setValue('');
       }
     } else {
-      const arrearControl = this.feesCollectionForm.get('arrearFees') as FormArray;
-      arrearControl.at(i).get('deduction_amount').setValue('');
       this.notificationSvc.error('Entered value is not a number.');
+      const arrearControl = this.feesConcessionForm.get('arrearFees') as FormArray;
+      arrearControl.at(i).get('deduction_amount').setValue('');
     }
   }
 
@@ -648,31 +557,34 @@ export class StudentFeesComponent implements OnInit {
   async FeesDeduction() {
     debugger;
     await this.getMaxId();
-    this.feesCollSvc.RecentFeesCollectionList(this.today).subscribe(data => {
+    this.feesConSvc.RecentConcessionList(this.today).subscribe(data => {
       debugger;
-      this.FeesCollectionList = data;
-      const CheckBillNo = this.FeesCollectionList.filter((e) => { return e.bill_no == this.feesCollectionForm.value.bill_no });
+      this.FeesConcesseionList = data;
+      const CheckBillNo = this.FeesConcesseionList.filter((e) => { return e.bill_no == this.feesConcessionForm.value.bill_no });
       if (CheckBillNo.length == 0) {
-        if (this.feesCollectionForm.valid) {
-          var feesInsert = (this.feesCollectionForm.value);
+        if (this.feesConcessionForm.valid) {
+          var feesInsert = (this.feesConcessionForm.value);
           this.DialogSvc.openConfirmDialog('Are you sure want to Save?')
             .afterClosed().subscribe(res => {
               if (res == true) {
-                this.feesCollSvc.studentFeesDeduction(feesInsert).subscribe(res => {
+                console.log(feesInsert, 'eee')
+                this.feesConSvc.studentFeesConcession(feesInsert).subscribe(res => {
                   if (res.status == 'Insert Success') {
                     this.notificationSvc.success("Saved Success");
                     this.getMaxId();
                     this.cancelclick();
-                    this.refreshRecentFeesCollectionList(this.today);
+                    this.refreshRecentConncessionList(this.today);
                   }
                   else {
+                    this.getMaxId();
                     this.notificationSvc.error("Something error")
                   }
                 });
               }
             });
         } else {
-          this.feesCollectionForm.markAllAsTouched();
+          this.feesConcessionForm.markAllAsTouched();
+          this.getMaxId();
           this.notificationSvc.error("Fill in the mandatory fileds");
         }
       }
@@ -683,42 +595,22 @@ export class StudentFeesComponent implements OnInit {
     });
   }
 
-  async previewClick(value: any): Promise<void> {
-    const generalFees = await this.feesCollSvc.getgeneralfeesbybillno(value.bill_no, value.admission_no).toPromise();
-    this.Listgeneralfeesbybillno = generalFees;
-    debugger;
-
-    const busFees = await this.feesCollSvc.getbusfeesbybillno(value.bill_no, value.admission_no).toPromise();
-    debugger;
-    this.busfeesbybillnoList = busFees;
-
-    const arrearFees = await this.feesCollSvc.getArrearfeesbybillno(value.bill_no, value.admission_no).toPromise();
-    this.arrearfeesbybillnoList = arrearFees;
-    debugger;
-
-    this.pDSvc.openConfirmDialog(this.Listgeneralfeesbybillno, this.busfeesbybillnoList, this.arrearfeesbybillnoList, value)
-      .afterClosed().subscribe(res => {
-        if (res == true) {
-        }
-      });
-  }
-
   cancelclick(): void {
-    this.feesCollectionForm.reset();
-    this.feesCollectionForm.get('date')?.setValue(this.today);
-    this.feesCollectionForm.get('payment_type')?.setValue('cash');
 
-    const control2 = <FormArray>this.feesCollectionForm.controls['busFeesList'];
+    this.feesConcessionForm.reset();
+    this.feesConcessionForm.get('date')?.setValue(this.today);
+
+    const control2 = <FormArray>this.feesConcessionForm.controls['busFeesList'];
     while (control2.length !== 0) {
       control2.removeAt(0)
     }
 
-    const control3 = <FormArray>this.feesCollectionForm.controls['generalFees'];
+    const control3 = <FormArray>this.feesConcessionForm.controls['generalFees'];
     while (control3.length !== 0) {
       control3.removeAt(0)
     }
 
-    const control4 = <FormArray>this.feesCollectionForm.controls['arrearFees'];
+    const control4 = <FormArray>this.feesConcessionForm.controls['arrearFees'];
     while (control4.length !== 0) {
       control4.removeAt(0)
     }
@@ -729,8 +621,8 @@ export class StudentFeesComponent implements OnInit {
     this.dateInputRef.nativeElement.value = this.today;
 
     this.suggestions = [];
+    this.refreshRecentConncessionList(this.today);
     this.getMaxId();
-    this.refreshRecentFeesCollectionList(this.today);
   }
 
   async findName(value) {
@@ -746,24 +638,24 @@ export class StudentFeesComponent implements OnInit {
     );
   }
 
-  editClick(value) {
-    this.eDSvc.openConfirmDialog(value)
+
+  async previewClick(value: any): Promise<void> {
+    const generalFees = await this.feesConSvc.getgeneralConcessionbybillno(value.bill_no, value.admission_no).toPromise();
+    this.ListgeneralConcessionbybillno = generalFees;
+    debugger;
+
+    const busFees = await this.feesConSvc.getbusConcessionbybillno(value.bill_no, value.admission_no).toPromise();
+    debugger;
+    this.busConcessionbybillnoList = busFees;
+
+    const arrearFees = await this.feesConSvc.getArrearConcessionbybillno(value.bill_no, value.admission_no).toPromise();
+    this.arrearConcessionbybillnoList = arrearFees;
+    debugger;
+
+    this.cDSvc.openConfirmDialog(this.ListgeneralConcessionbybillno, this.busConcessionbybillnoList, this.arrearConcessionbybillnoList, value)
       .afterClosed().subscribe(res => {
-        debugger;
-        if (res) {
-          this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
-            if (res.status == 'Saved successfully') {
-              this.notificationSvc.success("Saved Success");
-              this.getMaxId();
-              this.cancelclick();
-              this.refreshRecentFeesCollectionList(this.today);
-            }
-            else {
-              this.notificationSvc.error("Something error")
-            }
-          });
+        if (res == true) {
         }
       });
   }
-
 }

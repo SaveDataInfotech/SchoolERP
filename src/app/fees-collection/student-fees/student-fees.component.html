@@ -1,321 +1,338 @@
-<div class="container-fluid mt-1">
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <div class="row">
-                <div class="col-sm-6" style="display: flex;">
-                    <div style="float: left;width: 300px;">
-                        <h3 class="ml-1">School Fees Collection</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-5 mt-3" style="display: flex;">
-                    <div style="float: left;width: 150px;text-align: left;">
-                        <label class="pt-2" style="margin: auto;">Class</label>
-                    </div>
-                    <div style="float: left;width: 250px;">
-                        <select #csid (change)="findName(csid.value)" style="width: 100%;" class="form-control">
-                            <option selected disabled>Please select</option>
-                            <option value={{class.classid}} *ngFor="let class of ClassList;">
-                                {{class.class_name}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-5 mt-3" style="display: flex;">
-                    <div style="float: left;width: 150px;text-align: left;">
-                        <label class="pt-2" style="margin: auto;">Name</label>
-                    </div>
-                    <mat-form-field>
-                        <mat-label>Student Name</mat-label>
-                        <mat-select #advw>
-                            <mat-form-field>
-                                <input matInput type="text" oninput="this.value = this.value.toUpperCase()" #auval
-                                    (input)="suggest(auval.value)" placeholder="Search">
-                            </mat-form-field>
-
-                            <mat-option [value]="option.admission_no" *ngFor="let option of suggestions">
-                                {{option.student_name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-sm-2 mt-3">
-                    <button class="btn btn-info btn-sm" type="button" [disabled]="feesCollectionForm.value.student_name"
-                        (click)="getStudent(advw.value)">Search<i class="fa fa-search ml-2"></i></button>
-                </div>
-            </div>
-            <form [formGroup]="feesCollectionForm" (ngSubmit)="FeesDeduction()">
-
-                <div class="row mt-3">
-                    <div class="col-sm-5" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Admission NO</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input #adno
-                                [ngClass]="{'is-invalid':feesCollectionForm.controls.admission_no.touched && feesCollectionForm.controls.admission_no.errors}"
-                                [readOnly]="feesCollectionForm.value.student_name"
-                                oninput="this.value = this.value.toUpperCase()" formControlName="admission_no"
-                                class="form-control" type="text" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-info btn-sm" type="button"
-                            [disabled]="feesCollectionForm.value.student_name" (click)="getStudent(adno.value)">Search<i
-                                class="fa fa-search ml-2"></i></button>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Class</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select formControlName="classid" style="width: 100%;" class="form-control">
-                                <option disabled value={{class.classid}} *ngFor="let class of ClassList;">
-                                    {{class.class_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div *ngIf="feesCollectionForm.value.groupid >0" class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Group</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select formControlName="groupid" style="width: 100%;" class="form-control">
-                                <option disabled value={{group.groupid}} *ngFor="let group of GroupList;">
-                                    {{group.group_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Section</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <select formControlName="sectionid" style="width: 100%;" class="form-control">
-                                <option disabled [ngValue]="section.sectionid" *ngFor="let section of SectionList;">
-                                    {{section.section_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">*</span></label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input readonly formControlName="batch_year" class="form-control" type="text" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Student Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input readonly formControlName="student_name" class="form-control" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input [readOnly]="feesCollectionForm.value.student_name" formControlName="date"
-                                class="form-control" type="Date" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Father Name</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input readonly formControlName="father_name" class="form-control" type="text">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Bill No</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <input readonly formControlName="bill_no" class="form-control" type="text" required>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 mt-3" style="display: flex;">
-                        <div style="float: left;width: 150px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">Payment Type</label>
-                        </div>
-                        <div style="float: left;width: 250px;">
-                            <div style="display: flex;">
-                                <div class="form-check">
-                                    <input formControlName="payment_type" value="cash" class="form-check-input"
-                                        style="width: 20px;height: 20px;" type="radio">
-                                    <label class="form-check-label h6 p-2">
-                                        Cash
-                                    </label>
-                                </div>
-                                <div class="form-check ml-5">
-                                    <input formControlName="payment_type" value="cheque_upi" class="form-check-input"
-                                        style="width: 20px;height: 20px;" type="radio" checked>
-                                    <label class="form-check-label h6 p-2">
-                                        Cheque / Upi
-                                    </label>
-                                </div>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Fee Collection">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">School Fees Collection</h3>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-sm-5 mt-3" style="display: flex;">
+                            <div style="float: left;width: 150px;text-align: left;">
+                                <label class="pt-2" style="margin: auto;">Class</label>
+                            </div>
+                            <div style="float: left;width: 250px;">
+                                <select #csid (change)="findName(csid.value)" style="width: 100%;" class="form-control">
+                                    <option selected disabled>Please select</option>
+                                    <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                        {{class.class_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 mt-3" style="display: flex;">
+                            <div style="float: left;width: 150px;text-align: left;">
+                                <label class="pt-2" style="margin: auto;">Name</label>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>Student Name</mat-label>
+                                <mat-select #advw>
+                                    <mat-form-field>
+                                        <input matInput type="text" oninput="this.value = this.value.toUpperCase()"
+                                            #auval (input)="suggest(auval.value)" placeholder="Search">
+                                    </mat-form-field>
 
-                <table class="col-sm-10 table table-bordered table-sm  m-5">
-                    <thead>
-                        <tr>
-                            <th><input (change)="toggleAllCheckboxes($event)" type="checkbox"
-                                    formControlName="select_all">
-                            <th>Fees Name</th>
-                            <th>Amount</th>
-                            <th>Balance</th>
-                            <th style="width: 150px;">Payable Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody formArrayName="arrearFees">
-                        <tr *ngFor="let chid of feesCollectionForm.get('arrearFees')['controls']; let a = index"
-                            formGroupName="{{a}}">
-                            <td><input formControlName="selected" (change)="updateSelectAllCheckboxArraer(a,$event)"
-                                    type="checkbox"></td>
-                            <td class="pt-3">{{chid.get('type_name').value}}</td>
-                            <td style="text-align: right;"> {{chid.get('amount').value}}</td>
-                            <td style="text-align: right;">
-                                {{chid.get('balance').value}}</td>
-                            <td><input (keypress)="numberOnly($event)" #arrearamount formControlName="deduction_amount"
-                                    (input)="arreartotal(a,arrearamount.value)"
-                                    [readOnly]="chid.get('selected').value == true " type="text" style="width: 150px;"
-                                    class="form-control text-right" /></td>
-                        </tr>
-                    </tbody>
+                                    <mat-option [value]="option.admission_no" *ngFor="let option of suggestions">
+                                        {{option.student_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
 
-                    <tbody formArrayName="generalFees">
-                        <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
-                            formGroupName="{{i}}">
-                            <td><input formControlName="selected" (change)="updateSelectAllCheckbox(i,$event)"
-                                    type="checkbox"></td>
-                            <td class="pt-3"><span style="color: red;"
-                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
-                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
-                                {{chid.get('type_name').value}}</td>
-                            <td style="text-align: right;">
-                                {{chid.get('amount').value}}</td>
-                            <td style="text-align: right;">
-                                {{chid.get('balance').value}}</td>
-                            <td><input (keypress)="numberOnly($event)" (input)="commontotal(i,commonamount.value)"
-                                    #commonamount formControlName="deduction_amount"
-                                    [readOnly]="chid.get('selected').value == true " type="text" style="width: 150px;"
-                                    class="form-control text-right" />
-                            </td>
-                        </tr>
-                    </tbody>
-
-                    <tbody formArrayName="busFeesList">
-                        <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
-                            formGroupName="{{j}}">
-                            <td><input formControlName="selected" (change)="updateSelectAllCheckboxByBus(j,$event)"
-                                    type="checkbox"></td>
-                            <td class="pt-3"><span style="color: red;"
-                                    *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
-                                    Fees-Batch:{{chid.get('batch_year').value}}<br></span>
-                                {{chid.get('vehicle_name').value}}</td>
-                            <td style="text-align: right;">
-                                {{chid.get('amount').value}}</td>
-                            <td style="text-align: right;">
-                                {{chid.get('balance').value}}</td>
-                            <td><input (keypress)="numberOnly($event)" (input)="bustotal(j,busamount.value)" #busamount
-                                    [readOnly]="chid.get('selected').value == true " formControlName="deduction_amount"
-                                    type="text" style="width: 150px;" class="form-control text-right" />
-                            </td>
-                        </tr>
-                    </tbody>
-
-                    <tbody>
-                        <tr>
-                            <td class="p-2"
-                                style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
-                                colspan="4">Total</td>
-                            <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
-                                    type="text" class="form-control text-right" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="col-sm-12 mt-5">
-                    <div style="text-align: center;">
-                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
-                        <input type="button" (click)="cancelclick()" style="width: 80px;"
-                            class="btn btn-primary btn-sm mr-2" value="Cancel" />
-                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
-                            value="Close" />
+                        <div class="col-sm-2 mt-3">
+                            <button class="btn btn-info btn-sm" type="button"
+                                [disabled]="feesCollectionForm.value.student_name"
+                                (click)="getStudent(advw.value)">Search<i class="fa fa-search ml-2"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
+                    <form [formGroup]="feesCollectionForm" (ngSubmit)="FeesDeduction()">
 
-    <mat-card class="mt-2 matcard mb-5">
-        <mat-card-content>
-            <div class="row">
-                <div class="col-sm-6 mt-3" style="display: flex;">
-                    <div style="float: left;width: 100px;text-align: left;">
-                        <label class="pt-2" style="margin: auto;">Date</label>
+                        <div class="row mt-3">
+                            <div class="col-sm-5" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Admission NO</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input #adno
+                                        [ngClass]="{'is-invalid':feesCollectionForm.controls.admission_no.touched && feesCollectionForm.controls.admission_no.errors}"
+                                        [readOnly]="feesCollectionForm.value.student_name"
+                                        oninput="this.value = this.value.toUpperCase()" formControlName="admission_no"
+                                        class="form-control" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-info btn-sm" type="button"
+                                    [disabled]="feesCollectionForm.value.student_name"
+                                    (click)="getStudent(adno.value)">Search<i class="fa fa-search ml-2"></i></button>
+                            </div>
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Class</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="classid" style="width: 100%;" class="form-control">
+                                        <option disabled value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div *ngIf="feesCollectionForm.value.groupid >0" class="col-sm-6 mt-3"
+                                style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="groupid" style="width: 100%;" class="form-control">
+                                        <option disabled value={{group.groupid}} *ngFor="let group of GroupList;">
+                                            {{group.group_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Section</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="sectionid" style="width: 100%;" class="form-control">
+                                        <option disabled [ngValue]="section.sectionid"
+                                            *ngFor="let section of SectionList;">
+                                            {{section.section_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Batch<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="batch_year" class="form-control" type="text"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Student Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="student_name" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Date<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input [readOnly]="feesCollectionForm.value.student_name" formControlName="date"
+                                        class="form-control" type="Date" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Father Name</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="father_name" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Bill No</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input readonly formControlName="bill_no" class="form-control" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Payment Type</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <div style="display: flex;">
+                                        <div class="form-check">
+                                            <input formControlName="payment_type" value="cash" class="form-check-input"
+                                                style="width: 20px;height: 20px;" type="radio">
+                                            <label class="form-check-label h6 p-2">
+                                                Cash
+                                            </label>
+                                        </div>
+                                        <div class="form-check ml-5">
+                                            <input formControlName="payment_type" value="cheque_upi"
+                                                class="form-check-input" style="width: 20px;height: 20px;" type="radio"
+                                                checked>
+                                            <label class="form-check-label h6 p-2">
+                                                Cheque / Upi
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="col-sm-10 table table-bordered table-sm  m-5">
+                            <thead>
+                                <tr>
+                                    <th><input (change)="toggleAllCheckboxes($event)" type="checkbox"
+                                            formControlName="select_all">
+                                    <th>Fees Name</th>
+                                    <th>Amount</th>
+                                    <th>Balance</th>
+                                    <th style="width: 150px;">Payable Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody formArrayName="arrearFees">
+                                <tr *ngFor="let chid of feesCollectionForm.get('arrearFees')['controls']; let a = index"
+                                    formGroupName="{{a}}">
+                                    <td><input formControlName="selected"
+                                            (change)="updateSelectAllCheckboxArraer(a,$event)" type="checkbox"></td>
+                                    <td class="pt-3">{{chid.get('type_name').value}}</td>
+                                    <td style="text-align: right;"> {{chid.get('amount').value}}</td>
+                                    <td style="text-align: right;">
+                                        {{chid.get('balance').value}}</td>
+                                    <td><input (keypress)="numberOnly($event)" #arrearamount
+                                            formControlName="deduction_amount"
+                                            (input)="arreartotal(a,arrearamount.value)"
+                                            [readOnly]="chid.get('selected').value == true " type="text"
+                                            style="width: 150px;" class="form-control text-right" /></td>
+                                </tr>
+                            </tbody>
+
+                            <tbody formArrayName="generalFees">
+                                <tr *ngFor="let chid of feesCollectionForm.get('generalFees')['controls']; let i = index"
+                                    formGroupName="{{i}}">
+                                    <td><input formControlName="selected" (change)="updateSelectAllCheckbox(i,$event)"
+                                            type="checkbox"></td>
+                                    <td class="pt-3"><span style="color: red;"
+                                            *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                            Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                        {{chid.get('type_name').value}}</td>
+                                    <td style="text-align: right;">
+                                        {{chid.get('amount').value}}</td>
+                                    <td style="text-align: right;">
+                                        {{chid.get('balance').value}}</td>
+                                    <td><input (keypress)="numberOnly($event)"
+                                            (input)="commontotal(i,commonamount.value)" #commonamount
+                                            formControlName="deduction_amount"
+                                            [readOnly]="chid.get('selected').value == true " type="text"
+                                            style="width: 150px;" class="form-control text-right" />
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody formArrayName="busFeesList">
+                                <tr *ngFor="let chid of feesCollectionForm.get('busFeesList')['controls']; let j = index"
+                                    formGroupName="{{j}}">
+                                    <td><input formControlName="selected"
+                                            (change)="updateSelectAllCheckboxByBus(j,$event)" type="checkbox"></td>
+                                    <td class="pt-3"><span style="color: red;"
+                                            *ngIf="newgetbatch != chid.get('batch_year').value">Arrear
+                                            Fees-Batch:{{chid.get('batch_year').value}}<br></span>
+                                        {{chid.get('vehicle_name').value}}</td>
+                                    <td style="text-align: right;">
+                                        {{chid.get('amount').value}}</td>
+                                    <td style="text-align: right;">
+                                        {{chid.get('balance').value}}</td>
+                                    <td><input (keypress)="numberOnly($event)" (input)="bustotal(j,busamount.value)"
+                                            #busamount [readOnly]="chid.get('selected').value == true "
+                                            formControlName="deduction_amount" type="text" style="width: 150px;"
+                                            class="form-control text-right" />
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody>
+                                <tr>
+                                    <td class="p-2"
+                                        style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
+                                        colspan="4">Total</td>
+                                    <td style="width: 150px;"><input formControlName="total_amount" readonly
+                                            style="color:red;" type="text" class="form-control text-right" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="col-sm-12 mt-5">
+                            <div style="text-align: center;">
+                                <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm"
+                                    value="Save" />
+                                <input type="button" (click)="cancelclick()" style="width: 80px;"
+                                    class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm"
+                                    (click)="backButton()" value="Close" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div style="float: left;width: 100px;text-align: left;">
+                                <label class="pt-2" style="margin: auto;">Date</label>
+                            </div>
+                            <div style="float: left;width: 250px;">
+                                <input #dtv (change)="refreshRecentFeesCollectionList(dtv.value)" class="form-control"
+                                    type="Date">
+                            </div>
+                        </div>
                     </div>
-                    <div style="float: left;width: 250px;">
-                        <input #dtv (change)="refreshRecentFeesCollectionList(dtv.value)" class="form-control"
-                            type="Date">
-                    </div>
-                </div>
-            </div>
-            <table class="table table-striped mt-1">
-                <thead>
-                    <tr>
-                        <th scope="col">Si.No</th>
-                        <th scope="col">Admission No</th>
-                        <th scope="col">Name</th>
-                        <th>Class</th>
-                        <th>Group</th>
-                        <th>Section</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Bill No</th>
-                        <th>Total Amount</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of FeesCollectionList;let i=index">
-                        <th scope="row">{{i+1}}</th>
-                        <td>{{item.admission_no}}</td>
-                        <td>{{item.student_name}}</td>
-                        <td>{{item.class_name}}</td>
-                        <td>{{item.group_name}}</td>
-                        <td>{{item.section_name}}</td>
-                        <td>{{item.date}}</td>
-                        <td>{{item.bill_no}}</td>
-                        <td>{{item.total_amount}}</td>
-                        <td>
-                            <button (click)="previewClick(item)" type="button"
-                                class="btn btn-primary btn-sm mr-2 cursor-pointer"
-                                style="cursor: pointer;">Preview</button>
-                            <button (click)="editClick(item)" type="button" class="btn btn-dark btn-sm cursor-pointer"
-                                style="cursor: pointer;">Edit <i class="fa fa-pencil ml-2"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </mat-card-content>
-    </mat-card>
-</div>
+                    <table class="table table-striped mt-1">
+                        <thead>
+                            <tr>
+                                <th scope="col">Si.No</th>
+                                <th scope="col">Admission No</th>
+                                <th scope="col">Name</th>
+                                <th>Class</th>
+                                <th>Group</th>
+                                <th>Section</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Bill No</th>
+                                <th>Total Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of FeesCollectionList;let i=index">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{item.admission_no}}</td>
+                                <td>{{item.student_name}}</td>
+                                <td>{{item.class_name}}</td>
+                                <td>{{item.group_name}}</td>
+                                <td>{{item.section_name}}</td>
+                                <td>{{item.date}}</td>
+                                <td>{{item.bill_no}}</td>
+                                <td>{{item.total_amount}}</td>
+                                <td>
+                                    <button (click)="previewClick(item)" type="button"
+                                        class="btn btn-primary btn-sm mr-2 cursor-pointer"
+                                        style="cursor: pointer;">Preview</button>
+                                    <button (click)="editClick(item)" type="button"
+                                        class="btn btn-dark btn-sm cursor-pointer" style="cursor: pointer;">Edit <i
+                                            class="fa fa-pencil ml-2"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Fee concession"><app-fee-concession></app-fee-concession></mat-tab>
+</mat-tab-group>

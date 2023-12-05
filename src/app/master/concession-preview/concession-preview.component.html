@@ -1,9 +1,9 @@
 <div id="_print_section" class="container containercss">
-    <div class="row align-items-start">
-        <div class="col-sm-3">
-            <img class="image" src="../../../assets/aimlogo.jpeg" style="width: 120px;">
+    <div class="row">
+        <div class="col-sm-2">
+            <img class="image" src="../../../assets/aimlogo.jpeg" style="width: 100px;">
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <span style="text-align: center;">
                 <h2 style="color: blue;">AIM MATRIC.HR. SEC. SCHOOL</h2>
                 <p style="color: blue;">Chetpet Road, Aagaram,
@@ -17,7 +17,7 @@
                 svgIcon="closesvg"></mat-icon>
         </div>
     </div>
-
+   
     <div class="row">
         <div class="col-sm-6">
             <div class="container">
@@ -115,19 +115,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Payment Mode</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{getPaymentType(studentDetails.payment_type)}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="row">
@@ -160,13 +147,14 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-bordered table-sm">
+            <table  id="myTable" class="table table-bordered table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Si.No</th>
                         <th scope="col">Description</th>
                         <th style="text-align: right;">Amount</th>
                         <th>Balance</th>
+                        <th>Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -175,6 +163,7 @@
                         <td>{{item.type_name}}</td>
                         <td style="text-align: right;">{{item.deduction_amount}}</td>
                         <td style="text-align: right;">{{item.balance}}</td>
+                        <td>{{item.remarks}}</td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: right;">Total</td>
@@ -200,9 +189,8 @@
             <button class="btn btn-primary btn-sm" style="width: 80px;" id="print-btn" color="primary"
                 printSectionId="_print_section" ngxPrint [useExistingCss]="true">
                 Print<i class="fa fa-print ml-2"></i>
-            </button>
-
-            <button class="btn btn-info ml-2 btn-sm" (click)="exportToExcel()">Download to
+            </button>            
+            <button  (click)="exportToExcel()" class="btn btn-info ml-2 btn-sm" >Download to
                 Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
         </div>
     </div>

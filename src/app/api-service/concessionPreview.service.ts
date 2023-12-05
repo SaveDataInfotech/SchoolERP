@@ -1,18 +1,17 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { PreviewFeesDialogComponentComponent } from "../master/preview-fees-dialog-component/preview-fees-dialog-component.component";
-
+import { ConcessionPreviewComponent } from "../master/concession-preview/concession-preview.component";
 
 @Injectable({
     providedIn: 'root'
 })
-export class PreviewFeesDialogService {
+export class concessionPreviewDialogService {
 
     constructor(private dialog: MatDialog) { }
 
     openConfirmDialog(generalFee: any, busFee: any, arrearFee, value) {
         debugger;
-        return this.dialog.open(PreviewFeesDialogComponentComponent, {
+        return this.dialog.open(ConcessionPreviewComponent, {
             width: '620px',
             maxHeight: '650px',
             panelClass: 'confirm-dialog-container',

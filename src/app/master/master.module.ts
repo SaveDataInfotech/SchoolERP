@@ -37,6 +37,7 @@ import { StaffCategoryComponent } from './staff-category/staff-category.componen
 import { PreviewFeesDialogComponentComponent } from './preview-fees-dialog-component/preview-fees-dialog-component.component';
 import { NgxPrintModule } from 'ngx-print';
 import { SchoolfeeEditComponent } from './schoolfee-edit/schoolfee-edit.component';
+import { ConcessionPreviewComponent } from './concession-preview/concession-preview.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { SchoolfeeEditComponent } from './schoolfee-edit/schoolfee-edit.componen
     StaffCategoryComponent,
     PreviewFeesDialogComponentComponent,
     SchoolfeeEditComponent,
+    ConcessionPreviewComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

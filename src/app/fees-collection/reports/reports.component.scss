@@ -21,7 +21,7 @@ h3 {
     width: 100%;
     /* Full width for A4 */
     padding: 10px;
-    font-size: 25px;
+    font-size: 22px;
     /* Set font size for better readability */
   }
 
@@ -38,18 +38,19 @@ h3 {
 
   .table-bordered th,
   .table-bordered td {
-    height: 5px;
+    //height: 5px;
     border: 1px solid #000;
     /* Set border style and thickness */
-    padding: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
     /* Adjust cell padding */
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .table-bordered th {
     background-color: #f2f2f2;
     /* Set header background color */
-    font-size: 25px;
+    font-size: 22px;
   }
 
   /* Truncate long text if needed */

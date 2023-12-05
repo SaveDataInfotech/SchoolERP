@@ -21,6 +21,7 @@ import { NgxPrintModule } from 'ngx-print';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
+import { FeeConcessionComponent } from './fee-concession/fee-concession.component';
 @NgModule({
   declarations: [
     StudentFeesComponent,
@@ -28,7 +29,8 @@ import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-
     ReportsComponent,
     ExpenseEntryComponent,
     UniformBillingComponent,
-    TotalbalanceReportComponent
+    TotalbalanceReportComponent,
+    FeeConcessionComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,

@@ -15,6 +15,7 @@ export class FeescollectionService {
   }
 
   RecentFeesCollectionList(value): Observable<any[]> {
+    debugger;
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value);
   }
 
