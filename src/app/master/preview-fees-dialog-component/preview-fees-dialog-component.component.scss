@@ -11,36 +11,22 @@
 @media print {
     @page {
         size: A4 portrait;
-        /* Set page size to A4 */
         margin: 8mm;
-        /* Adjust margins as needed */
     }
 
-
-
-    /* Modify container width and other styles */
     .containercss {
         width: 70%;
-        /* Full width for A4 */
         padding: 30px;
         font-size: 30px;
         font-weight: 900;
-        /* Increase font size for better readability */
     }
 
-
-    /* Adjust table cell height */
     .table-sm th,
     .table-sm td {
         padding: 0.2rem;
-        /* Increase table cell padding */
         height: 60px;
-        /* Increase table row height */
         border-width: 2px;
-        /* Increase border thickness */
         border-style: solid;
-        /* Set border style */
-
         font-size: 30px;
     }
 
@@ -48,25 +34,22 @@
     .col-sm-12,
     .col-sm-6 {
         margin: 0px;
-
         font-size: 30px;
     }
 
-    .row {
-        margin-top: 5px;
-    }
-
     .image {
-        width: 600px;
-        height: 110px;
-        margin-left: 200px;
-        //object-fit: fill;
+        width: 400px;
+        height: 150px;
+        margin-left: 300px;
     }
 
-    /* Truncate long text if needed */
     .truncate-text {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    .divcontwo {
+        margin: 30px;
     }
 }

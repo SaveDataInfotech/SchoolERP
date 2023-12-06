@@ -9,57 +9,37 @@ h3 {
 }
 
 @media print {
-  @page {
-    size: A4 portrait;
-    /* Set page size to A4 */
-    margin: 5mm;
-    /* Adjust margins as needed */
+  body {
+    margin: 0;
+    padding: 0;
   }
-
-  /* Modify container width and other styles */
-  .containercss {
-    width: 100%;
-    /* Full width for A4 */
-    padding: 10px;
-    font-size: 22px;
-    /* Set font size for better readability */
-  }
-
-  .table {
-    width: 70%;
+  
+  .container-fluid {
+    width: 210mm; /* A4 width */
+    height: 297mm; /* A4 height */
     margin: auto;
   }
-
-  /* Adjust table styles */
-  .table-bordered {
-    border-collapse: collapse;
+  
+  .mat-card {
     width: 100%;
+    box-shadow: none;
+    border: none;
+    padding: 0;
   }
-
-  .table-bordered th,
-  .table-bordered td {
-    //height: 5px;
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
     border: 1px solid #000;
-    /* Set border style and thickness */
     padding-left: 25px;
     padding-right: 25px;
-    /* Adjust cell padding */
+    height: 30px; /* Increased row height */
     font-size: 22px;
-  }
-
-  .table-bordered th {
-    background-color: #f2f2f2;
-    /* Set header background color */
-    font-size: 22px;
-  }
-
-  /* Truncate long text if needed */
-  .truncate-text {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  .heading{
-    display: inline;
+    text-align: left;
   }
 }

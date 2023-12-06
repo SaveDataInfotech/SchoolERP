@@ -1,0 +1,101 @@
+<div class="container-fluid mt-4">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-12" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">Fees Transaction</h3>
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="feesTransactionForm" (ngSubmit)="searchTransaction()">
+                <div class="row mt-3">
+                    <div class="col-sm-4" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: right;">
+                            <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':feesTransactionForm.controls.fromdate.touched && feesTransactionForm.controls.fromdate.errors}"
+                                formControlName="fromdate" class="form-control" type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" style="display: flex;">
+                        <div style="float: left;width: 100px;text-align: right;">
+                            <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':feesTransactionForm.controls.todate.touched && feesTransactionForm.controls.todate.errors}"
+                                formControlName="todate" class="form-control" type="date" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mt-1">
+                        <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
+                                class="fa fa-search ml-2"></i></button>
+                        <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div style="float: right;" class="row mr-3 text-danger">
+                <p>{{feeTransactionList.length}} rows</p>
+                <!-- <button (click)="scrollToBottom()" class="scroll-btn bottom" style="cursor: pointer;">
+                    <i class="fa fa-arrow-down"></i>
+                </button> -->
+            </div>
+
+            <div #tableRef class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Si.No</th>
+                            <th scope="col">Admission No</th>
+                            <th scope="col">Name</th>
+                            <th>Class</th>
+                            <th>Group</th>
+                            <th>Section</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Bill No</th>
+                            <th>Total Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of feeTransactionList;let i=index">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{item.admission_no}}</td>
+                            <td>{{item.student_name}}</td>
+                            <td>{{item.class_name}}</td>
+                            <td>{{item.group_name}}</td>
+                            <td>{{item.section_name}}</td>
+                            <td>{{item.date}}</td>
+                            <td>{{item.bill_no}}</td>
+                            <td>{{item.total_amount}}</td>
+                            <td>
+                                <button (click)="previewClick(item)" type="button"
+                                    class="btn btn-primary btn-sm mr-2 cursor-pointer"
+                                    style="cursor: pointer;">Preview</button>
+                                <button (click)="editClick(item)" type="button"
+                                    class="btn btn-dark btn-sm cursor-pointer" style="cursor: pointer;">Edit <i
+                                        class="fa fa-pencil ml-2"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="feeTransactionList.length" class="row mr-5" style="float: right;">
+                    <button (click)="scrollToTop()" class="scroll-btn top" style="cursor: pointer;">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

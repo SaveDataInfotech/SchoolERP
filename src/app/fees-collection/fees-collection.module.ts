@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 import { FeeConcessionComponent } from './fee-concession/fee-concession.component';
+import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
 @NgModule({
   declarations: [
     StudentFeesComponent,
@@ -30,7 +31,8 @@ import { FeeConcessionComponent } from './fee-concession/fee-concession.componen
     ExpenseEntryComponent,
     UniformBillingComponent,
     TotalbalanceReportComponent,
-    FeeConcessionComponent
+    FeeConcessionComponent,
+    FeesTransactionComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,

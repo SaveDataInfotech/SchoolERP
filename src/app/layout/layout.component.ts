@@ -268,14 +268,14 @@ export class LayoutComponent implements OnInit {
           link_name: "Uniform Billing",
           link: "fees_collection/uniform_bill",
         },
-        {
-          link_name: "Hostel Fees Collection",
-          link: "fees_collection/student_hostel_fees",
-        },
-        {
-          link_name: "Expense Entry",
-          link: "fees_collection/expense-entry",
-        },
+        // {
+        //   link_name: "Hostel Fees Collection",
+        //   link: "fees_collection/student_hostel_fees",
+        // },
+        // {
+        //   link_name: "Expense Entry",
+        //   link: "fees_collection/expense-entry",
+        // },
         {
           link_name: "Fees Collection Reports",
           link:"fees_collection/reports",          
@@ -283,6 +283,10 @@ export class LayoutComponent implements OnInit {
         {
           link_name: "Total Balance Reports",
           link:"fees_collection/totalbalance_reports",          
+        },
+        {
+          link_name: "Fees Transaction",
+          link:"fees_collection/fee_transaction",          
         }
       ]
     },

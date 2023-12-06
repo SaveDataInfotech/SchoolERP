@@ -18,178 +18,181 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Admission No</label>
+    <div class="divcontwo">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Admission No</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.admission_no}}</label>
+                        </div>
                     </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.admission_no}}</label>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Bill No</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.bill_no}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Bill No</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.bill_no}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;" class="truncate-text">
-                        <label style="font-weight: bold;">Student Name</label>
-                    </div>
-                    <div style="width: 50%;" class="truncate-text">
-                        <label>{{studentDetails.student_name}}</label>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;" class="truncate-text">
+                            <label style="font-weight: bold;">Student Name</label>
+                        </div>
+                        <div style="width: 63%;" class="truncate-text">
+                            <label>{{studentDetails.student_name}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Date</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.date}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Class</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.class_name}}</label>
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Date</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.date}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Father Name</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.father_name}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Section</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.section_name}}</label>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Class</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.class_name}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Payment Mode</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{getPaymentType(studentDetails.payment_type)}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Group</label>
-                    </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.group_name}}</label>
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Father Name</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.father_name}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6">
-            <div class="container">
-                <div class="row">
-                    <div style="width: 50%;">
-                        <label style="font-weight: bold;">Batch</label>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Section</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.section_name}}</label>
+                        </div>
                     </div>
-                    <div style="width: 50%;">
-                        <label>{{studentDetails.batch_year}}</label>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Payment Mode</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{getPaymentType(studentDetails.payment_type)}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-bordered table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Si.No</th>
-                        <th scope="col">Description</th>
-                        <th style="text-align: right;">Amount</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of generalFee;let i=index">
-                        <th scope="row">{{i+1}}</th>
-                        <td>{{item.type_name}}</td>
-                        <td style="text-align: right;">{{item.deduction_amount}}</td>
-                        <td style="text-align: right;">{{item.balance}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: right;">Total</td>
-                        <td style="width: 150px;text-align: right;">{{studentDetails.total_amount}}</td>
-                    </tr>
-                    <tr>
-                        <td class="capitalize" colspan="3" style="font-weight: bold;">{{amountInWords}} Rupees only</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Group</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.group_name}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="container">
+                    <div class="row">
+                        <div style="width: 37%;">
+                            <label style="font-weight: bold;">Batch</label>
+                        </div>
+                        <div style="width: 63%;">
+                            <label>{{studentDetails.batch_year}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 mt-1 d-flex justify-content-end">
-            <h3>Authorised Signature</h3>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Si.No</th>
+                            <th scope="col">Description</th>
+                            <th style="text-align: right;">Amount</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of generalFee;let i=index">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{item.type_name}}</td>
+                            <td style="text-align: right;">{{item.deduction_amount}}</td>
+                            <td style="text-align: right;">{{item.balance}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: right;">Total</td>
+                            <td style="width: 150px;text-align: right;">{{studentDetails.total_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="capitalize" colspan="3" style="font-weight: bold;">{{amountInWords}} Rupees only
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 mt-1 d-flex justify-content-end">
+                <h3>Authorised Signature</h3>
+            </div>
         </div>
     </div>
 </div>

@@ -646,41 +646,43 @@ export class StudentFeesComponent implements OnInit {
 
 
   async FeesDeduction() {
-    debugger;
-    await this.getMaxId();
-    this.feesCollSvc.RecentFeesCollectionList(this.today).subscribe(data => {
-      debugger;
-      this.FeesCollectionList = data;
-      const CheckBillNo = this.FeesCollectionList.filter((e) => { return e.bill_no == this.feesCollectionForm.value.bill_no });
-      if (CheckBillNo.length == 0) {
+    try {     
+      await this.getMaxId();
+      const data = await this.feesCollSvc.RecentFeesCollectionList(this.today).toPromise();
+      this.FeesCollectionList = data
+      const CheckBillNo = this.FeesCollectionList.filter((e) => e.bill_no === this.feesCollectionForm.value.bill_no);
+      if (CheckBillNo.length === 0) {
         if (this.feesCollectionForm.valid) {
-          var feesInsert = (this.feesCollectionForm.value);
-          this.DialogSvc.openConfirmDialog('Are you sure want to Save?')
-            .afterClosed().subscribe(res => {
-              if (res == true) {
-                this.feesCollSvc.studentFeesDeduction(feesInsert).subscribe(res => {
-                  if (res.status == 'Insert Success') {
-                    this.notificationSvc.success("Saved Success");
-                    this.getMaxId();
-                    this.cancelclick();
-                    this.refreshRecentFeesCollectionList(this.today);
-                  }
-                  else {
-                    this.notificationSvc.error("Something error")
-                  }
-                });
+          const feesInsert = this.feesCollectionForm.value;
+          const confirmDialog = await this.DialogSvc.openConfirmDialog('Are you sure want to Save?').afterClosed().toPromise();
+          if (confirmDialog === true) {
+            const res = await this.feesCollSvc.studentFeesDeduction(feesInsert).toPromise();
+            if (res.status === 'Insert Success') {
+              this.notificationSvc.success("Saved Success");
+              const admissionNo = this.feesCollectionForm.value.admission_no;
+              const billNo = this.feesCollectionForm.value.bill_no;
+              await this.getMaxId();
+              await this.cancelclick();
+              const data = await this.feesCollSvc.RecentFeesCollectionList(this.today).toPromise();
+              const billData = data.filter((e) => e.admission_no === admissionNo && e.bill_no === billNo);
+              if (billData) {
+                this.previewClick(billData[0]);
               }
-            });
+            } else {
+              this.notificationSvc.error("Something error");
+            }
+          }
         } else {
           this.feesCollectionForm.markAllAsTouched();
-          this.notificationSvc.error("Fill in the mandatory fileds");
+          this.notificationSvc.error("Fill in the mandatory fields");
         }
-      }
-      else {
-        this.getMaxId()
+      } else {
+        this.getMaxId();
         this.notificationSvc.error("Already have the bill number so I changed it - please save again");
       }
-    });
+    } catch (error) {
+      this.notificationSvc.error("Error occurred:", error);
+    }
   }
 
   async previewClick(value: any): Promise<void> {
@@ -703,7 +705,7 @@ export class StudentFeesComponent implements OnInit {
       });
   }
 
-  cancelclick(): void {
+  async cancelclick() {
     this.feesCollectionForm.reset();
     this.feesCollectionForm.get('date')?.setValue(this.today);
     this.feesCollectionForm.get('payment_type')?.setValue('cash');
