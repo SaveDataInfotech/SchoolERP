@@ -1,0 +1,176 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Fees Transaction">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Fees Transaction</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="dayWiseCollectionForm" (ngSubmit)="searchReport()">
+                        <div class="row mt-3">
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':dayWiseCollectionForm.controls.fromdate.touched && dayWiseCollectionForm.controls.fromdate.errors}"
+                                        formControlName="fromdate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':dayWiseCollectionForm.controls.todate.touched && dayWiseCollectionForm.controls.todate.errors}"
+                                        formControlName="todate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 mt-1">
+                                <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
+                                        class="fa fa-search ml-2"></i></button>
+                                <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row mr-5" style="float: right;">
+                        <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                            printSectionId="day_wise_collection_print" ngxPrint [useExistingCss]="true">
+                            Print <i class="fa fa-print ml-2"></i></button>
+                        <button (click)="exportDayWiseExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                            Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                    </div>
+                    <div id="day_wise_collection_print" #tableRef class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Date</th>
+                                    <th>Admission Fee</th>
+                                    <th>Tuition Fee</th>
+                                    <th>Other Fee LKG To</th>
+                                    <th>XI , XII</th>
+                                    <th>Total Other Fee KG TO XII</th>
+                                    <th>Buss Fee</th>
+                                    <th>Arrear Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let date of dateList;let i=index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{date}}</td>
+                                    <td>{{getAdmissionAmount(date)}}</td>
+                                    <td>{{getTuitionAmount(date)}}</td>
+                                    <td>{{getOtherKGToAmount(date)}}</td>
+                                    <td>{{getOtherHSAmount(date)}}</td>
+                                    <td>{{getOtherTotalAmount(date)}}</td>
+                                    <td>{{getBusAmount(date)}}</td>
+                                    <td>{{getArrearAmount(date)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div *ngIf="dateList.length" class="row mr-5" style="float: right;">
+                            <button (click)="scrollToTop()" class="scroll-btn top" style="cursor: pointer;">
+                                <i class="fa fa-arrow-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Fees Collection">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Fees Collection</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="dayWisetotalCollectionForm" (ngSubmit)="searchTotalReport()">
+                        <div class="row mt-3">
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':dayWisetotalCollectionForm.controls.fromdate.touched && dayWisetotalCollectionForm.controls.fromdate.errors}"
+                                        formControlName="fromdate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':dayWisetotalCollectionForm.controls.todate.touched && dayWisetotalCollectionForm.controls.todate.errors}"
+                                        formControlName="todate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 mt-1">
+                                <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
+                                        class="fa fa-search ml-2"></i></button>
+                                <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row mr-5" style="float: right;">
+                        <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                            printSectionId="day_wise_total_collection_print" ngxPrint [useExistingCss]="true">
+                            Print <i class="fa fa-print ml-2"></i></button>
+                        <button (click)="exportDayWiseTotalExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                            Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                    </div>
+                    <div id="day_wise_total_collection_print" class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Date</th>
+                                    <th>FEE TYPE</th>
+                                    <th>CASH</th>
+                                    <th>CHEQUE / UPI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of totalCollectionList;let i=index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{item.date}}</td>
+                                    <td>{{item.type_name}}</td>
+                                    <td>{{item.cash}}</td>
+                                    <td>{{item.cheque_upi}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

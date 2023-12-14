@@ -23,6 +23,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 import { FeeConcessionComponent } from './fee-concession/fee-concession.component';
 import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
+import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewise-feecollection.component';
 @NgModule({
   declarations: [
     StudentFeesComponent,
@@ -32,7 +33,8 @@ import { FeesTransactionComponent } from './fees-transaction/fees-transaction.co
     UniformBillingComponent,
     TotalbalanceReportComponent,
     FeeConcessionComponent,
-    FeesTransactionComponent
+    FeesTransactionComponent,
+    DatewiseFeecollectionComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,

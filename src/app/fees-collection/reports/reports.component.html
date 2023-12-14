@@ -107,6 +107,10 @@
           </form>
 
           <div class="col-sm-12 d-flex justify-content-end mt-5">
+            <div class="pl-3" style="display: flex;">
+              <input (click)="mobile($event)" type="checkbox" style="width: 17px; height: 17px;">
+              <label class="h6 text-dark ml-1">Phone<i class="fa fa-phone ml-2"></i></label>
+            </div>
             <div *ngFor="let item of FeesListOutStanding" class="pl-3" style="display: flex;">
               <input type="checkbox" style="width: 17px;height: 17px;" [(ngModel)]="item.checked"
                 (change)="updateCheckedItems(item)">
@@ -134,12 +138,13 @@
             </div>
           </div>
           <div id="_print_section" class="container containercss table-responsive">
-            <table class="col-sm-12 table table-hover table-bordered table-sm mt-3">
+            <table class="table table-hover table-bordered table-sm">
               <thead>
                 <tr style="color:blue;">
                   <th>Si.NO</th>
                   <th>Name</th>
                   <th>Admission NO</th>
+                  <th *ngIf="mobileNO">Phone</th>
                   <ng-container *ngFor="let item of checkedItems">
                     <th [attr.colspan]="colspanValue">{{ item.type_name }}</th>
                   </ng-container>
@@ -151,6 +156,7 @@
                   <th></th>
                   <th></th>
                   <th></th>
+                  <th *ngIf="mobileNO"></th>
                   <ng-container *ngFor="let item of checkedItems">
                     <th style="color: green;" *ngIf="spaid">Paid</th>
                     <th style="color: red;" *ngIf="sbalance">Balance</th>
@@ -167,6 +173,7 @@
                   <td>{{i+1}}</td>
                   <td>{{item.student_name}}</td>
                   <td>{{item.admission_no}}</td>
+                  <td *ngIf="mobileNO">{{item.f_ph}}</td>
                   <ng-container *ngFor="let nestitem of checkedItems">
                     <td *ngIf="spaid" style="color: green;">{{getPaidAmount(nestitem.typeid,i)}}</td>
                     <td *ngIf="sbalance" style="color: red;">{{getBalanceAmount(nestitem.typeid,i)}}</td>

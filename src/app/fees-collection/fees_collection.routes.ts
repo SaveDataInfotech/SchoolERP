@@ -6,6 +6,7 @@ import { ExpenseEntryComponent } from './expense-entry/expense-entry.component';
 import { UniformBillingComponent } from './uniform-billing/uniform-billing.component';
 import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
+import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewise-feecollection.component';
 
 
 export const feescollectionRoutes: Routes = [
@@ -13,6 +14,22 @@ export const feescollectionRoutes: Routes = [
   {
     path: 'student_fees',
     component: StudentFeesComponent,
+  },
+  {
+    path: "fee_transaction",
+    component: FeesTransactionComponent,
+  },
+  {
+    path: "reports",
+    component: ReportsComponent,
+  },
+  {
+    path: "day_wise_collection",
+    component: DatewiseFeecollectionComponent,
+  },
+  {
+    path: "totalbalance_reports",
+    component: TotalbalanceReportComponent,
   },
   {
     path: 'uniform_bill',
@@ -25,19 +42,5 @@ export const feescollectionRoutes: Routes = [
   {
     path: 'expense-entry',
     component: ExpenseEntryComponent,
-  },
-  {
-    path: "reports",
-    component: ReportsComponent,
-  },
-  {
-    path: "totalbalance_reports",
-    component: TotalbalanceReportComponent,
-  },
-  {
-    path: "fee_transaction",
-    component: FeesTransactionComponent,
   }
-
-
 ];

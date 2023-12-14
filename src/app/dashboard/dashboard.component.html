@@ -1,1 +1,66 @@
-<h3 style="color: blue;font-family: 'Courier New', Courier, monospace;font-size: 20px;">Dashboard...</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 mt-1">
+            <mat-card class="matcard"
+                style="border-bottom: 3px solid rgb(8, 54, 179);box-shadow: 0px 0px 9px 1px rgb(174, 215, 235);">
+                <mat-card-header>
+                    <mat-card-subtitle>Total number of students</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div style="display: flex;"><mat-icon style="height: 30px;width: 80px;color: rgb(5, 161, 213);"
+                            svgIcon="student"></mat-icon>
+                        <h1 style="text-align: center;"><b>{{studentCount}}</b></h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-sm-3 mt-1">
+            <mat-card class="matcard"
+                style="border-bottom: 3px solid rgb(243, 6, 160);box-shadow: 0px 0px 9px 1px rgb(174, 215, 235);">
+                <mat-card-header>
+                    <mat-card-subtitle>Students attendance</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <label style="width: 50%;"><b style="color: rgb(5, 161, 213)">FN</b>
+                        <h3 style="text-align: center;"><b>{{studentCount}}/{{studentCount}}</b></h3>
+                    </label>
+                    <label style="width: 50%;"><b style="color: rgb(5, 161, 213)">AN</b>
+                        <h3 style="text-align: center;"><b>{{studentCount}}/{{studentCount}}</b></h3>
+                    </label>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-sm-3 mt-1">
+            <mat-card class="matcard"
+                style="border-bottom: 3px solid green;box-shadow: 0px 0px 9px 1px rgb(174, 215, 235);">
+                <mat-card-header>
+                    <mat-card-subtitle>Amount collected today</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <h1 style="text-align: center;"><mat-icon
+                            style="float: left;font-size: 40px;color: green;">keyboard_arrow_up</mat-icon><b>
+                            <div>
+                                {{ todayCollectedAmount | currency: 'INR' }}
+                            </div>
+                        </b></h1>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- <div class="col-sm-3 mt-1">
+            <mat-card class="matcard"
+                style="border-bottom: 3px solid orangered;box-shadow: 0px 0px 9px 1px rgb(174, 215, 235);">
+                <mat-card-header>
+                    <mat-card-subtitle>Amount still to be paid</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <h1 style="text-align: center;"><mat-icon
+                            style="float: left;font-size: 40px;color: orangered;">keyboard_arrow_down</mat-icon><b>
+                            {{ total_balance_amount | currency: 'INR' }}</b></h1>
+                </mat-card-content>
+            </mat-card>
+        </div> -->
+    </div>
+</div>

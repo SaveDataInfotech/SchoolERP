@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { userProfileService } from '../api-service/userProfile.service';
 @Component({
   selector: 'layout',
   templateUrl: 'layout.component.html',
@@ -10,13 +10,31 @@ import { Router } from '@angular/router';
 
 export class LayoutComponent implements OnInit {
   condition: boolean = true;
-  username: any = localStorage.getItem("userid")
+  userID: any = localStorage.getItem("userid");
+  mainMenu: any;
+  subMenu: any;
+  filteredMenu: any[];
+  userName: string;
+  userList: any[] = [];
+  constructor(private router: Router,
+    private userSvc: userProfileService) { }
 
-  constructor(private router: Router) { }
-
-  ngOnInit() { console.log('current Application Login Role:::' + this.currentLoginRole) }
-
-  currentLoginRole: any = localStorage.getItem("rolename")
+  ngOnInit() {
+    this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
+      this.userList = data;
+      if (this.userList) {
+        this.mainMenu = this.userList[0].main_menus
+        this.subMenu = this.userList[0].sub_menus
+        this.userName = this.userList[0].user_name
+        this.filteredMenu = this.AdminmenuSidebar
+          .filter(menu => this.mainMenu.includes(menu.value))
+          .map(menu => {
+            const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
+            return { ...menu, sub_menu: filteredSubmenu };
+          });
+      }
+    });
+  }
 
   openSidebar: boolean = true;
   routerLink = "/login"
@@ -25,88 +43,22 @@ export class LayoutComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-  superAdminmenuSidebar = [
-    {
-      link_name: "Dashboard",
-      link: "dashboard",
-      icon: "bx bx-grid-alt",
-      sub_menu: []
-    },
-    {
-      link_name: "schedule",
-      link: "schedule/schedule",
-      icon: "studentdetails",
-      sub_menu: [
-        // {
-        //   link_name:"schedule",
-        //   link:"schedule/schedule",
-        // },
-      ]
-    },
-    {
-      link_name: "Student Details",
-      link: null,
-      icon: "studentdetails",
-      sub_menu: [
-        {
-          link_name: "Student Enquiry",
-          link: "student/student_enquiry",
-        },
-        {
-          link_name: "Student Profile",
-          link: "student/student_profile",
-        },
-        {
-          link_name: "Edit Student",
-          link: "student/student_update",
-        },
-        {
-          link_name: "Student Attendance",
-          link: "student/student_attendance",
-        },
-        {
-          link_name: "Student Mark Entry",
-          link: "student/student_mark_entry",
-        },
-        {
-          link_name: "Student Tc Apply",
-          link: "student/student_tc_applie",
-        },
-        {
-          link_name: "Student Promote",
-          link: "student/student_promote",
-        },
-        {
-          link_name: "Student Reports",
-          link: "student/reports",
-        }
-
-      ]
-    },
-    {
-      link_name: "User",
-      link: "user/user",
-      icon: "studentdetails",
-      sub_menu: [
-        // {
-        //   link_name:"schedule",
-        //   link:"schedule/schedule",
-        // },
-      ]
-    },]
-
 
   AdminmenuSidebar = [
     {
       link_name: "Dashboard",
       link: "dashboard/dashboard",
       icon: "bx bx-grid-alt",
+      isselect: false,
+      value: 1,
       sub_menu: []
     },
     {
       link_name: "schedule",
       link: "schedule/schedule",
       icon: "studentdetails",
+      isselect: false,
+      value: 2,
       sub_menu: [
 
       ]
@@ -116,46 +68,68 @@ export class LayoutComponent implements OnInit {
       link_name: "Student Details",
       link: null,
       icon: "studentdetails",
+      isselect: false,
+      value: 3,
       sub_menu: [
         {
           link_name: "Student Registration",
           link: "student/student_enquiry",
+          isselect: false,
+          value: 31
         },
         {
           link_name: "Add Student Profile",
           link: "student/student_profile",
+          isselect: false,
+          value: 32
         },
         {
           link_name: "Update Student Profile",
           link: "student/student_update",
+          isselect: false,
+          value: 33
         },
         {
           link_name: "Student Attendance",
           link: "student/student_attendance",
+          isselect: false,
+          value: 34
         },
         {
           link_name: "Student Mark Entry",
           link: "student/student_mark_entry",
+          isselect: false,
+          value: 35
         },
         // {
         //   link_name: "Mark Entry Grade Type",
         //   link: "student/mark_entry_grade",
+        // isselect:false,
+        //value:36
         // },
         {
           link_name: "Student Tc Apply",
           link: "student/student_tc_applie",
+          isselect: false,
+          value: 37
         },
         {
           link_name: "Student Promote",
           link: "student/student_promote",
+          isselect: false,
+          value: 38
         },
         {
           link_name: "SMS",
           link: "student/sms",
+          isselect: false,
+          value: 39
         },
         {
           link_name: "Student Reports",
           link: "student/reports",
+          isselect: false,
+          value: 391
         }
 
       ]
@@ -164,31 +138,47 @@ export class LayoutComponent implements OnInit {
       link_name: "Staff Details",
       link: null,
       icon: "staffdetails",
+      isselect: false,
+      value: 4,
       sub_menu: [
         {
           link_name: "Staff Profile",
           link: "staff/staff_profile",
+          isselect: false,
+          value: 41
         }, {
           link_name: "Staff Assign",
           link: "staff/staff_assign",
+          isselect: false,
+          value: 42
         }, {
           link_name: "Staff Attendance",
           link: "staff/staff_attendance",
+          isselect: false,
+          value: 43
         }, {
           link_name: "Staff Leave/Permission",
           link: "staff/staff_permission",
+          isselect: false,
+          value: 44
         },
         {
           link_name: "Staff Loan Section",
           link: "staff/staff_loan",
+          isselect: false,
+          value: 45
         },
         {
           link_name: "Staff Salary",
           link: "staff/staff_salary",
+          isselect: false,
+          value: 46
         },
         {
           link_name: "Staff Reports",
           link: "staff/reports",
+          isselect: false,
+          value: 47
         }
       ]
     },
@@ -197,38 +187,56 @@ export class LayoutComponent implements OnInit {
       link_name: "Library",
       link: null,
       icon: "hostel",
+      isselect: false,
+      value: 5,
       sub_menu: [
         {
           link_name: "Add Books",
-          link: "library/add_data"
+          link: "library/add_data",
+          isselect: false,
+          value: 51
         },
         {
           link_name: "Book Purchase",
-          link: "library/book_purchase"
+          link: "library/book_purchase",
+          isselect: false,
+          value: 52
         },
         {
           link_name: "NewStock IN",
-          link: "library/newstock_in"
+          link: "library/newstock_in",
+          isselect: false,
+          value: 53
         },
         {
           link_name: "Student Enrollment",
-          link: "library/student_enrollment"
+          link: "library/student_enrollment",
+          isselect: false,
+          value: 54
         },
         {
           link_name: "Staff Enrollment",
-          link: "library/staff_enrollment"
+          link: "library/staff_enrollment",
+          isselect: false,
+          value: 55
         },
         {
           link_name: "Book Issue",
-          link: "library/book_issue"
+          link: "library/book_issue",
+          isselect: false,
+          value: 56
         },
         {
           link_name: "Return Books",
-          link: "library/return_books"
+          link: "library/return_books",
+          isselect: false,
+          value: 57
         },
         {
           link_name: "Stock Details",
-          link: "library/stocks"
+          link: "library/stocks",
+          isselect: false,
+          value: 58
         }
       ]
     },
@@ -236,22 +244,32 @@ export class LayoutComponent implements OnInit {
       link_name: "Hostel Details",
       link: null,
       icon: "hostel",
+      isselect: false,
+      value: 6,
       sub_menu: [
         {
           link_name: "Room Allotment",
           link: "hostel/room_allotment",
+          isselect: false,
+          value: 61
         },
         {
           link_name: "Room Assign",
           link: "hostel/room_assign",
+          isselect: false,
+          value: 62
         },
         {
           link_name: "Hostel Attendance",
           link: "hostel/hostel_attendance",
+          isselect: false,
+          value: 63
         },
         {
           link_name: "Hostel Reports",
           link: "hostel/reports",
+          isselect: false,
+          value: 64
         }
       ]
     },
@@ -259,34 +277,57 @@ export class LayoutComponent implements OnInit {
       link_name: "Finance",
       link: null,
       icon: "schoolfinance",
+      isselect: false,
+      value: 7,
       sub_menu: [
         {
           link_name: "Fees Collection",
           link: "fees_collection/student_fees",
+          isselect: false,
+          value: 71
         },
         {
-          link_name: "Uniform Billing",
-          link: "fees_collection/uniform_bill",
+          link_name: "Fees Transaction",
+          link: "fees_collection/fee_transaction",
+          isselect: false,
+          value: 72
         },
+        {
+          link_name: "Day wise Fees collection",
+          link: "fees_collection/day_wise_collection",
+          isselect: false,
+          value: 73
+        },
+        {
+          link_name: "Fees Collection Reports",
+          link: "fees_collection/reports",
+          isselect: false,
+          value: 74
+        },
+        {
+          link_name: "Total Balance Reports",
+          link: "fees_collection/totalbalance_reports",
+          isselect: false,
+          value: 75
+        },
+
         // {
         //   link_name: "Hostel Fees Collection",
         //   link: "fees_collection/student_hostel_fees",
+        //isselect:false,
+        //value:76
         // },
         // {
         //   link_name: "Expense Entry",
         //   link: "fees_collection/expense-entry",
+        //isselect:false,
+        //value:77
         // },
         {
-          link_name: "Fees Collection Reports",
-          link:"fees_collection/reports",          
-        },
-        {
-          link_name: "Total Balance Reports",
-          link:"fees_collection/totalbalance_reports",          
-        },
-        {
-          link_name: "Fees Transaction",
-          link:"fees_collection/fee_transaction",          
+          link_name: "Uniform Billing",
+          link: "fees_collection/uniform_bill",
+          isselect: false,
+          value: 78
         }
       ]
     },
@@ -294,18 +335,26 @@ export class LayoutComponent implements OnInit {
       link_name: "Purchase Entry",
       link: null,
       icon: "customer",
+      isselect: false,
+      value: 8,
       sub_menu: [
         {
           link_name: "GRN Entry",
           link: "purchase_entry/grn-entry",
+          isselect: false,
+          value: 81
         },
         {
           link_name: "Payment Entry",
           link: "purchase_entry/payment-entry",
+          isselect: false,
+          value: 82
         },
         {
           link_name: "Purchase Reports",
           link: "purchase_entry/reports",
+          isselect: false,
+          value: 83
         }
       ]
     },
@@ -313,30 +362,44 @@ export class LayoutComponent implements OnInit {
       link_name: "Vehicle Entry",
       link: null,
       icon: "schoolvehicle",
+      isselect: false,
+      value: 9,
       sub_menu: [
         {
           link_name: "Vehicle Details",
           link: "vehicle/vehicle-details",
+          isselect: false,
+          value: 91
         },
         {
           link_name: "Vehicle Assign",
           link: "vehicle/vehicle-assign",
+          isselect: false,
+          value: 92
         },
         {
           link_name: "Vehicle Distance",
           link: "vehicle/vehicle-distance",
+          isselect: false,
+          value: 93
         },
         {
           link_name: "Vehicle Attendance",
           link: "vehicle/vehicle-attendance",
+          isselect: false,
+          value: 94
         },
         {
           link_name: "Vehicle Expense",
           link: "vehicle/vehicle-expense",
+          isselect: false,
+          value: 95
         },
         {
           link_name: "Vehicle Reports",
           link: "vehicle/reports",
+          isselect: false,
+          value: 96
         }
       ]
     },
@@ -345,78 +408,115 @@ export class LayoutComponent implements OnInit {
       link_name: "Master",
       link: null,
       icon: "schoolmaster",
+      isselect: false,
+      value: 11,
       sub_menu: [
         {
           link_name: "Class Master",
           link: "master/class",
+          isselect: false,
+          value: 111
         },
         {
           link_name: "Batch Year",
-          link: "master/batch_year"
+          link: "master/batch_year",
+          isselect: false,
+          value: 112
         },
         {
           link_name: "General Fees",
-          link: "master/general_fees"
+          link: "master/general_fees",
+          isselect: false,
+          value: 113
         },
         {
           link_name: "Special Fees",
-          link: "master/special_fees"
+          link: "master/special_fees",
+          isselect: false,
+          value: 114
         },
         {
           link_name: "Bus Fees",
-          link: "master/bus_fees"
+          link: "master/bus_fees",
+          isselect: false,
         },
         {
           link_name: "Special Bus Fees",
-          link: "master/special_bus_fees"
+          link: "master/special_bus_fees",
+          isselect: false,
+          value: 115
         },
         {
           link_name: "Subject Master",
-          link: "master/subject_master"
+          link: "master/subject_master",
+          isselect: false,
+          value: 116
         },
         {
           link_name: "Subject Assign",
-          link: "master/subject_assign"
+          link: "master/subject_assign",
+          isselect: false,
+          value: 117
         },
         {
           link_name: "Book Master",
-          link: "master/library_book_master"
+          link: "master/library_book_master",
+          isselect: false,
+          value: 118
         },
         {
           link_name: "Uniform Master",
-          link: "master/uniform_master"
+          link: "master/uniform_master",
+          isselect: false,
+          value: 119
         },
         {
           link_name: "Staff Type",
-          link: "master/staff_type"
+          link: "master/staff_type",
+          isselect: false,
+          value: 1191
         },
         {
           link_name: "Staff Category",
-          link: "master/staff_category"
+          link: "master/staff_category",
+          isselect: false,
+          value: 1192
         },
         {
           link_name: "Leave Master",
-          link: "master/leave_master"
+          link: "master/leave_master",
+          isselect: false,
+          value: 1193
         },
         {
           link_name: "Hostel Master",
-          link: "master/hostel_master"
+          link: "master/hostel_master",
+          isselect: false,
+          value: 1194
         },
         {
           link_name: "Vehicle Master",
-          link: "master/vehicle_master"
+          link: "master/vehicle_master",
+          isselect: false,
+          value: 1195
         },
         {
           link_name: "Supplier Type",
-          link: "master/supplier_master"
+          link: "master/supplier_master",
+          isselect: false,
+          value: 1196
         },
         // {
         //   link_name: "Role",
-        //   link: "master/role"
+        //   link: "master/role",
+        //isselect:false,
+        //value:1197
         // },
         {
           link_name: "Reports",
-          link: "master/reports"
+          link: "master/reports",
+          isselect: false,
+          value: 1198
         }
       ]
     },
@@ -425,66 +525,26 @@ export class LayoutComponent implements OnInit {
       link_name: "Library Master",
       link: null,
       icon: "customer",
+      isselect: false,
+      value: 12,
       sub_menu: [
         {
           link_name: "Book Mater",
           link: "library_master/book_master",
+          isselect: false,
+          value: 121
         }
       ]
     },
-    // {
-    //   link_name: "Customer",
-    //   link: null,
-    //   icon: "customer",
-    //   sub_menu: [
-    //     {
-    //       link_name: "New Customer",
-    //       link: "customer/create_customer",
-    //     }, {
-    //       link_name: "Customer Details",
-    //       link: "customer/customer_details",
-    //     }, {
-    //       link_name: "Customer Report",
-    //       link: "customer/customer_report",
-    //     }, {
-    //       link_name: "Guardian Master",
-    //       link: "master/create_guardian",
-    //     },
 
-    //   ]
-    // },
     {
       link_name: "User",
       link: "user/user",
       icon: "studentdetails",
-      sub_menu: [
-
-      ]
-    },
-
-
-    // {
-    //   link_name: "Admin",
-    //   link: null,
-    //   icon: "admin",
-    //   sub_menu: [
-    //     {
-    //       link_name: "Company Details",
-    //       link: "/app/admin/company-details",
-    //     }, {
-    //       link_name: "User Details",
-    //       link: "/app/admin/user-details",
-    //     }, {
-    //       link_name: "User Group",
-    //       link: "/app/admin/user-group",
-    //     }, {
-    //       link_name: "User Rights",
-    //       link: "/app/admin/user-rights",
-    //     }
-    //   ]
-    // },
-
-
+      isselect: false,
+      value: 13,
+      sub_menu: []
+    }
   ]
 
 
@@ -498,7 +558,7 @@ export class LayoutComponent implements OnInit {
     debugger;
     const nestedSubMenu = item_sub.querySelector('.nested-sub-menu');
     const isOpen = item_sub.classList.contains('showMenu');
-  
+
     // Close all open nested submenus except the clicked one
     const openNestedSubmenus = document.querySelectorAll('.nested-sub-menu.showMenu');
     openNestedSubmenus.forEach((submenu) => {
@@ -507,7 +567,7 @@ export class LayoutComponent implements OnInit {
         submenu.parentElement?.classList.remove('showMenu');
       }
     });
-  
+
     // Toggle the clicked submenu
     if (nestedSubMenu) {
       if (!isOpen) {

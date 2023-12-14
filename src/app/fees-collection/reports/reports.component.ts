@@ -29,6 +29,7 @@ export class ReportsComponent implements OnInit {
   sbalance: boolean;
   sbus: boolean;
   sarrear: boolean;
+  mobileNO:boolean;
   colspanValue: number;
   FeesListOutStanding: any[] = [];
   checkedItems: any[] = [];
@@ -186,6 +187,15 @@ export class ReportsComponent implements OnInit {
     }
     else {
       this.colspanValue = 1;
+    }
+  }
+
+  mobile(event) {
+    if (event.target.checked) {
+      this.mobileNO = true
+    }
+    else {
+      this.mobileNO = false
     }
   }
 

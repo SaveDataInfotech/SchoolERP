@@ -133,7 +133,7 @@
                             <span style="color: blue;font-size: large;max-height: 38px;" alt="show"
                                 class="fa fa-eye fa-eye-show pt-2 input-group-text"
                                 (click)="showPassword = !showPassword" *ngIf="showPassword"></span>
-                            <span style="color: red;font-size: large;" alt="hide"
+                            <span style="color: red;font-size: large;max-height: 38px;" alt="hide"
                                 class="fa fa-eye fa-eye-slash pt-2 input-group-text"
                                 (click)="showPassword = !showPassword" *ngIf="!showPassword"></span>
 
@@ -172,6 +172,30 @@
                         </div>
                     </div>
                 </div>
+
+                <form>
+                    <div class="row">
+                        <div *ngFor="let menus of menu" class="col-sm-4 mt-3" style="display: flex;">
+                            <div style="float: left; text-align: left; width:200px;" class="mt-4">
+                                <div style="float: left; text-align: left;">
+                                    <input style="height: 15px; width: 15px;" type="checkbox" [name]="menus.link_name"
+                                        [(ngModel)]="menus.isselect" (change)="toggleSubMenu(menus)">
+                                </div>
+                                <div style="float: left; text-align: left; color: blue;" class="ml-2">
+                                    {{menus.link_name}}
+                                    <div *ngFor="let s_menu of menus.sub_menu">
+                                        <span *ngIf="menus.isselect">
+                                            <input style="height: 15px; width: 15px;" type="checkbox"
+                                                [name]="s_menu.link_name" [(ngModel)]="s_menu.isselect"
+                                                [disabled]="!menus.isselect">
+                                            <label class="text-dark">{{s_menu.link_name}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">

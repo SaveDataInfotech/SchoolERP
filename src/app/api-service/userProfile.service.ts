@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class userProfileService {
- readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
@@ -18,9 +18,8 @@ export class userProfileService {
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_MaxId_user_profile');
   }
 
-
   newUserProfile(userInsert: any): Observable<any> {
-    
+    debugger
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'UserProfile/insert_staff_type', userInsert, httpOptions);
   }
@@ -29,6 +28,11 @@ export class userProfileService {
   deleteuser(userid: any): Observable<any> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.delete<any>(this.apiUrl + 'UserProfile/delete_user_profile?userid=' + userid, httpOptions);
+  }
+
+  getUserList(id): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_user_profile_byid?userid=' + id);
   }
 
 }
