@@ -237,6 +237,8 @@ export class UserComponent implements OnInit {
   }
 
   cancelClick() {
+    debugger;
+    this.menu = this.lSvc.AdminmenuSidebar;
     this.userProfileForm.reset();
     this.userProfileForm.get('userid')?.setValue(0);
     this.userProfileForm.get('user_name')?.setValue('');
@@ -246,8 +248,7 @@ export class UserComponent implements OnInit {
     this.userProfileForm.get('email')?.setValue('');
     this.userProfileForm.get('password')?.setValue('');
     this.userProfileForm.get('c_password')?.setValue('');
-    this.userProfileForm.get('cuid')?.setValue(1);    
-    this.menu = this.lSvc.AdminmenuSidebar;
+    this.userProfileForm.get('cuid')?.setValue(1);
     this.buttonId = true;
   }
 

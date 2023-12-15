@@ -16,6 +16,7 @@ export class DatewiseFeecollectionComponent implements OnInit {
   busFeeList: any[] = [];
   arrearFeeList: any[] = [];
   totalCollectionList: any[] = [];
+  totalCollectionDateList: any[] = [];
   @ViewChild('tableRef') tableRef: ElementRef;
   constructor(public datepipe: DatePipe,
     private dWFSvc: dayWiseFeeCollectionService) { }
@@ -71,7 +72,6 @@ export class DatewiseFeecollectionComponent implements OnInit {
   }
 
   getTuitionAmount(value) {
-    debugger;
     const foundObject = this.generalFeeList.find(obj => obj.date == value);
     return foundObject ? foundObject.term_amount : 0;
   }
@@ -124,16 +124,85 @@ export class DatewiseFeecollectionComponent implements OnInit {
 
   async searchTotalReport() {
     if (this.dayWisetotalCollectionForm.valid) {
+      const fromdate = new Date(this.dayWisetotalCollectionForm.value.fromdate);
+      const todate = new Date(this.dayWisetotalCollectionForm.value.todate);
       const fromDateS = this.dayWisetotalCollectionForm.value.fromdate;
       const toDateS = this.dayWisetotalCollectionForm.value.todate;
 
       const totalCollection = await this.dWFSvc.getTotalCollectionfees(fromDateS, toDateS).toPromise();
       this.totalCollectionList = totalCollection;
+
+      var daysOfYear = [];
+      for (var d = fromdate; d <= todate; d.setDate(d.getDate() + 1)) {
+        daysOfYear.push(this.datepipe.transform(d, 'yyyy-MM-dd'));
+      }
+      this.totalCollectionDateList = daysOfYear;
     }
     else {
       this.dayWisetotalCollectionForm.markAllAsTouched();
     }
   }
+
+  tutioncash(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'TUTION FEES');
+    return foundObject ? foundObject.cash : 0;
+  }
+
+  tutionupi(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'TUTION FEES');
+    return foundObject ? foundObject.cheque_upi : 0;
+  }
+
+  admissioncash(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'ADMISSION FEES');
+    return foundObject ? foundObject.cash : 0;
+  }
+
+  admissionupi(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'ADMISSION FEES');
+    return foundObject ? foundObject.cheque_upi : 0;
+  }
+
+  othercash(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'OTHER FEES');
+    return foundObject ? foundObject.cash : 0;
+  }
+
+  otherupi(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'OTHER FEES');
+    return foundObject ? foundObject.cheque_upi : 0;
+  }
+
+  buscash(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'BUS');
+    return foundObject ? foundObject.cash : 0;
+  }
+
+  busupi(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'BUS');
+    return foundObject ? foundObject.cheque_upi : 0;
+  }
+
+  arrearcash(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'ARREAR');
+    return foundObject ? foundObject.cash : 0;
+  }
+
+  arrearupi(value) {
+    const foundObject = this.totalCollectionList.find(obj => obj.date == value &&
+      obj.type_name == 'ARREAR');
+    return foundObject ? foundObject.cheque_upi : 0;
+  }
+
 
   exportDayWiseTotalExcel(): void {
     const element = document.getElementById('day_wise_total_collection_print');

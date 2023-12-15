@@ -46,7 +46,7 @@
 
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <div class="row mr-5" style="float: right;">
+                    <div class="row pb-1 mr-5" style="float: right;">
                         <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
                             printSectionId="day_wise_collection_print" ngxPrint [useExistingCss]="true">
                             Print <i class="fa fa-print ml-2"></i></button>
@@ -138,16 +138,16 @@
                 </mat-card-content>
             </mat-card>
 
-            <mat-card class="mt-2 matcard mb-5">
+            <mat-card class="matcard mb-5">
                 <mat-card-content>
-                    <div class="row mr-5" style="float: right;">
+                    <div class="row mr-5 pb-1" style="float: right;">
                         <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
                             printSectionId="day_wise_total_collection_print" ngxPrint [useExistingCss]="true">
                             Print <i class="fa fa-print ml-2"></i></button>
                         <button (click)="exportDayWiseTotalExcel()" class="btn btn-info ml-2 btn-sm">Download to
                             Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
                     </div>
-                    <div id="day_wise_total_collection_print" class="table-responsive">
+                    <!-- <div id="day_wise_total_collection_print" class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -165,6 +165,50 @@
                                     <td>{{item.type_name}}</td>
                                     <td>{{item.cash}}</td>
                                     <td>{{item.cheque_upi}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> -->
+                    <div id="day_wise_total_collection_print" class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>FEE TYPE</th>
+                                    <th>CASH</th>
+                                    <th>CHEQUE / UPI</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let item of totalCollectionDateList;let i=index">
+                                <tr>
+                                    <td>{{item}}</td>
+                                    <td>TUTION FEE</td>
+                                    <td>{{tutioncash(item)}}</td>
+                                    <td>{{tutionupi(item)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{item}}</td>
+                                    <td>ADMISSION FEE</td>
+                                    <td>{{admissioncash(item)}}</td>
+                                    <td>{{admissionupi(item)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{item}}</td>
+                                    <td>OTHER FEE</td>
+                                    <td>{{othercash(item)}}</td>
+                                    <td>{{otherupi(item)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{item}}</td>
+                                    <td>BUS FEE</td>
+                                    <td>{{buscash(item)}}</td>
+                                    <td>{{busupi(item)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{item}}</td>
+                                    <td>ARREAR FEE</td>
+                                    <td>{{arrearcash(item)}}</td>
+                                    <td>{{arrearupi(item)}}</td>
                                 </tr>
                             </tbody>
                         </table>

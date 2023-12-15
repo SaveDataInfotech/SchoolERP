@@ -16,6 +16,7 @@ export class LayoutComponent implements OnInit {
   filteredMenu: any[];
   userName: string;
   userList: any[] = [];
+  userImage:string;
   constructor(private router: Router,
     private userSvc: userProfileService) { }
 
@@ -23,10 +24,13 @@ export class LayoutComponent implements OnInit {
     this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
       this.userList = data;
       if (this.userList) {
+        debugger;
         this.mainMenu = this.userList[0].main_menus
         this.subMenu = this.userList[0].sub_menus
         this.userName = this.userList[0].user_name
+        this.userImage=this.userList[0].img
         this.filteredMenu = this.AdminmenuSidebar
+        
           .filter(menu => this.mainMenu.includes(menu.value))
           .map(menu => {
             const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
@@ -524,7 +528,7 @@ export class LayoutComponent implements OnInit {
     {
       link_name: "Library Master",
       link: null,
-      icon: "customer",
+      icon: "schoolmaster",
       isselect: false,
       value: 12,
       sub_menu: [
@@ -540,7 +544,7 @@ export class LayoutComponent implements OnInit {
     {
       link_name: "User",
       link: "user/user",
-      icon: "studentdetails",
+      icon: "customer",
       isselect: false,
       value: 13,
       sub_menu: []
