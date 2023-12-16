@@ -169,8 +169,10 @@
 
                     <div class="col-sm-12 mt-3">
                         <div style="text-align: center;">
-                            <button type="button" (click)="onchange()" class="btn btn-primary btn-sm ">Search<i
-                                    class="fa fa-search ml-2"></i></button>
+                            <button type="button" [disabled]="subjectFilterList.length !=0" (click)="onchange()"
+                                class="btn btn-info mr-2 btn-sm ">Search<i class="fa fa-search ml-2"></i></button>
+                            <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mr-2"
+                                (click)="cancelForm()" value="Cancel" />
                         </div>
                     </div>
 
@@ -181,6 +183,7 @@
                                     <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let ii = index"
                                         [formGroupName]="ii">
                                         <th class="mb-4" *ngIf="ii == 0">Admission No</th>
+                                        <th class="mb-4" *ngIf="ii == 0">Name</th>
                                         <th *ngIf="ii == 0" formArrayName="subjects" style="display: flex;">
                                             <span
                                                 *ngFor="let subject of student.get('subjects').controls; let jj = index"
@@ -199,9 +202,8 @@
                                 <tbody formArrayName="students">
                                     <tr *ngFor="let student of rankTypeMarkForm.get('students')['controls']; let i = index"
                                         [formGroupName]="i">
-                                        <td>
-                                            {{student.get('admission_no').value}}
-                                        </td>
+                                        <td>{{student.get('admission_no').value}}</td>
+                                        <td>{{student.get('student_name').value}}</td>
                                         <td>
                                             <span formArrayName="subjects" style="display: flex;">
                                                 <span

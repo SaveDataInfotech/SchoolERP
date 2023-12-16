@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class markEntryService {
- readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
@@ -29,18 +29,18 @@ export class markEntryService {
   editRankTypeMark(value: any): Observable<any> {
     debugger;
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/update_student_markentry_rank',value, httpOptions);
+    return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/update_student_markentry_rank', value, httpOptions);
   }
 
 
-  refresStudentList(): Observable<any[]> {
+  refresStudentList(examClass, examGroup, examSection, examBatchYear, examName): Observable<any[]> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_student_mark_by_rank', httpOptions);
+    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_student_mark_by_rank?classid=' + examClass + '&groupid=' + examGroup + '&sectionid=' + examSection + '&batch_year=' + examBatchYear + '&exam_name=' + examName, httpOptions);
   }
 
-  refresSubjectList(): Observable<any[]> {
+  refresSubjectList(classID, groupID, sectionID, batchYear, examName): Observable<any[]> {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_subject_mark_by_rank', httpOptions);
+    return this.http.get<any[]>(this.apiUrl + 'MarkEntryGrade/get_subject_mark_by_rank?classid=' + classID + '&groupid=' + groupID + '&sectionid=' + sectionID + '&batch_year=' + batchYear + '&exam_name=' + examName, httpOptions);
   }
 
   refresExamname(classID, groupID, sectionID, batchYear): Observable<any[]> {

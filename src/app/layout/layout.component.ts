@@ -47,6 +47,10 @@ export class LayoutComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  backUpDB(){
+    
+  }
+
 
   AdminmenuSidebar = [
     {
