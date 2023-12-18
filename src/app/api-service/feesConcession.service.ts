@@ -36,4 +36,12 @@ export class FeesConcessionService {
     debugger;
     return this.http.get<any[]>(this.apiUrl + 'StudentFeesConcession/todayFeesCollectionList?today=' + value);
   }
+
+  feeConcessionAd(fromdate, todate): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_daterange?fromdate=' + fromdate + '&todate=' + todate);
+  }
+
+  feeConcessionTotalAmount(fromdate, todate): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_totalamount_daterange?fromdate=' + fromdate + '&todate=' + todate);
+  }
 }

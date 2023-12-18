@@ -1,0 +1,171 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="With student Detail">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">With student Detail</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="feeConcessionAdForm" (ngSubmit)="feeConcessionAdReport()">
+                        <div class="row mt-3">
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':feeConcessionAdForm.controls.fromdate.touched && feeConcessionAdForm.controls.fromdate.errors}"
+                                        formControlName="fromdate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':feeConcessionAdForm.controls.todate.touched && feeConcessionAdForm.controls.todate.errors}"
+                                        formControlName="todate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 mt-1">
+                                <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
+                                        class="fa fa-search ml-2"></i></button>
+                                <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="matcard mb-5">
+                <mat-card-content>
+                    <div class="row mr-5 pb-1" style="float: right;">
+                        <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                            printSectionId="dayAD_wise_concession_print" ngxPrint [useExistingCss]="true">
+                            Print <i class="fa fa-print ml-2"></i></button>
+                        <button (click)="exportDayWiseTotalExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                            Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                    </div>
+                    <div id="dayAD_wise_concession_print" class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Date</th>
+                                    <th>Admission No</th>
+                                    <th>Name</th>
+                                    <th>Fees Type</th>
+                                    <th>Amount</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let item of feeConcessionAdList;let i=index">
+                                    <tr *ngIf="item.deduction_amount">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.admission_no}}</td>
+                                        <td>{{item.student_name}}</td>
+                                        <td>{{item.type_name}}</td>
+                                        <td>{{item.deduction_amount}}</td>
+                                        <td>{{item.remarks}}</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Date Wise Total Collection">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="float: left;width: 300px;">
+                                <h3 class="ml-1">Date Wise Total Collection</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="feeConcessionTotalAmountForm" (ngSubmit)="feeConcessionTotalAmountReport()">
+                        <div class="row mt-3">
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':feeConcessionTotalAmountForm.controls.fromdate.touched && feeConcessionTotalAmountForm.controls.fromdate.errors}"
+                                        formControlName="fromdate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':feeConcessionTotalAmountForm.controls.todate.touched && feeConcessionTotalAmountForm.controls.todate.errors}"
+                                        formControlName="todate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 mt-1">
+                                <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
+                                        class="fa fa-search ml-2"></i></button>
+                                <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div style="margin: auto;text-align: right;" class="col-sm-6 pb-1 pr-5">
+                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn"
+                                color="primary" printSectionId="totalamount_concession_print" ngxPrint
+                                [useExistingCss]="true">
+                                Print <i class="fa fa-print ml-2"></i></button>
+                            <button (click)="exporTotalAmountExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                                Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                        </div>
+                    </div>
+                    <div id="totalamount_concession_print" class="table-responsive">
+                        <table style="margin: auto;" class="col-sm-6 table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th>Date</th>
+                                    <th>Fees Type</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let item of feeConcessionTotalAmountList;let i=index">
+                                    <tr>
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.type_name}}</td>
+                                        <td>{{item.deduction_amount}}</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+</mat-tab-group>

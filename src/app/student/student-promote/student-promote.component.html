@@ -101,12 +101,12 @@
                             <label class="pt-2" style="margin: auto;">Batch <span class="text-danger"> *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <select #batch_year="ngModel"
+                            <select #batch_year="ngModel" #bact
                                 [class.is-invalid]="batch_year.invalid && (batch_year.dirty || batch_year.touched)"
                                 required [(ngModel)]="studentPromoteForm.batch_year" style="width: 100%;"
-                                class="form-control " name="batch_year">
+                                class="form-control" (click)="batch_yearCheck(bact.value)" name="batch_year">
                                 <option value=null selected disabled>Please select</option>
-                                <option [ngValue]="batch.batch_year" *ngFor="let batch of BatchList;">
+                                <option value={{batch.batch_year}} *ngFor="let batch of BatchList;">
                                     {{batch.batch_year}}</option>
                             </select>
                         </div>
@@ -119,7 +119,7 @@
                             <select #classid="ngModel"
                                 [class.is-invalid]="classid.invalid && (classid.dirty || classid.touched)" required
                                 [(ngModel)]="studentPromoteForm.classid" style="width: 100%;" #pt
-                                (change)="profilterGroupfun(pt.value)" class="form-control " name="classid">
+                                (click)="profilterGroupfun(pt.value)" class="form-control " name="classid">
                                 <option value=null selected disabled>Please select</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>

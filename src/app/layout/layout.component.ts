@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { userProfileService } from '../api-service/userProfile.service';
+import { DialogService } from '../api-service/Dialog.service';
+import { backUPDBService } from '../api-service/backUPDB.service';
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'layout',
   templateUrl: 'layout.component.html',
@@ -16,9 +19,12 @@ export class LayoutComponent implements OnInit {
   filteredMenu: any[];
   userName: string;
   userList: any[] = [];
-  userImage:string;
+  userImage: string;
   constructor(private router: Router,
-    private userSvc: userProfileService) { }
+    private userSvc: userProfileService,
+    private DialogSvc: DialogService,
+    private dBSvc: backUPDBService,
+    private notificationSvc: NotificationsService) { }
 
   ngOnInit() {
     this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
@@ -28,9 +34,9 @@ export class LayoutComponent implements OnInit {
         this.mainMenu = this.userList[0].main_menus
         this.subMenu = this.userList[0].sub_menus
         this.userName = this.userList[0].user_name
-        this.userImage=this.userList[0].img
+        this.userImage = this.userList[0].img
         this.filteredMenu = this.AdminmenuSidebar
-        
+
           .filter(menu => this.mainMenu.includes(menu.value))
           .map(menu => {
             const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
@@ -47,8 +53,21 @@ export class LayoutComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-  backUpDB(){
-    
+  backUpDB() {
+    this.DialogSvc.openConfirmDialog('Are you sure want to BACK UP this DB ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          this.dBSvc.backupDB().subscribe(res => {
+            debugger;
+            if (res.status == 'BackUp Success') {
+              this.notificationSvc.success(" BACK UP Success");
+            }
+            else {
+              this.notificationSvc.error(res.status);
+            }
+          });
+        }
+      });
   }
 
 
@@ -127,12 +146,12 @@ export class LayoutComponent implements OnInit {
           isselect: false,
           value: 38
         },
-        {
-          link_name: "SMS",
-          link: "student/sms",
-          isselect: false,
-          value: 39
-        },
+        // {
+        //   link_name: "SMS",
+        //   link: "student/sms",
+        //   isselect: false,
+        //   value: 39
+        // },
         {
           link_name: "Student Reports",
           link: "student/reports",
@@ -191,96 +210,96 @@ export class LayoutComponent implements OnInit {
       ]
     },
 
-    {
-      link_name: "Library",
-      link: null,
-      icon: "hostel",
-      isselect: false,
-      value: 5,
-      sub_menu: [
-        {
-          link_name: "Add Books",
-          link: "library/add_data",
-          isselect: false,
-          value: 51
-        },
-        {
-          link_name: "Book Purchase",
-          link: "library/book_purchase",
-          isselect: false,
-          value: 52
-        },
-        {
-          link_name: "NewStock IN",
-          link: "library/newstock_in",
-          isselect: false,
-          value: 53
-        },
-        {
-          link_name: "Student Enrollment",
-          link: "library/student_enrollment",
-          isselect: false,
-          value: 54
-        },
-        {
-          link_name: "Staff Enrollment",
-          link: "library/staff_enrollment",
-          isselect: false,
-          value: 55
-        },
-        {
-          link_name: "Book Issue",
-          link: "library/book_issue",
-          isselect: false,
-          value: 56
-        },
-        {
-          link_name: "Return Books",
-          link: "library/return_books",
-          isselect: false,
-          value: 57
-        },
-        {
-          link_name: "Stock Details",
-          link: "library/stocks",
-          isselect: false,
-          value: 58
-        }
-      ]
-    },
-    {
-      link_name: "Hostel Details",
-      link: null,
-      icon: "hostel",
-      isselect: false,
-      value: 6,
-      sub_menu: [
-        {
-          link_name: "Room Allotment",
-          link: "hostel/room_allotment",
-          isselect: false,
-          value: 61
-        },
-        {
-          link_name: "Room Assign",
-          link: "hostel/room_assign",
-          isselect: false,
-          value: 62
-        },
-        {
-          link_name: "Hostel Attendance",
-          link: "hostel/hostel_attendance",
-          isselect: false,
-          value: 63
-        },
-        {
-          link_name: "Hostel Reports",
-          link: "hostel/reports",
-          isselect: false,
-          value: 64
-        }
-      ]
-    },
+    // {
+    //   link_name: "Library",
+    //   link: null,
+    //   icon: "hostel",
+    //   isselect: false,
+    //   value: 5,
+    //   sub_menu: [
+    //     {
+    //       link_name: "Add Books",
+    //       link: "library/add_data",
+    //       isselect: false,
+    //       value: 51
+    //     },
+    //     {
+    //       link_name: "Book Purchase",
+    //       link: "library/book_purchase",
+    //       isselect: false,
+    //       value: 52
+    //     },
+    //     {
+    //       link_name: "NewStock IN",
+    //       link: "library/newstock_in",
+    //       isselect: false,
+    //       value: 53
+    //     },
+    //     {
+    //       link_name: "Student Enrollment",
+    //       link: "library/student_enrollment",
+    //       isselect: false,
+    //       value: 54
+    //     },
+    //     {
+    //       link_name: "Staff Enrollment",
+    //       link: "library/staff_enrollment",
+    //       isselect: false,
+    //       value: 55
+    //     },
+    //     {
+    //       link_name: "Book Issue",
+    //       link: "library/book_issue",
+    //       isselect: false,
+    //       value: 56
+    //     },
+    //     {
+    //       link_name: "Return Books",
+    //       link: "library/return_books",
+    //       isselect: false,
+    //       value: 57
+    //     },
+    //     {
+    //       link_name: "Stock Details",
+    //       link: "library/stocks",
+    //       isselect: false,
+    //       value: 58
+    //     }
+    //   ]
+    // },
+    // {
+    //   link_name: "Hostel Details",
+    //   link: null,
+    //   icon: "hostel",
+    //   isselect: false,
+    //   value: 6,
+    //   sub_menu: [
+    //     {
+    //       link_name: "Room Allotment",
+    //       link: "hostel/room_allotment",
+    //       isselect: false,
+    //       value: 61
+    //     },
+    //     {
+    //       link_name: "Room Assign",
+    //       link: "hostel/room_assign",
+    //       isselect: false,
+    //       value: 62
+    //     },
+    //     {
+    //       link_name: "Hostel Attendance",
+    //       link: "hostel/hostel_attendance",
+    //       isselect: false,
+    //       value: 63
+    //     },
+    //     {
+    //       link_name: "Hostel Reports",
+    //       link: "hostel/reports",
+    //       isselect: false,
+    //       value: 64
+    //     }
+    //   ]
+    // },
     {
       link_name: "Finance",
       link: null,
@@ -331,41 +350,48 @@ export class LayoutComponent implements OnInit {
         //isselect:false,
         //value:77
         // },
+        // {
+        //   link_name: "Uniform Billing",
+        //   link: "fees_collection/uniform_bill",
+        //   isselect: false,
+        //   value: 78
+        // }
+
         {
-          link_name: "Uniform Billing",
-          link: "fees_collection/uniform_bill",
-          isselect: false,
-          value: 78
-        }
+            link_name: "Fee Concession Report",
+            link: "fees_collection/fee_con_report",
+            isselect: false,
+            value: 79
+          }
       ]
     },
-    {
-      link_name: "Purchase Entry",
-      link: null,
-      icon: "customer",
-      isselect: false,
-      value: 8,
-      sub_menu: [
-        {
-          link_name: "GRN Entry",
-          link: "purchase_entry/grn-entry",
-          isselect: false,
-          value: 81
-        },
-        {
-          link_name: "Payment Entry",
-          link: "purchase_entry/payment-entry",
-          isselect: false,
-          value: 82
-        },
-        {
-          link_name: "Purchase Reports",
-          link: "purchase_entry/reports",
-          isselect: false,
-          value: 83
-        }
-      ]
-    },
+    // {
+    //   link_name: "Purchase Entry",
+    //   link: null,
+    //   icon: "customer",
+    //   isselect: false,
+    //   value: 8,
+    //   sub_menu: [
+    //     {
+    //       link_name: "GRN Entry",
+    //       link: "purchase_entry/grn-entry",
+    //       isselect: false,
+    //       value: 81
+    //     },
+    //     {
+    //       link_name: "Payment Entry",
+    //       link: "purchase_entry/payment-entry",
+    //       isselect: false,
+    //       value: 82
+    //     },
+    //     {
+    //       link_name: "Purchase Reports",
+    //       link: "purchase_entry/reports",
+    //       isselect: false,
+    //       value: 83
+    //     }
+    //   ]
+    // },
     {
       link_name: "Vehicle Entry",
       link: null,
@@ -529,21 +555,21 @@ export class LayoutComponent implements OnInit {
       ]
     },
 
-    {
-      link_name: "Library Master",
-      link: null,
-      icon: "schoolmaster",
-      isselect: false,
-      value: 12,
-      sub_menu: [
-        {
-          link_name: "Book Mater",
-          link: "library_master/book_master",
-          isselect: false,
-          value: 121
-        }
-      ]
-    },
+    // {
+    //   link_name: "Library Master",
+    //   link: null,
+    //   icon: "schoolmaster",
+    //   isselect: false,
+    //   value: 12,
+    //   sub_menu: [
+    //     {
+    //       link_name: "Book Mater",
+    //       link: "library_master/book_master",
+    //       isselect: false,
+    //       value: 121
+    //     }
+    //   ]
+    // },
 
     {
       link_name: "User",

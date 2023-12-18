@@ -7,6 +7,7 @@ import { UniformBillingComponent } from './uniform-billing/uniform-billing.compo
 import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-report.component';
 import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
 import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewise-feecollection.component';
+import { FeeConcessionReportsComponent } from './fee-concession-reports/fee-concession-reports.component';
 
 
 export const feescollectionRoutes: Routes = [
@@ -42,5 +43,9 @@ export const feescollectionRoutes: Routes = [
   {
     path: 'expense-entry',
     component: ExpenseEntryComponent,
+  },
+  {
+    path: 'fee_con_report',
+    component: FeeConcessionReportsComponent,
   }
 ];

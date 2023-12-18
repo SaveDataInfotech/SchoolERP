@@ -213,7 +213,7 @@
                                                         <input #grd
                                                             [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
                                                             (change)="gradeConvert(i,j,grd.value)" placeholder="Mark"
-                                                            type="text" (keypress)="numberOnly($event)"
+                                                            type="text"
                                                             class="mr-2 form-control form-controls form-controls"
                                                             formControlName="marks">
                                                     </span>

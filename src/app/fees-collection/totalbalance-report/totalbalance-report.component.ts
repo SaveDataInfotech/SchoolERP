@@ -14,6 +14,7 @@ export class TotalbalanceReportComponent implements OnInit {
   today: any;
 
   balanceList: any[] = [];
+  total_amount:number=0;
   constructor(private datePipe: DatePipe,
     private bRSvc: FeesCollectionBalanceReportsService,
     private spinner: NgxSpinnerService) { }
@@ -35,6 +36,8 @@ export class TotalbalanceReportComponent implements OnInit {
     this.balanceList.push(...arrearBalance);
 
     this.spinner.hide();
+
+    this.total_amount=this.balanceList.reduce((sum,e)=>sum+Number(e.total_balance),0);
   }
 
   exportExcel(): void {

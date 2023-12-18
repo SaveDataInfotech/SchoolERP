@@ -24,6 +24,7 @@ import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-
 import { FeeConcessionComponent } from './fee-concession/fee-concession.component';
 import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
 import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewise-feecollection.component';
+import { FeeConcessionReportsComponent } from './fee-concession-reports/fee-concession-reports.component';
 @NgModule({
   declarations: [
     StudentFeesComponent,
@@ -34,7 +35,8 @@ import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewis
     TotalbalanceReportComponent,
     FeeConcessionComponent,
     FeesTransactionComponent,
-    DatewiseFeecollectionComponent
+    DatewiseFeecollectionComponent,
+    FeeConcessionReportsComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(feescollectionRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,

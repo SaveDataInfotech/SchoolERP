@@ -122,23 +122,44 @@ export class StudentPromoteComponent implements OnInit {
       this.spinner.hide();
       this.notificationSvc.error('Fill in the mandatory fields');
     }
+    this.studentPromoteForm.batch_year = null;
+    this.studentPromoteForm.classid = null;
+    this.studentPromoteForm.groupid = 0;
+    this.studentPromoteForm.sectionid = null;
+  }
+
+
+  batch_yearCheck(value) {
+    debugger;
+    if (this.searchStudentForm.batch_year == value) {
+      this.studentPromoteForm.batch_year = null;
+      this.notificationSvc.error("Cann't be same both Batch")
+    }
   }
   //////////////////
   profilterGroupfun(classsid: any) {
-    const classid = Number(classsid);
-    this.studentPromoteForm.classid = classid;
-    this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
-    this.studentPromoteForm.groupid = 0;
-    this.studentPromoteForm.sectionid = null;
-    if (this.progroupFilterlist.length == 0) {
-      this.progroupDisplay = false;
-      this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+    if (this.searchStudentForm.classid != classsid) {
+      const classid = Number(classsid);
+      this.studentPromoteForm.classid = classid;
+      this.progroupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+      this.studentPromoteForm.groupid = 0;
       this.studentPromoteForm.sectionid = null;
+      if (this.progroupFilterlist.length == 0) {
+        this.progroupDisplay = false;
+        this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+        this.studentPromoteForm.sectionid = null;
+      }
+      else {
+        this.progroupDisplay = true;
+        this.studentPromoteForm.sectionid = null;
+        this.prosectionFilterlist = [];
+      }
     }
     else {
-      this.progroupDisplay = true;
+      this.studentPromoteForm.classid = null;
+      this.studentPromoteForm.groupid = 0;
       this.studentPromoteForm.sectionid = null;
-      this.prosectionFilterlist = [];
+      this.notificationSvc.error("Cann't be same both Class")
     }
   }
 
@@ -200,7 +221,7 @@ export class StudentPromoteComponent implements OnInit {
                   });
                 }
               }
-              
+
               else {
                 this.notificationSvc.error('Something Error');
               }

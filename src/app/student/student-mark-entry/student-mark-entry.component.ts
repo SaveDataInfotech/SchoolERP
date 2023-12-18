@@ -264,7 +264,7 @@ export class StudentMarkEntryComponent implements OnInit {
     student = student || { admission_no: '', subjects: [] };
     return this.fb.group({
       admission_no: [student.admission_no],
-      student_name:[student.student_name],
+      student_name: [student.student_name],
       total: [student.total],
       status: [student.status],
       average: [student.average],
@@ -310,72 +310,85 @@ export class StudentMarkEntryComponent implements OnInit {
     if (isNaN(gradeValue)) {
       gradeValue = 0; // Treat it as 0
     }
+    else {
+      if (gradeValue > 100) {
+        const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
+        const studentFormGroup = studentsArray.at(i) as FormGroup;
+        const subjectsArray = studentFormGroup.get('subjects') as FormArray;
+        const subjectFormGroup = subjectsArray.at(j) as FormGroup;
+        subjectFormGroup.get('marks').setValue('');
+      }
 
-    if (gradeValue > 100) {
+      this.total = 0;
       const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
-      const studentFormGroup = studentsArray.at(i) as FormGroup;
-      const subjectsArray = studentFormGroup.get('subjects') as FormArray;
-      const subjectFormGroup = subjectsArray.at(j) as FormGroup;
-      subjectFormGroup.get('marks').setValue('');
-    }
+      if (i >= 0 && i < studentsArray.length) {
+        const studentFormGroup = studentsArray.at(i) as FormGroup;
+        const subjectsArray = studentFormGroup.get('subjects') as FormArray;
+        const subjectFormGroup = subjectsArray.at(j) as FormGroup;
 
-    this.total = 0;
-    const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
-    if (i >= 0 && i < studentsArray.length) {
-      const studentFormGroup = studentsArray.at(i) as FormGroup;
-      const subjectsArray = studentFormGroup.get('subjects') as FormArray;
-      const subjectFormGroup = subjectsArray.at(j) as FormGroup;
-
-      // Use the adjusted gradeValue instead of grd
-      if (subjectFormGroup.get('practical_status').value === 'Practical Subject') {
-        if (gradeValue >= Number(this.rankTypeMarkForm.value.with_prac)) {
-          subjectFormGroup.get('pass_status').setValue('Pass');
+        // Use the adjusted gradeValue instead of grd
+        if (subjectFormGroup.get('practical_status').value === 'Practical Subject') {
+          if (gradeValue >= Number(this.rankTypeMarkForm.value.with_prac)) {
+            subjectFormGroup.get('pass_status').setValue('Pass');
+          } else {
+            subjectFormGroup.get('pass_status').setValue('Fail');
+            const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
+            courseControl.at(i).get('rank').setValue('');
+          }
         } else {
-          subjectFormGroup.get('pass_status').setValue('Fail');
-          const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
-          courseControl.at(i).get('rank').setValue('');
-        }
-      } else {
-        if (gradeValue >= Number(this.rankTypeMarkForm.value.with_out_prac)) {
-          subjectFormGroup.get('pass_status').setValue('Pass');
-        } else {
-          subjectFormGroup.get('pass_status').setValue('Fail');
-          const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
-          courseControl.at(i).get('rank').setValue('');
+          if (gradeValue >= Number(this.rankTypeMarkForm.value.with_out_prac)) {
+            subjectFormGroup.get('pass_status').setValue('Pass');
+          } else {
+            subjectFormGroup.get('pass_status').setValue('Fail');
+            const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
+            courseControl.at(i).get('rank').setValue('');
+          }
         }
       }
-    }
-    debugger;
-    const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
-    const course = courseControl.at(i).get('subjects').value;
-    course.forEach(element => {
-      this.total = this.total + Number(element.marks)
-    });
-    courseControl.at(i).get('total').setValue(String(this.total));
-    const avg = parseFloat((this.total / course.length).toFixed(1));
-    courseControl.at(i).get('average').setValue(String(avg));
-    const allPassed = course.every(element => element.pass_status === "Pass");
-    if (allPassed) {
-      courseControl.at(i).get('status').setValue('Pass');
-    } else {
-      courseControl.at(i).get('status').setValue('Fail');
-    }
-
-    const orderBYMark = studentsArray.controls.map(control => control.value);
-    const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
-    const Student = studentsArray.controls.map(control => control.value);
-    passorderBYMark.sort((a, b) => parseInt(b.total) - parseInt(a.total));
-
-    Student.forEach((stu, m) => {
-      debugger;
-      passorderBYMark.forEach((element, k) => {
-        debugger;
-        if (stu.admission_no == element.admission_no) {
-          debugger
-          courseControl.at(m).get('rank').setValue(String(k + 1));
+      const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
+      const course = courseControl.at(i).get('subjects').value;
+      course.forEach(element => {
+        const mValue = parseFloat(element.marks);
+        if (!isNaN(mValue)) {
+          this.total = this.total + Number(element.marks)
         }
       });
-    });
+      courseControl.at(i).get('total').setValue(String(this.total));
+      const avg = parseFloat((this.total / course.length).toFixed(1));
+      courseControl.at(i).get('average').setValue(String(avg));
+      const allPassed = course.every(element => element.pass_status === "Pass");
+      if (allPassed) {
+        courseControl.at(i).get('status').setValue('Pass');
+      } else {
+        courseControl.at(i).get('status').setValue('Fail');
+      }
+      debugger;
+      const orderBYMark = studentsArray.controls.map(control => control.value);
+      const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
+      const Student = studentsArray.controls.map(control => control.value);
+      passorderBYMark.sort((a, b) => parseInt(b.total) - parseInt(a.total));
+
+      Student.forEach((stu, m) => {
+        debugger;
+        passorderBYMark.forEach((element, k) => {
+          debugger;
+          if (stu.admission_no == element.admission_no) {
+            debugger
+            courseControl.at(m).get('rank').setValue(String(k + 1));
+
+            // const sameIndex = passorderBYMark.reduce((e) => e.total == element.total);
+            // debugger;
+            // if (sameIndex) {
+            //   // If the total is the same as the previous student, assign the same rank
+            //   courseControl.at(m).get('rank').setValue(String(courseControl.at(k - 1).get('rank').value));
+            // } else {
+            //   // If the total is different from the previous student, assign the current rank
+            //   courseControl.at(m).get('rank').setValue(String(k + 1));
+            // }
+          }
+        });
+      });
+    }
   }
 
   save() {
