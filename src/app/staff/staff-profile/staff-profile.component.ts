@@ -20,7 +20,7 @@ export class StaffProfileComponent implements OnInit {
   base64textString: any[] = [];
 
   StaffTypeList: any[] = [];
-  ClassList: any = [];
+  //ClassList: any = [];
 
   staffList: any[] = [];
   staffFilterList: any[] = [];
@@ -40,7 +40,7 @@ export class StaffProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshstaffTypeList();
-    this.refreshClassList();
+    // this.refreshClassList();
 
     this.refreshStaffList();
     this.cancelClick();
@@ -123,11 +123,11 @@ export class StaffProfileComponent implements OnInit {
     });
   }
 
-  refreshClassList() {
-    this.ClassSvc.getClassList().subscribe(data => {
-      this.ClassList = data;
-    });
-  }
+  // refreshClassList() {
+  //   this.ClassSvc.getClassList().subscribe(data => {
+  //     this.ClassList = data;
+  //   });
+  // }
 
   refreshstaffCategoryList() {
     this.scSvc.getCategoryList().subscribe(data => {
@@ -201,10 +201,11 @@ export class StaffProfileComponent implements OnInit {
 
   onSubmit() {
     if (this.staffProfileForm.valid) {
-      var staffProfileinsert = (this.staffProfileForm.value);
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
+        .afterClosed().subscribe(async res => {
           if (res == true) {
+            await this.findStaffCode();
+            var staffProfileinsert = (this.staffProfileForm.value);
             this.staffSvc.addNewstaff(staffProfileinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved successfully")
@@ -214,7 +215,7 @@ export class StaffProfileComponent implements OnInit {
                 this.files = [];
               }
               else if (res.status == 'Already exists') {
-                this.notificationSvc.warn("Already exists")
+                this.notificationSvc.warn("Staff No already exists ! Please save it again");
               }
               else {
                 this.notificationSvc.error("Something error")
@@ -227,7 +228,6 @@ export class StaffProfileComponent implements OnInit {
       this.staffProfileForm.markAllAsTouched();
       this.notificationSvc.error('Fill in the Mandatory fileds')
     }
-
   }
 
   ///////////////Update Staff Profile

@@ -13,7 +13,9 @@ import { PreviewFeesDialogService } from 'src/app/api-service/previewFeesDialog.
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
 import { ViewChild, ElementRef } from '@angular/core';
 import { SchoolfeeEditDialogService } from 'src/app/api-service/schoolFeeEditDialog.service';
-
+import { FeesTypeService } from 'src/app/api-service/FeesType.service';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-student-fees',
   templateUrl: './student-fees.component.html',
@@ -44,7 +46,13 @@ export class StudentFeesComponent implements OnInit {
   arrearfeesbybillnoList: any[] = [];
   studentName: any[] = [];
   suggestions: any[] = [];
+  FeesDetailList: any[] = [];
+  FeesList: any[] = [];
+  table1: boolean = false;
+  table2: boolean = false;
 
+  userID: number = Number(localStorage.getItem("userid"));
+  roleName: string = localStorage.getItem("rolename");
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -56,7 +64,8 @@ export class StudentFeesComponent implements OnInit {
     private router: Router,
     private pDSvc: PreviewFeesDialogService,
     private studProSvc: studentProfileService,
-    private eDSvc: SchoolfeeEditDialogService) { }
+    private eDSvc: SchoolfeeEditDialogService,
+    private FtySvc: FeesTypeService) { }
 
 
   date1 = new Date();
@@ -89,6 +98,7 @@ export class StudentFeesComponent implements OnInit {
     this.GetActiveBatchYear();
     this.getMaxId();
     this.refreshRecentFeesCollectionList(this.today);
+    this.refreshFeesTypeList();
   }
 
   backButton() {
@@ -142,11 +152,65 @@ export class StudentFeesComponent implements OnInit {
     this.feesCollectionForm.get('bill_no')?.setValue(maxnum);
   }
 
+  async refreshFeesTypeList() {
+    const feeList = await this.FtySvc.getfeesTypeList().toPromise();
+    this.FeesList = feeList;
+  };
+
   refreshRecentFeesCollectionList(today) {
-    this.feesCollSvc.RecentFeesCollectionList(today).subscribe(data => {
+    this.table1 = true;
+    this.table2 = false;
+    this.feesCollSvc.RecentFeesCollectionList(today, this.userID, this.roleName).subscribe(data => {
       this.FeesCollectionList = data;
     });
   }
+
+  async refreshRecentFeesDetailList(today) {
+    this.table2 = true;
+    this.table1 = false;
+    const data = await this.feesCollSvc.RecentFeesDetailList(today, this.userID, this.roleName).toPromise();
+    this.FeesDetailList = data
+  }
+
+  getCommonFees(value: any, i) {
+    debugger;
+    let newClass = [];
+    let newAmount = [];
+    let index: any;
+    let getAmount: any;
+    newClass = this.FeesDetailList[i].type_name.split(",");
+    newAmount = this.FeesDetailList[i].deduction_amount.split(",");
+
+    if (newClass.length == newAmount.length) {
+      index = newClass.indexOf(value);
+      if (index >= 0) {
+        getAmount = newAmount[index];
+      }
+      else {
+        getAmount = '0';
+      }
+    }
+    debugger;
+    if (getAmount) {
+      return getAmount;
+    }
+    else {
+      return '0'
+    }
+  }
+
+  exportDayWiseTotalExcel(): void {
+    const element = document.getElementById('detail_collection_print');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const wbout: ArrayBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const fileName = 'FeeDetails.xlsx';
+
+    FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), fileName);
+  }
+
 
   feesCollectionForm = new FormGroup({
     select_all: new FormControl(false),
@@ -161,7 +225,7 @@ export class StudentFeesComponent implements OnInit {
     total_amount: new FormControl(''),
     bill_no: new FormControl(''),
     payment_type: new FormControl('cash'),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
     busFeesList: new FormArray([
     ]),
     generalFees: new FormArray([
@@ -195,7 +259,7 @@ export class StudentFeesComponent implements OnInit {
       this.feesCollectionForm.get('father_name')?.setValue(this.StudentList[0].father_name);
       this.feesCollectionForm.get('batch_year')?.setValue(this.StudentList[0].batch_year);
       this.feesCollectionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
-      this.feesCollectionForm.get('cuid')?.setValue(1);
+      this.feesCollectionForm.get('cuid')?.setValue(this.userID);
 
       const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
       this.BusFeesesList = busFee;
@@ -229,7 +293,7 @@ export class StudentFeesComponent implements OnInit {
                 deduction_amount: new FormControl(''),
                 bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
                 payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                cuid: new FormControl(this.userID),
               })
             )
           }
@@ -267,7 +331,7 @@ export class StudentFeesComponent implements OnInit {
                 deduction_amount: new FormControl(''),
                 bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
                 payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                cuid: new FormControl(this.userID),
               })
             )
           }
@@ -305,7 +369,7 @@ export class StudentFeesComponent implements OnInit {
                 deduction_amount: new FormControl(''),
                 bill_no: new FormControl(this.feesCollectionForm.value.bill_no),
                 payment_type: new FormControl(this.feesCollectionForm.value.payment_type),
-                cuid: new FormControl(this.feesCollectionForm.value.cuid),
+                cuid: new FormControl(this.userID),
               })
             )
           }
@@ -646,16 +710,14 @@ export class StudentFeesComponent implements OnInit {
 
 
   async FeesDeduction() {
-    try {     
-      await this.getMaxId();
-      const data = await this.feesCollSvc.RecentFeesCollectionList(this.today).toPromise();
-      this.FeesCollectionList = data
-      const CheckBillNo = this.FeesCollectionList.filter((e) => e.bill_no === this.feesCollectionForm.value.bill_no);
-      if (CheckBillNo.length === 0) {
-        if (this.feesCollectionForm.valid) {
-          const feesInsert = this.feesCollectionForm.value;
-          const confirmDialog = await this.DialogSvc.openConfirmDialog('Are you sure want to Save?').afterClosed().toPromise();
-          if (confirmDialog === true) {
+    try {
+      if (this.feesCollectionForm.valid) {
+        const confirmDialog = await this.DialogSvc.openConfirmDialog('Are you sure want to Save?').afterClosed().toPromise();
+        if (confirmDialog === true) {
+          await this.getMaxId();
+          const data = await this.feesCollSvc.checkBillNo(this.feesCollectionForm.value.bill_no).toPromise();
+          if (data.length == 0) {
+            const feesInsert = this.feesCollectionForm.value;
             const res = await this.feesCollSvc.studentFeesDeduction(feesInsert).toPromise();
             if (res.status === 'Insert Success') {
               this.notificationSvc.success("Saved Success");
@@ -663,7 +725,7 @@ export class StudentFeesComponent implements OnInit {
               const billNo = this.feesCollectionForm.value.bill_no;
               await this.getMaxId();
               await this.cancelclick();
-              const data = await this.feesCollSvc.RecentFeesCollectionList(this.today).toPromise();
+              const data = await this.feesCollSvc.RecentFeesCollectionList(this.today, this.userID, this.roleName).toPromise();
               const billData = data.filter((e) => e.admission_no === admissionNo && e.bill_no === billNo);
               if (billData) {
                 this.previewClick(billData[0]);
@@ -671,14 +733,14 @@ export class StudentFeesComponent implements OnInit {
             } else {
               this.notificationSvc.error("Something error");
             }
+          } else {
+            this.getMaxId();
+            this.notificationSvc.error("Already have the bill number so I changed it - please save again");
           }
-        } else {
-          this.feesCollectionForm.markAllAsTouched();
-          this.notificationSvc.error("Fill in the mandatory fields");
         }
       } else {
-        this.getMaxId();
-        this.notificationSvc.error("Already have the bill number so I changed it - please save again");
+        this.feesCollectionForm.markAllAsTouched();
+        this.notificationSvc.error("Fill in the mandatory fields");
       }
     } catch (error) {
       this.notificationSvc.error("Error occurred:", error);
@@ -767,5 +829,4 @@ export class StudentFeesComponent implements OnInit {
         }
       });
   }
-
 }

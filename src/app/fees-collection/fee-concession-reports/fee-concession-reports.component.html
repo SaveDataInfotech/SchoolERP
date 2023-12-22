@@ -12,28 +12,55 @@
                     </div>
 
                     <form [formGroup]="feeConcessionAdForm" (ngSubmit)="feeConcessionAdReport()">
+                        <div class="row">
+                            <div class="col-sm-12" style="display: flex;font-size: 15px;">
+                                <div class="form-check mr-4 ml-4">
+                                    <input formControlName="report_type" value="morethan" class="form-check-input"
+                                        style="width: 15px;height: 15px;" type="radio">
+                                    <label class="form-check-label pt-1">
+                                        One Or More than One Day
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input formControlName="report_type" value="tilldate" class="form-check-input"
+                                        style="width: 15px;height: 15px;" type="radio">
+                                    <label class="form-check-label pt-1">
+                                        Till Date
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mt-3">
-                            <div class="col-sm-4" style="display: flex;">
+                            <div *ngIf="feeConcessionAdForm.value.report_type == 'morethan'" class="col-sm-4"
+                                style="display: flex;">
                                 <div style="float: left;width: 100px;text-align: right;">
                                     <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
-                                        [ngClass]="{'is-invalid':feeConcessionAdForm.controls.fromdate.touched && feeConcessionAdForm.controls.fromdate.errors}"
-                                        formControlName="fromdate" class="form-control" type="date" required>
+                                    <input formControlName="fromdate" class="form-control" type="date" required>
                                 </div>
                             </div>
 
-                            <div class="col-sm-4" style="display: flex;">
+                            <div *ngIf="feeConcessionAdForm.value.report_type == 'morethan'" class="col-sm-4"
+                                style="display: flex;">
                                 <div style="float: left;width: 100px;text-align: right;">
                                     <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input
-                                        [ngClass]="{'is-invalid':feeConcessionAdForm.controls.todate.touched && feeConcessionAdForm.controls.todate.errors}"
-                                        formControlName="todate" class="form-control" type="date" required>
+                                    <input formControlName="todate" class="form-control" type="date" required>
                                 </div>
                             </div>
+
+                            <div *ngIf="feeConcessionAdForm.value.report_type == 'tilldate'" class="col-sm-4"
+                                style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">Till Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="till_date" class="form-control" type="date" required>
+                                </div>
+                            </div>
+
                             <div class="col-sm-3 mt-1">
                                 <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
                                         class="fa fa-search ml-2"></i></button>
@@ -98,8 +125,27 @@
                     </div>
 
                     <form [formGroup]="feeConcessionTotalAmountForm" (ngSubmit)="feeConcessionTotalAmountReport()">
+                        <div class="row">
+                            <div class="col-sm-12" style="display: flex;font-size: 15px;">
+                                <div class="form-check mr-4 ml-4">
+                                    <input formControlName="report_type" value="morethan" class="form-check-input"
+                                        style="width: 15px;height: 15px;" type="radio">
+                                    <label class="form-check-label pt-1">
+                                        One Or More than One Day
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input formControlName="report_type" value="tilldate" class="form-check-input"
+                                        style="width: 15px;height: 15px;" type="radio">
+                                    <label class="form-check-label pt-1">
+                                        Till Date
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mt-3">
-                            <div class="col-sm-4" style="display: flex;">
+                            <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'morethan'" class="col-sm-4"
+                                style="display: flex;">
                                 <div style="float: left;width: 100px;text-align: right;">
                                     <label class="pt-2 pr-2" style="margin: auto;">From Date</label>
                                 </div>
@@ -110,7 +156,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4" style="display: flex;">
+                            <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'morethan'" class="col-sm-4"
+                                style="display: flex;">
                                 <div style="float: left;width: 100px;text-align: right;">
                                     <label class="pt-2 pr-2" style="margin: auto;">To Date</label>
                                 </div>
@@ -118,6 +165,15 @@
                                     <input
                                         [ngClass]="{'is-invalid':feeConcessionTotalAmountForm.controls.todate.touched && feeConcessionTotalAmountForm.controls.todate.errors}"
                                         formControlName="todate" class="form-control" type="date" required>
+                                </div>
+                            </div>
+                            <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'tilldate'" class="col-sm-4"
+                                style="display: flex;">
+                                <div style="float: left;width: 100px;text-align: right;">
+                                    <label class="pt-2 pr-2" style="margin: auto;">Till Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="till_date" class="form-control" type="date" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 mt-1">

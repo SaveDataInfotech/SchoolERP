@@ -35,7 +35,6 @@ export class StudentEnquiryComponent implements OnInit {
   finalDay: any;
 
   ngOnInit(): void {
-
     if (this.currentMonth < 10) {
       this.finalMonth = "0" + this.currentMonth;
     }
@@ -86,7 +85,6 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
   selectedSub(event: any) {
-
     if (event.target.checked) {
       this.StudentEnquiryForm.get('s_declare')?.setValue(true);
     } else {
@@ -108,7 +106,7 @@ export class StudentEnquiryComponent implements OnInit {
     community: new FormControl('', [Validators.required]),
     caste: new FormControl('', [Validators.required, Validators.pattern(/^([a-zA-Z]+)$/)]),
     bloodgroup: new FormControl(''),
-    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    aadhar: new FormControl(''),
     father_name: new FormControl('', [Validators.required]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
@@ -146,14 +144,14 @@ export class StudentEnquiryComponent implements OnInit {
   }
 
 
-  newEnquiry() {
-
+  async newEnquiry() {
     if (this.StudentEnquiryForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
-        .afterClosed().subscribe(res => {
+        .afterClosed().subscribe(async res => {
           if (res == true) {
+            await this.getMaxId();
             var Classinsert = (this.StudentEnquiryForm.value);
-            this.enquirySvc.addNewEnquiry(Classinsert).subscribe(res => {
+            this.enquirySvc.addNewEnquiry(Classinsert).subscribe(async res => {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved Success")
                 this.refreshClassList();
@@ -161,23 +159,26 @@ export class StudentEnquiryComponent implements OnInit {
                 this.cancelClick();
               }
               else if (res.status == 'Already exists') {
-                this.notificationSvc.warn("Student details already exists")
+                this.notificationSvc.warn("Enquiry No already exists ! Please Save it again");
+                await this.getMaxId();
               }
               else {
-                this.notificationSvc.error("Something error")
+                this.notificationSvc.error("Something error");
+                await this.getMaxId();
               }
             });
           }
         });
     }
     else if (this.StudentEnquiryForm.value.s_declare == false) {
-      this.notificationSvc.warn("Please declare")
+      this.notificationSvc.warn("Please declare");
+      await this.getMaxId();
     }
     else {
       this.StudentEnquiryForm.markAllAsTouched();
-      this.notificationSvc.error("Fill the mandatory fileds")
+      this.notificationSvc.error("Fill the mandatory fileds");
+      await this.getMaxId();
     }
-
   }
 
   getMaxId() {

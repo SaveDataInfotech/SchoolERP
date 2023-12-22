@@ -233,9 +233,12 @@ export class StaffPermissionComponent implements OnInit {
     if (this.staffLeavePermissionForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
+          debugger;
           if (res == true) {
             const formvalue = (this.staffLeavePermissionForm.value);
+            debugger;
             this.slpSvc.addNewPermission(formvalue).subscribe(res => {
+              debugger;
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();
@@ -355,6 +358,7 @@ export class StaffPermissionComponent implements OnInit {
             const formvalue = (this.staffHalfDayPermissionForm.value);
             console.log(formvalue);
             this.slpSvc.addNewHalfDay(formvalue).subscribe(res => {
+              debugger;
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
                 this.cancelClick();

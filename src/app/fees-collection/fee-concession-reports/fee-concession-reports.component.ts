@@ -17,23 +17,27 @@ export class FeeConcessionReportsComponent implements OnInit {
   }
 
   feeConcessionAdForm = new FormGroup({
+    report_type: new FormControl('morethan'),
     fromdate: new FormControl(''),
-    todate: new FormControl('')
+    todate: new FormControl(''),
+    till_date: new FormControl('')
   });
 
 
   async feeConcessionAdReport() {
-    if (this.feeConcessionAdForm.valid) {
+    debugger
+    if (this.feeConcessionAdForm.value.report_type == 'morethan') {
       const fromDateS = this.feeConcessionAdForm.value.fromdate;
       const toDateS = this.feeConcessionAdForm.value.todate;
 
       const adWiseList = await this.feesConSvc.feeConcessionAd(fromDateS, toDateS).toPromise();
       this.feeConcessionAdList = adWiseList;
-      console.log(this.feeConcessionAdList)
-
     }
-    else {
-      this.feeConcessionAdForm.markAllAsTouched();
+    else if (this.feeConcessionAdForm.value.report_type == 'tilldate') {
+      const tillDate = this.feeConcessionAdForm.value.till_date;
+
+      const adWiseList = await this.feesConSvc.feeConcessionAdTillDate(tillDate).toPromise();
+      this.feeConcessionAdList = adWiseList;
     }
   }
 
@@ -54,21 +58,26 @@ export class FeeConcessionReportsComponent implements OnInit {
 
 
   feeConcessionTotalAmountForm = new FormGroup({
+    report_type: new FormControl('morethan'),
     fromdate: new FormControl(''),
-    todate: new FormControl('')
+    todate: new FormControl(''),
+    till_date: new FormControl('')
   });
 
 
   async feeConcessionTotalAmountReport() {
-    if (this.feeConcessionTotalAmountForm.valid) {
+    if (this.feeConcessionTotalAmountForm.value.report_type == 'morethan') {
       const fromDateS = this.feeConcessionTotalAmountForm.value.fromdate;
       const toDateS = this.feeConcessionTotalAmountForm.value.todate;
 
       const total_amountWiseList = await this.feesConSvc.feeConcessionTotalAmount(fromDateS, toDateS).toPromise();
       this.feeConcessionTotalAmountList = total_amountWiseList;
     }
-    else {
-      this.feeConcessionTotalAmountForm.markAllAsTouched();
+    else if (this.feeConcessionTotalAmountForm.value.report_type == 'tilldate') {
+      const tillDate = this.feeConcessionTotalAmountForm.value.till_date;
+
+      const total_amountWiseList = await this.feesConSvc.feeConcessionTotalAmountTillDate(tillDate).toPromise();
+      this.feeConcessionTotalAmountList = total_amountWiseList;
     }
   }
 

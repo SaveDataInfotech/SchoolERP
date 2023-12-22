@@ -119,4 +119,7 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
     document.body.removeChild(a);
   }
 
+  gettotalBalance() {
+    return this.generalFee.reduce((acc, e) => acc + parseInt(e.balance), 0);
+  }
 }

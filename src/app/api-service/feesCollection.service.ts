@@ -14,9 +14,14 @@ export class FeescollectionService {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/GetStudents');
   }
 
-  RecentFeesCollectionList(value): Observable<any[]> {
+  RecentFeesCollectionList(value, id, role): Observable<any[]> {
     debugger;
-    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value);
+    return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value + '&id=' + id + '&role=' + role);
+  }
+
+  RecentFeesDetailList(value, id, role): Observable<any[]> {
+    debugger;
+    return this.http.get<any[]>(this.apiUrl + 'FeesTransaction/get_student_fee_transaction_detail?date=' + value + '&id=' + id + '&role=' + role);
   }
 
   getgeneralfeesbybillno(billNo, admissionNo): Observable<any[]> {
@@ -56,6 +61,10 @@ export class FeescollectionService {
 
   getMaxId(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/get_maxid_from_fees_deduction');
+  }
+
+  checkBillNo(value): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeesTransaction/checkbillno?bill_no=' + value);
   }
 
 }

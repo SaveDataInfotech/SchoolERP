@@ -286,26 +286,11 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Aadhar Number<span class="text-danger">
-                                    *</span></label>
+                            <label class="pt-2" style="margin: auto;">Aadhar Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors}"
-                                maxlength="12" minlength="12" (keypress)="numberOnly($event)" formControlName="aadhar"
-                                class="form-control" type="text" required>
-
-                            <span class="text-danger"
-                                *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors">
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors.required">
-                                    Aadhar Number is required
-                                </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors.minlength">
-                                    Invalid input
-                                </div>
-                            </span>
+                            <input maxlength="12" (keypress)="numberOnly($event)"
+                                formControlName="aadhar" class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -603,9 +588,8 @@
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-success mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="button" (click)="cancelClick()" style="width: 80px;"
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
+                        <input type="button" (click)="cancelClick()" style="width: 80px;"
                             class="btn btn-primary btn-sm mr-2" value="Cancel" />
                         <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
                             value="Close" />

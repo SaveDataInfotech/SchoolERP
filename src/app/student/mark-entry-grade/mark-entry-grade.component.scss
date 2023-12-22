@@ -1,44 +1,35 @@
-h3{
-    color: rgb(87, 97, 192);
-    font-size: large;
-    font-weight: 500;
-  }
+h3 {
+  color: rgb(25, 103, 210);
+  font-size: large;
+  font-weight: 600;
+}
 
-  .matcard{
-    box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
-  }
+.matcard {
+  box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
+}
 
-  .matcardactive{
-   // box-shadow: 0px 0px 10px 2px rgb(25, 103, 210);
-  }
+.hide-text {
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  color: transparent;
+}
 
-  .dash_std{
-    color: orangered;
-    cursor: pointer;
-  }
-  .dash_std:hover{
-    color: blue;
-  }
+.form-controls{
+  border-color: #ced4da; /* default B5 color or set your own color*/
+  border: none !important; /* if you want to remove borders at all*/
+  outline: none !important;
+  box-shadow: none !important;
+}  
 
-  select:focus{
-    border:2px solid blue ;
-  }
-  
-  textarea:hover{
-    border:2px solid green ;
-  }
-  
-  textarea:focus{
-    border:2px solid blue ;
-  }
-  
-  .labeldiv{
-    float: left;
-    width: 150px;
-    text-align: left;
-  }
-  
-  .inputdiv{
-    float: left;
-    width: 250px;
-  }
+
+.transubject{
+  background: transparent;
+  color: rgb(25, 103, 210);
+  //height: 10px;
+}
+
+th{
+  color: rgb(25, 103, 210);
+  font-weight: 400;
+}

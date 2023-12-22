@@ -29,10 +29,13 @@ export class ReportsComponent implements OnInit {
   sbalance: boolean;
   sbus: boolean;
   sarrear: boolean;
-  mobileNO:boolean;
+  mobileNO: boolean;
   colspanValue: number;
   FeesListOutStanding: any[] = [];
   checkedItems: any[] = [];
+
+  userID: number = Number(localStorage.getItem("userid"));
+  roleName: string = localStorage.getItem("rolename");
   constructor(private FtySvc: FeesTypeService,
     private batchSvc: BatechYearService,
     private fCSvc: FeesCollectionReportsService,
@@ -72,7 +75,6 @@ export class ReportsComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-
     const classid = Number(classsid);
     this.reportsForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -154,7 +156,6 @@ export class ReportsComponent implements OnInit {
   }
 
   getBalanceAmount(value: any, i) {
-
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -264,13 +265,13 @@ export class ReportsComponent implements OnInit {
   busFeetypetotalList: any[] = [];
   arrearFeetypetotalList: any[] = [];
   async searchReport(value) {
-    const busFeetypetotal = await this.fCSvc.busDescriptionReport(value).toPromise();
+    const busFeetypetotal = await this.fCSvc.busDescriptionReport(value, this.userID, this.roleName).toPromise();
     this.busFeetypetotalList = busFeetypetotal;
 
-    const arrearFeetypetotal = await this.fCSvc.arrearDescriptionReport(value).toPromise();
+    const arrearFeetypetotal = await this.fCSvc.arrearDescriptionReport(value, this.userID, this.roleName).toPromise();
     this.arrearFeetypetotalList = arrearFeetypetotal;
 
-    const feetypetotal = await this.fCSvc.generalDescriptionReport(value).toPromise();
+    const feetypetotal = await this.fCSvc.generalDescriptionReport(value, this.userID, this.roleName).toPromise();
     this.feetypetotalList = feetypetotal;
 
     const feeList = await this.FtySvc.getfeesTypeList().toPromise();

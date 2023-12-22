@@ -166,7 +166,7 @@
                         <tr>
                             <th scope="col">Si.No</th>
                             <th scope="col">Description</th>
-                            <th style="text-align: right;">Amount</th>
+                            <th style="text-align: right;">Paid Amount</th>
                             <th>Balance</th>
                         </tr>
                     </thead>
@@ -180,6 +180,7 @@
                         <tr>
                             <td colspan="2" style="text-align: right;">Total</td>
                             <td style="width: 150px;text-align: right;">{{studentDetails.total_amount}}</td>
+                            <td style="width: 150px;text-align: right;">{{gettotalBalance()}}</td>
                         </tr>
                         <tr>
                             <td class="capitalize" colspan="3" style="font-weight: bold;">{{amountInWords}} Rupees only

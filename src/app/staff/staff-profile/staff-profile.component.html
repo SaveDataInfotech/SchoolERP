@@ -8,7 +8,7 @@
                             <div style="float: left;width: 300px;">
                                 <h3 class="ml-1">Staff Profile</h3>
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                     <form [formGroup]="staffProfileForm" novalidate (ngSubmit)="onSubmit()">
                         <div class="row mt-3">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-6" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Category Name<span class="text-danger">
                                             *</span></label>
@@ -76,7 +76,8 @@
                                             *</span></label>
                                 </div>
                                 <div class="inputdiv">
-                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)"
+                                    <input oninput="this.value = this.value.toUpperCase()"
+                                        (keypress)="numberNotApplicable($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.staff_name.touched && staffProfileForm.controls.staff_name.errors}"
                                         type="text" style="width: 250px;" class="form-control"
                                         formControlName="staff_name" required>
@@ -270,34 +271,12 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Rejoin</label>
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <select formControlName="rejoin" style="width: 100%;" class="form-control">
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Rejoin Date</label>
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input formControlName="rejoin_date" class="form-control" type="date">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Father Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)" formControlName="f_name" class="form-control" type="text">
+                                    <input oninput="this.value = this.value.toUpperCase()"
+                                        (keypress)="numberNotApplicable($event)" formControlName="f_name"
+                                        class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -306,7 +285,9 @@
                                     <label class="pt-2" style="margin: auto;">Mother Name</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <input oninput="this.value = this.value.toUpperCase()" (keypress)="numberNotApplicable($event)" formControlName="m_name" class="form-control" type="text">
+                                    <input oninput="this.value = this.value.toUpperCase()"
+                                        (keypress)="numberNotApplicable($event)" formControlName="m_name"
+                                        class="form-control" type="text">
                                 </div>
                             </div>
                         </div>
@@ -637,7 +618,31 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Rejoin</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select formControlName="rejoin" style="width: 100%;" class="form-control">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Rejoin Date</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input formControlName="rejoin_date" class="form-control" type="date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Reliving</label>
@@ -665,8 +670,8 @@
                                     class="btn btn-success mr-3 btn-sm" value="Save" />
                                 <input matTooltip="Click to Cancel" (click)="cancelClick()" type="button"
                                     style="width: 80px;" class="btn btn-primary btn-sm mr-2" value="Cancel" />
-                                    <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
-                            value="Close" />
+                                <input type="button" style="width: 80px;" class="btn btn-danger btn-sm"
+                                    (click)="backButton()" value="Close" />
                             </div>
                         </div>
                     </form>
@@ -716,20 +721,19 @@
                                     class="cardlabelcon mt-1">{{staff.staff_no}}</label>
                             </div>
                             <div style="width: 100%;float: left;">
-                                <label class="cardlabel" >Name</label><label
+                                <label class="cardlabel">Name</label><label
                                     class="cardlabelcon">{{staff.staff_name}}</label>
                             </div>
                             <div style="width: 100%;float: left;">
-                                <label class="cardlabel" >Gender</label><label
+                                <label class="cardlabel">Gender</label><label
                                     class="cardlabelcon">{{staff.gender}}</label>
                             </div>
                             <div style="width: 100%;float: left;">
-                                <label class="cardlabel" >Type</label><label
+                                <label class="cardlabel">Type</label><label
                                     class="cardlabelcon">{{staff.staff_type}}</label>
                             </div>
                             <div style="width: 100%;float: left;">
-                                <label class="cardlabel " >DOB</label><label
-                                    class="cardlabelcon">{{staff.dob}}</label>
+                                <label class="cardlabel ">DOB</label><label class="cardlabelcon">{{staff.dob}}</label>
                             </div>
 
                             <div class="col-sm-12">
@@ -737,7 +741,6 @@
                                     value="Click To Edit" class="form-control btn btn-info" />
                             </div>
                         </div>
-
                     </div>
                 </div>
             </mat-card-content>

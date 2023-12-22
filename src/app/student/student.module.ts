@@ -29,6 +29,7 @@ import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.com
 import { StudentUpdateComponent } from './student-update/student-update.component';
 import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
 import { SmsPageComponent } from './sms-page/sms-page.component';
+import { UpdateMarkEntryGradeComponent } from './update-mark-entry-grade/update-mark-entry-grade.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SmsPageComponent } from './sms-page/sms-page.component';
     MarkEntryGradeComponent,
     StudentUpdateComponent,
     UpdateMarkRankComponent,
-    SmsPageComponent
+    SmsPageComponent,
+    UpdateMarkEntryGradeComponent
   ],
   imports: [
     CommonModule,RouterModule.forChild(studentRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,

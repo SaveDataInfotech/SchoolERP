@@ -41,7 +41,15 @@ export class FeesConcessionService {
     return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_daterange?fromdate=' + fromdate + '&todate=' + todate);
   }
 
+  feeConcessionAdTillDate(date): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_till_daterange?fromdate=' + date);
+  }
+
   feeConcessionTotalAmount(fromdate, todate): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_totalamount_daterange?fromdate=' + fromdate + '&todate=' + todate);
+  }
+
+  feeConcessionTotalAmountTillDate(date): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'FeeConcessionReports/get_fees_concession_totalamount_till_daterange?fromdate=' + date);
   }
 }
