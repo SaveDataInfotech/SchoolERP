@@ -234,7 +234,9 @@ export class StaffProfileComponent implements OnInit {
 
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
+      debugger;
       this.staffList = data;
+      console.log(data)
     });
   }
 

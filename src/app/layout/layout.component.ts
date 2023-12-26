@@ -157,8 +157,13 @@ export class LayoutComponent implements OnInit {
           link: "student/reports",
           isselect: false,
           value: 391
+        },
+        {
+          link_name: "Mark Entry Reports",
+          link: "student/mark_entry_reports",
+          isselect: false,
+          value: 392
         }
-
       ]
     },
     {
@@ -358,11 +363,11 @@ export class LayoutComponent implements OnInit {
         // }
 
         {
-            link_name: "Fee Concession Report",
-            link: "fees_collection/fee_con_report",
-            isselect: false,
-            value: 79
-          }
+          link_name: "Fee Concession Report",
+          link: "fees_collection/fee_con_report",
+          isselect: false,
+          value: 79
+        }
       ]
     },
     // {

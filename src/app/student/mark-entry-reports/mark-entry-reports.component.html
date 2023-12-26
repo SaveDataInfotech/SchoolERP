@@ -1,0 +1,293 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Consolidated Mark-Rank">
+        <div class="container-fluid">
+            <mat-card class="mt-4 matcard mb-2">
+                <mat-card-content>
+                    <form [formGroup]="consolidatedMarkRankForm">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Class<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid': consolidatedMarkRankForm.get('classid')?.touched && consolidatedMarkRankForm.get('classid')?.errors }"
+                                        formControlName="classid" style="width: 100%;" #t
+                                        (change)="filterGroupfun(t.value)" class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                            {{class.class_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Group</label>
+                                </div>
+                                <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+                                    <select formControlName="groupid" style="width: 100%;" #s
+                                        (change)="filterSectionfun(s.value)" class="form-control ">
+                                        <option value=0 selected disabled>Please select</option>
+                                        <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                            {{group.group_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Section<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid': consolidatedMarkRankForm.get('sectionid')?.touched && consolidatedMarkRankForm.get('sectionid')?.errors }"
+                                        formControlName="sectionid" (change)="searchExamnameByClass()"
+                                        style="width: 100%;" class="form-control" required>
+                                        <option value=null selected disabled>Please select</option>
+                                        <option [ngValue]="section.sectionid"
+                                            *ngFor="let section of sectionFilterlist;">
+                                            {{section.section_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Batch<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <input
+                                        [ngClass]="{'is-invalid':consolidatedMarkRankForm.controls.batch_year.touched && consolidatedMarkRankForm.controls.batch_year.errors}"
+                                        formControlName="batch_year" class="form-control" readonly required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div class="labeldiv">
+                                    <label class="pt-2" style="margin: auto;">Exam Name<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="inputdiv">
+                                    <select
+                                        [ngClass]="{'is-invalid':consolidatedMarkRankForm.controls.exam_name.touched && consolidatedMarkRankForm.controls.exam_name.errors}"
+                                        formControlName="exam_name" style="width: 100%;" class="form-control" required>
+                                        <option value='' selected disabled>Please select</option>
+                                        <option value={{section.exam_name}}
+                                            *ngFor="let section of StudentExamNameList;">
+                                            {{section.exam_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 mt-3">
+                            <div style="text-align: center;">
+                                <button (click)="searchReport()" type="button"
+                                    class="btn btn-info mr-2 btn-sm ">Consolidated Mark<i
+                                        class="fa fa-search ml-2"></i></button>
+                                <button (click)="searchOverAllSubReport()" type="button"
+                                    class="btn btn-info mr-2 btn-sm ">Over
+                                    all Subject<i class="fa fa-search ml-2"></i></button>
+                                <button (click)="multiMarkReport()" type="button"
+                                    class="btn btn-info mr-2 btn-sm ">Multi
+                                    Mark<i class="fa fa-search ml-2"></i></button>
+                                <input type="button" (click)="cancelClick()" style="width: 80px;"
+                                    class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card *ngIf="consolidatedMarkRankList.length && table1" class="mt-4 matcard mb-2">
+                <mat-card-content>
+                    <div class="container-fluid">
+                        <div class="row mr-5 pb-1" style="float: right;">
+                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
+                                printSectionId="consolidatedmarkrank_print" ngxPrint [useExistingCss]="true">
+                                Print <i class="fa fa-print ml-2"></i></button>
+                            <button (click)="exportConsolidatedExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                                Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
+                        </div>
+                        <div id="consolidatedmarkrank_print" class="table-responsive row mt-1">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <h2>Aim Matriculation Higher Secondary School</h2>
+                            </div>
+                            <div class="col-sm-12">
+                                <div style="display: flex;width: 100%;">
+                                    <p style="width: 33%;">Class Name:{{studentClass}}</p>
+                                    <p style="width: 33%;">Exam Name:{{examName}}</p>
+                                    <p style="width: 33%;">Class Incharge:{{classIncharge}}</p>
+                                </div>
+                            </div>
+                            <table class="col-sm-12 table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Si.No</th>
+                                        <th>AD NO</th>
+                                        <th>Name</th>
+                                        <ng-container *ngFor="let sub of subjectList">
+                                            <th>{{sub}}</th>
+                                        </ng-container>
+                                        <th>TOT</th>
+                                        <th>AVG</th>
+                                        <th>RESULT</th>
+                                        <th>Rank</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of consolidatedMarkRankList;let i=index;">
+                                        <th>{{i+1}}</th>
+                                        <td>{{item.admission_no}}</td>
+                                        <td>{{item.student_name}}</td>
+                                        <ng-container *ngFor="let sub of subjectList">
+                                            <td>{{getMark(sub,i)}}</td>
+                                        </ng-container>
+                                        <td>{{item.total}}</td>
+                                        <td>{{item.average}}</td>
+                                        <td>{{item.status}}</td>
+                                        <td>{{item.rank}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Subject Average</th>
+                                        <ng-container *ngFor="let sub of subjectList">
+                                            <td>{{getSubMarkAvg(sub) | number : '.2-2'}}</td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card *ngIf="overAllSubMarkList.length && table2" class="mt-4 matcard mb-2">
+                <mat-card-content>
+                    <div class="container-fluid">
+                        <div class="row mr-5 pb-1" style="float: right;">
+                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
+                                printSectionId="overallmarkrank_print" ngxPrint [useExistingCss]="true">
+                                Print <i class="fa fa-print ml-2"></i></button>
+                        </div>
+                        <div id="overallmarkrank_print" class="table-responsive row mt-1">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <h2>Aim Matriculation Higher Secondary School</h2>
+                            </div>
+                            <table class="col-sm-12 table table-bordered">
+                                <thead>
+                                    <th>TOTAL STRENGTH</th>
+                                    <th>PASS</th>
+                                    <th>FAIL</th>
+                                    <th>PASS%</th>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let item of overAllSubMarkList;let i=index">
+                                        <tr *ngIf="i==0">
+                                            <td>{{item.total_str}}</td>
+                                            <td>{{item.opass}}</td>
+                                            <td>{{item.ofail}}</td>
+                                            <td>{{getPer(item.total_str,item.opass) | number : '.2-2'}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                            <table class="col-sm-12 table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SUBJECT</th>
+                                        <th>TOTAL STR</th>
+                                        <th>PASS</th>
+                                        <th>FAIL</th>
+                                        <th>AB</th>
+                                        <th>PASS%</th>
+                                        <th>TEACHER</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of overAllSubMarkList;">
+                                        <td>{{item.subject_name}}</td>
+                                        <td>{{item.total_str}}</td>
+                                        <td>{{item.pass}}</td>
+                                        <td>{{item.fail}}</td>
+                                        <td>{{item.ab}}</td>
+                                        <td>{{getPer(item.total_str,item.pass) | number : '.2-2'}}</td>
+                                        <td>{{item.pm_staff_name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card *ngIf="multiMarkList.length && table3" class="mt-4 matcard mb-2">
+                <mat-card-content>
+                    <div class="container-fluid">
+                        <div class="row mr-5 pb-1" style="float: right;">
+                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
+                                printSectionId="multimarkrank_print" ngxPrint [useExistingCss]="true">
+                                Print <i class="fa fa-print ml-2"></i></button>
+                        </div>
+                        <div id="multimarkrank_print" class="table-responsive row mt-1">
+                            <div *ngFor="let item of multiMarkStudentList">
+                                <div class="col-sm-12" style="text-align: center;">
+                                    <h2>Aim Matriculation Higher Secondary School</h2>
+                                </div>
+                                <div class="col-sm-12" style="display: flex;">
+                                    <h3 style="width: 28%;">{{item.student_name}}</h3>
+                                    <h3 style="width: 28%;">{{item.admission_no}}</h3>
+                                    <p style="width: 28%;">Class-{{item.class_name}}</p>
+                                    <p style="width: 28%;">Section-{{item.section_name}}</p>
+                                </div>
+                                <table class="col-sm-12 table table-bordered">
+                                    <thead>
+                                        <th>Name of the Test</th>
+                                        <ng-container *ngFor="let sub of multisubjectList">
+                                            <th>{{sub}}</th>
+                                        </ng-container>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let exam of multiMarkList;let j=index">
+                                            <ng-container *ngIf="item.admission_no == exam.admission_no">
+                                                <tr>
+                                                    <td>{{exam.exam_name}}</td>
+                                                    <ng-container *ngFor="let subjecyt of multisubjectList">
+                                                        <td>{{getSubWiseMark(subjecyt,j)}}</td>
+                                                    </ng-container>
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                        <tr>
+                                            <td>Subject Teacher Sign</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-12" style="display: flex;">
+                                    <div style="width: 45%;text-align: left;">
+                                        Class Teacher
+                                    </div>
+                                    <div style="width: 45%;text-align: right;">
+                                        Principal
+                                    </div>
+                                </div>
+                                <hr style="background-color: blue;">
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Consolidated Mark-Grade">
+        <app-mark-entry-grade-report></app-mark-entry-grade-report>
+    </mat-tab>
+</mat-tab-group>

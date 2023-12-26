@@ -136,8 +136,10 @@ export class StudentProfileComponent implements OnInit {
     if (this.groupFilterlist.length == 0) {
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == this.studentDetailsForm.value.classid });
     }
+    if (this.studentDetailsForm.value.classid) {
+      this.getMaxId();
+    }
     this.spinner.hide();
-    this.getMaxId();
   }
 
   //// Number Only Event

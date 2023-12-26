@@ -10,7 +10,7 @@ import { markEntryService } from 'src/app/api-service/markEntryGrade.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { subjectService } from 'src/app/api-service/subject.service';
-
+import { ElementRef, QueryList, ViewChildren } from '@angular/core';
 @Component({
   selector: 'app-update-mark-entry-grade',
   templateUrl: './update-mark-entry-grade.component.html',
@@ -219,10 +219,9 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
 
   gradeConvert(i, j, grd) {
     debugger;
-    let gradeValue = parseFloat(grd); // Convert the input to a number
-    // Check if the input is not a number (i.e., a letter)
+    let gradeValue = parseFloat(grd);
     if (isNaN(gradeValue)) {
-      gradeValue = 0; // Treat it as 0
+      gradeValue = 0;
     }
 
     if (gradeValue > 100) {
@@ -404,6 +403,17 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
 
     const subject = await this.meSvc.refresSubjectGradeList(classID, groupID, sectionID, batchYear, examName).toPromise();
     this.SubjectListsss = subject;
+
+    if (this.SubjectListsss.length) {
+      this.SubjectListsss.forEach((e) => {
+        this.subjectDetailList.forEach((y) => {
+          if (e.subject_name == y.subject_name) {
+            e['practical_status'] = y.practical_status
+          }
+        })
+      })
+    }
+
     this.spinner.show();
     this.rankTypeMarkForm.patchValue(this.StudentList[0]);
 
@@ -432,5 +442,47 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
       })
       studentsFormArray.push(this.createStudentFormGroup(studentData));
     });
+  }
+
+
+  @ViewChildren('grd') grdInputs!: QueryList<ElementRef>;
+
+  moveCell(e: KeyboardEvent) {
+    const activeEle = document.activeElement as HTMLElement;
+    const activeEleIndex = this.grdInputs.toArray().findIndex(input => input.nativeElement === activeEle);
+
+    if (activeEleIndex !== -1) {
+      if (e.key === 'ArrowRight' && activeEleIndex < this.grdInputs.length - 1) {
+        const nextElement = this.grdInputs.toArray()[activeEleIndex + 1].nativeElement as HTMLElement;
+        nextElement.focus();
+      }
+
+      if (e.key === 'ArrowLeft' && activeEleIndex > 0) {
+        const previousElement = this.grdInputs.toArray()[activeEleIndex - 1].nativeElement as HTMLElement;
+        previousElement.focus();
+      }
+      debugger;
+      const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
+      const studentFormGroup = studentsArray.at(0) as FormGroup;
+      const subjectsArray = studentFormGroup.get('subjects') as FormArray;
+      const numRows = studentsArray.length;
+      const numCols = subjectsArray.length;
+
+      if (e.key === 'ArrowUp') {
+        const newIndex = activeEleIndex - numCols;
+        if (newIndex >= 0) {
+          const upElement = this.grdInputs.toArray()[newIndex].nativeElement as HTMLElement;
+          upElement.focus();
+        }
+      }
+
+      if (e.key === 'ArrowDown') {
+        const newIndex = activeEleIndex + numCols;
+        if (newIndex < numRows * numCols && newIndex < this.grdInputs.length) {
+          const downElement = this.grdInputs.toArray()[newIndex].nativeElement as HTMLElement;
+          downElement.focus();
+        }
+      }
+    }
   }
 }

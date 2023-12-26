@@ -87,8 +87,8 @@
                                         formControlName="typeid" (change)="dateChange()" style="width: 100%;"
                                         class="form-control" required>
                                         <option value=null selected disabled>Please select</option>
-                                        <option [ngValue]="Staff.typeid" *ngFor="let Staff of StaffLeaveList;">
-                                            {{Staff.type_name}}</option>
+                                        <option [ngValue]="leave.typeid" *ngFor="let leave of StaffLeaveList;">
+                                            {{leave.type_name}}</option>
                                     </select></td>
                                 <td style="width: 180px;"><input
                                         [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.fromdate.touched && staffLeavePermissionForm.controls.fromdate.errors}"

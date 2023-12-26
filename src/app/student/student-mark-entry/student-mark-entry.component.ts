@@ -9,7 +9,7 @@ import { markEntryService } from 'src/app/api-service/markEntryGrade.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { subjectService } from 'src/app/api-service/subject.service';
-
+import { ElementRef, QueryList, ViewChildren } from '@angular/core';
 @Component({
   selector: 'app-student-mark-entry',
   templateUrl: './student-mark-entry.component.html',
@@ -32,7 +32,7 @@ export class StudentMarkEntryComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
 
-  StudentList: any[] = [];
+  // StudentList: any[] = [];
   examNameList: any[] = [];
   constructor(
     private fb: FormBuilder,
@@ -166,6 +166,8 @@ export class StudentMarkEntryComponent implements OnInit {
 
   searchStudentByClass() {
     debugger;
+    this.spiltList = [];
+    this.rankTypeMarkForm.get('classincharge')?.setValue('');
     let classid: number = (this.rankTypeMarkForm.value.classid);
     let groupid: number = (this.rankTypeMarkForm.value.groupid);
     let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
@@ -174,6 +176,7 @@ export class StudentMarkEntryComponent implements OnInit {
       debugger;
       this.subjectList = data;
       if (this.subjectList.length != 0) {
+        this.rankTypeMarkForm.get('classincharge')?.setValue(this.subjectList[0].staff_name);
         this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
           return { subject_name: item, selected: false };
         });
@@ -447,7 +450,7 @@ export class StudentMarkEntryComponent implements OnInit {
     this.rankTypeMarkForm.reset();
     this.rankTypeMarkForm.get('entryid')?.setValue(0),
       this.rankTypeMarkForm.get('cuid')?.setValue(1),
-      this.StudentList = [];
+      this.studentList = [];
     this.rankTypeMarkForm.get('batch_year')?.setValue(this.newgetbatch);
     this.subjectFilterList = [];
     this.spiltList = [];
@@ -457,4 +460,43 @@ export class StudentMarkEntryComponent implements OnInit {
       students.removeAt(0)
     }
   }
+
+  @ViewChildren('grd') grdInputs!: QueryList<ElementRef>;
+
+  moveCell(e: KeyboardEvent) {
+    const activeEle = document.activeElement as HTMLElement;
+    const activeEleIndex = this.grdInputs.toArray().findIndex(input => input.nativeElement === activeEle);
+
+    if (activeEleIndex !== -1) {
+      if (e.key === 'ArrowRight' && activeEleIndex < this.grdInputs.length - 1) {
+        const nextElement = this.grdInputs.toArray()[activeEleIndex + 1].nativeElement as HTMLElement;
+        nextElement.focus();
+      }
+
+      if (e.key === 'ArrowLeft' && activeEleIndex > 0) {
+        const previousElement = this.grdInputs.toArray()[activeEleIndex - 1].nativeElement as HTMLElement;
+        previousElement.focus();
+      }
+      debugger;
+      const numRows = this.studentList.length;
+      const numCols = this.subjectFilterList.length;
+
+      if (e.key === 'ArrowUp') {
+        const newIndex = activeEleIndex - numCols;
+        if (newIndex >= 0) {
+          const upElement = this.grdInputs.toArray()[newIndex].nativeElement as HTMLElement;
+          upElement.focus();
+        }
+      }
+
+      if (e.key === 'ArrowDown') {
+        const newIndex = activeEleIndex + numCols;
+        if (newIndex < numRows * numCols && newIndex < this.grdInputs.length) {
+          const downElement = this.grdInputs.toArray()[newIndex].nativeElement as HTMLElement;
+          downElement.focus();
+        }
+      }
+    }
+  }
+
 }

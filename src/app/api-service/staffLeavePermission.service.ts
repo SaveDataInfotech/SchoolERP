@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class staffLeavePermissionService {
-   readonly apiUrl = 'https://localhost:44314/api/';
+    readonly apiUrl = 'https://localhost:44314/api/';
     constructor(private http: HttpClient) {
     }
 
@@ -25,15 +25,16 @@ export class staffLeavePermissionService {
     }
 
     addNewPermission(value: any): Observable<any> {
-
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/insert_staff_leave_permission_history', value, httpOptions);
     }
 
     addNewHalfDay(value: any): Observable<any> {
-debugger;
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/insert_staff_leave_halfday_permission_history', value, httpOptions);
     }
 
+    checkAttendanceStaff(staffNo, date): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'StaffLeavePermission/checkattendancestaff?staff_no=' + staffNo + '&date=' + date);
+    }
 }

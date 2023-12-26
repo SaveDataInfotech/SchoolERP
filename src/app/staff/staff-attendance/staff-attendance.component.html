@@ -57,8 +57,12 @@
                                 <th>Si.No</th>
                                 <th>Staff No</th>
                                 <th>Staff Name</th>
-                                <th>FN</th>
-                                <th>AN</th>
+                                <th><mat-checkbox class="example-margin matlabel" [checked]="allComplete"
+                                        [indeterminate]="fnsomeComplete()" (change)="fnsetAll($event.checked)">FN
+                                    </mat-checkbox></th>
+                                <th><mat-checkbox class="example-margin matlabel" [checked]="anAllComplete"
+                                        [indeterminate]="ansomeComplete()" (change)="ansetAll($event.checked)">AN
+                                    </mat-checkbox></th>
                                 <th>Full Day Leave</th>
                                 <th>Half Day Permission</th>
                                 <th>Leave Type</th>
@@ -69,8 +73,8 @@
                                 <td>{{i+1}}</td>
                                 <td>{{staff.staff_no}}</td>
                                 <td>{{staff.staff_name}}</td>
-                                <td><input [disabled]="staff.leave == true || staff.l_fn == true == true"
-                                        [(ngModel)]="staff.fn" name="fn{{i}}" #fn="ngModel" type="checkbox">
+                                <td><input [disabled]="staff.leave == true || staff.l_fn == true" [(ngModel)]="staff.fn"
+                                        name="fn{{i}}" #fn="ngModel" type="checkbox">
                                     <span class="pl-2 text-success" *ngIf="staff.fn == true"><b>P</b></span><span
                                         class="pl-2 text-danger" *ngIf="staff.fn == false"><b>A</b></span>
                                 </td>

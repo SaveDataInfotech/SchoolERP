@@ -186,11 +186,12 @@
                                                 <input
                                                     [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
                                                     (change)="gradeConvert(i,j,grd.value)" placeholder="Mark"
-                                                    type="text" #grd class="form-control form-controls"
-                                                    formControlName="marks">
+                                                    (keydown)="moveCell($event)" type="text" #grd
+                                                    class="form-control form-controls" formControlName="marks">
                                                 <input
                                                     [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
-                                                    type="text" class="form-control form-controls form-controls"
+                                                    type="text" readonly
+                                                    class="form-control form-controls form-controls"
                                                     formControlName="grade">
                                             </span>
                                         </ng-container>

@@ -19,7 +19,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CurrencyPipe} from '@angular/common';
 import { DatePipe } from '@angular/common';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     StaffProfileComponent,
@@ -33,7 +33,7 @@ import { DatePipe } from '@angular/common';
   providers: [CurrencyPipe,DatePipe],
   imports: [
     CommonModule,RouterModule.forChild(staffRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule
+    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,MatCheckboxModule
   ]
 })
 export class StaffModule { }

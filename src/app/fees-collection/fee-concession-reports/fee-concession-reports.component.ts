@@ -76,9 +76,13 @@ export class FeeConcessionReportsComponent implements OnInit {
     else if (this.feeConcessionTotalAmountForm.value.report_type == 'tilldate') {
       const tillDate = this.feeConcessionTotalAmountForm.value.till_date;
 
-      const total_amountWiseList = await this.feesConSvc.feeConcessionTotalAmountTillDate(tillDate).toPromise();
+      const total_amountWiseList = await this.feesConSvc.feeConcessionTotalAmountTillDate().toPromise();
       this.feeConcessionTotalAmountList = total_amountWiseList;
     }
+  }
+
+  clearArray() {
+    this.feeConcessionTotalAmountList = [];
   }
 
   exporTotalAmountExcel(): void {

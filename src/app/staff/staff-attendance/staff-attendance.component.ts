@@ -17,7 +17,8 @@ export class StaffAttendanceComponent implements OnInit {
   staffList: StaffAttendanceModel[] = [];
   LaveTyList: any[] = [];
   serachDisabled: boolean = false;
-
+  allComplete: boolean = false;
+  anAllComplete: boolean = false;
   constructor(
     private notificationSvc: NotificationsService,
     private SttySvc: staffTypeService,
@@ -73,6 +74,44 @@ export class StaffAttendanceComponent implements OnInit {
   refreshLeaveTypeList() {
     this.LvtySvc.getLeaveTypeList().subscribe(data => {
       this.LaveTyList = data;
+    });
+  }
+
+  fnsomeComplete(): boolean {
+    if (this.staffList == null) {
+      return false;
+    }
+    return this.staffList.filter(t => t.fn).length > 0 && !this.allComplete;
+  }
+
+  fnsetAll(completed: boolean) {
+    this.allComplete = completed;
+    if (this.staffList == null) {
+      return;
+    }
+    this.staffList.forEach((t) => {
+      if (t.leave != true && t.l_fn != true) {
+        t.fn = completed
+      }
+    });
+  }
+
+  ansomeComplete(): boolean {
+    if (this.staffList == null) {
+      return false;
+    }
+    return this.staffList.filter(t => t.an).length > 0 && !this.anAllComplete;
+  }
+
+  ansetAll(completed: boolean) {
+    this.anAllComplete = completed;
+    if (this.staffList == null) {
+      return;
+    }
+    this.staffList.forEach((t) => {
+      if (t.leave != true && t.l_an != true) {
+        (t.an = completed)
+      }
     });
   }
 

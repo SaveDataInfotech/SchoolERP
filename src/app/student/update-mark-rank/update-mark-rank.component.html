@@ -174,8 +174,8 @@
                     <span *ngFor="let subject of student.get('subjects').controls; let j = index" [formGroupName]="j">
                       <span style="display: flex;">
                         <input [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
-                          (change)="gradeConvert(i,j,grd.value)" placeholder="Mark" type="text" #grd
-                          class="mr-2 form-control form-controls" formControlName="marks">
+                          (change)="gradeConvert(i,j,grd.value)" (keydown)="moveCell($event)" placeholder="Mark"
+                          type="text" #grd class="mr-2 form-control form-controls" formControlName="marks">
                       </span>
                     </span>
                   </span>

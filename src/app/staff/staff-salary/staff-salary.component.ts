@@ -29,7 +29,6 @@ export class StaffSalaryComponent implements OnInit {
   }
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
-      debugger;
       this.StaffTypeList = data;
     });
   }
@@ -52,12 +51,11 @@ export class StaffSalaryComponent implements OnInit {
     return (this.staffSalaryForm.get('staffList') as FormArray).controls;
   }
 
-  searchStaff() {    
+  searchStaff() {
     if (this.staffSalaryForm.valid) {
-
       this.sttySalSvc.getstaffProfileListBySalary(this.staffSalaryForm.value.sal_month).subscribe(data => {
         this.staffListSalaryAll = data;
-        this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 && e.staff_typeid == this.staffSalaryForm.value.staff_typeid})
+        this.staffList = this.staffListSalaryAll.filter((e) => { return e.activestatus == 1 && e.staff_typeid == this.staffSalaryForm.value.staff_typeid })
 
         const control = <FormArray>this.staffSalaryForm.controls['staffList'];
         while (control.length !== 0) {
@@ -65,6 +63,7 @@ export class StaffSalaryComponent implements OnInit {
         }
         const newStaffList = this.staffList.filter((e) => { return e.staff_type == this.staffSalaryForm.value.staff_type });
         newStaffList.forEach(element => {
+          debugger;
           const control = <FormArray>this.staffSalaryForm.controls['staffList'];
           control.push(
             new FormGroup({
@@ -74,25 +73,25 @@ export class StaffSalaryComponent implements OnInit {
               present_day: new FormControl((element.an) / 2),
               absent_day: new FormControl(String(Number(this.staffSalaryForm.value.working_days) - (Number(element.leave) + Number((element.an) / 2) + (element.l_an / 2)))),
               leave: new FormControl(String(Number(element.leave) + (element.l_an / 2))),
-              payable_days: new FormControl(''),
+              payable_days: new FormControl(String((Number(element.leave) + (element.l_an / 2)) + ((element.an) / 2))),
               basic_pay: new FormControl(element.basic_pay),
               da: new FormControl(element.da),
               hra: new FormControl(element.hra),
               allowance: new FormControl(element.allowance),
               total_salary: new FormControl(element.total_salary),
-              grand_total: new FormControl(''),
+              grand_total: new FormControl(String(Math.round(Number(element.total_salary) / Number(this.staffSalaryForm.value.working_days)) * Number(String((Number(element.leave) + (element.l_an / 2)) + ((element.an) / 2))))),
               emi_amount: new FormControl(element.emi_amount),
               d_amount: new FormControl(element.emi_amount),
-              absent_amount: new FormControl(''),
+              absent_amount: new FormControl(String(Math.round((Number(element.total_salary) - (Number(element.total_salary) / Number(this.staffSalaryForm.value.working_days)) * Number((Number(element.leave) + (element.l_an / 2)) + ((element.an) / 2)))))),
+             
               isepf: new FormControl(element.epf),
               epf: new FormControl(String(Number(element.basic_pay) * 12 / 100)),
-              deduction: new FormControl(''),
-              net_salary: new FormControl('')
+              deduction: new FormControl(String(Number(element.emi_amount) + Number(String(Number(element.total_salary) - (Number(element.total_salary) / Number(this.staffSalaryForm.value.working_days)) * Number((Number(element.leave) + (element.l_an / 2)) + ((element.an) / 2)))) + Number(String(Number(element.basic_pay) * 12 / 100)))),
+              net_salary: new FormControl(String(Number(element.total_salary) - Number(String(Number(element.emi_amount) + Number(String(Number(element.total_salary) - (Number(element.total_salary) / Number(this.staffSalaryForm.value.working_days)) * Number((Number(element.leave) + (element.l_an / 2)) + ((element.an) / 2)))) + Number(String(Number(element.basic_pay) * 12 / 100))))))
             })
           )
         });
       });
-
     }
     else {
       this.staffSalaryForm.markAllAsTouched();

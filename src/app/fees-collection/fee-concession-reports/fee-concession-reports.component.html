@@ -74,7 +74,7 @@
             <mat-card class="matcard mb-5">
                 <mat-card-content>
                     <div class="row mr-5 pb-1" style="float: right;">
-                        <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                        <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
                             printSectionId="dayAD_wise_concession_print" ngxPrint [useExistingCss]="true">
                             Print <i class="fa fa-print ml-2"></i></button>
                         <button (click)="exportDayWiseTotalExcel()" class="btn btn-info ml-2 btn-sm">Download to
@@ -128,15 +128,16 @@
                         <div class="row">
                             <div class="col-sm-12" style="display: flex;font-size: 15px;">
                                 <div class="form-check mr-4 ml-4">
-                                    <input formControlName="report_type" value="morethan" class="form-check-input"
-                                        style="width: 15px;height: 15px;" type="radio">
+                                    <input formControlName="report_type" value="morethan" (change)="clearArray()"
+                                        class="form-check-input" style="width: 15px;height: 15px;" type="radio">
                                     <label class="form-check-label pt-1">
                                         One Or More than One Day
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input formControlName="report_type" value="tilldate" class="form-check-input"
-                                        style="width: 15px;height: 15px;" type="radio">
+                                    <input (change)="feeConcessionTotalAmountReport()" formControlName="report_type"
+                                        value="tilldate" class="form-check-input" style="width: 15px;height: 15px;"
+                                        type="radio">
                                     <label class="form-check-label pt-1">
                                         Till Date
                                     </label>
@@ -167,7 +168,7 @@
                                         formControlName="todate" class="form-control" type="date" required>
                                 </div>
                             </div>
-                            <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'tilldate'" class="col-sm-4"
+                            <!-- <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'tilldate'" class="col-sm-4"
                                 style="display: flex;">
                                 <div style="float: left;width: 100px;text-align: right;">
                                     <label class="pt-2 pr-2" style="margin: auto;">Till Date</label>
@@ -175,8 +176,9 @@
                                 <div style="float: left;width: 250px;">
                                     <input formControlName="till_date" class="form-control" type="date" required>
                                 </div>
-                            </div>
-                            <div class="col-sm-3 mt-1">
+                            </div> -->
+                            <div *ngIf="feeConcessionTotalAmountForm.value.report_type == 'morethan'"
+                                class="col-sm-3 mt-1">
                                 <button class="btn btn-info btn-sm mr-3" type="submit">Search<i
                                         class="fa fa-search ml-2"></i></button>
                                 <button class="btn btn-primary btn-sm" type="reset">Cancel</button>
@@ -190,9 +192,8 @@
                 <mat-card-content>
                     <div class="row">
                         <div style="margin: auto;text-align: right;" class="col-sm-6 pb-1 pr-5">
-                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn"
-                                color="primary" printSectionId="totalamount_concession_print" ngxPrint
-                                [useExistingCss]="true">
+                            <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
+                                printSectionId="totalamount_concession_print" ngxPrint [useExistingCss]="true">
                                 Print <i class="fa fa-print ml-2"></i></button>
                             <button (click)="exporTotalAmountExcel()" class="btn btn-info ml-2 btn-sm">Download to
                                 Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
@@ -203,7 +204,7 @@
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
-                                    <th>Date</th>
+                                    <th *ngIf="feeConcessionTotalAmountForm.value.report_type !='tilldate'">Date</th>
                                     <th>Fees Type</th>
                                     <th>Amount</th>
                                 </tr>
@@ -212,7 +213,8 @@
                                 <ng-container *ngFor="let item of feeConcessionTotalAmountList;let i=index">
                                     <tr>
                                         <td>{{i+1}}</td>
-                                        <td>{{item.date}}</td>
+                                        <td *ngIf="feeConcessionTotalAmountForm.value.report_type !='tilldate'">
+                                            {{item.date}}</td>
                                         <td>{{item.type_name}}</td>
                                         <td>{{item.deduction_amount}}</td>
                                     </tr>

@@ -11,6 +11,7 @@ import { MarkEntryGradeComponent } from './mark-entry-grade/mark-entry-grade.com
 import { StudentUpdateComponent } from './student-update/student-update.component';
 import { UpdateMarkRankComponent } from './update-mark-rank/update-mark-rank.component';
 import { SmsPageComponent } from './sms-page/sms-page.component';
+import { MarkEntryReportsComponent } from './mark-entry-reports/mark-entry-reports.component';
 
 export const studentRoutes: Routes = [
   {
@@ -26,40 +27,43 @@ export const studentRoutes: Routes = [
     component: StudentProfileComponent,
   },
   {
-    path:"student_update",
-    component:StudentUpdateComponent,
+    path: "student_update",
+    component: StudentUpdateComponent,
   },
   {
-    path:"student_attendance",
-    component:StudentAttendanceComponent,
+    path: "student_attendance",
+    component: StudentAttendanceComponent,
   },
   {
-    path:"student_mark_entry",
-    component:StudentMarkEntryComponent
+    path: "student_mark_entry",
+    component: StudentMarkEntryComponent
   },
   {
-    path:"update_mark_rank",
-    component:UpdateMarkRankComponent
+    path: "update_mark_rank",
+    component: UpdateMarkRankComponent
   },
   {
-    path:"mark_entry_grade",
-    component:MarkEntryGradeComponent
+    path: "mark_entry_grade",
+    component: MarkEntryGradeComponent
   },
   {
-    path:"student_tc_applie",
-    component:StudentTcApplieComponent
+    path: "student_tc_applie",
+    component: StudentTcApplieComponent
   },
   {
-    path:"student_promote",
-    component:StudentPromoteComponent,
+    path: "student_promote",
+    component: StudentPromoteComponent,
   },
   {
-    path:"sms",
-    component:SmsPageComponent,
+    path: "sms",
+    component: SmsPageComponent,
   },
   {
-    path:"reports",
-    component:ReportsComponent,
+    path: "reports",
+    component: ReportsComponent,
   },
-
+  {
+    path: "mark_entry_reports",
+    component: MarkEntryReportsComponent,
+  },
 ];

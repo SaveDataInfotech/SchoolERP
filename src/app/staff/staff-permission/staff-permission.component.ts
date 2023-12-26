@@ -119,7 +119,7 @@ export class StaffPermissionComponent implements OnInit {
     }
   }
 
-  dateChange() {
+  async dateChange() {
     debugger;
     const staffNo = this.staffLeavePermissionForm.value.staff_no;
     const year = this.staffLeavePermissionForm.value.year;
@@ -127,15 +127,27 @@ export class StaffPermissionComponent implements OnInit {
     const todate = new Date(this.staffLeavePermissionForm.value.todate);
     var daysOfYear = [];
     for (var d = fromdate; d <= todate; d.setDate(d.getDate() + 1)) {
-      const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-        return e.staff_no == staffNo && e.year == year && e.leave_day == this.datepipe.transform(d, 'yyyy-MM-dd')
-      });
+      debugger;
 
-      if (checkArray.length == 0) {
-        daysOfYear.push(this.datepipe.transform(d, 'yyyy-MM-dd'));
+      const student = await this.slpSvc.checkAttendanceStaff(staffNo, this.datepipe.transform(d, 'yyyy-MM-dd')).toPromise();
+
+      debugger;
+      if (!student.length) {
+        const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
+          return e.staff_no == staffNo && e.year == year && e.leave_day == this.datepipe.transform(d, 'yyyy-MM-dd')
+        });
+
+        if (checkArray.length == 0) {
+          daysOfYear.push(this.datepipe.transform(d, 'yyyy-MM-dd'));
+        }
+        else {
+          this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+          this.staffLeavePermissionForm.get('fromdate')?.setValue('');
+          this.staffLeavePermissionForm.get('todate')?.setValue('');
+        }
       }
       else {
-        this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+        this.notificationSvc.warn('Alredy Put Attendance On This Day');
         this.staffLeavePermissionForm.get('fromdate')?.setValue('');
         this.staffLeavePermissionForm.get('todate')?.setValue('');
       }
@@ -305,7 +317,6 @@ export class StaffPermissionComponent implements OnInit {
     const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
     const FN = this.staffHalfDayPermissionForm.value.p_fn;
     const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-
       return (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays && e.p_fn == FN)
     });
 

@@ -215,10 +215,10 @@
                                                     <span style="display: flex;">
                                                         <input #grd
                                                             [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
-                                                            (change)="gradeConvert(i,j,grd.value)" placeholder="Mark"
+                                                            (change)="gradeConvert(i,j,grd.value)" placeholder="Mark" (keydown)="moveCell($event)"
                                                             type="text" class="form-control form-controls form-controls"
                                                             formControlName="marks">
-                                                        <input
+                                                        <input readonly
                                                             [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
                                                             type="text" class="form-control form-controls form-controls"
                                                             formControlName="grade">
