@@ -19,13 +19,12 @@
                                 <span *ngIf="buttonId == true ">
                                     <div class="inputdiv" *ngFor="let code of MaxId">
                                         <input placeholder="0{{code.typeid+1}}" class="form-control" type="text"
-                                            readonly required>
+                                            readonly>
                                     </div>
                                 </span>
                                 <span *ngIf="buttonId != true">
                                     <div class="inputdiv">
-                                        <input formControlName="typeid" class="form-control" type="text" readonly
-                                            required>
+                                        <input formControlName="typeid" class="form-control" type="text" readonly>
                                     </div>
                                 </span>
                             </div>
@@ -90,10 +89,10 @@
                     </form>
                 </mat-card-content>
             </mat-card>
-            <mat-card class="mt-2 matcard mb-5">
+            <mat-card class="mt-2 matcard mb-1">
                 <mat-card-content>
                     <div class="table-responsive">
-                        <table class="col-sm-6 table table-hover table-bordered table-sm  ">
+                        <table class="col-sm-6 table table-hover table-bordered table-sm">
                             <thead>
                                 <tr>
                                     <th>Si.No</th>
@@ -135,25 +134,25 @@
                     </div>
                     <form [formGroup]="leaveAssignForm" (ngSubmit)="NewLeaveAssign()">
                         <div class="row">
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <!-- <div class="col-sm-4 mt-3" style="display: flex;">
                                 <div class="labeldiv">
-                                    <label class="pt-2" style="margin: auto;">Assign Code</label>
+                                    <label style="margin: auto;">Assign Code</label>
                                 </div>
-                                <span *ngIf="AssignbuttonId == true ">
-                                    <div class="inputdiv" *ngFor="let code of AssignMaxId">
+                                <span *ngIf="leaveAssignForm.value.assignid ==0">
+                                    <div  style="width: 80px;" *ngFor="let code of AssignMaxId">
                                         <input placeholder="0{{code.assignid+1}}" class="form-control" type="text"
-                                            readonly required>
+                                            readonly>
                                     </div>
                                 </span>
-                                <span *ngIf="AssignbuttonId != true">
+                                <span *ngIf="leaveAssignForm.value.assignid >0">
                                     <div class="inputdiv">
                                         <input formControlName="assignid" class="form-control" type="text" readonly
-                                            required>
+                                            >
                                     </div>
                                 </span>
-                            </div>
+                            </div> -->
 
-                            <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="col-sm-4 mt-3" style="display: flex;">
                                 <div class="labeldiv">
                                     <label class="pt-2" style="margin: auto;">Category Name<span class="text-danger">
                                             *</span></label>
@@ -182,7 +181,7 @@
                             <div *ngFor="let chid of leaveAssignForm.get('leave')['controls']; let i = index"
                                 formGroupName="{{i}}">
                                 <div class="row">
-                                    <div class="col-sm-6 mt-3" style="display: flex;">
+                                    <div class="col-sm-4 mt-3" style="display: flex;">
                                         <div class="labeldiv">
                                             <label class="pt-2" style="margin: auto;">Leave Type</label>
                                         </div>
@@ -192,18 +191,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 mt-3" style="display: flex;">
+                                    <div class="col-sm-4 mt-3" style="display: flex;">
                                         <div class="labeldiv">
-                                            <label class="" style="margin: auto;">Maximum eligible per Year</label>
+                                            <label style="margin: auto;">Maximum eligible per Year</label>
                                         </div>
                                         <div class="inputdiv">
                                             <input formControlName="eligible_days" class="form-control" type="text">
                                         </div>
+                                    </div>
 
-                                        <!-- <div>
-                                            <mat-icon class="m-2 text-danger" style="cursor: pointer;"
-                                                (click)="removeLeave(i)">remove_circle_outline</mat-icon>
-                                        </div> -->
+                                    <div class="col-sm-4 mt-3" style="display: flex;">
+                                        <div class="labeldiv">
+                                            <label class="pt-2" style="margin: auto;">Per Month</label>
+                                        </div>
+                                        <div class="inputdiv">
+                                            <input formControlName="m_days" class="form-control" type="text">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +228,7 @@
                     </form>
                 </mat-card-content>
             </mat-card>
-            <mat-card class="mt-2 matcard mb-5">
+            <mat-card class="mt-2 matcard mb-1">
                 <mat-card-content>
                     <div class="table-responsive">
                         <table class="col-sm-8 table table-hover table-bordered table-sm  ">

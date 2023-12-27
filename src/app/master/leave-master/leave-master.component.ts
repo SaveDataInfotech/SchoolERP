@@ -57,6 +57,7 @@ export class LeaveMasterComponent implements OnInit {
       this.LaveTyList.forEach(e => {
         e['assignid'] = 0;
         e['eligible_days'] = '0';
+        e['m_days'] = '0';
       });
     });
   }
@@ -184,12 +185,6 @@ export class LeaveMasterComponent implements OnInit {
     return (this.leaveAssignForm.get('leave') as FormArray).controls;
   }
 
-  // removeLeave(index: any) {
-  //   const control = <FormArray>this.leaveAssignForm.controls['leave'];
-  //   control.at(index).get('eligible_days').setValue('0');
-  //   control.removeAt(index);    
-  // }
-
   NewLeaveAssign() {
     debugger;
     if (this.leaveAssignForm.valid) {
@@ -245,10 +240,8 @@ export class LeaveMasterComponent implements OnInit {
       control.removeAt(0)
     }
     if (control.length == 0) {
-
       const laveFilterArray = this.LaveAsList.filter((e) => { return e.category_id == this.leaveAssignForm.value.category_id });
       const result = laveFilterArray.concat(this.LaveTyList.filter(x => laveFilterArray.every(typeid => x.typeid !== typeid.typeid)));
-
       result.forEach(element => {
         control.push(
           new FormGroup({
@@ -257,6 +250,7 @@ export class LeaveMasterComponent implements OnInit {
             typeid: new FormControl(element.typeid),
             type_name: new FormControl(element.type_name),
             eligible_days: new FormControl(element.eligible_days),
+            m_days: new FormControl(element.m_days),
             cuid: new FormControl(1),
           })
         )
@@ -270,7 +264,6 @@ export class LeaveMasterComponent implements OnInit {
       control.removeAt(0)
     }
     if (control.length == 0) {
-
       const laveFilterArray = this.LaveAsList.filter((e) => { return e.assignid == assign });
       this.leaveAssignForm.get('category_id')?.setValue(laveFilterArray[0].category_id)
       laveFilterArray.forEach(element => {
@@ -281,12 +274,12 @@ export class LeaveMasterComponent implements OnInit {
             typeid: new FormControl(element.typeid),
             type_name: new FormControl(element.type_name),
             eligible_days: new FormControl(element.eligible_days),
+            m_days: new FormControl(element.m_days),
             cuid: new FormControl(1),
           })
         )
       });
     }
-
   }
 
   AssigncancelClick() {
