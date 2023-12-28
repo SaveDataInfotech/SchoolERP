@@ -7,6 +7,14 @@
         margin: 0;
     }
 
+    #multimarkrank_print {
+        page-break-inside: avoid;
+    }
+
+    .page-break-before {
+        page-break-inside: avoid;
+    }
+
     .container-fluid {
         width: 21cm;
         min-height: 29.7cm;
