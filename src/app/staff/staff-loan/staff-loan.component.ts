@@ -83,7 +83,7 @@ export class StaffLoanComponent implements OnInit {
   }
 
   staffFilter() {   
-    debugger; 
+     
     this.staffLoanForm.get('staff_no')?.setValue('');
     this.staffLoanForm.get('staff_name')?.setValue('');
    const value=this.staffLoanForm.value.staff_typeid

@@ -119,7 +119,7 @@ export class StaffCategoryComponent implements OnInit {
   }
 
   deleteClick(id: number) {
-    debugger;
+    
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {

@@ -85,7 +85,7 @@ export class FeesTransactionComponent implements OnInit {
   editClick(value) {
     this.eDSvc.openConfirmDialog(value)
       .afterClosed().subscribe(res => {
-        debugger;
+        
         if (res) {
           this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
             if (res.status == 'Saved successfully') {

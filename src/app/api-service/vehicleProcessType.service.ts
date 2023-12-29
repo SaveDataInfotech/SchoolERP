@@ -24,7 +24,7 @@ export class VehicleProcessTypeService {
     }
 
     deletevehicleProcessType(id: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleProcessType/Delete_vehicle_process_type?processid=' + id, httpOptions);
     }

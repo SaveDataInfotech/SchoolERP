@@ -11,7 +11,7 @@ export class PreviewFeesDialogService {
     constructor(private dialog: MatDialog) { }
 
     openConfirmDialog(generalFee: any, busFee: any, arrearFee, value) {
-        debugger;
+        
         return this.dialog.open(PreviewFeesDialogComponentComponent, {
             width: '620px',
             maxHeight: '650px',

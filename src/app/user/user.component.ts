@@ -113,7 +113,7 @@ export class UserComponent implements OnInit {
   }
 
   newUserProfile() {
-    debugger;
+    
     const mainMenuWithSelect = [];
     const subMenuWithSelect = [];
 
@@ -212,7 +212,7 @@ export class UserComponent implements OnInit {
   }
 
   updateGetClick(user: any) {
-    debugger;
+    
     this.menu = this.lSvc.AdminmenuSidebar;
     this.userProfileForm.get('userid')?.setValue(user.userid);
     this.userProfileForm.get('user_name')?.setValue(user.user_name);
@@ -237,7 +237,7 @@ export class UserComponent implements OnInit {
   }
 
   cancelClick() {
-    debugger;
+    
     this.menu = this.lSvc.AdminmenuSidebar;
     this.userProfileForm.reset();
     this.userProfileForm.get('userid')?.setValue(0);

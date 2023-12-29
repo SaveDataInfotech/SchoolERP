@@ -33,6 +33,7 @@ import { UpdateMarkEntryGradeComponent } from './update-mark-entry-grade/update-
 import { MarkEntryReportsComponent } from './mark-entry-reports/mark-entry-reports.component';
 import { NgxPrintModule } from 'ngx-print';
 import { MarkEntryGradeReportComponent } from './mark-entry-grade-report/mark-entry-grade-report.component';
+import { IndSubMarkReportComponent } from './ind-sub-mark-report/ind-sub-mark-report.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MarkEntryGradeReportComponent } from './mark-entry-grade-report/mark-en
     SmsPageComponent,
     UpdateMarkEntryGradeComponent,
     MarkEntryReportsComponent,
-    MarkEntryGradeReportComponent
+    MarkEntryGradeReportComponent,
+    IndSubMarkReportComponent
   ],
   imports: [
     CommonModule, RouterModule.forChild(studentRoutes), MatIconModule, MatCardModule, MatTooltipModule, FormsModule, ReactiveFormsModule,

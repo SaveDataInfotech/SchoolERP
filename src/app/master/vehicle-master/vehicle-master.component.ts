@@ -196,7 +196,7 @@ export class VehicleMasterComponent implements OnInit {
           });
       }
       else if (this.vehicleNoRootForm.value.vehicle_no_id != 0) {
-        debugger;
+        
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {
@@ -376,11 +376,11 @@ export class VehicleMasterComponent implements OnInit {
   })
 
   onFileChange(event: any) {
-    debugger;
+    
     this.file = event.target.files[0];
   }
   uploadFile(event: Event) {
-    debugger;
+    
     event.preventDefault();
 
     if (!this.file) {
@@ -390,7 +390,7 @@ export class VehicleMasterComponent implements OnInit {
 
     const fileReader = new FileReader();
     fileReader.onload = (e) => {
-      debugger;
+      
       const arrayBuffer = fileReader.result as ArrayBuffer;
       const data = new Uint8Array(arrayBuffer);
       const arr = [];
@@ -409,7 +409,7 @@ export class VehicleMasterComponent implements OnInit {
         // Convert the root_no value to a string
         const obj = this.data[i];
         const keys = Object.keys(obj);
-        debugger;
+        
         if (keys[0] == 'root_no' && keys[1] == 'places') {
           this.data[i].root_no = this.data[i].root_no.toString();
         }

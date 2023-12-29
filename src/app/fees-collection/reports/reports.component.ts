@@ -279,7 +279,7 @@ export class ReportsComponent implements OnInit {
   }
 
   getfeetypCashAmount(value: any) {
-    debugger;
+    
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -337,7 +337,7 @@ export class ReportsComponent implements OnInit {
 
 
   getfeetypBusCashAmount() {
-    debugger;
+    
     let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
     if (newFeesList.length != 0) {
       return newFeesList[0].feetypetotal
@@ -348,7 +348,7 @@ export class ReportsComponent implements OnInit {
   }
 
   getfeetypBusUpiAmount() {
-    debugger;
+    
     let newFeesList = this.busFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
     if (newFeesList.length != 0) {
       return newFeesList[0].feetypetotal
@@ -360,7 +360,7 @@ export class ReportsComponent implements OnInit {
 
 
   getArrearCashAmount() {
-    debugger;
+    
     let newFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cash' });
     if (newFeesList.length != 0) {
       return newFeesList[0].feetypetotal
@@ -371,7 +371,7 @@ export class ReportsComponent implements OnInit {
   }
 
   getArrearUpiAmount() {
-    debugger;
+    
     let newFeesList = this.arrearFeetypetotalList.filter((e) => { return e.payment_type == 'cheque_upi' });
     if (newFeesList.length != 0) {
       return newFeesList[0].feetypetotal

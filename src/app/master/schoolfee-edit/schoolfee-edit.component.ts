@@ -37,7 +37,7 @@ export class SchoolfeeEditComponent implements OnInit {
   });
 
   save(){
-    debugger;
+    
     if(this.editFeeCollection.valid){
       const res: any = true
       this.dialogRef.close(this.editFeeCollection.value);

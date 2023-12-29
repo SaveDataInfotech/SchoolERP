@@ -36,7 +36,7 @@ export class SubjectMasterComponent implements OnInit {
   refreshClassList() {
     debugger
     this.ClassSvc.getClassList().subscribe(data => {
-      debugger;
+      
       this.ClassList = data;
 
       const control = <FormArray>this.subjectForm.controls['classidArray']
@@ -46,7 +46,7 @@ export class SubjectMasterComponent implements OnInit {
 
       if (this.ClassList.length != 0 && control.length == 0) {
         this.ClassList.forEach(element => {
-          debugger;
+          
           control.push(
             new FormGroup({
               classid: new FormControl(element.classid),
@@ -80,7 +80,7 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   toggleAllCheckboxes() {
-    debugger;
+    
     const selectAllValue = this.subjectForm.get('selectAll').value;
     const classidArray = this.subjectForm.get('classidArray') as FormArray;
     for (let i = 0; i < classidArray.length; i++) {
@@ -102,7 +102,7 @@ export class SubjectMasterComponent implements OnInit {
   // }
 
   newSubject() {
-    debugger;
+    
     const classidArray = <FormArray>this.subjectForm.get('classidArray');
     const filteredItems = classidArray.controls.filter((control) => {
       return control.get('selected').value === true;
@@ -186,7 +186,7 @@ export class SubjectMasterComponent implements OnInit {
   }
 
   udateGetClick(subject: any) {
-    debugger;
+    
     this.subjectForm.patchValue(subject);
     this.subjectForm.get('cuid')?.setValue(1);
     this.buttonId = false;
@@ -196,7 +196,7 @@ export class SubjectMasterComponent implements OnInit {
     const classidArray = this.subjectForm.get('classidArray') as FormArray;
 
     classidArrayValue.forEach((e, i) => {
-      debugger;
+      
       if (classIdsArray.includes(e.classid)) {
         classidArray.at(i).get('selected').setValue(true);
       }

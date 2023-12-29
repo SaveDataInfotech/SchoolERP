@@ -30,7 +30,7 @@ export class LayoutComponent implements OnInit {
     this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
       this.userList = data;
       if (this.userList) {
-        debugger;
+        
         this.mainMenu = this.userList[0].main_menus
         this.subMenu = this.userList[0].sub_menus
         this.userName = this.userList[0].user_name
@@ -58,7 +58,7 @@ export class LayoutComponent implements OnInit {
       .afterClosed().subscribe(res => {
         if (res == true) {
           this.dBSvc.backupDB().subscribe(res => {
-            debugger;
+            
             if (res.status == 'BackUp Success') {
               this.notificationSvc.success(" BACK UP Success");
             }
@@ -589,12 +589,12 @@ export class LayoutComponent implements OnInit {
 
 
   showSubmenu(itemEl: HTMLElement) {
-    debugger;
+    
     itemEl.classList.toggle("showMenu");
   }
 
   showNestedSubmenu(item_sub: HTMLElement) {
-    debugger;
+    
     const nestedSubMenu = item_sub.querySelector('.nested-sub-menu');
     const isOpen = item_sub.classList.contains('showMenu');
 

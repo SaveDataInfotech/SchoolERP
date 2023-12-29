@@ -51,7 +51,7 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   refreshLeaveTypeList() {
-    debugger;
+    
     this.LvtySvc.getLeaveTypeList().subscribe(data => {
       this.LaveTyList = data;
       this.LaveTyList.forEach(e => {
@@ -186,12 +186,12 @@ export class LeaveMasterComponent implements OnInit {
   }
 
   NewLeaveAssign() {
-    debugger;
+    
     if (this.leaveAssignForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             var leaveAssigninsert = (this.leaveAssignForm.value.leave);
             this.LvAsSvc.addNewleaveAssign(leaveAssigninsert).subscribe(res => {
               if (res.status == 'Saved successfully') {

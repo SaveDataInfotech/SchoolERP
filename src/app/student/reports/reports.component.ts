@@ -41,7 +41,7 @@ export class ReportsComponent implements OnInit {
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.MigSvc.newStudentMig(this.StudentMigrationList).subscribe(res => {
-              debugger;
+              
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success('Saved Successfully');
               }
@@ -88,7 +88,7 @@ export class ReportsComponent implements OnInit {
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.MigSvc.newFEEMig(this.FeesList).subscribe(res => {
-              debugger;
+              
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
               }             
@@ -120,7 +120,7 @@ export class ReportsComponent implements OnInit {
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.MigSvc.newBusMig(this.BusList).subscribe(res => {
-              debugger;
+              
               if (res.status == 'Insert Success') {
                 this.notificationSvc.success('Saved Successfully');
               }             
@@ -151,7 +151,7 @@ export class ReportsComponent implements OnInit {
         .afterClosed().subscribe(res => {
           if (res == true) {
             this.MigSvc.newArrearMig(this.ArrearList).subscribe(res => {
-              debugger;
+              
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success('Saved Successfully');
               }             

@@ -133,7 +133,7 @@ export class MarkEntryGradeReportComponent implements OnInit {
 
       this.mERSvc.getconsolidatedMarkgrade(classID, groupID, sectionID, batchYear, examName).subscribe(async data => {
         this.classIncharge = data[0].classincharge;
-        this.studentClass = data[0].class_name + '-' + data[0].group_name + '-' + data[0].section_name;
+        this.studentClass = data[0].class_name + '-' + data[0].section_name;
         this.examName = data[0].exam_name
         this.subjectList = await data[0].subject_name.split(",");
         this.consolidatedMarkRankList = data;
@@ -189,7 +189,7 @@ export class MarkEntryGradeReportComponent implements OnInit {
   }
 
   getSubWiseMark(sub, j) {
-    debugger;
+    
     let newSub = [];
     let marks = [];
     let index: any;

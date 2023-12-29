@@ -126,7 +126,7 @@ export class StaffTypeComponent implements OnInit {
 
   //sample  for Dialog working
   deleteClick(staff_typeid: number) {
-    debugger;
+    
     this.DialogSvc.openConfirmDialog('Are you sure want to delete this record ?')
       .afterClosed().subscribe(res => {
         if (res == true) {

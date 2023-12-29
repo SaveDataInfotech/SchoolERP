@@ -15,13 +15,13 @@ export class VehicleExpenseService {
     }
 
     addNewvehicleExpense(value: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'VehicleExpense/insert_vehicle_expense', value, httpOptions);
     }
 
     deletevehicleExpense(id: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleExpense/delete_vehicle_expense?expenseid=' + id, httpOptions);
     }

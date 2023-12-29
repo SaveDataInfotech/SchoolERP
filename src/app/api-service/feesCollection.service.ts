@@ -15,12 +15,12 @@ export class FeescollectionService {
   }
 
   RecentFeesCollectionList(value, id, role): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value + '&id=' + id + '&role=' + role);
   }
 
   RecentFeesDetailList(value, id, role): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'FeesTransaction/get_student_fee_transaction_detail?date=' + value + '&id=' + id + '&role=' + role);
   }
 
@@ -46,7 +46,7 @@ export class FeescollectionService {
   }
 
   studentFeesEdit(data: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'FeesCollection/update_fees_collecction', data, httpOptions);
   }

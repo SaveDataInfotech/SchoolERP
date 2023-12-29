@@ -92,14 +92,14 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   passMarkValidationW(mark) {
-    debugger;
+    
     if (Number(mark) > 100) {
       this.rankTypeMarkForm.get('with_prac')?.setValue('');
     }
   }
 
   passMarkValidation(mark) {
-    debugger;
+    
     if (Number(mark) > 100) {
       this.rankTypeMarkForm.get('with_out_prac')?.setValue('');
     }
@@ -140,7 +140,7 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   filterGroupfun(classsid: any) {
-    debugger;
+    
     const classid = Number(classsid);
     this.rankTypeMarkForm.get('classid')?.setValue(classid);
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
@@ -166,7 +166,7 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   searchStudentByClass() {
-    debugger;
+    
     this.spiltList = [];
     this.rankTypeMarkForm.get('classincharge')?.setValue('');
     let classid: number = (this.rankTypeMarkForm.value.classid);
@@ -174,13 +174,26 @@ export class MarkEntryGradeComponent implements OnInit {
     let sectionid: number = (this.rankTypeMarkForm.value.sectionid);
 
     this.meSvc.searchSubjectByClass(classid, groupid, sectionid).subscribe(data => {
-      debugger;
+      
       this.subjectList = data;
       if (this.subjectList.length != 0) {
         this.rankTypeMarkForm.get('classincharge')?.setValue(this.subjectList[0].staff_name);
-        this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
-          return { subject_name: item, selected: false };
-        });
+        // this.spiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
+        //   return { subject_name: item, selected: false };
+        // });
+
+        this.spiltList = this.subjectList[0].subjectsname.split(",").map((item, index) => {
+          const subjetsidArray = this.subjectList[0].subjetsid.split(",").map((e: any, i: any) => {
+            if (index === i) {
+              return { subjectid: Number(e), subject_name: item, selected: false };
+            }
+            return null;
+          }).filter((e: any) => e !== null);
+
+          return subjetsidArray;
+        }).flat();
+
+        console.log(this.spiltList)
       }
       else {
         this.notificationSvc.error('No subject has been assigned to this class');
@@ -189,7 +202,7 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   async onchange() {
-    debugger;
+    
     const examName = this.rankTypeMarkForm.value.exam_name;
     const examClass = this.rankTypeMarkForm.value.classid;
     const examGroup = this.rankTypeMarkForm.value.groupid;
@@ -202,7 +215,7 @@ export class MarkEntryGradeComponent implements OnInit {
       const examNameList = await this.meSvc.refresExamnameGradeList(examClass, examGroup, examSection, examBatchYear, examName).toPromise();
       this.examNameList = examNameList;
 
-      debugger;
+      
       if (this.examNameList.length == 0) {
         const newarray = this.spiltList.filter((e) => { return e.selected == true });
         this.subjectFilterList = newarray;
@@ -282,12 +295,14 @@ export class MarkEntryGradeComponent implements OnInit {
   }
 
   createSubjectFormGroup(subject?): FormGroup {
-    debugger;
+    
+    const subId = subject.subjectid;
     const subjectn = subject.subject_name;
     const select = subject.selected;
     const prac = subject.practical_status;
     return this.fb.group({
       subject_name: [subjectn],
+      subjectid: [subId],
       selected: [select],
       practical_status: [prac],
       marks: [''],
@@ -309,7 +324,7 @@ export class MarkEntryGradeComponent implements OnInit {
   total: number = 0;
 
   gradeConvert(i, j, grd) {
-    debugger;
+    
     let gradeValue = parseFloat(grd); // Convert the input to a number
     // Check if the input is not a number (i.e., a letter)
     if (isNaN(gradeValue)) {
@@ -392,7 +407,7 @@ export class MarkEntryGradeComponent implements OnInit {
     } else {
       courseControl.at(i).get('status').setValue('Fail');
     }
-    debugger;
+    
     const orderBYMark = studentsArray.controls.map(control => control.value);
     const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
     const Student = studentsArray.controls.map(control => control.value);
@@ -494,7 +509,7 @@ export class MarkEntryGradeComponent implements OnInit {
         const previousElement = this.grdInputs.toArray()[activeEleIndex - 1].nativeElement as HTMLElement;
         previousElement.focus();
       }
-      debugger;
+      
       const numRows = this.studentList.length;
       const numCols = this.subjectFilterList.length;
 

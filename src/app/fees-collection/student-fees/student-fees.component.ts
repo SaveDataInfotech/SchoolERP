@@ -33,7 +33,6 @@ export class StudentFeesComponent implements OnInit {
   StudentList: any[] = [];
   FeesCollectionList: any[] = [];
   BusFeesesList: any[] = [];
-  //  total: number = 0;
   activeBatchYear: any = [];
   newgetbatch: string;
   maxIDList: any[] = [];
@@ -142,7 +141,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   async getMaxId() {
-    debugger;
+
     const max = await this.feesCollSvc.getMaxId().toPromise();
     this.maxIDList = max;
     this.maxnumber = this.maxIDList[this.maxIDList.length - 1].s_deductionid + 1;
@@ -173,7 +172,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   getCommonFees(value: any, i) {
-    debugger;
+
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -190,7 +189,7 @@ export class StudentFeesComponent implements OnInit {
         getAmount = '0';
       }
     }
-    debugger;
+
     if (getAmount) {
       return getAmount;
     }
@@ -246,11 +245,11 @@ export class StudentFeesComponent implements OnInit {
   }
 
   async getStudent(value) {
-    debugger;
+
     this.spinner.show();
     const studentDetails = await this.studProSvc.searchstudentDetails(value).toPromise();
     this.StudentList = studentDetails;
-    debugger;
+
     if (this.StudentList.length != 0) {
       this.feesCollectionForm.get('classid')?.setValue(this.StudentList[0].classid);
       this.feesCollectionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
@@ -338,7 +337,7 @@ export class StudentFeesComponent implements OnInit {
         });
       }
 
-      debugger;
+
       const arrearFee = await this.feesCollSvc.getArrearFeesList(value).toPromise();
       this.arrearFeesList = arrearFee;
 
@@ -348,10 +347,10 @@ export class StudentFeesComponent implements OnInit {
       }
 
       if (control5.length == 0) {
-        debugger;
+
         this.arrearFeesList.forEach(element => {
           if (element.balance != 0) {
-            debugger;
+
             const control = <FormArray>this.feesCollectionForm.controls['arrearFees'];
             control.push(
               new FormGroup({
@@ -385,7 +384,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   updateSelectAllCheckbox(i, value) {
-    debugger;
+
     let total: number = 0;
     const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
     const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
@@ -428,7 +427,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   updateSelectAllCheckboxArraer(i, value) {
-    debugger;
+
     let total: number = 0;
     const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
     const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
@@ -472,7 +471,7 @@ export class StudentFeesComponent implements OnInit {
 
 
   updateSelectAllCheckboxByBus(i, value) {
-    debugger;
+
     let total: number = 0;
     const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
     const busArray = this.feesCollectionForm.get('busFeesList') as FormArray;
@@ -515,7 +514,7 @@ export class StudentFeesComponent implements OnInit {
   }
 
   toggleAllCheckboxes(value) {
-    debugger;
+
     let total: number = 0;
     const selectAllValue = this.feesCollectionForm.get('select_all').value;
     const classidArray = this.feesCollectionForm.get('generalFees') as FormArray;
@@ -709,7 +708,32 @@ export class StudentFeesComponent implements OnInit {
   }
 
 
+  checkTotal() {
+    let total: number = 0;
+    const common = this.feesCollectionForm.get('generalFees') as FormArray;
+    common.controls.forEach((e) => {
+      const num = Number(e.value.deduction_amount);
+      total = total + num;
+    });
+
+    const bus = this.feesCollectionForm.get('busFeesList') as FormArray;
+    bus.controls.forEach((e) => {
+      const num = Number(e.value.deduction_amount);
+      total = total + num;
+    });
+
+    const arrear = this.feesCollectionForm.get('arrearFees') as FormArray;
+    arrear.controls.forEach((e) => {
+      const num = Number(e.value.deduction_amount);
+      total = total + num;
+    });
+
+    this.feesCollectionForm.get('total_amount')?.setValue(String(total));
+  }
+
+
   async FeesDeduction() {
+    await this.checkTotal();
     try {
       if (this.feesCollectionForm.valid) {
         const confirmDialog = await this.DialogSvc.openConfirmDialog('Are you sure want to Save?').afterClosed().toPromise();
@@ -750,15 +774,15 @@ export class StudentFeesComponent implements OnInit {
   async previewClick(value: any): Promise<void> {
     const generalFees = await this.feesCollSvc.getgeneralfeesbybillno(value.bill_no, value.admission_no).toPromise();
     this.Listgeneralfeesbybillno = generalFees;
-    debugger;
+
 
     const busFees = await this.feesCollSvc.getbusfeesbybillno(value.bill_no, value.admission_no).toPromise();
-    debugger;
+
     this.busfeesbybillnoList = busFees;
 
     const arrearFees = await this.feesCollSvc.getArrearfeesbybillno(value.bill_no, value.admission_no).toPromise();
     this.arrearfeesbybillnoList = arrearFees;
-    debugger;
+
 
     this.pDSvc.openConfirmDialog(this.Listgeneralfeesbybillno, this.busfeesbybillnoList, this.arrearfeesbybillnoList, value)
       .afterClosed().subscribe(res => {
@@ -804,7 +828,6 @@ export class StudentFeesComponent implements OnInit {
   }
 
   suggest(value) {
-    debugger;
     this.suggestions = this.studentName.filter(item =>
       item.student_name.toLowerCase().includes(value.toLowerCase())
     );
@@ -813,7 +836,6 @@ export class StudentFeesComponent implements OnInit {
   editClick(value) {
     this.eDSvc.openConfirmDialog(value)
       .afterClosed().subscribe(res => {
-        debugger;
         if (res) {
           this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
             if (res.status == 'Saved successfully') {

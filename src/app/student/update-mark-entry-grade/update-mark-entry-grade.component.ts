@@ -144,7 +144,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
   }
 
   searchExamnameByClass() {
-    debugger;
+    
     let classID: number = (this.rankTypeMarkForm.value.classid);
     let groupID: number = (this.rankTypeMarkForm.value.groupid);
     let sectionID: number = (this.rankTypeMarkForm.value.sectionid);
@@ -174,7 +174,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
   }
 
   createStudentFormGroup(student?: any): FormGroup {
-    debugger;
+    
     student = student || { admission_no: '', subjects: [] };
     return this.fb.group({
       entryid: [student.entryid],
@@ -193,10 +193,11 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
   }
 
   createSubjectFormGroup(subject?): FormGroup {
-    debugger;
+    
     return this.fb.group({
       subjectentryid: subject.subjectentryid,
       subject_name: subject.subject_name,
+      subjectid:subject.subjectid,
       selected: subject.selected,
       practical_status: subject.practical_status,
       marks: subject.marks,
@@ -218,7 +219,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
   total: number = 0;
 
   gradeConvert(i, j, grd) {
-    debugger;
+    
     let gradeValue = parseFloat(grd);
     if (isNaN(gradeValue)) {
       gradeValue = 0;
@@ -299,7 +300,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
     } else {
       courseControl.at(i).get('status').setValue('Fail');
     }
-    debugger;
+    
     const orderBYMark = studentsArray.controls.map(control => control.value);
     const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
     const Student = studentsArray.controls.map(control => control.value);
@@ -390,7 +391,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
   // StudentList1: any[] = [];
 
   async clickpop() {
-    debugger;
+    
 
     let examName = String(this.rankTypeMarkForm.value.exam_name);
     let classID: number = (this.rankTypeMarkForm.value.classid);
@@ -423,7 +424,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
     }
 
     if (students.length == 0) {
-      debugger;
+      
       this.populateStudentsFormArray(this.StudentList);
     }
     this.spinner.hide();
@@ -432,10 +433,10 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
 
   // Function to populate the students FormArray
   populateStudentsFormArray(data: any[]) {
-    debugger;
+    
     const studentsFormArray = this.rankTypeMarkForm.get('students') as FormArray;
     data.forEach(studentData => {
-      debugger;
+      
       this.SubjectList = this.SubjectListsss.filter((e) => {
         return e.admission_no == studentData.admission_no
           && e.entryid == studentData.entryid
@@ -461,7 +462,7 @@ export class UpdateMarkEntryGradeComponent implements OnInit {
         const previousElement = this.grdInputs.toArray()[activeEleIndex - 1].nativeElement as HTMLElement;
         previousElement.focus();
       }
-      debugger;
+      
       const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
       const studentFormGroup = studentsArray.at(0) as FormGroup;
       const subjectsArray = studentFormGroup.get('subjects') as FormArray;

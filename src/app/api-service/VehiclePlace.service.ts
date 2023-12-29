@@ -30,7 +30,7 @@ export class VehiclePlaceService {
 
 
   addNewXLPlace(placeinsert: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'VehiclePlace/insert_vehicle_placexl', placeinsert, httpOptions);
   }

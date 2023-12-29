@@ -118,7 +118,7 @@ export class StaffProfileComponent implements OnInit {
 
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
-      debugger;
+      
       this.StaffTypeList = data;
     });
   }
@@ -146,7 +146,7 @@ export class StaffProfileComponent implements OnInit {
       staff_typeid: new FormControl(null),
       category_id: new FormControl(null),
       staff_no: new FormControl(''),
-      staff_name: new FormControl('', [Validators.pattern('^[a-zA-Z ]*$')]),
+      staff_name: new FormControl(''),
       gender: new FormControl(''),
       img: new FormControl(''),
       dob: new FormControl(''),
@@ -234,20 +234,20 @@ export class StaffProfileComponent implements OnInit {
 
   refreshStaffList() {
     this.staffSvc.getstaffProfileList().subscribe(data => {
-      debugger;
+      
       this.staffList = data;
       console.log(data)
     });
   }
 
   findStaffCode() {
-    debugger;
+    
     const staffTypeid = this.staffProfileForm.value.staff_typeid
     const newStaffCode = this.StaffTypeList.filter((e) => { return e.staff_typeid == staffTypeid })
     const staffCd = newStaffCode[0].short_code
 
     this.staffSvc.getMaxId(staffTypeid).subscribe(data => {
-      debugger;
+      
       this.maxIDList = data;
       if (this.maxIDList.length == 0) {
         this.maxnumber = 0;
@@ -255,7 +255,7 @@ export class StaffProfileComponent implements OnInit {
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id
       });
-      debugger;
+      
       var maxnum: string = String(this.maxnumber + 1)
       if (maxnum.length == 1) {
         this.staffno = '000' + maxnum
@@ -277,7 +277,7 @@ export class StaffProfileComponent implements OnInit {
   }
 
   typeChange(type: any) {
-    debugger;
+    
     this.staffFilterList = this.staffList.filter((e) => { return e.staff_typeid == Number(type) })
   }
 

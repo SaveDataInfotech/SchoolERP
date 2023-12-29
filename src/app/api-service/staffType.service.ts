@@ -11,7 +11,7 @@ export class staffTypeService {
   }
 
   getstaffTypeList(): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'StaffType/Get');
   }
 

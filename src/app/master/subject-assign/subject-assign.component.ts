@@ -99,9 +99,9 @@ export class SubjectAssignComponent implements OnInit {
   }
 
   async filterSubject() {
-    debugger;
+    
     await this.subSvc.getsubjectList().subscribe(data => {
-      debugger;
+      
       const clasID = this.subjectAssignForm.classid;
       this.subjectDetailList = data;
       this.subjectDetailList.forEach(item => {
@@ -191,7 +191,7 @@ export class SubjectAssignComponent implements OnInit {
   async edit(assign: assign) {
     this.assignbuttonId = false;
     await this.subSvc.getsubjectList().subscribe(data => {
-      debugger;
+      
       this.subjectDetailList = data;
       this.subjectDetailList.forEach(item => {
         item.classids = item.classids.split(',').map(Number);

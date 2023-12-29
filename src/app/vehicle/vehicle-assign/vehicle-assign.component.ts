@@ -63,7 +63,7 @@ export class VehicleAssignComponent implements OnInit {
   }
 
   vehicleNofilter() {
-    debugger;
+    
     const Typeid = this.vehicleAssignForm.value.typeid;
     this.filteredVehicleNoRootList = this.vehicleNoRootList.filter((e) => { return e.typeid == Typeid });
     this.vehicleAssignForm.get('vehicle_no_id')?.setValue(null)
@@ -133,7 +133,7 @@ export class VehicleAssignComponent implements OnInit {
   }
 
   updateClick(assign) {
-    debugger;
+    
     this.vehicleAssignForm.patchValue(assign);
     this.vehicleAssignForm.get('cuid')?.setValue(1);
     const Typeid = this.vehicleAssignForm.value.typeid;

@@ -17,6 +17,7 @@ export class staffAssignService {
   }
 
   addNewstaffAssign(staffAsssinInsert: any): Observable<any> {
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StaffAssign/insert_staff_assign', staffAsssinInsert, httpOptions);
   }

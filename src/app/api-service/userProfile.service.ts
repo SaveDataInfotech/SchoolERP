@@ -31,7 +31,7 @@ export class userProfileService {
   }
 
   getUserList(id): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_user_profile_byid?userid=' + id);
   }
 

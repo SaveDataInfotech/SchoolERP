@@ -24,7 +24,7 @@ export class VehicleAssignService {
     }
 
     deletevehicleAssign(id: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleAssign/Delete_vehicle_assign?vehicle_assignid=' + id, httpOptions);
     }

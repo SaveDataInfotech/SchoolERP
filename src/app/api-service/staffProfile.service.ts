@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class staffProfileService {
-   readonly apiUrl = 'https://localhost:44314/api/';
+    readonly apiUrl = 'https://localhost:44314/api/';
     constructor(private http: HttpClient) {
     }
 
@@ -20,7 +20,11 @@ export class staffProfileService {
     }
 
     getMaxId(staffType): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_MaxId_staff_profile?staff_typeid='+staffType);
+        return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_MaxId_staff_profile?staff_typeid=' + staffType);
+    }
+
+    searchStaffByStaffNo(staffNo): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_staff_byno?staff_no=' + staffNo);
     }
 
 }

@@ -63,7 +63,7 @@ export class StaffSalaryComponent implements OnInit {
         }
         const newStaffList = this.staffList.filter((e) => { return e.staff_type == this.staffSalaryForm.value.staff_type });
         newStaffList.forEach(element => {
-          debugger;
+          
           const control = <FormArray>this.staffSalaryForm.controls['staffList'];
           control.push(
             new FormGroup({

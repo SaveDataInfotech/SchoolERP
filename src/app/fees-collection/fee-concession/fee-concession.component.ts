@@ -179,11 +179,11 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   async getStudent(value) {
-    debugger;
+    
     this.spinner.show();
     const studentDetails = await this.studProSvc.searchstudentDetails(value).toPromise();
     this.StudentList = studentDetails;
-    debugger;
+    
     if (this.StudentList.length != 0) {
       this.feesConcessionForm.get('classid')?.setValue(this.StudentList[0].classid);
       this.feesConcessionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
@@ -271,7 +271,7 @@ export class FeeConcessionComponent implements OnInit {
         });
       }
 
-      debugger;
+      
       const arrearFee = await this.feesCollSvc.getArrearFeesList(value).toPromise();
       this.arrearFeesList = arrearFee;
 
@@ -281,10 +281,10 @@ export class FeeConcessionComponent implements OnInit {
       }
 
       if (control5.length == 0) {
-        debugger;
+        
         this.arrearFeesList.forEach(element => {
           if (element.balance != 0) {
-            debugger;
+            
             const control = <FormArray>this.feesConcessionForm.controls['arrearFees'];
             control.push(
               new FormGroup({
@@ -318,7 +318,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   updateSelectAllCheckbox(i, value) {
-    debugger;
+    
     let total: number = 0;
     const classidArray = this.feesConcessionForm.get('generalFees') as FormArray;
     if (value.target.checked) {
@@ -351,7 +351,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   updateSelectAllCheckboxArraer(i, value) {
-    debugger;
+    
     let total: number = 0;
 
     const arrearArray = this.feesConcessionForm.get('arrearFees') as FormArray;
@@ -386,7 +386,7 @@ export class FeeConcessionComponent implements OnInit {
 
 
   updateSelectAllCheckboxByBus(i, value) {
-    debugger;
+    
     let total: number = 0;
 
     const busArray = this.feesConcessionForm.get('busFeesList') as FormArray;
@@ -555,10 +555,10 @@ export class FeeConcessionComponent implements OnInit {
 
 
   async FeesDeduction() {
-    debugger;
+    
     await this.getMaxId();
     this.feesConSvc.RecentConcessionList(this.today).subscribe(data => {
-      debugger;
+      
       this.FeesConcesseionList = data;
       const CheckBillNo = this.FeesConcesseionList.filter((e) => { return e.bill_no == this.feesConcessionForm.value.bill_no });
       if (CheckBillNo.length == 0) {
@@ -632,7 +632,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   suggest(value) {
-    debugger;
+    
     this.suggestions = this.studentName.filter(item =>
       item.student_name.toLowerCase().includes(value.toLowerCase())
     );
@@ -642,15 +642,15 @@ export class FeeConcessionComponent implements OnInit {
   async previewClick(value: any): Promise<void> {
     const generalFees = await this.feesConSvc.getgeneralConcessionbybillno(value.bill_no, value.admission_no).toPromise();
     this.ListgeneralConcessionbybillno = generalFees;
-    debugger;
+    
 
     const busFees = await this.feesConSvc.getbusConcessionbybillno(value.bill_no, value.admission_no).toPromise();
-    debugger;
+    
     this.busConcessionbybillnoList = busFees;
 
     const arrearFees = await this.feesConSvc.getArrearConcessionbybillno(value.bill_no, value.admission_no).toPromise();
     this.arrearConcessionbybillnoList = arrearFees;
-    debugger;
+    
 
     this.cDSvc.openConfirmDialog(this.ListgeneralConcessionbybillno, this.busConcessionbybillnoList, this.arrearConcessionbybillnoList, value)
       .afterClosed().subscribe(res => {

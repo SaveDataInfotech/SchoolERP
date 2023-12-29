@@ -40,4 +40,10 @@ export class markEntryReportService {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.get<any[]>(this.apiUrl + 'MarkEntryReports/multi_mark_exam_grade_report?classid=' + classid + '&groupid=' + groupid + '&sectionid=' + sectionid + '&batch_year=' + batchYear, httpOptions);
     }
+
+
+    getIndividualSubjectMarkRank(classid: number, groupid: number, sectionid: number, batchYear: string): Observable<any[]> {
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.get<any[]>(this.apiUrl + 'StudentProfile/get_individual_subject_mark_report?classid=' + classid + '&groupid=' + groupid + '&sectionid=' + sectionid + '&batch_year=' + batchYear, httpOptions);
+    }
 }

@@ -68,7 +68,7 @@ export class DistanceComponent implements OnInit {
 
 
   getVehicleDetails() {
-    debugger;
+    
     const vehicleNo = this.vehicleDistanceForm.value.vehicle_no_id;
     const newVehicleDetails = this.vehicleAssignList.filter((e) => { return e.vehicle_no_id == vehicleNo });
     this.vehicleDistanceForm.get('driver_name')?.setValue(newVehicleDetails[0].driver_name);
@@ -90,7 +90,7 @@ export class DistanceComponent implements OnInit {
 
 
   newDistance() {
-    debugger;
+    
     if (this.vehicleDistanceForm.valid) {
       if (this.vehicleDistanceForm.value.distanceid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -144,7 +144,7 @@ export class DistanceComponent implements OnInit {
   }
 
   updateClick(item) {
-    debugger;
+    
     this.vehicleDistanceForm.patchValue(item);
     this.vehicleDistanceForm.get('cuid')?.setValue(1);
   }

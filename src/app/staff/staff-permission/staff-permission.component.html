@@ -46,8 +46,9 @@
                     <div class="col-sm-12 mt-3">
                         <div style="text-align: center;">
                             <button (click)="searchLeave()"
-                                [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.year.errors"
-                                type="button" class="btn btn-primary">Search<i class="fa fa-search ml-2"></i></button>
+                                [disabled]="staffLeavePermissionForm.controls.staff_no.errors || staffLeavePermissionForm.controls.year.errors || staffLeavePermissionForm.value.staff_name"
+                                type="button" class="btn btn-primary btn-sm">Search<i
+                                    class="fa fa-search ml-2"></i></button>
                         </div>
                     </div>
                 </div>
@@ -58,10 +59,17 @@
                 <div class="row">
                     <div *ngFor="let leave of StaffLeaveList" class="col-sm-4 mt-3" style="display: flex;">
                         <div style="float: left;width: 100px;text-align: left;">
-                            <label class="pt-2" style="margin: auto;">{{leave.type_name}}</label>
+                            <label class="pt-4 text-primary" style="margin: auto;"><b>{{leave.type_name}}</b></label>
                         </div>
-                        <div style="float: left;width: 250px;">
-                            <input readonly value={{leave.eligible_days}} class="form-control" type="number" required>
+                        <div style="float: left;width: 250px; display: flex;">
+                            <div style="width: 45%;"> <label>Year</label>
+                                <input readonly value={{leave.eligible_days}} class="form-control " type="number"
+                                    required>
+                            </div>
+                            <div class="ml-2" style="width: 45%;">
+                                <label>Month</label>
+                                <input readonly value={{leave.monthedays}} class="form-control" type="number" required>
+                            </div>
                         </div>
                     </div>
                 </div>

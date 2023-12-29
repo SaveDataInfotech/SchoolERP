@@ -100,6 +100,61 @@ export class DatewiseFeecollectionComponent implements OnInit {
     return foundObject ? foundObject.arrear_amount : 0;
   }
 
+  getTotalAmount(value) {
+    const foundObject1 = this.generalFeeList.find(obj => obj.date == value);
+    const am1 = foundObject1 ? foundObject1.admission_amount : 0;
+
+    const foundObject2 = this.generalFeeList.find(obj => obj.date == value);
+    const am2 = foundObject2 ? foundObject2.term_amount : 0;
+
+    const foundObject3 = this.generalFeeList.find(obj => obj.date == value);
+    const am3 = foundObject3 ? foundObject3.other_amount : 0;
+
+    const foundObject4 = this.busFeeList.find(obj => obj.date == value);
+    const am4 = foundObject4 ? foundObject4.bus_amount : 0;
+
+    const foundObject5 = this.arrearFeeList.find(obj => obj.date == value);
+    const am5 = foundObject5 ? foundObject5.arrear_amount : 0;
+
+    return Number(am1) + Number(am2) + Number(am3) + Number(am4) + Number(am5)
+  }
+
+  getAdmissionTotalAmount() {
+    return this.generalFeeList.reduce((acc, val) => acc += val.admission_amount, 0)
+  }
+  getTuitionTotalAmount() {
+    return this.generalFeeList.reduce((acc, val) => acc += val.term_amount, 0)
+  }
+  getOtherKGToTotalAmount() {
+    return this.generalFeeList.reduce((acc, val) => acc += val.lo_class_other_amount, 0)
+  }
+
+  getOtherHSTotalAmount() {
+    return this.generalFeeList.reduce((acc, val) => acc += val.hs_class_other_amount, 0)
+  }
+
+  getOtherTotalTotalAmount() {
+    return this.generalFeeList.reduce((acc, val) => acc += val.other_amount, 0)
+  }
+
+  getBusTotalAmount() {
+    return this.busFeeList.reduce((acc, val) => acc += val.bus_amount, 0)
+  }
+
+  getArrearTotalAmount() {
+    return this.arrearFeeList.reduce((acc, val) => acc += val.arrear_amount, 0)
+  }
+
+  getOverAllTotal() {
+    const am1 = this.generalFeeList.reduce((acc, val) => acc += val.admission_amount, 0);
+    const am2 = this.generalFeeList.reduce((acc, val) => acc += val.term_amount, 0);
+    const am3 = this.generalFeeList.reduce((acc, val) => acc += val.other_amount, 0);
+    const am4 = this.busFeeList.reduce((acc, val) => acc += val.bus_amount, 0);
+    const am5 = this.arrearFeeList.reduce((acc, val) => acc += val.arrear_amount, 0);
+
+    return Number(am1) + Number(am2) + Number(am3) + Number(am4) + Number(am5)
+  }
+
   exportDayWiseExcel(): void {
     const element = document.getElementById('day_wise_collection_print');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);

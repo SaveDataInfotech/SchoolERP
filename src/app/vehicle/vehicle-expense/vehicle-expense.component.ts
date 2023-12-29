@@ -69,7 +69,7 @@ export class VehicleExpenseComponent implements OnInit {
   }
 
   getVehicleDetails() {
-    debugger;
+    
     const vehicleNo = this.vehicleExpenseForm.value.vehicle_no_id;
     const newVehicleDetails = this.vehicleAssignList.filter((e) => { return e.vehicle_no_id == vehicleNo });
     this.vehicleExpenseForm.get('driver_name')?.setValue(newVehicleDetails[0].driver_name);
@@ -92,7 +92,7 @@ export class VehicleExpenseComponent implements OnInit {
 
 
   newExpense() {
-    debugger;
+    
     if (this.vehicleExpenseForm.valid) {
       if (this.vehicleExpenseForm.value.expenseid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -146,7 +146,7 @@ export class VehicleExpenseComponent implements OnInit {
   }
 
   updateClick(item) {
-    debugger;
+    
     this.vehicleExpenseForm.patchValue(item);
     this.vehicleExpenseForm.get('cuid')?.setValue(1);
   }

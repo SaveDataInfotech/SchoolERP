@@ -11,7 +11,7 @@ export class FeesConcessionService {
   }
 
   studentFeesConcession(feesInsert: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentFeesConcession/insert_student_fees_concession', feesInsert, httpOptions);
   }
@@ -33,7 +33,7 @@ export class FeesConcessionService {
   }
 
   RecentConcessionList(value): Observable<any[]> {
-    debugger;
+    
     return this.http.get<any[]>(this.apiUrl + 'StudentFeesConcession/todayFeesCollectionList?today=' + value);
   }
 

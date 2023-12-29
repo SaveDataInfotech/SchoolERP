@@ -61,11 +61,12 @@
                                     <th>Date</th>
                                     <th>Admission Fee</th>
                                     <th>Tuition Fee</th>
-                                    <th>Other Fee LKG To</th>
+                                    <th>Other Fee LKG To X</th>
                                     <th>XI , XII</th>
                                     <th>Total Other Fee KG TO XII</th>
                                     <th>Buss Fee</th>
                                     <th>Arrear Fee</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,6 +80,18 @@
                                     <td>{{getOtherTotalAmount(date)}}</td>
                                     <td>{{getBusAmount(date)}}</td>
                                     <td>{{getArrearAmount(date)}}</td>
+                                    <td>{{getTotalAmount(date)}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Total</td>
+                                    <td>{{getAdmissionTotalAmount()}}</td>
+                                    <td>{{getTuitionTotalAmount()}}</td>
+                                    <td>{{getOtherKGToTotalAmount()}}</td>
+                                    <td>{{getOtherHSTotalAmount()}}</td>
+                                    <td>{{getOtherTotalTotalAmount()}}</td>
+                                    <td>{{getBusTotalAmount()}}</td>
+                                    <td>{{getArrearTotalAmount()}}</td>
+                                    <td class="text-primary">{{getOverAllTotal()}}</td>
                                 </tr>
                             </tbody>
                         </table>

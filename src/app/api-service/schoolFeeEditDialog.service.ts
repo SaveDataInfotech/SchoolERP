@@ -11,7 +11,7 @@ export class SchoolfeeEditDialogService {
     constructor(private dialog: MatDialog) { }
 
     openConfirmDialog(value) {
-        debugger;
+        
         return this.dialog.open(SchoolfeeEditComponent, {
             width: '620px',
             maxHeight: '650px',

@@ -196,7 +196,7 @@ export class StudentAttendanceComponent implements OnInit {
     let batchYear: any = (this.studentAttendanceForm.batch_year);
     if (date != '' && classid != 0 && sectionid != 0) {
       this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date, batchYear).subscribe(data => {
-        debugger;
+        
         this.studentList = data;
         if (this.studentList.length != 0) {
           if (this.studentList[0].ani == true) {

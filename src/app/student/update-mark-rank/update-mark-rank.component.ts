@@ -144,7 +144,7 @@ export class UpdateMarkRankComponent implements OnInit {
   }
 
   searchExamnameByClass() {
-    debugger;
+   
     let classID: number = (this.rankTypeMarkForm.value.classid);
     let groupID: number = (this.rankTypeMarkForm.value.groupid);
     let sectionID: number = (this.rankTypeMarkForm.value.sectionid);
@@ -174,7 +174,7 @@ export class UpdateMarkRankComponent implements OnInit {
   }
 
   createStudentFormGroup(student?: any): FormGroup {
-    debugger;
+   
     student = student || { admission_no: '', subjects: [] };
     return this.fb.group({
       entryid: [student.entryid],
@@ -193,9 +193,10 @@ export class UpdateMarkRankComponent implements OnInit {
   }
 
   createSubjectFormGroup(subject?): FormGroup {
-    debugger;
+   
     return this.fb.group({
       subjectentryid: subject.subjectentryid,
+      subjectid:subject.subjectid,
       subject_name: subject.subject_name,
       selected: subject.selected,
       practical_status: subject.practical_status,
@@ -217,7 +218,7 @@ export class UpdateMarkRankComponent implements OnInit {
   total: number = 0;
 
   gradeConvert(i, j, grd) {
-    // debugger;
+    //
     // if (Number(grd) > 100) {
     //   const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
     //   const studentFormGroup = studentsArray.at(i) as FormGroup;
@@ -255,7 +256,7 @@ export class UpdateMarkRankComponent implements OnInit {
     //   }
     // }
 
-    // debugger;
+    //
     // const courseControl = this.rankTypeMarkForm.get('students') as FormArray;
     // const course = courseControl.at(i).get('subjects').value;
     // course.forEach(element => {
@@ -279,9 +280,9 @@ export class UpdateMarkRankComponent implements OnInit {
     // passorderBYMark.sort((a, b) => parseInt(b.total) - parseInt(a.total));
 
     // Student.forEach((stu, m) => {
-    //   debugger;
+    //  
     //   passorderBYMark.forEach((element, k) => {
-    //     debugger;
+    //    
     //     if (stu.admission_no == element.admission_no) {
     //       debugger
     //       courseControl.at(m).get('rank').setValue(String(k + 1));
@@ -289,7 +290,7 @@ export class UpdateMarkRankComponent implements OnInit {
     //   });
     // });
 
-    debugger;
+   
     let gradeValue = parseFloat(grd); // Convert the input to a number
     // Check if the input is not a number (i.e., a letter)
     if (isNaN(gradeValue)) {
@@ -347,7 +348,7 @@ export class UpdateMarkRankComponent implements OnInit {
     } else {
       courseControl.at(i).get('status').setValue('Fail');
     }
-    debugger;
+   
     const orderBYMark = studentsArray.controls.map(control => control.value);
     const passorderBYMark = orderBYMark.filter((r) => { return r.status == 'Pass' });
     const Student = studentsArray.controls.map(control => control.value);
@@ -437,7 +438,7 @@ export class UpdateMarkRankComponent implements OnInit {
   // StudentList1: any[] = [];
 
   async clickpop() {
-    debugger;
+   
 
     let examName = String(this.rankTypeMarkForm.value.exam_name);
     let classID: number = (this.rankTypeMarkForm.value.classid);
@@ -469,7 +470,7 @@ export class UpdateMarkRankComponent implements OnInit {
     }
 
     if (students.length == 0) {
-      debugger;
+     
       this.populateStudentsFormArray(this.StudentList);
     }
     this.spinner.hide();
@@ -478,10 +479,10 @@ export class UpdateMarkRankComponent implements OnInit {
 
   // Function to populate the students FormArray
   populateStudentsFormArray(data: any[]) {
-    debugger;
+   
     const studentsFormArray = this.rankTypeMarkForm.get('students') as FormArray;
     data.forEach(studentData => {
-      debugger;
+     
       this.SubjectList = this.SubjectListsss.filter((e) => {
         return e.admission_no == studentData.admission_no
           && e.entryid == studentData.entryid
@@ -507,7 +508,7 @@ export class UpdateMarkRankComponent implements OnInit {
         const previousElement = this.grdInputs.toArray()[activeEleIndex - 1].nativeElement as HTMLElement;
         previousElement.focus();
       }
-      debugger;
+     
       const studentsArray = this.rankTypeMarkForm.get('students') as FormArray;
       const studentFormGroup = studentsArray.at(0) as FormGroup;
       const subjectsArray = studentFormGroup.get('subjects') as FormArray;

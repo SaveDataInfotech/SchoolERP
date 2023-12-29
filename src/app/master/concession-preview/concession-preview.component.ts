@@ -24,7 +24,7 @@ export class ConcessionPreviewComponent implements OnInit {
     this.studentDetails = this.data.studentDetails;
 
     await Promise.all(this.busFee.map(async (e) => {
-      debugger;
+      
       this.generalFee.push(e);
     }));
 

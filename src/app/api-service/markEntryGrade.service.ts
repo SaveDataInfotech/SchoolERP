@@ -21,13 +21,13 @@ export class markEntryService {
   }
 
   newRankTypeMark(value: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/insert_student_markentry_rank', value, httpOptions);
   }
 
   editRankTypeMark(value: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/update_student_markentry_rank', value, httpOptions);
   }
@@ -53,7 +53,7 @@ export class markEntryService {
   }
 
   newGradekTypeMark(value: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/insert_student_markentry_grade', value, httpOptions);
   }
@@ -69,7 +69,7 @@ export class markEntryService {
   }
 
   editGradeTypeMark(value: any): Observable<any> {
-    debugger;
+    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'MarkEntryGrade/update_student_markentry_grade', value, httpOptions);
   }

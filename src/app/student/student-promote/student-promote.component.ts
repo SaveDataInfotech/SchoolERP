@@ -68,7 +68,7 @@ export class StudentPromoteComponent implements OnInit {
 
   refreshSectionList() {
     this.ScSvc.getSectionList().subscribe(data => {
-      debugger;
+      
       this.SectionList = data;
     });
   }
@@ -92,7 +92,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   filterSectionfun(groupID: any) {
-    debugger;
+    
     const groupid = Number(groupID);
     this.searchStudentForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -130,7 +130,7 @@ export class StudentPromoteComponent implements OnInit {
 
 
   batch_yearCheck(value) {
-    debugger;
+    
     if (this.searchStudentForm.batch_year == value) {
       this.studentPromoteForm.batch_year = null;
       this.notificationSvc.error("Cann't be same both Batch")
@@ -164,7 +164,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   profilterSectionfun(groupID: any) {
-    debugger;
+    
     const groupid = Number(groupID);
     this.studentPromoteForm.groupid = groupid;
     this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -186,7 +186,7 @@ export class StudentPromoteComponent implements OnInit {
       this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            debugger;
+            
             const batch_year = this.studentPromoteForm.batch_year;
             const classid = this.studentPromoteForm.classid;
             const groupid = this.studentPromoteForm.groupid;
@@ -195,7 +195,7 @@ export class StudentPromoteComponent implements OnInit {
             const cuid = this.studentPromoteForm.cuid;
 
             this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
-              debugger;
+              
               if (res.status == 'Saved successfully') {
                 const classid = this.searchStudentForm.classid;
                 const groupid = this.searchStudentForm.groupid;

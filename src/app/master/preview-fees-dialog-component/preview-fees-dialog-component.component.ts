@@ -20,14 +20,14 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
   studentDetails: any;
   amountInWords: any;
   async ngOnInit(): Promise<void> {
-    debugger;
+    
     this.generalFee = this.data.general;
     this.busFee = this.data.bus;
     this.arrearFee = this.data.arrear;
     this.studentDetails = this.data.studentDetails;
 
     await Promise.all(this.busFee.map(async (e) => {
-      debugger;
+      
       this.generalFee.push(e);
     }));
 
@@ -50,7 +50,7 @@ export class PreviewFeesDialogComponentComponent implements OnInit {
   }
 
   getPaymentType(value: string): any {
-    debugger;
+    
     if (value == 'cash') return 'Cash';
     else if (value == 'cheque_upi') return 'Cheque/Upi';
     else return '';

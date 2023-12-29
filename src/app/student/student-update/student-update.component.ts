@@ -95,7 +95,7 @@ export class StudentUpdateComponent implements OnInit {
 
   refresgroupBusFeeList() {
     this.busFeSvc.getGroupBusFeesList().subscribe(data => {
-      debugger;
+      
       this.groupBusFeeList = data;
     });
   }
@@ -233,12 +233,12 @@ export class StudentUpdateComponent implements OnInit {
 
 
   findStudentByAdNO(value) {
-    debugger;
+    
     this.studProSvc.searchstudentDetails(value).subscribe(data => {
       this.StudentDataList = data;
       const datas: any = this.StudentDataList[0]
       if (this.StudentDataList.length != 0) {
-        debugger;
+        
         this.editableImage = datas.simage;
         const classid = Number(datas.classid);
         this.studentDetailsForm.get('classid')?.setValue(classid);
@@ -261,7 +261,7 @@ export class StudentUpdateComponent implements OnInit {
         this.kmFillterList = this.groupBusFeeList.filter((e) => {
           return e.typeid == vhType
         });
-        debugger;
+        
         const idn = this.studentDetailsForm.value.root_no
 
         this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });

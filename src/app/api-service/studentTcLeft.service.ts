@@ -11,7 +11,7 @@ export class studentTcLeftService {
   }
 
   allStudents(classid,groupId,sectionId,Batch): Observable<any[]> {
-    debugger;  
+      
     return this.http.get<any[]>(this.apiUrl + 'StudentTcLeft/get_student_generalfees_list?classid='+classid+'&sectionid='+sectionId+'&groupid='+groupId+'&batch_year='+Batch);    
   }
 

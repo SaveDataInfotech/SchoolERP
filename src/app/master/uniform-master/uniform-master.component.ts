@@ -87,7 +87,7 @@ export class UniformMasterComponent implements OnInit {
   }
 
   NewUniformSize() {
-    debugger;
+    
     if (this.uniformSizeForm.valid) {
       if (this.uniformSizeForm.value.uniformid == 0) {
         this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
@@ -112,7 +112,7 @@ export class UniformMasterComponent implements OnInit {
           });
       }
       else if (this.uniformSizeForm.value.uniformid != 0) {
-        debugger;
+        
         this.DialogSvc.openConfirmDialog('Are you sure want to edit this record ?')
           .afterClosed().subscribe(res => {
             if (res == true) {

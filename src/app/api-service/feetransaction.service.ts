@@ -10,7 +10,7 @@ export class FeesTransactionService {
     constructor(private http: HttpClient) {
     }
     feeTransactionList(fromdate, todate): Observable<any[]> {
-        debugger;
+        
         return this.http.get<any[]>(this.apiUrl + 'FeesTransaction/feetransactionList?fromdate=' + fromdate + '&todate=' + todate);
     }
 }

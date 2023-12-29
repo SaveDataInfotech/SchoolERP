@@ -234,7 +234,7 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   autokm() {
-    debugger;
+    
     var regExp = /[a-zA-Z]/g;
     var num = /([0-9]+)/g;
     const km = this.specialFeesForm.value.kmrange
@@ -252,7 +252,7 @@ export class SpecialFeesComponent implements OnInit {
 
   refresgroupBusFeeList() {
     this.busFeSvc.getGroupBusFeesList().subscribe(data => {
-      debugger;
+      
       this.groupBusFeeList = data;
 
       this.kmFillterList = this.groupBusFeeList.filter((e) => {
@@ -262,7 +262,7 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   validateWhite(i) {
-    debugger;
+    
     const busControl3 = this.specialFeesForm.get('s_feesList') as FormArray;
     const per = busControl3.at(i).get('s_male_amount').value;
     if (Number(per) > 100) {
@@ -277,7 +277,7 @@ export class SpecialFeesComponent implements OnInit {
   }
 
   fevalidateWhite(i) {
-    debugger;
+    
     const busControl3 = this.specialFeesForm.get('s_feesList') as FormArray;
     const per = busControl3.at(i).get('s_female_amount').value;
     if (Number(per) > 100) {
@@ -293,14 +293,14 @@ export class SpecialFeesComponent implements OnInit {
 
 
   listFeesType() {
-    debugger;
+    
     if (this.specialFeesForm.valid) {
       const control = <FormArray>this.specialFeesForm.controls['s_feesList'];
       while (control.length !== 0) {
         control.removeAt(0)
       }
       if (control.length == 0) {
-        debugger;
+        
         const classFilterArray = this.specialFeesList.filter((e) => {
           return e.batch_year == this.specialFeesForm.value.batch_year
             && e.fees_lessid == this.specialFeesForm.value.fees_lessid

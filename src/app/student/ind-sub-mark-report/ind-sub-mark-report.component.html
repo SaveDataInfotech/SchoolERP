@@ -1,0 +1,125 @@
+<div class="container-fluid">
+    <mat-card class="mt-4 matcard mb-2">
+        <mat-card-content>
+            <form [formGroup]="individualSubjectForm" (ngSubmit)="searchStudent()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Class<span class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid': individualSubjectForm.get('classid')?.touched && individualSubjectForm.get('classid')?.errors }"
+                                formControlName="classid" style="width: 100%;" #t (change)="filterGroupfun(t.value)"
+                                class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                    {{class.class_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Group</label>
+                        </div>
+                        <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+                            <select formControlName="groupid" style="width: 100%;" #s
+                                (change)="filterSectionfun(s.value)" class="form-control ">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                    {{group.group_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Section<span class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid': individualSubjectForm.get('sectionid')?.touched && individualSubjectForm.get('sectionid')?.errors }"
+                                formControlName="sectionid" style="width: 100%;" class="form-control" required>
+                                <option value=null selected disabled>Please select</option>
+                                <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                    {{section.section_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Batch<span class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':individualSubjectForm.controls.batch_year.touched && individualSubjectForm.controls.batch_year.errors}"
+                                formControlName="batch_year" class="form-control" readonly required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-5 mt-3">
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-info mr-2 btn-sm ">Search<i
+                                class="fa fa-search ml-2"></i></button>
+                        <input type="button" style="width: 80px;" class="btn btn-primary btn-sm mr-2"
+                            (click)="cancelClick()" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="StudentList.length" class="mt-4 matcard mb-2">
+        <mat-card-content>
+            <div class="row mr-5 pb-1" style="float: right;">
+                <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" color="primary"
+                    printSectionId="individual_print" ngxPrint [useExistingCss]="true">
+                    Print <i class="fa fa-print ml-2"></i></button>
+            </div>
+            <div style="margin-top: 0px;" class="row">
+                <div id="individual_print" class="col-sm-6">
+                    <div>
+                        <div style="width: 100%;display: flex;">
+                            <h3 style="width: 100%;text-align: center;">AIM MATRIC HR.SEC.SCHOOL</h3>
+                        </div>
+                        <div style="width: 100%;display: flex;">
+                            <p style="width: 25%;">CLASS : {{className}}</p>
+                            <p style="width: 17%;">SEC : {{sectionName}}</p>
+                            <p>Exam name :</p>
+                        </div>
+                        <div style="width: 100%;display: flex;">
+                            <p style="width: 25%;">Date :</p>
+                            <p style="width: 17%;">SUB TR :</p>
+                            <p>SUB :</p>
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>S.NO</th>
+                                <th>AD NO</th>
+                                <th>STUDENT NAME</th>
+                                <th>MARKS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of StudentList;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.admission_no}}</td>
+                                <td>{{item.student_name}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

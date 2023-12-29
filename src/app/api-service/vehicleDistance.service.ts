@@ -20,7 +20,7 @@ export class VehicleDistanceService {
     }
 
     deletevehicleDistance(id: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleDistance/delete_vehicle_distance?distanceid=' + id, httpOptions);
     }

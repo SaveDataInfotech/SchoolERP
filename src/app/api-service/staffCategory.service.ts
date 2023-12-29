@@ -19,7 +19,7 @@ export class staffCategoryService {
     }
 
     addNewCategory(value: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'StaffCategory/insert_staff_category', value, httpOptions);
     }

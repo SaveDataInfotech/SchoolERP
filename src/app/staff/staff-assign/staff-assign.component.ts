@@ -26,7 +26,7 @@ export class StaffAssignComponent implements OnInit {
   activeBatchYear: any = [];
   newgetbatch: string;
   staffList: any[] = [];
-  staffListAll: any[] = [];
+  // staffListAll: any[] = [];
   subjectList: any[] = [];
   subjectSpiltList: any[] = [];
   subjectAssignByList: any[] = [];
@@ -49,7 +49,7 @@ export class StaffAssignComponent implements OnInit {
     this.refreshGroupList();
     this.refreshSectionList();
     this.GetActiveBatchYear();
-    this.refreshStaffList();
+    //this.refreshStaffList();
   }
   backButton() {
     this.router.navigateByUrl('/app/dashboard/dashboard');
@@ -106,12 +106,12 @@ export class StaffAssignComponent implements OnInit {
     this.staffAssignForm.get('sectionid').setValue(null);
   }
 
-  refreshStaffList() {
-    this.staffSvc.getstaffProfileList().subscribe(data => {
-      this.staffListAll = data;
-      this.staffList = this.staffListAll.filter((e) => { return e.activestatus == 1 })
-    });
-  }
+  // refreshStaffList() {
+  //   this.staffSvc.getstaffProfileList().subscribe(data => {
+  //     this.staffListAll = data;
+  //     this.staffList = this.staffListAll.filter((e) => { return e.activestatus == 1 })
+  //   });
+  // }
 
   staffNameChange(value) {
     const newarray = this.staffList.filter((e) => { return e.staff_no == value })
@@ -140,7 +140,11 @@ export class StaffAssignComponent implements OnInit {
     return (this.staffAssignForm.get('subjects') as FormArray).controls;
   }
 
-  searchSubjectByClass() {
+  async searchSubjectByClass() {
+    
+    const staffListAll = await this.staffSvc.getstaffProfileList().toPromise();
+    this.staffList = await staffListAll.filter((e) => { return e.activestatus == 1 })
+
     this.staffAssignForm.get('class_incharge')?.setValue('');
     this.staffAssignForm.get('staff_name')?.setValue('');
     const control = <FormArray>this.staffAssignForm.controls['subjects'];
@@ -167,6 +171,7 @@ export class StaffAssignComponent implements OnInit {
                 const control = <FormArray>this.staffAssignForm.controls['subjects'];
                 control.push(
                   new FormGroup({
+                    subjectid: new FormControl(element.subjectid),
                     subjectsname: new FormControl(element.subjectsname),
                     pm_staff_no: new FormControl(element.pm_staff_no),
                     ad_staff_no: new FormControl(element.ad_staff_no),
@@ -176,13 +181,26 @@ export class StaffAssignComponent implements OnInit {
             });
           }
           if (this.subjectList[0].subjectsname != null) {
-            this.subjectSpiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
-              return { subjecstname: item };
-            });
+            // this.subjectSpiltList = this.subjectList[0].subjectsname.split(",").map(function (item) {
+            //   return { subjecstname: item };
+            // });
+
+
+            this.subjectSpiltList = this.subjectList[0].subjectsname.split(",").map((item, index) => {
+              const subjetsidArray = this.subjectList[0].subjetsid.split(",").map((e: any, i: any) => {
+                if (index === i) {
+                  return { subjectid: Number(e), subjecstname: item };
+                }
+                return null;
+              }).filter((e: any) => e !== null);
+
+              return subjetsidArray;
+            }).flat();
             this.subjectSpiltList.forEach(element => {
               const control = <FormArray>this.staffAssignForm.controls['subjects'];
               control.push(
                 new FormGroup({
+                  subjectid: new FormControl(element.subjectid),
                   subjectsname: new FormControl(element.subjecstname),
                   pm_staff_no: new FormControl(''),
                   ad_staff_no: new FormControl(''),

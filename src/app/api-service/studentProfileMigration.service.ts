@@ -21,7 +21,7 @@ export class studentProfileMigrationService {
         //   }
 
         newStudentMig(Sectioninsert: any): Observable<any> {
-            debugger;
+            
             const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
             return this.http.post<any>(this.apiUrl + 'StudentProfileMigration/student_promote', Sectioninsert, httpOptions);
         }
@@ -39,7 +39,7 @@ export class studentProfileMigrationService {
         }
 
         newFEEMig(Sectioninsert: any): Observable<any> {
-            debugger;
+            
             const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
             return this.http.post<any>(this.apiUrl + 'StudentFeeMig/insert_student_admissionfees_deduction', Sectioninsert, httpOptions);
         }
@@ -51,7 +51,7 @@ export class studentProfileMigrationService {
         }
 
         newBusMig(Sectioninsert: any): Observable<any> {
-            debugger;
+            
             const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
             return this.http.post<any>(this.apiUrl + 'StudentFeeMig/insert_student_bus_fees_deduction_mig', Sectioninsert, httpOptions);
         }
@@ -65,7 +65,7 @@ export class studentProfileMigrationService {
     }
 
     newArrearMig(Sectioninsert: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'ArrearFeeMig/insert_Arrear_feeMig', Sectioninsert, httpOptions);
     }

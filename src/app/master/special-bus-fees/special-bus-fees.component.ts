@@ -79,7 +79,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   validateWhite(i) {
-    debugger;
+    
     const busControl3 = this.specialBusFeesform.get('s_classfeelist') as FormArray;
     const per = busControl3.at(i).get('less_per').value;
     if (Number(per) > 100) {
@@ -126,7 +126,7 @@ export class SpecialBusFeesComponent implements OnInit {
 
   refreshspecialGroupBusFeeList() {
     this.spBusSvc.getSpecialGroupBusFeesList().subscribe(data => {
-      debugger;
+      
       this.specialGroupBusFeesList = data;
       this.specialGroupBusFeesList.forEach((e) => {
         e['class'] = e.class_name.split(",");
@@ -136,7 +136,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   getAmount(value: any, i) {
-    debugger;
+    
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -157,7 +157,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   getGenAmount(value: any, i) {
-    debugger;
+    
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -178,7 +178,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   getDeAmount(value: any, i) {
-    debugger;
+    
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -199,7 +199,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   getPayableAmount(value: any, i) {
-    debugger;
+    
     let newClass = [];
     let newAmount = [];
     let index: any;
@@ -221,7 +221,7 @@ export class SpecialBusFeesComponent implements OnInit {
 
 
   autokm() {
-    debugger;
+    
     var regExp = /[a-zA-Z]/g;
     var num = /([0-9]+)/g;
     const km = this.specialBusFeesform.value.kmrange
@@ -253,7 +253,7 @@ export class SpecialBusFeesComponent implements OnInit {
   }
 
   Search() {
-    debugger;
+    
     if (this.specialBusFeesform.valid) {
       const control = <FormArray>this.specialBusFeesform.controls['s_classfeelist'];
       while (control.length !== 0) {

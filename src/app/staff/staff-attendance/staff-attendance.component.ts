@@ -134,13 +134,13 @@ export class StaffAttendanceComponent implements OnInit {
   }
 
   searchStaff() {
-    debugger;
+    
     let staffTypeid = (this.staffAttendanceForm.staff_typeid);
     if (staffTypeid != 0 && this.staffAttendanceForm.date != '') {
       let date = (this.staffAttendanceForm.date);
       this.stAtSvc.searchStudentByAttendance(staffTypeid, date).subscribe(data => {
         this.staffList = data;
-        debugger;
+        
         if (this.staffList.length != 0) {
           this.serachDisabled = true;
         }

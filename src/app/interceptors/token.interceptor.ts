@@ -15,7 +15,7 @@
 
 //   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 //     const myToken = this.ath.getToken();
-//     debugger;
+//     
 //     if (myToken != null) {
 //       request = request.clone({ setHeaders: { Authorization: `Bearer ${myToken}` } })
 //     }

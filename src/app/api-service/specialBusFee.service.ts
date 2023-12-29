@@ -19,7 +19,7 @@ export class SpecialBusFeesAssignService {
     }
 
     addNewSpecialBusFees(data: any): Observable<any> {
-        debugger;
+        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'SpecialBusFee/insert_specialbusfee', data, httpOptions);
     }
