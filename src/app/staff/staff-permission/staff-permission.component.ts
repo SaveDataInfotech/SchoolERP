@@ -28,6 +28,7 @@ export class StaffPermissionComponent implements OnInit {
   finalMonth: any;
   finalDay: any;
   minDate: any;
+  maxdate: any;
   minMonth: any;
 
   // staffList: any[] = [];
@@ -109,13 +110,24 @@ export class StaffPermissionComponent implements OnInit {
   }
 
   dateRangeChange() {
+    debugger;
     const Month = this.staffLeavePermissionForm.value.year;
     const currentMonth = this.datepipe.transform(this.today, 'yyyy-MM');
     if (Month == currentMonth) {
+      debugger;
       this.minDate = this.today;
+      //  const maxdate=
+
+      const lastDay = new Date(new Date(this.today).getFullYear(), new Date(this.today).getMonth() + 1, 0);
+      this.maxdate = this.datepipe.transform(lastDay, 'yyyy-MM-dd');
+      debugger;
     }
     else {
+      debugger;
       this.minDate = Month + '-01';
+      const lastDay = new Date(new Date(Month + '-01').getFullYear(), new Date(Month + '-01').getMonth() + 1, 0);
+      this.maxdate = this.datepipe.transform(lastDay, 'yyyy-MM-dd');
+      debugger;
     }
   }
 
@@ -299,8 +311,8 @@ export class StaffPermissionComponent implements OnInit {
     this.pANChange();
   }
 
-  pFNChange() {
-
+  async pFNChange() {
+    debugger
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -312,20 +324,31 @@ export class StaffPermissionComponent implements OnInit {
       return (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays && e.p_fn == FN)
     });
 
-    if (checkArray.length != 0) {
-      this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
-      this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
-    }
-    else {
-      const eligibleday = this.StaffLeaveList.filter((e) => { return e.typeid == this.staffHalfDayPermissionForm.value.typeid });
-      if (Number(eligibleday[0].eligible_days) < Htotal || Number(eligibleday[0].monthedays) < Htotal) {
+    const student = await this.slpSvc.checkAttendanceStaff(staffNo, this.datepipe.transform(leaveDays, 'yyyy-MM-dd')).toPromise();
+    const newAttendance = student.filter((e) => { return e.fn == true || e.fni == true });
+    debugger;
+    if (this.staffHalfDayPermissionForm.value.p_fn) {
+      if (!newAttendance.length) {
+        if (checkArray.length != 0) {
+          this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+          this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+        }
+        else {
+          const eligibleday = this.StaffLeaveList.filter((e) => { return e.typeid == this.staffHalfDayPermissionForm.value.typeid });
+          if (Number(eligibleday[0].eligible_days) < Htotal || Number(eligibleday[0].monthedays) < Htotal) {
+            this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+            this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
+          }
+        }
+      }
+      else {
+        this.notificationSvc.warn('Alredy Put Attendance On This Day');
         this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
-        this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
       }
     }
   }
 
-  pANChange() {
+  async pANChange() {
     let Htotal: number = 0;
     if (this.staffHalfDayPermissionForm.value.p_fn == true) { Htotal += 0.5; }
     if (this.staffHalfDayPermissionForm.value.p_an == true) { Htotal += 0.5; }
@@ -334,19 +357,29 @@ export class StaffPermissionComponent implements OnInit {
     const leaveDays = this.staffHalfDayPermissionForm.value.h_leave_days;
     const AN = this.staffHalfDayPermissionForm.value.p_an;
     const checkArray = this.AllStaffLeavePermissionHistoryList.filter((e) => {
-
       return (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays) || (e.staff_no == staffNo && e.year == Month && e.leave_day == leaveDays && e.p_an == AN)
     });
 
-    if (checkArray.length != 0) {
-      this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
-      this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
-    }
-    else {
-      const eligibleday = this.StaffLeaveList.filter((e) => { return e.typeid == this.staffHalfDayPermissionForm.value.typeid });
-      if (Number(eligibleday[0].eligible_days) < Htotal || Number(eligibleday[0].monthedays) < Htotal) {
+    const student = await this.slpSvc.checkAttendanceStaff(staffNo, this.datepipe.transform(leaveDays, 'yyyy-MM-dd')).toPromise();
+    const newAttendance = student.filter((e) => { return e.an == true || e.ani == true });
+
+    if (this.staffHalfDayPermissionForm.value.p_an) {
+      if (!newAttendance.length) {
+        if (checkArray.length != 0) {
+          this.notificationSvc.warn('You Have Alredy Applied Leave On This Day');
+          this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+        }
+        else {
+          const eligibleday = this.StaffLeaveList.filter((e) => { return e.typeid == this.staffHalfDayPermissionForm.value.typeid });
+          if (Number(eligibleday[0].eligible_days) < Htotal || Number(eligibleday[0].monthedays) < Htotal) {
+            this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
+            this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
+          }
+        }
+      }
+      else {
+        this.notificationSvc.warn('Alredy Put Attendance On This Day');
         this.staffHalfDayPermissionForm.get('h_leave_days')?.setValue('');
-        this.notificationSvc.error('Leave Day Range Must Less Than Or equal To Eligible Day');
       }
     }
   }

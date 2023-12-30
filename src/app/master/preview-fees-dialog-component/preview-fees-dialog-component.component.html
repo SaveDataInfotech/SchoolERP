@@ -164,15 +164,15 @@
                 <table class="table table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th scope="col">Si.No</th>
-                            <th scope="col">Description</th>
+                            <th>Si.No</th>
+                            <th>Description</th>
                             <th style="text-align: right;">Paid Amount</th>
                             <th>Balance</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of generalFee;let i=index">
-                            <th scope="row">{{i+1}}</th>
+                            <th>{{i+1}}</th>
                             <td>{{item.type_name}}</td>
                             <td style="text-align: right;">{{item.deduction_amount}}</td>
                             <td style="text-align: right;">{{item.balance}}</td>

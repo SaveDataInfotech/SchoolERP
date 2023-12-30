@@ -22,8 +22,6 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./student-fees.component.scss']
 })
 export class StudentFeesComponent implements OnInit {
-
-
   @ViewChild('csid') classSelect!: ElementRef;
   @ViewChild('dtv') dateInputRef!: ElementRef;
 

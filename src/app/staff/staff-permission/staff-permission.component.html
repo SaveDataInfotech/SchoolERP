@@ -101,11 +101,11 @@
                                 <td style="width: 180px;"><input
                                         [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.fromdate.touched && staffLeavePermissionForm.controls.fromdate.errors}"
                                         formControlName="fromdate" (change)="dateChange()" class="form-control"
-                                        [min]="minDate" type="date" required></td>
+                                        [min]="minDate" [max]="maxdate" type="date" required></td>
                                 <td style="width: 180px;"><input
                                         [ngClass]="{'is-invalid':staffLeavePermissionForm.controls.todate.touched && staffLeavePermissionForm.controls.todate.errors}"
                                         formControlName="todate" (change)="dateChange()" [min]="minDate"
-                                        class="form-control" type="date" required="">
+                                        class="form-control" [max]="maxdate" type="date" required="">
                                 </td>
                                 <td style="width: 140px;"><input readonly formControlName="total_days"
                                         class="form-control">
@@ -146,8 +146,8 @@
                                     </select></td>
                                 <td style="width: 180px;"><input (change)="pDayChange()"
                                         [ngClass]="{'is-invalid':staffHalfDayPermissionForm.controls.h_leave_days.touched && staffHalfDayPermissionForm.controls.h_leave_days.errors}"
-                                        formControlName="h_leave_days" class="form-control" [min]="minDate" type="date"
-                                        required></td>
+                                        formControlName="h_leave_days" class="form-control" [max]="maxdate"
+                                        [min]="minDate" type="date" required></td>
                                 <td style="width: 80px;">
                                     <input class="mt-2" formControlName="p_fn" (change)="pFNChange()"
                                         type="checkbox"><span>FN</span>
