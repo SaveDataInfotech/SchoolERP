@@ -20,6 +20,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CurrencyPipe} from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { UpdateTakenLeaveComponent } from './update-taken-leave/update-taken-leave.component';
 @NgModule({
   declarations: [
     StaffProfileComponent,
@@ -28,7 +29,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     StaffPermissionComponent,
     StaffLoanComponent,
     StaffSalaryComponent,
-    ReportsComponent
+    ReportsComponent,
+    UpdateTakenLeaveComponent
   ],
   providers: [CurrencyPipe,DatePipe],
   imports: [

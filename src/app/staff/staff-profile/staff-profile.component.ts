@@ -286,6 +286,7 @@ export class StaffProfileComponent implements OnInit {
   }
 
   totalChange() {
+    debugger
     let totalAmount = 0;
     totalAmount = Number(this.staffProfileForm.value.basic_pay) + Number(this.staffProfileForm.value.da)
       + Number(this.staffProfileForm.value.hra) + Number(this.staffProfileForm.value.allowance);

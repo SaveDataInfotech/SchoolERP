@@ -11,7 +11,7 @@ export class staffLeavePermissionService {
     }
 
     getstaffLeaveList(year: any, no: string, Month: string): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl + 'StaffLeavePermission/get_staff_leaves?staff_no=' + no + '&year=' + year+'&month='+Month);
+        return this.http.get<any[]>(this.apiUrl + 'StaffLeavePermission/get_staff_leaves?staff_no=' + no + '&year=' + year + '&month=' + Month);
     }
 
     getAllStaffLeavePermissionHistory(): Observable<any[]> {
@@ -36,5 +36,16 @@ export class staffLeavePermissionService {
 
     checkAttendanceStaff(staffNo, date): Observable<any[]> {
         return this.http.get<any[]>(this.apiUrl + 'StaffLeavePermission/checkattendancestaff?staff_no=' + staffNo + '&date=' + date);
+    }
+
+
+    takenNewPermission(value: any): Observable<any> {
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/taken_staff_leave_permission_history', value, httpOptions);
+    }
+
+    takenNewHalfDay(value: any): Observable<any> {
+        const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+        return this.http.post<any>(this.apiUrl + 'StaffLeavePermission/taken_staff_leave_halfday_permission_history', value, httpOptions);
     }
 }

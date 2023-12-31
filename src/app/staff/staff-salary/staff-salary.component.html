@@ -103,12 +103,12 @@
                                 <td>{{chid.get('staff_name').value}}</td>
                                 <!-- <td>{{chid.get('work_days').value}}</td> -->
                                 <td><input formControlName="present_day" style="min-width: 80px;" class="form-control"
-                                        type="text"></td>
-                                <td><input formControlName="absent_day" (change)="payableDayChange(i)"
+                                        readonly type="text"></td>
+                                <td><input formControlName="absent_day" (change)="payableDayChange(i)" readonly
                                         style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="leave" (change)="payableDayChange(i)"
+                                <td><input formControlName="leave" (change)="payableDayChange(i)" readonly
                                         style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="payable_days" (change)="payableDayChange(i)"
+                                <td><input formControlName="payable_days" (change)="payableDayChange(i)" readonly
                                         style="min-width: 80px;" class="form-control" type="text"></td>
                                 <td><input formControlName="basic_pay" style="min-width: 80px;" class="form-control"
                                         type="text" readonly></td>
@@ -124,28 +124,26 @@
                                         type="text" readonly></td>
                                 <td><input formControlName="d_amount" style="min-width: 80px;" class="form-control"
                                         type="text" readonly><span style="color:blue;"
-                                        *ngIf="chid.get('d_amount').value != ''"><input (click)="PNChange(i,$event)"
+                                        *ngIf="chid.get('emi_amount').value != 0"><input (click)="PNChange(i,$event)"
                                             type="checkbox">Pay Next Month</span></td>
                                 <td><input formControlName="absent_amount" style="min-width: 80px;" class="form-control"
-                                        type="text"></td>
-                                <td><input readonly formControlName="epf" style="min-width: 80px;" class="form-control"
-                                        type="text"></td>
+                                        readonly type="text"></td>
+                                <td><input readonly formControlName="epf_amount" style="min-width: 80px;"
+                                        class="form-control" type="text"></td>
                                 <td><input formControlName="deduction" style="min-width: 80px;" class="form-control"
-                                        type="text"></td>
+                                        readonly type="text"></td>
                                 <td><input formControlName="net_salary" style="min-width: 80px;" class="form-control"
-                                        type="text"></td>
+                                        readonly type="text"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <!-- <div class="col-sm-12 mt-4">
+                <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input matTooltip="Click to Cancel" type="reset" style="width: 80px;"
-                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
-                </div> -->
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
