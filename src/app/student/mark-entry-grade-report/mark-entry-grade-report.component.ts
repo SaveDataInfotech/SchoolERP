@@ -35,6 +35,8 @@ export class MarkEntryGradeReportComponent implements OnInit {
   multiMarkList: any[] = [];
   multiMarkStudentList: any[] = [];
   multisubjectList: any[] = [];
+  oclassName: string;
+  sectionName: string;
   constructor(
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
@@ -156,6 +158,8 @@ export class MarkEntryGradeReportComponent implements OnInit {
       let examName: string = (this.consolidatedMarkRankForm.value.exam_name);
 
       this.mERSvc.getOverAllSubMarkGrade(classID, groupID, sectionID, batchYear, examName).subscribe(async data => {
+        this.oclassName = data[0].class_name;
+        this.sectionName = data[0].section_name;
         this.overAllSubMarkList = data;
       });
     }
@@ -189,7 +193,7 @@ export class MarkEntryGradeReportComponent implements OnInit {
   }
 
   getSubWiseMark(sub, j) {
-    
+
     let newSub = [];
     let marks = [];
     let index: any;

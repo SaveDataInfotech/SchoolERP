@@ -34,6 +34,8 @@ export class MarkEntryReportsComponent implements OnInit {
   multiMarkList: any[] = [];
   multiMarkStudentList: any[] = [];
   multisubjectList: any[] = [];
+  oclassName: string;
+  sectionName: string;
   constructor(
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
@@ -132,7 +134,7 @@ export class MarkEntryReportsComponent implements OnInit {
 
       this.mERSvc.getconsolidatedMarkRank(classID, groupID, sectionID, batchYear, examName).subscribe(async data => {
         this.classIncharge = data[0].classincharge;
-        this.studentClass = data[0].class_name + '-'+ data[0].section_name;
+        this.studentClass = data[0].class_name + '-' + data[0].section_name;
         this.examName = data[0].exam_name
         this.subjectList = await data[0].subject_name.split(",");
         this.consolidatedMarkRankList = data;
@@ -155,7 +157,9 @@ export class MarkEntryReportsComponent implements OnInit {
       let examName: string = (this.consolidatedMarkRankForm.value.exam_name);
 
       this.mERSvc.getOverAllSubMarkRank(classID, groupID, sectionID, batchYear, examName).subscribe(async data => {
-        this.overAllSubMarkList = data;
+        this.oclassName = data[0].class_name;
+        this.sectionName = data[0].section_name;
+        this.overAllSubMarkList = data;        
       });
     }
     else {
@@ -188,7 +192,7 @@ export class MarkEntryReportsComponent implements OnInit {
   }
 
   getSubWiseMark(sub, j) {
-    
+
     let newSub = [];
     let marks = [];
     let index: any;

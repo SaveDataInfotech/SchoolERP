@@ -1,3 +1,47 @@
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    left: 0;
+  }
+
+  .home-section {
+    left: 0;
+    width: 100%;
+  }
+
+  .sidebar.sidebar-close {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    left: 0;
+  }
+
+  .home-section {
+    left: 0;
+    width: 100%;
+  }
+
+  .sidebar.sidebar-close {
+    width: 100%;
+  }
+
+  .home-section .home-header .col-sm-1,
+  .home-section .home-header .col-sm-5,
+  .home-section .home-header .col-sm-2 {
+    display: none;
+  }
+
+  .home-section .home-header .hamburger-menu {
+    display: block;
+  }
+}
+
+
 .example-container {
   position: absolute !important;
   top: 0;

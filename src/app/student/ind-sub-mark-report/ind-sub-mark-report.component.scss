@@ -2,36 +2,49 @@
     box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
 }
 
+.secondbody {
+    display: none;
+}
+
 @media print {
+    body {
+        width: 210mm;
+        /* A4 width */
+    }
+
+    .secondbody {
+        display: block;
+    }
+
+    .topsec {
+        margin-top: 15px;
+    }
+
     @page {
         size: A4 landscape;
         margin: 2mm;
     }
 
-    body {
-        width: 50%;
-        font-family: Arial, sans-serif;
-    }
-
     .row {
-        width: 50%;
+        width: 100%;
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
     }
 
     #individual_print {
-        width: 50%; /* Full width on print */
-        border: 1px solid #ccc;       
+        width: 100%;
+        /* Full width on print */
+        border: 1px solid #ccc;
     }
 
     table {
-        width: 50%;
+        width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
     }
 
-    th, td {
+    th,
+    td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
@@ -41,14 +54,10 @@
         background-color: #f2f2f2;
     }
 
-    h2 {
-        width: 50%;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
     div[style*="width: 100%"] {
         /* This ensures that any nested div with width: 100% is also expanded */
-        width: 50% !important;
+        width: 100% !important;
     }
+
+
 }

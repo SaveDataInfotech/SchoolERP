@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
+import { DialogService } from 'src/app/api-service/Dialog.service';
 import { staffSalaryService } from 'src/app/api-service/staffSalary.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
 
@@ -14,6 +16,8 @@ export class StaffSalaryComponent implements OnInit {
   userID: number = Number(localStorage.getItem("userid"));
 
   constructor(
+    private notificationSvc: NotificationsService,
+    private DialogSvc: DialogService,
     private SttySvc: staffTypeService,
     private sttySalSvc: staffSalaryService,
     private router: Router
@@ -55,6 +59,7 @@ export class StaffSalaryComponent implements OnInit {
         if (control.length == 0 && data.length) {
           data.forEach(element => {
             let salmonth = ''; salmonth = this.staffSalaryForm.value.sal_month;
+            let staffTypeid; staffTypeid = this.staffSalaryForm.value.staff_typeid;
             let workDays = 0; workDays = Number(this.staffSalaryForm.value.working_days);
             let presentDays = 0; presentDays = Number(element.an) / 2
             let leave = 0; leave = Number(element.leave) + (element.l_an / 2);
@@ -83,26 +88,27 @@ export class StaffSalaryComponent implements OnInit {
             control.push(
               new FormGroup({
                 salary_month: new FormControl(salmonth),
+                staff_typeid: new FormControl(staffTypeid),
                 staff_no: new FormControl(element.staff_no),
                 staff_name: new FormControl(element.staff_name),
-                work_days: new FormControl(workDays),
-                present_day: new FormControl(presentDays),
-                absent_day: new FormControl(absentDay),
-                leave: new FormControl(leave),
-                payable_days: new FormControl(payableDay),
-                basic_pay: new FormControl(basicPay),
-                da: new FormControl(dA),
-                hra: new FormControl(hRA),
-                allowance: new FormControl(allowance),
-                total_salary: new FormControl(totalSalary),
-                grand_total: new FormControl(grandTotal),
-                emi_amount: new FormControl(eMIAmount),
-                d_amount: new FormControl(dAmount),
-                absent_amount: new FormControl(adsentAmount),
+                work_days: new FormControl(String(workDays)),
+                present_day: new FormControl(String(presentDays)),
+                absent_day: new FormControl(String(absentDay)),
+                leave: new FormControl(String(leave)),
+                payable_days: new FormControl(String(payableDay)),
+                basic_pay: new FormControl(String(basicPay)),
+                da: new FormControl(String(dA)),
+                hra: new FormControl(String(hRA)),
+                allowance: new FormControl(String(allowance)),
+                total_salary: new FormControl(String(totalSalary)),
+                grand_total: new FormControl(String(grandTotal)),
+                emi_amount: new FormControl(String(eMIAmount)),
+                d_amount: new FormControl(String(dAmount)),
+                absent_amount: new FormControl(String(adsentAmount)),
                 isepf: new FormControl(element.epf),
-                epf_amount: new FormControl(ePf),
-                deduction: new FormControl(deduction),
-                net_salary: new FormControl(netSalary),
+                epf_amount: new FormControl(String(ePf)),
+                deduction: new FormControl(String(deduction)),
+                net_salary: new FormControl(String(netSalary)),
                 cuid: new FormControl(this.userID)
               })
             )
@@ -119,7 +125,7 @@ export class StaffSalaryComponent implements OnInit {
   PNChange(i, eve) {
     if (eve.target.checked) {
       const busControl = this.staffSalaryForm.get('staffList') as FormArray;
-      busControl.at(i).get('d_amount').setValue(0);
+      busControl.at(i).get('d_amount').setValue('0');
     } else {
       const busControl1 = this.staffSalaryForm.get('staffList') as FormArray;
       const am = busControl1.at(i).get('emi_amount').value;
@@ -136,20 +142,42 @@ export class StaffSalaryComponent implements OnInit {
     const workdays = busControl3.at(i).get('work_days').value;
     const divedam = (Number(totalsalary) / Number(workdays));
     const Grandtotal = Math.round(divedam * Number(payableDays));
-    busControl3.at(i).get('grand_total').setValue(Grandtotal);
+    busControl3.at(i).get('grand_total').setValue(String(Grandtotal));
     const absentAmount = (Number(totalsalary) - Math.round(divedam * Number(payableDays)));
-    busControl3.at(i).get('absent_amount').setValue(absentAmount);
+    busControl3.at(i).get('absent_amount').setValue(String(absentAmount));
     const dAmount = busControl3.at(i).get('d_amount').value;
     const Epf = busControl3.at(i).get('epf').value;
     const deduction = (Number(dAmount) + Number(absentAmount) + Number(Epf));
-    busControl3.at(i).get('deduction').setValue(deduction);
+    busControl3.at(i).get('deduction').setValue(String(deduction));
     const netSalary = (Number(totalsalary) - Number(deduction));
 
-    busControl3.at(i).get('net_salary').setValue(netSalary);
+    busControl3.at(i).get('net_salary').setValue(String(netSalary));
   }
 
-  save() {
-    console.log(this.staffSalaryForm)
+  async save() {
+    if (this.staffSalaryForm.valid) {
+      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+        .afterClosed().subscribe(async res => {
+          if (res == true) {
+            const formvalue = (this.staffSalaryForm.value.staffList);
+            const staffCheck = await this.sttySalSvc.staffCheck(this.staffSalaryForm.value.sal_month, this.staffSalaryForm.value.staff_typeid).toPromise();
+            if (!staffCheck.length) {
+              this.sttySalSvc.addNewstaffSalary(formvalue).subscribe(res => {
+                if (res.status == 'Insert Success') {
+                  this.notificationSvc.success('Saved Successfully');
+                  this.canCelClick();
+                }
+              });
+            }
+            else {
+              this.notificationSvc.warn('Salary for this Staff type and Month is already entered')
+            }
+          }
+        });
+    }
+    else {
+      this.staffSalaryForm.markAllAsTouched();
+    }
   }
 
 

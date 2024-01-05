@@ -83,21 +83,21 @@
                     printSectionId="individual_print" ngxPrint [useExistingCss]="true">
                     Print <i class="fa fa-print ml-2"></i></button>
             </div>
-            <div style="margin-top: 0px;" class="row">
-                <div id="individual_print" class="col-sm-6">
+            <div id="individual_print" style="margin-top: 5px;display: flex;" class="row">
+                <div style="float: left;" class="col-sm-6 topsec">
                     <div>
                         <div style="width: 100%;display: flex;">
-                            <h3 style="width: 100%;text-align: center;">AIM MATRIC HR.SEC.SCHOOL</h3>
+                            <h4 style="width: 100%;text-align: center;">AIM MATRIC HR.SEC.SCHOOL,ARNI-632 316</h4>
                         </div>
                         <div style="width: 100%;display: flex;">
                             <p style="width: 25%;">CLASS : {{className}}</p>
                             <p style="width: 17%;">SEC : {{sectionName}}</p>
-                            <p>Exam name :</p>
+                            <p style="width: 55%;">Exam name :</p>
                         </div>
                         <div style="width: 100%;display: flex;">
                             <p style="width: 25%;">Date :</p>
-                            <p style="width: 17%;">SUB TR :</p>
-                            <p>SUB :</p>
+                            <p style="width: 50%;">SUB TR :</p>
+                            <p style="width: 25%;">SUB :</p>
                         </div>
                     </div>
                     <table class="table table-bordered">
@@ -118,6 +118,60 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="row pt-2">
+                        <div class="col-sm-12">
+                            <div style="text-align: center;">CORRESPONDENT</div>
+                        </div>
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="width: 50%;">TEACHERS'S INITIAL</div>
+                            <div class="pr-2" style="width: 50%; text-align: right;">PRINCIPAL</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="float: left;" class="col-sm-6 secondbody topsec">
+                    <div>
+                        <div style="width: 100%;display: flex;">
+                            <h4 style="width: 100%;text-align: center;">AIM MATRIC HR.SEC.SCHOOL,ARNI-632 316</h4>
+                        </div>
+                        <div style="width: 100%;display: flex;">
+                            <p style="width: 25%;">CLASS : {{className}}</p>
+                            <p style="width: 17%;">SEC : {{sectionName}}</p>
+                            <p style="width: 55%;">Exam name :</p>
+                        </div>
+                        <div style="width: 100%;display: flex;">
+                            <p style="width: 25%;">Date :</p>
+                            <p style="width: 50%;">SUB TR :</p>
+                            <p style="width: 25%;">SUB :</p>
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>S.NO</th>
+                                <th>AD NO</th>
+                                <th>STUDENT NAME</th>
+                                <th>MARKS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of StudentList;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{item.admission_no}}</td>
+                                <td>{{item.student_name}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row pt-3">
+                        <div class="col-sm-12">
+                            <div style="text-align: center;">CORRESPONDENT</div>
+                        </div>
+                        <div class="col-sm-12" style="display: flex;">
+                            <div style="width: 50%;">TEACHERS'S INITIAL</div>
+                            <div class="pr-2" style="width: 50%; text-align: right;">PRINCIPAL</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </mat-card-content>

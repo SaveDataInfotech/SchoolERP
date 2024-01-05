@@ -62,7 +62,7 @@
                                     class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="with_prac" class="form-control" type="text" readonly required="">
+                            <input formControlName="with_prac" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                                 mark<span class="text-danger">*</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="with_out_prac" class="form-control" type="text" required readonly>
+                            <input formControlName="with_out_prac" class="form-control" type="text" required>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                                             <span style="display: flex;">
                                                 <input
                                                     [ngStyle]="{'color': (subject.get('pass_status').value == 'Pass') ? 'green':'red'}"
-                                                    (change)="gradeConvert(i,j,grd.value)" placeholder="Mark"
+                                                    (keyup)="gradeConvert(i,j,grd.value)" placeholder="Mark"
                                                     (keydown)="moveCell($event)" type="text" #grd
                                                     class="form-control form-controls" formControlName="marks">
                                                 <input

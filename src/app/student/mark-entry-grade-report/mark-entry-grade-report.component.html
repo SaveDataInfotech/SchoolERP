@@ -108,21 +108,22 @@
                         Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
                 </div>
                 <div id="consolidatedmarkrank_print" class="table-responsive row mt-1">
+                    <div style="height: 18px;"></div>
                     <div class="col-sm-12" style="text-align: center;">
                         <h2>AIM MATRIC HR.SEC.SCHOOL</h2>
                     </div>
                     <div class="col-sm-12">
                         <div style="display: flex;width: 100%;">
-                            <p style="width: 20%;">Class Name:{{studentClass}}</p>
-                            <p style="width: 30%;">Exam Name:{{examName}}</p>
-                            <p style="width: 50%;">Class Incharge:{{classIncharge}}</p>
+                            <p style="width: 20%;"><b>Class Name:{{studentClass}}</b></p>
+                            <p style="width: 30%;"><b>Exam Name:{{examName}}</b></p>
+                            <p style="width: 50%;"><b>Class Incharge:{{classIncharge}}</b></p>
                         </div>
                     </div>
                     <table class="col-sm-12 table table-bordered">
                         <thead>
                             <tr>
                                 <th>Si.No</th>
-                                <th>Name</th>
+                                <th style="text-align: left;">Name</th>
                                 <th>AD NO</th>
                                 <ng-container *ngFor="let sub of subjectList">
                                     <th>{{ sub | uppercase | slice:0:3 }}</th>
@@ -136,7 +137,7 @@
                         <tbody>
                             <tr *ngFor="let item of consolidatedMarkRankList;let i=index;">
                                 <th>{{i+1}}</th>
-                                <td>{{item.student_name}}</td>
+                                <td style="text-align: left;">{{item.student_name}}</td>
                                 <td>{{item.admission_no}}</td>
                                 <ng-container *ngFor="let sub of subjectList">
                                     <td>{{getMark(sub,i)}}</td>
@@ -149,7 +150,7 @@
                             <tr>
                                 <th colspan="3">Subject Average</th>
                                 <ng-container *ngFor="let sub of subjectList">
-                                    <td>{{getSubMarkAvg(sub) | number : '.2-2'}}</td>
+                                    <td><b>{{getSubMarkAvg(sub) | number : '.2-2'}}</b></td>
                                 </ng-container>
                             </tr>
                         </tbody>
@@ -168,9 +169,11 @@
                         Print <i class="fa fa-print ml-2"></i></button>
                 </div>
                 <div id="overallmarkrank_print" class="table-responsive row mt-1">
+                    <div style="height: 18px;"></div>
                     <div class="col-sm-12" style="text-align: center;">
                         <h2>AIM MATRIC HR.SEC.SCHOOL</h2>
                     </div>
+                    <div><b>Class Name: {{oclassName}} - {{sectionName}}</b></div>
                     <table class="col-sm-12 table table-bordered">
                         <thead>
                             <th>TOTAL STRENGTH</th>
@@ -213,6 +216,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="col-sm-12 pt-3 footer" style="display: flex;">
+                        <div style="width: 33%;"><b>Class Teacher Sign</b></div>
+                        <div style="width: 33%;"><b>Correspodent Sign</b></div>
+                        <div style="width: 33%;"><b>Principal Sign</b></div>
+                    </div>
                 </div>
             </div>
         </mat-card-content>
@@ -243,6 +251,9 @@
                                 <ng-container *ngFor="let sub of multisubjectList">
                                     <th>{{sub}}</th>
                                 </ng-container>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Rank</th>
                             </thead>
                             <tbody>
                                 <ng-container *ngFor="let exam of multiMarkList;let j=index">
@@ -252,6 +263,9 @@
                                             <ng-container *ngFor="let subjecyt of multisubjectList">
                                                 <td>{{getSubWiseMark(subjecyt,j)}}</td>
                                             </ng-container>
+                                            <td>{{exam.total}}</td>
+                                            <td>{{exam.status}}</td>
+                                            <td>{{exam.rank}}</td>
                                         </tr>
                                     </ng-container>
                                 </ng-container>

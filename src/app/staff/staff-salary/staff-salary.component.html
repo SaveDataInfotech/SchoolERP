@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="table-responsive text-nowrap mt-3">
+                <div *ngIf="staffSalaryForm.value.staffList.length" class="table-responsive text-nowrap mt-3">
                     <table class="col-sm-12 table table-hover table-bordered table-sm mt-5 ">
                         <thead>
                             <tr>
@@ -138,10 +138,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-12 mt-4">
+                <div *ngIf="staffSalaryForm.value.staffList.length" class="col-sm-12 mt-4">
                     <div style="text-align: center;">
                         <input type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Save" />
-                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                        <input type="button" (click)="canCelClick()" style="width: 80px;"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
                     </div>
                 </div>
             </form>
