@@ -234,6 +234,19 @@ export class MarkEntryGradeReportComponent implements OnInit {
     return getMark;
   }
 
+  getstatus(i) {
+    let marks = [];
+    marks = this.consolidatedMarkRankList[i].marks.split(",");
+    let count;
+    count = marks.filter((e) => { return e == 'AB' || e == 'Ab' || e == 'ab' || e == '' }).length
+    if (count) {
+      return '-'
+    }
+    else {
+      return this.consolidatedMarkRankList[i].status
+    }
+  }
+
   getSubMarkAvg(sub) {
 
     let totalMark = 0;

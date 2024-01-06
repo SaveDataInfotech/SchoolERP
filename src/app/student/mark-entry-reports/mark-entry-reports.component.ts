@@ -159,7 +159,7 @@ export class MarkEntryReportsComponent implements OnInit {
       this.mERSvc.getOverAllSubMarkRank(classID, groupID, sectionID, batchYear, examName).subscribe(async data => {
         this.oclassName = data[0].class_name;
         this.sectionName = data[0].section_name;
-        this.overAllSubMarkList = data;        
+        this.overAllSubMarkList = data;
       });
     }
     else {
@@ -214,6 +214,7 @@ export class MarkEntryReportsComponent implements OnInit {
   }
 
   getMark(sub, i) {
+    debugger;
     let newSub = [];
     let marks = [];
     let index: any;
@@ -231,6 +232,19 @@ export class MarkEntryReportsComponent implements OnInit {
       }
     }
     return getMark;
+  }
+
+  getstatus(i) {
+    let marks = [];
+    marks = this.consolidatedMarkRankList[i].marks.split(",");
+    let count;
+    count = marks.filter((e) => { return e == 'AB' || e == 'Ab' || e == 'ab' || e == '' }).length
+    if (count) {
+      return '-'
+    }
+    else {
+      return this.consolidatedMarkRankList[i].status
+    }
   }
 
   getSubMarkAvg(sub) {
