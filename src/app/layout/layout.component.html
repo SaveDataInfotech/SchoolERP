@@ -1,13 +1,21 @@
 <div class="sidebar" [class.sidebar-close]="!openSidebar">
-  <div class="logo-details">
+  <!-- <div class="logo-details">
     <div class="logo"> </div>
+  </div> -->
+  <div class="hamburger-menu col-sm-1">
+    <input type="checkbox" id="checkbox-hamburger-menu" [(ngModel)]="openSidebar" />
+    <label class="label-hamburger-menu" for="checkbox-hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </label>
   </div>
   <ul class="nav-links" id="nav-links">
     <li *ngFor="let item of filteredMenu" #itemEl routerLinkActive="active">
       <div *ngIf="item.sub_menu.length == 0" class="dropdown-title">
         <a [routerLink]="[item.link]">
           <i [class]="item.icon"></i>
-          <!-- dashboard -->
+
           <mat-icon style="color: white; position: absolute;left: +20px; " svgIcon="dashboard"></mat-icon>
           <span class="link_name" style="margin-left:2px">{{item.link_name}}</span>
         </a>
@@ -15,7 +23,7 @@
       <div *ngIf="item.sub_menu.length> 0" class="dropdown-title pointer;" (click)="showSubmenu(itemEl)">
         <a>
           <i [class]="item.icon"></i>
-          <!-- menu -->
+
           <mat-icon style="color: white !important; position: absolute;left: +20px;" [svgIcon]="item.icon"></mat-icon>
           <span class="link_name" style="margin-left:2px">{{item.link_name}}</span>
         </a>
@@ -24,7 +32,7 @@
       <ul class="sub-menu" [class.blank]="item.sub_menu.length == 0">
         <li><a class="link_name">{{item.link_name}}</a></li>
         <li *ngFor="let item_sub of item.sub_menu" routerLinkActive="active">
-          <!-- submenu -->
+
           <div>
             <a [routerLink]="[item_sub.link]">{{item_sub.link_name}}</a>
           </div>
@@ -35,16 +43,53 @@
 </div>
 <section class="home-section">
   <div class="home-header">
-    <div class="hamburger-menu col-sm-1">
-      <input type="checkbox" id="checkbox-hamburger-menu" [(ngModel)]="openSidebar" />
-      <label class="label-hamburger-menu" for="checkbox-hamburger-menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </label>
-    </div>
+   
 
-    <div class="col-sm-5">
+    <div id="HomeHeader" class="col-sm-5">
+      <h3 id="SchoolTitle" style="margin: 0 0;position: relative; right: -13px;color: white;font-size: 20px;">Aim Matriculation Higher
+        Secondary School</h3>
+    </div>
+    <div id="BackUP" class="col-sm-2">
+      <button (click)="backUpDB()" class="btn btn-primary btn-sm">BACK UP DB</button>
+    </div>
+    <div>
+      <p class="mr-5"id="UserName"
+        style="align-items: center; position: fixed ;right:100px;top: 0.5px;color: white; width:2em ;height:2em;margin-top:15px;transform: scale(1.3);text-align: right; ">
+        {{userName}}</p>
+      <mat-icon [matMenuTriggerFor]="menu"
+        style="cursor: pointer;align-items: center; position: fixed ;right: 20px;top: 0.5px;color: white; width:2em ;height:2em;margin:6px;transform: scale(1.3);"><img
+          style="border-radius: 50px;object-fit: cover; background-color: lightblue; " height="33px" width="33px"
+          [src]="userImage"></mat-icon>
+    </div>
+    <mat-menu #menu="matMenu">
+      <button title="Click to Log Out" (click)="logout()" mat-menu-item><mat-icon
+          style="color: blue;">logout</mat-icon><span style="color: red;">Log Out</span></button>
+      <button title="Settings" mat-menu-item><mat-icon
+          style="color: blue;">settings</mat-icon><span>Settings</span></button>
+      <button title="You" mat-menu-item><mat-icon
+          style="color: blue;">account_circle</mat-icon><span>Profile</span></button>
+    </mat-menu>
+  </div>
+  <div class="body home-view">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+
+
+
+
+
+<!-- 
+
+
+
+<mat-toolbar class="container-fluid">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+    <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+  </button>
+  <div class="row">
+    <div style="width: 30%;">
       <h3 style="margin: 0 0;position: relative; right: -13px;color: white;font-size: 20px;">Aim Matriculation Higher
         Secondary School</h3>
     </div>
@@ -69,7 +114,48 @@
           style="color: blue;">account_circle</mat-icon><span>Profile</span></button>
     </mat-menu>
   </div>
-  <div class="body home-view">
-    <router-outlet></router-outlet>
-  </div>
-</section>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav">
+    <div class="sidebar" [class.sidebar-close]="!openSidebar">
+      <ul class="nav-links" id="nav-links">
+        <li *ngFor="let item of filteredMenu" #itemEl routerLinkActive="active">
+          <div *ngIf="item.sub_menu.length == 0" class="dropdown-title">
+            <a [routerLink]="[item.link]">
+              <i [class]="item.icon"></i>
+
+              <mat-icon style="color: white; position: absolute;left: +20px; " svgIcon="dashboard"></mat-icon>
+              <span class="link_name" style="margin-left:2px">{{item.link_name}}</span>
+            </a>
+          </div>
+          <div *ngIf="item.sub_menu.length> 0" class="dropdown-title pointer;" (click)="showSubmenu(itemEl)">
+            <a>
+              <i [class]="item.icon"></i>
+
+              <mat-icon style="color: white !important; position: absolute;left: +20px;"
+                [svgIcon]="item.icon"></mat-icon>
+              <span class="link_name" style="margin-left:2px">{{item.link_name}}</span>
+            </a>
+            <i class='bx bxs-chevron-down arrow'></i>
+          </div>
+          <ul class="sub-menu" [class.blank]="item.sub_menu.length == 0">
+            <li><a class="link_name">{{item.link_name}}</a></li>
+            <li *ngFor="let item_sub of item.sub_menu" routerLinkActive="active">
+
+              <div>
+                <a [routerLink]="[item_sub.link]">{{item_sub.link_name}}</a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="body home-view">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container> -->

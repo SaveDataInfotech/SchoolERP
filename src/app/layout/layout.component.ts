@@ -26,6 +26,8 @@ export class LayoutComponent implements OnInit {
     private dBSvc: backUPDBService,
     private notificationSvc: NotificationsService) { }
 
+    
+
   ngOnInit() {
     this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
       this.userList = data;
@@ -44,7 +46,15 @@ export class LayoutComponent implements OnInit {
           });
       }
     });
+
+    if(window.matchMedia("(max-width:450px;)")){
+      this.openSidebar=false
+    }
   }
+
+
+  
+    
 
   openSidebar: boolean = true;
   routerLink = "/login"
