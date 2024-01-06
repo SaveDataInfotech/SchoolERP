@@ -6,7 +6,6 @@ import { DialogService } from 'src/app/api-service/Dialog.service';
 import { staffCategoryService } from 'src/app/api-service/staffCategory.service';
 import { staffProfileService } from 'src/app/api-service/staffProfile.service';
 import { staffTypeService } from 'src/app/api-service/staffType.service';
-import { studentClassService } from 'src/app/api-service/studentClass.service';
 
 @Component({
   selector: 'app-staff-profile',
@@ -18,11 +17,9 @@ export class StaffProfileComponent implements OnInit {
   editableImage: any;
   file: any;
   base64textString: any[] = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
   StaffTypeList: any[] = [];
-  //ClassList: any = [];
 
-  staffList: any[] = [];
   staffFilterList: any[] = [];
   maxIDList: any[] = [];
   maxnumber: number;
@@ -30,8 +27,8 @@ export class StaffProfileComponent implements OnInit {
 
   categoryList: any[] = [];
   constructor(private SttySvc: staffTypeService,
-    private ClassSvc: studentClassService,
     private notificationSvc: NotificationsService,
+    private stpSvc: staffProfileService,
     private staffSvc: staffProfileService,
     private DialogSvc: DialogService,
     private router: Router,
@@ -40,13 +37,10 @@ export class StaffProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshstaffTypeList();
-    // this.refreshClassList();
-
-    this.refreshStaffList();
     this.cancelClick();
     this.refreshstaffCategoryList()
   }
-  ngxSpinner: any;
+
   deleteImage() {
     this.files = [];
     this.editableImage = null;
@@ -55,8 +49,6 @@ export class StaffProfileComponent implements OnInit {
 
   onSelect(event: any) {
     this.files.push(...event.addedFiles);
-
-    // this.files.push(...event.addedFiles);
     if (this.files.length > 1) {
       // checking if files array has more than one content
       this.replaceFile(); // replace file
@@ -71,7 +63,7 @@ export class StaffProfileComponent implements OnInit {
   }
 
   replaceFile() {
-    this.files.splice(0, 1); // index =0 , remove_count = 1
+    this.files.splice(0, 1);
   }
 
   onRemove(event: any) {
@@ -118,16 +110,10 @@ export class StaffProfileComponent implements OnInit {
 
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
-      
+
       this.StaffTypeList = data;
     });
   }
-
-  // refreshClassList() {
-  //   this.ClassSvc.getClassList().subscribe(data => {
-  //     this.ClassList = data;
-  //   });
-  // }
 
   refreshstaffCategoryList() {
     this.scSvc.getCategoryList().subscribe(data => {
@@ -188,14 +174,16 @@ export class StaffProfileComponent implements OnInit {
       allowance: new FormControl('', [Validators.pattern("^[0-9]*$")]),
       total_salary: new FormControl(''),
       pf: new FormControl(''),
-      epf: new FormControl(''),
+      pfamount: new FormControl(''),
+      pftype: new FormControl('automatic'),
+      paymentmode: new FormControl('cash'),
       account_no: new FormControl(''),
       ifsc_code: new FormControl(''),
       bank_name: new FormControl(''),
       branch_name: new FormControl(''),
       reliving: new FormControl('No'),
       reliving_date: new FormControl(''),
-      cuid: new FormControl(1)
+      cuid: new FormControl(this.userID)
     })
   }
 
@@ -208,8 +196,7 @@ export class StaffProfileComponent implements OnInit {
             var staffProfileinsert = (this.staffProfileForm.value);
             this.staffSvc.addNewstaff(staffProfileinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
-                this.notificationSvc.success("Saved successfully")
-                this.refreshStaffList();
+                this.notificationSvc.success("Saved successfully");
                 this.cancelClick();
                 this.staffFilterList = [];
                 this.files = [];
@@ -232,22 +219,21 @@ export class StaffProfileComponent implements OnInit {
 
   ///////////////Update Staff Profile
 
-  refreshStaffList() {
-    this.staffSvc.getstaffProfileList().subscribe(data => {
-      
-      this.staffList = data;
-      console.log(data)
-    });
+
+  typeChange(value) {
+    this.stpSvc.getStaffByStaffID(value).subscribe(data => {
+      this.staffFilterList = data
+    })
   }
 
+
   findStaffCode() {
-    
     const staffTypeid = this.staffProfileForm.value.staff_typeid
     const newStaffCode = this.StaffTypeList.filter((e) => { return e.staff_typeid == staffTypeid })
     const staffCd = newStaffCode[0].short_code
 
     this.staffSvc.getMaxId(staffTypeid).subscribe(data => {
-      
+
       this.maxIDList = data;
       if (this.maxIDList.length == 0) {
         this.maxnumber = 0;
@@ -255,7 +241,7 @@ export class StaffProfileComponent implements OnInit {
       this.maxIDList.forEach(element => {
         this.maxnumber = element.id
       });
-      
+
       var maxnum: string = String(this.maxnumber + 1)
       if (maxnum.length == 1) {
         this.staffno = '000' + maxnum
@@ -276,22 +262,23 @@ export class StaffProfileComponent implements OnInit {
     });
   }
 
-  typeChange(type: any) {
-    
-    this.staffFilterList = this.staffList.filter((e) => { return e.staff_typeid == Number(type) })
-  }
-
-  noChange(no: any) {
-    this.staffFilterList = this.staffList.filter((e) => { return e.staff_no == no })
-  }
 
   totalChange() {
-    debugger
     let totalAmount = 0;
     totalAmount = Number(this.staffProfileForm.value.basic_pay) + Number(this.staffProfileForm.value.da)
       + Number(this.staffProfileForm.value.hra) + Number(this.staffProfileForm.value.allowance);
 
     this.staffProfileForm.get('total_salary')?.setValue(String(totalAmount));
+
+    const basicPay = Number(this.staffProfileForm.value.basic_pay);
+    const pfType = this.staffProfileForm.value.pftype
+    const pf = this.staffProfileForm.value.pf
+    let aPf = 0;
+    if (pf == 'Yes' && pfType == 'automatic') {
+      aPf = (basicPay * 12) / 100;
+
+      this.staffProfileForm.get('pfamount')?.setValue(String(Math.round(aPf)));
+    }
   }
 
   editFun(staff: any) {
@@ -299,8 +286,22 @@ export class StaffProfileComponent implements OnInit {
     this.editableImage = staff.img;
   }
 
+  calculatePf() {
+    debugger;
+    const basicPay = Number(this.staffProfileForm.value.basic_pay);
+    const pfType = this.staffProfileForm.value.pftype
+    const pf = this.staffProfileForm.value.pf
+    let aPf = 0;
+    if (pf == 'Yes' && pfType == 'automatic') {
+      aPf = (basicPay * 12) / 100;
+    }
+    else {
+      aPf = 0;
+    }
+    this.staffProfileForm.get('pfamount')?.setValue(String(Math.round(aPf)));
+  }
+
   cancelClick() {
-    this.refreshStaffList();
     this.staffProfileForm.reset();
     this.staffProfileForm.get('id')?.setValue(0);
     this.staffProfileForm.get('staff_no')?.setValue('');
@@ -348,14 +349,16 @@ export class StaffProfileComponent implements OnInit {
     this.staffProfileForm.get('allowance')?.setValue('');
     this.staffProfileForm.get('total_salary')?.setValue('');
     this.staffProfileForm.get('pf')?.setValue('Yes');
-    this.staffProfileForm.get('epf')?.setValue('Yes');
+    this.staffProfileForm.get('pfamount')?.setValue('');
+    this.staffProfileForm.get('pftype')?.setValue('automatic');
+    this.staffProfileForm.get('paymentmode')?.setValue('cash');
     this.staffProfileForm.get('account_no')?.setValue('');
     this.staffProfileForm.get('ifsc_code')?.setValue('');
     this.staffProfileForm.get('bank_name')?.setValue('');
     this.staffProfileForm.get('branch_name')?.setValue('');
     this.staffProfileForm.get('reliving')?.setValue('No');
     this.staffProfileForm.get('reliving_date')?.setValue('');
-    this.staffProfileForm.get('cuid')?.setValue(1);
+    this.staffProfileForm.get('cuid')?.setValue(this.userID);
     this.editableImage = '';
     this.files = [];
   }

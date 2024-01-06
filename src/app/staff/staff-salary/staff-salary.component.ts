@@ -74,14 +74,8 @@ export class StaffSalaryComponent implements OnInit {
             let eMIAmount = 0; eMIAmount = Number(element.emi_amount);
             let dAmount = 0; dAmount = Number(element.emi_amount);
             let adsentAmount = 0; adsentAmount = Math.round(totalSalary - grandTotal);
-            let ePf = 0;
-            if (element.epf == 'Yes') {
-              ePf = (basicPay * 12) / 100
-            }
-            else {
-              ePf = 0
-            }
-            let deduction = 0; deduction = dAmount + adsentAmount + ePf;
+            let pfAmount = 0; pfAmount = Number(element.pfamount);
+            let deduction = 0; deduction = dAmount + adsentAmount + pfAmount;
             let netSalary = 0; netSalary = totalSalary - deduction;
 
             const control = <FormArray>this.staffSalaryForm.controls['staffList'];
@@ -105,8 +99,8 @@ export class StaffSalaryComponent implements OnInit {
                 emi_amount: new FormControl(String(eMIAmount)),
                 d_amount: new FormControl(String(dAmount)),
                 absent_amount: new FormControl(String(adsentAmount)),
-                isepf: new FormControl(element.epf),
-                epf_amount: new FormControl(String(ePf)),
+                ispf: new FormControl(element.pf),
+                pfamount: new FormControl(String(pfAmount)),
                 deduction: new FormControl(String(deduction)),
                 net_salary: new FormControl(String(netSalary)),
                 cuid: new FormControl(this.userID)

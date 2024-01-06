@@ -75,9 +75,8 @@
                             </tr>
                             <tr>
                                 <!-- <th>Si.No</th> -->
-                                <th>Staff No</th>
-                                <th>Staff Name</th>
-                                <!-- <th>No Of days</th> -->
+                                <th style="text-align: left;">Staff No</th>
+                                <th style="text-align: left;">Staff Name</th>
                                 <th>days present</th>
                                 <th>A</th>
                                 <th>Leave</th>
@@ -90,7 +89,7 @@
                                 <th>Grand Total</th>
                                 <th>Loan</th>
                                 <th>Ab Amt</th>
-                                <th>EPF</th>
+                                <th>PF</th>
                                 <th>Deduction</th>
                                 <th>Net Salary</th>
                             </tr>
@@ -99,9 +98,8 @@
                             <tr *ngFor="let chid of staffSalaryForm.get('staffList')['controls']; let i = index"
                                 formGroupName="{{i}}">
                                 <!-- <td>{{i+1}}</td> -->
-                                <td>{{chid.get('staff_no').value}}</td>
-                                <td>{{chid.get('staff_name').value}}</td>
-                                <!-- <td>{{chid.get('work_days').value}}</td> -->
+                                <td style="text-align: left;">{{chid.get('staff_no').value}}</td>
+                                <td style="text-align: left;">{{chid.get('staff_name').value}}</td>
                                 <td><input formControlName="present_day" style="min-width: 80px;" class="form-control"
                                         readonly type="text"></td>
                                 <td><input formControlName="absent_day" (change)="payableDayChange(i)" readonly
@@ -110,30 +108,20 @@
                                         style="min-width: 80px;" class="form-control" type="text"></td>
                                 <td><input formControlName="payable_days" (change)="payableDayChange(i)" readonly
                                         style="min-width: 80px;" class="form-control" type="text"></td>
-                                <td><input formControlName="basic_pay" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
-                                <td><input formControlName="da" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
-                                <td><input formControlName="hra" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
-                                <td><input formControlName="allowance" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
-                                <td><input formControlName="total_salary" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
-                                <td><input formControlName="grand_total" style="min-width: 80px;" class="form-control"
-                                        type="text" readonly></td>
+                                <td>{{chid.get('basic_pay').value}}</td>
+                                <td>{{chid.get('da').value}}</td>
+                                <td>{{chid.get('hra').value}}</td>
+                                <td>{{chid.get('allowance').value}}</td>
+                                <td>{{chid.get('total_salary').value}}</td>
+                                <td>{{chid.get('grand_total').value}}</td>
                                 <td><input formControlName="d_amount" style="min-width: 80px;" class="form-control"
                                         type="text" readonly><span style="color:blue;"
                                         *ngIf="chid.get('emi_amount').value != 0"><input (click)="PNChange(i,$event)"
                                             type="checkbox">Pay Next Month</span></td>
-                                <td><input formControlName="absent_amount" style="min-width: 80px;" class="form-control"
-                                        readonly type="text"></td>
-                                <td><input readonly formControlName="epf_amount" style="min-width: 80px;"
-                                        class="form-control" type="text"></td>
-                                <td><input formControlName="deduction" style="min-width: 80px;" class="form-control"
-                                        readonly type="text"></td>
-                                <td><input formControlName="net_salary" style="min-width: 80px;" class="form-control"
-                                        readonly type="text"></td>
+                                <td>{{chid.get('absent_amount').value}}</td>
+                                <td>{{chid.get('pfamount').value}}</td>
+                                <td>{{chid.get('deduction').value}}</td>
+                                <td>{{chid.get('net_salary').value}}</td>
                             </tr>
                         </tbody>
                     </table>

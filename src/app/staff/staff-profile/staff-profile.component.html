@@ -457,7 +457,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors}"
-                                        (change)="totalChange()" formControlName="basic_pay" class="form-control"
+                                        (input)="totalChange()" formControlName="basic_pay" class="form-control"
                                         type="text" required>
                                     <span class="text-danger"
                                         *ngIf="staffProfileForm.controls.basic_pay.touched && staffProfileForm.controls.basic_pay.errors">
@@ -477,7 +477,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors}"
-                                        (change)="totalChange()" formControlName="da" class="form-control" type="text"
+                                        (input)="totalChange()" formControlName="da" class="form-control" type="text"
                                         required>
                                     <span class="text-danger"
                                         *ngIf="staffProfileForm.controls.da.touched && staffProfileForm.controls.da.errors">
@@ -499,7 +499,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors}"
-                                        (change)="totalChange()" formControlName="hra" class="form-control" type="text"
+                                        (input)="totalChange()" formControlName="hra" class="form-control" type="text"
                                         required>
                                     <span class="text-danger"
                                         *ngIf="staffProfileForm.controls.hra.touched && staffProfileForm.controls.hra.errors">
@@ -519,7 +519,7 @@
                                 <div style="float: left;width: 250px;">
                                     <input (keypress)="numberOnly($event)"
                                         [ngClass]="{'is-invalid':staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors}"
-                                        (change)="totalChange()" formControlName="allowance" class="form-control"
+                                        (input)="totalChange()" formControlName="allowance" class="form-control"
                                         type="text" required>
                                     <span class="text-danger"
                                         *ngIf="staffProfileForm.controls.allowance.touched && staffProfileForm.controls.allowance.errors">
@@ -549,7 +549,8 @@
                                     <label class="pt-2" style="margin: auto;">PF</label>
                                 </div>
                                 <div style="float: left;width: 250px;">
-                                    <select formControlName="pf" style="width: 100%;" class="form-control">
+                                    <select (change)="calculatePf()" formControlName="pf" style="width: 100%;"
+                                        class="form-control">
                                         <option value="Yes">YES</option>
                                         <option value="No">NO</option>
                                     </select>
@@ -557,14 +558,29 @@
                             </div>
 
                             <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">EPF</label>
+                                <div style="float: left;width: 250px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;display: flex;">PF Amount
+                                        <div class="form-check ml-2" style="color: orangered;">
+                                            <input value="manual" formControlName="pftype" class="form-check-input"
+                                                type="radio">
+                                            <label class="form-check-label">
+                                                Manual
+                                            </label>
+                                        </div>
+                                        <div style="color: orangered;" class="form-check ml-2">
+                                            <input value="automatic" (change)="calculatePf()" formControlName="pftype"
+                                                class="form-check-input" type="radio" checked>
+                                            <label class="form-check-label">
+                                                Automatic
+                                            </label>
+                                        </div>
+                                    </label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <select formControlName="epf" style="width: 100%;" class="form-control">
-                                        <option value="Yes">YES</option>
-                                        <option value="No">NO</option>
-                                    </select>
+                                <div style="float: left;width: 150px;">
+                                    <input
+                                        [readOnly]="staffProfileForm.value.pftype == 'automatic' || staffProfileForm.value.pf == 'No' "
+                                        (keypress)="numberOnly($event)" formControlName="pfamount" class="form-control"
+                                        type="text">
                                 </div>
                             </div>
                         </div>
@@ -577,48 +593,68 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Account No</label>
+                        <div class="row ml-5">
+                            <label style="display: flex;font-size: 18px;">Payment Mode
+                                <div class="form-check ml-2" style="color: orangered;">
+                                    <input style="width: 18px;height: 18px;" value="cash" formControlName="paymentmode"
+                                        class="form-check-input" type="radio">
+                                    <label class="form-check-label pt-1">
+                                        Cash
+                                    </label>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input formControlName="account_no" (keypress)="numberOnly($event)"
-                                        class="form-control" type="text">
+                                <div style="color: orangered;" class="form-check ml-2">
+                                    <input style="width: 18px;height: 18px;" value="bank" formControlName="paymentmode"
+                                        class="form-check-input" type="radio" checked>
+                                    <label class="form-check-label pt-1">
+                                        Bank
+                                    </label>
                                 </div>
-                            </div>
-
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">IFSC Code</label>
-                                </div>
-                                <div style="float: left;width: 250px;">
-                                    <input formControlName="ifsc_code" class="form-control" type="text">
-                                </div>
-                            </div>
+                            </label>
                         </div>
-
-                        <div class="row mt-3">
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Bank Name</label>
+                        <span *ngIf="staffProfileForm.value.paymentmode == 'bank'">
+                            <div class="row mt-3">
+                                <div class="col-sm-6" style="display: flex;">
+                                    <div style="float: left;width: 150px;text-align: left;">
+                                        <label class="pt-2" style="margin: auto;">Account No</label>
+                                    </div>
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="account_no" (keypress)="numberOnly($event)"
+                                            class="form-control" type="text">
+                                    </div>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input formControlName="bank_name" class="form-control" type="text">
+
+                                <div class="col-sm-6" style="display: flex;">
+                                    <div style="float: left;width: 150px;text-align: left;">
+                                        <label class="pt-2" style="margin: auto;">IFSC Code</label>
+                                    </div>
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="ifsc_code" class="form-control" type="text">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-sm-6" style="display: flex;">
-                                <div style="float: left;width: 150px;text-align: left;">
-                                    <label class="pt-2" style="margin: auto;">Branch Name</label>
+                            <div class="row mt-3">
+                                <div class="col-sm-6" style="display: flex;">
+                                    <div style="float: left;width: 150px;text-align: left;">
+                                        <label class="pt-2" style="margin: auto;">Bank Name</label>
+                                    </div>
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="bank_name" class="form-control" type="text">
+                                    </div>
                                 </div>
-                                <div style="float: left;width: 250px;">
-                                    <input formControlName="branch_name" class="form-control" type="text">
+
+                                <div class="col-sm-6" style="display: flex;">
+                                    <div style="float: left;width: 150px;text-align: left;">
+                                        <label class="pt-2" style="margin: auto;">Branch Name</label>
+                                    </div>
+                                    <div style="float: left;width: 250px;">
+                                        <input formControlName="branch_name" class="form-control" type="text">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </span>
 
-                        <div class="row">
+                        <div class="row mt-4">
                             <div class="col-sm-6 mt-3" style="display: flex;">
                                 <div style="float: left;width: 150px;text-align: left;">
                                     <label class="pt-2" style="margin: auto;">Rejoin</label>
@@ -688,22 +724,9 @@
                         <div class="row">
                             <div class="col-sm-4 mt-2">
                                 <select #tt (change)="typeChange(tt.value)" class="form-control" style="width: 200px;">
-                                    <option value=0 disabled selected>Select Staff type</option>
+                                    <option value=0 selected>Select Staff type</option>
                                     <option value={{StaffType.staff_typeid}} *ngFor="let StaffType of StaffTypeList;">
                                         {{StaffType.staff_type}}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4  mt-2">
-                                <select #n (change)="noChange(n.value)" class="form-control" style="width: 200px;">
-                                    <option disabled selected>Select Staff No</option>
-                                    <option *ngFor="let type of staffList">{{type.staff_no}}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4  mt-2">
-                                <select #na (change)="noChange(na.value)" class="form-control" style="width: 200px;">
-                                    <option disabled selected>Select Staff Name</option>
-                                    <option value={{type.staff_no}} *ngFor="let type of staffList">{{type.staff_name}}
-                                    </option>
                                 </select>
                             </div>
                         </div>

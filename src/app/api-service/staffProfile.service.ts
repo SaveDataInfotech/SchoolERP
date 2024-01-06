@@ -11,7 +11,12 @@ export class staffProfileService {
     }
 
     getstaffProfileList(): Observable<any[]> {
+        // alert('Not Work total staff get')
         return this.http.get<any[]>(this.apiUrl + 'StaffProfile/GET');
+    }
+
+    getStaffByStaffID(value): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_staff_pro_by_stafftypeid?staff_typeid=' + value)
     }
 
     addNewstaff(staffProfileinsert: any): Observable<any> {
@@ -26,5 +31,4 @@ export class staffProfileService {
     searchStaffByStaffNo(staffNo): Observable<any[]> {
         return this.http.get<any[]>(this.apiUrl + 'StaffProfile/get_staff_byno?staff_no=' + staffNo);
     }
-
 }
