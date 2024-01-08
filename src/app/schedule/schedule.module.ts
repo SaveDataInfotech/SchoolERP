@@ -17,6 +17,7 @@ import {NgFor} from '@angular/common';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [
   ],
@@ -24,7 +25,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     CommonModule,RouterModule.forChild(ScheduleRoutes),ReactiveFormsModule,
     CommonModule,MatIconModule,MatCardModule,MatTooltipModule,FormsModule,ReactiveFormsModule,
     MatFormFieldModule,MatInputModule,MatTabsModule,MatChipsModule,NgFor,MatCheckboxModule,
-    NgxDropzoneModule,MatProgressSpinnerModule,MatDatepickerModule
+    NgxDropzoneModule,MatProgressSpinnerModule,MatDatepickerModule,
+    FullCalendarModule
   ]
 })
 export class ScheduleModule { }

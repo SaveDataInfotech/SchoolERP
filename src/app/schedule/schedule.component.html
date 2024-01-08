@@ -1,1 +1,11 @@
-<h3 style="color: blue;font-family: 'Courier New', Courier, monospace;font-size: 20px;">Schedule sooooon...</h3>
+<full-calendar [options]="calendarOptions">
+    <ng-template #eventContent let-arg>
+        <div (click)="openDialog(arg.event)" style="cursor: pointer;"
+            matTooltip="{{ arg.event.extendedProps.description }}">
+            <i [style.background-color]="arg.event.backgroundColor" [style.color]="arg.event.textColor"
+                style="border-radius: 3px; padding: 3px;">
+                {{ arg.event.title }}
+            </i>
+        </div>
+    </ng-template>
+</full-calendar>

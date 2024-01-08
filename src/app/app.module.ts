@@ -26,6 +26,7 @@ import { CurrencyPipe} from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxPrintModule } from 'ngx-print';
 //import { TokenInterceptor } from './interceptors/token.interceptor';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @NgModule({
   declarations: [AppComponent, ...pageComponents, ScheduleComponent,UserComponent],
   imports: [
@@ -51,7 +52,8 @@ import { NgxPrintModule } from 'ngx-print';
     MatChipsModule,
     HttpClientModule,
     NgxPrintModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    FullCalendarModule
     
   ],
   exports: [NgxDropzoneModule],

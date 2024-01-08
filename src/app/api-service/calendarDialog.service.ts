@@ -1,23 +1,22 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "../master/confirm-dialog/confirm-dialog.component";
+import { CalendarDialogComponent } from "../master/calendar-dialog/calendar-dialog.component";
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class DialogService {
+export class calendarDialogService {
 
     constructor(private dialog: MatDialog) { }
 
     openConfirmDialog(msg: string) {
-        return this.dialog.open(ConfirmDialogComponent, {
-            width: '390px',
+        debugger
+        return this.dialog.open(CalendarDialogComponent, {
+            width: '550px',
             panelClass: 'confirm-dialog-container',
             disableClose: true,
-            data: {
-                message: msg
-            }
+            data: msg
         });
     }
 }

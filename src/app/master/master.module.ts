@@ -38,6 +38,7 @@ import { PreviewFeesDialogComponentComponent } from './preview-fees-dialog-compo
 import { NgxPrintModule } from 'ngx-print';
 import { SchoolfeeEditComponent } from './schoolfee-edit/schoolfee-edit.component';
 import { ConcessionPreviewComponent } from './concession-preview/concession-preview.component';
+import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { ConcessionPreviewComponent } from './concession-preview/concession-prev
     PreviewFeesDialogComponentComponent,
     SchoolfeeEditComponent,
     ConcessionPreviewComponent,
+    CalendarDialogComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
