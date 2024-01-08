@@ -20,7 +20,6 @@ export class ScheduleComponent implements OnInit {
     setInterval(() => {
       this.getCalendarEvents(new Date().toISOString().slice(0, 10));
     }, 8000);
-
   }
 
   calendarOptions: CalendarOptions = {
@@ -58,7 +57,8 @@ export class ScheduleComponent implements OnInit {
     this.eventList = await data;
     this.eventList.forEach((e) => {
       e['extendedProps'] = {
-        description: e.description
+        description: e.description,
+        eventid: e.eventid
       };
     });
     this.calendarOptions.events = this.eventList;
@@ -66,15 +66,10 @@ export class ScheduleComponent implements OnInit {
 
 
   openDialog(data) {
-    debugger;
     this.calDialogSvc.openConfirmDialog(data)
       .afterClosed().subscribe(res => {
         if (res == true) {
         }
       });
-  }
-
-  argc() {
-    alert()
   }
 }

@@ -17,6 +17,7 @@ import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
 import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
 import { StaffCategoryComponent } from './staff-category/staff-category.component';
+import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
 
 
 export const masterRoutes: Routes = [
@@ -29,24 +30,24 @@ export const masterRoutes: Routes = [
     component: BatchYearComponent,
   },
   {
-    path:"general_fees",
-    component:GeneralFeesComponent,
+    path: "general_fees",
+    component: GeneralFeesComponent,
   },
   {
-    path:"special_fees",
-    component:SpecialFeesComponent,
+    path: "special_fees",
+    component: SpecialFeesComponent,
   },
   {
-    path:"bus_fees",
-    component:BusFeesComponent,
+    path: "bus_fees",
+    component: BusFeesComponent,
   },
   {
-    path:"special_bus_fees",
-    component:SpecialBusFeesComponent,
+    path: "special_bus_fees",
+    component: SpecialBusFeesComponent,
   },
   {
-    path:"subject_master",
-    component:SubjectMasterComponent,
+    path: "subject_master",
+    component: SubjectMasterComponent,
   },
   {
     path: 'subject_assign',
@@ -57,40 +58,44 @@ export const masterRoutes: Routes = [
     component: LibraryBookMasterComponent,
   },
   {
-    path:"uniform_master",
-    component:UniformMasterComponent
+    path: "uniform_master",
+    component: UniformMasterComponent
   },
   {
-    path:"staff_type",
-    component:StaffTypeComponent
+    path: "staff_type",
+    component: StaffTypeComponent
   },
   {
-    path:"staff_category",
-    component:StaffCategoryComponent
+    path: "staff_category",
+    component: StaffCategoryComponent
   },
   {
-    path:"leave_master",
-    component:LeaveMasterComponent,
+    path: "leave_master",
+    component: LeaveMasterComponent,
   },
   {
-    path:"hostel_master",
-    component:HostelMasterComponent,
+    path: "hostel_master",
+    component: HostelMasterComponent,
   },
   {
-    path:"vehicle_master",
-    component:VehicleMasterComponent,
+    path: "vehicle_master",
+    component: VehicleMasterComponent,
   },
   {
-    path:"supplier_master",
-    component:SupplierMasterComponent
+    path: "supplier_master",
+    component: SupplierMasterComponent
   },
   {
-    path:"role",
-    component:RoleComponent
+    path: "role",
+    component: RoleComponent
   },
   {
-    path:"reports",
-    component:ReportsComponent
+    path: "calendar_event",
+    component: CalendarEventAssignComponent
+  },
+  {
+    path: "reports",
+    component: ReportsComponent
   }
 
 ];
