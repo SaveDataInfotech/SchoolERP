@@ -7,7 +7,6 @@ import { BatechYearService } from 'src/app/api-service/batchYear.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentGroupService } from 'src/app/api-service/studentGroup.service';
 import { studentTcLeftService } from 'src/app/api-service/studentTcLeft.service';
-import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { studentProfileService } from 'src/app/api-service/studentProfile.service';
 @Component({
@@ -24,14 +23,13 @@ export class StudentTcApplieComponent implements OnInit {
   sectionFilterlist: any = [];
   BatchList: any = [];
   StudentDataList: any = [];
-  groupDisplay: boolean = true;
+  // groupDisplay: boolean = true;
   serachDisabledone: boolean = false;
   allstudentList: any[] = [];
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
     private DialogSvc: DialogService,
-    private spinner: NgxSpinnerService,
     private notificationSvc: NotificationsService,
     private batchSvc: BatechYearService,
     private tcSvc: studentTcLeftService,
@@ -115,12 +113,12 @@ export class StudentTcApplieComponent implements OnInit {
     this.studentTcApplyForm.get('groupid')?.setValue(0);
     this.studentTcApplyForm.get('sectionid')?.setValue(null);
     if (this.groupFilterlist.length == 0) {
-      this.groupDisplay = false;
+      //  this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.studentTcApplyForm.get('sectionid')?.setValue(null);
     }
     else {
-      this.groupDisplay = true;
+      // this.groupDisplay = true;
       this.studentTcApplyForm.get('sectionid')?.setValue(null);
       this.sectionFilterlist = [];
     }

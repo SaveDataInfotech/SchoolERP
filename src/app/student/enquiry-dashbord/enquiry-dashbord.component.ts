@@ -108,7 +108,6 @@ export class EnquiryDashbordComponent implements OnInit {
     sessionStorage.removeItem('selectd')
     var myStr = JSON.stringify(selected);
     sessionStorage.setItem("selectd", myStr);
-    //this.pro.setvalueform(myStr);
     this.router.navigateByUrl('/app/student/student_profile');
   }
 

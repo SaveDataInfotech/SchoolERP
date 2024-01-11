@@ -9,12 +9,16 @@ export class calendarDialogService {
 
     constructor(private dialog: MatDialog) { }
 
-    openConfirmDialog(msg: string) {
+    openConfirmDialog(msg: string, nestedHomeWorkList: any, stafftimetablelist: any) {
         return this.dialog.open(CalendarDialogComponent, {
             width: '550px',
             panelClass: 'confirm-dialog-container',
             disableClose: true,
-            data: msg
+            data: {
+                msg: msg,
+                homework: nestedHomeWorkList,
+                timeTable: stafftimetablelist
+            }
         });
     }
 }

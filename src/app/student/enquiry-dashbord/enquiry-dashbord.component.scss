@@ -3,17 +3,18 @@ h3 {
   font-size: large;
   font-weight: 600;
 }
+
 .matcard {
   box-shadow: 0px 0px 5px 5px rgb(191, 193, 194);
 }
 
-.movebutton{
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    max-width: 125px;
-    padding:0px 2px 0px 2px;
-    font-size: small;
-    height: 25px;
-    border:1px solid rgb(204, 201, 201) ;
+.movebutton {
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  max-width: 125px;
+  padding: 0px 2px 0px 2px;
+  font-size: small;
+  height: 25px;
+  border: 1px solid rgb(204, 201, 201);
 }

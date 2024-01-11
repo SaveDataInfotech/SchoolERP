@@ -23,6 +23,7 @@ import { SpecialBusFeesAssignService } from 'src/app/api-service/specialBusFee.s
   styleUrls: ['./student-profile.component.scss']
 })
 export class StudentProfileComponent implements OnInit {
+  today: string;
   files: File[] = [];
   editableImage: any;
   file: any;
@@ -30,7 +31,6 @@ export class StudentProfileComponent implements OnInit {
   userID: number = Number(localStorage.getItem("userid"));
   PlaceList: any = [];
   placefilterList: any[] = [];
-  // FeesAssignList: any[] = [];
 
   ClassList: any[] = [];
   GroupList: any = [];
@@ -39,12 +39,7 @@ export class StudentProfileComponent implements OnInit {
   sectionFilterlist: any = [];
   FeesLessList: any = [];
   kmFillterList: any = [];
-  groupDisplay: boolean = true;
-  //assignbuttonId: boolean = true;
-  // storedValue: any;
-  //FeesTypeAssignFillterList: any = [];
   vehicleNoRootList: any = [];
-  //searchStudentData: any = [];
   maxIDList: any[] = [];
   maxnumber: number;
   admissionno: string;
@@ -72,37 +67,12 @@ export class StudentProfileComponent implements OnInit {
     private spFSvc: SpecialFeesService,
     private VhtySvc: VehicleTypeService,
     private busFeSvc: BusFeesAssignService,
-    private spBusSvc: SpecialBusFeesAssignService,) { }
+    private spBusSvc: SpecialBusFeesAssignService) { }
 
-
-  date1 = new Date();
-
-  currentYear = this.date1.getUTCFullYear();
-
-  currentMonth = this.date1.getUTCMonth() + 1;
-
-  currentDate = this.date1.getUTCDate();
-
-  todayDate: Date = new Date();
-  today = String(this.todayDate);
-
-  finalMonth: any;
-  finalDay: any;
 
   ngOnInit(): void {
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
+
+    this.today = new Date().toISOString().slice(0, 10)
     this.studentDetailsForm.get('date').setValue(this.today);
     ////////////
     this.refreshClassList();
@@ -176,17 +146,14 @@ export class StudentProfileComponent implements OnInit {
 
 
   refreshGroupList() {
-
     this.GroupSvc.getGroupList().subscribe(data => {
       this.GroupList = data;
     });
   }
 
   refreshSectionList() {
-
     this.spinner.show();
     this.ScSvc.getSectionList().subscribe(data => {
-
       this.SectionList = data;
     });
   }
@@ -197,21 +164,18 @@ export class StudentProfileComponent implements OnInit {
     this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
     this.studentDetailsForm.get('groupid')?.setValue(0);
     this.studentDetailsForm.get('sectionid')?.setValue(null);
-    // this.studentDetailsForm.get('mark_10')?.setValue('');
     if (this.groupFilterlist.length == 0) {
-      this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.studentDetailsForm.get('sectionid')?.setValue(null);
-      //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
     else {
-      this.groupDisplay = true;
       this.studentDetailsForm.get('sectionid')?.setValue(null);
       this.sectionFilterlist = [];
-      //this.studentDetailsForm.get('mark_10')?.setValue('');
     }
 
-    this.getMaxId();
+    if (this.studentDetailsForm.value.profileid == 0) {
+      this.getMaxId();
+    }
   }
 
   filterSectionfun(groupID: any) {
@@ -378,7 +342,6 @@ export class StudentProfileComponent implements OnInit {
 
   refreshSpecialFeesList() {
     this.spFSvc.getSpecialFeesList().subscribe(data => {
-
       this.specialFeesList = data;
     });
   }
@@ -426,7 +389,6 @@ export class StudentProfileComponent implements OnInit {
   }
 
   getMaxId() {
-
     const classID = this.studentDetailsForm.value.classid
     const classNameArray = this.ClassList.filter((e: any) => { return e.classid == classID });
     const clasName = classNameArray[0].class_name
@@ -475,17 +437,19 @@ export class StudentProfileComponent implements OnInit {
         }
       }
     });
-
   }
 
   async newStudentProfileDetails() {
+    debugger;
     try {
+      debugger;
       await this.refreshBusFeeList();
       await this.refreshSpecialBusFeeList();
       await this.refreshGeneralFeesList();
       await this.refreshSpecialFeesList();
 
       if (this.studentDetailsForm.valid) {
+        debugger
         const confirmDialog = this.DialogSvc.openConfirmDialog('Are you sure you want to add this record ?');
         confirmDialog.afterClosed().subscribe(res => {
           if (res == true) {
@@ -814,7 +778,6 @@ export class StudentProfileComponent implements OnInit {
                         }
                       }
                     }
-
                   }
                 }
                 else {
@@ -1076,7 +1039,9 @@ export class StudentProfileComponent implements OnInit {
                 }
               }
             }
-            this.getMaxId();
+            if (this.studentDetailsForm.value.profileid == 0) {
+              this.getMaxId();
+            }
             var studentinsert = (this.studentDetailsForm.value);
             this.studProSvc.studentDetails(studentinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
@@ -1222,5 +1187,76 @@ export class StudentProfileComponent implements OnInit {
     this.studentDetailsForm.get('tc_date_submission')?.setValue('');
     this.studentDetailsForm.get('cuid')?.setValue(this.userID);
     this.GetActiveBatchYear();
+  }
+
+
+
+  // ----------------Update student Profile ---------------
+
+  StudentDataList: any[] = [];
+  allSibilingsList: any[] = [];
+
+  async findStudentByAdNO(value) {
+    this.allSibilingsList = [];
+
+    this.allSibilingsList = await this.studProSvc.getallSibilings(value).toPromise();
+
+    await this.cancelClick();
+
+    this.studProSvc.searchstudentDetails(value).subscribe(data => {
+      this.StudentDataList = data;
+      const datas: any = this.StudentDataList[0]
+      if (this.StudentDataList.length != 0) {
+        this.editableImage = datas.simage;
+        const classid = Number(datas.classid);
+        this.studentDetailsForm.get('classid')?.setValue(classid);
+        this.groupFilterlist = this.GroupList.filter((e: any) => { return e.classid == classid });
+        this.studentDetailsForm.get('groupid')?.setValue(datas.groupid);
+        this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == datas.groupid && e.classid == classid });
+        this.studentDetailsForm.get('sectionid')?.setValue(datas.sectionid);
+        if (this.groupFilterlist.length == 0) {
+          this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
+          this.studentDetailsForm.get('sectionid')?.setValue(datas.sectionid);
+        }
+        else {
+          this.studentDetailsForm.get('sectionid')?.setValue(0);
+        }
+        this.studentDetailsForm.patchValue(this.StudentDataList[0]);
+        this.studentDetailsForm.get('cuid')?.setValue(this.userID);
+
+        const vhType = this.studentDetailsForm.value.vehicle_type
+        this.kmFillterList = this.groupBusFeeList.filter((e) => {
+          return e.typeid == vhType
+        });
+
+        const idn = this.studentDetailsForm.value.root_no
+
+        this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
+
+        const control = <FormArray>this.studentDetailsForm.controls['sibling'];
+
+        while (control.length !== 0) {
+          control.removeAt(0)
+        }
+        if (control.length == 0) {
+          const sibiling = this.allSibilingsList.filter((e) => {
+            return e.admission_no == value && e.isactive == 1
+          });
+          sibiling.forEach((e) => {
+            control.push(
+              new FormGroup({
+                siblingid: new FormControl(e.siblingid),
+                Sibling_name: new FormControl(e.sibling_name),
+                Sibling_class: new FormControl(e.sibling_class)
+              })
+            )
+          }
+          )
+        }
+      }
+      else {
+        this.notificationSvc.error("Invalid Admission No")
+      }
+    });
   }
 }

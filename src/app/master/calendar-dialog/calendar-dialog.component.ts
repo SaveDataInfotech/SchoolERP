@@ -15,5 +15,4 @@ export class CalendarDialogComponent implements OnInit {
   closedialog() {
     this.dialogRef.close(false);
   }
-
 }

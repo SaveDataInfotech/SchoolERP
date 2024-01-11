@@ -105,17 +105,17 @@ export class LayoutComponent implements OnInit {
           value: 31
         },
         {
-          link_name: "Add Student Profile",
+          link_name: "Student Profile",
           link: "student/student_profile",
           isselect: false,
           value: 32
         },
-        {
-          link_name: "Update Student Profile",
-          link: "student/student_update",
-          isselect: false,
-          value: 33
-        },
+        // {
+        //   link_name: "Update Student Profile",
+        //   link: "student/student_update",
+        //   isselect: false,
+        //   value: 33
+        // },
         {
           link_name: "Student Attendance",
           link: "student/student_attendance",

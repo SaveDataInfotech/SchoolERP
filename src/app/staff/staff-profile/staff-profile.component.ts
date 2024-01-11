@@ -110,7 +110,6 @@ export class StaffProfileComponent implements OnInit {
 
   refreshstaffTypeList() {
     this.SttySvc.getstaffTypeList().subscribe(data => {
-
       this.StaffTypeList = data;
     });
   }

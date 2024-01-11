@@ -3,7 +3,24 @@
         <div class="row">
             <div class="col-sm-6" style="display: flex;">
                 <div style="float: left;width: 300px;">
-                    <h3 class="ml-1">Add Student Profile</h3>
+                    <h3 class="ml-1">Student Profile</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <span class="text-success col-sm-12 blink_me">If you want to edit the student - Enter Admission No in the
+                search
+                box and
+                then click on the search button</span>
+            <div class="col-sm-12 mt-3" style="display: flex;">
+                <div><label class="mt-2 mr-5">Admission Number</label></div>
+                <div>
+                    <input #adno oninput="this.value = this.value.toUpperCase()" style="max-width: 200px;"
+                        class="form-control mr-5" type="text">
+                </div>
+                <div>
+                    <button (click)="findStudentByAdNO(adno.value)" type="button"
+                        class="btn btn-sm btn-secondary">Search<i class="fa fa-search ml-2"></i></button>
                 </div>
             </div>
         </div>
@@ -11,9 +28,7 @@
             <div class="container mt-2">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Student Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Student Details</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -55,13 +70,6 @@
                             <input
                                 [ngClass]="{'is-invalid':studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors}"
                                 readonly formControlName="batch_year" class="form-control" type="text" required>
-                            <span class="text-danger"
-                                *ngIf="studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors">
-                                <div
-                                    *ngIf="studentDetailsForm.controls.batch_year.touched && studentDetailsForm.controls.batch_year.errors.required">
-                                    Batch is required
-                                </div>
-                            </span>
                         </div>
                     </div>
 
@@ -86,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="row" *ngIf="groupDisplay == true && groupFilterlist.length != 0">
+                <div class="row" *ngIf="groupFilterlist.length != 0">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">10-th Mark</label>
@@ -195,10 +203,6 @@
                                 <div
                                     *ngIf="studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors.required">
                                     Student Name is required
-                                </div>
-                                <div
-                                    *ngIf="studentDetailsForm.controls.student_name.touched && studentDetailsForm.controls.student_name.errors.pattern">
-                                    Use letters only
                                 </div>
                             </span>
                         </div>
@@ -450,9 +454,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Personal Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Personal Details</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -555,10 +557,6 @@
                                     *ngIf="studentDetailsForm.controls.father_name.touched && studentDetailsForm.controls.father_name.errors.required">
                                     Father Name is required
                                 </div>
-                                <div
-                                    *ngIf="studentDetailsForm.controls.father_name.touched && studentDetailsForm.controls.father_name.errors.pattern">
-                                    Use letters only
-                                </div>
                             </span>
                         </div>
                     </div>
@@ -637,10 +635,6 @@
                                     *ngIf="studentDetailsForm.controls.mother_name.touched && studentDetailsForm.controls.mother_name.errors.required">
                                     Mother Name is required
                                 </div>
-                                <div
-                                    *ngIf="studentDetailsForm.controls.mother_name.touched && studentDetailsForm.controls.mother_name.errors.pattern">
-                                    Use letters only
-                                </div>
                             </span>
                         </div>
                     </div>
@@ -672,7 +666,7 @@
                             <label class="pt-2" style="margin: auto;">Phone Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="m_ph" maxlength="10" minlength="10" (keypress)="numberOnly($event)"
+                            <input formControlName="m_ph" maxlength="10" (keypress)="numberOnly($event)"
                                 class="form-control" type="text">
                         </div>
                     </div>
@@ -720,9 +714,7 @@
 
                 <div class="row mt-3">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Other Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Other Details</h3>
                     </div>
                 </div>
 
@@ -820,7 +812,7 @@
                                 </div>
                                 <div class="col-sm-2 mt-3" style="display: flex;">
                                     <input type="button" class="btn btn-danger" (click)="removesibling(i)"
-                                        value="remove" />
+                                        value="Remove" />
                                 </div>
                             </div>
                         </div>
@@ -832,9 +824,7 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Certificate Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Certificate Details</h3>
                     </div>
                 </div>
 
@@ -858,12 +848,10 @@
                         <b style="color: blue;">Birth</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="birth_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="birth_xerox" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="birth_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="birth_original" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -877,12 +865,10 @@
                         <b style="color: blue;">Community</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="community_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="community_xerox" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="community_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="community_original" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -896,12 +882,10 @@
                         <b style="color: blue;">TC</b>
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="tc_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="tc_xerox" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
-                        <input formControlName="tc_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                        <input formControlName="tc_original" type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -910,7 +894,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 mt-4 mb-4">
+                <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
                         <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
                         <input (click)="cancelClick()" type="button" style="width: 80px;"

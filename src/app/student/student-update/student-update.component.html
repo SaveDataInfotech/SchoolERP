@@ -11,7 +11,8 @@
             <div class="col-sm-12 mt-3" style="display: flex;">
                 <div><label class="mt-2 mr-5">Admission Number</label></div>
                 <div>
-                    <input #adno oninput="this.value = this.value.toUpperCase()" style="max-width: 200px;" class="form-control mr-5" type="text">
+                    <input #adno oninput="this.value = this.value.toUpperCase()" style="max-width: 200px;"
+                        class="form-control mr-5" type="text">
                 </div>
                 <div>
                     <button (click)="findStudentByAdNO(adno.value)" type="button"
@@ -23,9 +24,7 @@
             <div class="container mt-2">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Student Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Student Details</h3>
                     </div>
                 </div>
 
@@ -73,7 +72,7 @@
                                 formControlName="classid" style="width: 100%;" #ut
                                 (change)="updatefilterGroupfun(ut.value)" class="form-control" required>
                                 <option value=null selected disabled>Please select</option>
-                                <option disabled value={{class.classid}} *ngFor="let class of ClassList;">
+                                <option value={{class.classid}} *ngFor="let class of ClassList;">
                                     {{class.class_name}}</option>
                             </select>
                             <span class="text-danger"
@@ -102,7 +101,7 @@
                             <select formControlName="groupid" style="width: 100%;" #us
                                 (change)="updatefilterSectionfun(us.value)" class="form-control">
                                 <option value=0 selected disabled>Please select</option>
-                                <option disabled value={{group.groupid}} *ngFor="let group of updategroupFilterlist;">
+                                <option value={{group.groupid}} *ngFor="let group of updategroupFilterlist;">
                                     {{group.group_name}}</option>
                             </select>
                         </div>
@@ -152,25 +151,11 @@
 
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Aadhar Number<span class="text-danger">
-                                    *</span></label>
+                            <label class="pt-2" style="margin: auto;">Aadhar Number</label>
                         </div>
                         <div class="inputdiv">
-                            <input required
-                                [ngClass]="{'is-invalid':studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors}"
-                                maxlength="12" minlength="12" (keypress)="numberOnly($event)" formControlName="aadhar"
+                            <input maxlength="12" (keypress)="numberOnly($event)" formControlName="aadhar"
                                 class="form-control" type="text">
-                            <span class="text-danger"
-                                *ngIf="studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors">
-                                <div
-                                    *ngIf="studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors.required">
-                                    Aadhar Number is required
-                                </div>
-                                <div
-                                    *ngIf="studentDetailsForm.controls.aadhar.touched && studentDetailsForm.controls.aadhar.errors.minlength">
-                                    Invalid input
-                                </div>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -428,9 +413,7 @@
 
                 <div class="row mt-3">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Personal Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Personal Details</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -461,7 +444,7 @@
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
-                        <div class="inputdiv">                            
+                        <div class="inputdiv">
                             <select style="width: 100%;" formControlName="bloodgroup" class="form-control">
                                 <option value='' selected disabled>Please select</option>
                                 <option value="O+">O+</option>
@@ -694,9 +677,7 @@
 
                 <div class="row mt-3">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Other Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Other Details</h3>
                     </div>
                 </div>
 
@@ -806,9 +787,7 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Certificate Details</h3>
-                        </div>
+                        <h3 class="ml-1" style="color: orangered;">Certificate Details</h3>
                     </div>
                 </div>
 
@@ -833,11 +812,11 @@
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="birth_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="birth_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -852,11 +831,11 @@
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="community_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="community_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -871,11 +850,11 @@
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="tc_xerox" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <input formControlName="tc_original" style="height: 20px;width: 20px;position: relative;"
-                            type="checkbox" class="form-check-input ml-2" name="option1" value="something">
+                            type="checkbox" class="form-check-input ml-2">
                     </div>
                     <div class="col-sm-3">
                         <div style="float: left;">
@@ -886,9 +865,8 @@
 
                 <div class="col-sm-12 mt-4 mb-4">
                     <div style="text-align: center;">
-                        <input matTooltip="Click to Save" type="submit" style="width: 80px;"
-                            class="btn btn-success mr-3 btn-sm" value="Edit" />
-                        <input (click)=" cancelClick()" matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Edit" />
+                        <input (click)=" cancelClick()" type="button" style="width: 80px;"
                             class="btn btn-primary btn-sm mr-2" value="Cancel" />
                         <input type="button" style="width: 80px;" class="btn btn-danger btn-sm" (click)="backButton()"
                             value="Close" />

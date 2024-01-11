@@ -3,6 +3,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { calendarService } from '../api-service/calendar.service';
 import { calendarDialogService } from '../api-service/calendarDialog.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
@@ -12,7 +13,8 @@ export class ScheduleComponent implements OnInit {
 
   eventList: any[] = [];
   constructor(private cSvc: calendarService,
-    private calDialogSvc: calendarDialogService
+    private calDialogSvc: calendarDialogService,
+    private router: Router
   ) { }
 
 
@@ -58,18 +60,33 @@ export class ScheduleComponent implements OnInit {
     this.eventList.forEach((e) => {
       e['extendedProps'] = {
         description: e.description,
-        eventid: e.eventid
+        eventid: e.eventid,
+        type: e.type
       };
     });
     this.calendarOptions.events = this.eventList;
   }
 
 
-  openDialog(data) {
-    this.calDialogSvc.openConfirmDialog(data)
+  async openDialog(data) {
+    debugger
+    let nestedHomeWorkList: any[] = [];
+    let stafftimetablelist: any[] = [];
+    if (data.extendedProps.type == 'Home Work') {
+      nestedHomeWorkList = await this.cSvc.getNestedCalendarHomeWork(data.extendedProps.eventid).toPromise();
+    }
+    else if (data.extendedProps.type == 'StaffTimeTable') {
+      stafftimetablelist = await this.cSvc.getNestedCalendarTimeTable(data.extendedProps.eventid).toPromise();
+    }
+
+    this.calDialogSvc.openConfirmDialog(data, nestedHomeWorkList, stafftimetablelist)
       .afterClosed().subscribe(res => {
         if (res == true) {
         }
       });
+  }
+
+  addEvent() {
+    this.router.navigateByUrl('/app/master/calendar_event');
   }
 }

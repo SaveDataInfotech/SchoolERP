@@ -1,16 +1,17 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { ConfigService } from "./configuration.service";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class backUPDBService {
-    constructor(private http: HttpClient) {
+    readonly apiUrl = this.configService.gapiUrl;
+    constructor(private http: HttpClient,
+        private configService: ConfigService) {
     }
-
-    readonly apiUrl = 'https://localhost:44314/api/';
 
     backupDB(): Observable<any> {
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

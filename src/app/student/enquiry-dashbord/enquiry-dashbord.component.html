@@ -4,7 +4,6 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
-
                         <div class="col-sm-4 pt-2">
                             <h3 style="float: left;color:red;">Search using Class</h3>
                             <select style="width: 40%;float: left;" class="form-control ml-1" #sec
@@ -35,7 +34,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <form>
                         <div class="table-responsive text-nowrap mt-1">
@@ -66,8 +64,9 @@
                                         <td>{{dashbord.f_ph}}</td>
                                         <td>{{dashbord.enquiry_date }}</td>
                                         <td>
-                                            <button (click)="deleteEnquiry(dashbord.enquiryid)" [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'Red'}"
-                                             [disabled]="dashbord.enquiry_status == 1" type="button"
+                                            <button (click)="deleteEnquiry(dashbord.enquiryid)"
+                                                [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'Red'}"
+                                                [disabled]="dashbord.enquiry_status == 1" type="button"
                                                 class="movebutton ml-1">Delete</button>
                                             <button
                                                 [ngStyle]="{'background-color': (dashbord.enquiry_status == 1) ? 'gray':'green'}"
@@ -91,9 +90,8 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
-
                         <div class="col-sm-8 pt-2">
-                            <h3 class="">Enquiry</h3>
+                            <h3>Enquiry</h3>
                         </div>
 
                         <div class="col-4 row" style="text-align: right;">
@@ -168,9 +166,8 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
-
                         <div class="col-sm-8 pt-2">
-                            <h3 class="">Entrance</h3>
+                            <h3>Entrance</h3>
                         </div>
 
                         <div class="col-4 row" style="text-align: right;">
@@ -245,9 +242,8 @@
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
                     <div class="row">
-
                         <div class="col-sm-8 pt-2">
-                            <h3 class="">selected</h3>
+                            <h3>selected</h3>
                         </div>
 
                         <div class="col-4 row" style="text-align: right;">

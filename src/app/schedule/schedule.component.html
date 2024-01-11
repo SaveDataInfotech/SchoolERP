@@ -1,7 +1,6 @@
 <full-calendar [options]="calendarOptions">
-    <ng-template #eventContent let-arg>
-        <div (click)="openDialog(arg.event)" style="cursor: pointer;"
-            matTooltip="{{ arg.event.extendedProps.description }}">
+    <ng-template id="colorevent" #eventContent let-arg>
+        <div (click)="openDialog(arg.event)" style="cursor: pointer;">
             <i [style.background-color]="arg.event.backgroundColor" [style.color]="arg.event.textColor"
                 style="border-radius: 3px; padding: 3px;">
                 {{ arg.event.title }}
@@ -9,3 +8,4 @@
         </div>
     </ng-template>
 </full-calendar>
+<button (click)="addEvent()" class="btn btn-sm btn-primary mt-2">+ Add event</button>

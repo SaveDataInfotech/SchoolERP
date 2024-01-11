@@ -1,0 +1,10 @@
+:host ::ng-deep .fc-event,
+:host ::ng-deep .fc-event-start,
+:host ::ng-deep .fc-event-end,
+:host ::ng-deep .fc-event-past,
+:host ::ng-deep .fc-daygrid-event,
+:host ::ng-deep .fc-daygrid-block-event,
+:host ::ng-deep .fc-h-event {
+    border: 0.5px solid white;
+    width: 160px;
+}

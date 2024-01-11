@@ -23,51 +23,21 @@ export class StudentAttendanceComponent implements OnInit {
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
   serachDisabled: boolean = false;
-  groupDisplay: boolean = true;
   allComplete: boolean = false;
   anAllComplete: boolean = false;
   ani: boolean = false;
   fni: boolean = false;
-  todayDate: Date = new Date();
 
-
-  date1 = new Date();
-  //minDate = new Date();
-  currentYear = this.date1.getUTCFullYear();
-
-  currentMonth = this.date1.getUTCMonth() + 1;
-
-  currentDate = this.date1.getUTCDate();
-
-  today = String(this.todayDate);
-  finalMonth: any;
-  finalDay: any;
+  today: string = String(new Date());
 
   ngOnInit(): void {
-
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
     this.GetActiveBatchYear();
 
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-
-
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
+    this.today = new Date().toISOString().slice(0, 10)
     this.studentAttendanceForm.date = this.today;
-
   }
 
   constructor(private sAdSvc: studentAttendanceService,
@@ -144,14 +114,12 @@ export class StudentAttendanceComponent implements OnInit {
     this.studentAttendanceForm.groupid = 0;
     this.studentAttendanceForm.sectionid = 0;
     if (this.groupFilterlist.length == 0) {
-      this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.studentAttendanceForm.sectionid = 0;
     }
     else {
-      this.groupDisplay = true;
       this.studentAttendanceForm.sectionid = 0;
-      this.sectionFilterlist=[];
+      this.sectionFilterlist = [];
     }
   }
 
@@ -196,7 +164,7 @@ export class StudentAttendanceComponent implements OnInit {
     let batchYear: any = (this.studentAttendanceForm.batch_year);
     if (date != '' && classid != 0 && sectionid != 0) {
       this.sAdSvc.searchStudentByAttendance(classid, groupid, sectionid, date, batchYear).subscribe(data => {
-        
+
         this.studentList = data;
         if (this.studentList.length != 0) {
           if (this.studentList[0].ani == true) {

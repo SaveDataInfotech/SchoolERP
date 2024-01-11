@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </div>
-            <form>
+            <form [formGroup]="calendarEventAssignForm" (ngSubmit)="save()">
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
@@ -16,7 +16,9 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="hostel_name" class="form-control" type="date" required>
+                            <input
+                                [ngClass]="{'is-invalid':calendarEventAssignForm.controls.start.touched && calendarEventAssignForm.controls.start.errors}"
+                                formControlName="start" class="form-control" [min]="today" type="date" required>
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3" style="display: flex;">
@@ -25,38 +27,286 @@
                                     *</span></label>
                         </div>
                         <div class="inputdiv">
-                            <input formControlName="no_of_rooms" class="form-control" type="text" maxlength="20"
-                                required>
+                            <input
+                                [ngClass]="{'is-invalid':calendarEventAssignForm.controls.title.touched && calendarEventAssignForm.controls.title.errors}"
+                                class="form-control" formControlName="title" type="text" maxlength="20" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-0" style="margin: auto;">No of Person allowed in Room<span
-                                    class="text-danger"> *</span></label>
+                            <label class="pt-1" style="margin: auto;">Back Ground Color</label>
                         </div>
-                        <div class="inputdiv">
-                            <input formControlName="pa_room" class="form-control" type="number" required>
-
+                        <div class="inputdivc">
+                            <input formControlName="backgroundColor" class="form-control" type="color">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-1" style="margin: auto;">Letter Color</label>
+                        </div>
+                        <div class="inputdivc">
+                            <input formControlName="textColor" class="form-control" type="color">
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-5" style="margin: auto;">Description</label>
+                        </div>
+                        <div class="inputdivta">
+                            <textarea formControlName="description" class="form-control" id="textAreaExample1 ml-2"
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div style="margin: auto;display: flex;font-size: 18px;">
+                        <div class="form-check">
+                            <input formControlName="type" value="None" class="form-check-input" type="radio" checked>
+                            <label class="form-check-label p-2">
+                                None
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input formControlName="type" value="Home Work" class="form-check-input" type="radio">
+                            <label class="form-check-label p-2">
+                                Home Work Assign
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input formControlName="type" value="StaffTimeTable" class="form-check-input" type="radio">
+                            <label class="form-check-label p-2">
+                                Time Table
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <span *ngIf="calendarEventAssignForm.value.type == 'Home Work'">
+                    <div class="row">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Class</label>
+                            </div>
+                            <div class="inputdiv">
+                                <select formControlName="classid" style="width: 100%;" #t
+                                    (change)="filterGroupfun(t.value)" class="form-control">
+                                    <option value=0 selected disabled>Please select</option>
+                                    <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                        {{class.class_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div *ngIf="groupFilterlist.length != 0" class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Group</label>
+                            </div>
+                            <div *ngIf="groupFilterlist.length != 0" class="inputdiv">
+                                <select formControlName="groupid" style="width: 100%;" #s
+                                    (change)="filterSectionfun(s.value)" class="form-control ">
+                                    <option value=0 selected disabled>Please select</option>
+                                    <option value={{group.groupid}} *ngFor="let group of groupFilterlist;">
+                                        {{group.group_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Section</label>
+                            </div>
+                            <div class="inputdiv">
+                                <select formControlName="sectionid" style="width: 100%;"
+                                    (change)="searchStudentByClass()" class="form-control">
+                                    <option value=0 selected disabled>Please select</option>
+                                    <option [ngValue]="section.sectionid" *ngFor="let section of sectionFilterlist;">
+                                        {{section.section_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive text-nowrap mt-5">
+                        <table formArrayName="nesteventlist"
+                            class="col-sm-10 ml-5 table table-hover table-bordered table-sm">
+                            <tbody
+                                *ngFor="let chid of calendarEventAssignForm.get('nesteventlist')['controls']; let i = index"
+                                formGroupName="{{i}}">
+                                <tr>
+                                    <td style="width:200px;"><select formControlName="subjectid" style="width:200px;"
+                                            class="form-control ">
+                                            <option value={{sub.subjectid}} *ngFor="let sub of subjectDetailList;">
+                                                {{sub.subject_name}}</option>
+                                        </select></td>
+                                    <td><input formControlName="work" placeholder="Write anything here ..." type="text"
+                                            style="width:100%;" class="form-control" /></td>
+                                </tr>
+                            </tbody>
+                            <div>
+                            </div>
+                        </table>
+                    </div>
+                </span>
+
+                <span *ngIf="calendarEventAssignForm.value.type == 'StaffTimeTable'">
+                    <div class="row">
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Staff Type</label>
+                            </div>
+
+                            <div class="inputdiv">
+                                <select formControlName="staff_typeid" (change)="typeChange()" class="form-control"
+                                    style="width: 100%;">
+                                    <option value=0 disabled selected>Select Staff type</option>
+                                    <option [ngValue]="sta.staff_typeid" *ngFor="let sta of StaffTypeList;">
+                                        {{sta.staff_type}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mt-3" style="display: flex;">
+                            <div class="labeldiv">
+                                <label class="pt-2" style="margin: auto;">Staff</label>
+                            </div>
+                            <div class="inputdiv">
+                                <select style="width: 100%;" formControlName="staff_no" class="form-control"
+                                    (change)="searchStaffTimetableFormArray()">
+                                    <option value='' selected disabled>Please select</option>
+                                    <option value={{Staff.staff_no}} *ngFor="let Staff of staffFilterList;">
+                                        {{Staff.staff_no}} - {{Staff.staff_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive text-nowrap mt-5">
+                        <table formArrayName="stafftimetablelist"
+                            class="col-sm-10 ml-5 table table-hover table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Time Or Period</th>
+                                    <th>Class</th>
+                                    <th>Group</th>
+                                    <th>Section</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody
+                                *ngFor="let chid of calendarEventAssignForm.get('stafftimetablelist')['controls']; let j = index"
+                                formGroupName="{{j}}">
+                                <tr>
+                                    <td><input formControlName="timeperiod" type="text" style="width:100%;"
+                                            class="form-control" /></td>
+                                    <td>
+                                        <select style="width: 100%;" formControlName="classid" #pt
+                                            (change)="timetablefilterGroupfun(pt.value,j)" class="form-control">
+                                            <option value=0 selected disabled>Please select</option>
+                                            <option value={{class.classid}} *ngFor="let class of ClassList;">
+                                                {{class.class_name}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="progroupFilterlist[j] && progroupFilterlist[j].length > 0">
+                                            <select style="width: 100%;" formControlName="groupid" #ps
+                                                (change)="profilterSectionfun(ps.value,j)" class="form-control">
+                                                <option value=0 selected disabled>Please select</option>
+                                                <option value={{group.groupid}}
+                                                    *ngFor="let group of progroupFilterlist[j];">
+                                                    {{group.group_name}}</option>
+                                            </select>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <select style="width: 100%;" formControlName="sectionid" class="form-control">
+                                            <option value=0 selected disabled>Please select</option>
+                                            <option [ngValue]="section.sectionid"
+                                                *ngFor="let section of prosectionFilterlist[j];">
+                                                {{section.section_name}}</option>
+                                        </select>
+                                    </td>
+                                    <td><button
+                                            [disabled]="calendarEventAssignForm.get('stafftimetablelist')['controls'].length == 1"
+                                            (click)="removetimetable(j)" style="background-color: red;color: white;"
+                                            class="btn btn-sm mr-2">-</button>
+                                        <button
+                                            *ngIf="j+1 == calendarEventAssignForm.get('stafftimetablelist')['controls'].length"
+                                            (click)="addtimetable()" class="btn btn-info btn-sm"> + </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <div>
+                            </div>
+                        </table>
+                    </div>
+                </span>
 
                 <div class="row">
                     <div class="col-sm-12" style="display: flex;">
                         <div style="margin: auto;">
                             <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
-                                <span></span></button>
-                            <input type="button" style="width: 80px;" class="btn btn-primary mr-3 btn-sm mt-4"
-                                value="Clear" />
-                            <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
-                                value="Close" />
+                                <span> <span> {{ calendarEventAssignForm.value.eventid ==0 ? 'Save' :
+                                        'Edit'}}</span></span></button>
+                            <input type="button" (click)="cancelClick()" style="width: 80px;"
+                                class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                            <input type="button" (click)="closeClick()" style="width: 80px;"
+                                class="btn btn-danger btn-sm mt-4" value="Close" />
                         </div>
                     </div>
                 </div>
             </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row mt-3">
+                <div class="col-sm-4" style="display: flex;">
+                    <div style="float: left;width: 100px;text-align: left;">
+                        <label class="pt-2" style="margin: auto;">Date</label>
+                    </div>
+                    <div style="float: left;width: 250px;">
+                        <input #dtv (change)=" getCalenderEventList(dtv.value)" [min]="today" class="form-control"
+                            type="Date">
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered mt-1">
+                <thead>
+                    <tr>
+                        <th>Si.No</th>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of allEventList;let i=index">
+                        <th>{{i+1}}</th>
+                        <td>{{item.start}}</td>
+                        <td><span style="border-radius: 3px;" class="p-1"
+                                [style.background-color]="item.backgroundColor"
+                                [style.color]="item.textColor">{{item.title}}</span></td>
+                        <td>{{item.description}}</td>
+                        <td class="tdoption">
+                            <span class="m-2 editbutton" (click)="updateClick(item)"><b>edit</b></span>
+                            <span>||</span>
+                            <span (click)="deleteEvent(item.eventid)" class="m-2 deletebutton"><b>delete</b></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </mat-card-content>
     </mat-card>
 </div>

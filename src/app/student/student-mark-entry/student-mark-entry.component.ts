@@ -21,18 +21,15 @@ export class StudentMarkEntryComponent implements OnInit {
   SectionList: any = [];
   groupFilterlist: any = [];
   sectionFilterlist: any = [];
-  //groupDisplay: boolean = true;
 
   studentList: any[] = [];
   subjectList: any[] = [];
   spiltList: any = [];
   subjectFilterList: any[] = [];
-  //sub: any;
   subjectDetailList: any[] = [];
   activeBatchYear: any = [];
   newgetbatch: string;
 
-  // StudentList: any[] = [];
   examNameList: any[] = [];
   constructor(
     private fb: FormBuilder,
@@ -74,7 +71,6 @@ export class StudentMarkEntryComponent implements OnInit {
     this.refreshSectionList();
     this.refreshsubjectList();
     this.GetActiveBatchYear();
-    //this.refreshStudentList();
   }
 
   backButton() {
@@ -146,12 +142,10 @@ export class StudentMarkEntryComponent implements OnInit {
     this.rankTypeMarkForm.get('groupid')?.setValue(0);
     this.rankTypeMarkForm.get('sectionid')?.setValue(null);
     if (this.groupFilterlist.length == 0) {
-      //this.groupDisplay = false;
       this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.rankTypeMarkForm.get('sectionid')?.setValue(null);
     }
     else {
-      // this.groupDisplay = true;
       this.rankTypeMarkForm.get('sectionid')?.setValue(null);
       this.sectionFilterlist = [];
     }
@@ -214,7 +208,7 @@ export class StudentMarkEntryComponent implements OnInit {
 
 
       if (this.examNameList.length == 0) {
-        
+
         const newarray = this.spiltList.filter((e) => { return e.selected == true });
         this.subjectFilterList = newarray;
         if (this.subjectFilterList.length != 0) {
@@ -231,7 +225,7 @@ export class StudentMarkEntryComponent implements OnInit {
           }
 
           this.studentList.forEach(e => {
-            
+
             e['subjects'] = this.subjectFilterList;
             e['total'] = '0';
             e['status'] = '';
@@ -294,7 +288,7 @@ export class StudentMarkEntryComponent implements OnInit {
   }
 
   createSubjectFormGroup(subject?): FormGroup {
-    
+
     const subjectn = subject.subject_name;
     const subId = subject.subjectid;
     const select = subject.selected;

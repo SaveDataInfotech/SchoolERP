@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { FeesLessService } from 'src/app/api-service/FeesLess.service';
 import { studentSectionService } from 'src/app/api-service/StudentSection.service';
@@ -28,13 +27,10 @@ export class StudentUpdateComponent implements OnInit {
   ClassList: any[];
   GroupList: any[];
   SectionList: any[];
-  //groupFilterlist: any[];
-  //sectionFilterlist: any[];
   updatesectionFilterlist: any[];
   updategroupFilterlist: any[] = [];
   StudentDataList: any[] = [];
   allSibilingsList: any[] = [];
-  updategroupDisplay: boolean;
 
   vehicleTypeList: any[] = [];
   groupBusFeeList: any[] = [];
@@ -44,7 +40,6 @@ export class StudentUpdateComponent implements OnInit {
   placefilterList: any[] = [];
   FeesLessList: any = [];
   constructor(
-    private spinner: NgxSpinnerService,
     private router: Router,
     private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
@@ -63,7 +58,7 @@ export class StudentUpdateComponent implements OnInit {
     this.refreshClassList();
     this.refreshGroupList();
     this.refreshSectionList();
-    this.getAllSibilings();
+    //this.getAllSibilings();
 
     this.refreshvehicleTypeList();
     this.refresgroupBusFeeList();
@@ -95,7 +90,6 @@ export class StudentUpdateComponent implements OnInit {
 
   refresgroupBusFeeList() {
     this.busFeSvc.getGroupBusFeesList().subscribe(data => {
-      
       this.groupBusFeeList = data;
     });
   }
@@ -118,11 +112,11 @@ export class StudentUpdateComponent implements OnInit {
     });
   }
 
-  getAllSibilings() {
-    this.studProSvc.getallSibilings().subscribe(data => {
-      this.allSibilingsList = data;
-    });
-  }
+  // getAllSibilings() {
+  //   this.studProSvc.getallSibilings().subscribe(data => {
+  //     this.allSibilingsList = data;
+  //   });
+  // }
 
   //image
   deleteImage() {
@@ -133,10 +127,7 @@ export class StudentUpdateComponent implements OnInit {
 
   onSelect(event: any) {
     this.files.push(...event.addedFiles);
-
-    // this.files.push(...event.addedFiles);
     if (this.files.length > 1) {
-      // checking if files array has more than one content
       this.replaceFile(); // replace file
     }
     this.convertFileToBase64AndSet(event.addedFiles[0]);
@@ -149,7 +140,7 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   replaceFile() {
-    this.files.splice(0, 1); // index =0 , remove_count = 1
+    this.files.splice(0, 1);
   }
 
   onRemove(event: any) {
@@ -162,7 +153,6 @@ export class StudentUpdateComponent implements OnInit {
       var reader = new FileReader();
       reader.onload = this.handleReaderLoaded.bind(this);
       reader.readAsBinaryString(fileList);
-
     }
   }
 
@@ -212,13 +202,11 @@ export class StudentUpdateComponent implements OnInit {
     this.studentDetailsForm.get('sectionid')?.setValue(0);
     this.studentDetailsForm.get('mark_10')?.setValue('');
     if (this.updategroupFilterlist.length == 0) {
-      this.updategroupDisplay = false;
       this.updatesectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
       this.studentDetailsForm.get('sectionid')?.setValue(0);
       this.studentDetailsForm.get('mark_10')?.setValue('');
     }
     else {
-      this.updategroupDisplay = true;
       this.studentDetailsForm.get('sectionid')?.setValue(0);
       this.studentDetailsForm.get('mark_10')?.setValue('');
     }
@@ -232,13 +220,14 @@ export class StudentUpdateComponent implements OnInit {
   }
 
 
-  findStudentByAdNO(value) {
-    
+  async findStudentByAdNO(value) {
+
+    await this.cancelClick();
+
     this.studProSvc.searchstudentDetails(value).subscribe(data => {
       this.StudentDataList = data;
       const datas: any = this.StudentDataList[0]
       if (this.StudentDataList.length != 0) {
-        
         this.editableImage = datas.simage;
         const classid = Number(datas.classid);
         this.studentDetailsForm.get('classid')?.setValue(classid);
@@ -247,12 +236,10 @@ export class StudentUpdateComponent implements OnInit {
         this.updatesectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == datas.groupid && e.classid == classid });
         this.studentDetailsForm.get('sectionid')?.setValue(datas.sectionid);
         if (this.updategroupFilterlist.length == 0) {
-          this.updategroupDisplay = false;
           this.updatesectionFilterlist = this.SectionList.filter((e: any) => { return e.classid == classid });
           this.studentDetailsForm.get('sectionid')?.setValue(datas.sectionid);
         }
         else {
-          this.updategroupDisplay = true;
           this.studentDetailsForm.get('sectionid')?.setValue(0);
         }
         this.studentDetailsForm.patchValue(this.StudentDataList[0]);
@@ -261,7 +248,7 @@ export class StudentUpdateComponent implements OnInit {
         this.kmFillterList = this.groupBusFeeList.filter((e) => {
           return e.typeid == vhType
         });
-        
+
         const idn = this.studentDetailsForm.value.root_no
 
         this.placefilterList = this.PlaceList.filter((e: any) => { return e.root_no == idn });
@@ -306,7 +293,7 @@ export class StudentUpdateComponent implements OnInit {
     mark_10: new FormControl(''),
     roll_no: new FormControl(''),
     emis_no: new FormControl(''),
-    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    aadhar: new FormControl(''),
     student_name: new FormControl(''),
     student_name_t: new FormControl(''),
     dob: new FormControl(''),
@@ -365,7 +352,7 @@ export class StudentUpdateComponent implements OnInit {
             this.studProSvc.studentDetails(studentinsert).subscribe(res => {
               if (res.status == 'Saved successfully') {
                 this.notificationSvc.success("Saved Success");
-                this.getAllSibilings();
+                // this.getAllSibilings();
                 this.cancelClick();
               }
               else {
@@ -402,7 +389,6 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   cancelClick() {
-    this.getAllSibilings();
     this.studentDetailsForm.reset();
     this.studentDetailsForm.get('profileid')?.setValue(0);
     this.studentDetailsForm.get('simage')?.setValue('');
@@ -463,5 +449,4 @@ export class StudentUpdateComponent implements OnInit {
     this.editableImage = '';
     this.files = [];
   }
-
 }
