@@ -28,7 +28,6 @@ import {MatButtonModule} from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
-import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
@@ -40,6 +39,7 @@ import { SchoolfeeEditComponent } from './schoolfee-edit/schoolfee-edit.componen
 import { ConcessionPreviewComponent } from './concession-preview/concession-preview.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
+import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
 
 
 @NgModule({
@@ -58,7 +58,6 @@ import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-e
     ResonDialogComponent,
     RoleComponent,
     SubjectAssignComponent,
-    LibraryBookMasterComponent,
     GeneralFeesComponent,
     SpecialFeesComponent,
     BusFeesComponent,
@@ -69,6 +68,7 @@ import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-e
     ConcessionPreviewComponent,
     CalendarDialogComponent,
     CalendarEventAssignComponent,
+    StaffLoginMenusComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

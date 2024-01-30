@@ -80,5 +80,33 @@ export class LoginComponent implements OnInit {
   teacherLoginForm = new FormGroup({
     staff_no: new FormControl(''),
     dob: new FormControl('')
-  })
+  });
+
+  teacherMenuLogin() {
+    if (this.teacherLoginForm.valid) {
+      var staff_no = String(this.teacherLoginForm.value.staff_no);
+      var dob = String(this.teacherLoginForm.value.dob);
+      this.loginSvc.loginstaffGetClick(staff_no, dob).subscribe(data => {
+        debugger;
+        this.userDetails = data;
+        if (this.userDetails.token != null) {
+          this.teacherLoginForm.reset();
+          this.loginSvc.storeToken(this.userDetails.token)// temp array // token
+          localStorage.setItem('rolename', 'NonAdmin');
+          localStorage.setItem('userid', '');
+          localStorage.setItem('staff_typeid', this.userDetails.staff_typeid);
+          localStorage.setItem('staff_no', this.userDetails.staff_no);
+          this.router.navigateByUrl('/app/dashboard/dashboard');
+          this.notificationSvc.success("LOGIN SUCCESSFUL")
+        }
+        else {
+          this.notificationSvc.error("Invalid Staff No or DOB")
+          this.router.navigateByUrl('/login');
+        }
+      });
+    }
+    else {
+      this.teacherLoginForm.markAllAsTouched()
+    }
+  }
 }

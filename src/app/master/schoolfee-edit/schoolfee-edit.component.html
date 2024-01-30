@@ -1,19 +1,28 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <h2 style="float: left;font-family: Hedvig Letters Serif;color: blue;">You can only change the payment type !</h2>
-            <mat-icon style="float: right;cursor: pointer;" (click)="closedialog()" svgIcon="closesvg"></mat-icon>
+            <h2 style="float: left;font-family: Hedvig Letters Serif;color: blue;width: 95%;">You can only change the
+                <span class="text-success">payment type</span>,<span class="text-success">Date</span> and <span
+                    class="text-success">Paid Amount</span>
+                !
+            </h2>
+            <mat-icon style="float: right;cursor: pointer;width: 5%;" (click)="closedialog()"
+                svgIcon="closesvg"></mat-icon>
         </div>
     </div>
 
-    <form  [formGroup]="editFeeCollection" (ngSubmit)="save()">
+    <form [formGroup]="editFeeCollection" (ngSubmit)="save()">
         <div class="row">
-            <div class="col-sm-5 mt-3" style="display: flex;"><h3><b>Admission No : </b>{{editFeeCollection.value.admission_no}}</h3></div>
-            <div class="col-sm-5 mt-3" style="display: flex;"><h3><b>Bill No : </b>{{editFeeCollection.value.bill_no}}</h3></div>
+            <div class="col-sm-5" style="display: flex;">
+                <h3><b>Admission No : </b>{{editFeeCollection.value.admission_no}}</h3>
+            </div>
+            <div class="col-sm-4" style="display: flex;">
+                <h3><b>Bill No : </b>{{editFeeCollection.value.bill_no}}</h3>
+            </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 mt-3" style="display: flex;">
-                <div style="float: left;width: 150px;text-align: left;">
+            <div class="col-sm-12 mt-1" style="display: flex;">
+                <div style="float: left;width: 100px;text-align: left;">
                     <label class="pt-1" style="margin: auto;">Payment Type</label>
                 </div>
                 <div style="float: left;width: 250px;">
@@ -36,13 +45,87 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-sm-12 mt-5">
-                <div style="text-align: center;">
-                    <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
-                    <input type="button" (click)="closedialog()" style="width: 80px;"
-                        class="btn btn-primary btn-sm mr-2" value="Cancel" />                    
+            <div class="col-sm-8 mt-1" style="display: flex;">
+                <div style="float: left;width: 100px;text-align: left;">
+                    <label class="pt-2" style="margin: auto;">Date<span class="text-danger">*</span></label>
                 </div>
+                <div style="float: left;width: 250px;">
+                    <input formControlName="date" class="form-control" type="Date" required>
+                </div>
+            </div>
+            <span class="col-sm-4 text-danger blink_me mt-3">Please enter carefully</span>
+        </div>
+
+        <table class="col-sm-12 table table-bordered table-sm mt-2">
+            <thead>
+                <tr>
+                    <th>Fees Name</th>
+                    <th>Balance</th>
+                    <th>Paid Deduction Amount</th>
+                    <th>Correct Amount</th>
+                </tr>
+            </thead>
+            <tbody formArrayName="arrearFees">
+                <tr *ngFor="let chid of editFeeCollection.get('arrearFees')['controls']; let a = index"
+                    formGroupName="{{a}}">
+                    <td class="pt-3">{{chid.get('type_name').value}}</td>
+                    <td>{{chid.get('balance').value}}</td>
+                    <td>{{chid.get('deduction_amount').value}}</td>
+                    <td style="width: 150px;"><input (keypress)="numberOnly($event)" #arreara
+                            (input)="checkTotalArrear(a,arreara.value)" formControlName="correct_amount" type="text"
+                            style="width: 150px;" class="form-control text-right" />
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody formArrayName="generalFees">
+                <tr *ngFor="let chid of editFeeCollection.get('generalFees')['controls']; let i = index"
+                    formGroupName="{{i}}">
+                    <td class="pt-3">{{chid.get('type_name').value}}</td>
+                    <td>{{chid.get('balance').value}}</td>
+                    <td>{{chid.get('deduction_amount').value}}</td>
+                    <td style="width: 150px;"><input (keypress)="numberOnly($event)" #gena
+                            (input)="checkTotalGen(i,gena.value)" formControlName="correct_amount" type="text"
+                            style="width: 150px;" class="form-control text-right" />
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody formArrayName="busFeesList">
+                <tr *ngFor="let chid of editFeeCollection.get('busFeesList')['controls']; let j = index"
+                    formGroupName="{{j}}">
+                    <td class="pt-3">{{chid.get('type_name').value}}</td>
+                    <td>{{chid.get('balance').value}}</td>
+                    <td>{{chid.get('deduction_amount').value}}</td>
+                    <td style="width: 150px;"><input (keypress)="numberOnly($event)" #busa
+                            (input)="checkTotalBus(j,busa.value)" formControlName="correct_amount" type="text"
+                            style="width: 150px;" class="form-control text-right" />
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody>
+                <tr>
+                    <td class="p-2"
+                        style="text-align: right;color: blue;font-size: 20px;font-weight: 600;font-family: Roboto Slab;"
+                        colspan="3">Total</td>
+                    <td style="width: 150px;"><input formControlName="total_amount" readonly style="color:red;"
+                            type="text" class="form-control text-right" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row mt-2">
+            <div *ngIf="!isdelete" class="col-sm-10">
+                <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Edit" />
+                <input type="button" (click)="closedialog()" style="width: 80px;" class="btn btn-primary btn-sm mr-2"
+                    value="Cancel" />
+            </div>
+            <div class="col-sm-2">
+                <input type="button" (click)="generateAndCheckOTP()" style="width: 80px;"
+                    class="btn btn-danger btn-sm mr-2" value="Delete" />
             </div>
         </div>
     </form>

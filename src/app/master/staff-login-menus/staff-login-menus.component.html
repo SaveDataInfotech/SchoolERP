@@ -1,0 +1,99 @@
+<div class="container-fluid mt-1">
+    <div class="row">
+        <div class="col-12" style="display: flex;">
+            <div style="float: left;width: 400px;">
+                <h3 class="ml-1">Staff Menus</h3>
+            </div>
+        </div>
+    </div>
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form [formGroup]="staffMenuForm" (ngSubmit)="newStaffMenus()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select
+                                [ngClass]="{'is-invalid':staffMenuForm.controls.staff_typeid.touched && staffMenuForm.controls.staff_typeid.errors}"
+                                formControlName="staff_typeid" style="width: 100%;" class="form-control" required>
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="StaffType.staff_typeid" *ngFor="let StaffType of StaffTypeList;">
+                                    {{StaffType.staff_type}}</option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="staffMenuForm.controls.staff_typeid.touched && staffMenuForm.controls.staff_typeid.errors">
+                                <div
+                                    *ngIf="staffMenuForm.controls.staff_typeid.touched && staffMenuForm.controls.staff_typeid.errors.required">
+                                    Staff Type is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <form>
+                    <div class="row">
+                        <div *ngFor="let menus of menu" class="col-sm-4 mt-3" style="display: flex;">
+                            <div style="float: left; text-align: left; width:200px;" class="mt-4">
+                                <div style="float: left; text-align: left;">
+                                    <input style="height: 15px; width: 15px;" type="checkbox" [name]="menus.link_name"
+                                        [(ngModel)]="menus.isselect" (change)="toggleSubMenu(menus)">
+                                </div>
+                                <div style="float: left; text-align: left; color: blue;" class="ml-2">
+                                    {{menus.link_name}}
+                                    <div *ngFor="let s_menu of menus.sub_menu">
+                                        <span *ngIf="menus.isselect">
+                                            <input style="height: 15px; width: 15px;" type="checkbox"
+                                                [name]="s_menu.link_name" [(ngModel)]="s_menu.isselect"
+                                                [disabled]="!menus.isselect">
+                                            <label class="text-dark">{{s_menu.link_name}}</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input type="submit" style="width: 80px;"
+                            class="btn btn-primary mr-3 btn-sm" value="Save" />
+                        <input  type="button" style="width: 80px;" (click)="cancelClick()"
+                            class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-5 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>Staff Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of StaffMenuList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{user.staff_type}}</td>
+                            <td class="tdoption">
+                                <span class="m-2 editbutton" (click)="updateGetClick(user)"><b>edit</b></span>
+                                <span>||</span>
+                                <span class="m-2 deletebutton"
+                                    (click)="deleteClick(user.stafftypemenuid)"><b>delete</b></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

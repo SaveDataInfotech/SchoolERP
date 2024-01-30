@@ -26,7 +26,7 @@
                             </div>
                         </span>
                     </div>
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="col-sm-6 mt-3" style="display: flex;" *ngIf="roleName == 'Superadmin'">
                         <div style="float: left;width: 150px;text-align: left;">
                             <label class="pt-2" style="margin: auto;">Role Type<span class="text-danger">
                                     *</span></label>
@@ -174,7 +174,7 @@
                 </div>
 
                 <form>
-                    <div class="row">
+                    <div class="row" *ngIf="roleName == 'Superadmin'">
                         <div *ngFor="let menus of menu" class="col-sm-4 mt-3" style="display: flex;">
                             <div style="float: left; text-align: left; width:200px;" class="mt-4">
                                 <div style="float: left; text-align: left;">
@@ -209,7 +209,7 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card class="mt-2 matcard mb-5">
+    <mat-card *ngIf="roleName == 'Superadmin'" class="mt-2 matcard mb-5">
         <mat-card-content>
             <div class="table-responsive">
                 <table class="col-sm-12 table table-hover table-bordered table-sm  ">

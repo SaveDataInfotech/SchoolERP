@@ -9,18 +9,21 @@ import { StaffSalaryComponent } from './staff-salary/staff-salary.component';
 import { staffRoutes } from './staff.routes';
 import { RouterModule } from '@angular/router';
 import { ReportsComponent } from './reports/reports.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { CurrencyPipe} from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpdateTakenLeaveComponent } from './update-taken-leave/update-taken-leave.component';
+import { StaffSalaryReportsComponent } from './staff-salary-reports/staff-salary-reports.component';
+import { BankSalaryReportComponent } from './bank-salary-report/bank-salary-report.component';
+import { StaffSalaryStafftypeReportComponent } from './staff-salary-stafftype-report/staff-salary-stafftype-report.component';
 @NgModule({
   declarations: [
     StaffProfileComponent,
@@ -30,12 +33,15 @@ import { UpdateTakenLeaveComponent } from './update-taken-leave/update-taken-lea
     StaffLoanComponent,
     StaffSalaryComponent,
     ReportsComponent,
-    UpdateTakenLeaveComponent
+    UpdateTakenLeaveComponent,
+    StaffSalaryReportsComponent,
+    BankSalaryReportComponent,
+    StaffSalaryStafftypeReportComponent
   ],
-  providers: [CurrencyPipe,DatePipe],
+  providers: [CurrencyPipe, DatePipe],
   imports: [
-    CommonModule,RouterModule.forChild(staffRoutes),MatIconModule,MatCardModule,MatTooltipModule,FormsModule, ReactiveFormsModule,
-    MatFormFieldModule,MatInputModule,MatTabsModule,NgxDropzoneModule,MatCheckboxModule
+    CommonModule, RouterModule.forChild(staffRoutes), MatIconModule, MatCardModule, MatTooltipModule, FormsModule, ReactiveFormsModule,
+    MatFormFieldModule, MatInputModule, MatTabsModule, NgxDropzoneModule, MatCheckboxModule
   ]
 })
 export class StaffModule { }

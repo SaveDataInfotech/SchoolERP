@@ -9,16 +9,11 @@ h3 {
 }
 
 @media print {
-  /* Hide non-essential elements */
   body * {
     visibility: hidden;
   }
-  
-  /* Show the table to be printed */
+
   #detail_collection_print {
     visibility: visible;
   }
-  
-  /* Other print-specific styling adjustments */
-  /* ... */
 }

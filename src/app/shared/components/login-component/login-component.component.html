@@ -55,7 +55,7 @@
             <button style="width: 100%;" class="btn btn-info btn-sm">Sign In</button>
           </form>
 
-          <form [formGroup]="teacherLoginForm" *ngIf="teacherLoginS">
+          <form [formGroup]="teacherLoginForm" *ngIf="teacherLoginS" (ngSubmit)="teacherMenuLogin()">
             <input
               [ngClass]="{'is-invalid':teacherLoginForm.controls.staff_no.touched && teacherLoginForm.controls.staff_no.errors}"
               formControlName="staff_no" class="form-control" type="text" placeholder="Staff No" required />

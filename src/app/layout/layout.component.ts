@@ -14,6 +14,8 @@ import { NotificationsService } from 'angular2-notifications';
 export class LayoutComponent implements OnInit {
   condition: boolean = true;
   userID: any = localStorage.getItem("userid");
+  roleName: string = localStorage.getItem("rolename");
+  staffno: string = localStorage.getItem("staff_no");
   mainMenu: any;
   subMenu: any;
   filteredMenu: any[];
@@ -27,23 +29,44 @@ export class LayoutComponent implements OnInit {
     private notificationSvc: NotificationsService) { }
 
   ngOnInit() {
-    this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
-      this.userList = data;
-      if (this.userList) {
+    if (this.roleName == 'NonAdmin') {
+      this.userSvc.getStaffLoginList(this.staffno).subscribe(data => {
+        this.userList = data;
+        if (this.userList) {
+          this.mainMenu = this.userList[0].main_menus
+          this.subMenu = this.userList[0].sub_menus
+          this.userName = this.userList[0].staff_name
+          localStorage.setItem('userName', this.userList[0].staff_name);
+          this.userImage = this.userList[0].img
+          this.filteredMenu = this.AdminmenuSidebar
 
-        this.mainMenu = this.userList[0].main_menus
-        this.subMenu = this.userList[0].sub_menus
-        this.userName = this.userList[0].user_name
-        this.userImage = this.userList[0].img
-        this.filteredMenu = this.AdminmenuSidebar
+            .filter(menu => this.mainMenu.includes(menu.value))
+            .map(menu => {
+              const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
+              return { ...menu, sub_menu: filteredSubmenu };
+            });
+        }
+      });
+    }
+    else {
+      this.userSvc.getUserList(Number(this.userID)).subscribe(data => {
+        this.userList = data;
+        if (this.userList) {
+          this.mainMenu = this.userList[0].main_menus
+          this.subMenu = this.userList[0].sub_menus
+          this.userName = this.userList[0].user_name
+          localStorage.setItem('userName', this.userList[0].user_name);
+          this.userImage = this.userList[0].img
+          this.filteredMenu = this.AdminmenuSidebar
 
-          .filter(menu => this.mainMenu.includes(menu.value))
-          .map(menu => {
-            const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
-            return { ...menu, sub_menu: filteredSubmenu };
-          });
-      }
-    });
+            .filter(menu => this.mainMenu.includes(menu.value))
+            .map(menu => {
+              const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
+              return { ...menu, sub_menu: filteredSubmenu };
+            });
+        }
+      });
+    }
   }
 
   openSidebar: boolean = true;
@@ -51,6 +74,10 @@ export class LayoutComponent implements OnInit {
   logout() {
     localStorage.clear();
     this.router.navigateByUrl('/login');
+  }
+
+  userProfile() {
+    this.router.navigateByUrl('/app/user/user');
   }
 
   backUpDB() {
@@ -215,63 +242,63 @@ export class LayoutComponent implements OnInit {
       ]
     },
 
-    // {
-    //   link_name: "Library",
-    //   link: null,
-    //   icon: "hostel",
-    //   isselect: false,
-    //   value: 5,
-    //   sub_menu: [
-    //     {
-    //       link_name: "Add Books",
-    //       link: "library/add_data",
-    //       isselect: false,
-    //       value: 51
-    //     },
-    //     {
-    //       link_name: "Book Purchase",
-    //       link: "library/book_purchase",
-    //       isselect: false,
-    //       value: 52
-    //     },
-    //     {
-    //       link_name: "NewStock IN",
-    //       link: "library/newstock_in",
-    //       isselect: false,
-    //       value: 53
-    //     },
-    //     {
-    //       link_name: "Student Enrollment",
-    //       link: "library/student_enrollment",
-    //       isselect: false,
-    //       value: 54
-    //     },
-    //     {
-    //       link_name: "Staff Enrollment",
-    //       link: "library/staff_enrollment",
-    //       isselect: false,
-    //       value: 55
-    //     },
-    //     {
-    //       link_name: "Book Issue",
-    //       link: "library/book_issue",
-    //       isselect: false,
-    //       value: 56
-    //     },
-    //     {
-    //       link_name: "Return Books",
-    //       link: "library/return_books",
-    //       isselect: false,
-    //       value: 57
-    //     },
-    //     {
-    //       link_name: "Stock Details",
-    //       link: "library/stocks",
-    //       isselect: false,
-    //       value: 58
-    //     }
-    //   ]
-    // },
+    {
+      link_name: "Library",
+      link: null,
+      icon: "hostel",
+      isselect: false,
+      value: 5,
+      sub_menu: [
+        {
+          link_name: "Add Books",
+          link: "library/add_data",
+          isselect: false,
+          value: 51
+        },
+        {
+          link_name: "Book Purchase",
+          link: "library/book_purchase",
+          isselect: false,
+          value: 52
+        },
+        {
+          link_name: "NewStock IN",
+          link: "library/newstock_in",
+          isselect: false,
+          value: 53
+        },
+        {
+          link_name: "Student Enrollment",
+          link: "library/student_enrollment",
+          isselect: false,
+          value: 54
+        },
+        {
+          link_name: "Staff Enrollment",
+          link: "library/staff_enrollment",
+          isselect: false,
+          value: 55
+        },
+        {
+          link_name: "Book Issue",
+          link: "library/book_issue",
+          isselect: false,
+          value: 56
+        },
+        {
+          link_name: "Return Books",
+          link: "library/return_books",
+          isselect: false,
+          value: 57
+        },
+        {
+          link_name: "Stock Details",
+          link: "library/stocks",
+          isselect: false,
+          value: 58
+        }
+      ]
+    },
     // {
     //   link_name: "Hostel Details",
     //   link: null,
@@ -317,6 +344,12 @@ export class LayoutComponent implements OnInit {
           link: "fees_collection/student_fees",
           isselect: false,
           value: 71
+        },
+        {
+          link_name: "Fees Concession",
+          link: "fees_collection/fee_concession",
+          isselect: false,
+          value: 791
         },
         {
           link_name: "Fees Transaction",
@@ -503,12 +536,7 @@ export class LayoutComponent implements OnInit {
           isselect: false,
           value: 117
         },
-        {
-          link_name: "Book Master",
-          link: "master/library_book_master",
-          isselect: false,
-          value: 118
-        },
+
         {
           link_name: "Uniform Master",
           link: "master/uniform_master",
@@ -551,6 +579,12 @@ export class LayoutComponent implements OnInit {
           isselect: false,
           value: 1196
         },
+        {
+          link_name: "Staff Menus",
+          link: "master/staff_menus",
+          isselect: false,
+          value: 11991
+        },
         // {
         //   link_name: "Role",
         //   link: "master/role",
@@ -566,21 +600,21 @@ export class LayoutComponent implements OnInit {
       ]
     },
 
-    // {
-    //   link_name: "Library Master",
-    //   link: null,
-    //   icon: "schoolmaster",
-    //   isselect: false,
-    //   value: 12,
-    //   sub_menu: [
-    //     {
-    //       link_name: "Book Mater",
-    //       link: "library_master/book_master",
-    //       isselect: false,
-    //       value: 121
-    //     }
-    //   ]
-    // },
+    {
+      link_name: "Library Master",
+      link: null,
+      icon: "schoolmaster",
+      isselect: false,
+      value: 12,
+      sub_menu: [
+        {
+          link_name: "Book Mater",
+          link: "library_master/book_master",
+          isselect: false,
+          value: 121
+        }
+      ]
+    },
 
     {
       link_name: "User",

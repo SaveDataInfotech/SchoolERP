@@ -1,0 +1,85 @@
+<div class="container-fluid mt-4">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form [formGroup]="staffsalaryStafftypereports" (ngSubmit)="searchReport()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Staff Type</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select
+                                [ngClass]="{'is-invalid':staffsalaryStafftypereports.controls.staff_typeid.touched && staffsalaryStafftypereports.controls.staff_typeid.errors}"
+                                formControlName="staff_typeid" style="width: 100%;" class="form-control" required>
+                                <option value=0 selected>All</option>
+                                <option [ngValue]="StaffType.staff_typeid" *ngFor="let StaffType of StaffTypeList;">
+                                    {{StaffType.staff_type}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Month<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':staffsalaryStafftypereports.controls.sal_month.touched && staffsalaryStafftypereports.controls.sal_month.errors}"
+                                formControlName="sal_month" class="form-control" type="month" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Search" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center;">
+                    <h2>AIM MATRIC HR. SEC. SCHOOL, aagaram, ARNI</h2>
+                </div>
+                <div class="col-sm-12" style="text-align: center;">
+                    <h2>PAY OUT FOR THE MONTH OF {{year}} - {{year}}</h2>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th style="text-align: left;">STAFF NAME</th>
+                            <th>DES.</th>
+                            <th>BASIC</th>
+                            <th>ALLO.</th>
+                            <th>PF</th>
+                            <th>SIGNATURE WITH DATE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of StaffTypesalaryList;let i=index">
+                            <td>{{i+1}}</td>
+                            <td style="text-align: left;">{{item.staff_name}}</td>
+                            <td>{{item.designation}}</td>
+                            <td>{{item.basic_pay}}</td>
+                            <td>{{item.allowance}}</td>
+                            <td>{{item.pfamount}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

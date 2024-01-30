@@ -1,1 +1,126 @@
-<p>reports works!</p>
+<mat-tab-group #tabGroup animationDuration="0ms">
+    <mat-tab label="Pay out report">
+        <div class="container-fluid mt-4">
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <form [formGroup]="staffsalaryreports" (ngSubmit)="searchReport()">
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Staff Type</label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <select
+                                        [ngClass]="{'is-invalid':staffsalaryreports.controls.staff_typeid.touched && staffsalaryreports.controls.staff_typeid.errors}"
+                                        formControlName="staff_typeid" style="width: 100%;" class="form-control"
+                                        required>
+                                        <option value=0 selected>All</option>
+                                        <option [ngValue]="StaffType.staff_typeid"
+                                            *ngFor="let StaffType of StaffTypeList;">
+                                            {{StaffType.staff_type}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 mt-3" style="display: flex;">
+                                <div style="float: left;width: 150px;text-align: left;">
+                                    <label class="pt-2" style="margin: auto;">Month<span class="text-danger">
+                                            *</span></label>
+                                </div>
+                                <div style="float: left;width: 250px;">
+                                    <input
+                                        [ngClass]="{'is-invalid':staffsalaryreports.controls.sal_month.touched && staffsalaryreports.controls.sal_month.errors}"
+                                        formControlName="sal_month" class="form-control" type="month" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mt-4">
+                            <div style="text-align: center;">
+                                <input type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm"
+                                    value="Search" />
+                                <input matTooltip="Click to Cancel" type="button" style="width: 80px;"
+                                    class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="mt-2 matcard mb-5">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align: center;">
+                            <h2>AIM MATRIC HR. SEC. SCHOOL, aagaram, ARNI</h2>
+                        </div>
+                        <div class="col-sm-12" style="text-align: center;">
+                            <h2>PAY OUT FOR THE MONTH OF {{year}} - {{year}}</h2>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                            <thead>
+                                <tr>
+                                    <th>Si.No</th>
+                                    <th style="text-align: left;">Staff Name</th>
+                                    <th>Salary</th>
+                                    <th>Grand Total</th>
+                                    <th>PF</th>
+                                    <th>Total Deduction</th>
+                                    <th>Net Salary</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let item of StaffsalaryList;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td style="text-align: left;">{{item.staff_name}}</td>
+                                    <td>{{item.total_salary}}</td>
+                                    <td>{{item.grand_total}}</td>
+                                    <td>{{item.pfamount}}</td>
+                                    <td>{{item.deduction}}</td>
+                                    <td>{{item.net_salary}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="col-sm-4 table table-hover table-bordered table-sm  ">
+                            <tbody>
+                                <tr *ngFor="let bank of StaffsalaryBankList;">
+                                    <td style="text-align: left;">{{bank.bank_name}}</td>
+                                    <td>{{bank.net_salary}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <td>{{banktotal}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="col-sm-4 table table-hover table-bordered table-sm  ">
+                            <tbody>
+                                <tr *ngFor="let staff of StaffsalaryStaffTypeList;">
+                                    <td style="text-align: left;">{{staff.staff_type}}</td>
+                                    <td>{{staff.net_salary}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <td>{{stafftotal}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Bank Pay out report">
+        <app-bank-salary-report></app-bank-salary-report>
+    </mat-tab>
+
+    <mat-tab label="Staff Type Pay out report">
+        <app-staff-salary-reports></app-staff-salary-reports>
+    </mat-tab>
+</mat-tab-group>

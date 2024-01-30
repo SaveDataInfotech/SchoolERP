@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class userProfileService {
-  readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'http://localhost:3399/api/';
   constructor(private http: HttpClient) {
   }
 
-  getUsersList(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'UserProfile/Get');
+  getUsersList(id): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'UserProfile/Get?userid=' + id);
   }
 
   getMaxId(): Observable<any[]> {
@@ -19,7 +19,6 @@ export class userProfileService {
   }
 
   newUserProfile(userInsert: any): Observable<any> {
-    debugger
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'UserProfile/insert_staff_type', userInsert, httpOptions);
   }
@@ -31,8 +30,11 @@ export class userProfileService {
   }
 
   getUserList(id): Observable<any[]> {
-    
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_user_profile_byid?userid=' + id);
+  }
+
+  getStaffLoginList(staffno): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_staff_profile_byid?staffno=' + staffno);
   }
 
 }

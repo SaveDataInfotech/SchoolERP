@@ -10,7 +10,7 @@ export class StaffLoanService {
   constructor(private http: HttpClient) {
   }
 
- readonly apiUrl = 'https://localhost:44314/api/';
+ readonly apiUrl = 'http://localhost:3399/api/';
   
   addNewLoan(loanInsert: any): Observable<any> {
     debugger

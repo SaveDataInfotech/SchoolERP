@@ -18,9 +18,9 @@ export class UserComponent implements OnInit {
   staffList: any[] = [];
   staffListAll: any[] = [];
   public showPassword: boolean = false;
-  //public showPasswordOnPress: boolean;
   menu: any[] = [];
-
+  userID: number = Number(localStorage.getItem("userid"));
+  roleName: string = localStorage.getItem("rolename");
   constructor(
     private DialogSvc: DialogService,
     private notificationSvc: NotificationsService,
@@ -34,35 +34,7 @@ export class UserComponent implements OnInit {
     this.getMaxId();
     this.refreshsUsersList();
     this.refreshStaffList();
-
     this.menu = this.lSvc.AdminmenuSidebar;
-
-    // const value = [1, 2, 3, 34, 45, 23, 45, 36, 37, 38, 6, 45, 34];
-
-    // const subValue = [1, 2, 3, 34, 31, 32, 41, 44, 37, 24, 56, 39, 131, 56, 23, 12, 546, 76, 23, 45, 67, 34]
-
-    // const filteredMenu = this.lSvc.AdminmenuSidebar
-    //   .filter(menu => value.includes(menu.value))
-    //   .map(menu => {
-    //     const filteredSubmenu = menu.sub_menu.filter(submenu => subValue.includes(submenu.value));
-    //     return { ...menu, sub_menu: filteredSubmenu };
-    //   });
-
-    // console.log(filteredMenu,'filter');
-
-
-    // const updatedMenu = this.lSvc.AdminmenuSidebar.map(menu => {
-    //   const isSelected = value.includes(menu.value);
-    //   const updatedSubMenu = menu.sub_menu.map(submenu => {
-    //     return { ...submenu, isselect: subValue.includes(submenu.value) };
-    //   });
-
-    //   return { ...menu, isselect: isSelected, sub_menu: updatedSubMenu };
-    // });
-
-    // console.log(updatedMenu,'isselect');
-
-    // this.menu=updatedMenu
   }
 
   numberOnly(event: any): boolean {
@@ -97,13 +69,43 @@ export class UserComponent implements OnInit {
     c_password: new FormControl(''),
     main_menu: new FormControl([]),
     sub_menu: new FormControl([]),
-    cuid: new FormControl(1),
+    cuid: new FormControl(this.userID),
   });
 
   refreshsUsersList() {
-    this.userSvc.getUsersList().subscribe(data => {
-      this.UsersList = data;
-    });
+    if (this.roleName == 'Superadmin') {
+      this.userSvc.getUsersList(0).subscribe(data => {
+        this.UsersList = data;
+      });
+    }
+    else if (this.roleName != 'NonAdmin') {
+      debugger
+      this.userSvc.getUsersList(this.userID).subscribe(data => {
+        this.UsersList = data;
+        const user = data[0];
+        this.menu = this.lSvc.AdminmenuSidebar;
+        this.userProfileForm.get('userid')?.setValue(user.userid);
+        this.userProfileForm.get('user_name')?.setValue(user.user_name);
+        this.userProfileForm.get('role_name')?.setValue(user.role_name);
+        this.userProfileForm.get('staff_no')?.setValue(user.staff_no);
+        this.userProfileForm.get('phone')?.setValue(user.phone);
+        this.userProfileForm.get('email')?.setValue(user.email);
+        this.userProfileForm.get('password')?.setValue(user.password);
+        this.userProfileForm.get('c_password')?.setValue(user.password);
+        this.userProfileForm.get('cuid')?.setValue(this.userID);
+        this.buttonId = false;
+
+        const updatedMenu = this.lSvc.AdminmenuSidebar.map(menu => {
+          const isSelected = user.main_menus.includes(menu.value);
+          const updatedSubMenu = menu.sub_menu.map(submenu => {
+            return { ...submenu, isselect: user.sub_menus.includes(submenu.value) };
+          });
+
+          return { ...menu, isselect: isSelected, sub_menu: updatedSubMenu };
+        });
+        this.menu = updatedMenu
+      });
+    }
   }
 
   getMaxId() {
@@ -113,7 +115,6 @@ export class UserComponent implements OnInit {
   }
 
   newUserProfile() {
-    
     const mainMenuWithSelect = [];
     const subMenuWithSelect = [];
 
@@ -132,7 +133,6 @@ export class UserComponent implements OnInit {
     this.userProfileForm.get('main_menu')?.setValue(mainMenuWithSelect);
     this.userProfileForm.get('sub_menu')?.setValue(subMenuWithSelect);
 
-    console.log(this.userProfileForm.value, 'form')
     if (this.userProfileForm.value.password == this.userProfileForm.value.c_password) {
       if (this.userProfileForm.valid) {
         if (this.userProfileForm.value.userid == 0) {
@@ -212,7 +212,6 @@ export class UserComponent implements OnInit {
   }
 
   updateGetClick(user: any) {
-    
     this.menu = this.lSvc.AdminmenuSidebar;
     this.userProfileForm.get('userid')?.setValue(user.userid);
     this.userProfileForm.get('user_name')?.setValue(user.user_name);
@@ -222,7 +221,7 @@ export class UserComponent implements OnInit {
     this.userProfileForm.get('email')?.setValue(user.email);
     this.userProfileForm.get('password')?.setValue(user.password);
     this.userProfileForm.get('c_password')?.setValue(user.password);
-    this.userProfileForm.get('cuid')?.setValue(user.cuid);
+    this.userProfileForm.get('cuid')?.setValue(this.userID);
     this.buttonId = false;
 
     const updatedMenu = this.lSvc.AdminmenuSidebar.map(menu => {
@@ -237,7 +236,6 @@ export class UserComponent implements OnInit {
   }
 
   cancelClick() {
-    
     this.menu = this.lSvc.AdminmenuSidebar;
     this.userProfileForm.reset();
     this.userProfileForm.get('userid')?.setValue(0);
@@ -248,8 +246,9 @@ export class UserComponent implements OnInit {
     this.userProfileForm.get('email')?.setValue('');
     this.userProfileForm.get('password')?.setValue('');
     this.userProfileForm.get('c_password')?.setValue('');
-    this.userProfileForm.get('cuid')?.setValue(1);
+    this.userProfileForm.get('cuid')?.setValue(this.userID);
     this.buttonId = true;
+    this.refreshsUsersList();
   }
 
 }

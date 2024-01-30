@@ -11,13 +11,13 @@ import { SupplierMasterComponent } from './supplier-master/supplier-master.compo
 import { ReportsComponent } from './reports/reports.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
-import { LibraryBookMasterComponent } from './library-book-master/library-book-master.component';
 import { GeneralFeesComponent } from './general-fees/general-fees.component';
 import { SpecialFeesComponent } from './special-fees/special-fees.component';
 import { BusFeesComponent } from './bus-fees/bus-fees.component';
 import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.component';
 import { StaffCategoryComponent } from './staff-category/staff-category.component';
 import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
+import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
 
 
 export const masterRoutes: Routes = [
@@ -53,10 +53,7 @@ export const masterRoutes: Routes = [
     path: 'subject_assign',
     component: SubjectAssignComponent,
   },
-  {
-    path: 'library_book_master',
-    component: LibraryBookMasterComponent,
-  },
+
   {
     path: "uniform_master",
     component: UniformMasterComponent
@@ -92,6 +89,10 @@ export const masterRoutes: Routes = [
   {
     path: "calendar_event",
     component: CalendarEventAssignComponent
+  },
+  {
+    path: "staff_menus",
+    component: StaffLoginMenusComponent
   },
   {
     path: "reports",

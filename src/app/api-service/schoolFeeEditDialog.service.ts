@@ -10,15 +10,17 @@ export class SchoolfeeEditDialogService {
 
     constructor(private dialog: MatDialog) { }
 
-    openConfirmDialog(value) {
-        
+    openConfirmDialog(value, generalFee, busFee, arrearFee) {
         return this.dialog.open(SchoolfeeEditComponent, {
             width: '620px',
             maxHeight: '650px',
             panelClass: 'confirm-dialog-container',
             disableClose: true,
             data: {
-                data: value
+                data: value,
+                generalFees: generalFee,
+                busFees: busFee,
+                arrearFees: arrearFee
             }
         });
     }

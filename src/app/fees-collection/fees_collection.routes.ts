@@ -8,6 +8,7 @@ import { TotalbalanceReportComponent } from './totalbalance-report/totalbalance-
 import { FeesTransactionComponent } from './fees-transaction/fees-transaction.component';
 import { DatewiseFeecollectionComponent } from './datewise-feecollection/datewise-feecollection.component';
 import { FeeConcessionReportsComponent } from './fee-concession-reports/fee-concession-reports.component';
+import { FeeConcessionComponent } from './fee-concession/fee-concession.component';
 
 
 export const feescollectionRoutes: Routes = [
@@ -47,5 +48,9 @@ export const feescollectionRoutes: Routes = [
   {
     path: 'fee_con_report',
     component: FeeConcessionReportsComponent,
+  },
+  {
+    path: 'fee_concession',
+    component: FeeConcessionComponent,
   }
 ];

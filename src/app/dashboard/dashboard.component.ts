@@ -10,33 +10,13 @@ export class DashboardComponent implements OnInit {
   studentCount: string;
   todayCollectedAmount: string;
   total_balance_amount: string;
-  animationState: string = 'show';
+  today: string;
   constructor(private dBSvc: dashBoardService,
   ) {
   }
 
-  date1 = new Date();
-  currentYear = this.date1.getUTCFullYear();
-  currentMonth = this.date1.getUTCMonth() + 1;
-  currentDate = this.date1.getUTCDate();
-  todayDate: Date = new Date();
-  today = String(this.todayDate);
-  finalMonth: any;
-  finalDay: any;
   ngOnInit(): void {
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
+    this.today = new Date().toISOString().slice(0, 10);
 
     this.reloadFunctions();
 

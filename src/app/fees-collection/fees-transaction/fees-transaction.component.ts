@@ -58,7 +58,7 @@ export class FeesTransactionComponent implements OnInit {
       await this.trSacSvc.feeTransactionList(fromDate, toDate).subscribe(data => {
         this.feeTransactionList = data;
         this.spinner.hide();
-      });      
+      });
     }
     else {
       this.feesTransactionForm.markAllAsTouched()
@@ -78,24 +78,6 @@ export class FeesTransactionComponent implements OnInit {
     this.pDSvc.openConfirmDialog(this.Listgeneralfeesbybillno, this.busfeesbybillnoList, this.arrearfeesbybillnoList, value)
       .afterClosed().subscribe(res => {
         if (res == true) {
-        }
-      });
-  }
-
-  editClick(value) {
-    this.eDSvc.openConfirmDialog(value)
-      .afterClosed().subscribe(res => {
-        
-        if (res) {
-          this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
-            if (res.status == 'Saved successfully') {
-              this.searchTransaction();
-              this.notificationSvc.success("Saved Success");
-            }
-            else {
-              this.notificationSvc.error("Something error")
-            }
-          });
         }
       });
   }

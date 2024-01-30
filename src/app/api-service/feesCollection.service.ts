@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FeescollectionService {
-  readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'http://localhost:3399/api/';
   constructor(private http: HttpClient) {
   }
 
@@ -15,12 +15,12 @@ export class FeescollectionService {
   }
 
   RecentFeesCollectionList(value, id, role): Observable<any[]> {
-    
+
     return this.http.get<any[]>(this.apiUrl + 'FeesCollection/todayFeesCollectionList?today=' + value + '&id=' + id + '&role=' + role);
   }
 
   RecentFeesDetailList(value, id, role): Observable<any[]> {
-    
+
     return this.http.get<any[]>(this.apiUrl + 'FeesTransaction/get_student_fee_transaction_detail?date=' + value + '&id=' + id + '&role=' + role);
   }
 
@@ -46,9 +46,14 @@ export class FeescollectionService {
   }
 
   studentFeesEdit(data: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'FeesCollection/update_fees_collecction', data, httpOptions);
+  }
+
+  studentFeesDelete(data: any): Observable<any> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.post<any>(this.apiUrl + 'FeesCollection/delete_fees_collecction', data, httpOptions);
   }
 
   getGeneralFeesList(value: any): Observable<any[]> {

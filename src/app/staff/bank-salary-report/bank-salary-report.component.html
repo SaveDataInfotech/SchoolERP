@@ -1,0 +1,99 @@
+<div class="container-fluid mt-4">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <form [formGroup]="staffsalaryBankreports" (ngSubmit)="searchReport()">
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Bank</label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <select
+                                [ngClass]="{'is-invalid':staffsalaryBankreports.controls.bank_name.touched && staffsalaryBankreports.controls.bank_name.errors}"
+                                formControlName="bank_name" style="width: 100%;" class="form-control" required>
+                                <option value='' selected>All</option>
+                                <option [ngValue]="bank.bank_name" *ngFor="let bank of bankNameList;">
+                                    {{bank.bank_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                            <label class="pt-2" style="margin: auto;">Month<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div style="float: left;width: 250px;">
+                            <input
+                                [ngClass]="{'is-invalid':staffsalaryBankreports.controls.sal_month.touched && staffsalaryBankreports.controls.sal_month.errors}"
+                                formControlName="sal_month" class="form-control" type="month" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 mt-4">
+                    <div style="text-align: center;">
+                        <input type="submit" style="width: 80px;" class="btn btn-primary mr-3 btn-sm" value="Search" />
+                        <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mr-2" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center;">
+                    <h2>AIM MATRIC HR. SEC. SCHOOL, aagaram, ARNI</h2>
+                </div>
+                <div class="col-sm-12" style="text-align: center;">
+                    <h2>PAY OUT FOR THE MONTH OF {{year}} - {{year}}</h2>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th style="text-align: left;">Dr Acct</th>
+                            <th>Amount</th>
+                            <th>Beneficiary IFSC</th>
+                            <th>BenefCust AcctID</th>
+                            <th>Benef Cust Name</th>
+                            <th>Bank Name</th>
+                            <th>Branch Name</th>
+                            <th>Ordering Bank Code</th>
+                            <th>Ordering Br Code</th>
+                            <th>Paymnt Detail1 (email)</th>
+                            <th>Sender Receiver Info1</th>
+                            <th>Sender Receiver Info2</th>
+                            <th>Charge Acct</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of StaffBanksalaryList;let i=index">
+                            <td>{{i+1}}</td>
+                            <td style="text-align: left;">23292200000012</td>
+                            <td>{{item.net_salary}}</td>
+                            <td>{{item.ifsc_code}}</td>
+                            <td>{{item.account_no}}</td>
+                            <td>{{item.staff_name}}</td>
+                            <td>{{item.bank_name}}</td>
+                            <td>{{item.branch_name}}</td>
+                            <td>049</td>
+                            <td>2329</td>
+                            <td>EMLARNI@FEDERALBANK.CO.IN</td>
+                            <td>/FAST/</td>
+                            <td>SALARY AIM MHS</td>
+                            <td>23292200000012</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

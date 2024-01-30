@@ -63,30 +63,10 @@ export class StudentFeesComponent implements OnInit {
     private studProSvc: studentProfileService,
     private eDSvc: SchoolfeeEditDialogService,
     private FtySvc: FeesTypeService) { }
-
-
-  date1 = new Date();
-  currentYear = this.date1.getUTCFullYear();
-  currentMonth = this.date1.getUTCMonth() + 1;
-  currentDate = this.date1.getUTCDate();
-  todayDate: Date = new Date();
-  today = String(this.todayDate);
-  finalMonth: any;
-  finalDay: any;
+  today: string;
   ngOnInit(): void {
-    if (this.currentMonth < 10) {
-      this.finalMonth = "0" + this.currentMonth;
-    }
-    else {
-      this.finalMonth = this.currentMonth;
-    }
-    if (this.currentDate < 10) {
-      this.finalDay = "0" + this.currentDate;
-    }
-    else {
-      this.finalDay = this.currentDate;
-    }
-    this.today = this.currentYear + "-" + this.finalMonth + "-" + this.finalDay;
+
+    this.today = new Date().toISOString().slice(0, 10);
     this.feesCollectionForm.get('date').setValue(this.today);
     /////////////
     this.refreshClassList();
@@ -831,13 +811,34 @@ export class StudentFeesComponent implements OnInit {
     );
   }
 
-  editClick(value) {
-    this.eDSvc.openConfirmDialog(value)
-      .afterClosed().subscribe(res => {
-        if (res) {
-          this.feesCollSvc.studentFeesEdit(res).subscribe(res => {
+  async editClick(value) {
+
+    const generalFees = await this.feesCollSvc.getgeneralfeesbybillno(value.bill_no, value.admission_no).toPromise();
+
+    const busFees = await this.feesCollSvc.getbusfeesbybillno(value.bill_no, value.admission_no).toPromise();
+
+    const arrearFees = await this.feesCollSvc.getArrearfeesbybillno(value.bill_no, value.admission_no).toPromise();
+    debugger
+    this.eDSvc.openConfirmDialog(value, generalFees, busFees, arrearFees)
+      .afterClosed().subscribe((res) => {
+
+        if (res.status == 'update') {
+          this.feesCollSvc.studentFeesEdit(res.value).subscribe(res => {
             if (res.status == 'Saved successfully') {
               this.notificationSvc.success("Saved Success");
+              this.getMaxId();
+              this.cancelclick();
+              this.refreshRecentFeesCollectionList(this.today);
+            }
+            else {
+              this.notificationSvc.error("Something error")
+            }
+          });
+        }
+        else if (res.status == 'delete') {
+          this.feesCollSvc.studentFeesDelete(res.value).subscribe(res => {
+            if (res.status == 'Saved successfully') {
+              this.notificationSvc.success("Deleted Success");
               this.getMaxId();
               this.cancelclick();
               this.refreshRecentFeesCollectionList(this.today);
