@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './shared/components/login-component/login-component.component';
 import { AuthGuard } from './gurds/auth.guard';
+import { RegisterStudentEnquiryComponent } from './shared/components/register-student-enquiry/register-student-enquiry.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'studentregister', component: RegisterStudentEnquiryComponent },
   {
     path: 'app',
     component: LayoutComponent, canActivate: [AuthGuard],
