@@ -23,6 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RegisterStudentEnquiryComponent } from './components/register-student-enquiry/register-student-enquiry.component';
 
 const modules = [
   MatButtonModule,
@@ -54,6 +55,8 @@ const modules = [
 @NgModule({
   imports: [...modules],
   exports: [...modules],
-  declarations: [],
+  declarations: [
+    RegisterStudentEnquiryComponent
+  ],
 })
 export class MaterialModule {}

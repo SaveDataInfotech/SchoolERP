@@ -4,5 +4,5 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
 })
 export class ConfigService {
-    readonly gapiUrl = 'http://localhost:3399/api/';
+    readonly gapiUrl = 'https://localhost:44314/api/';
 }

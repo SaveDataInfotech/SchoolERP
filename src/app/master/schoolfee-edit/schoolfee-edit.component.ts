@@ -324,7 +324,7 @@ export class SchoolfeeEditComponent implements OnInit {
     var maxAttempts = 3;
     var incorrectAttempts = 0;
 
-    fetch('http://localhost:3399/api/otp/generate', {
+    fetch('https://localhost:44314/api/otp/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

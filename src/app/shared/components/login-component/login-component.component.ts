@@ -55,6 +55,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  studentRegisterFun(){
+    this.router.navigateByUrl('/studentregister');
+  }
+
 
   //------Student LOGIN -------------
 
