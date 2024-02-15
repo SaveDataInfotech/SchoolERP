@@ -18,6 +18,7 @@ import { SpecialBusFeesComponent } from './special-bus-fees/special-bus-fees.com
 import { StaffCategoryComponent } from './staff-category/staff-category.component';
 import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
 import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
+import { ParentMenusComponent } from './parent-menus/parent-menus.component';
 
 
 export const masterRoutes: Routes = [
@@ -93,6 +94,10 @@ export const masterRoutes: Routes = [
   {
     path: "staff_menus",
     component: StaffLoginMenusComponent
+  },
+  {
+    path: "parent_menus",
+    component: ParentMenusComponent
   },
   {
     path: "reports",

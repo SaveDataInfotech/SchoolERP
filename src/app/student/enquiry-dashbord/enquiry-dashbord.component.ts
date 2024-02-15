@@ -4,7 +4,6 @@ import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { studentClassService } from 'src/app/api-service/studentClass.service';
 import { studentEnquiryService } from 'src/app/api-service/studentEnquiry.service';
-import { StudentProfileComponent } from '../student-profile/student-profile.component';
 @Component({
   selector: 'app-enquiry-dashbord',
   templateUrl: './enquiry-dashbord.component.html',

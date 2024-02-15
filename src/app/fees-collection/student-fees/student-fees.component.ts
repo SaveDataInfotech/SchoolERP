@@ -238,7 +238,7 @@ export class StudentFeesComponent implements OnInit {
       this.feesCollectionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
       this.feesCollectionForm.get('cuid')?.setValue(this.userID);
 
-      const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
+      const busFee = await this.feesCollSvc.getBusFeesList(value, this.StudentList[0].batch_year).toPromise();
       this.BusFeesesList = busFee;
 
       const control3 = <FormArray>this.feesCollectionForm.controls['busFeesList'];
@@ -277,7 +277,7 @@ export class StudentFeesComponent implements OnInit {
         });
       }
 
-      const generalFee = await this.feesCollSvc.getGeneralFeesList(value).toPromise();
+      const generalFee = await this.feesCollSvc.getGeneralFeesList(value, this.StudentList[0].batch_year).toPromise();
       this.generalFeesList = generalFee;
 
       const control4 = <FormArray>this.feesCollectionForm.controls['generalFees'];

@@ -179,11 +179,11 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   async getStudent(value) {
-    
+
     this.spinner.show();
     const studentDetails = await this.studProSvc.searchstudentDetails(value).toPromise();
     this.StudentList = studentDetails;
-    
+
     if (this.StudentList.length != 0) {
       this.feesConcessionForm.get('classid')?.setValue(this.StudentList[0].classid);
       this.feesConcessionForm.get('groupid')?.setValue(this.StudentList[0].groupid);
@@ -194,7 +194,7 @@ export class FeeConcessionComponent implements OnInit {
       this.feesConcessionForm.get('admission_no')?.setValue(this.StudentList[0].admission_no);
       this.feesConcessionForm.get('cuid')?.setValue(1);
 
-      const busFee = await this.feesCollSvc.getBusFeesList(value).toPromise();
+      const busFee = await this.feesCollSvc.getBusFeesList(value, this.StudentList[0].batch_year).toPromise();
       this.BusFeesesList = busFee;
 
       const control3 = <FormArray>this.feesConcessionForm.controls['busFeesList'];
@@ -233,7 +233,7 @@ export class FeeConcessionComponent implements OnInit {
         });
       }
 
-      const generalFee = await this.feesCollSvc.getGeneralFeesList(value).toPromise();
+      const generalFee = await this.feesCollSvc.getGeneralFeesList(value, this.StudentList[0].batch_year).toPromise();
       this.generalFeesList = generalFee;
 
       const control4 = <FormArray>this.feesConcessionForm.controls['generalFees'];
@@ -271,7 +271,7 @@ export class FeeConcessionComponent implements OnInit {
         });
       }
 
-      
+
       const arrearFee = await this.feesCollSvc.getArrearFeesList(value).toPromise();
       this.arrearFeesList = arrearFee;
 
@@ -281,10 +281,10 @@ export class FeeConcessionComponent implements OnInit {
       }
 
       if (control5.length == 0) {
-        
+
         this.arrearFeesList.forEach(element => {
           if (element.balance != 0) {
-            
+
             const control = <FormArray>this.feesConcessionForm.controls['arrearFees'];
             control.push(
               new FormGroup({
@@ -318,7 +318,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   updateSelectAllCheckbox(i, value) {
-    
+
     let total: number = 0;
     const classidArray = this.feesConcessionForm.get('generalFees') as FormArray;
     if (value.target.checked) {
@@ -351,7 +351,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   updateSelectAllCheckboxArraer(i, value) {
-    
+
     let total: number = 0;
 
     const arrearArray = this.feesConcessionForm.get('arrearFees') as FormArray;
@@ -386,7 +386,7 @@ export class FeeConcessionComponent implements OnInit {
 
 
   updateSelectAllCheckboxByBus(i, value) {
-    
+
     let total: number = 0;
 
     const busArray = this.feesConcessionForm.get('busFeesList') as FormArray;
@@ -555,10 +555,10 @@ export class FeeConcessionComponent implements OnInit {
 
 
   async FeesDeduction() {
-    
+
     await this.getMaxId();
     this.feesConSvc.RecentConcessionList(this.today).subscribe(data => {
-      
+
       this.FeesConcesseionList = data;
       const CheckBillNo = this.FeesConcesseionList.filter((e) => { return e.bill_no == this.feesConcessionForm.value.bill_no });
       if (CheckBillNo.length == 0) {
@@ -632,7 +632,7 @@ export class FeeConcessionComponent implements OnInit {
   }
 
   suggest(value) {
-    
+
     this.suggestions = this.studentName.filter(item =>
       item.student_name.toLowerCase().includes(value.toLowerCase())
     );
@@ -642,15 +642,15 @@ export class FeeConcessionComponent implements OnInit {
   async previewClick(value: any): Promise<void> {
     const generalFees = await this.feesConSvc.getgeneralConcessionbybillno(value.bill_no, value.admission_no).toPromise();
     this.ListgeneralConcessionbybillno = generalFees;
-    
+
 
     const busFees = await this.feesConSvc.getbusConcessionbybillno(value.bill_no, value.admission_no).toPromise();
-    
+
     this.busConcessionbybillnoList = busFees;
 
     const arrearFees = await this.feesConSvc.getArrearConcessionbybillno(value.bill_no, value.admission_no).toPromise();
     this.arrearConcessionbybillnoList = arrearFees;
-    
+
 
     this.cDSvc.openConfirmDialog(this.ListgeneralConcessionbybillno, this.busConcessionbybillnoList, this.arrearConcessionbybillnoList, value)
       .afterClosed().subscribe(res => {

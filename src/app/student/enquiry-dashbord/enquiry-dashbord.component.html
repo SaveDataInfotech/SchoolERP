@@ -41,6 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
+                                        <th>Enrollment No</th>
                                         <th>Student Name</th>
                                         <th>Admission for</th>
                                         <th>Gender</th>
@@ -55,6 +56,7 @@
                                 <tbody>
                                     <tr *ngFor="let dashbord of DashBordList;let i=index;">
                                         <td>{{i+1}}</td>
+                                        <td>{{dashbord.enquiry_no}}</td>
                                         <td>{{dashbord.student_name}}</td>
                                         <td>{{dashbord.class_name}}</td>
                                         <td>{{dashbord.gender}}</td>
@@ -115,6 +117,7 @@
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
+                                        <th>Enrollment No</th>
                                         <th>Student Name</th>
                                         <th>Admission for</th>
                                         <th>Gender</th>
@@ -129,6 +132,7 @@
                                 <tbody>
                                     <tr *ngFor="let enquiry of EnquiryList;let i=index;">
                                         <td>{{i+1}}</td>
+                                        <td>{{enquiry.enquiry_no}}</td>
                                         <td>{{enquiry.student_name}}</td>
                                         <td>{{enquiry.class_name}}</td>
                                         <td>{{enquiry.gender}}</td>
@@ -191,6 +195,7 @@
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
+                                        <th>Enrollment No</th>
                                         <th>Student Name</th>
                                         <th>Admission for</th>
                                         <th>Gender</th>
@@ -205,6 +210,7 @@
                                 <tbody>
                                     <tr *ngFor="let entrance of EntranceList;let i=index;">
                                         <td>{{i+1}}</td>
+                                        <td>{{entrance.enquiry_no}}</td>
                                         <td>{{entrance.student_name}}</td>
                                         <td>{{entrance.class_name}}</td>
                                         <td>{{entrance.gender}}</td>
@@ -267,6 +273,7 @@
                                 <thead>
                                     <tr>
                                         <th>Si.No</th>
+                                        <th>Enrollment No</th>
                                         <th>Student Name</th>
                                         <th>Admission for</th>
                                         <th>Gender</th>
@@ -281,6 +288,7 @@
                                 <tbody>
                                     <tr *ngFor="let selected of SelectedList;let i=index;">
                                         <td>{{i+1}}</td>
+                                        <td>{{selected.enquiry_no}}</td>
                                         <td>{{selected.student_name}}</td>
                                         <td>{{selected.class_name}}</td>
                                         <td>{{selected.gender}}</td>

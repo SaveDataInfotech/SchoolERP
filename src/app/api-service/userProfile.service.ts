@@ -37,4 +37,8 @@ export class userProfileService {
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_staff_profile_byid?staffno=' + staffno);
   }
 
+
+  getParentLoginList(type, ad): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_parent_profile?type=' + type + '&admission_no=' + ad);
+  }
 }

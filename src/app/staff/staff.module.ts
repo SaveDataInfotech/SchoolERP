@@ -24,6 +24,7 @@ import { UpdateTakenLeaveComponent } from './update-taken-leave/update-taken-lea
 import { StaffSalaryReportsComponent } from './staff-salary-reports/staff-salary-reports.component';
 import { BankSalaryReportComponent } from './bank-salary-report/bank-salary-report.component';
 import { StaffSalaryStafftypeReportComponent } from './staff-salary-stafftype-report/staff-salary-stafftype-report.component';
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [
     StaffProfileComponent,
@@ -41,7 +42,7 @@ import { StaffSalaryStafftypeReportComponent } from './staff-salary-stafftype-re
   providers: [CurrencyPipe, DatePipe],
   imports: [
     CommonModule, RouterModule.forChild(staffRoutes), MatIconModule, MatCardModule, MatTooltipModule, FormsModule, ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatTabsModule, NgxDropzoneModule, MatCheckboxModule
+    MatFormFieldModule, MatInputModule, MatTabsModule, NgxDropzoneModule, MatCheckboxModule, NgxPrintModule
   ]
 })
 export class StaffModule { }

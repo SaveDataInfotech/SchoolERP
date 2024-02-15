@@ -27,6 +27,8 @@ export class StudentPromoteComponent implements OnInit {
   progroupFilterlist: any = [];
   prosectionFilterlist: any = [];
   progroupDisplay: boolean = true;
+  fni: boolean = false;
+  allComplete: boolean = false;
   constructor(private ClassSvc: studentClassService,
     private GroupSvc: studentGroupService,
     private ScSvc: studentSectionService,
@@ -68,7 +70,7 @@ export class StudentPromoteComponent implements OnInit {
 
   refreshSectionList() {
     this.ScSvc.getSectionList().subscribe(data => {
-      
+
       this.SectionList = data;
     });
   }
@@ -92,7 +94,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   filterSectionfun(groupID: any) {
-    
+
     const groupid = Number(groupID);
     this.searchStudentForm.groupid = groupid;
     this.sectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -130,7 +132,7 @@ export class StudentPromoteComponent implements OnInit {
 
 
   batch_yearCheck(value) {
-    
+
     if (this.searchStudentForm.batch_year == value) {
       this.studentPromoteForm.batch_year = null;
       this.notificationSvc.error("Cann't be same both Batch")
@@ -164,7 +166,7 @@ export class StudentPromoteComponent implements OnInit {
   }
 
   profilterSectionfun(groupID: any) {
-    
+
     const groupid = Number(groupID);
     this.studentPromoteForm.groupid = groupid;
     this.prosectionFilterlist = this.SectionList.filter((e: any) => { return e.groupid == groupid });
@@ -180,22 +182,43 @@ export class StudentPromoteComponent implements OnInit {
     cuid: 1
   }
 
+
+  fnsetAll(completed: boolean) {
+    this.allComplete = completed;
+    if (this.StudentList == null) {
+      return;
+    }
+    this.StudentList.forEach(t => (t.isselected = completed));
+  }
+
+  fnsomeComplete(): boolean {
+    if (this.StudentList == null) {
+      return false;
+    }
+    return this.StudentList.filter(t => t.isselected).length > 0 && !this.allComplete;
+  }
+
+  fnupdateAllComplete() {
+    this.allComplete = this.StudentList != null && this.StudentList.every(t => t.isselected);
+  }
+
   save(data) {
     const filterlist = data.filter((e) => { return e.isselected == true });
     if (filterlist.length != 0) {
       this.DialogSvc.openConfirmDialog('Are you sure want to promote ?')
         .afterClosed().subscribe(res => {
           if (res == true) {
-            
+
             const batch_year = this.studentPromoteForm.batch_year;
             const classid = this.studentPromoteForm.classid;
             const groupid = this.studentPromoteForm.groupid;
             const setionid = this.studentPromoteForm.sectionid;
             const date = this.studentPromoteForm.date;
             const cuid = this.studentPromoteForm.cuid;
+            const p_batch_year = this.searchStudentForm.batch_year
 
-            this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date).subscribe(res => {
-              
+            this.promoSvc.newStudent(filterlist, batch_year, classid, groupid, setionid, cuid, date, p_batch_year).subscribe(res => {
+
               if (res.status == 'Saved successfully') {
                 const classid = this.searchStudentForm.classid;
                 const groupid = this.searchStudentForm.groupid;

@@ -1,1 +1,606 @@
-<p>register-student-enquiry works!</p>
+<div class="container-fluid" style="width: 80%;margin: autos;">
+    <mat-card class="mt-2 matcard">
+        <mat-card-header>
+            <div style="width: 100%;">
+                <div style="text-align: center;">
+                    <img class="image" src="../../../assets/aimlogo.jpeg" style="width: 120px;">
+                </div>
+                <div style="text-align: center;">
+                    <p style="color: blue;font-family: Roboto Slab;font-size: 18px;text-align: center;">APPLICATION FORM
+                    </p>
+                </div>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="StudentEnquiryForm" (ngSubmit)="newEnquiry()">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv">
+                            <h3 class="ml-1" style="color: orangered;">Student Details</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Student Name<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors}"
+                                formControlName="student_name" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors.required">
+                                    Student Name is required
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors.pattern">
+                                    Use letters only
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Seeking admission for<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid': StudentEnquiryForm.get('classid')?.touched && StudentEnquiryForm.value.classid == 0}"
+                                required formControlName="classid" style="width: 100%;" class="form-control" #t
+                                (change)="changefun(t.value)">
+                                <option value=0 selected disabled>Please select</option>
+                                <option value={{class.classid}} *ngFor="let class of ClassList">{{class.class_name}}
+                                </option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.get('classid')?.touched && StudentEnquiryForm.value.classid == 0">Class
+                                name is required</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="Groupnewlist.length !=0">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">10-th Mark</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="mark_10" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Seeking Group for</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="groupid" style="width: 100%;" class="form-control">
+                                <option value=0 selected disabled>Please select</option>
+                                <option [ngValue]="group.groupid" *ngFor="let group of Groupnewlist">
+                                    {{group.group_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">DOB<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.dob.touched && StudentEnquiryForm.controls.dob.errors}"
+                                formControlName="dob" class="form-control" type="date" required>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.dob.touched && StudentEnquiryForm.controls.dob.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.dob.touched && StudentEnquiryForm.controls.dob.errors.required">
+                                    DOB is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Gender<span class="text-danger"> *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors}"
+                                formControlName="gender" style="width: 100%;" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.gender.touched && StudentEnquiryForm.controls.gender.errors.required">
+                                    Gender is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Nationality<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors}"
+                                style="width: 100%;" formControlName="nationality" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Foreigner">Foreigner</option>
+                            </select>
+
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.nationality.touched && StudentEnquiryForm.controls.nationality.errors.required">
+                                    Nationality is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Religion<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.religion.touched && StudentEnquiryForm.controls.religion.errors}"
+                                style="width: 100%;" formControlName="religion" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Muslim">Muslim</option>
+                                <option value="Christian">Christian</option>
+                                <option value="Jain">Jain</option>
+                                <option value="Buddhism">Buddhism</option>
+                                <option value="others">Others</option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.religion.touched && StudentEnquiryForm.controls.religion.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.religion.touched && StudentEnquiryForm.controls.religion.errors.required">
+                                    Religion is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Community<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <select
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors}"
+                                style="width: 100%;" formControlName="community" class="form-control" required>
+                                <option value='' selected disabled>Please select</option>
+                                <option value="BC">BC</option>
+                                <option value="MBC">MBC</option>
+                                <option value="BCM">BCM</option>
+                                <option value="DC">DC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.community.touched && StudentEnquiryForm.controls.community.errors.required">
+                                    Community is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-4" style="display: flex;">
+                        <span class="blink_me">If the student does not have Aadhaar - Enter the Aadhaar number of the
+                            student's
+                            father</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Blood Group</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select style="width: 100%;" formControlName="bloodgroup" class="form-control">
+                                <option value='' selected disabled>Please select</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Aadhar Number
+                                <span class="text-danger"> *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors}"
+                                maxlength="12" minlength="12" (keypress)="numberOnly($event)" formControlName="aadhar"
+                                class="form-control" type="text" required>
+
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors.required">
+                                    Aadhar Number is required
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.aadhar.touched && StudentEnquiryForm.controls.aadhar.errors.minlength">
+                                    Invalid Aadhar
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div style="float: left;
+                        width: 250px;
+                        text-align: left;">
+                            <label style="margin: auto;">Do you like to come to school by bus ?</label>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="form-check">
+                                <input formControlName="stay_type" value="Yes" class="form-check-input" type="radio"
+                                    checked>
+                                <label class="form-check-label">
+                                    Yes
+                                </label>
+                            </div>
+
+                            <div class="form-check ml-2">
+                                <input formControlName="stay_type" value="No" class="form-check-input" type="radio">
+                                <label class="form-check-label">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="StudentEnquiryForm.value.stay_type == 'Yes'" class="col-sm-6 mt-3"
+                        style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Place of Boading</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="boading_place" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv">
+                            <h3 class="ml-1" style="color: orangered;">Parent Details</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-2" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Father Name<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors}"
+                                formControlName="father_name" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors.required">
+                                    Father Name is required
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors.pattern">
+                                    Use letters only
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="f_occupation"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="f_qualification" (keypress)="numberNotApplicable($event)"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Mobile Number<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors}"
+                                (keypress)="numberOnly($event)" minlength="10" maxlength="10" formControlName="f_ph"
+                                required class="form-control" type="text">
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.required">
+                                    Mobile Number is required
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
+                                    Invalid input
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Email</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="f_email" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Mother Name<span class="text-danger">
+                                    *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input oninput="this.value = this.value.toUpperCase()"
+                                (keypress)="numberNotApplicable($event)"
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors}"
+                                formControlName="mother_name" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors.required">
+                                    Mother Name is required
+                                </div>
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors.pattern">
+                                    Use letters only
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Occupation</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="m_occupation" (keypress)="numberNotApplicable($event)"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Qualification</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="m_qualification" (keypress)="numberNotApplicable($event)"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Mobile Number</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10"
+                                class="form-control" type="tel">
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
+                                    Invalid input
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="inputdiv">
+                            <h3 class="ml-1" style="color: orangered;">Student Other Details</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Place<span class="text-danger"> *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors}"
+                                formControlName="place" (keypress)="numberNotApplicable($event)" class="form-control"
+                                type="text" required>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors.required">
+                                    Place is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-5" style="margin: auto;">Address<span class="text-danger"> *</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <textarea
+                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.address.touched && StudentEnquiryForm.controls.address.errors}"
+                                formControlName="address" class="form-control" rows="4" required></textarea>
+                            <span class="text-danger"
+                                *ngIf="StudentEnquiryForm.controls.address.touched && StudentEnquiryForm.controls.address.errors">
+                                <div
+                                    *ngIf="StudentEnquiryForm.controls.address.touched && StudentEnquiryForm.controls.address.errors.required">
+                                    Address is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 1</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_1" class="form-control"
+                                type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Indentification Mark 2</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="i_m_2" class="form-control"
+                                type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Class Last Studied</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="l_classid" style="width: 100%;" class="form-control">
+                                <option value=0 selected>Not Specified</option>
+                                <option [ngValue]="class.classid" *ngFor="let class of ClassList">{{class.class_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">School Last Studied & Place</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="l_school" (keypress)="numberNotApplicable($event)"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Stream Last Studied</label>
+                        </div>
+                        <div class="inputdiv">
+                            <select formControlName="l_stream" style="width: 100%;" class="form-control">
+                                <option value="">Not Specified</option>
+                                <option value="Matric">Matric</option>
+                                <option value="CBSC">CBSC</option>
+                                <option value="State Board">State Board</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Medium Last Studied</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input (keypress)="numberNotApplicable($event)" formControlName="l_medium"
+                                class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mt-4">
+                    <div class="pl-2" style="margin-left: 50px;">
+                        <input [checked]="StudentEnquiryForm.value.s_declare == true" formControlName="s_declare"
+                            (change)="selectedSub($event)" style="height: 20px;width: 20px;" type="checkbox"
+                            class="form-check-input  mt-1 " name="option1" value="something" required>
+                        <label class="p-2" style="margin: auto;font-weight: 700;font-family: Poppins;">I declare that
+                            the
+                            particulars given
+                            above are correct and best my knowledge and will strictly follow the rules and
+                            regulations of the school</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mt-4">
+                    <div style="text-align: center;">
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
+                        <input type="button" (click)="cancelClick()" style="width: 80px;"
+                            class="btn btn-primary btn-sm mr-2" value="Cancel" />
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,6 +1,7 @@
 <div class="_login">
   <div>
-    <div class="split left"></div>
+    <div class="split left"><button class="btn" (click)="studentRegisterFun()"><img class="image"
+          src="../../../assets/re1.png"></button></div>
     <div class="split right" fxLayoutAlign="center center">
       <div class="wrapper">
         <header class="section header">
@@ -11,7 +12,6 @@
         </header>
         <section class="section sign-in">
           <div style="display: flex;" class="pl-5">
-            <button class="btn btn-info" (click)="studentRegisterFun()">Register</button>
             <div style="padding: 8px;">
               <button type="button" (click)="studentLogin()" matTooltip="Student Login"
                 class=" btn btn-primary loginButton">
@@ -20,7 +20,8 @@
             </div>
 
             <div style="padding: 8px;">
-              <button type="button" matTooltip="Parent Login" class=" btn btn-primary loginButton">
+              <button type="button" (click)="ParentLogin()" matTooltip="Parent Login"
+                class=" btn btn-primary loginButton">
                 <mat-icon>person</mat-icon>
               </button>
             </div>
@@ -53,6 +54,16 @@
             <input
               [ngClass]="{'is-invalid':StudentloginForm.controls.dob.touched && StudentloginForm.controls.dob.errors}"
               formControlName="dob" type="date" class="form-control" required />
+            <button style="width: 100%;" class="btn btn-info btn-sm">Sign In</button>
+          </form>
+
+          <form [formGroup]="ParentloginForm" *ngIf="parentLogins" (ngSubmit)="parentMenuLogin()">
+            <input
+              [ngClass]="{'is-invalid':ParentloginForm.controls.admission_no.touched && ParentloginForm.controls.admission_no.errors}"
+              formControlName="admission_no" class="form-control" type="text" placeholder="Admission No" required />
+            <input
+              [ngClass]="{'is-invalid':ParentloginForm.controls.f_ph.touched && ParentloginForm.controls.f_ph.errors}"
+              formControlName="f_ph" type="text" placeholder="Father Phone Number" class="form-control" required />
             <button style="width: 100%;" class="btn btn-info btn-sm">Sign In</button>
           </form>
 

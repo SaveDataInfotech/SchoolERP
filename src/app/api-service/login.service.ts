@@ -35,4 +35,11 @@ export class loginService {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.get<any[]>('https://localhost:44314/api/Authentication/StaffLogin?staff_no=' + staffNo + '&dob=' + dob, httpOptions);
   }
+
+
+  loginParentGetClick(admission_no: any, f_ph: any): Observable<any[]> {
+    debugger;
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.http.get<any[]>('https://localhost:44314/api/Authentication/ParentLogin?admission_no=' + admission_no + '&f_ph=' + f_ph, httpOptions);
+  }
 }

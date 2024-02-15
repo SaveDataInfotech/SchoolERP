@@ -160,7 +160,10 @@
                     <thead>
                         <tr>
                             <th>SI NO</th>
-                            <th></th>
+                            <th><mat-checkbox [disabled]="fni == true" class="example-margin matlabel"
+                                    [checked]="allComplete" [indeterminate]="fnsomeComplete()"
+                                    (change)="fnsetAll($event.checked)">FN
+                                </mat-checkbox></th>
                             <th>A.NO</th>
                             <th>Student Name</th>
                         </tr>
@@ -168,7 +171,8 @@
                     <tbody>
                         <tr *ngFor="let student of StudentList;let i=index;">
                             <td>{{i+1}}</td>
-                            <td><input type="checkbox" name="iss{{i}}" #iss="ngModel" [(ngModel)]="student.isselected">
+                            <td><input type="checkbox" name="iss{{i}}" #iss="ngModel" [disabled]="fni == true"
+                                    [(ngModel)]="student.isselected" (ngModelChange)="fnupdateAllComplete()">
                             </td>
                             <td>{{student.admission_no}}</td>
                             <td>{{student.student_name}}</td>

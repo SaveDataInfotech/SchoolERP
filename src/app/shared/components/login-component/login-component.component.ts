@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   studentLoginS: boolean = false;
   adminLoginS: boolean = true;
   teacherLoginS = false;
+  parentLogins: boolean = false;
   constructor(private router: Router, private loginSvc: loginService,
     private notificationSvc: NotificationsService) { }
   userDetails: any = [];
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.studentLoginS = false;
     this.adminLoginS = true;
     this.teacherLoginS = false;
+    this.parentLogins = false;
   }
 
   loginForm = new FormGroup({
@@ -42,7 +44,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('rolename', this.userDetails.role_name);
           localStorage.setItem('userid', this.userDetails.userid);
           this.router.navigateByUrl('/app/dashboard/dashboard');
-          this.notificationSvc.success("LOGIN SUCCESSFUL")
+          this.notificationSvc.success("LOGIN SUCCESSFUL");
         }
         else {
           this.notificationSvc.error("Invalid Email or Password")
@@ -55,8 +57,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  studentRegisterFun(){
-    this.router.navigateByUrl('/studentregister');
+  studentRegisterFun() {
+    window.open('/studentregister', '_blank');
   }
 
 
@@ -66,6 +68,7 @@ export class LoginComponent implements OnInit {
     this.studentLoginS = true;
     this.adminLoginS = false;
     this.teacherLoginS = false;
+    this.parentLogins = false;
   }
 
   StudentloginForm = new FormGroup({
@@ -79,6 +82,7 @@ export class LoginComponent implements OnInit {
     this.studentLoginS = false;
     this.adminLoginS = false;
     this.teacherLoginS = true;
+    this.parentLogins = false;
   }
 
   teacherLoginForm = new FormGroup({
@@ -100,7 +104,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userid', '');
           localStorage.setItem('staff_typeid', this.userDetails.staff_typeid);
           localStorage.setItem('staff_no', this.userDetails.staff_no);
-          this.router.navigateByUrl('/app/dashboard/dashboard');
+          this.router.navigateByUrl('/app/schedule/schedule');
           this.notificationSvc.success("LOGIN SUCCESSFUL")
         }
         else {
@@ -110,7 +114,49 @@ export class LoginComponent implements OnInit {
       });
     }
     else {
-      this.teacherLoginForm.markAllAsTouched()
+      this.teacherLoginForm.markAllAsTouched();
+    }
+  }
+
+  // ---------- Parent Login
+
+  ParentLogin() {
+    this.studentLoginS = false;
+    this.adminLoginS = false;
+    this.teacherLoginS = false;
+    this.parentLogins = true;
+  }
+
+  ParentloginForm = new FormGroup({
+    admission_no: new FormControl(''),
+    f_ph: new FormControl('')
+  })
+
+  parentMenuLogin() {
+    if (this.ParentloginForm.valid) {
+      var admission_no = String(this.ParentloginForm.value.admission_no);
+      var f_ph = String(this.ParentloginForm.value.f_ph);
+      this.loginSvc.loginParentGetClick(admission_no, f_ph).subscribe(data => {
+        debugger;
+        this.userDetails = data;
+        if (this.userDetails.token != null) {
+          this.ParentloginForm.reset();
+          this.loginSvc.storeToken(this.userDetails.token)// temp array // token
+          localStorage.setItem('rolename', 'Parent');
+          localStorage.setItem('userid', '');
+          localStorage.setItem('type', 'Parent');
+          localStorage.setItem('admission_no', this.userDetails.admission_no);
+          this.router.navigateByUrl('/app/schedule/schedule');
+          this.notificationSvc.success("LOGIN SUCCESSFUL")
+        }
+        else {
+          this.notificationSvc.error("Invalid admission No or Phone Number")
+          this.router.navigateByUrl('/login');
+        }
+      });
+    }
+    else {
+      this.ParentloginForm.markAllAsTouched();
     }
   }
 }

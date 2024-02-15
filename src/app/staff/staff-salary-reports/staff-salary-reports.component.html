@@ -45,15 +45,25 @@
 
     <mat-card class="mt-2 matcard mb-5">
         <mat-card-content>
-            <div class="row">
-                <div class="col-sm-12" style="text-align: center;">
-                    <h2>AIM MATRIC HR. SEC. SCHOOL, aagaram, ARNI</h2>
-                </div>
-                <div class="col-sm-12" style="text-align: center;">
-                    <h2>PAY OUT FOR THE MONTH OF {{year}} - {{year}}</h2>
-                </div>
+
+
+            <div class="row pb-1 mr-5" style="float: right;">
+                <button class="btn btn-primary btn-sm ml-2" style="width: 80px;" id="print-btn" color="primary"
+                    printSectionId="Payoutsalary" ngxPrint [useExistingCss]="true">
+                    Print <i class="fa fa-print ml-2"></i></button>
+                <button (click)="exportDayWiseExcel()" class="btn btn-info ml-2 btn-sm">Download to
+                    Excel<mat-icon class="ml-2 mr-1" svgIcon="excel"></mat-icon></button>
             </div>
-            <div class="table-responsive">
+
+            <div id="Payoutsalary" class="table-responsive">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <h2>AIM MATRIC HR. SEC. SCHOOL, aagaram, ARNI</h2>
+                    </div>
+                    <div class="col-sm-12" style="text-align: center;">
+                        <h2>PAY OUT FOR THE MONTH OF {{monthName}} - {{year}}</h2>
+                    </div>
+                </div>
                 <table class="col-sm-12 table table-hover table-bordered table-sm  ">
                     <thead>
                         <tr>

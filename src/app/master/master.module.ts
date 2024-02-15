@@ -40,6 +40,8 @@ import { ConcessionPreviewComponent } from './concession-preview/concession-prev
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
 import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
+import { ParentMenusComponent } from './parent-menus/parent-menus.component';
+import { EnrollmentNoDialogComponent } from './enrollment-no-dialog/enrollment-no-dialog.component';
 
 
 @NgModule({
@@ -69,6 +71,8 @@ import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.
     CalendarDialogComponent,
     CalendarEventAssignComponent,
     StaffLoginMenusComponent,
+    ParentMenusComponent,
+    EnrollmentNoDialogComponent,
   ],
   imports: [
     CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,

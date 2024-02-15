@@ -16,6 +16,7 @@ export class LayoutComponent implements OnInit {
   userID: any = localStorage.getItem("userid");
   roleName: string = localStorage.getItem("rolename");
   staffno: string = localStorage.getItem("staff_no");
+  admission_no: string = localStorage.getItem("admission_no");
   mainMenu: any;
   subMenu: any;
   filteredMenu: any[];
@@ -38,6 +39,24 @@ export class LayoutComponent implements OnInit {
           this.userName = this.userList[0].staff_name
           localStorage.setItem('userName', this.userList[0].staff_name);
           this.userImage = this.userList[0].img
+          this.filteredMenu = this.AdminmenuSidebar
+
+            .filter(menu => this.mainMenu.includes(menu.value))
+            .map(menu => {
+              const filteredSubmenu = menu.sub_menu.filter(submenu => this.subMenu.includes(submenu.value));
+              return { ...menu, sub_menu: filteredSubmenu };
+            });
+        }
+      });
+    }
+    else if (this.roleName == 'Parent') {
+      this.userSvc.getParentLoginList('Parent', this.admission_no).subscribe(data => {
+        this.userList = data;
+        if (this.userList) {
+          this.mainMenu = this.userList[0].main_menus
+          this.subMenu = this.userList[0].sub_menus
+          this.userName = this.userList[0].father_name
+          localStorage.setItem('userName', this.userList[0].father_name);
           this.filteredMenu = this.AdminmenuSidebar
 
             .filter(menu => this.mainMenu.includes(menu.value))
@@ -584,6 +603,12 @@ export class LayoutComponent implements OnInit {
           link: "master/staff_menus",
           isselect: false,
           value: 11991
+        },
+        {
+          link_name: "Parent & Student Menus",
+          link: "master/parent_menus",
+          isselect: false,
+          value: 11992
         },
         // {
         //   link_name: "Role",

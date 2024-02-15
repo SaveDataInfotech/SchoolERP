@@ -24,7 +24,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RegisterStudentEnquiryComponent } from './components/register-student-enquiry/register-student-enquiry.component';
-
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 const modules = [
   MatButtonModule,
   MatInputModule,
@@ -51,12 +52,13 @@ const modules = [
   MatTableModule,
   MatAutocompleteModule,
   MatSlideToggleModule,
+
 ];
 @NgModule({
-  imports: [...modules],
+  imports: [...modules, CommonModule, ReactiveFormsModule],
   exports: [...modules],
   declarations: [
     RegisterStudentEnquiryComponent
   ],
 })
-export class MaterialModule {}
+export class MaterialModule { }

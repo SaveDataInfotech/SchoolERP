@@ -170,3 +170,18 @@ form {
   padding-top: 3px;
   color: white;
 }
+
+.image {
+  width: 220px;
+  border-radius: 10px;
+}
+
+.image {
+  animation: blinker 5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

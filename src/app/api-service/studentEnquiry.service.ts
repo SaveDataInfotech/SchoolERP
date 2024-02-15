@@ -6,16 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class studentEnquiryService {
- readonly apiUrl = 'https://localhost:44314/api/';
+  readonly apiUrl = 'https://localhost:44314/api/';
   constructor(private http: HttpClient) {
   }
 
-  getMaxId(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'StudentEnquiry/get_MaxId_student_enquiry');
-  }
-
   addNewEnquiry(enquiryinsert: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'StudentEnquiry/insert_student_enquiry', enquiryinsert, httpOptions);
   }
