@@ -3,12 +3,14 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
+import { ConfigService } from 'src/app/api-service/configuration.service';
 @Component({
   selector: 'app-schoolfee-edit',
   templateUrl: './schoolfee-edit.component.html',
   styleUrls: ['./schoolfee-edit.component.scss']
 })
 export class SchoolfeeEditComponent implements OnInit {
+  readonly apiUrl = this.configService.gapiUrl;
   userID: number = Number(localStorage.getItem("userid"));
   userName: string = localStorage.getItem("userName");
   isdelete: boolean = false;
@@ -17,6 +19,7 @@ export class SchoolfeeEditComponent implements OnInit {
     public dialogRef: MatDialogRef<SchoolfeeEditComponent>,
     private notificationSvc: NotificationsService,
     private DialogSvc: DialogService,
+    private configService: ConfigService
   ) { }
 
   ngOnInit(): void {
@@ -324,7 +327,7 @@ export class SchoolfeeEditComponent implements OnInit {
     var maxAttempts = 3;
     var incorrectAttempts = 0;
 
-    fetch('https://localhost:44314/api/otp/generate', {
+    fetch(this.apiUrl + 'otp/generate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

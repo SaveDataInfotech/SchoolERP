@@ -1,19 +1,19 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { ConfigService } from "./configuration.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class StaffLoanService {
-  constructor(private http: HttpClient) {
+  readonly apiUrl = this.configService.gapiUrl;
+  constructor(private http: HttpClient,
+    private configService: ConfigService) {
   }
 
- readonly apiUrl = 'https://localhost:44314/api/';
-  
   addNewLoan(loanInsert: any): Observable<any> {
-    debugger
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post(this.apiUrl + 'StaffLoan/insert_staff_loan', loanInsert, httpOptions);
   }

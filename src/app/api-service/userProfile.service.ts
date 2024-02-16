@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
+import { ConfigService } from "./configuration.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class userProfileService {
-  readonly apiUrl = 'https://localhost:44314/api/';
-  constructor(private http: HttpClient) {
+  readonly apiUrl = this.configService.gapiUrl;
+  constructor(private http: HttpClient,
+    private configService: ConfigService) {
   }
 
   getUsersList(id): Observable<any[]> {
@@ -36,7 +38,6 @@ export class userProfileService {
   getStaffLoginList(staffno): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_staff_profile_byid?staffno=' + staffno);
   }
-
 
   getParentLoginList(type, ad): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + 'UserProfile/get_parent_profile?type=' + type + '&admission_no=' + ad);

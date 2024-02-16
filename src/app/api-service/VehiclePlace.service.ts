@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
+import { ConfigService } from "./configuration.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiclePlaceService {
- readonly apiUrl = 'https://localhost:44314/api/';
-  constructor(private http: HttpClient) {
+  readonly apiUrl = this.configService.gapiUrl;
+  constructor(private http: HttpClient,
+    private configService: ConfigService) {
   }
 
   getPlaceList(): Observable<any[]> {
@@ -30,7 +32,6 @@ export class VehiclePlaceService {
 
 
   addNewXLPlace(placeinsert: any): Observable<any> {
-    
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return this.http.post<any>(this.apiUrl + 'VehiclePlace/insert_vehicle_placexl', placeinsert, httpOptions);
   }

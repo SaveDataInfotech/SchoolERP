@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
+import { ConfigService } from "./configuration.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class VehicleProcessTypeService {
-   readonly apiUrl = 'https://localhost:44314/api/';
-    constructor(private http: HttpClient) {
+    readonly apiUrl = this.configService.gapiUrl;
+    constructor(private http: HttpClient,
+        private configService: ConfigService) {
     }
 
     getvehicleProcessTypeList(): Observable<any[]> {
@@ -24,7 +26,6 @@ export class VehicleProcessTypeService {
     }
 
     deletevehicleProcessType(id: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleProcessType/Delete_vehicle_process_type?processid=' + id, httpOptions);
     }

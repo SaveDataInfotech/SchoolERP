@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
+import { ConfigService } from "./configuration.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class VehicleExpenseService {
-   readonly apiUrl = 'https://localhost:44314/api/';
-    constructor(private http: HttpClient) {
+    readonly apiUrl = this.configService.gapiUrl;
+    constructor(private http: HttpClient,
+        private configService: ConfigService) {
     }
 
     getvehicleExpenseList(): Observable<any[]> {
@@ -15,13 +17,11 @@ export class VehicleExpenseService {
     }
 
     addNewvehicleExpense(value: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.post<any>(this.apiUrl + 'VehicleExpense/insert_vehicle_expense', value, httpOptions);
     }
 
     deletevehicleExpense(id: any): Observable<any> {
-        
         const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
         return this.http.delete<any>(this.apiUrl + 'VehicleExpense/delete_vehicle_expense?expenseid=' + id, httpOptions);
     }

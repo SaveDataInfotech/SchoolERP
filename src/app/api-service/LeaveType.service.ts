@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
+import { ConfigService } from "./configuration.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveTypeService {
- readonly apiUrl = 'https://localhost:44314/api/';
-  constructor(private http: HttpClient) {
+  readonly apiUrl = this.configService.gapiUrl;
+  constructor(private http: HttpClient,
+    private configService: ConfigService) {
   }
 
   getLeaveTypeList(): Observable<any[]> {
