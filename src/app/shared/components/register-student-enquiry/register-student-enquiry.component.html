@@ -1,4 +1,4 @@
-<div class="container-fluid" style="width: 80%;margin: autos;">
+<div class="container-fluid containdiv">
     <mat-card class="mt-2 matcard">
         <mat-card-header>
             <div style="width: 100%;">
@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Student Details</h3>
+                            <h3 class="ml-1" style="color: blue;">Student Details</h3>
                         </div>
                     </div>
                 </div>
@@ -36,10 +36,6 @@
                                 <div
                                     *ngIf="StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors.required">
                                     Student Name is required
-                                </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.student_name.touched && StudentEnquiryForm.controls.student_name.errors.pattern">
-                                    Use letters only
                                 </div>
                             </span>
                         </div>
@@ -213,15 +209,10 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-6 mt-4" style="display: flex;">
-                        <span class="blink_me">If the student does not have Aadhaar - Enter the Aadhaar number of the
-                            student's
-                            father</span>
-                    </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="col-sm-6 mt-4" style="display: flex;">
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Blood Group</label>
                         </div>
@@ -240,7 +231,12 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mt-3" style="display: flex;">
+                    <div class="col-sm-6">
+                        <div class="blink_me" style="width: 100%;">If the student does not have Aadhaar - Enter
+                            the
+                            Aadhaar number of the
+                            student's
+                            father</div>
                         <div class="labeldiv">
                             <label class="pt-2" style="margin: auto;">Aadhar Number
                                 <span class="text-danger"> *</span></label>
@@ -305,7 +301,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Parent Details</h3>
+                            <h3 class="ml-1" style="color: blue;">Parent Details</h3>
                         </div>
                     </div>
                 </div>
@@ -326,10 +322,6 @@
                                 <div
                                     *ngIf="StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors.required">
                                     Father Name is required
-                                </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.father_name.touched && StudentEnquiryForm.controls.father_name.errors.pattern">
-                                    Use letters only
                                 </div>
                             </span>
                         </div>
@@ -410,10 +402,6 @@
                                     *ngIf="StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors.required">
                                     Mother Name is required
                                 </div>
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.mother_name.touched && StudentEnquiryForm.controls.mother_name.errors.pattern">
-                                    Use letters only
-                                </div>
                             </span>
                         </div>
                     </div>
@@ -446,14 +434,7 @@
                         </div>
                         <div class="inputdiv">
                             <input (keypress)="numberOnly($event)" formControlName="m_ph" maxlength="10"
-                                class="form-control" type="tel">
-                            <span class="text-danger"
-                                *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors">
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.f_ph.touched && StudentEnquiryForm.controls.f_ph.errors.minlength">
-                                    Invalid input
-                                </div>
-                            </span>
+                                class="form-control" type="text">
                         </div>
                     </div>
                 </div>
@@ -461,7 +442,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="inputdiv">
-                            <h3 class="ml-1" style="color: orangered;">Student Other Details</h3>
+                            <h3 class="ml-1" style="color: blue;">Student Other Details</h3>
                         </div>
                     </div>
                 </div>
@@ -469,20 +450,11 @@
                 <div class="row">
                     <div class="col-sm-6 mt-3" style="display: flex;">
                         <div class="labeldiv">
-                            <label class="pt-2" style="margin: auto;">Place<span class="text-danger"> *</span></label>
+                            <label class="pt-2" style="margin: auto;">Place</label>
                         </div>
                         <div class="inputdiv">
-                            <input
-                                [ngClass]="{'is-invalid':StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors}"
-                                formControlName="place" (keypress)="numberNotApplicable($event)" class="form-control"
-                                type="text" required>
-                            <span class="text-danger"
-                                *ngIf="StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors">
-                                <div
-                                    *ngIf="StudentEnquiryForm.controls.place.touched && StudentEnquiryForm.controls.place.errors.required">
-                                    Place is required
-                                </div>
-                            </span>
+                            <input formControlName="place" (keypress)="numberNotApplicable($event)" class="form-control"
+                                type="text">
                         </div>
                     </div>
                 </div>
@@ -595,7 +567,7 @@
 
                 <div class="col-sm-12 mt-4">
                     <div style="text-align: center;">
-                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Save" />
+                        <input type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm" value="Submit" />
                         <input type="button" (click)="cancelClick()" style="width: 80px;"
                             class="btn btn-primary btn-sm mr-2" value="Cancel" />
                     </div>

@@ -12,19 +12,19 @@ import { HostelMasterComponent } from './hostel-master/hostel-master.component';
 import { VehicleMasterComponent } from './vehicle-master/vehicle-master.component';
 import { SupplierMasterComponent } from './supplier-master/supplier-master.component';
 import { ReportsComponent } from './reports/reports.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
-import {MatCardModule} from '@angular/material/card';
-import {  ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule} from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { MatDialogModule} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { ResonDialogComponent } from './reson-dialog/reson-dialog.component';
 import { RoleComponent } from './role/role.component';
 import { SubjectAssignComponent } from './subject-assign/subject-assign.component';
@@ -42,7 +42,8 @@ import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-e
 import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
 import { ParentMenusComponent } from './parent-menus/parent-menus.component';
 import { EnrollmentNoDialogComponent } from './enrollment-no-dialog/enrollment-no-dialog.component';
-
+import { SchoolRegisterComponent } from './school-register/school-register.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -73,11 +74,13 @@ import { EnrollmentNoDialogComponent } from './enrollment-no-dialog/enrollment-n
     StaffLoginMenusComponent,
     ParentMenusComponent,
     EnrollmentNoDialogComponent,
+    SchoolRegisterComponent,
+
   ],
   imports: [
-    CommonModule,MatTabsModule,MatTableModule,MatTableModule, MatPaginatorModule,MatIconModule,MatTooltipModule,
-    RouterModule.forChild(masterRoutes),FormsModule,HttpClientModule,MatCardModule,ReactiveFormsModule,HttpClientTestingModule,
-  MatDialogModule,MatButtonModule,NgxPrintModule
+    CommonModule, MatTabsModule, MatTableModule, MatTableModule, MatPaginatorModule, MatIconModule, MatTooltipModule,
+    RouterModule.forChild(masterRoutes), FormsModule, HttpClientModule, MatCardModule, ReactiveFormsModule, HttpClientTestingModule,
+    MatDialogModule, MatButtonModule, NgxPrintModule, NgxDropzoneModule
 
   ]
 })

@@ -116,7 +116,6 @@ export class UpdateTakenLeaveComponent implements OnInit {
     if (Month == currentMonth) {
       debugger;
       this.maxdate = this.today;
-      //  const maxdate=
 
       const firstDay = new Date(new Date(this.today).getFullYear(), new Date(this.today).getMonth(), 1);
       this.minDate = this.datepipe.transform(firstDay, 'yyyy-MM-dd');

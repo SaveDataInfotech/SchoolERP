@@ -1,0 +1,168 @@
+<div class="container-fluid mt-2">
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-6" style="display: flex;">
+                    <div style="float: left;width: 300px;">
+                        <h3 class="ml-1">School Details</h3>
+                    </div>
+                </div>
+            </div>
+            <form [formGroup]="schoolDetails" (ngSubmit)="save()">
+
+                <div class="row">
+                    <div class="col-sm-7 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Logo</label>
+                        </div>
+                        <div class="inputdiv">
+                            <div *ngIf="editableImage">
+                                <img [src]="editableImage" alt="No image found" width="200" height="150" />
+                                <span class="pl-2" style="cursor: pointer">
+                                    <mat-icon class="icons" style="padding-left: 2px" svgIcon="roundDelete"
+                                        matTooltip="Delete" (click)="deleteImage()"></mat-icon>
+                                </span>
+                            </div>
+                            <div *ngIf="!editableImage" class="custom-dropzone" ngx-dropzone [accept]="'image/*'"
+                                (change)="onSelect($event)" style="width: 35%;height: 160px;">
+                                <ngx-dropzone-label>
+                                    <div>
+                                        <span>Click to upload or Drag & Drop !</span>
+                                    </div>
+                                </ngx-dropzone-label>
+                                <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">School Name<span
+                                    class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':schoolDetails.controls.school_name.touched && schoolDetails.controls.school_name.errors}"
+                                formControlName="school_name" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="schoolDetails.controls.school_name.touched && schoolDetails.controls.school_name.errors">
+                                <div
+                                    *ngIf="schoolDetails.controls.school_name.touched && schoolDetails.controls.school_name.errors.required">
+                                    School Name is required
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Short Name</label>
+                        </div>
+                        <div class="inputdiv">
+                            <input formControlName="short_name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Display Name<span
+                                    class="text-danger">*</span></label>
+                        </div>
+                        <div class="inputdiv">
+                            <input
+                                [ngClass]="{'is-invalid':schoolDetails.controls.display_name.touched && schoolDetails.controls.display_name.errors}"
+                                formControlName="display_name" class="form-control" type="text" required>
+                            <span class="text-danger"
+                                *ngIf="schoolDetails.controls.display_name.touched && schoolDetails.controls.display_name.errors">
+                                <div
+                                    *ngIf="schoolDetails.controls.display_name.touched && schoolDetails.controls.display_name.errors.required">
+                                    Display Name is required
+                                </div>
+                            </span>
+                        </div>
+                        <div class="ml-2 text-info">
+                            <p class="pt-2">This name will be displayed everywhere in this software (reports, dashboard etc.)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7 mt-3" style="display: flex;">
+                        <div class="labeldiv">
+                            <label class="pt-2" style="margin: auto;">Address</label>
+                        </div>
+                        <div class="inputdiv">
+                            <textarea formControlName="address" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6" style="display: flex;">
+                        <div style="float: left;width: 150px;text-align: left;">
+                        </div>
+                        <div style="float: left;width: 350px;">
+                            <button type="submit" style="width: 80px;" class="btn btn-success mr-3 btn-sm mt-4">
+                                <span> {{ schoolDetails.value.schoolid ==0 ? 'Save' :
+                                    'Edit'}}</span></button>
+                            <input type="button" style="width: 80px;" (click)="cancelClick()"
+                                class="btn btn-primary mr-3 btn-sm mt-4" value="Clear" />
+                            <input type="button" style="width: 80px;" class="btn btn-danger btn-sm mt-4"
+                                (click)="backButton()" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class="mt-2 matcard mb-5">
+        <mat-card-content>
+            <div class="table-responsive">
+                <table class="col-sm-12 table table-hover table-bordered table-sm  ">
+                    <thead>
+                        <tr>
+                            <th>Si.No</th>
+                            <th>School Name</th>
+                            <th>Short Name</th>
+                            <th>Display Name</th>
+                            <th>Address</th>
+                            <th>Logo</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of schoolDetailsList;let i=index;">
+                            <td>{{i+1}}</td>
+                            <td>{{item.school_name}}</td>
+                            <td>{{item.short_name}}</td>
+                            <td>{{item.display_name}}</td>
+                            <td>{{item.address}}</td>
+                            <td><img [src]="item.logo" style="object-fit: cover;" height="30px" width="30px" /></td>
+                            <td style="text-align: center;"><input [checked]="item.activestatus"
+                                    (click)="ActiveStatusClick(item.schoolid)" style="width: 20px;height: 20px;"
+                                    class="mt-1" type="checkbox"></td>
+                            <td class="tdoption">
+                                <span class="m-2 editbutton" (click)="udateGetClick(item)"><b>edit</b></span>
+                                <span>||</span>
+                                <span class="m-2 deletebutton" (click)="deleteClick(item.schoolid)"><b>delete</b></span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

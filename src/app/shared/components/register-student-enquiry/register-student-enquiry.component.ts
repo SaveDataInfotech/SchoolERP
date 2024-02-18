@@ -75,7 +75,7 @@ export class RegisterStudentEnquiryComponent implements OnInit {
 
   StudentEnquiryForm = new FormGroup({
     enquiry_date: new FormControl(''),
-    student_name: new FormControl('', [Validators.required]),
+    student_name: new FormControl('', [Validators.required, Validators.pattern("^[A-Z]*$")]),
     classid: new FormControl(0, [Validators.required]),
     mark_10: new FormControl(''),
     groupid: new FormControl(0),
@@ -85,17 +85,17 @@ export class RegisterStudentEnquiryComponent implements OnInit {
     religion: new FormControl('', [Validators.required]),
     community: new FormControl('', [Validators.required]),
     bloodgroup: new FormControl(''),
-    aadhar: new FormControl(''),
-    father_name: new FormControl('', [Validators.required]),
+    aadhar: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    father_name: new FormControl('', [Validators.required, Validators.pattern("^[A-Z]*$")]),
     f_occupation: new FormControl(''),
     f_qualification: new FormControl(''),
     f_ph: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     f_email: new FormControl(''),
-    mother_name: new FormControl('', [Validators.required]),
+    mother_name: new FormControl('', [Validators.required, Validators.pattern("^[A-Z]*$")]),
     m_occupation: new FormControl(''),
     m_qualification: new FormControl(''),
     m_ph: new FormControl(''),
-    place: new FormControl('', [Validators.required]),
+    place: new FormControl(''),
     address: new FormControl('', [Validators.required]),
     i_m_1: new FormControl(''),
     i_m_2: new FormControl(''),
@@ -127,7 +127,7 @@ export class RegisterStudentEnquiryComponent implements OnInit {
 
   async newEnquiry() {
     if (this.StudentEnquiryForm.valid) {
-      this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
+      this.DialogSvc.openConfirmDialog('Are you sure you want to apply ?')
         .afterClosed().subscribe(async res => {
           if (res == true) {
             var Classinsert = (this.StudentEnquiryForm.value);
@@ -151,7 +151,7 @@ export class RegisterStudentEnquiryComponent implements OnInit {
     }
     else {
       this.StudentEnquiryForm.markAllAsTouched();
-      this.notificationSvc.error("Fill the mandatory fileds");
+      this.notificationSvc.error("Fill the required fileds");
     }
   }
 

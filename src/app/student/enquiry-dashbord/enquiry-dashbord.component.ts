@@ -102,6 +102,42 @@ export class EnquiryDashbordComponent implements OnInit {
     });
   }
 
+  moveAlltoEnquiry(value) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to move all ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          const enquiryIds = value.map(item => item.enquiryid);
+          enquiryIds.forEach(element => {
+            this.ActiveEnquiryStatusClick(element);
+          });
+        }
+      });
+  }
+
+  moveAlltoEntrance(value) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to move all ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          const enquiryIds = value.map(item => item.enquiryid);
+          enquiryIds.forEach(element => {
+            this.ActiveEntranceStatusClick(element);
+          });
+        }
+      });
+  }
+
+  moveAlltoSelect(value) {
+    this.DialogSvc.openConfirmDialog('Are you sure want to move all ?')
+      .afterClosed().subscribe(res => {
+        if (res == true) {
+          const enquiryIds = value.map(item => item.enquiryid);
+          enquiryIds.forEach(element => {
+            this.ActiveSelectedStatusClick(element);
+          });
+        }
+      })
+  }
+
 
   ActiveAdmissionClick(selected: any) {
     sessionStorage.removeItem('selectd')

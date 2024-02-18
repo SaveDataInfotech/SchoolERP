@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { icons} from '../app/shared/icons/icon-list'
+import { icons } from '../app/shared/icons/icon-list'
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent {
     // animate: 'fromRight',
   };
 
-  constructor( private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer ){
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     for (const key in icons) {
       iconRegistry.addSvgIconLiteral(
         key,
@@ -28,7 +28,7 @@ export class AppComponent {
     }
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 }

@@ -132,9 +132,7 @@ export class LayoutComponent implements OnInit {
       icon: "studentdetails",
       isselect: false,
       value: 2,
-      sub_menu: [
-
-      ]
+      sub_menu: []
     },
 
     {
@@ -502,6 +500,12 @@ export class LayoutComponent implements OnInit {
       isselect: false,
       value: 11,
       sub_menu: [
+        {
+          link_name: "School Details",
+          link: "master/school_register",
+          isselect: false,
+          value: 11993
+        },
         {
           link_name: "Calendar Event Assign",
           link: "master/calendar_event",

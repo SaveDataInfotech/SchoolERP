@@ -5,9 +5,8 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="col-sm-4 pt-2">
-                            <h3 style="float: left;color:red;">Search using Class</h3>
-                            <select style="width: 40%;float: left;" class="form-control ml-1" #sec
-                                (change)="onchange(sec.value)" name="selectAction">
+                            <p style="color:red;">Search using Class</p>
+                            <select style="width: 40%;" class="form-control" #sec (change)="onchange(sec.value)">
                                 <option value=0 selected>All</option>
                                 <option value={{class.classid}} *ngFor="let class of ClassList">{{class.class_name}}
                                 </option>
@@ -50,7 +49,8 @@
                                         <th>Place</th>
                                         <th>Parent Number</th>
                                         <th>Enquiry Date</th>
-                                        <th>Action</th>
+                                        <th>Action <button (click)="moveAlltoEnquiry(DashBordList)"
+                                                class="btn btn-info btn-sm">Move All to Enquiry</button></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,26 +91,6 @@
         <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <div class="row">
-                        <div class="col-sm-8 pt-2">
-                            <h3>Enquiry</h3>
-                        </div>
-
-                        <div class="col-4 row" style="text-align: right;">
-                            <div class="col-sm-9 pt-2">
-                                <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-plus pr-1"></i>New
-                                    Registration</button>
-                            </div>
-
-                            <div class="col-sm-2 mr-2">
-                                <div class="col-sm-12" style="text-align:right;cursor: pointer;">
-                                    <button (click)="backButton()"
-                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <form>
                         <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
@@ -126,7 +106,9 @@
                                         <th>Place</th>
                                         <th>Parent Number</th>
                                         <th>Enquiry Date</th>
-                                        <th>Action</th>
+                                        <th>Action <button (click)="moveAlltoEntrance(EnquiryList)"
+                                                class="btn btn-info btn-sm">Move All to Entrance</button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,26 +151,6 @@
         <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <div class="row">
-                        <div class="col-sm-8 pt-2">
-                            <h3>Entrance</h3>
-                        </div>
-
-                        <div class="col-4 row" style="text-align: right;">
-                            <div class="col-sm-9 pt-2">
-                                <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-plus pr-1"></i>New
-                                    Registration</button>
-                            </div>
-
-                            <div class="col-sm-2 mr-2">
-                                <div class="col-sm-12" style="text-align:right;cursor: pointer;">
-                                    <button (click)="backButton()"
-                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <form>
                         <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">
@@ -204,7 +166,9 @@
                                         <th>Place</th>
                                         <th>Parent Number</th>
                                         <th>Enquiry Date</th>
-                                        <th>Action</th>
+                                        <th>Action <button (click)="moveAlltoSelect(EntranceList)"
+                                                class="btn btn-info btn-sm">Move All to Selected</button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -247,26 +211,6 @@
         <div class="container-fluid mt-4">
             <mat-card class="mt-2 matcard mb-5">
                 <mat-card-content>
-                    <div class="row">
-                        <div class="col-sm-8 pt-2">
-                            <h3>selected</h3>
-                        </div>
-
-                        <div class="col-4 row" style="text-align: right;">
-                            <div class="col-sm-9 pt-2">
-                                <button routerLink="../student_enquiry" type="button" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-plus pr-1"></i>New
-                                    Registration</button>
-                            </div>
-
-                            <div class="col-sm-2 mr-2">
-                                <div class="col-sm-12" style="text-align:right;cursor: pointer;">
-                                    <button (click)="backButton()"
-                                        class="homeicon"><span><mat-icon>home</mat-icon></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <form>
                         <div class="table-responsive text-nowrap mt-1">
                             <table class="col-sm-12 table table-hover table-bordered table-sm ">

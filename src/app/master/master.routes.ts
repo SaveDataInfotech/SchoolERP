@@ -19,9 +19,14 @@ import { StaffCategoryComponent } from './staff-category/staff-category.componen
 import { CalendarEventAssignComponent } from './calendar-event-assign/calendar-event-assign.component';
 import { StaffLoginMenusComponent } from './staff-login-menus/staff-login-menus.component';
 import { ParentMenusComponent } from './parent-menus/parent-menus.component';
+import { SchoolRegisterComponent } from './school-register/school-register.component';
 
 
 export const masterRoutes: Routes = [
+  {
+    path: 'school_register',
+    component: SchoolRegisterComponent,
+  },
   {
     path: 'class',
     component: ClassComponent,

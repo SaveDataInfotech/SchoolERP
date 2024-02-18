@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { aW } from '@fullcalendar/core/internal-common';
 import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/api-service/Dialog.service';
 import { staffCategoryService } from 'src/app/api-service/staffCategory.service';
@@ -186,7 +187,8 @@ export class StaffProfileComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+  async onSubmit() {
+    await this.clearbankDetails();
     if (this.staffProfileForm.valid) {
       this.DialogSvc.openConfirmDialog('Are you sure want to add this record ?')
         .afterClosed().subscribe(async res => {
@@ -298,6 +300,15 @@ export class StaffProfileComponent implements OnInit {
       aPf = 0;
     }
     this.staffProfileForm.get('pfamount')?.setValue(String(Math.round(aPf)));
+  }
+
+  clearbankDetails() {
+    if (this.staffProfileForm.value.paymentmode == 'cash') {
+      this.staffProfileForm.get('account_no')?.setValue('');
+      this.staffProfileForm.get('ifsc_code')?.setValue('');
+      this.staffProfileForm.get('bank_name')?.setValue('');
+      this.staffProfileForm.get('branch_name')?.setValue('');
+    }
   }
 
   cancelClick() {
